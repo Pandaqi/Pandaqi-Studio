@@ -1,4 +1,4 @@
-export default (value:number, numParts:number, bucketMin = 1, bucketMax = Infinity) : number[] => 
+export const distributeDiscrete = (value:number, numParts:number, bucketMin = 1, bucketMax = Infinity) : number[] => 
 {
     const dist = new Array(numParts).fill(bucketMin);
     value -= bucketMin*numParts;

@@ -1,4 +1,4 @@
-import Color from "./color";
+import { Color } from "./color";
 
 interface ColorStopParams
 {
@@ -6,7 +6,7 @@ interface ColorStopParams
     color?:string|Color
 }
 
-export default class ColorStop
+export class ColorStop
 {
     pos: number;
     color: Color;

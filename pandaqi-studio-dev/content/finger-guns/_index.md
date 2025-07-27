@@ -2,9 +2,7 @@
 type: "project"
 
 title: "Finger Guns"
-headerTitle: "A party game about pointing finger guns at opponents and hoping you prepared the right shot."
-
-color: "red"
+blurb: "A party game about pointing finger guns at opponents and hoping you prepared the right shot."
 
 downloadLink: "https://drive.google.com/drive/folders/1ffuPk7tdy0Gvs1I7hV7WHMRaULivDFMV"
 
@@ -24,16 +22,6 @@ ages: everyone
 devlog: "/blog/boardgames/finger-guns/"
 ---
 
-{{% settings/settings-container type="material" %}}
-
-{{< settings/settings-box type="game" local_storage="fingerGunsConfig" btn_label="Generate Material" game_title="Finger Guns" defaults="true">}}
-  {{< settings/settings-section heading="Sets" >}}
-    {{< settings/setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< settings/setting-checkbox id="setting-sets-flippingFingers" text="Flipping Fingers?" remark="A small expansion that adds more depth and wild weapons." >}}
-  {{< /settings/settings-section >}}
-{{< /settings/settings-box >}}
-
-{{% /settings/settings-container %}}
 
 ## Credits
 

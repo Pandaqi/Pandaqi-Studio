@@ -1,3 +1,13 @@
+/* @TODO: CONFIG GENERATION KEYS if I ever decide to revive this and put it into the system
+
+{{< settings/settings-box type="board" game_title="Conductors of the Underground" >}}
+  {{< settings/setting-seed >}}
+  {{< settings/setting-enum id="setting-boardType" text="Board type?" values="Simple,Hexagon,Rectangle" valaskey="true" remark="Hexagon boards are more structured and simpler, Rectangle boards are more varied (as there are more options for each route)" >}}
+  {{< settings/setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorational elements and turns the board black-and-white." >}}
+{{< /settings/settings-box >}}
+
+*/
+
 const BoardGeneration = new Phaser.Class({
     Extends: Phaser.Scene,
 

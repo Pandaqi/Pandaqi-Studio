@@ -1,11 +1,11 @@
-import DecisionNode from "./decisionNode"
-import DecisionNodeTree from "./decisionNodeTree";
+import { DecisionNode } from "./decisionNode"
+import { DecisionNodeTree } from "./decisionNodeTree";
 
 const NEW_NODE_ID = "label";
 const LINE_SPLIT_SYMBOL = "=";
 const CONTINUE_PROP_SYMBOL = "*";
 
-const parseString = (s:string) : DecisionNode[] =>
+export const parseString = (s:string) : DecisionNode[] =>
 {
     const lines = s.split(/\r?\n/)
 
@@ -59,7 +59,7 @@ const parseString = (s:string) : DecisionNode[] =>
     return nodes;
 }
 
-const parseNodesIntoTree = (nodes:DecisionNode[]) =>
+export const parseNodesIntoTree = (nodes:DecisionNode[]) =>
 {
     // turn into dictionary with label keys, for quick access to all nodes
     const nodeReference : Record<string, DecisionNode> = {};
@@ -114,10 +114,4 @@ const parseNodesIntoTree = (nodes:DecisionNode[]) =>
     }
 
     return rootNodes[0];
-}
-
-export
-{
-    parseString,
-    parseNodesIntoTree
 }

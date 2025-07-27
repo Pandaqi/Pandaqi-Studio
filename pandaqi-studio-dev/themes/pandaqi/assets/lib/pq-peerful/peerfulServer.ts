@@ -1,11 +1,10 @@
 import { sendEvent } from "./events";
 import { log } from "./log";
-import { GameState, PeerfulConfig, PeerfulLoginData } from "./main";
+import { GameState, PeerfulConfig, PeerfulLoginData } from "./peerfulGame";
 import { answerQuestion, receiveAction, sendAction } from "./peerfulUtilities";
-import instantiatePhaser from "./phaser/instantiatePhaser";
 import { joinRoom, selfId } from './trystero-torrent.min.js';
 
-export default class PeerfulServer
+export class PeerfulServer
 {
     custom: any;
     state: GameState;
@@ -40,7 +39,7 @@ export default class PeerfulServer
         this.prepareActions();
         this.connectToCustomCode();
         
-        sendEvent("peer-creation-success", true, this.config.node);
+        sendEvent("peer-creation-success", true, this.config);
         this.changeState(GameState.GAMELOGIN);
     }
 
@@ -65,13 +64,13 @@ export default class PeerfulServer
             this.playerNames = Object.values(this.idToUsn);  
             
             log("Game should start!", this.config);
-            sendEvent("game-start", null, this.config.node);
+            sendEvent("game-start", null, this.config);
             if(this.onStart) { this.onStart(); }
         }
         else if(this.state == GameState.GAMEOVER) 
         {
             log("Game should be over!", this.config);
-            sendEvent("game-over", null, this.config.node);
+            sendEvent("game-over", null, this.config);
             if(this.onEnd) { this.onEnd(); }
         }
 

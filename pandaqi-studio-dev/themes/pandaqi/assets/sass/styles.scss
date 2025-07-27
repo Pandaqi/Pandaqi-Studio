@@ -39,6 +39,8 @@ $size-xs: 0.44em;
 
 		--color-accent-orange: oklch(0.725 0.2 40.75);
 		--color-accent-orange-contrast: oklch(0.2 0.15 30.75);
+
+		--color-link-hover: var(--color-accent-purple);
 	}
 
 	.display-mode-dark
@@ -62,6 +64,8 @@ $size-xs: 0.44em;
 
 		--color-accent-orange: oklch(0.725 0.2 40.75);
 		--color-accent-orange-contrast: oklch(0.2 0.15 30.75);
+
+		--color-link-hover: var(--color-accent-orange);
 	}
 
 	// General body
@@ -96,6 +100,26 @@ $size-xs: 0.44em;
 		--bg-color: #FAFAFA;
 		--text-color: #101010;
 		--color-light: #EEEEEE;
+	}
+
+	.no-default-list-styles
+	{
+		padding-left: 0;
+
+		li 
+		{
+			list-style-type: none;
+		}
+	}
+
+	.no-default-link-styles
+	{
+		text-decoration: none;
+		color: currentcolor;
+		&:hover 
+		{
+			color: currentcolor;
+		}
 	}
 
 	h1, h2, h3, h4, h5, h6
@@ -136,27 +160,7 @@ $size-xs: 0.44em;
 
 		&:active, &:hover
 		{
-			color: var(--color-accent-green-contrast);
-		}	
-	}
-
-	.no-default-list-styles
-	{
-		padding-left: 0;
-
-		li 
-		{
-			list-style-type: none;
-		}
-	}
-
-	.no-default-link-styles
-	{
-		text-decoration: none;
-		color: currentcolor;
-		&:hover 
-		{
-			color: currentcolor;
+			color: var(--color-link-hover);
 		}
 	}
 
@@ -695,24 +699,36 @@ $size-xs: 0.44em;
 	}
 
 	// Animations/Effects/Transitions
+	.hover_link-color
+	{
+		&:hover
+		{
+			color: var(--color-link-hover);
+		}
+	}
+
 	.hover_popup
 	{
 		transition: transform 0.2s;
 
 		&:hover
 		{
-			transform: scale(1.05);
+			transform: scale(1.04);
 		}
 	}
 
 	.hover_invert
 	{
-		transition: filter 0.2s;
-
 		&:hover
 		{
 			filter: #{"invert()"};
+
+			img
+			{
+				filter: #{"invert()"}; // "undo" the effect on images
+			}
 		}
+
 	}
 
 }

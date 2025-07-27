@@ -26,18 +26,6 @@ devlog: "/blog/boardgames/puzzle-species/"
 
 ---
 
-{{% settings/settings-container type="material" %}}
-
-{{< settings/settings-box type="game" local_storage="puzzleSpeciesConfig" btn_label="Generate Material" game_title="Puzzle Species" defaults="true">}}
-  {{< settings/settings-section heading="Sets" >}}
-    {{< settings/setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< settings/setting-checkbox id="setting-sets-puzzleGiants" text="Puzzle Giants?" >}}
-    {{< settings/setting-checkbox id="setting-sets-puzzleDancers" text="Puzzle Dancers?" >}}
-  {{< /settings/settings-section >}}
-{{< /settings/settings-box >}}
-
-{{% /settings/settings-container %}}
-
 ## Credits
 
 The fonts used are **Freckle Face** (headings) and **Shantell Sans** (body text). Everything else is mine.

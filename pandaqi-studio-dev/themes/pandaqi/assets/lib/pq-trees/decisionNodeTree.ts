@@ -1,15 +1,11 @@
-import Point from "js/pq_games/tools/geometry/point";
-import DecisionNode from "./decisionNode";
-import DecisionNodeStyles from "./decisionNodeStyles";
-import Line from "js/pq_games/tools/geometry/line";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import { LayoutOperation, Line, ResourceShape, ResourceText, TextAlign, TextConfig, Vector2, calculateTextMetrics } from "lib/pq-games"
+import { DecisionNode } from "."
+import { DecisionNodeStyles } from "./decisionNodeStyles"
 
-interface DrawParams
+
+export interface DrawParams
 {
-    offset: Point, // global offset when drawing (needed to center the whole tree within the canvas)
+    offset: Vector2, // global offset when drawing (needed to center the whole tree within the canvas)
 
     width: number // full width of one node
     widthShrink: number // how much the content area is shrunk ( = how much margin is added)
@@ -19,8 +15,7 @@ interface DrawParams
     fontSize: number,
 }
 
-export { DecisionNodeTree, DrawParams }
-export default class DecisionNodeTree
+export class DecisionNodeTree
 {
     parents: DecisionNodeTree[]
     children: DecisionNodeTree[]
@@ -137,9 +132,9 @@ export default class DecisionNodeTree
     {
         const res = this.getTextResource(params);
         const availableWidth = params.width * params.widthShrink;
-        const dims = res.measureDims(new Point(availableWidth, 4096));
+        const metrics = calculateTextMetrics(res, (new Vector2(availableWidth, 4096)));
 
-        this.heightNeeded = dims.size.y + params.heightMargin;
+        this.heightNeeded = metrics.dimsUsed.getSize().y + params.heightMargin;
 
         for(const child of this.children)
         {
@@ -220,7 +215,7 @@ export default class DecisionNodeTree
             maxY = Math.max(maxY, Math.abs(node.getTopEdge() - this.getBottomEdge()), Math.abs(node.getBottomEdge() - this.getTopEdge()));
         }
 
-        return new Point(maxX, maxY);
+        return new Vector2(maxX, maxY);
     }
 
     // @TODO: params should go in for how to draw this shit
@@ -254,10 +249,10 @@ export default class DecisionNodeTree
         // draw the text
         const resText = this.getTextResource(params);
         const opText = new LayoutOperation({
-            pos: new Point(this.x + offset.x, this.y + 0.5*this.heightNeeded + offset.y),
-            size: new Point(this.boxWidth, this.boxHeight),
+            pos: new Vector2(this.x + offset.x, this.y + 0.5*this.heightNeeded + offset.y),
+            size: new Vector2(this.boxWidth, this.boxHeight),
             fill: "#000000",
-            pivot: new Point(0.5),
+            pivot: new Vector2(0.5),
         })
         resText.toCanvas(ctx, opText);
 
@@ -265,9 +260,9 @@ export default class DecisionNodeTree
         if(!hasChildren) { return; }
 
         // draw lines to all its connections
-        const exitPos = new Point(this.x + offset.x, this.getBottomEdge() + offset.y);
+        const exitPos = new Vector2(this.x + offset.x, this.getBottomEdge() + offset.y);
         const distToChildren = this.children[0].getTopEdge() - this.getBottomEdge();
-        const exitTargetPos = exitPos.clone().move(new Point(0, 0.5*distToChildren));
+        const exitTargetPos = exitPos.clone().move(new Vector2(0, 0.5*distToChildren));
         const centerLine = new Line(exitPos, exitTargetPos);
         const res = new ResourceShape({ shape: centerLine });
         const op = new LayoutOperation({
@@ -276,16 +271,16 @@ export default class DecisionNodeTree
         });
         await res.toCanvas(ctx, op);
 
-        const leftEdge = new Point(this.children[0].x + offset.x, exitTargetPos.y);
-        const rightEdge = new Point(this.children[this.children.length-1].x + offset.x, exitTargetPos.y);
+        const leftEdge = new Vector2(this.children[0].x + offset.x, exitTargetPos.y);
+        const rightEdge = new Vector2(this.children[this.children.length-1].x + offset.x, exitTargetPos.y);
         const horizontalLine = new Line(leftEdge, rightEdge);
         res.shape = horizontalLine;
         await res.toCanvas(ctx, op);
 
         for(const child of this.children)
         {
-            const entryPos = new Point(child.x + offset.x, exitTargetPos.y);
-            const entryPosTarget = new Point(child.x + offset.x, child.y + offset.y);
+            const entryPos = new Vector2(child.x + offset.x, exitTargetPos.y);
+            const entryPosTarget = new Vector2(child.x + offset.x, child.y + offset.y);
             const entryLine = new Line(entryPos, entryPosTarget);
             res.shape = entryLine;
             await res.toCanvas(ctx, op);

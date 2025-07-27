@@ -1,10 +1,10 @@
 import { sendEvent } from "./events";
 import { log } from "./log";
-import { GameState, PeerfulConfig, PeerfulLoginData } from "./main";
+import { GameState, PeerfulConfig, PeerfulLoginData } from "./peerfulGame";
 import { askQuestion, receiveAction, sendAction } from "./peerfulUtilities";
-import { joinRoom, getTrackers } from './trystero-torrent.min.js';
+import { joinRoom } from './trystero-torrent.min.js';
 
-export default class PeerfulClient
+export class PeerfulClient
 {
     custom: any
     roomCode: string
@@ -58,7 +58,7 @@ export default class PeerfulClient
         {
             if(peerID != this.authority) { return; }
             log("Authority disconnected. Unrecoverable; game is destroyed.", this.config);
-            sendEvent("game-destroyed", null, this.config.node);
+            sendEvent("game-destroyed", null, this.config);
             this.room.leave();
         }
         this.room.onPeerLeave(authorityDiedHandler);
@@ -88,10 +88,10 @@ export default class PeerfulClient
     {
         this.joined = true;
         log("Connected to authority: " + this.authority, this.config);
-        sendEvent("connected-to-authority", null, this.config.node);
+        sendEvent("connected-to-authority", null, this.config);
 
         this.prepareActions();  
-        sendEvent("peer-creation-success", true, this.config.node);      
+        sendEvent("peer-creation-success", true, this.config);      
     }
 
     prepareActions()
@@ -103,7 +103,7 @@ export default class PeerfulClient
         // (if there are choices to be made, such as "start the game?", the VIP has that power alone)
         const handlerVIP = (data, peerID) => {
             this.vip = true;
-            sendEvent("became-vip", null, this.config.node);
+            sendEvent("became-vip", null, this.config);
             log("Congratulations, you were assigned VIP rights!", this.config);
         }
         receiveAction(this, "vip", handlerVIP); 

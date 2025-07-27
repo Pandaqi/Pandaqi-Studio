@@ -1,25 +1,17 @@
-import { PeerfulConfig } from "./main";
+import { PeerfulConfig } from "./peerfulGame";
 
-
-const sendEvent = (name:string, data:any = null, node:HTMLElement) => 
+export const sendEvent = (name:string, data:any = null, config:PeerfulConfig) => 
 {
     const ev = new CustomEvent(name, { detail: data });
-    node.dispatchEvent(ev);
+    config.node.dispatchEvent(ev);
 }
 
-const listenForEvent = (name:string, callback:EventListenerOrEventListenerObject, node:HTMLElement) => 
+export const listenForEvent = (name:string, callback:EventListenerOrEventListenerObject, config:PeerfulConfig) => 
 {
-    node.addEventListener(name, callback);
+    config.node.addEventListener(name, callback);
 }
 
-const stopListeningForEvent = (name: string, callback: EventListenerOrEventListenerObject, node:HTMLElement) =>
+export const stopListeningForEvent = (name: string, callback: EventListenerOrEventListenerObject, config:PeerfulConfig) =>
 {
-    node.removeEventListener(name, callback);
-}
-
-export
-{
-    sendEvent,
-    listenForEvent,
-    stopListeningForEvent
+    config.node.removeEventListener(name, callback);
 }

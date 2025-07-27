@@ -75,28 +75,11 @@ Below is a list of _very_ special vehicles. These are merely _inspired_ by _part
 
 {{< navigation/collection-list subdir="wind-up-at" >}}
 
-## Material
-
-{{% settings/settings-container %}}
-
-{{< settings/settings-box type="game" local_storage="naivigationConfig" btn_label="Generate Material" game_title="Naivigation" defaults="true">}}
-  {{< settings/settings-section heading="Core Set" >}}
-    {{< settings/setting-checkbox id="setting-sets-instructionTokens" text="Include Instruction Tokens?" checked="checked" >}}
-    {{< settings/setting-checkbox id="setting-sets-vehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
-    {{< settings/setting-checkbox id="setting-sets-healthCards" text="Include Health Cards?" checked="checked" >}}
-  {{< /settings/settings-section >}}
-  {{< settings/settings-section heading="Expansion Sets" >}}
-    {{< settings/setting-checkbox id="setting-sets-actionCards" text="Include Action Cards?" >}}
-    {{< settings/setting-checkbox id="setting-sets-timeCards" text="Include Time Deck?" >}}
-    {{< settings/setting-checkbox id="setting-sets-GPSCards" text="Include GPS Cards?" >}}
-  {{< /settings/settings-section >}}
-{{< /settings/settings-box >}}
-
-{{% /settings/settings-container %}}
-
 ## Credits
 
 The fonts used are **Ambery Gardens** (headings, decorative text) and **K2D** (body, longer paragraphs). Both are freely available online. Some generative AI was used for complex illustrations, everything else is entirely mine.
+
+## Background
 
 This project started a long time ago, when I had the well-known experience of "multiple people sit in a car shouting directions, but nobody really knows where to go next".
 

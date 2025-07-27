@@ -1,12 +1,13 @@
-import Point from "js/pq_games/tools/geometry/point";
-import isZero from "js/pq_games/tools/numbers/isZero";
+import { Vector2 } from "../../geometry/vector2";
+import { isZero } from "../../tools/numbers/checks";
 
 // @SOURCE (basically just shows what HTML5 canvas does behind the scenes): https://github.com/simonsarris/Canvas-tutorials/blob/master/transform.js
 // @SOURCE (copy some more functions of this one, as it's nice): https://github.com/leeoniya/transformation-matrix-js/blob/master/src/matrix.js
 
-// @NOTE: I don't use the DOMMatrix natively, just a simple number array
-// because I don't want to rely on that API always staying the same (or not doing funny business)
-export default class TransformationMatrix
+// I don't use the DOMMatrix natively, just a simple number array
+// because I don't want to rely on that API always staying the same (or not doing funny business I can barely debug/research/figure out)
+// and I want this specific functionality available in any other situations as well
+export class TransformationMatrix
 {
     m: number[];
 
@@ -38,15 +39,15 @@ export default class TransformationMatrix
         ctx.setTransform(this.m[0], this.m[1], this.m[2], this.m[3], this.m[4], this.m[5]);
     }
 
-    applyToPoint(p:Point) 
+    applyToPoint(p:Vector2) 
     {
-		return new Point(
+		return new Vector2(
 			p.x * this.m[0] + p.y * this.m[2] + this.m[4],
 			p.x * this.m[1] + p.y * this.m[3] + this.m[5]
         );
 	}
 
-    applyToArray(points:Point[])
+    applyToArray(points:Vector2[])
     {
         return points.map((x) => this.applyToPoint(x));
     }
@@ -57,7 +58,7 @@ export default class TransformationMatrix
         return this;
     }
 
-    setAll(translate:Point, rotate:number, scale:Point)
+    setAll(translate:Vector2, rotate:number, scale:Vector2)
     {
         this.m = [
             Math.cos(rotate) * scale.x,
@@ -69,7 +70,7 @@ export default class TransformationMatrix
         ]
     }
 
-    applyAll(translate:Point, rotate:number, scale:Point)
+    applyAll(translate:Vector2, rotate:number, scale:Vector2)
     {
         this.scale(scale); 
         this.rotate(rotate);
@@ -77,7 +78,7 @@ export default class TransformationMatrix
     }
 
     // @SOURCE (for all transforms below): https://stackoverflow.com/questions/18437039/canvashow-to-complete-translate-skew-rotate-in-just-one-transform-statement
-    translate(p:Point)
+    translate(p:Vector2)
     {
         if(p.isZero()) { return this; }
         this.m[4] += this.m[0] * p.x + this.m[2] * p.y;
@@ -103,7 +104,7 @@ export default class TransformationMatrix
         return this;
     }
 
-    scale(p:Point)
+    scale(p:Vector2)
     {
         if(p.isZero()) { return this; }
         this.m[0] *= p.x;
@@ -113,7 +114,7 @@ export default class TransformationMatrix
         return this;
     }
 
-    skew(rads:Point)
+    skew(rads:Vector2)
     {
         if(rads.isZero()) { return this; }
 

@@ -1,18 +1,32 @@
-import Point from "../geometry/point";
-import range from "../random/range";
-import rangeInteger from "../random/rangeInteger";
-import lerp from "./lerp";
+import { Vector2 } from "../../geometry/vector2";
+import { range, rangeInteger } from "../random/ranges";
+import { lerp } from "./lerp";
 
-type BoundsLike = Bounds|{ min: number, max: number }|Point
+export type BoundsObject = { min: number, max: number };
+export type BoundsLike = Bounds|BoundsObject|Vector2
 
-export { Bounds, BoundsLike }
-export default class Bounds
+export const fitSizeAndKeepRatio = (originalSize:Vector2, maxSize:Vector2) =>
+{
+    const ratio = originalSize.x / originalSize.y;
+    const sizeYIfMaxX = maxSize.x / ratio;
+    const sizeXIfMaxY = maxSize.y * ratio;
+    if(sizeYIfMaxX > maxSize.y) { return new Vector2(sizeXIfMaxY, maxSize.y) }
+    return new Vector2(maxSize.x, sizeYIfMaxX);
+}
+
+export const clamp = (val:number, min:number|BoundsObject|Vector2 = -Infinity, max:number = Infinity) =>
+{
+    return new Bounds(min, max).clamp(val);
+}
+
+export class Bounds
 {
     min: number;
     max: number;
+    
     constructor(min:number|BoundsLike, max:number = 0)
     {
-        if(min instanceof Point) { max = min.y; min = min.x; }
+        if(min instanceof Vector2) { max = min.y; min = min.x; }
         else if(typeof min == "object") { max = min.max; min = min.min; }
 
         this.min = min ?? 0;

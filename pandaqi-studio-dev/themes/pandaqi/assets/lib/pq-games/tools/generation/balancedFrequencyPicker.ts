@@ -1,21 +1,20 @@
-import fromArray from "../random/fromArray"
-import StatsTracker from "./statsTracker"
+import { fromArray } from "../random/pickers"
+import { StatsTracker } from "./statsTracker"
 
-enum FrequencyExtreme
+export enum FrequencyExtreme
 {
     LEAST,
     MOST
 }
 
-interface FrequencyPickerParams
+export interface FrequencyPickerParams
 {
     types?:string[]
     stats?:StatsTracker
     extreme?:FrequencyExtreme
 }
 
-export { BalancedFrequencyPicker, FrequencyExtreme }
-export default class BalancedFrequencyPicker
+export class BalancedFrequencyPicker
 {
     types:string[]
     stats:StatsTracker

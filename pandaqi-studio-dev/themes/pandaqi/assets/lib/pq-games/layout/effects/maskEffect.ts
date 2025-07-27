@@ -1,9 +1,8 @@
-import Point from "js/pq_games/tools/geometry/point";
-import createContext from "../canvas/createContext";
-import LayoutOperation from "../layoutOperation";
-import ResourceImage from "../resources/resourceImage";
-import EffectsOperation from "./effectsOperation";
-import LayoutEffect from "./layoutEffect";
+import { createContext } from "../canvas/creators";
+import { LayoutOperation } from "../layoutOperation";
+import { ResourceImage } from "../resources/resourceImage";
+import { EffectsOperation } from "./effectsOperation";
+import { LayoutEffect } from "./layoutEffect";
 
 interface MaskEffectParams
 {
@@ -11,7 +10,8 @@ interface MaskEffectParams
     operation?: LayoutOperation,
 }
 
-export default class MaskEffect extends LayoutEffect
+export type { MaskEffectParams };
+export class MaskEffect extends LayoutEffect
 {
     resource: ResourceImage
     operation: LayoutOperation
@@ -28,7 +28,8 @@ export default class MaskEffect extends LayoutEffect
         return new MaskEffect({ resource: this.resource, operation: this.operation });
     }
 
-    // @NOTE: This is a mask _on the image directly_; use the `.mask` property of LayoutOperation for a mask in global/absolute coordinates on the final canvas
+    // this is a mask _on the image directly_, nothing else, before it is drawn
+    // use the `.mask` property of LayoutOperation for a mask in global/absolute coordinates on the final canvas
     applyToImage(drawable:ResourceImage)
     {
         if(!this.resource) { return drawable; }
@@ -49,9 +50,11 @@ export default class MaskEffect extends LayoutEffect
         div.style.maskImage = this.resource.getCSSUrl();
     }
 
-    // @TODO: fix this shit in a clean way; maybe have effects handled by REnderer individually too? Or is that overkill?
+    // @TODO: fix this shit in a clean way; maybe have effects handled by Renderer individually too? Or is that overkill?
     applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
     {
+        console.error("[Not Implemented] Mask Operations not implemented on RendererPixi yet!", this);
+
         const maskSprite = this.resource.getPixiObject();
         this.operation.resource = this.resource;
         this.operation.renderer.applyToPixiObjectProperties(maskSprite);

@@ -1,4 +1,4 @@
-export default class DecisionNode
+export class DecisionNode
 {
     label: string;
     text: string;

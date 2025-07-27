@@ -1,8 +1,7 @@
-import { ElementLike } from "../resources/resource";
-import ResourceImage from "../resources/resourceImage";
-import LayoutEffect from "./layoutEffect";
+import type { ResourceImage } from "../resources/resourceImage";
+import type { LayoutEffect } from "./layoutEffect";
 
-export default class EffectsOperation
+export class EffectsOperation
 {
     effects:LayoutEffect[];
     filters: string[];
@@ -51,7 +50,7 @@ export default class EffectsOperation
         return drawable;
     }
 
-    applyToHTML(node:ElementLike)
+    applyToHTML(node:HTMLElement)
     {
         if(this.isEmpty()) { return node; }
         for(const effect of this.effects)
@@ -102,7 +101,6 @@ export default class EffectsOperation
         }
     }
 
-    // @TODO: this is extremely conservative; many effects do not need a temporary canvas at all
     needsTemporaryCanvas()
     {
         if(this.isEmpty()) { return false; }

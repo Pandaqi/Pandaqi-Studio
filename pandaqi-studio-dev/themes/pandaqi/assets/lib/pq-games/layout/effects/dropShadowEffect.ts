@@ -1,7 +1,7 @@
-import Point from "js/pq_games/tools/geometry/point";
-import LayoutEffect from "./layoutEffect";
-import EffectsOperation from "./effectsOperation";
-import Color from "../color/color";
+import { Vector2 } from "../../geometry/vector2";
+import { LayoutEffect } from "./layoutEffect";
+import { EffectsOperation } from "./effectsOperation";
+import { Color }from "../color/color";
 
 interface DropShadowParams
 {
@@ -9,14 +9,15 @@ interface DropShadowParams
     size?:number, // legacy support
     blurRadius?:number // legacy support
     color?:Color|string,
-    offset?:Point
+    offset?:Vector2
 }
 
-export default class DropShadowEffect extends LayoutEffect
+export type { DropShadowParams }
+export class DropShadowEffect extends LayoutEffect
 {
     blurRadius: number;
     color: Color;
-    offset: Point;
+    offset: Vector2;
     
     constructor(params:DropShadowParams = {})
     {
@@ -24,7 +25,7 @@ export default class DropShadowEffect extends LayoutEffect
 
         this.blurRadius = ((params.size ?? params.blur) ?? params.blurRadius) ?? 0;
         this.setColor(params.color);
-        this.offset = params.offset ?? new Point();
+        this.offset = params.offset ?? new Vector2();
     }
 
     clone(deep = false)

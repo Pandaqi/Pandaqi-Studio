@@ -1,16 +1,7 @@
-import Random from "../../tools/random/main"
-import HSLAToRGBA from "./HSLAToRGBA"
-import RGBAToHSLA from "./RGBAToHSLA"
-import RGBAToHEXA from "./RGBAToHEXA"
-import HEXAToRGBA from "./HEXAToRGBA"
-import isZero from "js/pq_games/tools/numbers/isZero"
-import lerp from "js/pq_games/tools/numbers/lerp"
-import slerp from "js/pq_games/tools/numbers/slerp"
+import { HSLAToRGBA, RGBAToHSLA, RGBAToHEXA, HEXAToRGBA, HEXNumberToHEXA, HEXAToHEXNumber } from "./converters"
 
-type ColorRaw = number | Color | string
-
-export { ColorRaw, Color }
-export default class Color 
+export type ColorRaw = number | Color | string
+export class Color 
 {
     h:number // 0-360
     s:number // 0-199
@@ -19,12 +10,29 @@ export default class Color
 
     static BLACK = new Color("#000000")
     static WHITE = new Color("#FFFFFF")
-    static TRANSPARENT = new Color("transparent")
+    static TRANSPARENT = new Color("transparent");
+
+    // these are just the standard/most common CSS names; might want to add my own color palette in future
+    // (either those "12 most contrasting colors" or my "12 color nature look palette" used for website)
+    static SILVER = new Color("#C0C0C0");
+    static GRAY = new Color("#808080");
+    static MAROON = new Color("#800000");
+    static RED = new Color("#FF0000");
+    static PURPLE = new Color("#800080");
+    static FUCHSIA = new Color("#FF00FF");
+    static GREEN = new Color("#008000");
+    static LIME = new Color("#00FF00");
+    static OLIVE = new Color("#808000");
+    static YELLOW = new Color("#FFFF00");
+    static NAVY = new Color("#000080");
+    static BLUE = new Color("#0000FF");
+    static TEAL = new Color("#008080");
+    static AQUA = new Color("#00FFFF");
 
     constructor(h:ColorRaw = null, s:number = 0, l:number = 0, a:number = 1.0) 
     {
         if(h == null || h == undefined) { a = 0; h = 0; }
-        if(h == "transparent") { this.fromHSLA(0,0,0,0); return; } // @TODO: better support with function/static for "transparent"
+        if(h == "transparent") { this.fromHSLA(0,0,0,0); return; }
         if(h instanceof Color) { this.fromColor(h); return; }
         if(typeof h === 'string') { this.fromHEXA(h); return; }
         this.fromHSLA(h, s, l, a);
@@ -44,7 +52,7 @@ export default class Color
 
     fromHEXNumber(n:number)
     {
-        // @TODO: how to do this??
+        this.fromHEXA(HEXNumberToHEXA(n));
         return this;
     }
 
@@ -91,8 +99,13 @@ export default class Color
 
     toRGBA()
     {
-        const [r,g,b,a] = HSLAToRGBA(this.h, this.s, this.l, this.a);
+        const [r,g,b,a] = this.toRGBARaw();
         return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";        
+    }
+
+    toRGBARaw()
+    {
+        return HSLAToRGBA(this.h, this.s, this.l, this.a);
     }
 
     toRGBRaw()
@@ -118,92 +131,7 @@ export default class Color
 
     toHEXNumber()
     {
-        const hex = this.toHEX();
-        return parseInt(hex.replace("#", "0x"));
-    }
-
-    /* Helpers & Tools */
-    lighten(dl = 0) : Color
-    {
-        const newLightness = Math.max(Math.min(this.l + dl, 100), 0);
-        return new Color(this.h, this.s, newLightness);
-    }
-
-    darken(dl = 0) : Color
-    {
-        return this.lighten(-dl);
-    }
-
-    saturate(ds = 0) : Color
-    {
-        const newSaturation = Math.max(Math.min(this.s + ds, 100), 0);
-        return new Color(this.h, newSaturation, this.l);
-    }
-
-    rotate(dh = 0) : Color
-    {
-        const newHue = (this.h + dh + 360) % 360;
-        return new Color(newHue, this.s, this.l);
-    }
-
-    randomizeAll(bounds:{min:number,max:number} = { min: -10, max: 10}) : Color
-    {
-        const min = bounds.min ?? -10;
-        const max = bounds.max ?? 10;
-        let c = this.clone();
-        c = c.lighten(Random.range(min, max));
-        c = c.saturate(Random.range(min, max));
-        c = c.rotate(Random.range(min, max));
-        return c;
-    }
-
-    getBestContrast()
-    {
-        if(this.getLuminosity() >= 165) { return Color.BLACK; }
-        return Color.WHITE;
-    }
-
-    // @SOURCE: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
-    getLuminosity()
-    {
-        const rgba = HSLAToRGBA(this.h, this.s, this.l, this.a); // get RGBA
-        const gamma = 2.4; // linearize it for sRGB
-        var a = rgba.map((v) => {
-            v /= 255;
-            return v <= 0.04045
-              ? v / 12.92
-              : Math.pow((v + 0.055) / 1.055, gamma);
-        });
-        // mix in correct proportions
-        return (0.2126 * a[0]) + (0.7152 * a[1]) + (0.0722 * a[2]); // SMPTE C, Rec. 709 weightings
-    }
-
-    getContrastWith(c:Color)
-    {
-        const lum1 = this.getLuminosity();
-        const lum2 = c.getLuminosity();
-        const brightest = Math.max(lum1, lum2);
-        const darkest = Math.min(lum1, lum2);
-        return (brightest + 0.05) / (darkest + 0.05);
-    }
-
-    getHighestContrast(colors:Color[])
-    {
-        let bestRatio = 0;
-        let bestColor = null;
-        for(const color of colors)
-        {
-            const ratio = this.getContrastWith(color);
-            if(ratio <= bestRatio) { continue; }
-            bestRatio = ratio;
-            bestColor = color;
-        }
-        return bestColor;
-    }
-
-    isTransparent()
-    {
-        return isZero(this.a);
+        return HEXAToHEXNumber(this.toHEXA());
     }
 
     // easy setters (which I apparently need a lot, as it turns out)
@@ -233,19 +161,5 @@ export default class Color
     {
         this.l = l;
         return this;
-    }
-
-    // @TODO
-    invert()
-    {
-
-    }
-
-    mix(c:Color, factor = 0.5)
-    {
-        const hue = slerp(this.h, c.h, factor, 360);
-        const l = lerp(this.l, c.l, factor);
-        const s = lerp(this.s, c.s, factor);
-        return new Color(hue, s, l);
     }
 }

@@ -32,22 +32,3 @@ meta:
 ## What's the idea?
 
 Lala vlavla
-
-## Board Generation
-  
-Input any seed you want (your favorite artist, a made-up word, whatever) and your player count.
-
-Click "Generate Board". Save the image (or PDF) and print it.
-
-{{< settings/settings-box type="board" >}}
-
-  {{< settings/setting-hidden id="setting-gameTitle" text="The Curse of Coop" >}}
-  {{< settings/setting-seed >}}
-  {{< settings/setting-playercount min="2" max="8" def="4" >}}
-  {{< settings/setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorational elements and turns the board (mostly) grayscale." >}}
-
-  <h3 style="margin-bottom: 0px;">Expansions</h3>
-
-  {{< settings/setting-checkbox id="setting-pizzaPolice" text="Pizza Police?" >}}
-
-{{< /settings/settings-box >}}

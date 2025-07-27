@@ -1,12 +1,10 @@
-import getWeighted from "../random/getWeighted";
-import shuffle from "../random/shuffle";
-import rangeInteger from "../random/rangeInteger";
-import Bounds from "../numbers/bounds";
+import { getWeighted } from "../random/pickers";
+import { shuffle } from "../random/shufflers";
+import { Bounds, BoundsObject } from "../numbers/bounds";
 
-type bounds = { min: number, max: number };
 type propQuery = { prop: string, num: number };
 
-export default class BalancedDictionaryPicker
+export class BalancedDictionaryPicker
 {
     dict:Record<string,any> // this holds all the original data, never modified
     numPerType:Record<string,any>
@@ -15,7 +13,7 @@ export default class BalancedDictionaryPicker
     maxOfProperties:propQuery[]
     template: string[]
     templateProp: string
-    numBounds: bounds;
+    numBounds: BoundsObject;
 
     constructor(dict:Record<string,any> = {})
     {

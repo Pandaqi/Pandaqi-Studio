@@ -1,10 +1,9 @@
-import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage";
-import LayoutOperation from "../layoutOperation";
-import { ElementLike } from "../resources/resource";
-import Point from "js/pq_games/tools/geometry/point";
-import EffectsOperation from "./effectsOperation";
+import type { ResourceImage, CanvasLike } from "../../layout/resources/resourceImage";
+import { LayoutOperation } from "../layoutOperation";
+import { Vector2 } from "../../geometry/vector2";
+import { EffectsOperation } from "./effectsOperation";
 
-export default class LayoutEffect
+export class LayoutEffect
 {
     temporaryCanvas = false
 
@@ -22,11 +21,10 @@ export default class LayoutEffect
 
     applyToCanvas(canv:CanvasLike, effOp:EffectsOperation) { }
     applyToCanvasPost(source:CanvasLike) : CanvasRenderingContext2D { return null; }
-    applyToHTML(div:ElementLike, effOp:EffectsOperation) { }
+    applyToHTML(div:HTMLElement, effOp:EffectsOperation) { }
     applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj:any = null) {}
-    applyToSVG(elem:ElementLike) { }
     applyShadow(canv:CanvasLike) { }
     clone(deep = false) : LayoutEffect { return new LayoutEffect(); }
-    getExtraSizeAdded() : Point { return new Point(); }
+    getExtraSizeAdded() : Vector2 { return new Vector2(); }
     needsTemporaryCanvas() { return this.temporaryCanvas; }
 }

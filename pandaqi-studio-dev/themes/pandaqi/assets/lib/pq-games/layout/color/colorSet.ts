@@ -1,23 +1,23 @@
-import Color, { ColorRaw } from "./color";
+import { Color, ColorRaw } from "./color";
 
-export default class ColorSet
+export class ColorSet
 {
     base: Color;
-    inkfriendly: Color;
+    inkFriendly: Color;
 
-    constructor(base:ColorRaw, inkfriendly:ColorRaw)
+    constructor(base:ColorRaw, inkFriendly:ColorRaw)
     {
         this.base = new Color(base);
-        this.inkfriendly = new Color(inkfriendly ?? this.base);
+        this.inkFriendly = new Color(inkFriendly ?? this.base);
     }
 
-    setInkBlack() { this.inkfriendly = Color.BLACK.clone(); }
-    setInkWhite() { this.inkfriendly = Color.WHITE.clone(); }
-    setInkTransparent() { this.inkfriendly = Color.TRANSPARENT.clone(); }
+    setInkBlack() { this.inkFriendly = Color.BLACK.clone(); }
+    setInkWhite() { this.inkFriendly = Color.WHITE.clone(); }
+    setInkTransparent() { this.inkFriendly = Color.TRANSPARENT.clone(); }
 
-    select(inkfriendly = false)
+    select(inkFriendly = false)
     {
-        if(inkfriendly) { return this.inkfriendly; }
+        if(inkFriendly) { return this.inkFriendly; }
         return this.base;
     }
 }

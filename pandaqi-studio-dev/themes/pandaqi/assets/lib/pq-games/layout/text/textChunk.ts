@@ -1,11 +1,11 @@
-import Point from "js/pq_games/tools/geometry/point";
-import TextConfig from "./textConfig";
-import ResourceImage from "../resources/resourceImage";
-import LayoutOperation from "../layoutOperation";
+import { Vector2 } from "../../geometry/vector2";
+import type { TextConfig } from "./textConfig";
+import type { ResourceImage } from "../resources/resourceImage";
+import { LayoutOperation } from "../layoutOperation";
 
 class TextChunk
 {
-    getSize(ctx:CanvasRenderingContext2D = null) : Point { return new Point(); }
+    getSize(ctx:CanvasRenderingContext2D = null) : Vector2 { return new Vector2(); }
     break() : TextChunk[] { return [this]; }
     isEmptySpace() { return false; }
     isVisible() { return false; }
@@ -34,7 +34,7 @@ class TextChunkText extends TextChunk
     getSize(ctx)
     {
         const metrics = this.getMetrics(ctx);
-        return new Point(
+        return new Vector2(
             metrics.width,
             Math.abs(metrics.actualBoundingBoxAscent) + Math.abs(metrics.actualBoundingBoxDescent)
         );
@@ -79,7 +79,7 @@ class TextChunkImage extends TextChunk
     }
 
     isVisible() { return true; }
-    setDims(size:Point)
+    setDims(size:Vector2)
     {
         if(!this.operation) { this.operation = new LayoutOperation(); }
         this.operation.size = size;

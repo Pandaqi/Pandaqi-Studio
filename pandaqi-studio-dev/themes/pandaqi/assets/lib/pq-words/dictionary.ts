@@ -1,4 +1,4 @@
-import PandaqiWords from "./main"
+import { PandaqiWords } from "./pandaqiWords";
 
 const inp = document.getElementById('input-word') as HTMLInputElement;
 const btn = document.getElementById("check-btn") as HTMLButtonElement;
@@ -6,7 +6,7 @@ const results = document.getElementById("lookup-result") as HTMLElement;
 
 const pqWords = new PandaqiWords();
 
-function performSearch(word:string)
+export const performSearch = (word:string) =>
 {
     const fuzziness = 1;
     const maxFuzzyMatches = 4;

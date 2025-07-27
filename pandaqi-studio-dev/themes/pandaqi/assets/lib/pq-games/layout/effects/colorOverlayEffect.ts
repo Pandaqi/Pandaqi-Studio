@@ -1,10 +1,10 @@
-import ResourceImage from "../resources/resourceImage"
-import createContext from "../canvas/createContext"
-import LayoutEffect from "./layoutEffect";
-import Color from "../color/color";
-import EffectsOperation from "./effectsOperation";
+import { ResourceImage } from "../resources/resourceImage"
+import { createContext } from "../canvas/creators"
+import { LayoutEffect } from "./layoutEffect";
+import { Color }from "../color/color";
+import { EffectsOperation } from "./effectsOperation";
 
-export default class ColorOverlayEffect extends LayoutEffect
+export class ColorOverlayEffect extends LayoutEffect
 {
     color: Color
 
@@ -36,7 +36,8 @@ export default class ColorOverlayEffect extends LayoutEffect
 
     applyToHTML(div:HTMLElement, effOp = new EffectsOperation())
     {
-        // @TODO: Currently not implemented! Don't see how!
+        // @NOTE: Currently not implemented! Don't see how!
+        console.error("[Not Implemented] Color Overlay Effect not implemented on HTML yet!", this);
     }
 
     applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)

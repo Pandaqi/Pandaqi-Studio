@@ -1,7 +1,7 @@
-import EffectsOperation from "./effectsOperation";
-import LayoutEffect from "./layoutEffect";
+import { EffectsOperation } from "./effectsOperation";
+import { LayoutEffect } from "./layoutEffect";
 
-export default class GrayScaleEffect extends LayoutEffect
+export class GrayScaleEffect extends LayoutEffect
 {
     intensity: number;
 
@@ -12,7 +12,7 @@ export default class GrayScaleEffect extends LayoutEffect
         this.intensity = intensity ?? 1.0;
     }
 
-    clone(deep = false)
+    clone()
     {
         return new GrayScaleEffect(this.intensity);
     }

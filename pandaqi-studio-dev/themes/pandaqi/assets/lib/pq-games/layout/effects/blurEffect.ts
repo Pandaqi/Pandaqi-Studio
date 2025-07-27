@@ -1,8 +1,8 @@
-import Point from "js/pq_games/tools/geometry/point";
-import LayoutEffect from "./layoutEffect";
-import EffectsOperation from "./effectsOperation";
+import { Vector2 } from "../../geometry/vector2";
+import { LayoutEffect } from "./layoutEffect";
+import { EffectsOperation } from "./effectsOperation";
 
-export default class BlurEffect extends LayoutEffect
+export class BlurEffect extends LayoutEffect
 {
     blur:number;
     
@@ -12,7 +12,7 @@ export default class BlurEffect extends LayoutEffect
         this.blur = blur;
     }
 
-    clone(deep = false)
+    clone()
     {
         return new BlurEffect(this.blur);
     }
@@ -41,7 +41,7 @@ export default class BlurEffect extends LayoutEffect
 
     getExtraSizeAdded()
     {
-        return new Point(0.5*this.blur);
+        return new Vector2(0.5*this.blur);
     }
     
 }

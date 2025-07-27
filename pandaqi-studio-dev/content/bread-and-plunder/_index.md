@@ -62,18 +62,3 @@ Print these and play the game!
 **Remark:** because it's randomly generated, there's a tiny probability that it generates a game that is clearly unfair or unbalanced. (Or it simply creates a game board that looks ugly.) 
 
 So check if you like what you see, before you print!
-
-## Board Generation
-	
-Input any seed you want (your favorite artist, a made-up word, whatever) and your player count.
-
-Click "Generate Board". Save the image and print it.
-
-{{< settings/settings-box type="board" >}}
-
-	{{< settings/setting-seed >}}
-	{{< settings/setting-playercount min="2" max="7" def="4" >}}
-	{{< settings/setting-enum id="setting-boardVariation" text="Variation?" values="None,Small,Medium,Large,Extreme" def="Medium" >}}
-	{{< settings/setting-checkbox id="setting-pizzaPolice" text="Pizza Police?" >}}
-
-{{< /settings/settings-box >}}

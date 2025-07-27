@@ -33,19 +33,16 @@ Lalavalvla
 
 ## Speel het Spel!
 
-<p>Kies de gewenste instellingen hieronder en klik "Start spel!"</p>
-<p>Je hoeft het spel maar op één apparaat (computer, tablet, smartphone) op te starten.</p>
-<p><em>Opmerking:</em> het spel opent op een nieuwe pagina. Op sommige apparaten denkt hij daarom dat dit een pop-up is en blokkeert deze. Dat is het niet, ik zou nooit pop-ups laten zien.</p>
+Kies de gewenste instellingen hieronder en klik "Start spel!"
 
-	{{< settings/settings-box type="game" local_storage="lijpeLessenConfig" >}}
+Je hoeft het spel maar op één apparaat (computer, tablet, smartphone) op te starten.
 
-		{{< settings/setting-hidden id="setting-gameTitle" text="Lijpe Lessen" >}}
-		{{< settings/setting-playercount min="3" max="10" def="3" >}}
-		{{< settings/setting-enum id="setting-numRounds" text="Hoeveel dagen?" values="2,3,4,5,6,7" valaskey="true" >}}
+Opmerking: het spel opent op een nieuwe pagina. Op sommige apparaten denkt hij daarom dat dit een pop-up is en blokkeert deze. Dat is het niet, ik zou nooit pop-ups laten zien.
 
-		<h3>Uitbreidingen</h3>
-		{{< settings/setting-checkbox id="setting-expansions-locations" text="Locaties?" >}}
-		{{< settings/setting-checkbox id="setting-expansions-gym" text="Lichamelijke Opvoeding?" >}}
-		{{< settings/setting-checkbox id="setting-expansions-parents" text="Boze ouders?" >}}
-
-	{{< /settings/settings-box >}}
+<!---
+OLD SETTINGS
+id="setting-numRounds" text="Hoeveel dagen?" values="2,3,4,5,6,7" valaskey="true"
+id="setting-expansions-locations" text="Locaties?"
+id="setting-expansions-gym" text="Lichamelijke Opvoeding?"
+id="setting-expansions-parents" text="Boze ouders?"
+--->

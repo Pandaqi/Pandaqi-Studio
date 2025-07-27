@@ -36,15 +36,10 @@ Lalavalvla
 
 Input your desired settings, click the button, start!
 
-{{< settings/settings-box type="game" local_storage="proofOfLochNessConfig" >}}
-
-	{{< settings/setting-hidden id="setting-gameTitle" text="Proof of Loch Ness" >}}
-	{{< settings/setting-playercount min="1" max="8" def="4" >}}
-	{{< settings/setting-enum id="setting-scenario" text="Scenario?" values="Unicorn Park,Desert Drama,Loch Ness,Footprint Forest,Platypus" keys="Uni,Desert,Nessie,Forest,Platypus" >}}
-	{{< settings/setting-enum id="setting-monster" text="Monster?" values="Preferred,Unicorn,Cactus Cat,Nessie,Bigfoot,Platyput" valaskey="true" keep-case="true" remark="Leave it on <em>preferred</em> to play the default monster for your chosen scenario." >}}
-
-{{< /settings/settings-box >}}
-
+<!--- OLD SETTINGS = 
+ENUM (scenario): values="Unicorn Park,Desert Drama,Loch Ness,Footprint Forest,Platypus" keys="Uni,Desert,Nessie,Forest,Platypus"
+ENUM (monster): values="Preferred,Unicorn,Cactus Cat,Nessie,Bigfoot,Platyput" valaskey="true" keep-case="true" remark="Leave it on <em>preferred</em> to play the default monster for your chosen scenario."
+--->
 
 ## Picture Book
 

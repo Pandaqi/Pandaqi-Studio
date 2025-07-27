@@ -1,7 +1,7 @@
-import Point from "js/pq_games/tools/geometry/point";
-import Color from "../color/color";
-import EffectsOperation from "./effectsOperation";
-import LayoutEffect from "./layoutEffect";
+import { Vector2 } from "../../geometry/vector2";
+import { Color }from "../color/color";
+import { EffectsOperation } from "./effectsOperation";
+import { LayoutEffect } from "./layoutEffect";
 
 interface GlowParams
 {
@@ -9,14 +9,15 @@ interface GlowParams
     size?:number, // legacy support
     blurRadius?:number // legacy support
     color?:Color|string,
-    offset?:Point
+    offset?:Vector2
 }
 
-export default class GlowEffect extends LayoutEffect
+export type { GlowParams }
+export class GlowEffect extends LayoutEffect
 {
     blurRadius: number;
     color: Color;
-    offset: Point;
+    offset: Vector2;
     
     constructor(params:GlowParams = {})
     {
@@ -24,7 +25,7 @@ export default class GlowEffect extends LayoutEffect
 
         this.blurRadius = ((params.size ?? params.blur) ?? params.blurRadius) ?? 0;
         this.color = new Color(params.color ?? "#FFFFFF");
-        this.offset = params.offset ?? new Point();
+        this.offset = params.offset ?? new Vector2();
     }
 
     clone(deep = false)

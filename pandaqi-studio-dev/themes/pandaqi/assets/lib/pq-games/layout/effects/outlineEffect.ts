@@ -1,9 +1,9 @@
-import { CanvasLike } from "../resources/resourceImage"
-import createContext from "../canvas/createContext"
-import LayoutEffect from "./layoutEffect";
-import Color from "../color/color";
-import Point from "js/pq_games/tools/geometry/point";
-import EffectsOperation from "./effectsOperation";
+import type { CanvasLike } from "../resources/resourceImage"
+import { createContext } from "../canvas/creators"
+import { LayoutEffect } from "./layoutEffect";
+import { Color } from "../color/color";
+import { Vector2 } from "../../geometry/vector2";
+import { EffectsOperation } from "./effectsOperation";
 
 interface OutlineEffectParams
 {
@@ -11,18 +11,20 @@ interface OutlineEffectParams
     thickness?: number,
 }
 
-const OFFSETS = [
-    new Point(-1,-1),
-    new Point(0,-1),
-    new Point(1,-1),
-    new Point(-1,0),
-    new Point(1,0),
-    new Point(-1,1),
-    new Point(0,1),
-    new Point(1,1)
+const OFFSETS = 
+[
+    new Vector2(-1,-1),
+    new Vector2(0,-1),
+    new Vector2(1,-1),
+    new Vector2(-1,0),
+    new Vector2(1,0),
+    new Vector2(-1,1),
+    new Vector2(0,1),
+    new Vector2(1,1)
 ]
 
-export default class OutlineEffect extends LayoutEffect
+export type { OutlineEffectParams }
+export class OutlineEffect extends LayoutEffect
 {
     color: Color
     thickness: number
@@ -37,16 +39,17 @@ export default class OutlineEffect extends LayoutEffect
 
     clone(deep = false)
     {
-        return new OutlineEffect({ color: this.color.clone(), thickness: this.thickness });
+        const col = deep ? this.color.clone() : this.color;
+        return new OutlineEffect({ color: col, thickness: this.thickness });
     }
 
     // @SOURCE: https://stackoverflow.com/questions/28207232/draw-border-around-nontransparent-part-of-image-on-canvas
-    // @TODO: this is too rough, especially on larger canvases, implement marching squares instead
+    // this is too rough, especially on larger canvases, implement marching squares instead
     applyToCanvasPost(source:CanvasLike)
     {
         if(source instanceof CanvasRenderingContext2D) { source = source.canvas; }
 
-        const size = new Point(source.width, source.height);
+        const size = new Vector2(source.width, source.height);
         const contextParams = { size: size, alpha: true }
         const ctx = createContext(contextParams);
 
@@ -88,7 +91,7 @@ export default class OutlineEffect extends LayoutEffect
 
     getExtraSizeAdded()
     {
-        return new Point(this.thickness);
+        return new Vector2(this.thickness);
     }
 
     applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)

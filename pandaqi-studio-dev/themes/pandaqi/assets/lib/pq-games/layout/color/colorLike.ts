@@ -1,24 +1,24 @@
-// @TODO: For now, I've completely removed these resources, because they SOMEHOW lead to PixiJS being included with EVERY script that uses ColorLike
-//import ResourceGradient from "../resources/resourceGradient";
-//import ResourcePattern from "../resources/resourcePattern";
-import Color from "./color";
+import type { ResourceGradient } from "../resources/resourceGradient";
+import type { ResourcePattern } from "../resources/resourcePattern";
+import { Color } from "./color";
+import { isColorTransparent } from "./mixing";
 
-//type ColorLikeValue = Color|ResourceGradient|ResourcePattern;
-type ColorLikeValue = Color;
+type ColorLikeValue = Color|ResourceGradient|ResourcePattern;
 
-export { ColorLike, ColorLikeValue };
-export default class ColorLike
+export { ColorLikeValue };
+export class ColorLike
 {
     val:ColorLikeValue
 
     constructor(val:string|ColorLikeValue)
     {
-        this.val = new Color(val);
-
-        /*if(val instanceof ResourcePattern || val instanceof ResourceGradient) { this.val = val; }
-        else {
+        if(!val) { 
+            this.val = Color.TRANSPARENT; 
+        } else if(typeof val === "string") {
             this.val = new Color(val);
-        }*/
+        } else {
+            this.val = val;
+        }
     }
 
     get() { return this.val; }
@@ -33,7 +33,6 @@ export default class ColorLike
         return this.val.toCanvasStyle(ctx);
     }
 
-    // @TODO: any other values don't make sense for toNumber, right?
     toNumber()
     {
         if(this.val instanceof Color) { return this.val.toHEXNumber(); }
@@ -42,6 +41,7 @@ export default class ColorLike
 
     isTransparent()
     {
-        return this.val.isTransparent();
+        if(this.val instanceof Color) { return isColorTransparent(this.val); }
+        return false;
     }
 }

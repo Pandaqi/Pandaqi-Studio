@@ -2,9 +2,7 @@
 type: "project"
 
 title: "Teamturns"
-headerTitle: "A game where you're forced to combine your card with a new team member every turn, uncertain if their input will strengthen your card ... or ruin it."
-
-color: "blue"
+blurb: "A game where you're forced to combine your card with a new team member every turn, uncertain if their input will strengthen your card ... or ruin it."
 
 downloadLink: "https://drive.google.com/drive/folders/1izrsVD_t29Sw-NkJaqayWLo0lWTYWIfS"
 
@@ -25,17 +23,7 @@ devlog: "/blog/boardgames/teamturns/"
 
 ---
 
-{{% settings/settings-container type="material" %}}
 
-{{< settings/settings-box type="game" local_storage="teamturnsConfig" btn_label="Generate Material" game_title="Teamturns" defaults="true">}}
-  {{< settings/settings-section heading="Sets" >}}
-    {{< settings/setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< settings/setting-checkbox id="setting-sets-megaMoves" text="Megamoves?" >}}
-    {{< settings/setting-checkbox id="setting-sets-cookyClasses" text="Cookyclasses?" >}}
-  {{< /settings/settings-section >}}
-{{< /settings/settings-box >}}
-
-{{% /settings/settings-container %}}
 
 ## Credits
 

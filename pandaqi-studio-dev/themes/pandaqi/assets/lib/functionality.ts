@@ -1,10 +1,13 @@
-window.addEventListener("DOMContentLoaded", () => {
+// we want to apply this class immediately to prevent a (long) flash of unstyled content if slow network
+// as otherwise these styles only get applied after darkModeBtn exists and DOMContentLoaded
+const localStorageKey = "pandaqi-games-display-mode";
+let displayMode = localStorage.getItem(localStorageKey) ?? "light";
+document.body.classList.add(`display-mode-${displayMode}`);
 
+window.addEventListener("DOMContentLoaded", () => 
+{
     /* Handle dark/light mode */
-    const localStorageKey = "pandaqi-games-display-mode";
-    let displayMode = localStorage.getItem(localStorageKey) ?? "light";
     const darkModeBtn = document.getElementById("darkModeBtn");
-
     const applyDisplayMode = (newMode:string) =>
     {
         document.body.classList.remove(`display-mode-${displayMode}`);

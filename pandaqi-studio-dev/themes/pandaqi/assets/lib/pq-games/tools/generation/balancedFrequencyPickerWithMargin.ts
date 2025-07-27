@@ -1,7 +1,6 @@
-import fromArray from "../random/fromArray"
-import StatsTracker from "./statsTracker"
+import { fromArray } from "../random/pickers"
 
-interface FrequencyPickerParams
+export interface FrequencyPickerWithMarginParams
 {
     options?:string[]
     stats?:Record<string,number>,
@@ -10,7 +9,7 @@ interface FrequencyPickerParams
     penaltyCustom?:Record<string,number>
 }
 
-export default class BalancedFrequencyPickerWithMargin
+export class BalancedFrequencyPickerWithMargin
 {
     options:string[]
     maxDist:number
@@ -18,7 +17,7 @@ export default class BalancedFrequencyPickerWithMargin
     penaltyCustom:Record<string, number> // if set, it "pretends" those types have X more than they have, so they lag behind everything else and are picked in consistently lower numbers
     stats:Record<string,number>
 
-    constructor(params:FrequencyPickerParams = {}) 
+    constructor(params:FrequencyPickerWithMarginParams = {}) 
     {
         this.options = params.options ?? [];
         this.stats = params.stats ?? {};

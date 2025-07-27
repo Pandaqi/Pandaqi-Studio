@@ -1,9 +1,9 @@
-import ResourceImage from "../resources/resourceImage"
-import createContext from "../canvas/createContext"
-import LayoutEffect from "./layoutEffect";
-import Color from "../color/color";
-import getTintCSSFilters from "./tintEffectSolver";
-import EffectsOperation from "./effectsOperation";
+import { ResourceImage } from "../resources/resourceImage"
+import { createContext } from "../canvas/creators"
+import { LayoutEffect } from "./layoutEffect";
+import { Color }from "../color/color";
+import { getTintCSSFilters } from "./tintEffectSolver";
+import { EffectsOperation } from "./effectsOperation";
 
 interface TintEffectParams
 {
@@ -11,7 +11,8 @@ interface TintEffectParams
     from?: Color|string
 }
 
-export default class TintEffect extends LayoutEffect
+export type { TintEffectParams }
+export class TintEffect extends LayoutEffect
 {
     color: Color
     from: Color
@@ -27,7 +28,8 @@ export default class TintEffect extends LayoutEffect
 
     clone(deep = false)
     {
-        return new TintEffect({ color: this.color });
+        const col = deep ? this.color.clone() : this.color;
+        return new TintEffect({ color: col });
     }
 
     applyToImage(drawable:ResourceImage)

@@ -1,4 +1,4 @@
-const loadFile = async (url:string) : Promise<string> =>
+export const loadFile = async (url:string) : Promise<string> =>
 {        
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -14,9 +14,4 @@ const loadFile = async (url:string) : Promise<string> =>
 
         xhr.send();
     });
-}
-
-export 
-{
-    loadFile
 }

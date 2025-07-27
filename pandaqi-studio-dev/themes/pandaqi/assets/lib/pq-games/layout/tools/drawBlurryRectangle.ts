@@ -1,24 +1,23 @@
-import Point from "js/pq_games/tools/geometry/point"
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import ResourceShape from "../resources/resourceShape";
-import LayoutOperation from "../layoutOperation";
-import BlurEffect from "../effects/blurEffect";
-import ResourceGroup from "../resources/resourceGroup";
+import { Vector2 } from "../../geometry/vector2"
+import { Rectangle } from "../../geometry/shapes/rectangle";
+import { ResourceShape } from "../resources/resourceShape";
+import { LayoutOperation } from "../layoutOperation";
+import { BlurEffect } from "../effects/blurEffect";
+import { ResourceGroup } from "../resources/resourceGroup";
 
 interface BlurryRectParams
 {
-    size?: Point,
-    pos?: Point,
+    size?: Vector2,
+    pos?: Vector2,
     color?: string,
     blur?: number,
     alpha?: number,
     composite?: GlobalCompositeOperation
 }
 
-// @TODO: not sure if pq_games/layout/tools folder is the best place for "common helper functions" like this ... will re-organize once I have more of these
-export default (params:BlurryRectParams = {}, group:ResourceGroup = null) =>
+export const drawBlurryRectangle = (params:BlurryRectParams = {}, group:ResourceGroup = null) =>
 {
-    const rect = new Rectangle({ center: params.pos ?? new Point(), extents: params.size});
+    const rect = new Rectangle({ center: params.pos ?? new Vector2(), extents: params.size});
     const res = new ResourceShape(rect);
     const op = new LayoutOperation({
         fill: params.color ?? "#FFFFFF",

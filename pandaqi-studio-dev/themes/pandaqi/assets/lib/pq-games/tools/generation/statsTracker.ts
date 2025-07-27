@@ -1,9 +1,8 @@
-import maximumElements from "../collections/maximumElements";
-import minimumElements from "../collections/minimumElements";
-import ensureDictionaryEntry from "../collections/ensureDictionaryEntry";
+import { maximumElements, minimumElements } from "../collections/extremes";
+import { ensureDictionaryEntry } from "../collections/inits";
 import { FrequencyExtreme } from "./balancedFrequencyPicker";
 
-export default class StatsTracker
+export class StatsTracker
 {
     numPerType: Record<string, number>
     optionsPerType: Record<string, any[]>

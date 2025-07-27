@@ -1,10 +1,8 @@
-import Color from "../color/color";
+import { Color } from "../color/color";
 
 // @SOURCE: https://codepen.io/sosuke/pen/Pjoqqp
-// @TODO: I should optimize this one day, perhaps rewrite to use my own Color class natively
-//        but for now, it's magic and it works, relatively quickly
-
-const getTintCSSFilters = (inputColor:Color, baseColor = Color.WHITE) => 
+// Not mine. It's magic and it works, relatively quickly
+export const getTintCSSFilters = (inputColor:Color, baseColor = Color.WHITE) => 
 {
     const rgb = inputColor.toRGBRaw();
     const rgb2 = baseColor.toRGBRaw();
@@ -21,23 +19,25 @@ class ColorRGB
     g:number
     b:number
 
-    constructor(r, g, b) 
+    constructor(r:number, g:number, b:number) 
     {
       this.set(r, g, b);
     }
     
-    toString() {
+    toString() 
+    {
       return `rgb(${Math.round(this.r)}, ${Math.round(this.g)}, ${Math.round(this.b)})`;
     }
   
-    set(r, g, b) 
+    set(r:number, g:number, b:number) 
     {
       this.r = this.clamp(r);
       this.g = this.clamp(g);
       this.b = this.clamp(b);
     }
   
-    hueRotate(angle = 0) {
+    hueRotate(angle = 0) 
+    {
       angle = angle / 180 * Math.PI;
       const sin = Math.sin(angle);
       const cos = Math.cos(angle);
@@ -56,6 +56,7 @@ class ColorRGB
     }
   
     grayscale(value = 1) {
+
       this.multiply([
         0.2126 + 0.7874 * (1 - value),
         0.7152 - 0.7152 * (1 - value),
@@ -69,7 +70,8 @@ class ColorRGB
       ]);
     }
   
-    sepia(value = 1) {
+    sepia(value = 1) 
+    {
       this.multiply([
         0.393 + 0.607 * (1 - value),
         0.769 - 0.769 * (1 - value),
@@ -83,7 +85,8 @@ class ColorRGB
       ]);
     }
   
-    saturate(value = 1) {
+    saturate(value = 1) 
+    {
       this.multiply([
         0.213 + 0.787 * value,
         0.715 - 0.715 * value,
@@ -97,7 +100,8 @@ class ColorRGB
       ]);
     }
   
-    multiply(matrix) {
+    multiply(matrix)
+    {
       const newR = this.clamp(this.r * matrix[0] + this.g * matrix[1] + this.b * matrix[2]);
       const newG = this.clamp(this.r * matrix[3] + this.g * matrix[4] + this.b * matrix[5]);
       const newB = this.clamp(this.r * matrix[6] + this.g * matrix[7] + this.b * matrix[8]);
@@ -106,26 +110,32 @@ class ColorRGB
       this.b = newB;
     }
   
-    brightness(value = 1) {
+    brightness(value = 1) 
+    {
       this.linear(value);
     }
-    contrast(value = 1) {
+
+    contrast(value = 1) 
+    {
       this.linear(value, -(0.5 * value) + 0.5);
     }
   
-    linear(slope = 1, intercept = 0) {
+    linear(slope = 1, intercept = 0) 
+    {
       this.r = this.clamp(this.r * slope + intercept * 255);
       this.g = this.clamp(this.g * slope + intercept * 255);
       this.b = this.clamp(this.b * slope + intercept * 255);
     }
   
-    invert(value = 1) {
+    invert(value = 1) 
+    {
       this.r = this.clamp((value + this.r / 255 * (1 - 2 * value)) * 255);
       this.g = this.clamp((value + this.g / 255 * (1 - 2 * value)) * 255);
       this.b = this.clamp((value + this.b / 255 * (1 - 2 * value)) * 255);
     }
   
-    hsl() {
+    hsl() 
+    {
       // Code taken from https://stackoverflow.com/a/9493060/2688027, licensed under CC BY-SA.
       const r = this.r / 255;
       const g = this.g / 255;
@@ -162,7 +172,8 @@ class ColorRGB
       };
     }
   
-    clamp(value) {
+    clamp(value:number) 
+    {
       if (value > 255) {
         value = 255;
       } else if (value < 0) {
@@ -176,12 +187,12 @@ class TintSolver
 {
     target: ColorRGB
     targetHSL: { h: number, s: number, l: number }
-    reusedColor: ColorRGB 
+    reusedColor = new ColorRGB(0,0,0); // it only works if the original sprite is BLACK (instead of the usual WHITE), unfortunately
 
-    constructor(target, baseColor) {
+    constructor(target:ColorRGB, baseColor:ColorRGB) 
+    {
       this.target = target;
       this.targetHSL = target.hsl();
-      this.reusedColor = new ColorRGB(0,0,0); // @TODO: unfortunately, for now, it only supports starting from black 
     }
   
     solve() {
@@ -274,7 +285,8 @@ class TintSolver
       }
     }
   
-    loss(filters) {
+    loss(filters) 
+    {
       // Argument is array of percentages.
       const color = this.reusedColor;
       color.set(0, 0, 0);
@@ -318,12 +330,11 @@ class TintSolver
         ]
     }
   
-    css(filters) {
+    css(filters) 
+    {
       function fmt(idx, multiplier = 1) {
         return Math.round(filters[idx] * multiplier);
       }
       return `filter: invert(${fmt(0)}%) sepia(${fmt(1)}%) saturate(${fmt(2)}%) hue-rotate(${fmt(3, 3.6)}deg) brightness(${fmt(4)}%) contrast(${fmt(5)}%);`;
     }
-  }
-
-  export default getTintCSSFilters;
+}

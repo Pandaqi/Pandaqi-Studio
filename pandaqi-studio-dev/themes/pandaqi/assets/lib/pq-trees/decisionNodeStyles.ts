@@ -1,4 +1,4 @@
-export default class DecisionNodeStyles
+export class DecisionNodeStyles
 {
     constructor(styles:Record<string,string>)
     {

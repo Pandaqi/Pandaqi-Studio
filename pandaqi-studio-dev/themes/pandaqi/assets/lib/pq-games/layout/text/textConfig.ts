@@ -1,21 +1,20 @@
-import ColorLike from "../color/colorLike"
-import LayoutOperation from "../layoutOperation"
-import ResourceFont from "../resources/resourceFont"
-import ResourceLoader from "../resources/resourceLoader"
+import { ColorLike } from "../color/colorLike"
+import { LayoutOperation } from "../layoutOperation"
+import { ResourceLoader } from "../resources/resourceLoader"
 
-enum TextAlign {
+export enum TextAlign {
     START,
     MIDDLE,
     END,
     JUSTIFY
 }
 
-enum TextStyle {
+export enum TextStyle {
     NORMAL,
     ITALIC
 }
 
-enum TextWeight {
+export enum TextWeight {
     THIN,
     LIGHT,
     REGULAR,
@@ -23,12 +22,29 @@ enum TextWeight {
     BLACK
 }
 
-enum TextVariant {
+export enum TextVariant {
     NORMAL,
     SMALLCAPS
 }
 
-interface TextConfigParams
+export enum TextTransform
+{
+    NONE,
+    UPPERCASE,
+    LOWERCASE
+}
+
+// this is equal to the .textBaseline property of Canvas
+export enum TextAnchor 
+{
+    ALPHABETIC = "alphabetic",
+    MIDDLE = "middle",
+    TOP = "top",
+    BOTTOM = "bottom",
+    HANGING = "hanging"
+}
+
+export interface TextConfigParams
 {
     size?: number
     fontSize?: number
@@ -37,10 +53,15 @@ interface TextConfigParams
     align?: TextAlign
     alignHorizontal?: TextAlign
     alignVertical?: TextAlign
-    lineHeight?: number // @NOTE: this is RELATIVE to font size (as that's usually practical)
+    lineHeight?: number // this is RELATIVE to font size (as that's usually practical); 1.0 = identical to font size
     style?: TextStyle
     weight?: TextWeight
     variant?: TextVariant
+    transform?: TextTransform
+    anchor?: TextAnchor
+
+    wrap?: boolean, // true by default; if false, text never wraps around (it ignores the width of text boxes)
+    format?: boolean, // true by default; if false, it interprets your text "as-is" without detecting tags and rich formatting (like <b>bold thing</b>)
 
     resLoader?:ResourceLoader // for text that draws icons/images inline
     defaultImageOperation?:LayoutOperation
@@ -53,18 +74,23 @@ interface TextConfigParams
 // (this is a CONSERVATIVE estimate, for most fonts!)
 const DEF_HEIGHT_TO_SIZE_RATIO = 1.35; 
 
-export { TextConfig, TextAlign, TextStyle, TextWeight, TextVariant }
-export default class TextConfig
+export class TextConfig
 {
     color: ColorLike
     size: number;
     font: string;
+
     alignHorizontal: TextAlign;
     alignVertical: TextAlign;
     lineHeight: number;
     style: TextStyle;
     weight: TextWeight;
     variant: TextVariant;
+    transform: TextTransform;
+    anchor: TextAnchor;
+
+    wrap: boolean;
+    format: boolean;
 
     defaultImageOperation: LayoutOperation;
     resLoader: ResourceLoader;
@@ -77,13 +103,19 @@ export default class TextConfig
     {
         this.size = (params.size ?? params.fontSize) ?? 16;
         this.font = (params.font ?? params.fontFamily) ?? "Arial";
-        this.alignHorizontal = (params.align ?? params.alignHorizontal) ?? TextAlign.START;
-        this.alignVertical = (params.alignVertical) ?? TextAlign.START;
+        this.alignHorizontal = (params.align ?? params.alignHorizontal) ?? TextAlign.MIDDLE;
+        this.alignVertical = (params.alignVertical) ?? TextAlign.MIDDLE;
         this.lineHeight = params.lineHeight ?? 1.2;
         this.useDynamicLineHeight = params.useDynamicLineHeight ?? false;
+
+        this.wrap = params.wrap ?? true;
+        this.format = params.format ?? true;
+
         this.style = params.style ?? TextStyle.NORMAL;
         this.weight = params.weight ?? TextWeight.REGULAR;
         this.variant = params.variant ?? TextVariant.NORMAL;
+        this.transform = params.transform ?? TextTransform.NONE;
+
         this.resLoader = params.resLoader ?? null;
         this.defaultImageOperation = params.defaultImageOperation ?? null;
         this.useSimpleDims = params.useSimpleDims ?? false;
@@ -209,10 +241,16 @@ export default class TextConfig
             this.history[prop].push(this[prop]);
         }
 
-        // @TODO: find some cleaner conversion function, or remove the need for this completely?
         if(prop == "color") { val = new ColorLike(val); }
 
         this[prop] = val;
+    }
+
+    applyTextTransform(str:string)
+    {
+        if(this.transform == TextTransform.NONE) { return str; }
+        if(this.transform == TextTransform.LOWERCASE) { return str.toLowerCase(); }
+        if(this.transform == TextTransform.UPPERCASE) { return str.toUpperCase(); }
     }
 
     /* Handy automatic functions for configurations I usually want */

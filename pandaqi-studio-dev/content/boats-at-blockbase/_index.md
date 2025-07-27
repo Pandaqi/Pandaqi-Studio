@@ -2,9 +2,7 @@
 type: "project"
 
 title: "Boats at Blockbase"
-headerTitle: "Claim the best parts of the ocean by placing Tetris-shaped blocks on a shared map."
-
-color: "turquoise"
+blurb: "Claim the best parts of the ocean by placing Tetris-shaped blocks on a shared map."
 
 downloadLink: "https://drive.google.com/drive/folders/1WRgaP-8ZIdOwxbxqHvPLKuSP7A_w8-N8"
 
@@ -24,18 +22,6 @@ ages: everyone
 devlog: "/blog/boardgames/boats-at-blockbase/"
 
 ---
-
-{{% settings/settings-container type="material" %}}
-
-{{< settings/settings-box type="board" local_storage="boatsAtBlockbaseConfig" btn_label="Generate Paper" game_title="Boats at Blockbase" defaults="true">}}
-  {{< settings/setting-checkbox id="setting-sets-soloShips" text="Solo Ships?" remark="Cuts the paper into smaller boards; each player is confined to their own little piece." >}}
-  {{< settings/settings-section heading="Sets" >}}
-    {{< settings/setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< settings/setting-checkbox id="setting-sets-newRoutes" text="New Routes?" >}}
-  {{< /settings/settings-section >}}
-{{< /settings/settings-box >}}
-
-{{% /settings/settings-container %}}
 
 ## Credits
 

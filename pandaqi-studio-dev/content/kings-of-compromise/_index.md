@@ -45,31 +45,9 @@ Try to figure out everyone's wishes, and communicate your own, to design the per
 
 ## What do I need?
 
-Three steps.
-* Read the rules. (Click the "Download" button.)
-* Print the material sheet and cut the individual tiles/tokens.
-* Start the [game](#game) on your phone and play!
-
 **Phone?** You only need a device (and internet) to generate the setup. Once that's done, you can put it away.
 
 **Offline version?** Besides the rulebook you'll also find a folder called "Premade Games". Pick one, print it, cut the hints into cards, and you can play completely offline at some later point in time.
-
-
-## Game
-
-<p>Input your desired settings. Click "start game".</p>
-
-  {{< settings/settings-box type="game" local_storage="kingsOfCompromiseConfig" >}}
-
-    {{< settings/setting-hidden id="setting-gameTitle" text="Kings of Compromise" >}}
-    {{< settings/setting-seed >}}
-    {{< settings/setting-playercount min="2" max="6" def="4" >}}
-
-  {{< /settings/settings-box >}}
-
-<p><strong>Remark:</strong> for your first game(s), turn off everything. Once you get the hang of it, introduce more elements to the maps/rules!</p>
-<p><strong>Remark:</strong> your browser might register this as a pop-up. It's not, I would <em>never</em> show pop-ups. Simply allow it.</p>
-
 
 ## Feedback & Credits
 

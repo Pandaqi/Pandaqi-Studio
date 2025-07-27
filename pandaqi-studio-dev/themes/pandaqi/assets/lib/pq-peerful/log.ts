@@ -1,13 +1,13 @@
 import { listenForEvent, sendEvent } from "./events";
-import { PeerfulConfig } from "./main";
+import { PeerfulConfig } from "./peerfulGame";
 
-const LOG_EVENT_NAME = "log";
-const log = (data:any, config:PeerfulConfig) => 
+export const LOG_EVENT_NAME = "log";
+export const log = (data:any, config:PeerfulConfig) => 
 {
     sendEvent(LOG_EVENT_NAME, data, config);
 }
 
-class Logger
+export class Logger
 {
     node: HTMLElement;
     config: PeerfulConfig;
@@ -56,10 +56,4 @@ class Logger
         div.innerHTML = data.toString();
         return div;
     }
-}
-
-export 
-{ 
-    log, 
-    Logger 
 }

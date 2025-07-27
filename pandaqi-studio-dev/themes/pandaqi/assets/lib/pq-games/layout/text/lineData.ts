@@ -1,26 +1,26 @@
-import Point from "js/pq_games/tools/geometry/point";
+import { Vector2 } from "../../geometry/vector2";
 import { TextChunk, TextChunkImage, TextChunkText } from "./textChunk";
 
-export default class LineData
+export class LineData
 {
     chunks: TextChunk[]
-    size: Point
-    pos: Point
-    topLeft: Point
-    bottomRight: Point
+    size: Vector2
+    pos: Vector2
+    topLeft: Vector2
+    bottomRight: Vector2
     ascent: number
     descent: number
     extraSpaceJustifyX: number
 
-    constructor(pos = new Point())
+    constructor(pos = new Vector2())
     {
         this.pos = pos;
-        this.size = new Point();
+        this.size = new Vector2();
         this.chunks = [];
         this.ascent = 0;
         this.descent = 0;
-        this.topLeft = new Point();
-        this.bottomRight = new Point();
+        this.topLeft = new Vector2();
+        this.bottomRight = new Vector2();
         this.extraSpaceJustifyX = 0;
     }
 
@@ -36,8 +36,7 @@ export default class LineData
             const metrics = chunk.getMetrics(ctx);
             ascent = Math.abs(metrics.actualBoundingBoxAscent);
             descent = Math.abs(metrics.actualBoundingBoxDescent);
-            
-        // @TODO: figure out how to ALIGN those images with the text baseline
+
         } else if(chunk instanceof TextChunkImage) {
             ascent = 0.75*size.y;
             descent = 0.25*size.y;
@@ -51,18 +50,18 @@ export default class LineData
         this.refresh();
     }
 
-    getSize() : Point { return this.size.clone(); }
-    getPosition() : Point { return this.pos.clone(); }
+    getSize() : Vector2 { return this.size.clone(); }
+    getPosition() : Vector2 { return this.pos.clone(); }
 
-    getCenter() : Point
+    getCenter() : Vector2
     {
-        return new Point(
+        return new Vector2(
             this.topLeft.x + 0.5 * (this.bottomRight.x - this.topLeft.x),
             this.topLeft.y + 0.5 * (this.bottomRight.y - this.topLeft.y)
         );
     }
 
-    updatePosition(pos:Point)
+    updatePosition(pos:Vector2)
     {
         this.pos.move(pos);
         this.refresh();
@@ -70,8 +69,8 @@ export default class LineData
 
     refresh()
     {
-        this.topLeft = new Point(this.pos.x, this.pos.y - this.ascent);
-        this.bottomRight = new Point(this.pos.x + this.size.x, this.pos.y + this.descent);
+        this.topLeft = new Vector2(this.pos.x, this.pos.y - this.ascent);
+        this.bottomRight = new Vector2(this.pos.x + this.size.x, this.pos.y + this.descent);
         this.size.y = this.ascent + this.descent;
     }
 

@@ -1,0 +1,137 @@
+import type { Vector2 } from "../geometry/vector2";
+import type { MapperPreset, ItemSize } from "../layout/gridMapper";
+import type { ResourceLoadParams, ResourceLoader } from "../layout/resources/resourceLoader";
+import type { Renderer } from "../renderers/renderer";
+import { mergeObjects } from "../tools/collections/converters";
+import type { PageOrientation, PageSides, PageSize } from "../tools/pdf/tools";
+import { getRandomSeedString } from "../tools/random/values";
+
+export const PROTECTED_CONFIGURATION_PROPERTIES = ["_game", "_settings", "_generation", "_drawing", "_material", "_resources", "_debug", "_translation"];
+
+export const addConfigFromLocalStorage = (config:GameConfig) =>
+{
+    if(!config._game.localStorageKey) { return; }
+    const userConfig = JSON.parse(window.localStorage[config._game.localStorageKey] ?? "{}");
+    mergeObjects(config, userConfig);
+}
+
+export const ensureConfigProperties = (config:GameConfig) =>
+{
+    for(const prop of PROTECTED_CONFIGURATION_PROPERTIES)
+    {
+        config[prop] = config[prop] ?? {};
+    }
+
+    // default settings are one of the rare subfields the system basically requires
+    config._settings.defaults = config._settings.defaults ?? {};
+
+    // random seeding (if no fixed one set)
+    if(!config._settings.defaults.seed) { config._settings.defaults.seed = getRandomSeedString(); }
+}
+
+export interface GameConfig
+{
+    _debug?:
+    {
+        onlyGenerate?: boolean, // only generate objects; don't draw/create images of them
+        singleDrawPerType?: boolean, // only draw each unique type of material once   
+        omitFile?: boolean, // don't put images into final PDF
+        filterResources?: string[], // don't load+display these resources (for troubleshooting troublesome ones/saving loading time when debugging)
+
+        profile?: boolean, // if enabled, profiles how long things take
+
+        text?: boolean, // if true, outlines of text boxes are visible and debug info about their calculated properties/chunks is logged
+        picker?: boolean, // if true, logs the output from material pickers
+        mapper?: boolean, // if true, outlines from GridMapper show how it's placing stuff
+        visualizer?: boolean, // if true, toggles debugging in the MaterialVisualizer (mostly logging the exact values it calculated)
+        layoutOperation?: boolean, // @TODO: implemented, but what should we actually debug/report? Does it assign a unique ID to each operation-resource combo + do a more expensive check on its validity?
+    },
+
+    _resources?:
+    {
+        filter?: Function,
+        base?: string,
+        files: Record<string,ResourceLoadParams>
+    }
+
+    _game?:
+    {
+        name?: string,
+        fileName?: string,
+
+        renderer?: Renderer, // global renderer used for everything
+        resLoader?: ResourceLoader, // global resource loader used for everything
+        localStorageKey?: string,
+
+        noUploadingCustomResources?: boolean, // if true, you can't execute this framework locally as it creates no input form for uploading trusted assets
+        noDefaultSettings?: boolean, // if true, none of the default settings are appended to yours
+        noInkFriendly?: boolean, // if true, the option to generate inkfriendly version is not shown
+        noSeed?: boolean, // if true, the text input for a seed is not shown
+        pageSides?: PageSides, // custom default double-sided or single-sided printing
+    },
+
+    _settings?:
+    {
+        // @TODO: might have the FINAL VALUES of each setting NOT OVERRIDE the original config in here? It hasn't created any problems so far, but it might in the future?
+        defaults?:
+        {
+            resources?: FileList,
+            pageSize?: PageSize,
+            pageSides?: PageSides,
+            itemSize?: ItemSize,
+            inkFriendly?: boolean,
+            seed?: string,
+            splitDims?: string, // this would be a GLOBAL splitDims for all elements
+            language?: string,
+        }
+    }
+
+    _translation?: 
+    {
+        language?: string, // custom default language to use for translations (otherwise just picks first key)
+        delimitersReplace?: { pre?: string, post?: string },
+        delimitersTranslate?: { pre?: string, post?: string },
+        dictionary: Record<string,Record<string,any>>,
+    }
+
+    _generation?:
+    {
+        visualizer?:any,
+        pageOrientation?: PageOrientation,
+        losslessPdf?: boolean,
+        batchSize?: number,
+        noBatching?: boolean,
+
+        possibleSplitDims?: string[],
+        possiblePageSizes?: PageSize[],
+        possiblePageSides?: PageSides[],
+        possibleItemSizes?: ItemSize[],
+    },
+
+    _drawing?: Record<string,any>, // the material visualizer ONLY configures (pre-multiplies/pre-configures) all values found inside here
+    _material?: Record<string,MaterialConfig>,
+
+}
+
+export interface MapperConfig
+{
+    preset?: MapperPreset,
+    autoStroke?: boolean,
+    sizeElement?: Vector2,
+    size?: Record<string,Vector2>,
+    sizeGridForced?: Vector2,
+    margin?: Vector2, // how much margin to have at the edge of the page
+    pageSize?: PageSize, // unique size override
+    pageOrientation?: PageOrientation, // unique orientation override
+}
+
+export interface MaterialConfig
+{
+    picker?:Function, 
+    mapper?:MapperConfig,
+    visualizer?:any,
+    splitDims?: Vector2, // these splitDims are only applied to this specific bit of material
+    fileName?: string, // unique filename for this material
+    frontDefault?: any, // if all cards have same front/back, you can just create that canvas once and reuse it this way
+    backDefault?: any,
+}

@@ -39,21 +39,6 @@ Really fun game, but these colorful dollar bills are a true choking hazard once 
 
 {{% /blocks/review-container %}}
 
-{{% settings/settings-container type="material" %}}
-
-{{< settings/settings-box type="game" local_storage="tenBucksConfig" btn_label="Generate Material" game_title="Ten Bucks" defaults="true">}}
-  {{< settings/settings-section heading="Sets" >}}
-    {{< settings/setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< settings/setting-checkbox id="setting-sets-wildWagers" text="Wild Wagers?" >}}
-    {{< settings/setting-checkbox id="setting-sets-zeroRisk" text="Zero Risk?" >}}
-    {{< settings/setting-checkbox id="setting-sets-badInvestment" text="Bad Investment?" >}}
-    {{< settings/setting-checkbox id="setting-sets-actionFund" text="Action Fund?" >}}
-    {{< settings/setting-checkbox id="setting-sets-shoppingSpree" text="Shopping Spree?" >}}
-  {{< /settings/settings-section >}}
-{{< /settings/settings-box >}}
-
-{{% /settings/settings-container %}}
-
 ## Credits
 
 The fonts used are **@TODO** (headings) and **@TODO** (body text). Everything else is mine.

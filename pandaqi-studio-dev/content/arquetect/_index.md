@@ -8,9 +8,3 @@ blurb: "A fast game about designing the best scoring city, despite opponents sta
 downloadLink: "https://drive.google.com/drive/folders/1ydtMKAUdtozQFcBwwR8VoP9TrmmNv_0F"
 
 ---
-
-## Material
-
-{{< settings/settings-box type="game" local_storage="arquetectConfig" game_title="Arquetect" defaults="true" >}}{{< /settings/settings-box >}}
-
-

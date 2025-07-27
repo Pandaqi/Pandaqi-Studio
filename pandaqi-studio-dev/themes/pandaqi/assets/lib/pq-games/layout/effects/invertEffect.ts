@@ -1,17 +1,14 @@
-import EffectsOperation from "./effectsOperation";
-import LayoutEffect from "./layoutEffect";
+import { EffectsOperation } from "./effectsOperation";
+import { LayoutEffect } from "./layoutEffect";
 
-export default class InvertEffect extends LayoutEffect
+export class InvertEffect extends LayoutEffect
 {
     constructor()
     {
         super();
     }
 
-    clone(deep = false)
-    {
-        return new InvertEffect();
-    }
+    clone() { return new InvertEffect(); }
 
     applyToCanvas(ctx:CanvasRenderingContext2D, effOp = new EffectsOperation())
     {
