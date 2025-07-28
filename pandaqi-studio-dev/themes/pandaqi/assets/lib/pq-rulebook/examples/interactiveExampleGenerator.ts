@@ -1,7 +1,7 @@
 import { Vector2, MaterialVisualizer, ResourceLoader } from "lib/pq-games"
 import { InteractiveExample } from "./interactiveExample"
 import { InteractiveExampleSimulator, InteractiveExampleSimulatorParams } from "./interactiveExampleSimulator"
-import { RulesSettings } from "./rulesSettings"
+import { RulebookSettings } from "./rulebookSettings"
 
 export interface InteractiveExampleGeneratorParams
 {
@@ -11,7 +11,7 @@ export interface InteractiveExampleGeneratorParams
     config?: Record<string,any>,
     itemSize?: Vector2,
     pickers?: Record<string, any>,
-    settings?: RulesSettings,
+    settings?: RulebookSettings,
     callback: Function
 }
 
@@ -22,7 +22,7 @@ export class InteractiveExampleGenerator
     pickers: Record<string, any>
     visualizer: MaterialVisualizer
     simulator: InteractiveExampleSimulator
-    settings: RulesSettings
+    settings: RulebookSettings
 
     constructor(p:InteractiveExampleGeneratorParams)
     {

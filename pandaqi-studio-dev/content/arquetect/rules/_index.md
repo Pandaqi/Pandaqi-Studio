@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules/rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+## Setup
 
 Assemble your deck of cards. The more you put in, the longer the game takes. It's recommended to have a nice variety of building categories (some residential, some industry, etcetera).
 
@@ -12,15 +12,11 @@ Now deal the deck until empty. Crucially, you may **never change the order of ca
 
 @TODO: EXAMPLE IMAGE (of recommended first deck + dealing)
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
+## Objective
 
 The game ends when all players are "done" (explained below). Calculate your score: from left to right, sum how much each card scores. The player with the highest scoring city wins!
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
+## Gameplay
 
 Take clockwise turns until done. On your turn, take **one** of two actions.
 
@@ -43,9 +39,7 @@ At the end of your turn, if you're satisfied with your city, you can say you're 
 
 The game ends when no (or only one) player remains.
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="expansions" heading="Expansion" class="force-page-break-before" icon="expansions" icontint="purple" %}}
+## Upgrades
 
 Arquetect has one optional expansion! It includes many new buildings, but also event cards with an **ability**.
 
@@ -56,5 +50,3 @@ This adds one more **action** you can possibly take on your turn.
 If such a card changes hands, the receiver can just rotate it towards themselves (and thus take the action again).
 
 The game also immediately **ends** when any player has **4 (or more) outward facing cards**.
-
-{{% /rules/rules-block %}}

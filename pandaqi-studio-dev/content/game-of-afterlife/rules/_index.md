@@ -2,22 +2,18 @@
 type: "rules"
 ---
 
-{{% rules/rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+## Setup
 
 Print a game board and grab some pens. Each player invents their own unique _icon_ and draws this in the _first_ square of the board.
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
+## Objective
 
 There are two ways to win.
 
 * Be the **last player** to reach a finish.
 * Or be the **first player** to complete the afterlife and return to the start.
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
+## Gameplay
 
 Take clockwise turns until done. 
 
@@ -30,27 +26,14 @@ Most options mean _moving_. To do so, cross out your icon and draw it again some
 
 Once you reach a finish, you enter the **afterlife**. You keep playing, but now you walk _backwards_: from finish to start.
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="actions" heading="Actions" class="force-page-break-before" icon="actions" icontint="yellow" %}}
+## Actions
 
 Below is a table of the possible actions that can appear around a space.
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="expansions" heading="Expansion" class="force-page-break-before" icon="expansion" icontint="yellow" %}}
+## Expansions
 
 Once you've played the base game once or twice, you're ready for the expansion!
 
 In the expansion, spaces can be a special _type_. Execute its effect whenever you land on them.
 
 @TODO: Table of spaces
-
-
-
-
-{{% /rules/rules-block %}}
-
-
-
-

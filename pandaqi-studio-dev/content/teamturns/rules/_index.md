@@ -2,19 +2,15 @@
 type: "rules"
 ---
 
-{{% rules/rules-block heading="Setup" icon="setup" %}}
+## Setup
 
 Give everyone X cards. Once picked up, you may **not** change their order anymore.
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game ends when **everyone is out of cards**. Players count the scores of the 2-card combos they collected; **highest score wins**!
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
 Take clockwise turns from start player until done.
 
@@ -33,9 +29,7 @@ See [Cards & Combos](#cards-and-combos) for the specifics on how they work.
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Cards & Combos" id="cards-and-combos" %}}
+## Cards & Combos
 
 Every card shows a **recipe** (which determines score) and some **food icons**. Some also show an **action**.
 
@@ -49,19 +43,15 @@ If both cards have an action, the action with the _higher number_ is the one you
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Expansions & Variants" id="expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules/rules-block heading="Variants" %}}
+### Variants
 
 This game has no official variants.
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Expansion: Megamoves" %}}
+### Megamoves
 
 This adds cards with some more advanced actions. 
 
@@ -71,13 +61,6 @@ Note that a modifier is _not_ an action, so if a combo only has cards with modif
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Expansion: Cookyclasses" %}}
+## Cookyclasses
 
 This expansion adds cards with some _other_ way of scoring. (@TODO: as usual, see the original idea file for examples, and perhaps give an image/example here.)
-
-{{% /rules/rules-block %}}
-
-{{% /rules/rules-block %}}
-

@@ -2,7 +2,9 @@
 type: "rules"
 ---
 
-{{% rules/rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+## Setup
+
+{{< rules/rules-image-sidebar src="test-image.webp" >}}
 
 Create a deck of cards, but keep the _Emperor_ separate. Shuffle and deal until empty. (It's fine if some players have one more card than others.)
 
@@ -12,15 +14,11 @@ The youngest player becomes the Guardian.
 
 Cards come in three flavors: monsters, shields and bystanders. You can assemble your own custom deck, as long as you make sure they are roughly in the proportions 50% / 25% / 25%.
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
+## Objective
 
 The game ends as soon as a player is **out of cards**. Whoever **has the most cards** wins!
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
+## Gameplay
 
 Turns happen simultaneously.
 
@@ -49,15 +47,13 @@ As soon as somebody smashed a card, the round is over.
 
 Whatever the case, this player becomes the new Guardian.
 
-{{% blocks/remark %}}
+{{% rules/rules-remark %}}
 Never discard the Emperor. Keep it to the side for next round.
-{{% /blocks/remark %}}
+{{% /rules/rules-remark %}}
 
 {{< rules/rules-example id="turn" >}}
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="attacking" heading="Attacking" class="force-page-break-before" icon="expansions" icontint="purple" %}}
+### Attacking
 
 Each card shows somebody **facing right**. By revealing the card upside down, you can make them face **left**.
 
@@ -76,5 +72,3 @@ What is an attack?
 **Bystanders can't be hit**. Other cards can only avoid being hit through special powers.
 
 @TODO: IMAGE EXAMPLE of how to resolve one round (the playful example will be much better in explaining this)
-
-{{% /rules/rules-block %}}

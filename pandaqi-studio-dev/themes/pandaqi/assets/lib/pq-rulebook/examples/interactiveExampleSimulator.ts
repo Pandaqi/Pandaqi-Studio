@@ -1,6 +1,6 @@
 import { MaterialVisualizer, ResourceLoader } from "lib/pq-games"
 import { OutputBuilder } from "./outputBuilder"
-import { RulesSettings } from "./rulesSettings"
+import { RulebookSettings } from "./rulebookSettings"
 
 export interface InteractiveExampleSimulatorParams
 {
@@ -28,7 +28,7 @@ export class InteractiveExampleSimulator
     visualizer: MaterialVisualizer;
     showFullGame: boolean;
     runParallel: boolean;
-    settings: RulesSettings;
+    settings: RulebookSettings;
     custom: any; // for any custom functions or variables we want to tack onto this
 
     constructor(params:InteractiveExampleSimulatorParams = {})
@@ -71,7 +71,7 @@ export class InteractiveExampleSimulator
         if(!this.isHeadless()) { return; }
         if(typeof this.custom[funcName] != 'function')
         {
-            console.error("Function " + funcName + " doesn't exist on custom simulator object.");
+            console.error(`Function ${funcName} doesn't exist on custom simulator object.`);
             return;
         }
         args.unshift(this); // the simulator itself always passed in as first argument; wanted to keep this context clean
@@ -145,7 +145,7 @@ export class InteractiveExampleSimulator
         if(this.isHeadless()) { return; }
         if(typeof object[func] != "function")
         {
-            console.error("Can't output async from function " + func + " on object", object);
+            console.error(`Can't output async from function ${func} on object`, object);
             return;
         }
 
@@ -170,7 +170,7 @@ export class InteractiveExampleSimulator
         if(this.isHeadless()) { return; }
         if(typeof object[drawFunction] != "function")
         {
-            console.error("Can't list images from draw function " + drawFunction + " on object", object);
+            console.error(`Can't list images from draw function ${drawFunction} on object`, object);
             return;
         }
 

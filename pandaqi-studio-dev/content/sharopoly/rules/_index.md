@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules/rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+## Setup
 
 Print a game board. Each player ... 
 
@@ -12,9 +12,7 @@ Print a game board. Each player ...
 
 The money squares are already filled with your starting money. (15 divided into 1 + 2 + 3 + 4 + 5)
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
+## Objective
 
 The game ends when a player goes **bankrupt**, or nobody can **move** anymore, or somebody has used their entire **money square**.
 
@@ -22,9 +20,7 @@ Everybody counts their final score: money + rent of properties you own + ??
 
 Highest score wins!
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
+## Gameplay
 
 Take clockwise turns. Each turn has one step **move**.
 
@@ -42,7 +38,7 @@ There are two possible squares.
 
 {{< rules/rules-example id="turn" >}} @TODO: does a playful rules example make sense?
 
-{{% rules/rules-block id="handling_money" heading="Handling Money" %}}
+### Handling Money
 
 When you receive money, write the _number_ in a free cell of your money square. 
 
@@ -50,9 +46,7 @@ When you pay money, cross out the cells needed to arrive at the correct sum. The
 
 @TODO: EXAMPLE IMAGE?
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="buying_property" heading="Buying Property" %}}
+### Buying Property
 
 To buy property, pay the price indicated, then draw your icon in a free owner slot.
 
@@ -60,9 +54,7 @@ If you don't want to buy, the property goes up for **auction**. Players can bid 
 
 @TODO: EXAMPLE IMAGE (these are all just tiny squares floating right)
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block id="upgrading_and_trading" heading="Upgrading & Trading" %}}
+### Upgrading & Trading
 
 You may _upgrade_ or _trade_ at any moment! 
 
@@ -71,10 +63,6 @@ When trading, you can only exchange tangible goods. (No promises, no things you 
 You can upgrade property as soon as you have **all property of the same color** ( = the full set). Pay the purchase cost again to move up one rent level. (Cross out the old level, circle the new one.)
 
 @TODO: EXAMPLE IMAGE
-
-{{% /rules/rules-block %}}
-
-{{% /rules/rules-block %}}
 
 @TODO:
 

@@ -1,0 +1,599 @@
+import type { RulebookParams } from "../rulebook";
+
+const INLINE_STYLES = `
+/* CORE */
+* 
+{
+    box-sizing: border-box;
+}
+
+html, body 
+{
+    margin: 0;
+    height: 100%;
+}
+
+body
+{
+    padding: 0;
+    margin: 0;
+    
+    font-family: var(--body-font);
+    font-size: calc(var(--font-size-base) + 0.390625vw);
+
+    background-color: var(--bg-color);
+    color: var(--text-color);
+
+    --font-size-base: 12px;
+    --body-font: Raleway, Trebuchet MS, Helvetica;
+    --header-font: Dosis, Trebuchet MS, Helvetica;
+    --border-radius: 0.25em;
+
+    --padding-m: 1em;
+    --margin-m: 1em;
+    --max-content-width: 60em;
+    --main-width: 30em;
+    --sidebar-width: 20em;
+}
+
+.display-mode-light
+{
+    --bg-color: #FCF6F0;
+    --text-color: #222222;
+    --color-light: rgb(252, 228, 203);
+    --color-dark: rgb(63, 38, 33);
+}
+
+.display-mode-dark
+{
+    --text-color: #FCF6E0;
+    --bg-color: #222222;
+    --color-dark: rgb(252, 228, 203);
+    --color-light: rgb(63, 38, 33);
+}
+
+h1,h2,h3,h4,h5,h6
+{
+    text-align: center;
+    font-weight: 900;
+}
+
+blockquote, .rulebook-shared-rule
+{
+    background-color: var(--color-light);
+    border-left: 0.4em solid black;
+    padding: var(--padding-m);
+    display: block;
+    border-radius: var(--border-radius);
+    break-inside: avoid;
+    width: 100%;
+}
+
+p, ul, blockquote, .rulebook-shared-rule, custom
+{
+    max-width: var(--main-width);
+    margin-left: 0;
+}
+
+img
+{
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    break-inside: avoid;
+}
+
+.remark
+{
+    font-style: italic;
+    font-size: 0.67em;
+    border-top: 0.1em solid #AAA;
+    padding: var(--padding-m);
+    border-radius: var(--border-radius);
+    background-color: var(--color-light);
+}
+
+.sidebar
+{
+    float: right;
+    max-width: var(--sidebar-width);
+    margin-left: var(--margin-m);
+}
+
+
+/* TOOLS (Toolbar/Buttons/Interactivity) */
+.rulebook-toolbar
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #221100;
+    color: #FFEEDD;
+    padding: var(--padding-m);
+    gap: var(--margin-m);
+}
+
+button
+{
+    font-family: var(--header-font);
+    font-size: 1em;
+    border: none;
+    border-radius: var(--border-radius);
+    text-transform: uppercase;
+    font-size: 0.67em;
+    cursor: pointer;
+    background-color: var(--color-light);
+    color: var(--color-dark);
+}
+
+button:hover
+{
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}
+
+.rulebook-image-overlay 
+{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: none;
+    background-color: rgba(255,255,255,0.9);
+    z-index: 10000;
+    padding: var(--padding-m);
+    cursor: pointer;
+
+    justify-content: center;
+    align-items: center;
+}
+
+/* SECTIONS */
+.rulebook-section
+{
+    margin: auto;
+    max-width: var(--max-content-width);
+}
+
+.rulebook-content
+{
+    padding-left: var(--padding-m);
+    padding-right: var(--padding-m);
+}
+
+.rulebook-section-header
+{
+    margin-top: var(--margin-m);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    border-radius: var(--border-radius);
+    break-inside: avoid;
+    break-after: avoid;
+}
+
+.rulebook-section-content
+{
+    padding: var(--padding-m);
+    break-before: avoid;
+}
+
+.rulebook-section-arrow
+{
+    margin: var(--margin-m);
+}
+
+.rulebook-section-hierarchy
+{
+    margin: var(--margin-m);
+}
+
+/* ICONS */
+.rulebook-section-header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--margin-m);
+}
+
+.rules-icon {
+    width: 48px;
+    height: 48px;
+    background-image: url(/theme/webp/rules_icons.webp);
+    background-size: 800%;
+}
+
+.rules-icon-setup 
+{
+    background-position-x: 0;
+}
+
+.rules-icon-objective
+{
+    background-position-x: -100%;
+}
+
+.rules-icon-gameplay
+{
+    background-position-x: -200%;
+}
+
+.rules-icon-action
+{
+    background-position-x: -300%;
+}
+
+.rules-icon-scoring
+{
+    background-position-x: -400%;
+}
+
+.rules-icon-upgrades
+{
+    background-position-x: -500%;
+}
+
+.rules-icon-options
+{
+    background-position-x: -600%;
+}
+
+.rules-icon-beware
+{
+    background-position-x: -700%;
+}
+
+
+/* RESPONSIVENESS */
+/* The width here is the point at which main and sidebar will start encroaching on each other */
+@media all and (max-width:45em)
+{
+    p, ul, blockquote, .rulebook-shared-rule, custom
+    {
+        max-width: 20em;
+    }
+}
+
+/* This width is simply the point where text and images CAN'T be side by side anymore */
+@media all and (max-width:35em)
+{
+    p, ul, blockquote, .rulebook-shared-rule, custom
+    {
+        max-width: 100%;
+    }
+
+    .remark
+    {
+        border: none;
+    }
+
+    .sidebar
+    {
+        float: none;
+        max-width: 100%;
+        margin: auto;
+    }
+}
+
+/* PRINTING */
+@page 
+{
+    @bottom-right 
+    {
+        content: counter(page) " of " counter(pages);
+    }
+}
+
+@media print
+{
+    body 
+    { 
+        font-size: 11pt;
+
+        --max-content-width: 60em;
+        --main-width: 30em;
+        --sidebar-width: 20em;
+    }
+
+    /* it's necessary to target the display modes specifically, otherwise it won't override the light/dark mode! */
+    .display-mode-light, .display-mode-dark
+    {
+        --bg-color: #FFFFFF;
+        --text-color: #111111;
+        --color-light: #EEE;
+        --color-dark: #333;
+    }
+
+    p, ul, blockquote, .rulebook-shared-rule, custom
+    {
+        max-width: 66vw;
+    }
+
+    .sidebar
+    {
+        max-width: 33vw;
+    }
+
+    .rulebook-section
+    {
+        max-width: 100%;
+    }
+
+    .rulebook-section-content
+    {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .rulebook-toolbar
+    {
+        display: none;
+    }
+
+    .rulebook-example
+    {
+        display: none;
+    }
+
+}
+
+
+/* RULES TABLES */
+
+/*
+OLD RULES-TABLE STYLING => keep only good/clean bits, remove rest
+
+.rulebook-simple-view
+{
+    .rules-table
+    {
+        .rules-table-entry {
+            .heading-container
+            {
+                background-color: #212121;
+                border-radius: 0.5em;
+                color: white;
+            }
+        }
+    }
+
+}
+
+// This is a special kind of table
+// It holds clickable elements, which have an icon + (name) + description
+// Almost all my games need this: they give an overview of all options, or special actions, etcetera.
+$rules-table-icon-size: 128px;
+$rules-table-icon-size-print: 0.5*$rules-table-icon-size;
+$rules-table-size-print: 0.75*$rules-table-icon-size;
+
+.rules-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax($rules-table-icon-size, 1fr));
+    justify-content: start;
+    align-content: center;
+    gap: 1em;
+    padding: 1em;
+
+    break-inside: avoid;
+
+    &.single-element {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    &.single-line {
+        display: flex;
+        flex-wrap: nowrap;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .rules-table-icon {
+        width: $rules-table-icon-size;
+        height: $rules-table-icon-size;
+        margin: auto;
+        
+        @media print {
+            width: $rules-table-icon-size-print;
+            height: $rules-table-icon-size-print;
+        } 
+    }
+
+    .rules-table-entry {
+        min-width: $rules-table-icon-size;
+        max-width: 2*$rules-table-icon-size;
+        line-height: 100%; // @TODO: not sure why this is needed, but it is, otherwise line height is all out of whack
+
+        .icon-container {
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 1em;
+            cursor: pointer;
+            box-shadow: 0 0.25em 0.25em black;
+            transition: background-color 0.3s, transform 0.3s, box-shadow;
+            display: flex;
+            justify-content: center;
+
+            &:hover {
+                background-color: rgba(255,255,255,0.2);
+                transform: scale(1.1);
+                box-shadow: 0 0.33em 0.33em black;
+            }
+        }
+
+        .heading-container, .desc-container {
+            font-size: 1.0em;
+            padding: 0.5em;
+        }
+
+        .heading-container {
+            background-color: rgba(255,255,255,0.5);
+            margin-top: 1em;
+        }
+
+        &.big {
+            min-width: 2*$rules-table-icon-size;
+            max-width: 4*$rules-table-icon-size;
+        }
+
+        &.huge {
+            min-width: 3*$rules-table-icon-size;
+            max-width: 6*$rules-table-icon-size;
+        }
+
+        &.enormous {
+            min-width: 4*$rules-table-icon-size;
+            max-width: 8*$rules-table-icon-size;
+        }
+    }
+
+    &.single-element {
+        .rules-table-entry {
+            min-width: 100%;
+            max-width: 100%;
+        }
+    }
+
+    &.single-line {
+        .rules-table-entry {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+
+    &.big {
+        grid-template-columns: repeat(auto-fill, minmax(2*$rules-table-icon-size, 1fr));
+
+        .rules-table-entry {
+            min-width: 2*$rules-table-icon-size;
+            max-width: 4*$rules-table-icon-size;
+        }
+    }
+
+    .heading-container, .desc-container {
+        display: none;
+    }
+
+    .rules-table-entry-clicked {
+        .heading-container, .desc-container {
+            display: block;
+        }
+    }
+
+    .rules-table-entry-clicked-full {
+        // @NOTE: grid is designed to be max 4 elements, generally
+        // but I don't like hardcoding, so find a better way ...
+        min-width: 100%;
+        width: 100%;
+        max-width: 100%;
+        grid-column: 1 / 5; 
+    }
+}
+*/
+
+.rulebook-table
+{
+    break-inside: avoid;
+}
+
+/* INTERACTIVE EXAMPLES */
+
+/* 
+.rules-example {
+    padding: 1em;
+    background: rgba(0,0,0,0.1);
+    border-radius: 1em;
+
+    .rules-settings
+    {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        padding: 0.5em;
+    }
+
+    .rules-setting-entry {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    button {
+        padding: 0.5em;
+        width: 100%;
+        background: #521f04;
+        color: beige;
+        font-family: inherit;
+        border: none;
+        font-size: 1.0em;
+        border-radius: 0.5em;
+        filter: drop-shadow(0 0 0.075em #333);
+        cursor: pointer;
+        transition: background 0.3s, color 0.3s, filter 0.3s;
+
+        &:hover {
+            background: #ffe8be;
+            color: #2b1402;
+            filter: drop-shadow(0 0 0.15em #212121);
+        }
+    }
+
+    .ui {
+        display: flex;
+        gap: 0.5em;
+    }
+
+    .example-close-button {
+        display: none;
+        flex-shrink: 8;
+    }
+
+    img {
+        filter: drop-shadow(0 0 0.15em black);
+        max-width: 100%;
+        max-height: min(16vw, 8em);
+    }
+
+    @media print {
+        display: none;
+    }
+}
+*/
+
+`
+
+export const addDefaultRulebookStyles = (node:HTMLElement) =>
+{
+    const style = document.createElement("style");
+    style.innerHTML = INLINE_STYLES;
+    node.appendChild(style);
+}
+
+export const addCustomRulebookStyles = (params:RulebookParams, node:HTMLElement) =>
+{
+    if(params.styles)
+    {
+        const style = document.createElement("style");
+        style.innerHTML = params.styles;
+        node.appendChild(style);
+    }
+
+    if(params.fontBody)
+    {
+        node.style.setProperty("--body-font", params.fontBody);
+    }
+
+    if(params.fontHeader)
+    {
+        node.style.setProperty("--header-font", params.fontHeader);
+    }
+}
+
+export const ICONS = ["setup", "objective", "gameplay", "action", "scoring", "upgrades", "options", "beware"];

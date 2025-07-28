@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules/rules-block heading="Setup" icon="setup" %}}
+## Setup
 
 Only use the dollar bills with numbers **1** up to and including the **number of players**. (Example: with 4 players, use dollars 1--4.)
 
@@ -12,19 +12,15 @@ Pick anyone to be start player.
 
 **Low player count?** With only 2 or 3 players, the base game can be too "simplistic". It's recommended to already add (any) expansion.
 
-{{% blocks/remark %}}
+{{% rules/rules-remark %}}
 For the base game, just ignore special icons on the dollar bills.
-{{% /blocks/remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game ends when a player has claimed **10(+) money** in total. They win!
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
 From start player, take clockwise turns until done. 
 
@@ -46,19 +42,15 @@ That's it!
 
 @TODO: IMAGE EXAMPLE
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Expansions & Variants" id="expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules/rules-block heading="Variants" %}}
+### Variants
 
 This game has no official variants.
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Expansion: Wild Wagers" %}}
+### Wild Wagers
 
 This expansion adds the **wild bill**. It is, as expected, a wildcard.
 
@@ -69,9 +61,7 @@ Normally, it keeps its value after claiming. But you _can_ play with the followi
 
 @TODO: EXAMPLE IMAGE (side-view)?
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Expansion: Zero Risk" %}}
+### Zero Risk
 
 This expansion adds a large number of **0-dollar bills**.
 
@@ -85,9 +75,7 @@ It also gives a new way to **win**:
 
 @TODO: EXAMPLE IMAGE (side-view)
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Expansion: Bad Investment" %}}
+### Bad Investment
 
 This expansion adds some **weird numbers** (-2, -1, 7) and **multinumbers**. These show multiple different values, and can be placed on any one of those stacks.
 
@@ -95,9 +83,7 @@ When it comes to the Diversity Law, the value at the _top_ of a stack counts.
 
 @TODO: EXAMPLE IMAGE (side-view)
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Expansion: Action Fund" %}}
+### Action Fund
 
 This expansion requires no extra material. From now on, the **special icons** on dollar bills matter!
 
@@ -116,9 +102,7 @@ ACTION IDEAS
 * Allow bills of _different values_ in the _same stack_. (In that case, the "stack type" is whatever is on top?)
 * TURN ORDER is absolutely crucial here, so find a way to change it with powers.
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Expansion: Shopping Spree" %}}
+### Shopping Spree
 
 TWO IDEAS here:
 * Add PRODUCTS that people can BUY with the money they claimed. This gives a permanent big power---at the cost of a setback to yourself, of course.
@@ -131,8 +115,3 @@ GREAT IDEA FOR PRODUCT TO BUY:
 STUFF TO TWEAK (can overlap with actions to some extent):
 * Different money values have different "max stacks". (For example, with 1-dollar bills, you already get an instant "claim" if it only has size 4?)
 * Something with bluffing, or predicting, or keeping your money hidden, or getting information about hand cards?
-
-{{% /rules/rules-block %}}
-
-{{% /rules/rules-block %}}
-

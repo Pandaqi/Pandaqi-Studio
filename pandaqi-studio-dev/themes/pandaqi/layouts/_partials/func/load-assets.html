@@ -14,3 +14,9 @@
     {{ $script.Publish }}
     <script async defer src="{{ $script.RelPermalink }}"></script>
 {{ end }}
+
+{{ $is_rulebook := strings.Contains $url_prefixed "/rules/" }}
+{{ if and (not $res) $is_rulebook }}
+    {{ $script_default := resources.Get "/lib/rulebook-default.ts" | js.Build "/rulebook-default.js" | minify }}
+    <script async defer src="{{ $script_default.RelPermalink }}"></script>
+{{ end }}

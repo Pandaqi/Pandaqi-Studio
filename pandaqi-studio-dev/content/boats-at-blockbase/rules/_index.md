@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules/rules-block heading="Setup" icon="setup" %}}
+## Setup
 
 Generate/pick a paper and print it.
 
@@ -12,15 +12,11 @@ The Tetris shape displayed in the top-left becomes the current "drawing shape". 
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game ends as soon as one player **can't move anymore**. Players calculate their **score** by checking all squares they "encircled" during the game.
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
 Take clockwise turns until done. On your turn, draw the current (Tetris) **shape**.
 
@@ -34,13 +30,11 @@ That's it!
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Expansions" id="expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules/rules-block heading="Variant: Solo Ships" %}}
+### Variant: Solo Ships
 
 Pick this option if you don't like the high interaction from the base game and want players to just play solo.
 
@@ -53,9 +47,7 @@ This also has a few other benefits.
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules/rules-block %}}
-
-{{% rules/rules-block heading="Expansion: New Routes" %}}
+### Expansion: New Routes
 
 This expansion adds more advanced actions (called PATHERS and LIMITERS). 
 
@@ -66,9 +58,3 @@ They explain themselves on the paper. Below are some **clarifications** to remov
 * An icon is inside an **"encircled area"** if it's completely surrounded by edges of other shapes, with no gap. The original edge of the board is considered a gap/"unused".
 
 @TODO: EXAMPLE IMAGE
-
-{{% /rules/rules-block %}}
-
-
-{{% /rules/rules-block %}}
-

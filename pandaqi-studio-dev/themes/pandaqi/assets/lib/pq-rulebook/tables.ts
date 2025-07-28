@@ -1,4 +1,6 @@
-export interface RulesEntryData
+import { RulebookParams } from "./rulebook"
+
+export interface RulebookEntryData
 {
     heading: string,
     desc: string,
@@ -7,10 +9,9 @@ export interface RulesEntryData
     frame?: number,
     sheetURL?: string,
     sheetWidth?: number,
-    // iconPrefix?: string => dropped support for this, as it's just a nasty useless exception that shouldn't be used anyway
 }
 
-export interface RulesTableParams
+export interface RulebookTableData
 {
     sheetURL?: string
     sheetWidth?: number
@@ -18,13 +19,22 @@ export interface RulesTableParams
     class?: string
 }
 
-export const convertDictToRulesTableHTML = (dict:Record<string,any>, props:Record<string,string>, params:RulesTableParams = {}) =>
+export interface RulebookTableParams
+{
+    id?: string,
+    node?: HTMLElement,
+    useExistingHTML?: boolean, // if true, it doesn't build the table but accepts whatever HTML is already inside the node
+    config?: RulebookTableData
+    entries?: Record<string,RulebookEntryData>
+}
+
+export const convertDictToRulesTableHTML = (dict:Record<string,any>, props:Record<string,string>, params:RulebookTableData = {}) =>
 {
     return convertRulesTableDictToHTML( convertDictToRulesTableDict(dict, props), params);
 }
 
 // This is just a helper function to easily map any set of data to the right format for a RulesTable to display
-export const convertDictToRulesTableDict = (dict:Record<string,any>, props:Record<string,string>) : Record<string,RulesEntryData> =>
+export const convertDictToRulesTableDict = (dict:Record<string,any>, props:Record<string,string>) : Record<string,RulebookEntryData> =>
 {
     const newDict = {};
     const defProps = ["heading", "desc", "class", "icon", "frame", "sheetURL", "sheetWidth"]; // @NOTE: should be the same as the interface keys of RulesEntryData
@@ -42,12 +52,12 @@ export const convertDictToRulesTableDict = (dict:Record<string,any>, props:Recor
     return newDict;
 }
 
-export const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, params:RulesTableParams = {}) =>
+export const convertRulesTableDictToHTML = (dict:Record<string,RulebookEntryData>, params:RulebookTableData = {}) =>
 {
     const cont = document.createElement("div"); 
 
     const table = document.createElement("section");
-    table.classList.add("rules-table");
+    table.classList.add("rulebook-table");
     cont.appendChild(table);
     if(params.class) { table.classList.add(params.class); }
 
@@ -61,7 +71,7 @@ export const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, 
     for(const [key,data] of Object.entries(dict))
     {
         const entry = document.createElement("div");
-        entry.classList.add("rules-table-entry", "rules-table-entry-clicked");
+        entry.classList.add("rulebook-table-entry", "rulebook-table-entry-clicked");
         if(params.class) { entry.classList.add(params.class); }
         table.appendChild(entry);
 
@@ -70,7 +80,7 @@ export const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, 
         entry.appendChild(iconCont);
 
         const icon = document.createElement("div");
-        icon.classList.add("rules-table-icon", "icon-" + data.icon);
+        icon.classList.add("rulebook-table-icon", "icon-" + data.icon);
 
         const sheetURL = data.sheetURL ?? params.sheetURL;
         const sheetWidth = data.sheetWidth ?? (params.sheetWidth ?? 8);
@@ -102,45 +112,37 @@ export const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, 
     return cont;
 }
 
-export class RulesTable
+export class RulebookTable
 {
+    id: string
     node: HTMLElement;
-    entries: RulesEntry[];
+    entries: RulebookEntry[];
 
-    fromNode(node: HTMLElement)
+    constructor(params:RulebookTableParams)
     {
-        this.node = node;
-        this.node.dataset.pqRulebookChecked = "true";
-        this.entries = [];
+        this.id = params.id;
+        this.node = params.node;
 
-        const entryNodes = Array.from(node.getElementsByClassName("rules-table-entry"));
+        if(!params.useExistingHTML) 
+        {
+            const cont = convertRulesTableDictToHTML(params.entries, params.config);
+            this.node.parentElement.replaceChild(cont, this.node);
+            this.node = cont;
+        }
+
+        const entryNodes = Array.from(this.node.getElementsByClassName("rulebook-table-entry"));
         for(const entryNode of entryNodes)
         {
-            const entryObj = new RulesEntry(entryNode);
-            this.entries.push(entryObj);
+            this.entries.push(new RulebookEntry(entryNode));
         }
         
         return this;
     }
-
-    fromDictionaryToHTML(dict:Record<string,RulesEntryData>)
-    {
-        
-    }
-
-    toggleSimpleView(simple = true)
-    {
-        for(const entry of this.entries)
-        {
-            entry.toggleSimpleView(simple);
-        }
-    }
 }
 
-export class RulesEntry 
+export class RulebookEntry 
 {
     node: HTMLElement;
-    turnFullWidthOnClick: boolean;
     heading: HTMLElement;
     desc: HTMLElement;
     icon: HTMLElement;
@@ -148,8 +150,6 @@ export class RulesEntry
     constructor(node: any)
     {   
         this.node = node;
-
-        this.turnFullWidthOnClick = this.node.classList.contains("click-full-width");
 
         this.heading = this.node.getElementsByClassName("heading-container")[0] as HTMLElement;
         this.desc = this.node.getElementsByClassName("desc-container")[0] as HTMLElement;
@@ -159,28 +159,43 @@ export class RulesEntry
         this.toggle(); // to fold it at start
     }
 
-    isFolded()
-    {
-        return this.node.dataset.folded == "true"
-    }
-
+    isFolded() { return this.node.dataset.folded == "true" }
     toggle()
     {
         if(this.isFolded()) {
             this.node.dataset.folded = "false";
-            this.node.classList.add("rules-table-entry-clicked");
-            if(this.turnFullWidthOnClick) { this.node.classList.add("rules-table-entry-clicked-full"); }
+            this.node.classList.add("rulebook-table-entry-clicked");
         } else {
             this.node.dataset.folded = "true";
-            this.node.classList.remove("rules-table-entry-clicked");
-            if(this.turnFullWidthOnClick) { this.node.classList.remove("rules-table-entry-clicked-full"); }
+            this.node.classList.remove("rulebook-table-entry-clicked");
         }
     } 
-    
-    toggleSimpleView(simple = true)
-    {
-        if(this.isFolded() != simple) { return; }
-        this.toggle();
-    }
 }
 
+export const createRulebookTables = (params:RulebookParams, node:HTMLElement) =>
+{
+    const tables = [];
+    const tablesData = params.tables ?? {};
+    
+    // first check for existing nodes with existing HTML to register
+    const existingNodes = Array.from(node.getElementsByClassName("rulebook-table")) as HTMLElement[];
+    for(const node of existingNodes)
+    {
+        if(node.innerHTML.trim().length <= 0) { continue; }
+        tables.push(new RulebookTable({ node: node, useExistingHTML: true }));
+    }
+
+    // then look for custom IDs that need to build the table from JS
+    for(const [id,tableData] of Object.entries(tablesData))
+    {
+        const nodesMatching = Array.from(node.querySelectorAll(`[data-table="${id}"]`)) as HTMLElement[];
+        for(const nodeMatch of nodesMatching)
+        {
+            tableData.node = nodeMatch;
+            tableData.id = id;
+            tables.push(new RulebookTable(tableData));
+        }
+    }
+
+    return tables;
+}

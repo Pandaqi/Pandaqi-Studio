@@ -1,26 +1,26 @@
 
 // TO DO: Some day, all of this needs to generalized and put into PQ_GAMES
 // (most of this would be in tools > dom, perhaps the main settings under website folder)
-export enum SettingsType
+export enum SettingType
 {
     TEXT,
     NUMBER,
     RADIO,
-    CHECKBOX,
+    CHECK,
     ENUM,
 }
 
 export interface SettingsParams
 {
     id?: string,
-    type?: SettingsType,
+    type?: SettingType,
     label?: string,
     default?: string,
     values?: string|string[],
     keys?: string|string[]
 }
 
-export class RulesSettings
+export class RulebookSettings
 {
     nodes:Record<string,HTMLElement>
     node:HTMLElement
@@ -29,7 +29,7 @@ export class RulesSettings
     {
         this.nodes = {};
         this.node = document.createElement("div");
-        this.node.classList.add("rules-settings");
+        this.node.classList.add("rulebook-settings");
     }
 
     getContainer() { return this.node; }
@@ -45,10 +45,10 @@ export class RulesSettings
     get(id:string)
     {
         const nodeContainer = this.nodes[id];
-        if(!nodeContainer) { console.error("Can't read non-existing setting " + id); return null; }
+        if(!nodeContainer) { console.error(`Can't read non-existing setting ${id}`); return null; }
 
         const inputs = nodeContainer.getElementsByClassName("rules-settings-input");
-        if(inputs.length <= 0) { console.error("Setting with id " + id + " has no readable inputs!"); return null; }
+        if(inputs.length <= 0) { console.error(`Setting with id ${id} has no readable inputs!`); return null; }
 
         const nodeInput : HTMLElement = inputs[0] as HTMLElement;
 
@@ -78,8 +78,8 @@ export class RulesSettings
     {
         const div = document.createElement("div");
         const id = params.id;
-        div.id = "rules-setting-" + id;
-        div.classList.add("rules-setting-entry");
+        div.id = "rulebook-setting-" + id;
+        div.classList.add("rulebook-setting-entry");
 
         const label = document.createElement("label");
         label.innerHTML = params.label ?? id;
@@ -92,20 +92,20 @@ export class RulesSettings
         const def = params.default ?? values[0];
 
         let input;
-        const type = params.type ?? SettingsType.TEXT;
-        if(type == SettingsType.TEXT) {
+        const type = params.type ?? SettingType.TEXT;
+        if(type == SettingType.TEXT) {
             input = document.createElement("input");
             input.type = "text";
             input.value = def;
-        } else if(type == SettingsType.NUMBER) {
+        } else if(type == SettingType.NUMBER) {
             input = document.createElement("input");
             input.type = "number";
             input.value = def;
-        } else if(type == SettingsType.CHECKBOX) {
+        } else if(type == SettingType.CHECK) {
             input = document.createElement("input");
             input.type = "checkbox";
             if(def) { input.checked = true; } 
-        } else if(type == SettingsType.RADIO) {
+        } else if(type == SettingType.RADIO) {
 
             input = document.createElement("div");
             input.dataset.type = "radio";
@@ -132,7 +132,7 @@ export class RulesSettings
                 input.appendChild(span);
             }
 
-        } else if(type == SettingsType.ENUM) {
+        } else if(type == SettingType.ENUM) {
 
             input = document.createElement("select");
             input.id = id;
@@ -150,7 +150,7 @@ export class RulesSettings
             }
         }
 
-        input.classList.add("rules-settings-input");
+        input.classList.add("rulebook-settings-input");
         div.appendChild(input);
         return div;
     }

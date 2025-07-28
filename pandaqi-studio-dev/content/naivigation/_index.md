@@ -1,15 +1,13 @@
 ---
 type: "project"
-# collection: "visit"
+collection: "visit"
 
 title: "Naivigation"
 blurb: "A universe of simple party board games about driving one vehicle together, at the same time, without crashing too much."
 
-color: "green"
-
 downloadLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-LzrkwfBM_de"
 
-date: 2025-10-26
+date: 2025-06-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic", "simulation"]
