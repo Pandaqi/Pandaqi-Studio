@@ -5,20 +5,22 @@ import type { RulebookParams } from "../rulebook";
 
 export interface InteractiveExampleParams
 {
-    id: string, // its unique identifier 
+    id?: string, // its unique identifier 
     node?: HTMLElement, // the real node to attach it to
     callback?: Function, // the function called when you press that button
     buttonText?: string,
-    className?: string,
     sidebar?: boolean, // place it in the sidebar?
     settings?: RulebookSettings
 }
 
 const FAKE_PLAYER_NAMES = ["Anna", "Bella", "Chris", "Dennis", "Erik", "Frank", "Gini", "Harry", "Ingrid", "James", "Kayla", "Lily"];
+const DEFAULT_EXAMPLE_CLASS = "rulebook-example";
 
 export const createInteractiveExamples = (params:RulebookParams, node:HTMLElement) =>
 {
     const examples = [];
+
+    // attach any matching nodes to the logic behind them
     const examplesData = params.examples ?? {};
     for(const [id,exampleData] of Object.entries(examplesData))
     {
@@ -31,13 +33,21 @@ export const createInteractiveExamples = (params:RulebookParams, node:HTMLElemen
         }
     }
 
+    // create an example too for ones without logic (just for completeness' sake)
+    const exampleClass = params.exampleClass ?? DEFAULT_EXAMPLE_CLASS;
+    const existingNodes = Array.from(node.getElementsByClassName(exampleClass)) as HTMLElement[];
+    for(const node of existingNodes)
+    {
+        if(Object.keys(examplesData).includes(node.dataset.example)) { continue; }
+        examples.push(new InteractiveExample());
+    }
+
     return examples;
 }
 
 export class InteractiveExample 
 {
     id: string;
-    className: string;
     buttonText: string;
     outputBuilder: OutputBuilder;
     contentNode: HTMLElement;
@@ -49,20 +59,25 @@ export class InteractiveExample
     busy:boolean;
     settings: RulebookSettings;
     
-    constructor(config:InteractiveExampleParams)
+    constructor(config:InteractiveExampleParams = {})
     {
         this.id = config.id;
         this.busy = false;
 
         this.generateCallback = config.callback;
-        this.className = config.className ?? "rulebook-example";
         
         this.buttonText = config.buttonText ?? "Give me an example turn!"
         this.settings = config.settings;
 
         this.node = config.node;
+        if(!this.node) { this.node = document.querySelector(`[data-example="${this.id}"]`); }; // if no node given, try to find it from existing HTML
         if(!this.node) { console.error(`Interactive example cannot find its button/node with id ${this.id}`); return; }
         this.createHTML();
+
+        if(config.sidebar)
+        {
+            this.node.classList.add("sidebar");
+        }
 
         this.outputBuilder = new OutputBuilder(this.contentNode);
     }
@@ -70,10 +85,7 @@ export class InteractiveExample
     createHTML()
     {
         // create root nodes to hold settings/tools and the actual content separately
-        if(this.settings)
-        {
-            this.node.appendChild(this.settings.getContainer())
-        }
+        if(this.settings) { this.node.appendChild(this.settings.getContainer()) }
 
         const nodeUI = document.createElement("span");
         this.node.appendChild(nodeUI);
@@ -100,7 +112,7 @@ export class InteractiveExample
             btn.style.opacity = "0.75";
             btn.innerHTML = "Generating ...";
 
-            await this.generateCallback();
+            await this.generateCallback(this);
 
             this.closeButton.style.display = "block";
             this.busy = false;

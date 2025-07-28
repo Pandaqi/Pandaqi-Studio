@@ -13,7 +13,6 @@
             after: (flow) => { console.log("after", flow) },
         };
     </script>
-    <script src="/lib/paged.polyfill.js"></script>
 </head>
 {{ end }}
 
@@ -27,4 +26,5 @@
 
 {{ define "footer" }}
     {{ partial "func/load-assets.html" . }}
+    <script defer src="/lib/paged.polyfill.js"></script>
 {{ end }}

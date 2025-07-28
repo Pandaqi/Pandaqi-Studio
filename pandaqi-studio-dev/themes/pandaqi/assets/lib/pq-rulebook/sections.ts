@@ -34,6 +34,17 @@ export class RulebookSection
     getLevel() { return this.level; }
 }
 
+export const createRootSection = (params:RulebookParams) =>
+{
+    const mainHeading = document.createElement("h1");
+    mainHeading.innerHTML = "Rulebook";
+    const sectionRoot = new RulebookSection(mainHeading);
+    sectionRoot.hideHeader = true;
+    sectionRoot.forbidFolding = true;
+    params._sectionRoot = sectionRoot;
+    return sectionRoot;
+}
+
 export const getHeadingID = (s:string) => 
 { 
     let humanized = s.replaceAll(" ", "-").toLowerCase(); 

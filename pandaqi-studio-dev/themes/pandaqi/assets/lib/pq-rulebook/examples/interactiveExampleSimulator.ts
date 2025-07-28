@@ -10,6 +10,9 @@ export interface InteractiveExampleSimulatorParams
     showFullGame?: boolean,
     custom?: any,
     runParallel?: boolean,
+    settings?: RulebookSettings,
+    pickers?: Record<string,Function>,
+    visualizer?: MaterialVisualizer,
     callbackInitStats?: () => any,
     callbackFinishStats?: (s:InteractiveExampleSimulator) => void
 }
@@ -24,7 +27,7 @@ export class InteractiveExampleSimulator
     stats:any;
     callbackInitStats: Function;
     callbackFinishStats: Function;
-    pickers: Record<string,any>;
+    pickers: Record<string,Function>;
     visualizer: MaterialVisualizer;
     showFullGame: boolean;
     runParallel: boolean;
@@ -36,6 +39,9 @@ export class InteractiveExampleSimulator
         this.enabled = params.enabled ?? false;
         this.iterations = params.iterations ?? 0;
         this.silent = params.silent ?? false;
+        this.settings = params.settings;
+        this.pickers = params.pickers ?? {};
+        this.visualizer = params.visualizer;
         this.callbackInitStats = params.callbackInitStats;
         this.callbackFinishStats = params.callbackFinishStats;
         this.custom = params.custom ?? {};
@@ -48,10 +54,7 @@ export class InteractiveExampleSimulator
     isHeadless() { return this.enabled; }
     setOutputBuilder(o:OutputBuilder) { this.outputBuilder = o; }
     setCallback(c:Function) { this.callback = c; }
-    setPickers(p:Record<string,any>) { this.pickers = p; }
     getPicker(key:string) { return this.pickers[key]; }
-    setVisualizer(v:MaterialVisualizer) { this.visualizer = v; }
-    getVisualizer() { return this.visualizer; }
 
     displayFullGame()
     {

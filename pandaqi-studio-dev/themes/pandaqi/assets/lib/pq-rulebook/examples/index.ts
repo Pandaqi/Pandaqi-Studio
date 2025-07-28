@@ -1,5 +1,5 @@
 export * from "./interactiveExample";
-export * from "./interactiveExampleGenerator";
+export * from "./generation";
 export * from "./interactiveExampleSimulator";
 export * from "./outputBuilder";
 export * from "./rulebookSettings";

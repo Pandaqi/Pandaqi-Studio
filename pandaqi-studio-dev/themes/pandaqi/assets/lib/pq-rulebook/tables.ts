@@ -5,7 +5,6 @@ export interface RulebookEntryData
     heading: string,
     desc: string,
     class?: string,
-    icon?: string,
     frame?: number,
     sheetURL?: string,
     sheetWidth?: number,
@@ -25,7 +24,7 @@ export interface RulebookTableParams
     node?: HTMLElement,
     useExistingHTML?: boolean, // if true, it doesn't build the table but accepts whatever HTML is already inside the node
     config?: RulebookTableData
-    entries?: Record<string,RulebookEntryData>
+    data?: Record<string,RulebookEntryData>
 }
 
 export const convertDictToRulesTableHTML = (dict:Record<string,any>, props:Record<string,string>, params:RulebookTableData = {}) =>
@@ -37,7 +36,7 @@ export const convertDictToRulesTableHTML = (dict:Record<string,any>, props:Recor
 export const convertDictToRulesTableDict = (dict:Record<string,any>, props:Record<string,string>) : Record<string,RulebookEntryData> =>
 {
     const newDict = {};
-    const defProps = ["heading", "desc", "class", "icon", "frame", "sheetURL", "sheetWidth"]; // @NOTE: should be the same as the interface keys of RulesEntryData
+    const defProps = ["heading", "desc", "class", "icon", "frame", "sheetURL", "sheetWidth"]; // @NOTE: should be the same as the interface keys of RulesEntryData => is there a way to AUTOMATE getting them then?
     for(const [key,data] of Object.entries(dict))
     {
         const obj = {};
@@ -80,7 +79,7 @@ export const convertRulesTableDictToHTML = (dict:Record<string,RulebookEntryData
         entry.appendChild(iconCont);
 
         const icon = document.createElement("div");
-        icon.classList.add("rulebook-table-icon", "icon-" + data.icon);
+        icon.classList.add("rulebook-table-icon");
 
         const sheetURL = data.sheetURL ?? params.sheetURL;
         const sheetWidth = data.sheetWidth ?? (params.sheetWidth ?? 8);
@@ -125,7 +124,7 @@ export class RulebookTable
 
         if(!params.useExistingHTML) 
         {
-            const cont = convertRulesTableDictToHTML(params.entries, params.config);
+            const cont = convertRulesTableDictToHTML(params.data, params.config);
             this.node.parentElement.replaceChild(cont, this.node);
             this.node = cont;
         }
@@ -172,13 +171,16 @@ export class RulebookEntry
     } 
 }
 
+const DEFAULT_TABLE_CLASS = "rulebook-table";
+
 export const createRulebookTables = (params:RulebookParams, node:HTMLElement) =>
 {
     const tables = [];
     const tablesData = params.tables ?? {};
     
     // first check for existing nodes with existing HTML to register
-    const existingNodes = Array.from(node.getElementsByClassName("rulebook-table")) as HTMLElement[];
+    const className = params.tableClass ?? DEFAULT_TABLE_CLASS;
+    const existingNodes = Array.from(node.getElementsByClassName(className)) as HTMLElement[];
     for(const node of existingNodes)
     {
         if(node.innerHTML.trim().length <= 0) { continue; }

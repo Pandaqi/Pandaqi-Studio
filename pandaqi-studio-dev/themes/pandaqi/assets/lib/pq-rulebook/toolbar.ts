@@ -1,6 +1,11 @@
 import type { RulebookParams } from "./rulebook";
 import { DEFAULT_SECTION_CONTENT_CLASS, DEFAULT_SECTION_HEADER_CLASS, getAllSections, getSectionAsFlatHTML, RulebookSection, unfoldAllSectionsAbove } from "./sections";
 
+export const isLocalFile = () =>
+{
+    return window.location.protocol == "file:";
+}
+
 export const toggleSectionFold = (node:HTMLElement, folded = true) =>
 {
     if(node.dataset.nofold) { return; }
@@ -83,14 +88,16 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
     const buttonPrint = document.createElement("button");
     div.appendChild(buttonPrint);
     buttonPrint.innerHTML = "Print"
-    buttonPrint.addEventListener("click", async () => {
-        const pagedJSAvailable = window.PagedPolyfill;
-        if(pagedJSAvailable)
+    buttonPrint.addEventListener("click", async () => 
+    {
+        // @ts-ignore
+        const pagedJS = window.PagedPolyfill;
+        if(pagedJS)
         {
             const div = getSectionAsFlatHTML(params._sectionRoot, params);
             node.innerHTML = "";
             document.body.appendChild(div);
-            await window.PagedPolyfill.preview();
+            await pagedJS.preview();
             print();
             return;
         }
@@ -124,6 +131,28 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
         document.body.classList.add(`display-mode-${ curMode }`);
     });
     document.body.classList.add(`display-mode-${ curMode }`);
+
+    const hasInteractiveExamples = Object.keys(params.examples ?? {}).length > 0;
+    if(isLocalFile() && hasInteractiveExamples)
+    {
+        const cont = document.createElement("div");
+        div.appendChild(cont);
+
+        const inputAssets = document.createElement("input");
+        cont.appendChild(inputAssets)
+        inputAssets.type = "file";
+        inputAssets.multiple = true;
+
+        const buttonAssets = document.createElement("button");
+        cont.appendChild(buttonAssets);
+        buttonAssets.innerHTML = "Upload";
+        buttonAssets.title = "Select all files in the assets folder and upload them to make interactive examples work";
+        buttonAssets.addEventListener("click", (ev) => {
+            // @TOD: it's ugly, but it's the only way until I rewrite the interactive example code
+            // @ts-ignore
+            window.pqRulebookCustomResources = inputAssets.files;
+        });
+    }
 
     return div; 
 }

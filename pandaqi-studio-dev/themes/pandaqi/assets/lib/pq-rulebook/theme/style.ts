@@ -58,6 +58,11 @@ h1,h2,h3,h4,h5,h6
     font-weight: 900;
 }
 
+h2
+{
+    string-set: title content(text);
+}
+
 blockquote, .rulebook-shared-rule
 {
     background-color: var(--color-light);
@@ -286,7 +291,14 @@ button:hover
 {
     @bottom-right 
     {
-        content: counter(page) " of " counter(pages);
+        content: counter(page) " / " counter(pages);
+    }
+
+    @top-right
+    { 
+        content: string(title);
+        font-style: italic;
+        opacity: 0.5;
     }
 }
 
@@ -566,6 +578,7 @@ $rules-table-size-print: 0.75*$rules-table-icon-size;
     }
 }
 */
+
 
 `
 

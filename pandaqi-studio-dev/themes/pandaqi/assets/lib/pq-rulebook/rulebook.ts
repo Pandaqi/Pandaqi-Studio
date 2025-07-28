@@ -1,6 +1,6 @@
 import { createInteractiveExamples, InteractiveExampleParams } from "./examples/interactiveExample";
 import { parseInput } from "./parser/parser";
-import { findSections, getSectionAsFlatHTML, makeSectionInteractiveRecursively, RulebookSection } from "./sections";
+import { createRootSection, findSections, makeSectionInteractiveRecursively, RulebookSection } from "./sections";
 import { createRulebookTables, RulebookTableParams } from "./tables";
 import { addCustomRulebookStyles, addDefaultRulebookStyles } from "./theme/style";
 import { createToolbar, makeImagesClickable, makeInternalAnchorsWork } from "./toolbar";
@@ -17,6 +17,7 @@ export interface RulebookParams
     fontHeader?: string,
     headerIcons?: string[],
     hideHeaderIcons?: boolean,
+    usePagedForPrint?: boolean,
 
     // special elements (examples, rules tables, etc)
     exampleClass?: string,
@@ -24,12 +25,24 @@ export interface RulebookParams
     tableClass?: string,
     tables?: Record<string,RulebookTableParams>
 
-    // dynamic stuff used by system
+    // dynamic stuff used by system (hence underscore before)
     _sectionRoot?: RulebookSection
 }
 
 export const loadRulebook = (params:RulebookParams = {}) =>
 {
+    if(params.usePagedForPrint)
+    {
+        // this prevents paged from running automatically upon load; we only want to use it when we print
+        // we want to do this absolutely as early as possible to make sure we're on time
+        // @ts-ignore
+        window.PagedConfig = 
+        {
+            auto: false,
+            after: (flow) => { console.log("[Rulebook] Paged.js preview done", flow) },
+        };
+    }
+
     window.addEventListener("load", () => 
     {
         // get rulebook content
@@ -38,15 +51,10 @@ export const loadRulebook = (params:RulebookParams = {}) =>
         node.parentElement.insertBefore(toolbar, node);
 
         // divide into sections hierarchy
-        const mainHeading = document.createElement("h1");
-        mainHeading.innerHTML = "Rulebook";
-        const sectionRoot = new RulebookSection(mainHeading);
-        sectionRoot.hideHeader = true;
-        sectionRoot.forbidFolding = true;
-        params._sectionRoot = sectionRoot;
-
+        const sectionRoot = createRootSection(params);
         findSections(node, sectionRoot);
         node.appendChild(makeSectionInteractiveRecursively(sectionRoot, undefined, params));
+        console.log("[Rulebook] Sections", sectionRoot);
 
         // add basic qol interactivity
         makeImagesClickable(node);
@@ -55,6 +63,7 @@ export const loadRulebook = (params:RulebookParams = {}) =>
         // register and activate special tools
         const interactiveExamples = createInteractiveExamples(params, node);
         const rulesTables = createRulebookTables(params, node);
+        console.log("[Rulebook] Examples & Tables", interactiveExamples, rulesTables);
 
         // insert stylesheet
         addDefaultRulebookStyles(document.head);
