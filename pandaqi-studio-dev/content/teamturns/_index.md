@@ -4,7 +4,7 @@ type: "project"
 title: "Teamturns"
 blurb: "A game where you're forced to combine your card with a new team member every turn, uncertain if their input will strengthen your card ... or ruin it."
 
-downloadLink: "https://drive.google.com/drive/folders/1izrsVD_t29Sw-NkJaqayWLo0lWTYWIfS"
+driveLink: "https://drive.google.com/drive/folders/1izrsVD_t29Sw-NkJaqayWLo0lWTYWIfS"
 
 date: 2026-05-26
 

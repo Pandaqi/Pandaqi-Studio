@@ -4,7 +4,7 @@ type: "project"
 title: "Mapped Out"
 blurb: "Design the treasure map to make the most of the random route you were given at the start."
 
-downloadLink: "https://drive.google.com/drive/folders/1_jKU6uzGmq2h1d1IVBt3R_kadOrny3vB"
+driveLink: "https://drive.google.com/drive/folders/1_jKU6uzGmq2h1d1IVBt3R_kadOrny3vB"
 
 date: 2026-01-26
 

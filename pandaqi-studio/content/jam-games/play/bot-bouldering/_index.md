@@ -13,7 +13,6 @@ categories: ["game", "desktop", "game-jam"]
 tags: []
 themes: ["2D"]
 
-downloadLink: "http://pandaqi.itch.io/bot-bouldering/"
 externalLinks:
   - label: "Play"
     url: "http://pandaqi.itch.io/bot-bouldering/"

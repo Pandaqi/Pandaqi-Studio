@@ -2,6 +2,54 @@ import Point from "js/pq_games/tools/geometry/point";
 
 const CONFIG =
 {
+    _settings:
+    {
+        playerCount:
+        {
+            type: SettingType.NUMBER,
+            min: 2,
+            max: 9,
+            default: 4
+        },
+
+        firstGame:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "First Game(s)?",
+            remark: "Everyone gets the same Mission, to simplify learning and teaching the game."
+        },
+
+        expansions:
+        {
+            type: SettingType.GROUP,
+
+            nastyNodes:
+            {
+                type: SettingType.CHECK,
+                label: "Nasty Nodes"
+            },
+
+            theElectricExpansion:
+            {
+                type: SettingType.CHECK,
+                label: "The Electric Expansion"
+            },
+
+            extremeExpeditions:
+            {
+                type: SettingType.CHECK,
+                label: "Extreme Expeditions"
+            },
+
+            sharpScissors:
+            {
+                type: SettingType.CHECK,
+                label: "Sharp Scissors"
+            },
+        }
+    },
+
     configKey: "unstableUniverseConfig",
     assetsBase: "/unstable-universe/assets/",
     assets:

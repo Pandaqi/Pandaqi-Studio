@@ -6,7 +6,7 @@ title: "The Domino Diaries"
 # blurb: "A series of games about placing domino tiles."
 blurb: "A series of games about placing domino tiles to shape your dream world---or simply the one that scores you the most points."
 
-downloadLink: "https://drive.google.com/drive/folders/1lxKWuSj0hlggY0Nx1_jQsNr0yqjfhoHb"
+driveLink: "https://drive.google.com/drive/folders/1lxKWuSj0hlggY0Nx1_jQsNr0yqjfhoHb"
 # @DEBUGGING
 externalLinks:
   - label: "Play on POKI"
@@ -34,12 +34,6 @@ ages: everyone
 devlog: "/blog/boardgames/the-domino-diaries/project/"
 
 ---
-
-## What's This?
-
-This is the **overview page** of the The Domino Diaries.
-
-Click any of the links below to visit a specific game. They are roughly sorted based on simplicity.
 
 The core mechanic of these games is the fun and time-tested **domino tile**. You'll be placing tiles in a shared map, or in your own little worlds, trying to shape a unique world that scores you the most points or does what you need to win.
 

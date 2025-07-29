@@ -6,7 +6,7 @@ blurb: "A Naivigation game about steering trains together on the same unpredicta
 # blurb: "A [Naivigation](/naivigation/) game about steering multiple trains together, while on the same rails that keep shifting."
 weightProject: 50
 
-downloadLink: "https://drive.google.com/drive/folders/186gZy7euPX5wFrZcyRDBt8T1bPzThe9m"
+driveLink: "https://drive.google.com/drive/folders/186gZy7euPX5wFrZcyRDBt8T1bPzThe9m"
 
 date: 2025-10-26
 

@@ -2,11 +2,60 @@ import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import { DinoType, TerrainType } from "./dict"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
-
 import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig"
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        addText:
+        {
+            type: SettingType.CHECK,
+            label: "Add Text On Tiles",
+            remark: "Adds the explanation of each dinosaur's action on the dinosaur itself."
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            pawns:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Pawns"
+            },
+
+            expansion:
+            {
+                type: SettingType.CHECK,
+                label: "Expansion",
+                remark: "A general expansion with more terrains and dinosaurs."
+            },
+
+            impact:
+            {
+                type: SettingType.CHECK,
+                label: "Impact Tiles",
+                remark: "Adds tiles that randomize how the asteroid impact works for your game."
+            },
+
+            asteroid:
+            {
+                type: SettingType.CHECK,
+                label: "Special Asteroids",
+                remark: "Adds special Asteroid Tiles for random events and actions."
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

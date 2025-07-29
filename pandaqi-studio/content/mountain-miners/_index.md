@@ -4,7 +4,7 @@ type: "project"
 title: "Mountain Miners"
 blurb: "Mine the best tiles from the top of the mountain, by constantly changing what is up and what is down."
 
-downloadLink: "https://drive.google.com/drive/folders/1Y8dzzlw19-ZWUxmLlk7f35NBR22OEEkd"
+driveLink: "https://drive.google.com/drive/folders/1Y8dzzlw19-ZWUxmLlk7f35NBR22OEEkd"
 
 date: 2024-11-12
 

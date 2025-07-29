@@ -4,7 +4,7 @@ type: "project"
 title: "Librarians"
 blurb: "Silence in the library! Work together to fill bookshelves in alphabetical order, but without any communication."
 
-downloadLink: "https://drive.google.com/drive/folders/1oXsEhIbOgYbdzvjnbK0XVSkOymGM8KxX"
+driveLink: "https://drive.google.com/drive/folders/1oXsEhIbOgYbdzvjnbK0XVSkOymGM8KxX"
 
 date: 2025-01-12
 

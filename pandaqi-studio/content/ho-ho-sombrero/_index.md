@@ -12,7 +12,6 @@ categories: ["game", "desktop", "game-jam"]
 tags: ["chaos", "survival", "powerups", "map_selection"]
 themes: ["holiday", "colorful"]
 
-downloadLink: "http://pandaqi.itch.io/ho-ho-sombrero/"
 externalLinks:
   - label: "Download"
     url: "http://pandaqi.itch.io/ho-ho-sombrero/"

@@ -1,5 +1,7 @@
 {{ define "main" }}
 
+{{ $blurb := (or .Params.blurb "") | markdownify }}
+{{ $is_collection := or .Params.collection false }}
 {{ $deprecated := or .Params.deprecated false }}
 {{ if $deprecated }}
 <div class="maintenance-modal-container" onclick="this.remove();">
@@ -17,13 +19,25 @@
 </div>
 
 <div class="width-limit block-center margin-top-xs">
+	{{ partial "navigation/breadcrumbs.html" . }}
 	<div class="double-view double-view-main-sidebar">
 		<!--- Media Gallery: Trailers, Screenshots, etc --->
 		<div>
-			{{ partial "content/media-gallery.html" (dict "context" .) }}
-
-			{{ if .Params.collection }}
+			{{ $has_media := .Params.media }}
+			{{ if $has_media }}
+				{{ partial "content/media-gallery.html" (dict "context" .) }}
+			{{ end }}
+			{{ $has_collection_pages := gt (len (partial "func/get-collection-pages.html" .)) 0 }}
+			{{ if $has_collection_pages }}
 				{{ partial "navigation/collection-list.html" . }}
+			{{ end }}
+			{{ $display_backup := and (not $has_media) (not $has_collection_pages) }}
+			{{ if $display_backup }}
+				<div class="size-maximize flex flex-align-center font-size-l padding-l text-bold text-center text-color-dark effect-glow-m gap-xs">
+					{{ $favicon_src := partial "func/get-game-thumb.html" . }}
+					{{ partial "content/show-image.html" (dict "context" . "src" $favicon_src) }}
+					{{ $blurb }}
+				</div>
 			{{ end }}
 		</div> 
 
@@ -31,7 +45,7 @@
 		<div class="sidebar-block">
 			{{ $src := partial "func/get-game-header.html" . }}
 			{{ partial "content/show-image.html" (dict "context" . "src" $src "alt" "Header image for this project") }}
-			<p class="text-italic">{{ .Params.blurb | markdownify }}</p>
+			<p class="text-italic">{{ $blurb }}</p>
 			{{ partial "buttons/project-buttons.html" . }}
 		</div>
 	</div>
@@ -40,10 +54,12 @@
 		<!--- Main content (of Markdown file) --->
 		<main class="add-leafs-to-headings width-maximize">
 			<h1>{{ .Title }}</h1>
+			{{ if $is_collection }}
+				<p class="text-italic">This is the <strong>overview page</strong> of this game collection. Click any of the links to visit a specific game. They are usually sorted based on simplicity (easy → hard).</p>
+			{{ end }}
 			{{ .Content }}
 			{{ partial "content/support.html" . }}
 		</main>
-
 		<!--- Metadata, etc. --->
 		<div>
 			{{ partial "metadata/metadata-block.html" . }}

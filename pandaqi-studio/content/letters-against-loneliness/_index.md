@@ -12,7 +12,6 @@ categories: ["game", "desktop", "mobile"]
 tags: ["grid", "networks"]
 themes: ["pixel-art"]
 
-downloadLink: "http://pandaqi.itch.io/letters-against-loneliness"
 externalLinks:
   - label: "Buy"
     url: "http://pandaqi.itch.io/letters-against-loneliness/"

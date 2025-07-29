@@ -4,7 +4,6 @@ type: "project"
 title: "Sunbluck"
 blurb: "Throw shade at your beach tourists to prevent them getting sunburned."
 
-
 date: 2025-12-12
 
 difficulty: "kids-can-play"
@@ -13,7 +12,6 @@ categories: ["game", "desktop", "game-jam"]
 tags: []
 themes: ["2D"]
 
-downloadLink: "http://pandaqi.itch.io/sunbluck/"
 externalLinks:
   - label: "Buy"
     url: "http://pandaqi.itch.io/sunbluck/"

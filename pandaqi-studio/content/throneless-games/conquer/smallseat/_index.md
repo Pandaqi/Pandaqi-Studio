@@ -7,7 +7,7 @@ blurb: "Vote, swap places and use powers to ensure the right Animal gets the thr
 blurbProject: "The most simplified and streamlined version, with a visual style more attractive to kids."
 weightProject: 10
 
-downloadLink: "https://drive.google.com/drive/folders/1Q5I2VAXnGEC268x5If10e_Gpjed3vDxj"
+driveLink: "https://drive.google.com/drive/folders/1Q5I2VAXnGEC268x5If10e_Gpjed3vDxj"
 
 date: 2024-11-12
 

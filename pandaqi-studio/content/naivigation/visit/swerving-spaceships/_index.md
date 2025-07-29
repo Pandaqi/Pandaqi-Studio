@@ -8,7 +8,7 @@ blurb: "A Naivigation game about steering a single spaceship together, visiting 
 weightProject: 10
 
 
-downloadLink: "https://drive.google.com/drive/folders/1-_aK59p3jHhUoo-V-9SuQXs89Fmj6Z5T"
+driveLink: "https://drive.google.com/drive/folders/1-_aK59p3jHhUoo-V-9SuQXs89Fmj6Z5T"
 
 date: 2025-10-26
 

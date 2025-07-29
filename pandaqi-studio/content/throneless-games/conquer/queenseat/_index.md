@@ -7,7 +7,7 @@ blurb: "Vote, swap places and use powers to ensure the right Princess ends up on
 blurbProject: "The best introduction for all ages, using a changing Throne card to keep the game simple but tactical."
 weightProject: 20
 
-downloadLink: "https://drive.google.com/drive/folders/16xLqB1wBo_7nwB-YYTBUjGun7cjaJ-0g"
+driveLink: "https://drive.google.com/drive/folders/16xLqB1wBo_7nwB-YYTBUjGun7cjaJ-0g"
 
 date: 2024-11-12
 

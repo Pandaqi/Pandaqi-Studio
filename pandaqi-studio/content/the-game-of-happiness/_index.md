@@ -4,7 +4,7 @@ type: "project"
 title: "The Game of Happiness"
 blurb: "Rank a series of random events based on how happy they'd make you---and hope your friends and family know you well enough to perfectly guess your ranking."
 
-downloadLink: "https://drive.google.com/drive/folders/1GyAwnyAyk8J9XK190-KQNGulIBGo3xIb"
+driveLink: "https://drive.google.com/drive/folders/1GyAwnyAyk8J9XK190-KQNGulIBGo3xIb"
 
 date: 2024-12-26
 
@@ -28,19 +28,6 @@ devlog: "/blog/boardgames/the-game-of-happiness/"
 **Which pack(s) should I use!?** The base, advanced, expert and silly packs contain ~10 new cards for each category. They are the largest and most diverse. They get slightly more _complex_ (in order of the list), but you should mostly see this as a way to break the game into more manageable files to print and cut.
 
 The other packs add cards within one particular category, such as _Superpowers_: cards proposing a fun dilemma through a superpower with a drawback. They are usually much smaller and should just be shuffled into the category cards you already have.
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="theGameOfHappinessConfig" btn_label="Generate Material" game_title="The Game of Happiness" defaults="true" >}}
-  {{< setting-checkbox id="setting-includeCards" text="Include Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeTokens" text="Include Tokens?" checked="checked" remark="If you already have these, or plan on using something else, you can disable this." >}}
-  {{< setting-checkbox id="setting-digitalGame" text="Load Digital Game?" remark="Loads the digital interface to play this game on a single smartphone instead. (Doesn't generate material.)" >}}
-  {{< boardgame-settings-section heading="Packs" >}}
-    {{< setting-checkbox-multiple id="setting-packs" values="base,advanced,expert,silly,superpowers,past,jobs,personal,habits,items" keys="Base,Advanced,Expert,Silly,Superpowers,Blast to Past,Jovial Jobs,Let's Get Personal,Horrible Habits,Interesting Items" values_checked="base" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
 
 ## Background
 

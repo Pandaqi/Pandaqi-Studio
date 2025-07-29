@@ -7,7 +7,7 @@ blurb: "As we all know, cats start with nine lives. And as we all know, being un
 # blurb: "A simple and fast card game about losing your nine lives less quickly than all the other players."
 weightProject: 91
 
-downloadLink: "https://drive.google.com/drive/folders/1kKuH20FTKx5pm4qy_dqdNgt79iDSJwYp"
+driveLink: "https://drive.google.com/drive/folders/1kKuH20FTKx5pm4qy_dqdNgt79iDSJwYp"
 
 
 

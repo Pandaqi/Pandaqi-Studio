@@ -4,6 +4,52 @@ import { MISC, ReqType, Type } from "./dict"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        includePeopleCards:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Generate People Cards"
+        },
+
+        includeHandCards:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Generate Hand Cards"
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            setPeople:
+            {
+                type: SettingType.ENUM,
+                values: ["starter", "beginner", "advanced", "expert", "random"],
+                default: "starter",
+                label: "People Set"
+            },
+
+            setDecorations:
+            {
+                type: SettingType.ENUM,
+                values: ["starter", "beginner", "random"],
+                default: "starter",
+                label: "Decoration Set"
+            },
+
+            setTreats:
+            {
+                type: SettingType.ENUM,
+                values: ["starter", "beginner", "random"],
+                default: "starter",
+                label: "Treat Set"
+            },
+        }
+    },
+
     debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)

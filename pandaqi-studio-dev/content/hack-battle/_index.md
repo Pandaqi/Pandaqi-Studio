@@ -11,7 +11,6 @@ date: 2022-03-30
 categories: ["game"]
 tags: ["desktop", "one_week_game", "logic", "abstract", "duel"]
 
-downloadLink: "http://pandaqi.itch.io/hack-battle"
 externalLinks:
   - label: "Download"
     url: "http://pandaqi.itch.io/hack-battle"

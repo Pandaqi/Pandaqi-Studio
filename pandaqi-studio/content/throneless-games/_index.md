@@ -5,7 +5,7 @@ collection: "conquer"
 title: "Throneless Games"
 blurb: "A series of games about secretly collecting the most votes for your Prince, as the players constantly change seats to get to the throne."
 # blurb: "A series of games about secretly collecting the most votes, as the players constantly change seats to get to the elusive throne."
-downloadLink: "https://drive.google.com/drive/folders/1uCbO2Mri8ITnz6-jIBJV5qUHmgGdfYr5"
+driveLink: "https://drive.google.com/drive/folders/1uCbO2Mri8ITnz6-jIBJV5qUHmgGdfYr5"
 
 date: 2023-12-20
 
@@ -24,12 +24,6 @@ ages: everyone
 
 ---
 
-## What's This?
-
-This is the **overview page** of the Throneless Games.
-
-Click any of the links to visit a specific game. They are sorted based on simplicity.
-
 ## Throneless Games
 
 These games all have the same core mechanic (the "Throneless Mechanic"): you simultaneously vote every turn, and either your vote is registered OR you swap places with someone.
@@ -44,6 +38,14 @@ The name "Throneless" was chosen because in these games ...
 * The person sitting on the "throne" each round is important
 * The medieval theme about kings and princes, of course
 * And the first 2 games can be played while standing up (or with minimal table space)
+
+## Background
+
+This game started as a "queueing game". I wanted to design games you could play in a queue or waiting room. This meant they had to be very simple, but allow many different group sizes. They had to be playable without table, chairs, or much space at all. 
+
+Kingseat was the first game to come out of this journey. It's not the best, as it still practically requires a table if you want to play. It still turned out a very good game in its own right. The other versions quickly followed, taking the idea in different directions or reworking it for different audiences.
+
+In the end, I decided to rename these "queuing games" to [Waitless Games](/waitless-games/) instead. And I decided to _not_ include this project, as the final 2 games are just too impractical to actually play in a queue. Click the link to visit the official page for Waitless Games, which has a growing number of games you _can_ play while waiting somewhere. (And if not, send me an email! I need all the feedback I can get on such experimental ideas.)
 
 ## Credits
 
@@ -63,11 +65,3 @@ Anyway, I decided these fonts fit together nicely and still kept text easy to re
 Though you can choose, in the settings, if you prefer legibility or want the blackletter juice. That's another major benefit of a website that _generates_ board game material for you on the fly!
 
 Everything else---assets, code, rules, design, etcetera---is mine. The main emblem (or "coat of arms") for each pack was generated using image AI, although with a lot of manual work before and after. (For example, the AI doesn't seem to understand that most animals have 4 legs, not 5.)
-
-## Background
-
-This game started as a "queueing game". I wanted to design games you could play in a queue or waiting room. This meant they had to be very simple, but allow many different group sizes. They had to be playable without table, chairs, or much space at all. 
-
-Kingseat was the first game to come out of this journey. It's not the best, as it still practically requires a table if you want to play. It still turned out a very good game in its own right. The other versions quickly followed, taking the idea in different directions or reworking it for different audiences.
-
-In the end, I decided to rename these "queuing games" to [Waitless Games](/waitless-games/) instead. And I decided to _not_ include this project, as the final 2 games are just too impractical to actually play in a queue. Click the link to visit the official page for Waitless Games, which has a growing number of games you _can_ play while waiting somewhere. (And if not, send me an email! I need all the feedback I can get on such experimental ideas.)

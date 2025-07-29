@@ -15,7 +15,7 @@ categories: ["board-game", "one-paper-game"]
 tags: ["grid", "shared-map", "language", "spiritually-inspired"]
 themes: []
 
-downloadLink: "https://drive.google.com/drive/folders/1JeaAyDSFrnu_j8FeDztXyKyhUlNMPoKe"
+driveLink: "https://drive.google.com/drive/folders/1JeaAyDSFrnu_j8FeDztXyKyhUlNMPoKe"
 
 multiplayermode: "competitive"
 language: EN

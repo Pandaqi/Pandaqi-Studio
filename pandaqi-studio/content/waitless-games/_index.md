@@ -5,7 +5,7 @@ collection: "play"
 title: "Waitless Games"
 blurb: "A series of simple games you can play while waiting in line, or standing up, or any other unconventional situation."
 
-downloadLink: "https://drive.google.com/drive/folders/1xu-YTqi_OCm_WmzhVhGbTQPiu0pc87TG"
+driveLink: "https://drive.google.com/drive/folders/1xu-YTqi_OCm_WmzhVhGbTQPiu0pc87TG"
 
 date: 2024-02-25
 
@@ -24,14 +24,6 @@ ages: everyone
 
 ---
 
-
-
-## What's this?
-
-This is the **overview page** of the Waitless Games.
-
-Click any of the links to visit a specific game. They aren't sorted in any particular way.
-
 All the games are unique: new rules, new art style, new material, new ideas.
 
 Their one thing in common, though, is that they are **"waitless"**. Designed to be played in waiting rooms, queues, rooms without a table or chairs, quick moments of downtime, etcetera.
@@ -43,14 +35,15 @@ Their one thing in common, though, is that they are **"waitless"**. Designed to 
 
 _Great! When are new games added?_ Currently, I have ~6 ideas, of which ~2 new ones will be added each year.
 
-
-## Credits
+## Background
 
 It is not hard to guess where these ideas came from. Waiting in line at a theme park is never fun---why not play a game? I have, unfortunately, spent a lot of time waiting in the hospital, or living in a situation where a traditional game just can't be played. Is it really that hard to design (board) games you _could_ do in that moment?
 
 And thus the journey started. It started with a game that ended up being simple and good, but not entirely Waitless: it needed too much setup and material for that. (I am talking about _Kingseat_, and have since moved this category of games to the [Throneless Games](/throneless-games/) project.)
 
 That "failed attempt", however, showed me what I did wrong and how I had to approach these games in a different way. Once I figured that out, the ideas and their feasibility improved. 
+
+## Credits
 
 Because all games are completely unique in their gameplay, there are no shared images or fonts. For detailed credits, you'll have to check out the page for a specific game.
 

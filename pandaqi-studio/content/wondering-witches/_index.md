@@ -13,7 +13,7 @@ categories: ["board-game", "one-paper-game", "hybrid-game"]
 tags: ["cooking", "deduction", "logic"]
 themes: ["magic", "fantasy"]
 
-downloadLink: "https://drive.google.com/open?id=1y4WescX98VLllbV7FqojADUnAr5fc8Vx"
+driveLink: "https://drive.google.com/open?id=1y4WescX98VLllbV7FqojADUnAr5fc8Vx"
 
 multiplayermode: "cooperative"
 language: EN

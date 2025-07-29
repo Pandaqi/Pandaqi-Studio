@@ -13,7 +13,7 @@ categories: ["board-game", "one-paper-game", "hybrid-game"]
 tags: ["area-control", "numbers", "point-salad", "logic", "variable-setup", "construction", "synergies", "events", "modular"]
 themes: ["space", "top-down"]
 
-downloadLink: "https://drive.google.com/drive/folders/1_CkFN2QRv_amGofQcfP9RkGQgiZj9HXh"
+driveLink: "https://drive.google.com/drive/folders/1_CkFN2QRv_amGofQcfP9RkGQgiZj9HXh"
 
 multiplayermode: "competitive"
 language: EN
@@ -25,6 +25,8 @@ devlog: "/blog/boardgames/starry-skylines/devlog-starry-skylines/"
 media: [video/starryskylines_explanation_gif, page/starryskylines_finishedgames]
 
 ---
+
+A [One Paper Game](/boardgames#one-paper-games) for 1--9 players about simultaneously building a city in space.
 
 Build the nicest neighbourhood on your planet and **score the most points**. The problem? Your opponents are doing the same and invading your precious space!
 
@@ -44,31 +46,11 @@ Three simple steps.
 
 * Grab an empty sheet of paper, fold it six times.
 * Click "Download" to find the rulebook. (Only read the first few pages for your first game.)
-* Open the [game](#game) on any device.
+* Open the [game](game) on any device.
 
 This website handles everything for you. It also shows explanations for all the different buildings and mechanics (if you **click** on them).
 
-**Don't like blank papers?** Use the [board](#board) generator below to get a random starting setup.
-
-{{% boardgame-settings-container type="game" %}}
-
-{{< boardgame-settings type="game" local_storage="starrySkylinesConfig" game_title="Starry Skylines" >}}
-  {{< setting-playercount min="1" max="8" def="3" >}}
-  {{< setting-enum id="setting-planet" text="Planet?" values="Learnth,Uronus,Marsh,Yumpiter,Meercury,Intervenus,Pluto,Naptune" valaskey="true" keep-case="true" >}}
-  {{< setting-enum id="setting-manualCombo" text="Play handpicked combination?" values="-- ignore --,Nature,Leadership,Resources,Entertainment,Chaotic" keys=",Nature,Leadership,Resources,Entertainment,Chaotic" remark="Choose a handpicked combination of planets if you want to follow a particular theme. Only use this if you've read the rules for all planets before." >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-{{% boardgame-settings-container type="board" %}}
-
-{{< boardgame-settings type="board" local_storage="starrySkylinesConfig" game_title="Starry Skylines" defaults="true" >}}
-  {{< setting-playercount min="1" max="3" def="3" >}}
-  {{< setting-enum id="setting-planet" text="Planet?" values="Learnth,Uronus,Marsh,Yumpiter,Meercury,Intervenus,Pluto,Naptune" valaskey="true" keep-case="true" >}}
-  {{< setting-enum id="setting-manualCombo" text="Play handpicked combination?" values="-- ignore --,Nature,Leadership,Resources,Entertainment,Chaotic" keys=",Nature,Leadership,Resources,Entertainment,Chaotic" >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
+**Don't like blank papers?** Use the [board](board) generator to get a random starting setup.
 
 ## Background
 

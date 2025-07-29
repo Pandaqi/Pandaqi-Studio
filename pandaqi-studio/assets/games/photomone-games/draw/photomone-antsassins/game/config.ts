@@ -2,6 +2,76 @@ import Point from "js/pq_games/tools/geometry/point";
 
 export default
 {
+    _settings:
+    {
+        tileShape:
+        {
+            type: SettingType.ENUM,
+            values: ["rectangle", "hexagon", "triangle"],
+            label: "Tile Shape"
+        },
+
+        tileType:
+        {
+            type: SettingType.ENUM,
+            values: ["photomone", "mosaic", "clouds", "shapes", "simple", "lines"],
+            label: "Tile Type"
+        },
+
+        material:
+        {
+            type: SettingType.GROUP,
+
+            includeTiles:
+            {
+                type: SettingType.CHECK,
+                label: "Include Tiles",
+                default: true
+            },
+
+            includeCodeCards:
+            {
+                type: SettingType.CHECK,
+                label: "Include Code Cards",
+                default: true
+            },
+
+            includeTokens:
+            {
+                type: SettingType.CHECK,
+                label: "Include Tokens",
+                default: true,
+                remark: "Optional; you only need one set of these to play forever."
+            },
+
+            addAlmostActions:
+            {
+                type: SettingType.CHECK,
+                label: "Add Actions",
+                default: true,
+                remark: "Can be left out to make a first game simpler to learn."
+            },
+
+            numSecretTilesPerTeam:
+            {
+                type: SettingType.NUMBER,
+                min: 1,
+                max: 4,
+                default: 1,
+                label: "#Secret Tiles Per Team"
+            },
+
+            numTeamsOnCodeCard:
+            {
+                type: SettingType.NUMBER,
+                min: 2,
+                max: 4,
+                default: 4,
+                label: "#Teams On Code Card"
+            }
+        }
+    },
+
     assetsBase: "/photomone-games/draw/photomone-antsassins/assets/",
     debugWithoutPDF: false, // @DEBUGGING (should be false)
     debugWithDragDrop: false, // @DEBUGGING (should be false)

@@ -13,7 +13,7 @@ categories: ["board-game", "one-paper-game"]
 tags: ["shared-map", "movement"]
 themes: ["vector"]
 
-downloadLink: "https://drive.google.com/open?id=1Dy71DZLHbO76-NAh5r4zEJbmIUNicY7q"
+driveLink: "https://drive.google.com/open?id=1Dy71DZLHbO76-NAh5r4zEJbmIUNicY7q"
 
 multiplayermode: "competitive"
 language: EN

@@ -9,7 +9,6 @@ date: 2022-04-07
 categories: ["game"]
 tags: ["desktop", "family_friendly"]
 
-downloadLink: "http://pandaqi.itch.io/bellyboinkers/"
 externalLinks:
   - label: "Try on ITCH"
     url: "http://pandaqi.itch.io/bellyboinkers/"

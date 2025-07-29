@@ -5,7 +5,7 @@ type: "project"
 title: "Death by Digits"
 blurb: "Be a math detective and guess the missing numbers that are in nobody's hand."
 
-downloadLink: "https://drive.google.com/drive/folders/1tB1Lfp1zUNvR8ARU9d1quTG3EGq9H5fv"
+driveLink: "https://drive.google.com/drive/folders/1tB1Lfp1zUNvR8ARU9d1quTG3EGq9H5fv"
 
 invert: true
 

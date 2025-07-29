@@ -4,7 +4,7 @@ type: "project"
 title: "Bodyguard"
 blurb: "Discover if the emperor is in danger, and how to save them, before anyone else. Then do it again."
 
-downloadLink: "https://drive.google.com/drive/folders/1XU--sSxY2N6wIsvosMi_4ko9lV1X3TGI"
+driveLink: "https://drive.google.com/drive/folders/1XU--sSxY2N6wIsvosMi_4ko9lV1X3TGI"
 
 ---
 

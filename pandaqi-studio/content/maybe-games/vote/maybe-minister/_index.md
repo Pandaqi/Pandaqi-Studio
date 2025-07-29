@@ -7,7 +7,7 @@ blurb: "Propose changes to the law of the land as you try to expand your own pow
 blurbProject: "Propose changes to the law of the land as you try to expand your own power, but you can only do so if the majority of the other political factions agree."
 weightProject: 40
 
-downloadLink: "https://drive.google.com/drive/folders/1PdgCFax2blH6ctznnxCiEX5zZk79jsvK"
+driveLink: "https://drive.google.com/drive/folders/1PdgCFax2blH6ctznnxCiEX5zZk79jsvK"
 
 date: 2026-04-26
 

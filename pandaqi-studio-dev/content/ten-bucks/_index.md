@@ -5,7 +5,7 @@ date: 2026-07-26
 title: "Ten Bucks"
 blurb: "A simple, lightning fast game about earning 10 money before anyone else."
 
-downloadLink: "https://drive.google.com/drive/folders/1YBS5mXkuKTRGXPoLVGJBizaMWvnYlPyM"
+driveLink: "https://drive.google.com/drive/folders/1YBS5mXkuKTRGXPoLVGJBizaMWvnYlPyM"
 
 # metadata = partially done, check tags/themes
 difficulty: "no-brainer"

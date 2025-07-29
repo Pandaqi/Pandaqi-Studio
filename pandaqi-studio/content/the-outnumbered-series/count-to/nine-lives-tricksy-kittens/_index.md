@@ -6,7 +6,7 @@ blurb: "A trick-taking game about getting your nine lives before anybody else, b
 
 weightProject: 92
 
-downloadLink: "https://drive.google.com/drive/folders/1FxdHCEaLdaSrGDIrCx5yZHMx6P07_Ios"
+driveLink: "https://drive.google.com/drive/folders/1FxdHCEaLdaSrGDIrCx5yZHMx6P07_Ios"
 
 date: 2024-09-11
 

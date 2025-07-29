@@ -5,7 +5,7 @@ collection: "roll"
 title: "The Luck Legends"
 blurb: "A series of games where you roll dice, create custom dice, the map is made of dice, or any other lucky mechanic using dice decks."
 
-downloadLink: "https://drive.google.com/drive/folders/1Dp3anjWLbrJVVznUVE14vxCiezfk6VXu"
+driveLink: "https://drive.google.com/drive/folders/1Dp3anjWLbrJVVznUVE14vxCiezfk6VXu"
 
 date: 2025-11-26
 
@@ -24,12 +24,6 @@ devlog: "/blog/boardgames/the-luck-legends/project/"
 
 ---
 
-## What's this?
-
-This is the **overview page** of the The Luck Legends.
-
-Click any of the links to visit a specific game. They are roughly sorted based on simplicity.
-
 ## The Dice Deck
 
 All the games are completely unique experiences, with their own art, rules, ideas, and more.
@@ -40,10 +34,7 @@ The single thing they share is the same **core mechanic** I invented. I've dubbe
 
 This is great! It allows the games to be easily print-n-play, as opposed to having to print and cut dice (which is never a fun experience). It also opens up millions of unique game ideas where you customize your die (by adding/removing cards), pick how you want to roll the die (by splitting your deck or only drawing from bottom), and more.
 
-
-## Credits
-
-The fonts used are **Lost (Leonest)** for headings and **Effloresce** for body text. Some generative AI was used for illustrations in some of the games. Everything else---code, ideas, graphics, rules, etcetera---is entirely mine.
+## Background
 
 I've always wanted to include more dice (or general _randomizing mechanics_) into my games. There's a reason why a huge chunk of games includes such aspects. There's a reason humans invented dice a looong time ago!
 
@@ -53,3 +44,6 @@ As I wondered about these constraints and how to solve them, I realized this ing
 
 I saw so much potential in this idea that I wrote down ~10 valid game ideas with it the same day. A few weeks later, I had time to work on the first few, and this project was born.
 
+## Credits
+
+The fonts used are **Lost (Leonest)** for headings and **Effloresce** for body text. Some generative AI was used for illustrations in some of the games. Everything else---code, ideas, graphics, rules, etcetera---is entirely mine.

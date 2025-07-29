@@ -8,7 +8,7 @@ blurb: "A Naivigation game about steering a single ship together"
 weightProject: 40
 
 
-downloadLink: "https://drive.google.com/drive/folders/1GwRIBb3Wf3TQnImiKwxCPcrnd1HOQ6KL"
+driveLink: "https://drive.google.com/drive/folders/1GwRIBb3Wf3TQnImiKwxCPcrnd1HOQ6KL"
 
 date: 2025-10-26
 

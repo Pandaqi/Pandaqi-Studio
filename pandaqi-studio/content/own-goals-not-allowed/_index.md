@@ -12,7 +12,6 @@ categories: ["game", "desktop", "local-multiplayer", "one-week-game"]
 tags: ["chaos", "physics-based", "powerups", "real-time"]
 themes: ["2D", "top-down", "sports", "textured"]
 
-downloadLink: "http://pandaqi.itch.io/own-goals-not-allowed"
 externalLinks:
   - label: "Buy"
     url: "http://pandaqi.itch.io/own-goals-not-allowed/"

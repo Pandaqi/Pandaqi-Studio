@@ -4,7 +4,7 @@ type: "project"
 title: "Fiddlefoo"
 blurb: "Get rid of your cards without allowing others to throw their music at you."
 
-downloadLink: "https://drive.google.com/drive/folders/1fRQWyYs7Vi9pX8ArL0zFN87Q-b7G3eIf"
+driveLink: "https://drive.google.com/drive/folders/1fRQWyYs7Vi9pX8ArL0zFN87Q-b7G3eIf"
 
 date: 2025-12-16
 

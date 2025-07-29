@@ -5,7 +5,7 @@ date: 2023-01-01 # 2024-05-25
 title: "Aeronaut Odyssey"
 blurb: "Travel the world, claim the most valuable routes and profit from it. Connect the sky castles faster than your opponents, in a One Paper Game inspired by Ticket to Ride."
 
-downloadLink: "https://drive.google.com/drive/folders/11yggBK2i8MlMg6sxD-oE4xBQzpgC4AUr"
+driveLink: "https://drive.google.com/drive/folders/11yggBK2i8MlMg6sxD-oE4xBQzpgC4AUr"
 
 categories: ["board-game"]
 tags: ["real_inspired"]

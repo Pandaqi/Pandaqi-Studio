@@ -7,7 +7,7 @@ blurb: "Battle your custom dice against those of other players and hope the odds
 
 weightProject: 10
 
-downloadLink: "https://drive.google.com/drive/folders/1AESN6T9GAYg2ZTSzneAAiSdEQbMHXWsV"
+driveLink: "https://drive.google.com/drive/folders/1AESN6T9GAYg2ZTSzneAAiSdEQbMHXWsV"
 
 
 date: 2025-06-26

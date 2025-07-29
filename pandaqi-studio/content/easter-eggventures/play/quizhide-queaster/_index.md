@@ -7,7 +7,7 @@ blurb: "Win the reverse egg hunt by cleverly changing where eggs are hidden just
 blurbProject: "One team hides the eggs, the other searches. But communication between them is unfortunately limited to vague, dreamlike illustrations."
 weightProject: 10
 
-downloadLink: "https://drive.google.com/drive/folders/1AAQRgCe5rsNxgsaNKRV8uYlT7MVDY6sT"
+driveLink: "https://drive.google.com/drive/folders/1AAQRgCe5rsNxgsaNKRV8uYlT7MVDY6sT"
 
 date: 2025-03-26
 

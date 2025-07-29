@@ -7,7 +7,7 @@ blurb: "An egghunt in a dangerous arena and competitors stealing precious inform
 blurbProject: "Find the locations of the best eggs and collect them, without ever entering the arena or giving that information to your opponents."
 weightProject: 20
 
-downloadLink: "https://drive.google.com/drive/folders/18Q6FVPfiGTQK-1UypURV_uMo0-ppZrwV"
+driveLink: "https://drive.google.com/drive/folders/18Q6FVPfiGTQK-1UypURV_uMo0-ppZrwV"
 
 date: 2025-03-26
 

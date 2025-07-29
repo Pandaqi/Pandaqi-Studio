@@ -12,7 +12,6 @@ categories: ["game", "desktop", "game-jam"]
 tags: []
 themes: ["2D"]
 
-downloadLink: "http://pandaqi.itch.io/finside-out/"
 externalLinks:
   - label: "Buy"
     url: "http://pandaqi.itch.io/finside-out/"

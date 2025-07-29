@@ -12,7 +12,6 @@ categories: ["game", "desktop", "local-multiplayer", "game-jam"]
 tags: ["area-control", "construction", "ladder-climbing", "chaos", "powerups", "map-selection"]
 themes: ["nature"]
 
-downloadLink: "http://pandaqi.itch.io/windowsilk"
 externalLinks:
   - label: "Buy"
     url: "http://pandaqi.itch.io/windowsilk/"

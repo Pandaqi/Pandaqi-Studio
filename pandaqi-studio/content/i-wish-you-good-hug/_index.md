@@ -12,7 +12,6 @@ categories: ["game", "desktop", "mobile", "local-multiplayer", "one-week-game"]
 tags: ["chaos", "shared-map", "pick-up-and-deliver", "grid", "hot-potato", "procedural-generation", "real-time"]
 themes: ["2D", "relaxing", "vector"]
 
-downloadLink: "http://pandaqi.itch.io/i-wish-you-good-hug"
 externalLinks:
   - label: "Download"
     url: "http://pandaqi.itch.io/i-wish-you-good-hug/"

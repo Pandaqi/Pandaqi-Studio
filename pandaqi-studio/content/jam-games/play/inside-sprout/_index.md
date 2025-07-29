@@ -4,7 +4,6 @@ type: "project"
 title: "Inside Sprout"
 blurb: "Defend your treeheart by distracting animals with the right flowers."
 
-
 date: 2025-12-12
 
 difficulty: "no-brainer"
@@ -13,7 +12,6 @@ categories: ["game", "desktop", "game-jam"]
 tags: ["tower-defense"]
 themes: ["2D"]
 
-downloadLink: "http://pandaqi.itch.io/inside-sprout/"
 externalLinks:
   - label: "Buy"
     url: "http://pandaqi.itch.io/inside-sprout/"

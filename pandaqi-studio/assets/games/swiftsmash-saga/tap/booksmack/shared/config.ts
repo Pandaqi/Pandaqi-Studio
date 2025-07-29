@@ -3,10 +3,48 @@ import CVal from "js/pq_games/tools/generation/cval";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
-;
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            powerPunctuation:
+            {
+                type: SettingType.CHECK,
+                label: "Power Punctuation"
+            },
+
+            niftyNumbers:
+            {
+                type: SettingType.CHECK,
+                label: "Nifty Numbers"
+            },
+
+            gigglingGlyphs:
+            {
+                type: SettingType.CHECK,
+                label: "Giggling Glyphs"
+            },
+
+            cursedCritics:
+            {
+                type: SettingType.CHECK,
+                label: "Cursed Critics"
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

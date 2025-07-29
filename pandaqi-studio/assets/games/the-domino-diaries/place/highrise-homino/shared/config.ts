@@ -4,9 +4,62 @@ import { FloorType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 
-
 const CONFIG:any = 
 {
+    _settings:
+    {
+        addText:
+        {
+            type: SettingType.CHECK,
+            label: "Add Text",
+            default: true,
+            remark: "Adds text that explains what a tile does on the tile itself."
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            roomService:
+            {
+                type: SettingType.CHECK,
+                label: "Room Service"
+            },
+
+            walletWatchers:
+            {
+                type: SettingType.CHECK,
+                label: "Wallet Watchers",
+            },
+
+            usefulUtilities:
+            {
+                type: SettingType.CHECK,
+                label: "Useful Utilities",
+            },
+
+            happyHousing:
+            {
+                type: SettingType.CHECK,
+                label: "Happy Housing",
+            },
+
+            livingTogether:
+            {
+                type: SettingType.CHECK,
+                label: "Living Together",
+                remark: "Extra material that makes the game more fun and engaging when played purely cooperatively"
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

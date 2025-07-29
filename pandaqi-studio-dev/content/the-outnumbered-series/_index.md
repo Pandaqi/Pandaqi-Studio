@@ -6,11 +6,7 @@ title: "The Outnumbered Series"
 # blurb: "A series of simple card games all about one number."
 blurb: "A series of simple card games that all revolve around one unique number, using it as creatively as possible."
 
-downloadLink: "https://drive.google.com/drive/folders/1ZOi00XqNZdUMHlVJj0ylx_8vFSA6EPow"
-
-
-color: "blue"
-
+driveLink: "https://drive.google.com/drive/folders/1ZOi00XqNZdUMHlVJj0ylx_8vFSA6EPow"
 
 date: 2023-10-20
 
@@ -28,12 +24,6 @@ ages: everyone
 # devlog: "/blog/boardgames/the-outnumbered-series/"
 
 ---
-
-## What's this?
-
-This is the **overview page** of The Outnumbered Series.
-
-Click any of the links below to visit a specific game. They are sorted based on their unique number, not any other metric (such as simplicity).
 
 All the games are unique: new rules, new art style, new material, new ideas.
 

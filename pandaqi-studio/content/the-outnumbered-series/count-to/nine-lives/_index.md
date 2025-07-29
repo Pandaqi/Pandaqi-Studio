@@ -8,7 +8,7 @@ blurb: "As we all know, cats start with nine lives. And as we all know, playing 
 blurbProject: "You're a cat with 9 lives. But blowing up a round with the wrong number makes you lose a life, and you really don't want to be the first to die. (Has several expansions and spin-offs.)"
 weightProject: 90
 
-downloadLink: "https://drive.google.com/drive/folders/1WkqwCiMo_ggHSkjPDfKS1fSDENgWjzoh"
+driveLink: "https://drive.google.com/drive/folders/1WkqwCiMo_ggHSkjPDfKS1fSDENgWjzoh"
 
 
 date: 2024-08-25

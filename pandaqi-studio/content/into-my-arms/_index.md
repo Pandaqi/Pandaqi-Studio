@@ -12,7 +12,6 @@ categories: ["game", "desktop", "mobile", "local-multiplayer", "game-jam"]
 tags: ["grid", "logic", "map", "creative"]
 themes: ["2D", "relaxing", "isometric"]
 
-downloadLink: "http://pandaqi.itch.io/into-my-arms"
 externalLinks:
   - label: "Buy"
     url: "http://pandaqi.itch.io/into-my-arms/"

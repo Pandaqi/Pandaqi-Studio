@@ -12,7 +12,6 @@ categories: ["game", "desktop", "one-week-game", "local-multiplayer"]
 tags: ["movement", "shared-map", "battle", "map-selection", "powerups"]
 themes: ["vector", "sports", "2D"]
 
-downloadLink: "http://pandaqi.itch.io/totems-of-tag"
 externalLinks:
   - label: "Play on POKI"
     url: "https://poki.com/en/g/totems-of-tag"

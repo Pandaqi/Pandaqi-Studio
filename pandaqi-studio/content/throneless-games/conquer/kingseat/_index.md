@@ -1,15 +1,13 @@
 ---
 type: "project"
 
-
 title: "Kingseat"
 blurb: "Vote, swap places and use powers to ensure the right Prince wins the throne. A game playable without a table or chairs."
 # blurb: "A [Throneless Game](/throneless-games/) game about helping your animal win the throne, aimed more at kids."
 blurbProject: "The original version, with slightly more complicated setup and Princes."
 weightProject: 30
 
-downloadLink: ""
-
+driveLink: "https://drive.google.com/drive/folders/1_s3QEOv6rgYcYQc9E4_KXofg6MPi07m8"
 
 date: 2023-11-12
 
@@ -28,7 +26,6 @@ ages: everyone
 ---
 
 When generating material yourself, check the rules to see **how many Princes** are recommended for each player count. Each choice adds ~1 page to print.
-
 
 {{% boardgame-settings-container type="material" %}}
 

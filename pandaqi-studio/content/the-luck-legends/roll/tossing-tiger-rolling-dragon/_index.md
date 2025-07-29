@@ -7,7 +7,7 @@ blurb: "Prepare the right series of kung-fu attacks to win the war, while hoping
 
 weightProject: 25
 
-downloadLink: "https://drive.google.com/drive/folders/1F7OUyXoUAcCNtXki5YA1wi9EjSWcTTaK"
+driveLink: "https://drive.google.com/drive/folders/1F7OUyXoUAcCNtXki5YA1wi9EjSWcTTaK"
 
 
 date: 2025-11-26

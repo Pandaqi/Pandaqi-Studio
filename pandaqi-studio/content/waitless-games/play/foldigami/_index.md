@@ -14,7 +14,7 @@ categories: ["board-game", "one-paper-game"]
 tags: ["folding", "turn-based", "experimental", "creative", "fast-paced"]
 themes: ["origami", "history"]
 
-downloadLink: "https://drive.google.com/drive/folders/17jgCO-P1M1Fqa0T7NKt8nfJxslF2TDMB"
+driveLink: "https://drive.google.com/drive/folders/17jgCO-P1M1Fqa0T7NKt8nfJxslF2TDMB"
 
 multiplayermode: "competitive"
 language: EN

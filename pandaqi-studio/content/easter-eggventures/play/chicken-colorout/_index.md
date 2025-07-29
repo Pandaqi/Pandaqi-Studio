@@ -7,7 +7,7 @@ blurb: "Be the first to hide all your eggs in an environment filled with kids ea
 blurbProject: "Be the first to hide all your eggs in an environment filled with kids (or other forces) eager to find them again."
 weightProject: 30
 
-downloadLink: "https://drive.google.com/drive/folders/1qKnpae5c9UUf1UC2XiAmE01oGXPXsmJC"
+driveLink: "https://drive.google.com/drive/folders/1qKnpae5c9UUf1UC2XiAmE01oGXPXsmJC"
 
 date: 2025-03-26
 

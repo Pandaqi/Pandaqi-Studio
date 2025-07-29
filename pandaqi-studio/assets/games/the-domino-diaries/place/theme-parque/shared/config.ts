@@ -6,9 +6,63 @@ import { PathType } from "./dict"
 import Color from "js/pq_games/layout/color/color"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 
-
 const CONFIG:any = 
 {
+    _settings:
+    {
+        addText:
+        {
+            type: SettingType.CHECK,
+            label: "Add Text",
+            default: true,
+            remark: "Adds text that explains what a tile does on the tile itself."
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            pawns:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Pawns"
+            },
+
+            rollercooper:
+            {
+                type: SettingType.CHECK,
+                label: "Rollercooper",
+                remark: "Allows playing the game cooperatively."
+            },
+
+            wishneyland:
+            {
+                type: SettingType.CHECK,
+                label: "Wishneyland Parki",
+            },
+
+            unibearsal:
+            {
+                type: SettingType.CHECK,
+                label: "Unibearsal Honeyos",
+            },
+
+            rollercoasters:
+            {
+                type: SettingType.CHECK,
+                label: "Raging Rollercoasters",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

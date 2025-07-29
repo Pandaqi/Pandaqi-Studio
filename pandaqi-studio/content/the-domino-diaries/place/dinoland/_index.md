@@ -1,14 +1,12 @@
 ---
 type: "project"
 
-
 title: "Dinoland"
 blurb: "Create a flourishing world of dinosaurs that avoids the asteroid as much as possible."
 # blurb: "Create a flourishing world of dinosaurs that avoids the asteroid as much as possible. A [Domino Diaries](/the-domino-diaries/) game."
 weightProject: 10
 
-downloadLink: "https://drive.google.com/drive/folders/196ze4dYzEq7uW4gFh032UkQB32UMl847"
-
+driveLink: "https://drive.google.com/drive/folders/196ze4dYzEq7uW4gFh032UkQB32UMl847"
 
 date: 2025-06-26
 
@@ -27,28 +25,7 @@ devlog: "/blog/boardgames/the-domino-diaries/dinoland/"
 
 ---
 
-
-
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="dinolandConfig" btn_label="Generate Material" game_title="Dinoland" defaults="true">}}
-  {{< setting-checkbox id="setting-addText" text="Add Text On Tiles?" remark="Adds the explanation of each dinosaur's action on the dinosaur itself." >}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-pawns" text="Pawns?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-expansion" text="Expansion?" remark="A general expansion with more terrains and dinosaurs." >}}
-    {{< setting-checkbox id="setting-sets-impact" text="Impact Tiles?" remark="Adds tiles that randomize how the asteroid impact works for your game." >}}
-    {{< setting-checkbox id="setting-sets-asteroid" text="Special Asteroids?" remark="Adds special Asteroid Tiles for random events and actions." >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
-
-The fonts used are **Cute Dino** (headings) and **Tinos** (body text). Some generative image AI was used. Everything else (code, idea, rules, illustrations) is entirely mine.
+## Background
 
 This was the second idea for the collection. I was in a bit of a rush and wanted to make this game as a "joke" for my sister's birthday. (Long story short: she'd found a place in the Netherlands called Dinoland, thinking it was a theme park we could visit for her birthday, then it turned out to be a really small venue with a _maximum_ age limit. So we couldn't go.)
 
@@ -60,3 +37,6 @@ Because of its simplicity, I decided to also make it the most colorful, textless
 
 (And yes, as I also mentioned at the Theme Park domino game, the names of the fonts used give insight into my incredibly professional process for selecting them. I basically searched for fonts with "dino" or "dinosaurs" in their name, or something that _sounded similar_ ... such as Tinos. Of course, I still check if it's readable and looks good, but it's honestly impressive how often this just works out. You can search for the most specific or random of keywords and find a cool, thematic font just sideways of that.)
 
+## Credits
+
+The fonts used are **Cute Dino** (headings) and **Tinos** (body text). Some generative image AI was used. Everything else (code, idea, rules, illustrations) is entirely mine.

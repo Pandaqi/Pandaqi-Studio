@@ -14,7 +14,7 @@ categories: ["board-game", "card-game"]
 tags: ["market", "bluffing", "turn-based"]
 themes: ["nature"]
 
-downloadLink: "https://drive.google.com/open?id=1MHd_tAhJ2YP6pBRPXRZEKKxxZGvunPFx"
+driveLink: "https://drive.google.com/open?id=1MHd_tAhJ2YP6pBRPXRZEKKxxZGvunPFx"
 
 multiplayermode: "competitive"
 language: ["EN", "NL"]

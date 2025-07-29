@@ -4,6 +4,83 @@ import Point from "js/pq_games/tools/geometry/point";
 
 const CONFIG =  
 {
+	_settings:
+	{
+		playerCount:
+		{
+			type: SettingType.NUMBER,
+			min: 1,
+			max: 6,
+			default: 4
+		},
+
+		useRealMaterial:
+		{
+			type: SettingType.CHECK,
+			label: "Use Real Material",
+			remark: "Enable if you're reusing the printed out material sheet."
+		},
+
+		createPremadeGame:
+		{
+			type: SettingType.CHECK,
+			label: "Create PDF",
+			remark: "Downloads a PDF with a board and hint cards for offline play."
+		},
+
+		fastGeneration:
+		{
+			type: SettingType.CHECK,
+			label: "Fast Generation",
+			remark: "Produces a game much faster, but can lead to more unfair or chaotic games"
+		},
+
+		hints:
+		{
+			type: SettingType.GROUP,
+
+			rotation:
+			{
+				type: SettingType.CHECK,
+				label: "Rotation Hints"
+			},
+
+			special:
+			{
+				type: SettingType.CHECK,
+				label: "Special Hints"
+			},
+
+			symbols:
+			{
+				type: SettingType.CHECK,
+				label: "Symbol Hints"
+			},
+
+			networks:
+			{
+				type: SettingType.CHECK,
+				label: "Network Hints",
+				remark: "Not playable with real/reused material."
+			},
+
+			multiHints:
+			{
+				type: SettingType.CHECK,
+				label: "Multi Hints",
+				remark: "Players receive 1 hint by default. This allows up to 3. Can make generation faster."
+			},
+
+			advancedHints:
+			{
+				type: SettingType.CHECK,
+				label: "Advanced Hints",
+				remark: "Adds many types of hints that are really hard to figure out."
+			}
+
+		}
+	},
+
 	configKey: "pirateDrawingbeardConfig",
 	size: new Point(297*3.8, 210*3.8),
 

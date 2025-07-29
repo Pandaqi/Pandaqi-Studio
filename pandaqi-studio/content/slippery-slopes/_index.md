@@ -1,11 +1,9 @@
 ---
 type: "project"
 
-
 title: "Slippery Slopes"
 blurb: "A party game about conveying words by grading them on funky scales. How do you communicate PIZZA when you only have hot-cold, heavy-light and dry-wet?"
 # blurb: "A party game about communicating words by grading them on funky scales."
-
 
 date: 2024-04-25
 
@@ -15,8 +13,7 @@ categories: ["board-game", "standard"]
 tags: ["social", "guessing", "sorting", "language", "creative", "limited-communication"]
 themes: ["retro", "colorful"]
 
-
-downloadLink: "https://drive.google.com/drive/folders/1Ewuqw4wDfazKhfhsoZx-QLfkhGGiiJqM"
+driveLink: "https://drive.google.com/drive/folders/1Ewuqw4wDfazKhfhsoZx-QLfkhGGiiJqM"
 
 multiplayermode: "cooperative"
 language: EN
@@ -27,25 +24,6 @@ devlog: "/blog/boardgames/slippery-slopes/"
 
 ---
 
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="slipperySlopesConfig" btn_label="Generate Material" game_title="Slippery Slopes" defaults="true" >}}
-  {{< setting-checkbox id="setting-generateSliders" text="Generate Sliders?" checked="checked" >}}
-  {{< setting-checkbox id="setting-generateWords" text="Generate Words?" checked="checked" >}}
-
-  {{< boardgame-settings-section heading="Word Settings" >}}
-    {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
-    {{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}}
-  {{< /boardgame-settings-section >}}
-
-  {{< boardgame-settings-section heading="Expansions" >}}
-    {{< setting-checkbox id="setting-expansions-glidyGifts" text="Glidy Gifts?" remark="Adds actions to help make guessing easier." checked="checked" >}}
-    {{< setting-checkbox id="setting-expansions-crasheryCliffs" text="Crashery Cliffs?" remark="Slight rule changes and more slider types." >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
 ## Using your Phone
 
 By default, this game is completely offline: just download the material once, print it, and play.
@@ -53,10 +31,6 @@ By default, this game is completely offline: just download the material once, pr
 It is highly recommended, however, to add a timer to rounds. You can use any timer or app, including my own [Pandaqi Timer](https://pandaqi.com/tools/timer) page.
 
 Or you can simply play the completely _digital_ sequel: [Slippery Slopes: Trippy Touches](https://pandaqi.com/slippery-slopes-trippy-touches/). Playable with just one smartphone, rules explained as you go, still the same fun core mechanic.
-
-## Credits
-
-The fonts used are **Fraunces** (soft variation) for text and **Super Funtime** for headers. Everything else is mine.
 
 ## Background
 
@@ -67,4 +41,9 @@ Additionally, I ran into some problems I didn't know how to solve yet. Any creat
 This game takes the same idea of "communicate secret words/concepts in a vague and fun way", but puts a more precise and focused spin on it this time. The rules are even shorter and players who need a bit more certainty (instead of relying on creativity and inspiration) can find it in this game.
 
 A simple, fast party game for any group!
+
+## Credits
+
+The fonts used are **Fraunces** (soft variation) for text and **Super Funtime** for headers. Everything else is mine.
+
 

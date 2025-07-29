@@ -13,7 +13,7 @@ categories: ["board-game", "hybrid-game", "standard"]
 tags: ["media", "traitor", "player-powers", "bluffing"]
 themes: []
 
-downloadLink: "https://drive.google.com/drive/folders/1u791rNWb82YJme3rEqjjd5k-kWqbzR3t"
+driveLink: "https://drive.google.com/drive/folders/1u791rNWb82YJme3rEqjjd5k-kWqbzR3t"
 
 multiplayermode: "competitive"
 language: NL

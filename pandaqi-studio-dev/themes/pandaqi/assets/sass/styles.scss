@@ -23,6 +23,9 @@ $size-xs: 0.44em;
 		--bg-color: oklch(0.9273 0.015 94.21);
 		--text-color: oklch(0.1 0.015 94.21);
 
+		--color-white: #FFF;
+		--color-black: #000;
+
 		--color-light: oklch(0.85 0.0469 80.75);
 		--color-mid-light: oklch(0.7 0.0469 68);
 		--color-mid-dark: oklch(0.5 0.0469 52);
@@ -47,6 +50,9 @@ $size-xs: 0.44em;
 	{
 		--text-color: oklch(0.9 0.015 94.21);
 		--bg-color: oklch(0.3 0.015 94.21);
+
+		--color-white: #000;
+		--color-black: #FFF;
 
 		--color-dark: oklch(0.85 0.0469 80.75);
 		--color-mid-dark: oklch(0.7 0.0469 68);
@@ -144,6 +150,7 @@ $size-xs: 0.44em;
 		width: 100%;
 		max-width: 100%;
 		height: auto;
+		max-height: 100%;
 	}
 
 	// @NOTE: setting this on the WHOLE page just messes with all the other line heights too much, 
@@ -468,6 +475,26 @@ $size-xs: 0.44em;
 		max-width: 100%;
 	}
 
+	.height-maximize
+	{
+		height: 100%;
+		max-height: 100%;
+	}
+
+	.size-maximize
+	{
+		width: 100%;
+		max-width: 100%;
+		height: 100%;
+		max-height: 100%;
+	}
+
+	.height-equals-font-size
+	{
+		height: 1.2em;
+		max-height: 1.2em;
+	}
+
 	.block-center
 	{
 		margin: auto;
@@ -505,7 +532,12 @@ $size-xs: 0.44em;
 
 	.padding-m
 	{
-		padding: 1em;
+		padding: $size-m;
+	}
+
+	.padding-left-m
+	{
+		padding-left: $size-m;
 	}
 
 	.border-radius-m
@@ -536,6 +568,11 @@ $size-xs: 0.44em;
 	.flex-align-center
 	{
 		justify-content: center;
+		align-items: center;
+	}
+
+	.flex-align-center-vertical
+	{
 		align-items: center;
 	}
 
@@ -570,6 +607,12 @@ $size-xs: 0.44em;
 		filter: drop-shadow(0 0 2px #977);
 	}
 
+	.effect-glow-m
+	{
+		text-shadow: 0 0 0.25em var(--color-white);
+		filter: drop-shadow(0 0 0.25em var(--color-white));
+	}
+
 	.bg-color-light
 	{
 		background-color: var(--color-light);
@@ -578,6 +621,11 @@ $size-xs: 0.44em;
 	.bg-color-accent
 	{
 		background-color: var(--color-accent);
+	}
+
+	.text-color-dark
+	{
+		color: var(--color-dark);
 	}
 
 	.text-color-mid-light
@@ -618,6 +666,11 @@ $size-xs: 0.44em;
 	.font-size-s
 	{
 		font-size: $size-s;
+	}
+	
+	.font-size-l
+	{
+		font-size: $size-l;
 	}
 
 	.text-thin

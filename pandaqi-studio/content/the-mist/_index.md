@@ -1,13 +1,10 @@
 ---
 type: "project"
 
-
 title: "The Mist"
 blurb: "A Mist covers the world. Each area might be a warm fire, or a trap, or a portal---you decide, but do so wisely."
 # blurb: "A [One Paper Game](/boardgames#one_paper_games) about exploring a world where each square is multiple things at once---until you step onto it."
-downloadLink: "https://drive.google.com/drive/folders/1yy2JZhtm1iiTvff9o3kyOf0sXtMQjF_f"
-
-
+driveLink: "https://drive.google.com/drive/folders/1yy2JZhtm1iiTvff9o3kyOf0sXtMQjF_f"
 
 date: 2025-01-26
 
@@ -26,24 +23,9 @@ devlog: "/blog/boardgames/the-mist/"
 
 ---
 
-{{% boardgame-settings-container type="board" %}}
+A [One Paper Game](/boardgames#one_paper_games) about exploring a world where each square is multiple things at once---until you step onto it.
 
-{{< boardgame-settings type="board" local_storage="theMistConfig" game_title="The Mist" defaults="true" >}}
-  {{< setting-checkbox id="setting-includeRules" text="Include Rules?" checked="checked" remark="Only disable this if you know all the rules by heart." >}}
-  {{< setting-enum id="setting-boardSize" text="Board Size?" values="tiny,small,regular,big,huge" valaskey="true" def="regular" remark="Increases or decreases the number of squares on the board; not page size." >}}
-  {{< boardgame-settings-section heading="Which sets to include?" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base Set?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-advanced" text="Advanced Set?" >}}
-    {{< setting-checkbox id="setting-sets-expert" text="Expert Set?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-
-## Credits
-
-The fonts used are **Adventure Script** (headings) and **Inika** (body). Both freely available. Some of the art was generated with AI. Everything else (code, assets, idea, etcetera) is entirely mine.
+## Background
 
 This is probably my game with the highest ratio of "rules" to "depth". 
 
@@ -55,3 +37,6 @@ While obviously not on the same level as Chess or Go, I do compare its general f
 
 I sometimes feel like those games aren't so much "designed" as that they are "found". This feels like a game that was always there, I just found it and hopefully executed it well enough :)
 
+## Credits
+
+The fonts used are **Adventure Script** (headings) and **Inika** (body). Both freely available. Some of the art was generated with AI. Everything else (code, assets, idea, etcetera) is entirely mine.

@@ -3,9 +3,61 @@ import CVal from "js/pq_games/tools/generation/cval"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import Point from "js/pq_games/tools/geometry/point"
 
-
 const CONFIG:any = 
 {
+    _settings:
+    {
+        addText:
+        {
+            type: SettingType.CHECK,
+            label: "Add Text",
+            remark: "Adds text that explains what a tile does on the tile itself."
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            roles:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Role Tiles"
+            },
+
+            goblin:
+            {
+                type: SettingType.CHECK,
+                label: "Goblin Grandma",
+            },
+
+            proximity:
+            {
+                type: SettingType.CHECK,
+                label: "Proximity Papa",
+            },
+
+            direction:
+            {
+                type: SettingType.CHECK,
+                label: "Direction Daddy",
+            },
+
+            machine:
+            {
+                type: SettingType.CHECK,
+                label: "Machine Mama",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

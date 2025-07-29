@@ -7,7 +7,7 @@ blurb: "Bank on riskier and riskier combinations appearing on the secret dice, o
 
 weightProject: 35
 
-downloadLink: "https://drive.google.com/drive/folders/11ELawc0hyiDkflmzuKTKb94sOzccwPXw"
+driveLink: "https://drive.google.com/drive/folders/11ELawc0hyiDkflmzuKTKb94sOzccwPXw"
 
 fontSizeBase: 17
 

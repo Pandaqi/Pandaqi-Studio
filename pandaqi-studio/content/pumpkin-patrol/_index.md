@@ -1,14 +1,10 @@
 ---
 type: "project"
 
-
 title: "Pumpkin Patrol"
 blurb: "Attract the most valuable Trick-or-Treaters with beautiful Halloween decorations, but don't forget to collect enough candy to actually make them happy!"
 # blurb: "Hand out the most candy in a very competitive Halloween neighborhood."
-downloadLink: "https://drive.google.com/drive/folders/1tg66GnYFxZukTDFUGoSjGIpr9BlU3Wy8"
-
-
-
+driveLink: "https://drive.google.com/drive/folders/1tg66GnYFxZukTDFUGoSjGIpr9BlU3Wy8"
 
 date: 2024-10-12
 
@@ -27,21 +23,9 @@ devlog: "/blog/boardgames/pumpkin-patrol/"
 
 ---
 
+Hand out the most candy in a very competitive Halloween neighborhood!
+
 **Remark** (when using the generator): You can combine the sets in any way and the generator will create a balanced deck. The names _starter_, _beginner_, and so forth merely give an indication how hard it is to play with or learn this specific set.
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="pumpkinPatrolConfig" btn_label="Generate Material" game_title="Pumpkin Patrol" defaults="true" >}}
-  {{< setting-checkbox id="setting-includePeopleCards" text="Generate People Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeHandCards" text="Generate Hand Cards?" checked="checked" >}}
-  {{< boardgame-settings-section heading="Cards to Include" >}}
-    {{< setting-enum id="setting-setPeople" text="People Set?" values="starter,beginner,advanced,expert,random" valaskey="true" def="starter" >}}
-    {{< setting-enum id="setting-setDecorations" text="Decoration Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
-    {{< setting-enum id="setting-setTreats" text="Treat Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
 
 ## Background
 

@@ -1,15 +1,13 @@
 ---
 type: "project"
 
-
 title: "Cookie Smasher"
 blurb: "A fast party game about quick thinking and deduction, finding the poisoned food, then smashing it before anyone else."
 # blurb: "Smash the poisoned food faster than anyone else to prevent the king's assassination!"
 blurbProject: "The king dines at a mighty feast, but one ingredient is secretly poisoned. Smash it before anyone else to save the king!"
 weightProject: 20
 
-downloadLink: "https://drive.google.com/drive/folders/1Vb-cB7KrYaxakv2X2oSmQJdSNg-9T5T_"
-
+driveLink: "https://drive.google.com/drive/folders/1Vb-cB7KrYaxakv2X2oSmQJdSNg-9T5T_"
 
 date: 2024-07-26
 
@@ -28,26 +26,9 @@ devlog: "/blog/boardgames/swiftsmash-saga/cookie-smasher/"
 
 ---
 
+Smash the poisoned food faster than anyone else to prevent the king's assassination!
 
-
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="cookieSmasherConfig" btn_label="Generate Material" game_title="Cookie Smasher" defaults="true" >}}
-  {{< setting-enum id="setting-cardSet" text="Card Set?" values="starter,beginner,amateur,advanced,expert,random" valaskey="true" def="starter" >}}
-  {{< setting-enum id="setting-textPlacement" text="Text Placement?" values="bottom,top" valaskey="true" def="bottom" remark="Text is always mirrored, this just determines which side is the regular one (top/bottom)." >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
-
-The fonts used are **Palette Mosaic** and **Pettingill CF**. The first is available on Google Fonts, the second is from Chuck's Fonts. Both are free for commercial use.
-
-The website and rules use a slightly different font (**Old Standard**). It is more "regular" and readable, especially on longer paragraphs.
-
-The art was partially generated using AI (specifically DALL-E 3). Everything else (idea, code, design, parts of illustrations) is mine.
+## Background
 
 Fun facts:
 
@@ -68,3 +49,11 @@ Before I knew it, the idea of cookies was entrenched in the rules and illustrati
 
 (Unless you play the later, more advanced card sets. Here's a quick strategy tip for those reading this: _eggs_ is the most probable card to be poisoned, while _pear_ and _cinnamon_ are the least probable. I asked the computer to simulate a million games, that's how I know for sure.)
 
+
+## Credits
+
+The fonts used are **Palette Mosaic** and **Pettingill CF**. The first is available on Google Fonts, the second is from Chuck's Fonts. Both are free for commercial use.
+
+The website and rules use a slightly different font (**Old Standard**). It is more "regular" and readable, especially on longer paragraphs.
+
+The art was partially generated using AI (specifically DALL-E 3). Everything else (idea, code, design, parts of illustrations) is mine.

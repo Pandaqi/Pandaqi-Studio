@@ -1,13 +1,51 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point"
-;
 import { CardType, ColorType } from "./dict";
 import CVal from "js/pq_games/tools/generation/cval";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            pointAPolice:
+            {
+                type: SettingType.CHECK,
+                label: "Point-a-Police"
+            },
+
+            completeAMission:
+            {
+                type: SettingType.CHECK,
+                label: "Complete-a-Mission"
+            },
+
+            dontATouchme:
+            {
+                type: SettingType.CHECK,
+                label: "Dont-a-Touchme"
+            },
+
+            waitAMinute:
+            {
+                type: SettingType.CHECK,
+                label: "Wait-a-Minute"
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

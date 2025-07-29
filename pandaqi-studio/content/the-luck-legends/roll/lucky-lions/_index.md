@@ -7,7 +7,7 @@ blurb: "Create more attractive zoos than others, but the animals that come out m
 
 weightProject: 20
 
-downloadLink: "https://drive.google.com/drive/folders/1plpmBaxsa6Qez87puJDpXHiCsU0nwK6Q"
+driveLink: "https://drive.google.com/drive/folders/1plpmBaxsa6Qez87puJDpXHiCsU0nwK6Q"
 
 
 date: 2025-11-26

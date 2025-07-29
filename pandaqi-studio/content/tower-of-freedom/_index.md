@@ -13,7 +13,6 @@ categories: ["game", "desktop", "local-multiplayer"]
 tags: ["construction", "tower-defense", "resource-management", "monsters"]
 themes: ["vector", "side-view", "2D", "lighting"]
 
-downloadLink: "http://pandaqi.itch.io/tower-of-freedom/"
 externalLinks:
   - label: "Buy"
     url: "http://pandaqi.itch.io/tower-of-freedom/"

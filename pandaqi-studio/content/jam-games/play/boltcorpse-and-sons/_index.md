@@ -4,7 +4,6 @@ type: "project"
 title: "Boltcorpse & Sons"
 blurb: "Ward off the evil spirits by looking the right way and wearing the right goggles."
 
-
 date: 2025-12-12
 
 difficulty: "no-brainer"
@@ -13,7 +12,6 @@ categories: ["game", "desktop", "game-jam"]
 tags: []
 themes: ["2D"]
 
-downloadLink: "http://pandaqi.itch.io/boltcorpse-and-sons/"
 externalLinks:
   - label: "Play"
     url: "http://pandaqi.itch.io/boltcorpse-and-sons/"

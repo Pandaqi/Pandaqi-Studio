@@ -15,7 +15,7 @@ categories: ["board-game", "card-game", "standard"]
 tags: ["numbers", "simultaneous-turns", "fast-paced", "stacking", "move-through-all", "ladder-climbing"]
 themes: ["pop-art", "retro", "colorful"]
 
-downloadLink: "https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1"
+driveLink: "https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1"
 
 multiplayermode: "competitive"
 language: EN

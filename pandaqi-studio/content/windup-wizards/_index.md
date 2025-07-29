@@ -12,7 +12,6 @@ categories: ["game", "desktop", "mobile", "game-jam"]
 tags: ["grid", "map", "logic", "campaign"]
 themes: ["3D", "magic", "fantasy"]
 
-downloadLink: "http://pandaqi.itch.io/windup-wizards"
 externalLinks:
   - label: "Buy"
     url: "http://pandaqi.itch.io/bot-bouldering/"

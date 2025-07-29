@@ -12,7 +12,6 @@ categories: ["game", "desktop", "local-multiplayer"]
 tags: ["chaos", "physics-based", "powerups", "real-time", "pick-up-and-deliver", "campaign"]
 themes: ["3D"]
 
-downloadLink: "http://pandaqi.itch.io/package-party/"
 externalLinks:
   - label: "Demo"
     url: "http://pandaqi.itch.io/package-party/"

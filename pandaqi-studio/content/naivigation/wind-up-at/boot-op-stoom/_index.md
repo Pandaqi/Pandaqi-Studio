@@ -6,7 +6,7 @@ blurb: "Bestuur samen de stoomboot en zorg dat je niet op de klippen loopt of de
 
 weightProject: 20
 
-downloadLink: "https://drive.google.com/drive/folders/15EEuGgU5vfh_S2dgEua5zhxdyeXvSBRX"
+driveLink: "https://drive.google.com/drive/folders/15EEuGgU5vfh_S2dgEua5zhxdyeXvSBRX"
 
 date: 2025-10-26
 

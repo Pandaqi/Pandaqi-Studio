@@ -9,7 +9,6 @@ date: 2021-10-30
 categories: ["game"]
 tags: ["desktop", "multiplayer"]
 
-downloadLink: "http://pandaqi.itch.io/company-of-the-tackling-tourists"
 externalLinks:
   - label: "Try on ITCH"
     url: "http://pandaqi.itch.io/company-of-the-tackling-tourists"

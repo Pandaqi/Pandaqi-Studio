@@ -4,6 +4,25 @@ import { TYPES } from "./dict"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        cardSet:
+        {
+            type: SettingType.ENUM,
+            values: ["starter", "beginner", "amateur", "advanced", "expert", "random"],
+            default: "starter",
+            label: "Card Set",
+        },
+
+        textPlacement:
+        {
+            type: SettingType.ENUM,
+            values: ["bottom", "top"],
+            default: "bottom",
+            remark: "Text is always mirrored, this just determines which side is the regular one (top/bottom)."
+        }
+    },
+
     debug: {
         omitFile: false, // @DEBUGGING (should be false)
     },

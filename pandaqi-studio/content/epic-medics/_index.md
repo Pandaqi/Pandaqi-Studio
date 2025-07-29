@@ -14,7 +14,7 @@ categories: ["board-game", "one-paper-game", "hybrid-game"]
 tags: ["hidden-movement", "logic", "player-powers", "traitor", "turn-based", "shared-map", "events"]
 themes: ["science", "cartoon"]
 
-downloadLink: "https://drive.google.com/open?id=1bZ0z3L63sfoK-iMKIQFG8yPzU5Efe9b-"
+driveLink: "https://drive.google.com/open?id=1bZ0z3L63sfoK-iMKIQFG8yPzU5Efe9b-"
 
 multiplayermode: 'cooperative'
 language: EN

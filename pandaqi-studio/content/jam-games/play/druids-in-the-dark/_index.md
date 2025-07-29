@@ -13,7 +13,6 @@ categories: ["game", "desktop", "game-jam"]
 tags: []
 themes: ["2D"]
 
-downloadLink: "http://pandaqi.itch.io/druids-in-the-dark/"
 externalLinks:
   - label: "Buy"
     url: "http://pandaqi.itch.io/druids-in-the-dark/"

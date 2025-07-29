@@ -5,7 +5,7 @@ collection: "visit"
 title: "Naivigation"
 blurb: "A universe of simple party board games about driving one vehicle together, at the same time, without crashing too much."
 
-downloadLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-LzrkwfBM_de"
+driveLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-LzrkwfBM_de"
 
 date: 2025-10-26
 
@@ -23,13 +23,7 @@ ages: everyone
 devlog: "/blog/boardgames/naivigation/"
 ---
 
-
-
-## What's this?
-
-This is the **overview page** of the Naivigation project, or the "master project" if you will. 
-
-It links to all the other games and explains the general idea. All games share the **same core**, but use a **different vehicle** that changes _everything_. You're playing within a minute and you'll never stop.
+All games share the **same core**, but use a **different vehicle** that changes _everything_. You're playing within a minute and you'll never stop.
 
 This page therefore contains downloadable material to _reuse in all games_. Only the **Core Set** is required. 
 
@@ -37,7 +31,6 @@ In other words, want to try it? We recommend ...
 * Click "Download" and get yourself the Core Set.
 * Do the same for [Naivigation: Swerving Spaceships](/naivigation/visit/swerving-spaceships/), and read its short rulebook.
 * Print, cut, have fun!
-
 
 ## Journey through the Universe
 

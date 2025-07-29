@@ -4,7 +4,7 @@ type: "project"
 title: "Finger Guns"
 blurb: "A party game about pointing finger guns at opponents and hoping you prepared the right shot."
 
-downloadLink: "https://drive.google.com/drive/folders/1ffuPk7tdy0Gvs1I7hV7WHMRaULivDFMV"
+driveLink: "https://drive.google.com/drive/folders/1ffuPk7tdy0Gvs1I7hV7WHMRaULivDFMV"
 
 date: 2026-04-26
 

@@ -12,7 +12,6 @@ categories: ["game", "desktop", "local-multiplayer"]
 tags: ["battle", "chaos", "physics-based", "player-elimination", "real-time", "shared-map", "game-modes", "modular", "powerups", "map-selection"]
 themes: ["2D", "colorful", "holiday", "top-down"]
 
-downloadLink: "http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings/"
 externalLinks:
   - label: "Demo"
     url: "http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings/"

@@ -6,7 +6,7 @@ blurb: "A Naivigation game about steering a single airplane together"
 # blurb: "A [Naivigation](/naivigation/) game about steering a single airplane together without crashing into a mountain that's surprisingly tall."
 weightProject: 20
 
-downloadLink: "https://drive.google.com/drive/folders/1jqob8rGmP2Mb_VIC1DzjPz1YS7r7u6T-"
+driveLink: "https://drive.google.com/drive/folders/1jqob8rGmP2Mb_VIC1DzjPz1YS7r7u6T-"
 
 date: 2025-10-26
 

@@ -13,7 +13,7 @@ categories: ["board-game", "one-paper-game"]
 tags: ["movement", "area-control", "take-that", "cooking", "resource-management", "turn-based"]
 themes: ["food", "vector", "colorful"]
 
-downloadLink: "https://drive.google.com/drive/folders/19oX1xwugq8ArnmKhe8kDO5fuZNPDTfKd"
+driveLink: "https://drive.google.com/drive/folders/19oX1xwugq8ArnmKhe8kDO5fuZNPDTfKd"
 
 multiplayermode: "competitive"
 language: EN

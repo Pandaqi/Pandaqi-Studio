@@ -1,12 +1,10 @@
 ---
 type: "project"
 
-
 title: "The Game of Dilemmas"
 blurb: "Combine a positive and negative card from your hand to create a dilemma. If yours is the most controversial, you score the most points!"
 # blurb: "Create tough dilemmas by combining cards from your hand, then make sure yours gets the most controversial votes."
-downloadLink: "https://drive.google.com/drive/folders/1b-raHI4BNZjow8E4X9Qc7ZLWbr4jZ3ne"
-
+driveLink: "https://drive.google.com/drive/folders/1b-raHI4BNZjow8E4X9Qc7ZLWbr4jZ3ne"
 
 date: 2024-12-26
 
@@ -30,19 +28,6 @@ You can simply grab one of the pre-made PDFs at the Download location. But you c
 **Which pack(s) should I use!?** The packs mostly exist to break the huge number of possible cards into smaller chunks. There are no big differences. Each pack could be used standalone or mixed with any other packs in a game.
 
 Except for the **extraordinary** pack! It contains more adult content, not suitable for every group. (It's also much smaller, so needs to be shuffled into existing packs.
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="theGameOfDilemmasConfig" btn_label="Generate Material" game_title="The Game of Dilemmas" defaults="true" >}}
-  {{< setting-checkbox id="setting-includeCards" text="Include Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeTokens" text="Include Tokens?" checked="checked" remark="If you already have these, or plan on using something else, you can disable this." >}}
-  {{< boardgame-settings-section heading="Packs" >}}
-    {{< setting-checkbox-multiple id="setting-packs" values="base,advanced,expert,extraordinary" keys="Base,Advanced,Expert,Extraordinary" values_checked="base" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
 
 ## Background
 

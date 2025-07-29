@@ -5,7 +5,7 @@ type: "project"
 title: "Photomone Games"
 blurb: "A series of games about communicating words by connecting dots or weirder methods."
 # blurb: "A series of (party) games about communicating words by connecting dots, or weirder methods, because you're ants."
-downloadLink: "https://drive.google.com/drive/folders/1VlrZ32F-gLcPyBJzRPVzZOv0M2ZNq5Rn"
+driveLink: "https://drive.google.com/drive/folders/1VlrZ32F-gLcPyBJzRPVzZOv0M2ZNq5Rn"
 
 
 

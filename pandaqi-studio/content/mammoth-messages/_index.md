@@ -4,7 +4,7 @@ type: "project"
 title: "Mammoth Messages"
 blurb: "Give message. They guess. Only cave drawings. Nothing else. More guess is more good. Party game. Hum."
 
-downloadLink: "https://drive.google.com/drive/folders/1lFWm9gEBEFxKMeDMy_fucT5xcDac4KsC"
+driveLink: "https://drive.google.com/drive/folders/1lFWm9gEBEFxKMeDMy_fucT5xcDac4KsC"
 
 date: 2024-03-26
 

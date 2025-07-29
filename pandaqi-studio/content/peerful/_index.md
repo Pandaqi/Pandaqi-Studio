@@ -1,10 +1,10 @@
 ---
 draft: true
 type: "project"
+collection: "connect"
 
 title: "The Peerful Project"
 blurb: "Start the game on your computer, control it with your smartphone. Easy local multiplayer for groups small and large."
-
 
 date: 2020-04-29
 
@@ -13,8 +13,6 @@ genres: ["action"]
 categories: ["game", "desktop", "local-multiplayer", "online-multiplayer", "smartphone-controlled"]
 tags: []
 themes: ["pixel-art"]
-
-collection: true
 
 ---
 

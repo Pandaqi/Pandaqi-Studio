@@ -12,7 +12,6 @@ categories: ["game", "desktop", "mobile"]
 tags: ["movement", "logic", "grid", "turn-based"]
 themes: ["2D", "vector", "lighting", "top-down"]
 
-downloadLink: "http://pandaqi.itch.io/square-ogre"
 externalLinks:
   - label: "Buy"
     url: "http://pandaqi.itch.io/square-ogre"

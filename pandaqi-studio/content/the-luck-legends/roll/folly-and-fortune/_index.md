@@ -7,7 +7,7 @@ blurb: "Stop re-rolling your dice before fortune turns into folly ... if you can
 
 weightProject: 25
 
-downloadLink: "https://drive.google.com/drive/folders/1chjXiPxGk8ydViL-6O7BosN_-2nRBmNS"
+driveLink: "https://drive.google.com/drive/folders/1chjXiPxGk8ydViL-6O7BosN_-2nRBmNS"
 
 
 date: 2025-11-26

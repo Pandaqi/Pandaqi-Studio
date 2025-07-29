@@ -4,7 +4,7 @@ type: "project"
 title: "Captain Flip"
 blurb: "A mix between a memory game and strategy game, where flipping tiles gives you actions, and scoring the tiles you wanted is a challenge."
 # blurb: "Remember the locations of the best tiles and flip them before anyone else."
-downloadLink: "https://drive.google.com/drive/folders/1XyTJDG_9tOtEwNdNxfAAKBFr6LHghwIX"
+driveLink: "https://drive.google.com/drive/folders/1XyTJDG_9tOtEwNdNxfAAKBFr6LHghwIX"
 
 date: 2025-02-26
 

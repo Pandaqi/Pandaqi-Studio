@@ -12,7 +12,6 @@ categories: ["game", "desktop", "mobile", "one-week-game", "local-multiplayer"]
 tags: ["chaos", "cooking", "grid", "shared-map", "pick-up-and-deliver", "real-time"]
 themes: ["2D", "food", "humor"]
 
-downloadLink: "http://pandaqi.itch.io/a-recipe-for-disaster/"
 externalLinks:
   - label: "Play on POKI"
     url: "https://poki.com/en/g/a-recipe-for-disaster"

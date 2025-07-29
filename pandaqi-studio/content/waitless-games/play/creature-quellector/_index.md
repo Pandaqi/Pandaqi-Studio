@@ -19,7 +19,7 @@ tags: ["set-collecting", "battle", "hidden-score", "modular", "turn-based"]
 themes: ["colorful", "monsters"]
 
 
-downloadLink: "https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi"
+driveLink: "https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi"
 
 multiplayermode: "competitive"
 language: EN

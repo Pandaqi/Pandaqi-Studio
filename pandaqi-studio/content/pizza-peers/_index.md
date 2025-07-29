@@ -13,8 +13,6 @@ categories: ["game", "desktop", "smartphone-controlled"]
 tags: ["cooking", "movement", "pick-up-and-deliver"]
 themes: ["food", "pixel-art"]
 
-downloadLink: "https://pizza-peers.herokuapp.com"
-
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'
 price: 0

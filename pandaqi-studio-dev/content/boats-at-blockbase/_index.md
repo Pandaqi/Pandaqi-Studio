@@ -4,7 +4,7 @@ type: "project"
 title: "Boats at Blockbase"
 blurb: "Claim the best parts of the ocean by placing Tetris-shaped blocks on a shared map."
 
-downloadLink: "https://drive.google.com/drive/folders/1WRgaP-8ZIdOwxbxqHvPLKuSP7A_w8-N8"
+driveLink: "https://drive.google.com/drive/folders/1WRgaP-8ZIdOwxbxqHvPLKuSP7A_w8-N8"
 
 date: 2026-05-26
 

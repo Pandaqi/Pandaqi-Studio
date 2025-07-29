@@ -4,7 +4,7 @@ type: "project"
 title: "Firecrackers"
 blurb: "A push-your-luck game about building your own deck of valuable fireworks, with the least chance of igniting the wrong one."
 # blurb: "Build the best fireworks show without having it blow up in your face."
-downloadLink: "https://drive.google.com/drive/folders/12cmopxbr8HZWw8jkXijINkCd8wdTAPQs"
+driveLink: "https://drive.google.com/drive/folders/12cmopxbr8HZWw8jkXijINkCd8wdTAPQs"
 
 date: 2024-12-12
 

@@ -5,6 +5,49 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        useIconsForDefaultActions:
+        {
+            type: SettingType.CHECK,
+            label: "Use Icons For Common Actions",
+            remark: "Some actions are 90% of the game; represent those with an icon instead of English text."
+        },
+
+        useConditionalActions:
+        {
+            type: SettingType.CHECK,
+            label: "Allow Conditional Actions",
+            remark: "Slightly harder to understand, but allow more depth and variety."
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            pawns:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Player Pawns"
+            },
+
+            gates:
+            {
+                type: SettingType.CHECK,
+                label: "Droplets With Demands?",
+                remark: "Harder to understand and play with, but allow more depth and variety."
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

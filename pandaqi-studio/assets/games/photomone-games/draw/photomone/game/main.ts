@@ -23,7 +23,41 @@ const CONFIG =
     wordColors: ["#FFD23F", "#37FF8B", "#EE4266", "#CB9CF2"],
     distanceBetweenWords: 0,
     spaceAroundWord: 0,
-    assetsBase: "/photomone-games/assets/"
+    assetsBase: "/photomone-games/assets/",
+
+    _settings:
+    {
+        createPDF: 
+        {
+            type: SettingType.CHECK,
+            label: "Create PDF",
+            remark: "Downloads a PDF with randomly generated word cards"
+        },
+
+        sneakySpots:
+        {
+            type: SettingType.CHECK,
+            label: "Sneaky Spots",
+            remark: "The interface needs to know if you're using this expansion."
+        },
+
+        wordComplexity:
+        {
+            type: SettingType.ENUM,
+            values: ["core", "easy", "medium", "hard"],
+            default: "core",
+            remark: "How hard should the words be?",
+            label: "Word Complexity"
+        },
+
+        wordCategories:
+        {
+            type: SettingType.MULTI,
+            values: ["anatomy", "animals", "clothes", "food", "items", "nature", "occupations", "places", "sports", "vehicles"],
+            default: ["anatomy", "animals", "clothes", "food", "items", "nature", "occupations", "places", "sports", "vehicles"],
+            label: "Word Categories"
+        }
+    }
 }
 
 async function createWordCard(wordList)

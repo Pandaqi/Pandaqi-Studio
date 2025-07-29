@@ -7,7 +7,7 @@ blurb: "Vote, swap places, use powers and backstab to ensure the right Seeker wi
 blurbProject: "The most complicated version, giving you the deepest gameplay in return."
 weightProject: 40
 
-downloadLink: "https://drive.google.com/drive/folders/1XYqoqGmFc2gfgWcIsjDOJG48GQ2qjZGJ"
+driveLink: "https://drive.google.com/drive/folders/1XYqoqGmFc2gfgWcIsjDOJG48GQ2qjZGJ"
 
 date: 2025-11-12
 

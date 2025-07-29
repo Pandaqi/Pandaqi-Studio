@@ -5,8 +5,7 @@ collection: "count-to"
 title: "The Outnumbered Series"
 blurb: "A series of simple card games that all revolve around one unique number, using it as creatively as possible."
 # blurb: "A series of simple card games that all revolve around one unique number."
-downloadLink: "https://drive.google.com/drive/folders/1ZOi00XqNZdUMHlVJj0ylx_8vFSA6EPow"
-
+driveLink: "https://drive.google.com/drive/folders/1ZOi00XqNZdUMHlVJj0ylx_8vFSA6EPow"
 
 date: 2023-10-20
 
@@ -25,12 +24,6 @@ ages: everyone
 
 ---
 
-## What's this?
-
-This is the **overview page** of The Outnumbered Series.
-
-Click any of the links to visit a specific game. They are sorted based on their unique number, not any other metric (such as simplicity).
-
 All the games are unique: new rules, new art style, new material, new ideas.
 
 Their one thing in common, though, is the focus on **one specific number**. Everything happens or doesn't happen when you reach that number in some way, and there are barely other rules. This makes the games simple and intuitive, and often without any text on the cards---just low numbers.
@@ -39,8 +32,7 @@ The perfect quick family games for the (aspiring) mathemagicians among us.
 
 _Great! When are new games added?_ Currently, I have ~10 ideas, of which ~2 new ones will be added each year.
 
-
-## Credits
+## Background
 
 Once upon a time, I noticed that these kind of "number card games" are very useful. They are easy to learn for all ages, as they only require cards with numbers, no text or complicated rules. They are quick to play. And at the same time, they offer a lot of depth, because the number can always be dealt or used differently.
 
@@ -49,6 +41,8 @@ That's when I decided to take inspiration from that and make such a game. This b
 The fact that I'm officially an Engineer of Mathematics, though I'll never use that diploma for anything, also made it easy to pursue these ideas.
 
 Because all games are completely unique in their gameplay, there are no shared images or fonts. For detailed credits, you'll have to check out the page for a specific game.
+
+## Credits
 
 Some images were generated using AI. I generally use open source and free fonts, though I sometimes make one myself. Everything else---code, assets, ideas, rules, this website---is all mine.
 

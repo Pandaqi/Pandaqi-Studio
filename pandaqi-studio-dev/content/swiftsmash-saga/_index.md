@@ -5,7 +5,7 @@ collection: "tap"
 title: "Swiftsmash Saga"
 blurb: "A series of (party) games about thinking on your feet and swiftly smashing the right card before anyone else."
 
-downloadLink: "https://drive.google.com/drive/folders/153TCjVAmGbWwDFeXqa-eacGi2taA2PnZ"
+driveLink: "https://drive.google.com/drive/folders/153TCjVAmGbWwDFeXqa-eacGi2taA2PnZ"
 
 date: 2024-07-26
 
@@ -23,12 +23,6 @@ ages: everyone
 # devlog: "/blog/boardgames/swiftsmash-games/"
 
 ---
-
-## What's This?
-
-This is the **overview page** of the Swiftsmash Saga.
-
-Click any of the links below to visit a specific game. They are roughly sorted based on simplicity.
 
 These games all have the same **core mechanic** (the "Swiftsmash Mechanic"). First, players simultaneously reveal cards. You must quickly read them, follow ever-changing rules and think ahead to find the **one card** you must smash. Beat the others and you win. Be too slow, or smash the wrong one, and you'll regret it.
 

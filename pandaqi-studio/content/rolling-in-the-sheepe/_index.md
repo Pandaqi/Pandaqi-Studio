@@ -12,7 +12,6 @@ categories: ["game", "desktop", "one-week-game"]
 tags: ["chaos", "physics-based", "catch-the-leader", "movement", "powerups", "shared-map"]
 themes: ["nature", "colorful", "side-view", "2D"]
 
-downloadLink: "http://pandaqi.itch.io/rolling-in-the-sheepe/"
 externalLinks:
   - label: "Demo"
     url: "http://pandaqi.itch.io/rolling-in-the-sheepe"

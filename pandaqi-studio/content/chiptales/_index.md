@@ -5,7 +5,7 @@ collection: "bet"
 title: "Chiptales"
 blurb: "A series of games inspired by poker, trying to simplify, improve or change different parts."
 
-downloadLink: "https://drive.google.com/drive/folders/146uKZvbAPjaFnNVwQkz1Rwo3vGNJ1B1W"
+driveLink: "https://drive.google.com/drive/folders/146uKZvbAPjaFnNVwQkz1Rwo3vGNJ1B1W"
 
 date: 2026-08-26
 
@@ -25,15 +25,7 @@ ages: everyone
 
 ---
 
-
-
-## What's this?
-
-This is the **overview page** of the Chiptales collection.
-
-Click any of the links to visit a specific game. They are roughly sorted based on simplicity.
-
-## Credits
+## Background
 
 Each of these ideas started because I played another game of poker and thought "surely we can find a better casual family game version than this?" 
 
@@ -46,6 +38,8 @@ I wrote a [longer article on my blog](https://tiamopastoor.com/blog/2025/02/my-p
 For the longest time, they weren't even a "collection". I only realized I could group them when I made my fourth game this way. When I have so many games with a common theme, I prefer to bundle them. It keeps the website more clean and helps people find similar games to what they like. 
 
 (It also gives me a nice deadline to finish all games inside a project. Because as we all know: the final 10% of any creative project is harder than the first 90% :p)
+
+## Credits
 
 With these games, I vowed to **not** use any image generation AI. I barely use it in other games as it is, but I wanted to challenge myself and keep it out of this project completely. The fonts used for this main project page are **Klarissa** (headings) and **Cooper** (body). 
 

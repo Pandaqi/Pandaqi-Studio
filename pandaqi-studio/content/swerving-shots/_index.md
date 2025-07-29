@@ -12,7 +12,7 @@ categories: ["board-game", "standard", "tile-game"]
 tags: ["battle", "networks", "take-that", "programming"]
 themes: ["top-down", "vector", "wild-west"]
 
-downloadLink: "https://drive.google.com/open?id=1gGXtVCAP-v0ZD5yqrv1osYf0QE9SK4WB"
+driveLink: "https://drive.google.com/open?id=1gGXtVCAP-v0ZD5yqrv1osYf0QE9SK4WB"
 
 multiplayermode: "competitive"
 language: ["EN", "NL"]

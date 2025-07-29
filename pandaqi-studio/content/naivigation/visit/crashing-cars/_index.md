@@ -6,7 +6,7 @@ blurb: "A Naivigation game about steering a single car together"
 # blurb: "A [Naivigation](/naivigation/) game about steering a single car together, trying not to end up total loss."
 weightProject: 30
 
-downloadLink: "https://drive.google.com/drive/folders/1WKmILf44gTef64QHRQO0jdkur54nXpNI"
+driveLink: "https://drive.google.com/drive/folders/1WKmILf44gTef64QHRQO0jdkur54nXpNI"
 
 date: 2025-10-26
 

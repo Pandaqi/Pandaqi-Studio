@@ -5,6 +5,48 @@ import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        includeRules:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            remark: "Only disable this if you have the rulebook or know all the rules by heart."
+        },
+
+        boardSize:
+        {
+            type: SettingType.ENUM,
+            values: ["tiny", "small", "regular", "big", "huge"],
+            default: "regular",
+            remark: "Increases or decreases the number of squares on the board; not page size."
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            advanced:
+            {
+                type: SettingType.CHECK,
+                label: "Advanced Set"
+            },
+
+            expert:
+            {
+                type: SettingType.CHECK,
+                label: "Expert Set"
+            },
+        }
+    },
+
     configKey: "theMistConfig",
     fileName: "[Board] The Mist",
     resLoader: null,

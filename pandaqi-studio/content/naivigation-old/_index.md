@@ -14,7 +14,7 @@ categories: ["board-game", "tile-game", "card-game"]
 tags: ["grid", "shared-map", "limited-communication", "vehicle-simulation", "tile-placement", "programming"]
 themes: ["vector"]
 
-downloadLink: "https://drive.google.com/open?id=1KYVfdGHwlhRCrBbBwFuwgL5mWycQ8lb3"
+driveLink: "https://drive.google.com/open?id=1KYVfdGHwlhRCrBbBwFuwgL5mWycQ8lb3"
 
 multiplayermode: "cooperative"
 language: ["EN", "NL"]

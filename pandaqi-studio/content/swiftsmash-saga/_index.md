@@ -5,7 +5,7 @@ collection: "tap"
 title: "Swiftsmash Saga"
 blurb: "A series of (party) games about thinking on your feet and swiftly smashing the right card before anyone else."
 
-downloadLink: "https://drive.google.com/drive/folders/153TCjVAmGbWwDFeXqa-eacGi2taA2PnZ"
+driveLink: "https://drive.google.com/drive/folders/153TCjVAmGbWwDFeXqa-eacGi2taA2PnZ"
 
 date: 2024-07-26
 
@@ -24,20 +24,11 @@ ages: everyone
 
 ---
 
-
-
-## What's this?
-
-This is the **overview page** of the Swiftsmash Saga.
-
-Click any of the links to visit a specific game. They are roughly sorted based on simplicity.
-
 These games all have the same **core mechanic** (the "Swiftsmash Mechanic"). First, players simultaneously reveal cards. You must quickly read them, follow ever-changing rules and think ahead to find the **one card** you must smash. Beat the others and you win. Be too slow, or smash the wrong one, and you'll regret it.
 
 Besides that shared mechanic, these games are **completely different**. They don't even share fonts, visual styles or any other mechanics.
 
-
-## Credits
+## Background
 
 This series started with [Cookie Smasher](/swiftsmash-saga/tap/cookie-smasher/). As explained in that game's credits, the idea occurred to me as I wrote one of my _Wildebyte Arcades_ books. It has a character called Cookie Clicker, who obviously originates from the video game of the same name. And my brain thought: could you make a _boardgame_ like Cookie Clicker?
 
@@ -48,6 +39,8 @@ This automatically led to all sorts of rules that _change_ what is good and what
 Also as usual, I could only find the simpler versions after making the more complicated ones. You have to actually make something and see all its pitfalls and opportunities to realize "wait, if we just change X and Y, we don't even need these 5 rules or text on the cards!"
 
 Hopefully these party games entertain people around the world, no matter which one you choose.
+
+## Credits
 
 Because all games are completely unique in their gameplay, there are no shared images or fonts. For detailed credits, you'll have to check out the page for a specific game.
 

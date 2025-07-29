@@ -15,7 +15,7 @@ categories: ["board-game", "standard"]
 tags: ["domino", "shared-map", "language", "spiritually-inspired"]
 themes: ["colorful", "vector"]
 
-downloadLink: "https://drive.google.com/drive/folders/14KGDtFeGMpGRltZorC6shHr3pYXGk5MQ"
+driveLink: "https://drive.google.com/drive/folders/14KGDtFeGMpGRltZorC6shHr3pYXGk5MQ"
 
 multiplayermode: "competitive"
 language: EN

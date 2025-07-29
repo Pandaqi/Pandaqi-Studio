@@ -7,7 +7,7 @@ blurb: "Guess how often certain numbers appear or bluff your way through it. A v
 
 weightProject: 15
 
-downloadLink: "https://drive.google.com/drive/folders/1phiHNNnl6Vl028o8I-Fmm7l3xZTXoUK9"
+driveLink: "https://drive.google.com/drive/folders/1phiHNNnl6Vl028o8I-Fmm7l3xZTXoUK9"
 
 
 date: 2025-11-26

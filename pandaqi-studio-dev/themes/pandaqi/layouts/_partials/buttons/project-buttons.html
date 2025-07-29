@@ -1,10 +1,10 @@
 <nav>
     <ul class="no-default-list-styles gap-m flex flex-align-center flex-wrap-until-cutoff-s">
         <!--- Local Board Game Stuff --->
-        {{ $download_url := .Params.downloadLink }}
-        {{ if $download_url }}
+        {{ $drive_url := .Params.driveLink }}
+        {{ if $drive_url }}
             <li class="width-maximize">
-                {{ partial "buttons/button.html" (dict "content" "Download" "href" $download_url "class" "button-large accent-green") }}
+                {{ partial "buttons/button.html" (dict "content" "Download" "href" $drive_url "class" "button-large accent-green") }}
                 <div class="font-size-s text-italic text-color-mid-light text-center">Google Drive<br>(Files = Material; Rules = Rulebook)</div>
             </li>
         {{ end }}

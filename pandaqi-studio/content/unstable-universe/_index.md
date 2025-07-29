@@ -13,7 +13,7 @@ categories: ["board-game", "one-paper-game"]
 tags: ["cutting", "experimental", "movement"]
 themes: ["space", "nature"]
 
-downloadLink: "https://drive.google.com/drive/folders/1wu61RX3FCPVfmWjDTW7yOoeqhsgfuMLr"
+driveLink: "https://drive.google.com/drive/folders/1wu61RX3FCPVfmWjDTW7yOoeqhsgfuMLr"
 
 multiplayermode: "competitive"
 language: EN
@@ -43,23 +43,26 @@ media: [video/unstableuniverse_explanation_gif, page/unstableuniverse_inaction_1
 ## What's the idea?
 
 ### When Do I Win?
+
 Be the first to fulfill your personal mission and reach the center!
 
 ### What can I do?
+
 Start at the edge. Take the same action each turn: **move to a new node**.
 
 * Some nodes have **special actions**, such as teleportation.
 * Most nodes trigger a **cutting action**!
 
 ### Cutting the board?
+
 Yes, you must **cut into the game board** following certain rules! If a piece comes loose, it drifts away and is out of the game, including all people on it.
 
 ## What do I need?
 
 Three steps:
-1. <span style="color:#f92e2e;">Generate a random board below and print it.</span>
-2. <span style="color:#9e2d41;">Read the rules (one page).</span>
-3. <span style="color:purple;">Grab some pens, scissors and friends.</span>
+1. Generate a random board below and print it.
+2. Read the rules (one page).
+3. Grab some pens, scissors and friends.
 
 **Concerned about ink?** Only page 1, 3 and 4 of the rulebook are relevant for the base game. You can also generate "ink friendly" boards.
 
@@ -67,33 +70,14 @@ Three steps:
 
 **Tip for Cleanup?** When done, you should have a bunch of puzzle pieces ( = all pieces of paper you cut off). Here's the challenge: try to fit them back together to recreate the original paper! Sounds easier than it is :)
 
-
-{{% boardgame-settings-container type="material" %}}
-  
-{{< boardgame-settings type="board" game_title="Unstable Universe" local_storage="unstableUniverseConfig" defaults="true" >}}
-  {{< setting-seed >}}
-  {{< setting-playercount min="2" max="9" def="4" >}}
-  {{< setting-checkbox id="setting-firstGame" text="First game(s)?" remark="Everyone gets the same Mission, to simplify learning and teaching the game." checked="checked" >}}
-  {{< boardgame-settings-section heading="Expansions" >}}
-    {{< setting-checkbox id="setting-expansions-nastyNodes" text="Nasty Nodes?" >}}
-    {{< setting-checkbox id="setting-expansions-nodesOfKnowledge" text="Nodes of Knowledge?" >}}
-    {{< setting-checkbox id="setting-expansions-theElectricExpansion" text="The Electric Expansion?" >}}
-    {{< setting-checkbox id="setting-expansions-extremeExpeditions" text="Extreme Expeditions?" >}}
-    {{< setting-checkbox id="setting-expansions-sharpScissors" text="Sharp Scissors?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-
-## Credits
-          
-Fonts? **SciFly**, created by Tomi Haaparanta.
-
-Check out my other (board)games. Support me if you enjoy my work!
+## Background
 
 I wrote two detailed articles about the development of this game:
 - [(Devlog) Unstable Universe](/blog/boardgames/unstable-universe/devlog-unstable-universe) => about the general process, problems, decision making, why I did what I did</li>
 - [(Technical Devlog) Unstable Universe](/blog/boardgames/unstable-universe/tech-devlog-unstable-universe) => about the algorithms and (programming) techniques used for creating this website that generates random game boards
 
-Thescreenshots contain two pictures of the game "in action". Some people in my play groups insist on using these way too complex icons, like a sheep or stick figure---I recommend just using simple shapes in your games. The bottom board is from an older version of the game, but the sunlight in the picture was really nice, so I decided to keep it on this page.
+The screenshots contain two pictures of the game "in action". Some people in my play groups insist on using these way too complex icons, like a sheep or stick figure---I recommend just using simple shapes in your games. The bottom board is from an older version of the game, but the sunlight in the picture was really nice, so I decided to keep it on this page.
+
+## Credits
+          
+The font is **SciFly** by Tomi Haaparanta. Everything else is mine.

@@ -4,7 +4,7 @@ type: "project"
 title: "Noble Flood"
 blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity. Also playable with standard deck of cards."
 # blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity."
-downloadLink: "https://drive.google.com/drive/folders/1CcsMv1m33GWZypAiNYZgkpCh17RQtqW5"
+driveLink: "https://drive.google.com/drive/folders/1CcsMv1m33GWZypAiNYZgkpCh17RQtqW5"
 
 date: 2025-05-26
 

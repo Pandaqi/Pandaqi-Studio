@@ -4,6 +4,32 @@ import { TokenType } from "./dict"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        includeCards:
+        {
+            type: SettingType.CHECK,
+            label: "Include Cards",
+            default: true
+        },
+
+        includeTokens:
+        {
+            type: SettingType.CHECK,
+            label: "Include Tokens",
+            default: true,
+            remark: "If you already have these, or plan on using something else, you can disable this."
+        },
+
+        packs:
+        {
+            type: SettingType.MULTI,
+            values: ["base", "advanced", "expert", "extraordinary"],
+            default: ["base"],
+            label: "Packs"
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

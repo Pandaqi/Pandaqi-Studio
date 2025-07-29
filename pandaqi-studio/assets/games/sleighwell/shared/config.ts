@@ -2,6 +2,33 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            reindeerWay:
+            {
+                type: SettingType.CHECK,
+                label: "Reindeer Way"
+            },
+
+            toughTrees:
+            {
+                type: SettingType.CHECK,
+                label: "Tough Trees"
+            },
+        }
+    },
+
     debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)

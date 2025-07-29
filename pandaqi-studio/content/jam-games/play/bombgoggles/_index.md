@@ -4,7 +4,6 @@ type: "project"
 title: "Bombgoggles"
 blurb: "Blow up your friends by finding the hidden bombs first."
 
-
 date: 2025-12-12
 
 difficulty: "no-brainer"
@@ -13,7 +12,6 @@ categories: ["game", "desktop", "game-jam"]
 tags: []
 themes: ["2D"]
 
-downloadLink: "http://pandaqi.itch.io/bombgoggles/"
 externalLinks:
   - label: "Play"
     url: "http://pandaqi.itch.io/bombgoggles/"

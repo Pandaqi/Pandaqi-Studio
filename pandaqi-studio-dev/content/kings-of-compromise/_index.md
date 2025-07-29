@@ -11,7 +11,7 @@ date: 2022-06-02
 categories: ["board-game"]
 tags: ["hybrid"]
 
-downloadLink: "https://drive.google.com/drive/folders/1_gDZ9A9oi0FvbPjqjx4DDd19GO-NqZKL"
+driveLink: "https://drive.google.com/drive/folders/1_gDZ9A9oi0FvbPjqjx4DDd19GO-NqZKL"
 
 multiplayermode: "cooperative"
 language: EN

@@ -1,13 +1,11 @@
 ---
 type: "project"
 
-
 title: "Smackshapes"
 blurb: "Have the sharpest mind of all and quickly count how often all shapes appear, so you can smash the winning card first!"
 weightProject: 20
 
-
-downloadLink: "https://drive.google.com/drive/folders/1dvo3QDYhFrpa6slVb8h7Z4nxVO-uto05"
+driveLink: "https://drive.google.com/drive/folders/1dvo3QDYhFrpa6slVb8h7Z4nxVO-uto05"
 
 date: 2025-07-26
 
@@ -26,24 +24,7 @@ devlog: "/blog/boardgames/swiftsmash-saga/smackshapes/"
 
 ---
 
-
-
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="smackshapesConfig" btn_label="Generate Material" game_title="Smackshapes" defaults="true">}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-colorCracks" text="Colorcracks?" remark="An expansion that adds some special actions and fun twists." >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
-
-The fonts used are **Mouse Memoirs** (headings) and **Manuscript** (body text). Everything else is mine.
+## Background
 
 A few years ago now, I made _Cookie Smasher_. My first attempt at creating a very simple and fast party game about "smashing the right card". It was a good attempt, and the final game looks good and plays well. 
 
@@ -53,3 +34,6 @@ Well, this game _is_ that simpler version! I took all the lessons from Cookie Sm
 
 And with the creation of this game, I finally had _multiple games_ with this mechanic and could call it a series: the SwiftSmash Saga.
 
+## Credits
+
+The fonts used are **Mouse Memoirs** (headings) and **Manuscript** (body text). Everything else is mine.

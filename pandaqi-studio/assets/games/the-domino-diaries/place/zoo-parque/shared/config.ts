@@ -3,9 +3,70 @@ import CVal from "js/pq_games/tools/generation/cval"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import Point from "js/pq_games/tools/geometry/point"
 
-
 const CONFIG:any = 
 {
+    _settings:
+    {
+        addText:
+        {
+            type: SettingType.CHECK,
+            label: "Add Text",
+            default: true,
+            remark: "Adds text that explains what a tile does on the tile itself."
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            pawns:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Pawns"
+            },
+
+            passports:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Animal Passports",
+            },
+
+            zooperative:
+            {
+                type: SettingType.CHECK,
+                label: "Zooperative",
+                remark: "Allows playing the game cooperatively."
+            },
+
+            strong:
+            {
+                type: SettingType.CHECK,
+                label: "Strong Species",
+            },
+
+            wildlife:
+            {
+                type: SettingType.CHECK,
+                label: "Wildlife Wishes",
+            },
+
+            utilities:
+            {
+                type: SettingType.CHECK,
+                label: "Unnatural Utilities",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

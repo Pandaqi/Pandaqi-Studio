@@ -5,7 +5,7 @@ collection: "spell"
 title: "Keebble Games"
 blurb: "A series of word games inspired by Scrabble, but also completely different."
 
-downloadLink: "https://drive.google.com/drive/folders/1uetb7g-4GW5yp_bwQyozFr_ktS2uU_ul"
+driveLink: "https://drive.google.com/drive/folders/1uetb7g-4GW5yp_bwQyozFr_ktS2uU_ul"
 
 date: 2023-02-16
 
@@ -25,16 +25,7 @@ devlog: "/blog/boardgames/keebble/"
 ---
 
 
-
-## What's this?
-
-This is the **overview page** for the Keebble Games.
-
-Click any of the links to visit a specific game. They aren't sorted in any way.
-
-## Credits
-
-The font used is **Arbetus Slab** for both heading and body. Everything else---images, code, idea, rules, etcetera---was made by me.
+## Background
 
 This project was obviously inspired by Scrabble. Most people know and enjoy the game. But I saw some things to improve: it can take too long, you need to carry a big box, there's no variation to the board. 
 
@@ -46,3 +37,6 @@ In the end, this turned one Scrabble-inspired game into an entire project of sim
 
 Want more details? Check out the [devlog](/blog/boardgames/keebble/).
 
+## Credits
+
+The font used is **Arbetus Slab** for both heading and body. Everything else---images, code, idea, rules, etcetera---was made by me.

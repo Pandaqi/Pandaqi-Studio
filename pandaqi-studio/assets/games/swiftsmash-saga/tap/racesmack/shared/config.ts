@@ -1,13 +1,41 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
-import Point from "js/pq_games/tools/geometry/point"
-;
+import Point from "js/pq_games/tools/geometry/point";
 import { CardDisplayType, ColorType } from "./dict";
 import CVal from "js/pq_games/tools/generation/cval";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        useBiggerFont:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            remark: "Uses the thicker/bigger font on Rule Cards for readability.",
+            label: "Use Bold Font"
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            shiftingGears:
+            {
+                type: SettingType.CHECK,
+                label: "Shifting Gears"
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

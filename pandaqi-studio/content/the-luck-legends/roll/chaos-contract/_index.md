@@ -7,7 +7,7 @@ blurb: "Enter Chaos Contracts with other lost souls and place the difference bet
 
 weightProject: 30
 
-downloadLink: "https://drive.google.com/drive/folders/1uw-nB4F36NqM6XUbVqXUyemRKPAwjDLJ"
+driveLink: "https://drive.google.com/drive/folders/1uw-nB4F36NqM6XUbVqXUyemRKPAwjDLJ"
 
 fontSizeBase: 17
 

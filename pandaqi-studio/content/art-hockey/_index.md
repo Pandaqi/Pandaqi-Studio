@@ -12,12 +12,15 @@ categories: ["game", "mobile", "local-multiplayer"]
 tags: ["shared-map", "score-and-reset", "real-time", "drawing", "creative", "chaos", "game-modes", "powerups"]
 themes: ["2D", "colorful", "top-down"]
 
-downloadLink: "https://pandaqi.itch.io/art-hockey/"
+externalLinks:
+  - label: "Play on ITCH"
+    url: "http://pandaqi.itch.io/art-hockey"
+    platforms: ["windows", "android"]
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
 price: 0
-platform: ["android"]
+platform: ["windows", "android"]
 language: EN
 playtime: 5
 playercount: [1,2,3,4]

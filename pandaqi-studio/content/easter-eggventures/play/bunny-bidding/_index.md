@@ -7,7 +7,7 @@ blurb: "Play rounds adding cards to the secret offer and bidding on it. But use 
 blurbProject: "Snatch the best offers containing the secret eggs that actually score you points."
 weightProject: 40
 
-downloadLink: "https://drive.google.com/drive/folders/15E5czi0s4g4Nua22HvMPB3j7DNGgOz0p"
+driveLink: "https://drive.google.com/drive/folders/15E5czi0s4g4Nua22HvMPB3j7DNGgOz0p"
 
 date: 2025-03-26
 

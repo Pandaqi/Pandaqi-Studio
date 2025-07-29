@@ -7,7 +7,7 @@ blurb: "Propose spy missions and hope enough people want them to succeed---or de
 blurbProject: "Propose spy missions and hope enough people want them to succeed---or deviously let them fail to benefit your own secret cover."
 weightProject: 20
 
-downloadLink: "https://drive.google.com/drive/folders/1U1HIR6DoWPo3gdoHc7zPQAjNDPMmNgia"
+driveLink: "https://drive.google.com/drive/folders/1U1HIR6DoWPo3gdoHc7zPQAjNDPMmNgia"
 
 date: 2025-04-26
 

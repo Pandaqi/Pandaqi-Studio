@@ -6,6 +6,63 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG = 
 {
+    _settings:
+    {
+        generateSliders:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Generate Sliders"
+        },
+
+        generateWords:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Generate Words"
+        },
+
+        wordSettings:
+        {
+            type: SettingType.GROUP,
+
+            wordComplexity:
+            {
+                type: SettingType.ENUM,
+                values: ["core", "easy", "medium"],
+                default: "core",
+                label: "Word Complexity",
+                remark: "How hard should the words be?"
+            },
+
+            includeNamesAndGeography:
+            {
+                type: SettingType.CHECK,
+                label: "Include Names",
+                remark: "Adds geography and proper names of people, brands, ..."
+            }
+        },
+
+        expansions:
+        {
+            type: SettingType.GROUP,
+
+            glidyGifts:
+            {
+                type: SettingType.CHECK,
+                label: "Glidy Gifts",
+                remark: "Adds actions to help make guessing easier."
+            },
+
+            crasheryCliffs:
+            {
+                type: SettingType.CHECK,
+                label: "Crashery Cliffs",
+                remark: "Slight rule changes and more slider types."
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

@@ -6,7 +6,6 @@ blurb: "Communicate words by drawing. But you may only draw straight lines betwe
 
 weightProject: 20
 
-
 date: 2023-08-21
 
 difficulty: "no-brainer"
@@ -17,8 +16,6 @@ themes: ["top-down", "vector"]
 
 sharedJS: "photomone-games"
 sharedJSInclude: true
-
-downloadLink: ""
 
 multiplayermode: "cooperative"
 language: EN

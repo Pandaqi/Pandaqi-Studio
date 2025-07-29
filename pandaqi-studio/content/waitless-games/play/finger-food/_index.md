@@ -1,13 +1,10 @@
 ---
 type: "project"
 
-
-
 title: "Finger Food"
 blurb: "A quick game playable with just a single paper. Each turn, place a finger on a new square, to score more points than your opponents before you've used your whole hand."
 # blurb: "Place your fingers on the best squares and score more pie points than your opponents! Playable with just a single paper, nothing else needed."
 blurbProject: "Bake the highest-scoring recipes by _placing your fingers_ on the right squares, nothing else needed."
-
 
 date: 2024-01-26
 
@@ -17,7 +14,7 @@ categories: ["board-game", "one-paper-game"]
 tags: ["cooking", "turn-based", "shared-map", "colorful", "experimental", "fast-paced"]
 themes: ["cartoon", "food"]
 
-downloadLink: "https://drive.google.com/drive/folders/101SQ5KBbdwiiYC-2nU-5H7gKoTnqhXZE"
+driveLink: "https://drive.google.com/drive/folders/101SQ5KBbdwiiYC-2nU-5H7gKoTnqhXZE"
 
 multiplayermode: "competitive"
 language: EN
@@ -69,5 +66,3 @@ At the end, you might want to take a picture (from above) or write down the fing
 I've used the fonts **Cherry Bomb One** (headings, thick) and **Quicksand** (body, thin). They are both freely available from Google Fonts.
 
 Everything else (idea, code, assets) are completely mine, with the exception of some ingredient and machine illustrations. For those a generative AI was used, although they were often (heavily) edited afterwards to keep a consistent style.
-
-Want more details? Check out the [devlog](/blog/boardgames/waitless-games/finger-food/).

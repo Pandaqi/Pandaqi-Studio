@@ -6,7 +6,7 @@ blurb: "Stuur Amerigo samen over de daken om de juiste pakjes te bezorgen voorda
 
 weightProject: 10
 
-downloadLink: "https://drive.google.com/drive/folders/1giEJCHkmCFO5gt9ivfRdFmQZALJRELGf"
+driveLink: "https://drive.google.com/drive/folders/1giEJCHkmCFO5gt9ivfRdFmQZALJRELGf"
 
 date: 2025-10-26
 

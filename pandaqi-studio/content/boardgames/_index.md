@@ -4,8 +4,6 @@ type: "project"
 title: "Boardgames"
 blurb: "An overview page for the (most common categories of) boardgames I made."
 
-
-
 date: 2021-04-29
 
 categories: ["board-game"]

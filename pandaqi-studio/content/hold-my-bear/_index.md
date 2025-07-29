@@ -5,7 +5,7 @@ type: "project"
 title: "Hold my Bear"
 blurb: "Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether. A fast and loose card game for any situation."
 # blurb: "Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether."
-downloadLink: "https://drive.google.com/drive/folders/1JD-LWnPoX3yXfQM8jXdlh4vsZvdMOzQQ"
+driveLink: "https://drive.google.com/drive/folders/1JD-LWnPoX3yXfQM8jXdlh4vsZvdMOzQQ"
 
 
 date: 2024-06-25

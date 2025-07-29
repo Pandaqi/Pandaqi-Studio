@@ -1,12 +1,10 @@
 ---
 type: "project"
 
-
 title: "Split the Foody"
 blurb: "Stealing food treasure is the easy part. Grabbing the biggest chunk when dividing the booty is tough---but also crucial to your success as a true pearate."
 # blurb: "A bluffin', stealin', eatin' game of food heists and dividing treasure amongst the pearates."
-downloadLink: "https://drive.google.com/drive/folders/1Jw9vO5RnVDgh-ECN8NxMDVKeN9Uhfjjg"
-
+driveLink: "https://drive.google.com/drive/folders/1Jw9vO5RnVDgh-ECN8NxMDVKeN9Uhfjjg"
 
 date: 2024-05-26
 
@@ -26,18 +24,6 @@ devlog: "/blog/boardgames/split-the-foody/"
 
 ---
 
-
-
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="splitTheFoodyConfig" btn_label="Generate Material" game_title="Split the Foody" defaults="true" >}}
-  {{< setting-enum id="setting-cardSet" text="Which set?" values="Base Game,Appetite for All,Coins for Combos" keys="base,appetite,coins" def="base" >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
 ## Credits
 
 For a while now, the popular author Brandon Sanderson has had a running joke about food heists. One day, I wrote down that it would be a cool title for a game about pirates ignoring treasure but stealing food.
@@ -46,5 +32,6 @@ About half a year later, I picked up that idea and actually turned it into a gam
 
 Besides that, the fonts used are **Primitive** (headings) and **Rosarivo** (body text). (I initially used a different pirate-like-font that's quite common, but ditched it because it looked too clean and similar to the body font.) Parts of the illustrations were generated with AI. Everything else is entirely mine.
 
-I usually pick my next idea based on what is "easiest or simplest to make". This idea seemed really simple ... but I had to do a _lot_ of testing and prototyping to actually make it work, while keeping the rules light. A bit of a misfire from me, but in the end I'm glad I stuck it out and made this game, because it's quite different from anything else I made before.
+## Background
 
+I usually pick my next idea based on what is "easiest or simplest to make". This idea seemed really simple ... but I had to do a _lot_ of testing and prototyping to actually make it work, while keeping the rules light. A bit of a misfire from me, but in the end I'm glad I stuck it out and made this game, because it's quite different from anything else I made before.

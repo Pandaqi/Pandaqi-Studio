@@ -5,7 +5,7 @@ collection: "visit"
 title: "Naivigation"
 blurb: "A universe of simple party board games about driving one vehicle together, at the same time, without crashing too much."
 
-downloadLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-LzrkwfBM_de"
+driveLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-LzrkwfBM_de"
 
 date: 2025-06-26
 
@@ -23,11 +23,7 @@ ages: everyone
 devlog: "/blog/boardgames/naivigation/"
 ---
 
-## What's This?
-
-This is the **overview page** of the Naivigation project, or the "master project" if you will. 
-
-It links to all the other games and explains the general idea. All games share the **same core**, but use a **different vehicle** that changes _everything_. You're playing within a minute and you'll never stop.
+All games share the **same core**, but use a **different vehicle** that changes _everything_. You're playing within a minute and you'll never stop.
 
 This page therefore contains downloadable material to _reuse in all games_. Only the **Core Set** is required. 
 

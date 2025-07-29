@@ -1,15 +1,10 @@
 ---
 type: "project"
 
-
-
 title: "Photomone: Antsassins"
 blurb: "A party game similar to Codenames. The board has random shapes, and you must somehow communicate which one is yours."
 # blurb: "A party game about communicating a secret code to your team mates. But the code is made out of weird _shapes_---and you may only say _words_."
 weightProject: 30
-
-
-
 
 date: 2023-09-18
 
@@ -19,8 +14,7 @@ categories: ["board-game", "standard", "tile-game", "spin-off"]
 tags: ["creative", "guessing", "turn-based"]
 themes: ["top-down", "vector"]
 
-
-downloadLink: "https://drive.google.com/drive/folders/1g78Fggawe7LX35DNlYHZJALXqPZIAPav"
+driveLink: "https://drive.google.com/drive/folders/1g78Fggawe7LX35DNlYHZJALXqPZIAPav"
 
 multiplayermode: "competitive"
 language: EN
@@ -34,24 +28,6 @@ devlog: "/blog/boardgames/photomone-antsassins/"
 **Hey, Pandaqi here!** This game is quite experimental. It requires your group to be imaginative and take creative leaps, otherwise it falls flat. I am open to any feedback on how to improve it. If you read my [devlog](/blog/boardgames/photomone-antsassins/), you'll see how much I struggled to make it "good enough".
 
 **Remark** (for when generating material): Everything is sorted based on how easy it is to play. Rectangles are more predictable (and easy to see shapes in) than hexagons or triangles. The same is true for Photomone and Mosaic vs the rest.
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="photomoneAntsassinsConfig" btn_label="Create Material" game_title="Photomone Antsassins" >}}
-  {{< setting-enum id="setting-tileShape" text="Tile Shape?" values="Rectangle,Hexagon,Triangle" valaskey="true" >}}
-  {{< setting-enum id="setting-tileType" text="Tile Type?" values="Photomone,Mosaic,Clouds,Shapes,Simple,Lines" valaskey="true" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< boardgame-settings-section heading="What to Include?" >}}
-    {{< setting-checkbox id="setting-includeTiles" text="Include Tiles?" checked="checked" >}}
-    {{< setting-checkbox id="setting-includeCodeCards" text="Include Code Cards?" checked="checked" >}}
-    {{< setting-checkbox id="setting-includeTokens" text="Include Tokens?" remark="Optional; you only need one set of these to play forever." checked="checked" >}}
-    {{< setting-checkbox id="setting-addAlmostActions" text="Add Actions?" remark="Can be left out to make a first game simpler to learn." checked="checked" >}}
-    {{< setting-enum id="setting-numSecretTilesPerTeam" text="Secret tiles per team?" values="1,2,3,4" def="1" valaskey="true" >}}
-    {{< setting-enum id="setting-numTeamsOnCodeCard" text="Teams on code cards?" values="2,3,4" def="4" valaskey="true" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
 
 ## Background
 

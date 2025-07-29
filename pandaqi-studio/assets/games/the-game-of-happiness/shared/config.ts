@@ -3,6 +3,39 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        includeCards:
+        {
+            type: SettingType.CHECK,
+            label: "Include Cards",
+            default: true
+        },
+
+        includeTokens:
+        {
+            type: SettingType.CHECK,
+            label: "Include Tokens",
+            default: true,
+            remark: "If you already have these, or plan on using something else, you can disable this."
+        },
+
+        loadDigitalGame:
+        {
+            type: SettingType.CHECK,
+            label: "Load Digital Game",
+            remark: "Loads the digital interface to play this game on a single smartphone instead. (Doesn't generate material.)"
+        },
+
+        packs:
+        {
+            type: SettingType.MULTI,
+            values: ["base", "advanced", "expert", "silly", "superpowers", "past", "jobs", "personal", "habits", "items"],
+            default: ["base"],
+            label: "Packs"
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
