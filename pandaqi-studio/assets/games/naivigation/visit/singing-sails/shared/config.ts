@@ -4,10 +4,88 @@ import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
-;
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        addTextOnTiles:
+        {
+            type: SettingType.CHECK,
+            remark: "Map tiles explain themselves with text on them.",
+            label: "Add text on tiles"
+        },
+
+        vehiclesAsPawns:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Create vehicles as pawns",
+            remark: "If enabled, you can fold the vehicle to place it on the board standing up." 
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            vehicleTiles:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Vehicle Pawns",
+            },
+
+            mapTiles:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Map Tiles",
+            },
+
+            vehicleCards:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Vehicle Cards",
+            },
+
+            specialCards:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Special Cards",
+                remark: "Refers to the (unique) health, time, GPS, or action cards for this game."
+            },
+        },
+        
+        expansions:
+        {
+            supertilesSlipstreams:
+            {
+                type: SettingType.CHECK,
+                label: "Supertiles & Slipstreams",
+            },
+
+            windstormsWeather:
+            {
+                type: SettingType.CHECK,
+                label: "Windstorms & Weather",
+            },
+
+            islandsTreasures:
+            {
+                type: SettingType.CHECK,
+                label: "Islands & Treasures",
+            },
+
+            piratesCannons:
+            {
+                type: SettingType.CHECK,
+                label: "Pirates & Cannons",
+            },
+        }
+    },
+
     debug:
     {
         filterAssets: [], // @DEBUGGING (should be empty)
@@ -17,7 +95,7 @@ const CONFIG:any =
     },
 
     configKey: "naivigationSingingSailsConfig",
-    fileName: "[Material] Naivigation: Singing Sails",
+    fileName: "Naivigation: Singing Sails",
 
     addTextOnTiles: false,
     sets:

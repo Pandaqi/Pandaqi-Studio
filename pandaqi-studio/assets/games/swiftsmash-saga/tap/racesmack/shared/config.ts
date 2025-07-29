@@ -16,7 +16,7 @@ const CONFIG:any =
     },
 
     configKey: "racesmackConfig",
-    fileName: "[Material] Racesmack",
+    fileName: "Racesmack",
 
     // set through user config on page
     inkFriendly: false,

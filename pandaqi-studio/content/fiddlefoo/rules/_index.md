@@ -2,9 +2,9 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" >}}
 
 Place 1 random card of each color in a 2x2 square on the table. This is the start of the (shared) **Map**.
 
@@ -12,21 +12,18 @@ Create a deck from all remaining cards.
 * Deal each player **8 cards** (to take into their hand).
 * Place the rest as a facedown draw pile to the side.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" %}}
+## Objective
 
 The game ends when a player is **out of cards**. The number of **music notes** left in your hand represent your _negative points_.
 
 It's recommended to play a few games in a row, keeping track of score. The player with the best score at the end ( = _least_ negative score) wins!
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" %}}
+## Gameplay
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
 From start player, take clockwise turns until done.
 
@@ -36,9 +33,9 @@ On your turn, **add 1 hand card to the Map**.
 * The card has to be in the **same row** (_horizontal, vertical or diagonal_) as another card of the same _color_.
 * The card **can't be adjacent** to a card of the same _color_.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 In the rare case you can't play any card, draw 1 card from the deck.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 By doing so, you'll have created one or more "Pairs": your new card and the older ones of the same color (in the same row). All pairs created count.
 
@@ -47,28 +44,27 @@ Each Pair has two important properties.
 * **(Number) Range**: all numbers between its _lowest_ number and its _highest_. (Example: a 2-6 Pair has range 3, 4, and 5.)
 * **(Note) Difference**: subtract the _lowest_ number of notes from the _highest_. (Example: a 1-Note card and a 4-Note card have a difference of 3.)
 
-{{< rules-image src="gameplay_pair.webp" alt="Example of valid card placement and the pair you create from it." >}}
+{{< rules/rules-image src="gameplay_pair.webp" alt="Example of valid card placement and the pair you create from it." >}}
 
 Now everyone _may_ **give you hand cards** that match these criteria:
 
 * Its number is inside the _number range_ and it's the same _color_.
 * Its _number of music notes_ is equal to the _note difference_.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Preferably, throwing happens while yelling "Fiddlefoo, a penalty card for you!" ;)
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 Take all cards received into your hand. If you _end your turn_ without any cards, the game ends (and you win). Have fun!
 
-{{< rules-image src="gameplay_penalty.webp" alt="Example of penalty cards others may throw at you for making a certain pair." >}}
+{{< rules/rules-image src="gameplay_penalty.webp" alt="Example of penalty cards others may throw at you for making a certain pair." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" %}}
+## Upgrades
 
 Played the base game a few times and ready for more? Try these expansions and variants.
 
-{{% rules-block heading="Variant: Safesong" %}}
+### Variant: Safesong
 
 This expansion defines a third property that your Pairs have.
 
@@ -89,11 +85,10 @@ The following rules are _optional_.
 * **Toned Down**: if you create (at least) one Pair with distance 3(+), you may _choose_ what people are allowed to throw at you. (That is, they may only give cards based on _range_ OR _notes_ OR _distance_.)
 * **Dissonance:** people may also throw cards at you if their _number_ or _number of notes_ matches the _distance_ you created. This rule _only applies if_, otherwise, no possible throwable card exists. (That is, the Range and Note Difference are both 0.)
 
-{{< rules-image src="variant_safesong.webp" alt="Example of the Distance property and the new rules it allows." >}}
+{{< rules/rules-image src="variant_safesong.webp" alt="Example of the Distance property and the new rules it allows." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variant: Wildcard" %}}
+### Variant: Wildcard
 
 You might've noticed that the Purple color is a bit special. (It has fewer cards / numbers.)
 
@@ -104,9 +99,8 @@ In practice, this means the following.
 * If a wildcard number is inside the range somebody created, you can always throw it to them. (Even if their Pair used a different color.)
 * If someone creates a Pair using wildcards, then you can throw _any_ card at them that has a number within its range.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variant: Cooperative" %}}
+### Variant: Cooperative
 
 This Variant allows you to play the game _cooperatively_. (Everyone wins/loses together.)
 
@@ -115,13 +109,12 @@ What changes?
 * Instead of throwing a card at another player, you may also decide to _add_ it to such a pile. You may only do so, however, if your number is higher than the current number at the top of the pile.
 * The game ends when _all_ players have emptied their hand except one. You **win** if every faceup pile (next to the board) contains exactly 10 music notes.
 
-{{< rules-image src="variant_cooperative.webp" alt="Example of how to setup and play the cooperative variant (with slight modifications to base game)." >}}
+{{< rules/rules-image src="variant_cooperative.webp" alt="Example of how to setup and play the cooperative variant (with slight modifications to base game)." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Talkytoot" %}}
+### Expansion: Talkytoot
 
-{{% rules-double-view src="setup.webp" split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" >}}
 
 This expansion adds extra material: cards that also contain _special actions_. 
 
@@ -137,8 +130,5 @@ It's recommended to include just _some_ of them---perhaps the one you like the m
 
 There are two cards that mention _Distance_. Only include those if playing with the "Safesong" variant (see above).
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

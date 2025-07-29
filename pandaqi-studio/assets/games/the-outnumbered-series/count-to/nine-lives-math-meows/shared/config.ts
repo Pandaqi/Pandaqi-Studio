@@ -7,7 +7,7 @@ const CONFIG =
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "nineLivesMathMeowsConfig",
-    fileName: "[Material] Nine Lives - Math Meows",
+    fileName: "Nine Lives - Math Meows",
     resLoader: null,
 
     // set through user config on page

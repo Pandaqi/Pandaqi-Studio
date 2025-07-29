@@ -14,7 +14,7 @@ const CONFIG:any =
     },
 
     configKey: "follyAndFortuneConfig",
-    fileName: "[Material] Folly & Fortune",
+    fileName: "Folly & Fortune",
 
     // set through user config on page
     inkFriendly: false,

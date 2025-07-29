@@ -17,7 +17,7 @@ const CONFIG:any =
     },
 
     configKey: "themeParqueConfig",
-    fileName: "[Material] Theme Parque",
+    fileName: "Theme Parque",
 
     // set through user config on page
     inkFriendly: false,

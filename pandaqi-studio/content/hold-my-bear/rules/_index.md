@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+## Setup
 
 Draw a random card and place it face-up on the table. This is the "match" currently taking place. 
 
@@ -10,23 +10,21 @@ Deal the deck of cards until empty, as fairly as possible.
 
 The player with the **highest bear card starts**.
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="pink" %}}
+## Objective
 
 You win if, at the **start of your turn**, the match on the table is **already yours**! <span class="inline-remark">(You played a match that nobody could defeat for a whole round.)</span>
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="orange" %}}
+## Gameplay
 
 Take clockwise turns until done. On your turn, do ONE of two things: **play a valid move** or **give away two cards**.
 
 If you're out of cards (at the start of your turn), steal 4 cards from other players, in whatever way you want.
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% rules-block id="gameplay_valid_move" heading="Valid Move" %}}
+### Valid Move
 
 Cards have an animal and a number.
 
@@ -40,25 +38,22 @@ To do a valid move, you must play a set of cards that ...
 * **Changes the sport**. Provide another animal that occurs more often than the current majority animal. The total value doesn't matter.
 * **Or plays the same sport, but better.** Play cards with the same majority animal, but with a total value that's higher.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Such a set may contain at most 5 cards.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 Remove the previous match (cards) from the game. Ensure the new cards face you to remember you were the one who played them!
 
-{{< rules-image src="gameplay.webp" alt="An example of sets that would (not) be a valid move." >}}
+{{< rules/rules-image src="gameplay.webp" alt="An example of sets that would (not) be a valid move." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="gameplay_give_away" heading="Give Away" %}}
+### Give Away
 
 Give away **two hand cards**. (To the same player or two different players.) This happens _publicly_: everyone can see the cards.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="bears" heading="What's up with bears?" icon="scoring" icontint="yellow" %}}
+## What's up with bears?
 
 Bears are both a **trump** and a **wildcard**. What does that mean?
 
@@ -70,11 +65,10 @@ Bears are, however, also a liability.
 * You **cannot win with a bear in your hand**. <span class="inline-remark">(If you do, replace the current match with that bear. The first player after you who CAN play a valid move MUST do so now.)</span>
 * You also cannot play non-bear cards that have the **same number as a bear** in your hand. <span class="inline-remark">(Not even if you play the bear as well in the same match!)</span>
 
-{{< rules-image src="bears.webp" alt="Examples of the powers and restrictions of bears." >}}
+{{< rules/rules-image src="bears.webp" alt="Examples of the powers and restrictions of bears." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansion" heading="Expansion" class="force-page-break-before" icon="expansion" icontint="lightblue" %}}
+## Upgrades
 
 Played a few games and ready for a bigger challenge? Try the expansion(s)!
 
@@ -98,4 +92,3 @@ The actions are explained on the cards themselves. Below are just some clarifica
 * **Rabbit**: remember that this stays true as long as the card shows. If (on your turn) there's a match with a rabbit on the table, and you can do a valid move, you _must_ do so.
 * **Sheep**: surprisingly powerful. "Tie" refers to all rules, so you may tie bears, tie majority animal, and tie number. If the current match has a sheep, there are many more ways to play a valid move over it.
 
-{{% /rules-block %}}

@@ -3,10 +3,83 @@ import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
-;
+
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        addTextOnTiles:
+        {
+            type: SettingType.CHECK,
+            remark: "Map tiles explain themselves with text on them.",
+            label: "Add text on tiles"
+        },
+
+        vehiclesAsPawns:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Create vehicles as pawns",
+            remark: "If enabled, you can fold the vehicle to place it on the board standing up." 
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            vehicleTiles:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Vehicle Pawns",
+            },
+
+            mapTiles:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Map Tiles",
+            },
+
+            vehicleCards:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Vehicle Cards",
+            },
+
+            specialCards:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Special Cards",
+                remark: "Refers to the (unique) health, time, GPS, or action cards for this game."
+            },
+        },
+        
+        expansions:
+        {
+            shields:
+            {
+                type: SettingType.CHECK,
+                label: "Shields & Asteroids",
+            },
+
+            weapons:
+            {
+                type: SettingType.CHECK,
+                label: "Weapons & Aliens",
+            },
+
+            trade:
+            {
+                type: SettingType.CHECK,
+                label: "Trade & Technology",
+            },
+        }
+    },
+
     debug:
     {
         filterAssets: [], // @DEBUGGING (should be empty)
@@ -16,7 +89,7 @@ const CONFIG:any =
     },
 
     configKey: "naivigationSwervingSpaceshipsConfig",
-    fileName: "[Material] Naivigation: Swerving Spaceships",
+    fileName: "Naivigation: Swerving Spaceships",
 
     addTextOnTiles: false,
     sets:

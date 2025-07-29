@@ -36,6 +36,8 @@ Play continues until the board is full or a player has been unable to do a move 
 
 Count your people, count your buildings, get awards for special achievements, and voila---the player with the most points wins!
 
+**Only 3 players maximum?** Nope! As stated in the rules, each _paper_ has a maximum of 3 players. So, for example, with 5 players you play on _two_ papers. Copy this same starting setup to all.
+
 ## What do I need?
 
 Three simple steps.
@@ -58,7 +60,7 @@ This website handles everything for you. It also shows explanations for all the 
 
 {{% /boardgame-settings-container %}}
 
-{{% boardgame-settings-container type="board" remarks="**Only 3 players maximum?** Nope! As stated in the rules, each _paper_ has a maximum of 3 players. So, for example, with 5 players you play on _two_ papers. Copy this same starting setup to all." %}}
+{{% boardgame-settings-container type="board" %}}
 
 {{< boardgame-settings type="board" local_storage="starrySkylinesConfig" game_title="Starry Skylines" defaults="true" >}}
   {{< setting-playercount min="1" max="3" def="3" >}}
@@ -67,6 +69,12 @@ This website handles everything for you. It also shows explanations for all the 
 {{< /boardgame-settings >}}
 
 {{% /boardgame-settings-container %}}
+
+## Background
+
+I've also written a detailed devlopment log about the whole process of creating this game: [(Devlog) Starry Skylines](/blog/boardgames/starry-skylines/devlog-starry-skylines)
+
+About the screenshots of real games: yeah, we couldn't find any white paper, therefore we used yellow ones. This is a section of the campaign I played with two players; there are more games on the backside of these papers.
 
 ## Credits
 
@@ -77,10 +85,4 @@ Fonts are freely available from Google Fonts.
 * [Titillium Web](https://fonts.google.com/specimen/Titillium+Web) for the body text
 * [Montserrat Subrayada](https://fonts.google.com/specimen/Montserrat+Subrayada) for the headers
 
-Because the first font looked "space-y", while legible.Tthe second font looked like the letters were skylines. Perfect!
-
-I've also written a detailed devlopment log about the whole process of creating this game: [(Devlog) Starry Skylines](/blog/boardgames/starry-skylines/devlog-starry-skylines)
-
-Wondering what a game looks like? Here are some of our test games.
-
-About the screenshots of real games: yeah, we couldn't find any white paper, therefore we used yellow ones. This is a section of the campaign I played with two players; there are more games on the backside of these papers.
+Because the first font looked "space-y", while legible. The second font looked like the letters were skylines. Perfect!

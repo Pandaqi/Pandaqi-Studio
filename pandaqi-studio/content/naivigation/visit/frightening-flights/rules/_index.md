@@ -2,11 +2,11 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" %}}
+## Setup
 
-{{< rules-example id="naivigation-setup" >}}
+{{< rules/rules-example id="naivigation-setup" >}}
 
-{{% rules-double-view src="setup.webp" alt="Example of how to setup the game." split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup the game." >}}
 
 Alternatively, manually do the setup as follows.
 
@@ -18,7 +18,6 @@ Grab all **Elevation Cards** and place them in numeric order (low to high). This
 
 The elevation of a _map tile_ is given by the number of triangles in the corners. The elevation for a specific _terrain_ (grass, forest, ...) is always the same.
 
-{{% /rules-double-view %}}
 
 <div class="rulebook-shared-rule">
 Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Shuffle and place as a FACEUP draw pile. Each player draws 3 of these to hold in their hand. 
@@ -28,21 +27,19 @@ Combine the default Health Cards and the specific Health Cards for this game. Sh
 Place 5 instruction tokens in a row. You'll place your vehicle cards underneath these each round. Pick any start player.
 </div>
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" %}}
+## Objective
 
 You win once you've **visited all airports**. You lose immediately once you're total loss: your **health deck is empty**.
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" %}}
+## Gameplay
 
 Skip "Rounds & Turns" if you already know how to play Naivigation. The other section has unique rules for this game.
 
-{{< rules-example id="naivigation-turn" >}}
+{{< rules/rules-example id="naivigation-turn" >}}
 
-{{% rules-block heading="Rounds & Turns" class="rulebook-shared-rule-block" %}}
+### Rounds & Turns
 
 Play happens in rounds.
 
@@ -58,11 +55,10 @@ _No communication about the game is allowed._
 
 Whenever you **take damage**, reveal the top card of your Health Deck. These cards always have a _handicap_ which must be followed at all times.
 
-{{< rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
+{{< rules/rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Moving & Visiting" %}}
+### Moving & Visiting
 
 When moving, first check your elevation.
 
@@ -78,15 +74,13 @@ There is only one exception: **landing**.
 
 The map **wraps around**: flying off of one side makes you reappear on the other. Doing this, however, incurs 1 damage.
 
-{{< rules-image src="gameplay_moving_visiting.webp" alt="How to fly around and land on/collect airports." >}}
+{{< rules/rules-image src="gameplay_moving_visiting.webp" alt="How to fly around and land on/collect airports." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="vehicle-cards" heading="Vehicle Cards" icon="expansion" %}}
+## Vehicle Cards
 
-{{< rules-image src="vehicle_cards.webp" alt="Examples of the 4 basic vehicle cards in the game, as well as elevation extremes being bad." >}}
+{{< rules/rules-image src="vehicle_cards.webp" alt="Examples of the 4 basic vehicle cards in the game, as well as elevation extremes being bad." >}}
 
 The following vehicle cards are in the base game.
 
@@ -99,13 +93,12 @@ It's possible to fly **too low** (you need to remove the last elevation card) or
 
 The elevation deck ranges from 1--5. Elevation on tiles ranges from 0--4.
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Try one or more of these expansions!
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 For an **easier game**, 
 
@@ -117,9 +110,8 @@ For a **harder game**,
 * Take out the **Stunt** cards. (Or simply make them the same as **Fly**.)
 * Disable **wrapping around** the map. (Just stay where you are, and take 1 damage for this at the end of the round.)
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Fuel & Falling" %}}
+### Fuel & Falling
 
 This expansion adds a constant extra pressure or decision to the game. Its rules are simple as always, but it makes the game considerably harder, so ye be warned.
 
@@ -134,27 +126,25 @@ If you **run out of fuel** ( = fuel deck is empty), you enter "free fall".
 * The Fly and Elevate cards don't work anymore. (You will mostly be steering and hoping for a refuel.)
 * At the end of each round, you automatically move forward 1 tile and drop 1 elevation level. (Take these two steps in the order that suits you.)
 
-{{< rules-image src="fuel_falling.webp" alt="Example of tracking fuel, freefall when you run out, and how to refuel in time." >}}
+{{< rules/rules-image src="fuel_falling.webp" alt="Example of tracking fuel, freefall when you run out, and how to refuel in time." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Repairs & Racing" %}}
+### Repairs & Racing
 
 This expansion adds three new Vehicle Cards: **Repair, Backflip** and **Fly**.
 
-{{< rules-image src="expansion_repairs_racing.webp" alt="Examples of the 3 new vehicle cards in this expansion." >}}
+{{< rules/rules-image src="expansion_repairs_racing.webp" alt="Examples of the 3 new vehicle cards in this expansion." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Timezones & Tomorrow" %}}
+### Timezones & Tomorrow
 
 This expansion adds new material (**Timezone Tiles**) and a new mechanic.
 
 During **setup**, add a Timezone tile above each _column_ of the map. From left to right, add them in numeric order.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Once you understand this expansion better, you can add the Timezone tiles in a RANDOM ORDER!
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 The remaining Timezone Tiles create the **Clock Deck**. It works similar to the Elevation Deck: place them in numeric order, from low to high, and start the timer at the lowest number.
 
@@ -170,19 +160,18 @@ Crucially, the clock now determines if you can visit a specific airport at all.
 
 > An airport can only be collected if you reach it when the Clock is _lower_ than its indicated time.
 
-{{< rules-image src="expansion_timezones_tomorrow.webp" alt="Example of how to track the Clock and timezones, and use that to land on airports in time." >}}
+{{< rules/rules-image src="expansion_timezones_tomorrow.webp" alt="Example of how to track the Clock and timezones, and use that to land on airports in time." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Birds & Bumps" %}}
+### Birds & Bumps
 
 This expansion adds **Obstacle Pawns**: Bird, Balloon and Tornado.
 
 During **setup**, place 3 random obstacles on random airports. 
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Add more obstacles for a harder game, fewer for an easier game.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 During **gameplay**,
 
@@ -192,13 +181,12 @@ During **gameplay**,
 
 When you _hit_ an obstacle, there are consequences. These depend on what you hit.
 
-{{< rules-image src="expansion_birds_bumps.webp" alt="Example of how to place and move obstacle pawns, including their special power when you collide with them." >}}
+{{< rules/rules-image src="expansion_birds_bumps.webp" alt="Example of how to place and move obstacle pawns, including their special power when you collide with them." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Passengers & Planes" %}}
+### Passengers & Planes
 
-{{% rules-double-view src="expansion_passengers_planes.webp" alt="Example of passengers and how to read/use them." split="leftheavy" %}}
+{{<  rules-image-sidebar src="expansion_passengers_planes.webp" alt="Example of passengers and how to read/use them." >}}
 
 This expansion adds extra material: **Passenger Tiles**.
 
@@ -209,19 +197,17 @@ Each passenger ...
 * Has a penalty (which must be followed for as long as they are in your airplane)
 * Has a bonus (which triggers when you deliver them)
 
-{{% /rules-double-view %}}
 
 The passenger leaves ("is delivered") when you visit their preferred airport. If so, clearly place them apart from the undelivered passengers.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Yes, you _don't_ have to deliver them all to win, though it's probably desirable because of their penalty.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 Once comfortable with this, you can raise the number of passengers. You can also add the following rule: "When you visit a new airport, draw an extra passenger. If its destination doesn't exist anymore, remove 1 passenger (delivered or not) of choice."
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variant: Poly Planes" %}}
+### Poly Planes
 
 With some expansions enabled, you have enough material and options to split players into two teams, even on low player counts. You might try this variant then. (Similar to the shared Naivigation rules for 6+ players, where you're moving two vehicles and racing against each other.)
 
@@ -230,6 +216,4 @@ With some expansions enabled, you have enough material and options to split play
 
 If you ever crash into the other airplane, both teams lose the game.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="orange" %}}
+## Setup
 
 Place 16 **Room Tiles** in any layout. If unsure, just use a 4x4 grid.
 
@@ -17,19 +17,17 @@ Finally, the Hider draws **5 Clue Cards** from the deck into their hand.
 
 Once done, all Seekers place their pawn on a random tile. Finally, they draw a random **Score Card** and place it faceup before them.
 
-{{< rules-image src="setup.webp" alt="Example of default game setup." >}}
+{{< rules/rules-image src="setup.webp" alt="Example of default game setup." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+## Objective
 
 The game **ends** as soon as **all players have left the map**.
 
 Each Seeker calculates their **score** by checking the eggs they collected. The point value of each is determined by their Score Card. **The higher, the better!**
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+## Gameplay
 
 The Seekers take clockwise turns until done. 
 
@@ -43,7 +41,7 @@ Now you take 3 actions. The possible actions are ...
 * **Walk**: move your pawn to an adjacent room (not diagonally).
 * **Search**: collect the egg underneath an obstacle in your current room.
 
-{{< rules-image src="gameplay.webp" alt="Example of a single Seeker turn (and how it might impact scoring at the end)." >}}
+{{< rules/rules-image src="gameplay.webp" alt="Example of a single Seeker turn (and how it might impact scoring at the end)." >}}
 
 For every 3 Clue Cards you receive, however, you must have Searched at least _once_.
 
@@ -51,11 +49,10 @@ If the Hider thinks there are no good eggs for a Player anymore, they can say so
 
 Once every Seeker has received 3 Clue Cards, the Hider may **refresh their memory**. They pick 2 rows or columns and look at all remaining eggs there.
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" icontint="orange" %}}
+## Upgrades
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 On **high player counts** (6+ players), you can increase board size (e.g. 5x5) and pick multiple Hiders.
 
@@ -65,9 +62,10 @@ For a **higher pressure game**, add an extra rule for when the game ends: once e
 
 You can play the game **competitively**. Each player only scores themselves, and highest score wins. In that case, pick an unbiased Hider.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Spoiled Expansion" %}}
+### Spoiled Expansion
+
+@TODO
 
 <!--- 
 IDEAS FOR EXPANSIONS:
@@ -83,7 +81,5 @@ IDEAS FOR EXPANSIONS:
   * Map expansion?
 --->
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 

@@ -2,25 +2,22 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="yellow" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example of the default setup for the game (regardless of player count)." %}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of the default setup for the game (regardless of player count)." >}}
 
 Create a 6x6 grid of random map tiles, but rotated so that it's a _diamond shape_. 
 
 Place the **arrow tile** above any corner (pointing at it). Pick any start player.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="purple" %}}
+## Objective
 
 The game ends when no **gemstones** remain ( = the only tiles that score points). Sum the values of all tiles you scored. **Highest score wins**!
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="yellow" class="allow-page-break" %}}
+## Gameplay
 
 Begin with the start player, then take clockwise turns until done.
 
@@ -36,13 +33,12 @@ You _may_ also discard an action tile (of yours) to execute its action. You may 
 **What if the board splits?** You collect all tiles from the _smaller group_! => @TODO: Might just ignore this altogether, why would a split be disastrous for gameplay?
 --->
 
-{{< rules-image src="turn.webp" alt="Examples of two subsequent turns in the game." >}}
+{{< rules/rules-image src="turn.webp" alt="Examples of two subsequent turns in the game." >}}
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="scoring" heading="Gemstones & Actions" icon="score" icontint="purple" class="allow-page-break" %}}
+## Gemstones & Actions
 
 Tiles have two possible types: a gemstone (unique color + scores points) or an action tile.
 
@@ -54,19 +50,18 @@ Ties (for first or last place) are allowed. Action tiles score nothing.
 
 To make this easy to see, keep your collected gemstones in piles sorted by _icon_.
 
-<div id="rules-table-base"></div>
+<div data-table="base"></div>
 
 Action tiles can move the arrow tile to diagonals. This is allowed and follows all the same rules; see the example.
 
-{{< rules-image src="scoring.webp" alt="Scoring example (for 3 players) and clarification about diagonal arrow angles." >}}
+{{< rules/rules-image src="scoring.webp" alt="Scoring example (for 3 players) and clarification about diagonal arrow angles." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Variants & Expansions" icon="expansion" icontint="yellow" class="allow-page-break" %}}
+## Upgrades
 
 Once you're familiar with the base game, try some of these variants or expansions! The more you add, however, the more it's recommended to increase the map size (and play a longer game).
 
-{{% rules-block heading="Variants" class="allow-page-break" %}}
+### Variants
 
 To give the game a **quicker start**, you can give each player 1 random tile before the game starts.
 * It's recommended to restrict this to action tiles. But you _can_ pick it at random.
@@ -77,9 +72,8 @@ To make the game **harder**, only allow _one action_ at most per turn. (That is,
 
 You can also **vary** the size and shape of **the map**. It's recommended to use a diamond shape of at least 5x5 tiles, but anything goes.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Dark Tunnels" class="allow-page-break" %}}
+### Dark Tunnels
 
 Start the game with all the tiles turned _facedown_.
 
@@ -89,13 +83,12 @@ At the end of each turn, when you move the arrow, you must also **gather informa
 
 It also adds new actions and gemstones.
 
-<div id="rules-table-darkTunnels"></div>
+<div data-table="darkTunnels"></div>
 
 A second Arrow simply means you have more options to choose from when picking your tile. Both of them move automatically at the end of each turn.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gemshards" class="allow-page-break" %}}
+### Gemshards
 
 Tiles can now be _divided_ into multiple sections.
 
@@ -105,19 +98,16 @@ In some situations, the Arrow Tile may point at the line between _two sides_. In
 
 It also adds new actions and one new gemstone.
 
-<div id="rules-table-gemShards"></div>
+<div data-table="gemShards"></div>
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Golden Actions" class="allow-page-break" %}}
+### Golden Actions
 
 This expansion merely adds a few more (chaotic, powerful, spicy) actions. See the table below.
 
-<div id="rules-table-goldenActions"></div>
+<div data-table="goldenActions"></div>
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
 <!--- 
 The possible actions are ...

@@ -15,7 +15,7 @@ const CONFIG:any =
     },
 
     configKey: "dinolandConfig",
-    fileName: "[Material] Dinoland",
+    fileName: "Dinoland",
 
     // set through user config on page
     inkFriendly: false,

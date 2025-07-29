@@ -2,21 +2,19 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
 Deal all players a random deck of **6 cards**. Place all remaining cards to the side as a facedown draw pile.
 
 For your first game, just follow the simple base rules. Once familiar with the rules, however, I recommend using the [Simulwars](#simulwars) variant so that players can fight simultaneously instead of waiting for their turn.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game **ends** when a player has **fewer than 2 cards left**. Whoever has the **most cards** at that moment wins!
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
 From start player, take clockwise turns. On your turn you always **wage war** against another player.
 
@@ -27,7 +25,7 @@ From start player, take clockwise turns. On your turn you always **wage war** ag
 
 Once those piles are created, place them in pairs (one against one) on the table, in two rows. Every single pair is called a "battle"; the entire turn is called a "war".
 
-{{< rules-image src="gameplay_prepare.webp" alt="Example of how to prepare for war; say a number, break your deck into that many piles, shuffle." >}}
+{{< rules/rules-image src="gameplay_prepare.webp" alt="Example of how to prepare for war; say a number, break your deck into that many piles, shuffle." >}}
 
 For every pair, from left to right (for the attacker), 
 
@@ -39,7 +37,7 @@ For every pair, from left to right (for the attacker),
   * If both are _strong_ against each other, both players win.
   * Otherwise, nobody wins.
 
-{{< rules-image src="gameplay_battle.webp" alt="Example of how find out the result of an entire war, by executing individual battles from left to right." >}}
+{{< rules/rules-image src="gameplay_battle.webp" alt="Example of how find out the result of an entire war, by executing individual battles from left to right." >}}
 
 This continues until all battles have been fought. Then, both players get their spoils of war.
 
@@ -52,13 +50,12 @@ _Beware!_ Wait with grabbing your spoils until the _war is definitely over_. Act
 
 That's it! Have fun!
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variants & Expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variant: Simulwars" id="simulwars" %}}
+### Variant: Simulwars
 
 Instead of waging wars between 2 players at a time, everyone wages their war _simultaneously_. Each round,
 
@@ -70,9 +67,8 @@ Now your players have been divided into pairs, and they can just wage war at the
 
 If you have an **odd** number of players, the start player of a round does not join a war. Instead, they might arbiter if others are waging their war legally.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variant: Highscore" %}}
+### Variant: Highscore
 
 For a **deeper and more tactical game**, change the rules for who wins the game.
 
@@ -84,9 +80,8 @@ Or alternatively, also for a **more tactical game**, add this little extra rule.
 
 > Once per war, if your card has an action, you can decide _not_ to execute it. If so, look at the top cards of an upcoming battle and reshuffle your die if wanted.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: More Animals!" %}}
+### Expansion: More Animals!
 
 This expansion adds more animals with their unique strengths and powers.
 
@@ -99,9 +94,8 @@ Terminology clarifications:
 * To **destroy** a card means to permanently discard it, out of the game.
 * To **draw** a card means to draw blind from the top of the draw pile and take into your hand/deck.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Fight Together" %}}
+### Expansion: Fight Together
 
 In this expansion, all players are involved in every single war (just like the _Simulwars_ variant). The difference, though, is that this expansion works in _teams_ and also allows an odd number of players to be active at all times.
 
@@ -134,11 +128,10 @@ The only new material you need is a small set of **communication cards**.
 * If revealed in battle, they allow you to communicate freely about this war, until the next card is revealed. (You may say what's in your dice, what's in your hand, anything!)
 * But it always _loses_ its current battle.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Dawndojo" %}}
+### Expansion: Dawndojo
 
-{{% rules-double-view src="expansion_dawndojo.webp" alt="Example of how to read a Rooster card." %}}
+{{< rules/rules-image-sidebar src="expansion_dawndojo.webp" alt="Example of how to read a Rooster card." >}}
 
 This expansion adds Rooster Cards.
 
@@ -148,13 +141,10 @@ How to use them?
 * Place it faceup in the position of the first pile (_instead_ of creating a pile for it).
 * Its rule will be true for the entire war that follows. (This is usually a restriction on what can be played or done.)
 
-{{% /rules-double-view %}}
 
 In battle, this first Rooster card (called "Dawncard") will _always lose_. 
 
 The _"Rooster Change"_, however, applies to all Roosters played later (through a regular roll). In a sense, the Dawncard decides how all Roosters (from both you and the opponent) fight the rest of the war.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 

@@ -14,7 +14,7 @@ const CONFIG:any =
     },
 
     configKey: "championsOfChanceConfig",
-    fileName: "[Material] Champions of Chance",
+    fileName: "Champions of Chance",
 
     // set through user config on page
     inkFriendly: false,

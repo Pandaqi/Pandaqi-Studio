@@ -1,7 +1,6 @@
 ---
 type: "project"
 
-
 title: "Queenseat"
 blurb: "Vote, swap places and use powers to ensure the right Princess ends up on the throne. A game playable without a table or chairs."
 # blurb: "A [Throneless Game](/throneless-games/) game about making sure your Princess ends up on the throne."
@@ -9,9 +8,6 @@ blurbProject: "The best introduction for all ages, using a changing Throne card 
 weightProject: 20
 
 downloadLink: "https://drive.google.com/drive/folders/16xLqB1wBo_7nwB-YYTBUjGun7cjaJ-0g"
-
-
-
 
 date: 2024-11-12
 
@@ -29,11 +25,10 @@ ages: everyone
 
 ---
 
+When generating material yourself, check the rules to see **how many Princesses** are recommended for each player count. Each choice adds ~1 page to print.
 
 
-
-
-{{% boardgame-settings-container type="material" remarks="Check the rules to see **how many Princesses** are recommended for each player count. Each choice adds ~1 page to print." %}}
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" btn_label="Create Material" local_storage="queenseatConfig" game_title="Queenseat" defaults="true" >}}
   {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
@@ -56,9 +51,7 @@ ages: everyone
 
 {{% /boardgame-settings-container %}}
 
-## Credits
-
-Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.
+## Background
 
 This game was originally meant to have the "Seatcard" that is now the prominent part of Kaizerseat, and that would have been its only change. When coming back to the idea later, however, I realized this was too little variation. It made all the Throneless Games almost identical, just with different animal illustrations!
 
@@ -66,3 +59,6 @@ Thus I brainstormed longer and found more extreme (and interesting) twists on th
 
 This made Queenseat probably the most unique entry in the Throneless Games. To keep it simple, nicely in the second spot based on complexity, the Seatcard idea then moved to Kaizerseat. (Along with some more complicated actions, because Queenseat still has only one _type_ of action.)
 
+## Credits
+
+Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.

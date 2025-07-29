@@ -15,7 +15,7 @@ const CONFIG:any =
     },
 
     configKey: "booksmackConfig",
-    fileName: "[Material] Booksmack",
+    fileName: "Booksmack",
 
     // set through user config on page
     inkFriendly: false,

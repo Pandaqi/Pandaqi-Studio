@@ -8,7 +8,7 @@ const CONFIG =
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "splitTheFoodyConfig",
-    fileName: "[Material] Split The Foody",
+    fileName: "Split The Foody",
 
     // set through user config on page
     inkFriendly: false,

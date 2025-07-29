@@ -4,6 +4,20 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+            
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true
+            }
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -12,7 +26,7 @@ const CONFIG:any =
     },
 
     configKey: "biddingBlocksConfig",
-    fileName: "[Material] Bidding Blocks",
+    fileName: "Bidding Blocks",
 
     // set through user config on page
     inkFriendly: false,

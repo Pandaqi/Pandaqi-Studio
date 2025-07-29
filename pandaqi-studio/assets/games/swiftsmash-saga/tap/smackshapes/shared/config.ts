@@ -14,7 +14,7 @@ const CONFIG:any =
     },
 
     configKey: "smackshapesConfig",
-    fileName: "[Material] Smackshapes",
+    fileName: "Smackshapes",
 
     // set through user config on page
     inkFriendly: false,

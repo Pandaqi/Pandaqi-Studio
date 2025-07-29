@@ -27,11 +27,9 @@ devlog: "/blog/boardgames/pumpkin-patrol/"
 
 ---
 
+**Remark** (when using the generator): You can combine the sets in any way and the generator will create a balanced deck. The names _starter_, _beginner_, and so forth merely give an indication how hard it is to play with or learn this specific set.
 
-
-
-
-{{% boardgame-settings-container type="material" remarks="You can combine the sets in any way and the generator will create a balanced deck. The names _starter_, _beginner_, and so forth merely give an indication how hard it is to play with or learn this specific set." %}}
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="pumpkinPatrolConfig" btn_label="Generate Material" game_title="Pumpkin Patrol" defaults="true" >}}
   {{< setting-checkbox id="setting-includePeopleCards" text="Generate People Cards?" checked="checked" >}}
@@ -45,9 +43,7 @@ devlog: "/blog/boardgames/pumpkin-patrol/"
 
 {{% /boardgame-settings-container %}}
 
-## Credits
-
-The fonts used are **Carousel** (headings, thick decorative text) and **DuBellay** (body, longer text), both freely available. Most of the images were generated with AI. Everything else is completely mine.
+## Background
 
 This game idea started when I went to exercise outside, a week before Halloween, and saw that the neighbors had already placed a huge pumpkin at their front door. I scrambled back inside to write down the idea and immediately get to work. It was done (and even tested with others) a few days before Halloween.
 
@@ -58,4 +54,8 @@ But it also meant it was too late to properly finish and release the game now, w
 It ended up becoming a very simple game with cute art, yet many opportunities to think ahead and strategize.
 
 Hopefully this game gives families around the world a fun activity to do around Halloween. The theme is obviously focused on it, though the game is perfectly playable on its own, any day.
+
+## Credits
+
+The fonts used are **Carousel** (headings, thick decorative text) and **DuBellay** (body, longer text), both freely available. Most of the images were generated with AI. Everything else is completely mine.
 

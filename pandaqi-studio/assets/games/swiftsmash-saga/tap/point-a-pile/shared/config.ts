@@ -16,7 +16,7 @@ const CONFIG:any =
     },
 
     configKey: "pointAPileConfig",
-    fileName: "[Material] Point-a-Pile",
+    fileName: "Point-a-Pile",
 
     // set through user config on page
     inkFriendly: false,

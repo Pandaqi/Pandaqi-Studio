@@ -2,9 +2,9 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example of how to setup a game (deal goals, deal eggs)." %}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a game (deal goals, deal eggs)." >}}
 
 Create a deck of all **Goal Tiles**. Shuffle and deal each player 2 in secret.
 
@@ -12,23 +12,19 @@ Distribute all **Egg Tiles** over the players as fairly as possible. (It's fine 
 
 Pick anyone to be start player.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="purple" %}}
+## Objective
 
-{{% rules-double-view src="objective.webp" alt="Example of how to score your points (depending on your Goal Eggs) at the end of the game." %}}
+{{< rules/rules-image-sidebar src="objective.webp" alt="Example of how to score your points (depending on your Goal Eggs) at the end of the game." >}}
 
 The game ends once all players are **out of tiles**. 
 
 Each secret egg you collected that matches with your Goal Eggs scores you **+5 points**. Any other egg types you collected score **-1 point** each. The player with the **most points wins**!
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="pink" %}}
+## Gameplay
 
 Play happens in rounds. 
 
@@ -40,9 +36,9 @@ On your turn,
 * Play one tile before you as your **bid**.
 * Play one tile to the **offer** in the center of the table. If this tile is currently the _highest number_ in the offer, you _must_ play another tile (to bid or offer).
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Of course, this only applies to faceup tiles, as nobody knows what's on a facedown tile and whether it's the highest.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 You may play tiles both _faceup_ and _facedown_. You can, however,
 * **Never** play **all** your tiles facedown (in one turn).
@@ -59,15 +55,14 @@ If you have multiple bid tiles, _sum_ their numbers for your final bid number. I
 
 Next round!
 
-{{< rules-image src="gameplay.webp" alt="Example of how to start, execute, and then finish an entire round." >}}
+{{< rules/rules-image src="gameplay.webp" alt="Example of how to start, execute, and then finish an entire round." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="purple" %}}
+## Upgrades
 
 Played the base game and ready for more? Or feel like your group needs some tweaks to the game? Check out these variants and expansions.
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 To make the game **easier**, here are some standalone tweaks you can make.
 * All players reveal (at most) 5 tiles at the start of their turn. Those tiles are the only ones they're allowed to use this turn. This means the other players have more information.
@@ -90,9 +85,8 @@ Other rules ideas:
 * If you match majority, it doesn't invert the whole auction---it only flips the numbers on your own card. (So 58 becomes 85, for example.)
 --->
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Special Eggs" %}}
+### Special Eggs
 
 This expansion adds **Special Eggs**. They should be added to the deck regardless of which regular types you decide to include.
 
@@ -105,9 +99,8 @@ Actions, however, only trigger if the tile was played _faceup_. If played facedo
 
 Actions only care about the current round. They aren't permanent.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Powers & Handiceggs" %}}
+### Powers & Handiceggs
 
 During **setup**, also deal each player an **Eggstra Power** (public) and a **HandicEgg** (secret).
 
@@ -120,6 +113,4 @@ It's allowed to add your power or handicap to the offer (for another player to w
 * The tile must be added faceup.
 * And only _one_ power or handicap can be added per round.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

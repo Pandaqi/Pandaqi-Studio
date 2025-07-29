@@ -2,10 +2,36 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point"
-;
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Basisspel",
+            },
+
+            gladdeDaken:
+            {
+                type: SettingType.CHECK,
+                label: "Uitbreiding: Gladde Daken",
+            },
+
+            paardenSprongen:
+            {
+                type: SettingType.CHECK,
+                label: "Uitbreiding: Paardensprongen",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -14,7 +40,7 @@ const CONFIG:any =
     },
 
     configKey: "naivigationAmerigosDakenpadConfig",
-    fileName: "[Materiaal] Amerigo's Dakenpad",
+    fileName: "Amerigo's Dakenpad",
 
     // set through user config on page
     inkFriendly: false,

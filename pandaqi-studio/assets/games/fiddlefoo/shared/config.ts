@@ -5,6 +5,27 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                label: "Base Game",
+                default: true
+            },
+
+            expansion:
+            {
+                type: SettingType.CHECK,
+                label: "Expansion",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -13,7 +34,7 @@ const CONFIG:any =
     },
 
     configKey: "fiddlefooConfig",
-    fileName: "[Material] Fiddlefoo",
+    fileName: "Fiddlefoo",
 
     // set through user config on page
     inkFriendly: false,

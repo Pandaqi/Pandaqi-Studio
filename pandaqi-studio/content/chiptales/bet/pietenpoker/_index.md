@@ -41,22 +41,7 @@ Hoe doe je dat?
 
 **Kan ik het spel aanpassen?** Met de [generator](#material) hieronder kan je precies instellen wat je wilt. Druk op de knop en hij maakt een PDF met jouw gewenste kaarten. Zo kan je een zwart-wit versie vragen (minder inkt nodig!) of eentje met veel grotere kaarten (voor de kleinste kinderen!) 
 
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="pietenpokerConfig" btn_label="Generate Material" game_title="Pietenpoker" defaults="true">}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Basisspel?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-pietjePrecies" text="Pietje Precies?" >}}
-    {{< setting-checkbox id="setting-sets-actiepiet" text="Actiepiet?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
-
-De gebruikte lettertypes zijn **Howdy Lemon** (kopteksten, lekker dikgedrukt en vrolijk) en **Kiwi Maru** (langere tekst, paragrafen, leesbaar). Alle andere onderdelen---plaatjes, code, idee, etcetera---zijn door mij gemaakt.
+## Achtergrond
 
 Dit idee ontstond toen ik een **surprise** wilde maken voor een familielid die nogal bezig was met **poker** en proberen het op tafel te krijgen. Maar als je dan daadwerkelijk pokert, tja, dan loopt het vaak wat stroef. 
 
@@ -66,3 +51,6 @@ Hoe dan ook, het **idee** van poker spreekt veel mensen aan en is best sterk, ma
 
 En een kleurrijk **Sinterklaasthema**, natuurlijk, en een hoop subtiele knipogen naar dingen die dat familielid van mij leuk vindt.
 
+## Credits
+
+De gebruikte lettertypes zijn **Howdy Lemon** (kopteksten, lekker dikgedrukt en vrolijk) en **Kiwi Maru** (langere tekst, paragrafen, leesbaar). Alle andere onderdelen---plaatjes, code, idee, etcetera---zijn door mij gemaakt.

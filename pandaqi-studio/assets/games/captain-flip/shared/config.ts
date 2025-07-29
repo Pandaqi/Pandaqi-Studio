@@ -5,6 +5,11 @@ import { ActionType } from "./dict"
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -13,7 +18,7 @@ const CONFIG:any =
     },
 
     configKey: "captainFlipConfig",
-    fileName: "[Material] Captain Flip",
+    fileName: "Captain Flip",
 
     // set through user config on page
     inkFriendly: false,

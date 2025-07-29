@@ -2,9 +2,9 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example game setup (for 2 players, to keep it simple)." %}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example game setup (for 2 players, to keep it simple)." >}}
 
 Place any tile with the **add** (+) action facup on the table: this is the start of the waterfall.
 
@@ -12,23 +12,20 @@ Give all players **4 tiles** and **1 Pawn**. Everyone places the pawn above the 
 
 The remaining tiles become the facedown draw pile.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" class="force-page-break-before" %}}
+## Objective
 
 The game **ends** when when the waterfall **has 20(+) cards** or the **deck is empty** (rare). Sum your scored tiles: **highest score wins!**
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+## Gameplay
 
 From start player, take clockwise turns until the game ends.
 
 On your turn, you first **play cards** and then **fall down the waterfall**.
 
-{{< rules-image src="gameplay.webp" alt="Example of a simple turn: playing cards and then falling down that number of steps." >}}
+{{< rules/rules-image src="gameplay.webp" alt="Example of a simple turn: playing cards and then falling down that number of steps." >}}
 
 **PLAY**: Play as many hand cards as you want. 
 
@@ -42,15 +39,14 @@ On your turn, you first **play cards** and then **fall down the waterfall**.
 
 You **can't** enter a tile that contains another player, _unless_ both your options are blocked.
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="actions" heading="Actions" icon="action" icontint="red" %}}
+## Actions
 
 Everything in this game happens by executing a tile's action (when you visit it). The main actions are ADD, DRAW and SCORE.
 
-{{< rules-image src="tile_actions.webp" alt="Visual explanation of the three major actions: ADD, DRAW and SCORE." >}}
+{{< rules/rules-image src="tile_actions.webp" alt="Visual explanation of the three major actions: ADD, DRAW and SCORE." >}}
 
 When you do an **ADD** action,
 * Place 1 tile from your hand in the waterfall (a _pyramid_ shape).
@@ -63,6 +59,5 @@ The **SCORE** action works as follows. You may score at most _2 tiles_ this way 
 * Pick a **tile from your hand** that has a _matching gemstone_. (If none exists, just do nothing.)
 * Place that tile facedown in your score pile. Its _number_ scores you points at the end of the game.
 
-<div id="rules-table-actions"></div>
+<div data-table="actions"></div>
 
-{{% /rules-block %}}

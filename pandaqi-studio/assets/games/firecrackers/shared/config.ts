@@ -3,6 +3,25 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        scoreCards:
+        {
+            type: SettingType.CHECK,
+            default: false,
+            label: "Add Scoreworks",
+            remark: "An expansion that adds cards to randomize how scoring works at the end of the game."
+        },
+
+        packs:
+        {
+            type: SettingType.MULTI,
+            label: "Packs",
+            values: ["black", "red", "orange", "yellow", "green", "turquoise", "blue", "purple", "pink", "brown", "white"],
+            default: ["black", "red", "yellow", "green", "blue", "brown"]
+        },
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -11,7 +30,7 @@ const CONFIG =
     },
 
     configKey: "firecrackersConfig",
-    fileName: "[Material] Firecrackers",
+    fileName: "Firecrackers",
 
     // set through user config on page
     inkFriendly: false,

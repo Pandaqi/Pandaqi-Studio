@@ -7,7 +7,7 @@ const CONFIG =
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "nineLivesTricksyKittensConfig",
-    fileName: "[Material] Nine Lives: Tricksy Kittens",
+    fileName: "Nine Lives: Tricksy Kittens",
 
     // set through user config on page
     inkFriendly: false,

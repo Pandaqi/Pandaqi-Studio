@@ -13,7 +13,7 @@ const CONFIG:any =
     },
 
     configKey: "tossingTigerRollingDragonConfig",
-    fileName: "[Material] Tossing Tiger, Rolling Dragon",
+    fileName: "Tossing Tiger, Rolling Dragon",
 
     // set through user config on page
     inkFriendly: false,

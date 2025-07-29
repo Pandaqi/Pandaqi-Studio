@@ -64,29 +64,13 @@ Each turn, take one action for each courier: **Move**, **Eat** or **Reset**.
 
 ## What do I need?
 
-Grab and print any game board from the files. Grab some friends and (differently-colored) pens. That's it!
+Grab and print any game board from the files. Or use the Generator to create a random new board.
+
+Grab some friends and (differently-colored) pens. That's it!
 
 **Concerned about ink?** Only page 1, 2 and 4 of the rulebook are relevant for the base game. There's also an option to create "ink friendly" boards.
 
-**Tip for Teaching?** Explain the "Move" action&mdash;it's the core of the game. Explain the "Reset" action whenever someone gets stuck. Then place the ingredient list on the table, so everyone can look up their power when you "Eat" them, and immediately play! 
-
-
-{{% boardgame-settings-container type="board" %}}
-
-{{< boardgame-settings type="board" game_title="One Pizza The Puzzle" local_storage="onePizzaThePuzzleConfig" defaults="true" >}}
-  {{< setting-seed >}}
-  {{< setting-playercount min="2" max="8" def="4" >}}
-  {{< setting-enum id="setting-boardVariation" text="Variation?" values="None,Small,Medium,Large,Extreme" def="Medium" remark="Higher means more curving streets, irregular building shapes, and distinct areas. Choose whatever you prefer." >}}
-  {{< boardgame-settings-section heading="Expansions" >}}
-    {{< setting-checkbox id="setting-expansions-pizzaPolice" text="Pizza Police?" >}}
-    {{< setting-checkbox id="setting-expansions-treacherousTraffic" text="Treacherous Traffic?" >}}
-    {{< setting-checkbox id="setting-expansions-ingeniousIngredients" text="Ingenious Ingredients?" >}}
-    {{< setting-checkbox id="setting-expansions-preposterousPlaces" text="Preposterous Places?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
+**Tip for Teaching?** Explain the "Move" action---it's the core of the game. Explain the "Reset" action whenever someone gets stuck. Then place the ingredient list on the table, so everyone can look up their power when you "Eat" them, and immediately play! 
 
 ## Background
 

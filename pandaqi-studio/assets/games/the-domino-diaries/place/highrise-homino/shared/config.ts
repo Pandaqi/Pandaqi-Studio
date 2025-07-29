@@ -15,7 +15,7 @@ const CONFIG:any =
     },
 
     configKey: "highriseHominoConfig",
-    fileName: "[Material] Highrise Homino",
+    fileName: "Highrise Homino",
 
     // set through user config on page
     inkFriendly: false,

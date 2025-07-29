@@ -2,31 +2,27 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example of the extremely simple setup for this game." %}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of the extremely simple setup for this game." >}}
 
 Create one deck of tiles and shuffle it. Place a 5x5 grid of facedown tiles, but turn the main diagonals faceup. (For an easier game, reduce the grid to 4x4.)
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Material can be downloaded from [the website](https://pandaqi.com/captain-flip/).
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
-
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="yellow" %}}
+## Objective
 
 The game ends when the **map is completely cleared**. (There are no more tiles on the table and it cannot be refilled from the deck.) Players sum the points on all tiles they scored: **highest score wins**!
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+## Gameplay
 
 Begin with the start player, then take clockwise turns until done.
 
-{{% rules-block heading="On your turn" %}}
+## On your turn
 
 On your turn, you **flip a tile** (faceup <=> facedown).
 * Flipped faceup? Take its **heart action** (if it has one).
@@ -39,13 +35,12 @@ The most common action allows you to **"score"** a tile. This means you ...
 
 You can also clear the board in a second way. Any time an entire _row_ or _column_ is **faceup**, clear it from the board, and refill with facedown tiles from the deck.
 
-{{< rules-image src="turn.webp" alt="Example of what you do each turn, and what scoring or clearing a row means." >}}
+{{< rules/rules-image src="turn.webp" alt="Example of what you do each turn, and what scoring or clearing a row means." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Tiles" %}}
+## Tiles
 
-{{% rules-double-view src="tile_anatomy.webp" alt="The layout of a tile with all important bits marked." %}}
+{{< rules/rules-image-sidebar src="tile_anatomy.webp" alt="The layout of a tile with all important bits marked." >}}
 
 Tiles have ...
 * A **type**: the big icon in the center.
@@ -58,7 +53,6 @@ The possible action types are ...
 * **Skull**: triggers when you flip the tile facedown.
 * **Star**: a permanent power for when the tile is inside your score pile.
 
-{{% /rules-double-view %}}
 
 Actions are written in English on the tile itself. (Asking players to remember a myriad of icons is like turning this into a double-memory-game and proved too hard.)
 
@@ -66,17 +60,15 @@ When an action talks about a **row**, it means a straight row or column (from on
 
 That's it! Have fun!
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="yellow" %}}
+## Expansions
 
 Played the game a few times and ready for more challenge? You're in the right place! It's recommended---but not required---to apply the expansions in order.
 
-{{% rules-block heading="Sergeant Pattern" %}}
+### Sergeant Pattern
 
-{{% rules-double-view src="expansion_sergeant_pattern.webp" alt="Simple examples of what color matches mean and how to handle them." %}}
+{{< rules/rules-image-sidebar src="expansion_sergeant_pattern.webp" alt="Simple examples of what color matches mean and how to handle them." >}}
 
 You might have noticed that the tiles all have _colors_ as well. These come into play now.
 
@@ -84,7 +76,6 @@ You might have noticed that the tiles all have _colors_ as well. These come into
 
 As before, a "row" means horizontally or vertically.
 
-{{% /rules-double-view %}}
 
 This expansion also adds a wrinkle to the **scoring rules**.
 * Collect all tiles that are **cleared** from the map in a separate pile.
@@ -92,9 +83,8 @@ This expansion also adds a wrinkle to the **scoring rules**.
 
 > **Example**: Strawberry appears most often in the forcibly cleared tiles. They are usually worth 3 points; now each is -3 points. (Ties are allowed, turning multiple types into negative ones.)
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Commander Swap" %}}
+### Commander Swap
 
 During **setup**, players get 3 tiles in their hand. 
 
@@ -102,9 +92,7 @@ Your **turn** now has two actions: flip a tile and swap a tile (in whatever orde
 
 > **Swap a tile** means swapping a tile in your hand with a tile on the board. Its orientation (faceup or facedown) must stay the same.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
 <!---
 DISCARDED EXPANSION (Major Rotation):

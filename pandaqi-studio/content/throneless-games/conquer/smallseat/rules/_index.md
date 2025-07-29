@@ -2,13 +2,13 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
+## Setup
 
 Pick as many unique **Animals** as the **number of players**. Add all their cards to the deck, then shuffle.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 You CAN include more animals; this makes the game longer and harder.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 Pick a player: they become the **Teller**. 
 
@@ -20,17 +20,16 @@ All other players are **Candidates**. Deal the deck to the candidates until empt
 
 Card facing is important in this game. From now on, hand cards that face towards yourself are called **secret cards**. Cards that face away (to the _other players_) are **public cards**. 
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Whenever you receive cards and it's not specified how to hold them (secret or public), you decide yourself.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 During the game, whoever sits at the Smallseat position is called the **Boss**.
 
-{{< rules-image src="starting_setup.webp" alt="Example of setup for 4 players." >}}
+{{< rules/rules-image src="starting_setup.webp" alt="Example of setup for 4 players." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="orange" %}}
+## Objective
 
 {{< rules-double-view src="objective.webp" alt="Example of counting the votes and declaring a winner (at the end)." >}}
 
@@ -43,9 +42,8 @@ Count the **secret cards** in the Teller's hand. The animal that appears **most 
 
 {{< /rules-double-view >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="purple" class="allow-page-break" %}}
+## Gameplay
 
 Gameplay happens in rounds, played _simultaneously_. 
 
@@ -60,7 +58,7 @@ When done, reveal all votes.
 * The Animal with the **most votes** wins.
 * **Tied?** The one closest to Smallseat, in clockwise direction, wins.
 
-{{< rules-image src="gameplay_1.webp" alt="Example of voting in a round, then handling who won the vote." >}}
+{{< rules/rules-image src="gameplay_1.webp" alt="Example of voting in a round, then handling who won the vote." >}}
 
 All votes for this winning animal go into the **Teller's hand** (secret).
 
@@ -73,17 +71,16 @@ Whatever happens, the card played goes into the **Teller's hand** (public).
 
 That's it!
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Remember that Smallseat is a **position**. Whoever sits there, is currently Boss. As such, when they swap places, they do not remain Boss.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{< rules-image src="gameplay_2.webp" alt="Example of handlgint the remaining (non-winning) cards." >}}
+{{< rules/rules-image src="gameplay_2.webp" alt="Example of handling the remaining (non-winning) cards." >}}
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="packs" heading="Packs" icon="expansion" icontint="orange" class="allow-page-break" %}}
+## Packs
 
 Below is an overview of all different Animals in the game. It's roughly sorted based on how difficult the card's actions are to understand.
 
@@ -95,72 +92,59 @@ The cards **explain themselves**, but the overview below contains clarifications
 
 <div class="prince-info" data-prince="karateChicks"></div>
 
-{{% /rules-block %}}
 
 {{% rules-block heading="Pricklypettes" icon="pack-smallseat-pricklypettes" %}}
 
 <div class="prince-info" data-prince="pricklypettes"></div>
 
-{{% /rules-block %}}
 
 {{% rules-block heading="Sleepersippies" icon="pack-smallseat-sleepersippies" %}}
 
 <div class="prince-info" data-prince="sleepersippies"></div>
 
-{{% /rules-block %}}
 
 {{% rules-block heading="Chewy Carrots" icon="pack-smallseat-chewyCarrots" %}}
 
 <div class="prince-info" data-prince="chewyCarrots"></div>
 
-{{% /rules-block %}}
 
 {{% rules-block heading="Tree of Hainut" icon="pack-smallseat-treeOfHainut" %}}
 
 <div class="prince-info" data-prince="treeOfHainut"></div>
 
-{{% /rules-block %}}
 
 {{% rules-block heading="Curlysnouts" icon="pack-smallseat-curlysnouts" %}}
 
 <div class="prince-info" data-prince="curlysnouts"></div>
 
-{{% /rules-block %}}
 
 {{% rules-block heading="Tinybears" icon="pack-smallseat-tinybears" %}}
 
 <div class="prince-info" data-prince="tinybears"></div>
 
-{{% /rules-block %}}
 
 {{% rules-block heading="Purplepaws" icon="pack-smallseat-purplepaws" %}}
 
 <div class="prince-info" data-prince="purplepaws"></div>
 
-{{% /rules-block %}}
 
 {{% rules-block heading="Ottermother" icon="pack-smallseat-ottermother" %}}
 
 <div class="prince-info" data-prince="ottermother"></div>
 
-{{% /rules-block %}}
 
 {{% rules-block heading="Sealalater" icon="pack-smallseat-sealalater" %}}
 
 <div class="prince-info" data-prince="sealalater"></div>
 
-{{% /rules-block %}}
 
 {{% rules-block heading="Snufflesniff" icon="pack-smallseat-snufflesniff" %}}
 
 <div class="prince-info" data-prince="snufflesniff"></div>
 
-{{% /rules-block %}}
 
 {{% rules-block heading="Ponytailors" icon="pack-smallseat-ponytailors" %}}
 
 <div class="prince-info" data-prince="ponytailors"></div>
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

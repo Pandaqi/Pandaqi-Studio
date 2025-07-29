@@ -2,12 +2,23 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        wolf:
+        {
+            type: SettingType.CHECK,
+            default: false,
+            label: "Wool Wolves (Expansion",
+            remark: "Adds four special tiles with unique actions!"
+        }
+    },
+
     debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "meadowMightConfig",
-    fileName: "[Material] Meadowmight",
+    fileName: "Meadowmight",
 
     // set through user config on page
     inkFriendly: false,

@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+## Setup
 
 Place random **Map Tiles** in any reasonable map shape. When unsure, just use a 4x4 grid.
 
@@ -10,21 +10,19 @@ All players pick a Pawn and place it at a random location. Deal all players a ha
 
 For each egg type, create a pile with all its **Egg Tokens**. Then place one **Regular Tile** next to each.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 For a shorter game, include fewer unique egg types, or just fewer tokens per egg.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{< rules-image src="setup.webp" alt="Example of how to setup a game." >}}
+{{< rules/rules-image src="setup.webp" alt="Example of how to setup a game." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="green" %}}
+## Objective
 
 The game **ends** when all egg piles have run out. The player who scored the **most eggs wins**.
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="pink" %}}
+## Gameplay
 
 Begin with the start player, then take clockwise turns until done.
 
@@ -40,7 +38,7 @@ Secondly, you use its **rule** (bottom side).
 * Place the tile next to _or_ on top of an existing rule tile. 
 * Each egg can have at most 3 unique rules.
 
-{{< rules-image src="gameplay_play.webp" alt="Example of executing a single turn: move and then add the rule." >}}
+{{< rules/rules-image src="gameplay_play.webp" alt="Example of executing a single turn: move and then add the rule." >}}
 
 When considering a tile's movement or rule, it is always from **your perspective**. For example, the "bottom half" of the board will be different for different players, as they sit around the table.
 
@@ -52,28 +50,24 @@ At the **end of your turn**, check the row of rules for each egg type. They tell
 
 Finally, draw your hand back up to 4 tiles.
 
-{{< rules-image src="gameplay_score.webp" alt="Example of how to check where eggs are hidden and which ones you score (this turn)." >}}
+{{< rules/rules-image src="gameplay_score.webp" alt="Example of how to check where eggs are hidden and which ones you score (this turn)." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="green" %}}
+## Upgrades
 
 Played the base game and ready for more? Check out these simple expansions!
 
-{{% rules-block heading="Action Tiles" %}}
+### Action Tiles
 
 This expansion adds **Action Tiles**.
 
 These tiles do not show two things (movement and rule), but only one thing: a unique **action**. When played, execute it.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Secret Objectives" %}}
+### Secret Objectives
 
 At the start of the game, deal all players one **Secret Objective** tile.
 
 It gives each player a unique, specific rule about what scores them more or fewer points this game.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

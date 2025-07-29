@@ -28,18 +28,12 @@ devlog: "/blog/boardgames/death-by-digits/"
 
 The base game is simple enough to play with young kids that can do simple math (with low numbers). Only the expansion (included in the base material) has text on the cards and some more complicated effects.
 
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="deathByDigitsConfig" btn_label="Generate Material" game_title="Death by Digits" defaults="true">}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
-
-The fonts used are **JSL Ancient** (body text) and **Requiem** (headings). Everything else (idea, code, rules, assets, etcetera) is mine.
+## Background
 
 I'd been bouncing around an idea about a "murder by numbers" game for a while. You'd deal all the cards except for a few, and you'd win the game by guessing which of the cards were not in player's hands. The idea was solid, I just couldn't find actual simple gameplay to support it.
 
 Until I played a few card games that are based around (unknown) numbers too, which gave me the final push on how to approach this game! I quickly finalized the rules, prototyped it, and then I _finally_ had my "Death by Digits" game about guessing the missing numbers :)
 
+## Credits
+
+The fonts used are **JSL Ancient** (body text) and **Requiem** (headings). Everything else (idea, code, rules, assets, etcetera) is mine.

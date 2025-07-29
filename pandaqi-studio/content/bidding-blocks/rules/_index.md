@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
 Three quick steps.
 
@@ -10,23 +10,19 @@ Three quick steps.
 * Create a **single deck** with all cards.
 * Pick anyone to be the first **Dealer**.
 
-{{% /rules-block %}}
-
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game works with **quick rounds** that you play over and over.
 
 You can keep playing rounds as long as you like, but a recommended target is **100 points**: if someone reaches that, **they win**.
 
-{{% /rules-block %}}
-
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
 Every round has three simple phases: **dealing**, **playing** and **scoring**.
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% rules-block heading="Dealing" %}}
+### Dealing
 
 Repeat the following cycle until all players have 8 cards.
 
@@ -39,11 +35,9 @@ Once you've bid, you can't change your mind.
 
 If the final card has been given, and you still haven't bid, then you must do so now.
 
-{{< rules-image src="gameplay_dealing.webp" alt="Example of the Dealing phase: a cycle where you deal 1 card and players may bid at any time." >}}
+{{< rules/rules-image src="gameplay_dealing.webp" alt="Example of the Dealing phase: a cycle where you deal 1 card and players may bid at any time." >}}
 
-{{% /rules-block %}}
-
-{{% rules-block heading="Playing" %}}
+### Playing
 
 In this phase, you'll keep playing those small "challenges" (which is the thing on which you bid in the previous phase).
 
@@ -60,19 +54,17 @@ Repeat the following cycle until all players are out of cards.
 
 If you won the challenge, place the cards before you as a separate facedown pile. This helps easily track how many challenges you've won.
 
-{{< rules-image src="gameplay_playing.webp" alt="Example of how to play challenges (together or in-turn) with your cards and who wins them." >}}
+{{< rules/rules-image src="gameplay_playing.webp" alt="Example of how to play challenges (together or in-turn) with your cards and who wins them." >}}
 
 You become the next Dealer.
 
 If you're out of cards, you simply get no turns anymore. (When it's your turn, the challenge doesn't "end" because you had no card---it just skips over you.) If you ever end up Dealer in this state, the role moves to the closest player _with cards_ to your left.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 A **variant** for **longer challenges** is to use this rule: "If you have a higher number, you can't give up. You must play it."
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-block %}}
-
-{{% rules-block id="scoring" heading="Scoring" %}}
+### Scoring
 
 Once all challenges have been played, all players calculate their score!
 
@@ -84,8 +76,4 @@ Once all challenges have been played, all players calculate their score!
 
 For exmaple, someone bid 4 and won 3 tricks. They're off by one, so worth 50 points. They made their bid when they had 5 cards, so their score for this round is 50 / 5 = 10 points.
 
-{{< rules-image src="gameplay_scoring.webp" alt="Example of how to score your final result against the bid you made earlier." >}}
-
-{{% /rules-block %}}
-
-{{% /rules-block %}}
+{{< rules/rules-image src="gameplay_scoring.webp" alt="Example of how to score your final result against the bid you made earlier." >}}

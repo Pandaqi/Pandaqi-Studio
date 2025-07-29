@@ -2,20 +2,19 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+## Setup
 
 Press the button below to get a random setup you can simply copy to your table.
 
-{{< rules-example id="naivigation-setup" >}}
+{{< rules/rules-example id="naivigation-setup" >}}
 
-{{% rules-double-view src="setup.webp" alt="Example of how to setup a new game." split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 Alternatively, manually do the setup as follows.
 * Create a deck of 25 tiles, including 5 planets and 1 starting tile. 
 * Randomly place these in a 5x5 grid. 
 * Place the vehicle on the starting tile (oriented randomly)
 
-{{% /rules-double-view %}}
 
 <div class="rulebook-shared-rule">
 Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Shuffle and place as a FACEUP draw pile. Each player draws 3 of these to hold in their hand. 
@@ -35,21 +34,19 @@ Alternatively, manually do the setup as follows.
 * (This is for map diversity. If planets are still bunched up in groups, simply redo this setup.)
 --->
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+## Objective
 
 You win once you've visited **5 planets**. You lose immediately once you're total loss: your **Health Deck is empty**. 
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+## Gameplay
 
 Skip "Rounds & Turns" if you already know how to play Naivigation. The other section has unique rules for this game.
 
-{{< rules-example id="naivigation-turn" >}}
+{{< rules/rules-example id="naivigation-turn" >}}
 
-{{% rules-block heading="Rounds & Turns" class="rulebook-shared-rule-block" %}}
+### Rounds & Turns
 
 Play happens in rounds.
 
@@ -65,11 +62,10 @@ _No communication about the game is allowed._
 
 Whenever you **take damage**, reveal the top card of your Health Deck. These cards always have a _handicap_, which must be followed at all times.
 
-{{< rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
+{{< rules/rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Moving & Visiting" %}}
+### Moving & Visiting
 
 You can only **visit a planet** if the spaceship has the **same orientation** as indicated. 
 * If it's wrong, you just stay where you are and take 1 damage.
@@ -79,13 +75,11 @@ The map **wraps around**: flying off of one side makes you reappear on the other
 
 Whenever you move **diagonally**, you must choose which of the two directions (horizontally or vertically) you want to take. Actual diagonal movement doesn't exist.
 
-{{< rules-image src="gameplay_moving_visiting.webp" alt="Example of the rules around collecting planets and moving through space." >}}
+{{< rules/rules-image src="gameplay_moving_visiting.webp" alt="Example of the rules around collecting planets and moving through space." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="vehicle-cards" heading="Vehicle Cards" icon="expansion" icontint="red" %}}
+## Vehicle Cards
 
 The following vehicle cards are in the base game.
 
@@ -96,17 +90,16 @@ The following vehicle cards are in the base game.
   * Find the closest planet. (If tied, pick one.)
   * Move one tile closer to that planet.
 
-{{< rules-image src="vehicle_cards.webp" alt="Examples of how to execute the three possible movement cards." >}}
+{{< rules/rules-image src="vehicle_cards.webp" alt="Examples of how to execute the three possible movement cards." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
+## Upgrades
 
 It's recommended to add these expansions in order, as they get progressively harder, but not required. None of them change rules, they merely add more tiles (for the map) and vehicle cards (to play).
 
-{{% rules-block heading="Shields & Asteroids" %}}
+### Shields & Asteroids
 
-{{% rules-double-view src="expansion_shields_asteroids.webp" alt="Examples of how to use all the new tiles/cards in the Shields expansion." split="leftheavy" %}}
+{{<  rules-image-sidebar src="expansion_shields_asteroids.webp" alt="Examples of how to use all the new tiles/cards in the Shields expansion." >}}
 
 Add the following map tiles.
 * **Asteroids:** if you fly into this tile, take 1 damage.
@@ -118,11 +111,9 @@ Add the following vehicle cards.
 	* A **Disable** card ALSO turns off the shield.
 * **Thrust+**: Moves 2 spaces at once. (Ignore the space you pass by; you simply skip over it.)
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Weapons & Aliens" %}}
+### Weapons & Aliens
 
 First, we define **line of sight**. A spaceship can "see" all non-empty tiles in front of their nose. Here, non-empty means it's either a special tile or it contains a spaceship.
 
@@ -135,11 +126,10 @@ Add the following vehicle card.
   * If this is a planet, you immediately lost the game! 
   * If this tile contained another spaceship (when playing with two teams), they take 2 damage.
 
-{{< rules-image src="expansion_weapons_aliens.webp" alt="Examples of how to use all the new tiles/cards in the Weapons expansion." >}}
+{{< rules/rules-image src="expansion_weapons_aliens.webp" alt="Examples of how to use all the new tiles/cards in the Weapons expansion." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Trade & Technology" %}}
+### Trade & Technology
 
 Include the special **planet** and **planet properties** cards. Place the planet cards in a row. Then place two random property cards underneath each planet. 
 
@@ -158,8 +148,6 @@ If you have a planet property requiring a resource, make sure that resource is a
 Add the following vehicle cards
 * **Hyper**: move to one edge of the map ( = one end of your row or column)
 
-{{< rules-image src="expansion_trade_tech.webp" alt="Examples of how to use all the new tiles/cards in the Trade expansion." >}}
+{{< rules/rules-image src="expansion_trade_tech.webp" alt="Examples of how to use all the new tiles/cards in the Trade expansion." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

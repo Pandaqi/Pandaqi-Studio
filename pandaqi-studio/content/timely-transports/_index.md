@@ -53,7 +53,9 @@ Use this website
 
 The **campaign** has six scenarios, increasing in difficulty, allowing you to get comfortable with the game before adding new rules and mechanics.
 
-{{% boardgame-settings-container type="game" remarks="**Don't** tap to start on your device until all players are ready!||Because it opens a new page, your browser might register this as a pop-up. It's not, I would never show pop-ups." %}}
+**Remark: Don't** tap to start on your device until all players are ready!||Because it opens a new page, your browser might register this as a pop-up. It's not, I would never show pop-ups.
+
+{{% boardgame-settings-container type="game" %}}
 
 {{< boardgame-settings type="game" local_storage="timelyTransportsConfig" game_title="Timely Transports" >}}
   {{< setting-playercount min="1" max="8" def="4" id="setting-playerCount" >}}
@@ -64,7 +66,9 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
 
 {{% /boardgame-settings-container %}}
 
-{{% boardgame-settings-container type="board" remarks="The **split board** option is highly recommended! It creates a huge board consisting of 4 papers, which allows everyone around a table to easily reach all destinations." %}}
+When generating a board, the **split board** option is highly recommended! It creates a huge board consisting of 4 papers, which allows everyone around a table to easily reach all destinations.
+
+{{% boardgame-settings-container type="board" %}}
 
 {{< boardgame-settings type="board" local_storage="timelyTransportsConfig" game_title="Timely Transports" defaults="true" >}}
   {{< setting-playercount min="1" max="8" def="4" >}}
@@ -79,12 +83,10 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
 
 ## Credits
           
-Fonts? **Rowdies** for header text. **Yanone Kaffeesatz** for body text. Both freely available on Google Fonts.
+Fonts? **Rowdies** for header text. **Yanone Kaffeesatz** for body text. Both freely available on Google Fonts. Everything else was completely made by me, Pandaqi!
 
-Website (boards and game)? The **Phaser 3** library for programming, also completely free and open source.
-
-Everything else (concept, code, graphics, rules, ...) was completely made by me, Pandaqi! I've written two in-depth articles about the creation of this game (as I usually do):
-- [(Devlog) Timely Transports](/blog/boardgames/timely-transports/devlog-timely-transports): about problems I faced, solutions I found, why I chose to do certain things (or not do them), general interesting stuff about game design.
-- [(Technical Devlog) Timely Transports](/blog/boardgames/timely-transports/tech-devlog-timely-transports): about the actual algorithms used for the game interface and generating the game board, both high overview and actual code samples
-- [(Update) Timely Transports](/blog/boardgames/timely-transports/update-timely-transports): about the huge update I did for the game, half a year after release. Why I did it, what changed, and more.
+I've written two in-depth articles about the creation of this game (as I usually do):
+* [(Devlog) Timely Transports](/blog/boardgames/timely-transports/devlog-timely-transports): about problems I faced, solutions I found, why I chose to do certain things (or not do them), general interesting stuff about game design.
+* [(Technical Devlog) Timely Transports](/blog/boardgames/timely-transports/tech-devlog-timely-transports): about the actual algorithms used for the game interface and generating the game board, both high overview and actual code samples
+* [(Update) Timely Transports](/blog/boardgames/timely-transports/update-timely-transports): about the huge update I did for the game, half a year after release. Why I did it, what changed, and more.
 

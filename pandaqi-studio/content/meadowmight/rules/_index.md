@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+## Setup
 
 Each player picks one color and gets all 5 tiles showing that sheep: their **Sheeple**. Take all unused Sheeple out of the deck. 
 
@@ -10,19 +10,17 @@ Shuffle the deck and deal each player 3 tiles. (Each player should hold 8 tiles 
 
 Finally, place a random tile (faceup) on the table. 
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="orange" %}}
+## Objective
 
 The game ends when all players are out of tiles. Highest score wins!
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" class="allow-page-break" icontint="green" %}}
+## Gameplay
 
 Take clockwise turns. On your turn, either PLAY or CHANGE, then draw 1 tile from the deck.
 
-{{% rules-block heading="Play" %}}
+### Play
 
 Play a tile from your hand, faceup to the table. 
 
@@ -30,17 +28,16 @@ Play a tile from your hand, faceup to the table.
 * You can't play a Sheeple into a meadow that **already has another player's Sheeple**. 
 * The maximum board size is 8x8.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 In other words, there can be no path between two different Sheeples with no fences in-between.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 If your tile connects multiple meadows (owned by different players), a [conflict](#conflict) happens.
 
-{{< rules-image src="action_play.webp" alt="Examples of how (not) to play a tile." >}}
+{{< rules/rules-image src="action_play.webp" alt="Examples of how (not) to play a tile." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Change" %}}
+### Change
 
 Discard **2 tiles** from your hand to **rotate** an existing tile.
 * You may orient the tile however you like.
@@ -49,15 +46,14 @@ Discard **2 tiles** from your hand to **rotate** an existing tile.
 
 If this change connects multiple meadows (owned by different players), a [conflict](#conflict) happens.
 
-{{< rules-image src="action_change.webp" alt="Explanation of how (not) to rotate an existing tile." >}}
+{{< rules/rules-image src="action_change.webp" alt="Explanation of how (not) to rotate an existing tile." >}}
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Yes, this permanently reduces your hand size by 1.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Conflict" id="conflict" %}}
+### Conflict
 
 Count the size of each meadow on different sides of the tile. Exclude the tile that caused the conflict itself.
 
@@ -67,13 +63,11 @@ The _biggest_ meadow wins. All Sheeple inside the losing meadow(s) are turned _f
 
 There can never be a single meadow claimed by multiple players. If the tile that caused the conflict contains a Sheeple of the wrong color, it's also turned facedown.
 
-{{< rules-image src="action_conflict.webp" alt="Example of when conflicts occur and how to resolve them." >}}
+{{< rules/rules-image src="action_conflict.webp" alt="Example of when conflicts occur and how to resolve them." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="scoring" heading="Scoring" icon="score" class="allow-page-break" icontint="orange" %}}
+## Scoring
 
 You score for each **enclosed meadow** ( = fences on all sides) that contains a **Sheeple of yours**. 
 Facedown tiles should be considered as "closed on all sides". 
@@ -83,17 +77,16 @@ Facedown tiles should be considered as "closed on all sides".
 
 So yes, you score each meadow only once, regardless of the number of Sheeple you have.
 
-{{< rules-image src="scoring.webp" alt="Visualization of how to score your meadows at the end of the game." >}}
+{{< rules/rules-image src="scoring.webp" alt="Visualization of how to score your meadows at the end of the game." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" class="allow-page-break" icontint="green" %}}
+## Upgrades
 
 Once you've played the base game a few times, maybe you're ready for some expansions or variants!
 
 In these rules, the term "adjacent" always means horizontal or vertical, never diagonal.
 
-{{% rules-block heading="Fuzzy Fences" %}}
+### Fuzzy Fences
 
 This is a _variant_ you can play with the same material. It's much friendlier, as it allows bigger scores and multiple people to claim meadows.
 
@@ -108,20 +101,19 @@ The following rules change.
 * You _can_ play a Sheeple in the same meadow as another. Conflict only happens when two meadows, which were previously separate, are connected.
 * If so, count **diversity first**. The meadow with the _highest_ number of different Sheeple wins. (If tied, apply the usual rules: number of tiles, number of sheeple, otherwise conflict is forbidden.)
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 As usual, all losing Sheeple are turned facedown, even if they belong to the winner(s) too.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 **CHANGING:** The **change** action also allows **moving** an existing tile (instead of rotating). Do so according to the following rules.
 * You can only move tiles that contain neutral sheep.
 * They move one step, to an adjacent tile. (Yes, this overlaps existing tiles.)
 * They _cannot_ move over a double fence.
 
-{{< rules-image src="fuzzy_fences.webp" alt="Visual examples of the major rules changes for this variant." >}}
+{{< rules/rules-image src="fuzzy_fences.webp" alt="Visual examples of the major rules changes for this variant." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Personal Piles" %}}
+### Personal Piles
 
 This is a _variant_ you can play with the same material.
 
@@ -131,9 +123,8 @@ During **gameplay**, you only draw tiles from _your own deck_. Your hand limit i
 
 Optional: for a game with less conflict (but more tension and luck), include _fewer_ Sheeple per player.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Wool Wolves" %}}
+### Wool Wolves
 
 This expansion adds four special tiles with their own rules. 
 
@@ -147,6 +138,4 @@ This expansion adds four special tiles with their own rules.
 
 Due to the extra tiles, the maximum board size is raised to 10x10.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

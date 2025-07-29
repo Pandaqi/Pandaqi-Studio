@@ -33,7 +33,9 @@ devlog: "/blog/boardgames/photomone-antsassins/"
 
 **Hey, Pandaqi here!** This game is quite experimental. It requires your group to be imaginative and take creative leaps, otherwise it falls flat. I am open to any feedback on how to improve it. If you read my [devlog](/blog/boardgames/photomone-antsassins/), you'll see how much I struggled to make it "good enough".
 
-{{% boardgame-settings-container type="material" remarks="Everything is sorted based on how easy it is to play. Rectangles are more predictable (and easy to see shapes in) than hexagons or triangles. The same is true Photomone and Mosaic vs the rest." %}}
+**Remark** (for when generating material): Everything is sorted based on how easy it is to play. Rectangles are more predictable (and easy to see shapes in) than hexagons or triangles. The same is true for Photomone and Mosaic vs the rest.
+
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="photomoneAntsassinsConfig" btn_label="Create Material" game_title="Photomone Antsassins" >}}
   {{< setting-enum id="setting-tileShape" text="Tile Shape?" values="Rectangle,Hexagon,Triangle" valaskey="true" >}}
@@ -51,10 +53,7 @@ devlog: "/blog/boardgames/photomone-antsassins/"
 
 {{% /boardgame-settings-container %}}
 
-
-## Credits
-
-Check out the main page for [Photomone Games](/photomone-games/) for detailed credits and more information.
+## Background
 
 This game is basically my attempt at turning the Photomone idea into a "traditional game", where you just print and cut material once, and can then replay it forever. I also tried to take it one step further again, by adding many different tiles with "vague visualizations" that can be combined to maybe look like something else, and code cards with special abilities and actions.
 
@@ -62,3 +61,6 @@ Yes, the game Codenames was a direct inspiration for this. But also, yes, as sta
 
 For a detailed diary about the game, check out the [devlog](/blog/boardgames/photomone-antsassins/). It is looong and writes about aaaaall the problems I encountered and different versions.
 
+## Credits
+
+Check out the main page for [Photomone Games](/photomone-games/) for detailed credits and more information.

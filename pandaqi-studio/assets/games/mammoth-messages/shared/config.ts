@@ -1,10 +1,61 @@
-import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import { MESSAGES } from "./dict"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            includeCards:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Include Word Cards",
+            },
+
+            includeDrawings:
+            {
+                type: SettingType.CHECK,
+                label: "Include Cave Drawings",
+                default: true
+            },
+
+            includeTokens:
+            {
+                type: SettingType.CHECK,
+                label: "Include Choice Tokens",
+                default: true,
+                remark: "If you already have these, or plan on using something else, you can disable this."
+            },
+        },
+
+        wordPreferences:
+        {
+            type: SettingType.GROUP,
+
+            includeGeography:
+            {
+                type: SettingType.CHECK,
+            },
+
+            includeNames:
+            {
+                type: SettingType.CHECK,
+                remark: "Includes names of popular people, brands, etcetera"
+            },
+
+            includeDifficultWords:
+            {
+                type: SettingType.CHECK,
+                remark: "Raises the max difficulty of words that can appear."
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -13,7 +64,7 @@ const CONFIG =
     },
 
     configKey: "mammothMessagesConfig",
-    fileName: "[Material] Mammoth Messages",
+    fileName: "Mammoth Messages",
 
     // set through user config on page
     inkFriendly: false,

@@ -2,9 +2,9 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="blue" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example setup for 3 players." %}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example setup for 3 players." >}}
 
 Separate the deck into **MEDICINE** and **PATIENTS**. Deal each player 2 of each type.
 
@@ -15,30 +15,27 @@ Then combine all cards into one deck.
 
 Any leftover cards are shown and discarded.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+## Objective
 
 The game **ends** as soon as a player's hand is empty. **They win.**
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="blue" %}}
+## Gameplay
 
 From start player, take clockwise turns until done. On your turn, either **PLACE** or **SWAP**. 
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% rules-block heading="Place" %}}
+### Place
 
 **Placement** happens following **pyramid** rules (or "staircase"), both _above_ and _below_ the starting row.
 
 * Place cards _between_ those from the previous layer.
 * Each layer contains one fewer card than the previous one.
 
-{{< rules-image src="action_place.webp" alt="Example of how to resolve a Place action, differentiating MEDICINE and PATIENT cards." >}}
+{{< rules/rules-image src="action_place.webp" alt="Example of how to resolve a Place action, differentiating MEDICINE and PATIENT cards." >}}
 
 A **MEDICINE** card can only be placed if the numbers are right.
 
@@ -55,11 +52,10 @@ Playing a patient is hard! And so you are rewarded.
 
 > For each requirement on your patient, pick a player who must show you a hand card.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Swap" %}}
+### Swap
 
-{{% rules-double-view src="action_swap.webp" alt="Example of how to do a Swap action." %}}
+{{< rules/rules-image-sidebar src="action_swap.webp" alt="Example of how to do a Swap action." >}}
 
 **Swap** two cards that are already in the pyramid. 
 
@@ -69,25 +65,21 @@ Some restrictions, however, apply.
 * If it's a patient, you can only swap cards of types they want.
 * If it's medicine, one of the swapped cards must be of that type.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
+## Upgrades
 
 Played the game a few times and ready for more challenge? You're in the right place! Try any of the expansions below.
 
-{{% rules-block heading="Operations" %}}
+### Operations
 
 This expansion adds **special cards**.
 
 Their placement rules are the same as for medicine. Once placed, they instantly trigger their action (written on them).
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Intensive Care" %}}
+### Intensive Care
 
 This expansion adds more **unique medicine and patients.**
 
@@ -95,6 +87,4 @@ It also adds **wildcards** (numbers, medicine, requirements that can be _any_ ty
 
 Because of the increased deck size, also increase the starting row to 8 cards.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

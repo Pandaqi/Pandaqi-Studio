@@ -26,8 +26,6 @@ ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/swerving-spaceships/"
 ---
 
-
-
 ## What do I need?
 
 This game is part of the Naivigation universe. It means you need two things to play this game.
@@ -39,30 +37,9 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 **Playful Rules?** It means you can press a button to get random examples of turns and setup, which is far more useful (and fun) than reading some text! I've been creating such rules for years now to great success.
 
-**Want more?** You can also [generate your own material](#material) right on this website, to suit your specific needs.
+**Want more?** You can also [generate your own material](game) right on this website, to suit your specific needs.
 
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="naivigationSwervingSpaceshipsConfig" btn_label="Generate Material" game_title="Naivigation: Swerving Spaceships" defaults="true" >}}
-  {{< setting-checkbox id="setting-addTextOnTiles" text="Add text on tiles?" remark="Map tiles explain themselves with text on them." >}}
-  {{< setting-checkbox id="setting-vehiclesAsPawns" text="Create vehicles as pawns?" remark="If enabled, you can fold the vehicle to place it on the board standing up." checked="checked" >}}
-  {{< boardgame-settings-section heading="Core Set" >}}
-    {{< setting-checkbox id="setting-sets-vehicleTiles" text="Vehicle Pawns?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-mapTiles" text="Map Tiles?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-vehicleCards" text="Vehicle Cards?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-specialCards" text="Special Cards?" remark="Refers to the (unique) health, time, GPS, or action cards for this game." checked="checked" >}}
-  {{< /boardgame-settings-section >}}
-  {{< boardgame-settings-section heading="Expansion Sets" >}}
-    {{< setting-checkbox id="setting-sets-shields" text="Shields & Asteroids" >}}
-    {{< setting-checkbox id="setting-sets-weapons" text="Weapons & Aliens" >}}
-    {{< setting-checkbox id="setting-sets-trade" text="Trade & Technology" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
+## Background
 
 This version is now the recommended "first version" because of its simplicity. Space is free! You can move anywhere, it has lots of empty space, and rockets can't do anything besides fly forward. That made this version the one that introduces new players to Naivigation.
 
@@ -71,6 +48,8 @@ But it wasn't the first I made. That was the car-based version, which I invented
 Similarly, back then I didn't even have any website! I certainly hadn't built my framework to generate material and playful rules on the fly, in your browser. Crucial tools that make this game easier to learn and create now.
 
 This is an example of why it's good to just _make something_ and then iterate on it. Make mistakes, break stuff, then try again with the lessons learned. Before you know it, you end up with a large group of really simple and fun cooperative games about crashing every vehicle imaginable.
+
+## Credits
 
 For more information, check out the credits and supporting information from the [Naivigation overview page](/naivigation/).
 

@@ -4,6 +4,38 @@ export default
 {
     GAME:null, // will contain reference to active game; ugly but I saw no other way while converting to TypeScript
 
+    _settings:
+    {
+        expansions:
+        {
+            type: SettingType.GROUP,
+
+            specialCells:
+            {
+                type: SettingType.CHECK,
+                label: "Supercells",
+            },
+
+            ominousOptions:
+            {
+                type: SettingType.CHECK,
+                label: "Ominous Options",
+            },
+
+            poignantPowerups:
+            {
+                type: SettingType.CHECK,
+                label: "Poignant Powerups",
+            },
+
+            beefyBackpacks:
+            {
+                type: SettingType.CHECK,
+                label: "Beefy Backpacks",
+            },
+        }
+    },
+
     debugging: false, // @DEBUGGING (should be false)
     gameURL: "/keebble-games/spell/keebble-knickknack/game.html",
     playerSaveKey: "keebbleKnickknackSavedPlayers",

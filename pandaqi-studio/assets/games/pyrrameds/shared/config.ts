@@ -13,7 +13,7 @@ const CONFIG:any =
     },
 
     configKey: "pyrramedsConfig",
-    fileName: "[Material] Pyrrameds",
+    fileName: "Pyrrameds",
 
     // set through user config on page
     inkFriendly: false,

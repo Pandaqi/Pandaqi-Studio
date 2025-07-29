@@ -5,6 +5,40 @@ import Point from "js/pq_games/tools/geometry/point";
 
 const CONFIG:Record<string,any> =
 {
+    _settings:
+    {
+        addTextOnObstacles:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            remark: "Obstacle tiles explain their own power, instead of having to remember."
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                label: "Base Game",
+                default: true
+            },
+
+            specialEggs:
+            {
+                type: SettingType.CHECK,
+                label: "Special Eggs",
+            },
+
+            eggstraObstacles:
+            {
+                type: SettingType.CHECK,
+                label: "Eggstra Obstacles"
+            }
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -13,7 +47,7 @@ const CONFIG:Record<string,any> =
     },
 
     configKey: "egghuntEsportsConfig",
-    fileName: "[Material] Egghunt Esports",
+    fileName: "Egghunt Esports",
 
     // set through user config on page
     inkFriendly: false,

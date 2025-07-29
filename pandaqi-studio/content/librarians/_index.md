@@ -25,27 +25,7 @@ devlog: "/blog/boardgames/librarians/"
 
 The base game is simple enough to play with kids who are learning the alphabet. Adding the extra levels turns this into a challenging puzzle for the whole group.
 
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="librariansConfig" btn_label="Generate Material" game_title="Librarians" defaults="true">}}
-  {{< setting-checkbox id="setting-generateGenreCards" text="Generate Genre Cards?" checked="checked" remark="If on, generates the cards for all selected genres below. If off, those settings do nothing." >}}
-  {{< setting-checkbox id="setting-packs-shelves" text="Book Shelf Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-packs-actions" text="Thrills Expansion?" >}}
-  {{< boardgame-settings-section heading="Packs / Genres" >}}
-    {{< setting-enum id="setting-packs-red" text="Red?" keys="horror,detective,true_crime,tragedy" values="Horror,Detective,True Crime,Tragedy" >}}
-    {{< setting-enum id="setting-packs-green" text="Green?" keys="romance,comedy,adventure,self_help" values="Romance,Comedy,Adventure,Self Help" >}}
-    {{< setting-enum id="setting-packs-blue" text="Blue?" keys="thriller,action,travel,mythology" values="Thriller,Action,Travel,Mythology" >}}
-    {{< setting-enum id="setting-packs-purple" text="Purple?" keys="fantasy,scifi,poetry,graphic_novel" values="Fantasy,Science-Fiction,Poetry,Graphic Novel" >}}
-    {{< setting-enum id="setting-packs-yellow" text="Yellow?" keys="biography,science,business,cooking" values="Biography,Science,Business,Cooking" >}}
-    {{< setting-enum id="setting-packs-black" text="Black?" keys="mystery,crime,drama,picture_book" values="Mystery,Crime,Drama,Picture Book" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
-
-The fonts used are **Grenze Gotisch** (text + headings) and **Fleur Caps** (for extravagant flowery capital letters on some things). Some generative AI was used for the faint book covers you see. Everything else---idea, code, assets, rules, other illustrations---is mine.
+## Background
 
 The **development of this game was very odd**. I want to talk about this here because it may be interesting to read, or save fellow game developers some trouble.
 
@@ -69,3 +49,6 @@ Ironically, one of the simplest ideas I ever wrote down (about placing books in 
 
 That's the **second moral of this story**. Don't overcomplicate things. Keep small ideas ... small and simple. Don't add 24 genres and a loooong list of puns on author and bestselling book names ;)
 
+## Credits
+
+The fonts used are **Grenze Gotisch** (text + headings) and **Fleur Caps** (for extravagant flowery capital letters on some things). Some generative AI was used for the faint book covers you see. Everything else---idea, code, assets, rules, other illustrations---is mine.

@@ -3,6 +3,39 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Set",
+            },
+
+            darkTunnels:
+            {
+                type: SettingType.CHECK,
+                label: "Dark Tunnels",
+            },
+
+            gemShards:
+            {
+                type: SettingType.CHECK,
+                label: "Gemshards",
+            },
+
+            goldenActions:
+            {
+                type: SettingType.CHECK,
+                label: "Golden Actions",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -11,7 +44,7 @@ const CONFIG:any =
     },
 
     configKey: "mountainMinersConfig",
-    fileName: "[Material] Mountain Miners",
+    fileName: "Mountain Miners",
 
     // set through user config on page
     inkFriendly: false,

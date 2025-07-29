@@ -5,6 +5,47 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        generatePlayingCards:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            remark: "If turned off, you can use your own standard card deck to play the game."
+        },
+
+        generateContracts:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            remark: "Required to play the game."
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            fullFlood:
+            {
+                type: SettingType.CHECK,
+                label: "Full Flood"
+            },
+
+            straightShake:
+            {
+                type: SettingType.CHECK,
+                label: "Straight Shake"
+            }
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -13,7 +54,7 @@ const CONFIG:any =
     },
 
     configKey: "nobleFloodConfig",
-    fileName: "[Material] Noble Flood",
+    fileName: "Noble Flood",
 
     // set through user config on page
     inkFriendly: false,

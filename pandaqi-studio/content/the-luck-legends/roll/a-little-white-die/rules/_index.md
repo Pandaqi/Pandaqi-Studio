@@ -2,25 +2,23 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
 Deal all players a deck of cards numbered 1--6. Keep the remaining cards to the side as a facedown draw pile.
 
 Pick anyone to be the start player ("Liar").
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 For a **quick, light** game, stop playing when one player is out of cards. The player who has the most cards wins.
 
 For a **longer, more tactical** game, keep playing until only one player has cards left. They win.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
 Gameplay happens in simultaneous rounds.
 
@@ -31,7 +29,7 @@ First, the Liar **states a number** greater than 1.
 
 Then everyone rolls their dice: shuffle every pile and secretly look at the card on top.
 
-{{< rules-image src="gameplay_dicebreak.webp" alt="Example of stating a number and then breaking your deck into that many dice." >}}
+{{< rules/rules-image src="gameplay_dicebreak.webp" alt="Example of stating a number and then breaking your deck into that many dice." >}}
 
 Starting from the Liar, in clockwise turns, players must now **guess** what's on the table. This includes _all_ dice, not just their own.
 
@@ -48,15 +46,14 @@ The loser of a round **discards** all the cards from one of their dice. They bec
 
 That's it, have fun!
 
-{{< rules-image src="gameplay_guess.webp" alt="Example of guessing (higher) in turn until someone challenges and someone loses." >}}
+{{< rules/rules-image src="gameplay_guess.webp" alt="Example of guessing (higher) in turn until someone challenges and someone loses." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variants & Expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 To make the game **more unpredictable**, give players 6 random cards at the start.
 
@@ -64,15 +61,14 @@ To make the game **longer** (and every guessing round longer and perhaps more te
 * Start the players with 9 or even 12 cards. 
 * Increase the minimum number (of "dice" into which to break your deck) to 3.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 You might need the expansions to have enough cards for this, if you have a high player count.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Wildcards" %}}
+### Wildcards
 
-{{% rules-double-view src="expansion_wildcards.webp" alt="Example of how wildcards work." split="leftheavy" %}}
+{{<  rules-image-sidebar src="expansion_wildcards.webp" alt="Example of how wildcards work." >}}
 
 This expansion adds a tiny bit of extra material: Wildcards. 
 
@@ -82,21 +78,19 @@ During **gameplay**: a wildcard represents the _number_ of your guess. For examp
 
 Finally, the loser of a round _may_ decide to swap another card for a wildcard (secretly).
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Power Cards" %}}
+### Power Cards
 
 This expansion adds more material: Power Cards and numbers greater than 6.
 
 During setup, create piles (of regular and power cards combined) per number (1 through 6), then give each player 1 of each. This ensures power cards are in the game, but they're distributed randomly and you don't know who has them.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 It's fine to only include a few power cards---not all---if your group thinks there are too many special actions.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{< rules-image src="expansion_powercards.webp" alt="Example of how power cards work and how to guess around them." >}}
+{{< rules/rules-image src="expansion_powercards.webp" alt="Example of how power cards work and how to guess around them." >}}
 
 How do Power Cards work?
 
@@ -115,7 +109,5 @@ This also works in the opposite direction! By _doubling_ instead of _dividing_.
 
 The extra high numbers are included because some of the powers **add an extra number**. If triggered, all players still in play add 1 card of the next highest number to their deck. If there aren't enough cards for all players, the active player (who triggered this action) decides who gets the extra card.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 

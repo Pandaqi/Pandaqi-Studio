@@ -4,8 +4,50 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        includeRules:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            remark: "Only disable if you've printed the rulebook or know them by heart."
+        },
+
+        boardSize:
+        {
+            type: SettingType.ENUM,
+            values: ["small", "regular", "big", "huge"],
+            default: "regular",
+            remark: "Increases or decreases the number of icons on the board; not page size."
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Set",
+            },
+
+            advanced:
+            {
+                type: SettingType.CHECK,
+                label: "Advanced Set",
+            },
+
+            expert:
+            {
+                type: SettingType.CHECK,
+                label: "Expert Set",
+            },
+        }
+    },
+
     configKey: "magnetmenConfig",
-    fileName: "[Board] Magnetmen",
+    fileName: "Magnetmen",
     resLoader: null,
     allTypes: {},
     beginnerMode: true,

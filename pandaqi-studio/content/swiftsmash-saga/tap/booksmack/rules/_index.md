@@ -2,21 +2,19 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
 Deal everyone 4 cards to take into their hand.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game ends when everyone is **out of (hand) cards**. Every card in your _Library_ is worth 1 point. **Highest score wins!**
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
 Gameplay happens in _rounds_. There are no turns: everyone plays _at the same time_.
 
@@ -25,7 +23,7 @@ Gameplay happens in _rounds_. There are no turns: everyone plays _at the same ti
 
 The first player to **tap the highest letter (in order of the alphabet)** wins the round!
 
-{{< rules-image src="gameplay.webp" alt="Example of a single round and resolving who wins." >}}
+{{< rules/rules-image src="gameplay.webp" alt="Example of a single round and resolving who wins." >}}
 
 But there are two twists.
 
@@ -34,17 +32,16 @@ But there are two twists.
 
 The winner of a round wins all the cards. Place them in your _Library_, which is just a facedown pile in front of you on the table.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Some letters look like other letters when viewed differently. Only the REAL letter (seen from the one who played it) counts. 
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansions & Variants" id="expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variant: Turn-Based Play" %}}
+### Variant: Turn-Based Play
 
 The default version of _Booksmack_ is a fast and loose (party) game. Try this variant instead if you want to play it more slowly and tactically, not relying on quick thinking or reaction time.
 
@@ -68,19 +65,17 @@ Below are the changes for this variant.
 * If it's currently the "lowest card", steal a card from another player. (Either blindly from their hand, or the latest card they played in front of them.)
 * If you spell a word, you win all cards played: they go into your Library.
 
-{{< rules-image src="variant_turn_based.webp" alt="Example of how to play the turn-based variant and how to score at the end." >}}
+{{< rules/rules-image src="variant_turn_based.webp" alt="Example of how to play the turn-based variant and how to score at the end." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Power Punctuation" %}}
+### Expansion: Power Punctuation
 
 This expansion adds **punctuation cards**. Their powers are also written on the cards.
 
-{{< rules-image src="expansion_punctuation.webp" alt="Examples of the powers of all punctuation cards (period, question mark, exclamation mark)." >}}
+{{< rules/rules-image src="expansion_punctuation.webp" alt="Examples of the powers of all punctuation cards (period, question mark, exclamation mark)." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Nifty Numbers" %}}
+### Expansion: Nifty Numbers
 
 This expansion adds **number cards** (between 1 and 26; not all included).
 
@@ -90,17 +85,15 @@ In case of a tie, the _number_ is always higher ranking than the _letter_.
 
 For example, the number "E" is at position 5 of the alphabet. Any number card of 5 or higher would be ranked _higher_ than it.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Giggling Glyphs" %}}
+### Expansion: Giggling Glyphs
 
 This expansion adds more **uncommon glyphs and symbols**. Their actions are simple and explained on the card. The image below merely clarifies the hardest ones.
 
-{{< rules-image src="expansion_glyphs.webp" alt="Examples of how to use some of the harder special glyph powers." >}}
+{{< rules/rules-image src="expansion_glyphs.webp" alt="Examples of how to use some of the harder special glyph powers." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Cursed Critics" %}}
+### Expansion: Cursed Critics
 
 This expansion adds **letters with diacritics**, more commonly known as "accents".
 
@@ -112,7 +105,5 @@ This means, on rare occassions, there can be a _tie_ and _multiple winners_. (If
 
 When it comes to spelling words, diacritics do not matter. (Example: The word "cafe" is on the table regardless of whether it's "café" or "câfe" or any other variant.)
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 

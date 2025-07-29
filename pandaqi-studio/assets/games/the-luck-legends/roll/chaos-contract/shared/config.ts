@@ -13,7 +13,7 @@ const CONFIG:any =
     },
 
     configKey: "chaosContractConfig",
-    fileName: "[Material] Chaos Contract",
+    fileName: "Chaos Contract",
 
     // set through user config on page
     inkFriendly: false,

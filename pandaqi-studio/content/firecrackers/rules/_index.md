@@ -2,9 +2,9 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example setup for 4 players." %}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example setup for 4 players." >}}
 
 Create the **deck** you'll use for this game.
 * Include all the black cards.
@@ -22,27 +22,24 @@ Finally, place the remaining cards faceup into the **shop**.
 
 The most reckless player becomes Firemaster.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Material can be downloaded from [the website](https://pandaqi.com/firecrackers/).
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="green" %}}
+## Objective
 
 The game ends after the round when the **shop runs out**. 
 
 Players count their score by **summing the numbers** of all the cards inside their **deck**. Highest score wins! 
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Some cards have a special rule about their value. This _replaces_ their number, it's not added!
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" class="allow-page-break" icontint="purple" %}}
+## Gameplay
 
 Play happens in rounds. Beginning with the Firemaster, take clockwise turns until done.
 
@@ -54,9 +51,9 @@ The round ends when all players are done. When that happens,
 * The last player alive becomes the new Firemaster.
 * All players move their revealed cards to their own faceup discard pile.
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% rules-block heading="Reveal" %}}
+### Reveal
 
 **Reveal the top card of your deck.** Your revealed cards form a faceup row next to your deck.
 
@@ -64,11 +61,10 @@ If the card has a special action, execute it now. If you can't, or it's not rele
 
 Sum all numbers from revealed cards of the same **color**. If this total is 10 or higher, you **explode!** You're out of the round.
 
-{{< rules-image src="action_reveal.webp" alt="How to take the reveal action and check for explosion." >}}
+{{< rules/rules-image src="action_reveal.webp" alt="How to take the reveal action and check for explosion." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Stop" %}}
+### Stop
 
 Say "I stop!" 
 
@@ -80,13 +76,11 @@ Cards bought go to your _discard_ pile.
 
 That's it. Have fun!
 
-{{< rules-image src="action_stop.webp" alt="How to take the stop action and buy new cards from the shop." >}}
+{{< rules/rules-image src="action_stop.webp" alt="How to take the stop action and buy new cards from the shop." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansion" heading="More" icon="expansion" icontint="green" %}}
+## Upgrades
 
 For extreme player counts, a slightly different setup is usually preferred.
 
@@ -98,15 +92,14 @@ For extreme player counts, a slightly different setup is usually preferred.
 
 You'll also be forced to use the action cards of each starting color.
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 **Want a shorter game?** Play until either all action cards are gone (from the shop), or all non-action cards are gone.
 
 **Want a simpler and less luck-based game?** Remove or reduce the pile of Black cards. (Their purpose is to add useful actions and more cards of the same color, but this also leads to more complexity and a larger chance of exploding in that color.)
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Scoreworks" %}}
+### Expansion: Scoreworks
 
 This expansion requires printing the Scoreworks cards. Each has a new rule for how you _score_ at the end of the game. 
 
@@ -118,6 +111,4 @@ It also adds **two** extra rules to the core gameplay.
 * The **last player alive**, after stopping or exploding, may **destroy** 1 revealed or discarded card (of theirs).
 * If you **can** purchase something, you **must**.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

@@ -6,6 +6,28 @@ import CVal from "js/pq_games/tools/generation/cval";
 
 const CONFIG:Record<string,any> =
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                label: "Base Game",
+                default: true
+            },
+
+            cluesRooms:
+            {
+                type: SettingType.CHECK,
+                label: "Clues & Rooms",
+                remark: "Simply adds more clue cards and possible room tiles."
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -14,7 +36,7 @@ const CONFIG:Record<string,any> =
     },
 
     configKey: "quizhideQueasterConfig",
-    fileName: "[Material] Quizhide Queaster",
+    fileName: "Quizhide Queaster",
 
     // set through user config on page
     inkFriendly: false,

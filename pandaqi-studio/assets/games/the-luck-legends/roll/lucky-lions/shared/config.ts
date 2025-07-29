@@ -15,7 +15,7 @@ const CONFIG:any =
     },
 
     configKey: "luckyLionsConfig",
-    fileName: "[Material] Lucky Lions",
+    fileName: "Lucky Lions",
 
     // set through user config on page
     inkFriendly: false,

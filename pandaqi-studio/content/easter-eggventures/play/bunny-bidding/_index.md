@@ -1,7 +1,6 @@
 ---
 type: "project"
 
-
 title: "Bunny Bidding"
 blurb: "Play rounds adding cards to the secret offer and bidding on it. But use your highest value cards wisely, because only ONE type of egg actually scores you points in the end!"
 # blurb: "An [Easter Eggventures](/easter-eggventures/) game about winning auctions that contain your secret point-scoring egg, and strategically losing all the others."
@@ -9,7 +8,6 @@ blurbProject: "Snatch the best offers containing the secret eggs that actually s
 weightProject: 40
 
 downloadLink: "https://drive.google.com/drive/folders/15E5czi0s4g4Nua22HvMPB3j7DNGgOz0p"
-
 
 date: 2025-03-26
 
@@ -27,24 +25,7 @@ ages: everyone
 
 ---
 
-
-
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="bunnyBiddingConfig" btn_label="Generate Material" game_title="Bunny Bidding" defaults="true" >}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-special" text="Special Eggs?" >}}
-    {{< setting-checkbox id="setting-sets-powers" text="Powers & Handiceggs?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-
-## Credits
+## Background
 
 As stated, this game is part of the Easter Eggventures project. It shares the fonts, style, and origins with all other games in the project. As such, for more information, check out the [Easter Eggventures overview page](/easter-eggventures/).
 

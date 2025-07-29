@@ -5,6 +5,55 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        allowMultiFoodRecipes:
+        {
+            label: "Add multi food menus",
+            type: SettingType.CHECK,
+            default: true,
+            remark: "Makes the game slightly harder but also faster and more strategic (usually)."
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            foodTokens:
+            {
+                type: SettingType.CHECK,
+                label: "Food Tokens",
+                default: true
+            },
+
+            recipeCards:
+            {
+                type: SettingType.CHECK,
+                label: "Recipe Cards",
+                default: true
+            },
+
+            baseBeasts:
+            {
+                type: SettingType.CHECK,
+                label: "Beasts (Base)",
+                default: true
+            },
+
+            advancedBeasts:
+            {
+                type: SettingType.CHECK,
+                label: "Beasts (Advanced)",
+            },
+
+            saveThePrincess:
+            {
+                type: SettingType.CHECK,
+                label: "Save The Princess",
+            }
+        }
+    },
+        
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -13,7 +62,7 @@ const CONFIG:any =
     },
 
     configKey: "feedTheBeastConfig",
-    fileName: "[Material] Feed the Beast",
+    fileName: "Feed the Beast",
 
     // set through user config on page
     inkFriendly: false,

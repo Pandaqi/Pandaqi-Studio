@@ -1,12 +1,10 @@
 ---
 type: "project"
 
-
 title: "Noble Flood"
 blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity. Also playable with standard deck of cards."
 # blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity."
 downloadLink: "https://drive.google.com/drive/folders/1CcsMv1m33GWZypAiNYZgkpCh17RQtqW5"
-
 
 date: 2025-05-26
 
@@ -25,29 +23,7 @@ devlog: "/blog/boardgames/chiptales/noble-flood/"
 
 ---
 
-
-
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="nobleFloodConfig" btn_label="Generate Material" game_title="Noble Flood" defaults="true" >}}
-  {{< setting-checkbox id="setting-generatePlayingCards" text="Generate Playing Cards?" checked="checked" remark="If turned off, you can use your own standard card deck to play the game." >}}
-  {{< setting-checkbox id="setting-generateContracts" text="Generate Contracts?" checked="checked" remark="Required to play the game." >}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-fullFlood" text="Full Flood?" >}}
-    {{< setting-checkbox id="setting-sets-straightShake" text="Straight Shake?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
-
-The fonts used are **Romes Palace** (headings, decorative) and **Cardo** (body, readable, longer paragraphs). Some illustrations also use **Rechtman** (cursive, wavey). All of these are freely available online.
-
-Everything else---code, assets, design, rules, etcetera---is mine!
+## Background
 
 This game was born from two ideas clashing in my head at the same time. 
 
@@ -61,3 +37,8 @@ All of that combined into this simple card-based game that I like a lot.
 
 And yes, _Noble Flood_ is a pun on _Royal Flush_. It felt like a silly temporary name, until I started to like it a lot halfway through development, and it stuck.
 
+## Credits
+
+The fonts used are **Romes Palace** (headings, decorative) and **Cardo** (body, readable, longer paragraphs). Some illustrations also use **Rechtman** (cursive, wavey). All of these are freely available online.
+
+Everything else---code, assets, design, rules, etcetera---is mine!

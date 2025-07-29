@@ -2,9 +2,9 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="yellow" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="How to quickly setup any game of Feed the Beast." %}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="How to quickly setup any game of Feed the Beast." >}}
 
 Select all the **Tier 1 Food** tokens (showing a single dot on each side). Shuffle and deal each player 10.
 
@@ -12,17 +12,14 @@ Pick any **beast** and place it faceup in the center of the table. (For a first 
 
 Create a deck of **Menu cards**, shuffle, and place 1 next to the beast. Place 4 more faceup menus in a row: this is the "market".
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="purple" %}}
+## Objective
 
 The game ends when a player ends theit turn **without food**. They win!
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="yellow" %}}
+## Gameplay
 
 From start player, take clockwise turns until the game ends.
 
@@ -40,15 +37,14 @@ Once the beast has **10 food tokens** (or more), it **resets**. The active playe
 
 That's it! Have fun!
 
-{{< rules-image src="gameplay.webp" alt="Example of a single turn: pay the beast, get reward/penalty, reset Beast if full." >}}
+{{< rules/rules-image src="gameplay.webp" alt="Example of a single turn: pay the beast, get reward/penalty, reset Beast if full." >}}
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="beasts" heading="Beasts & Actions" icon="action" icontint="purple" %}}
+## Beasts & Actions
 
-{{% rules-double-view src="beast_skeleton.webp" alt="Pointing out the different parts of every Beast card and what they mean." %}}
+{{< rules/rules-image-sidebar src="beast_skeleton.webp" alt="Pointing out the different parts of every Beast card and what they mean." >}}
 
 Every beast has the following properties.
 
@@ -56,7 +52,6 @@ Every beast has the following properties.
 * **State:** every beast can flip between two states (e.g. sleeping/awake). When you get a "state" reward, it flips to the other one.
 * **Menu:** a single recipe that is true for the entire game.
 
-{{% /rules-double-view %}}
 
 At the top, you can see the beast's "level": higher means more difficult to play. 
 
@@ -69,13 +64,12 @@ Actions explain themselves. Below are some exceptions that didn't fit within the
 * It can happen that all your tokens are forbidden. In that case, skip your turn and pay no food. (This has no penalty as you did not pay "wrong food"---you paid nothing at all!)
 * When an action mentions "food played" or a beast mentions "food stored on me", it refers to the food tokens that currently sit on top of the beast tile. (The ones that are removed when the beast "resets".)
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" icontint="yellow" %}}
+## Upgrades
 
 Played the game a few times and ready for more challenge? You're in the right place! Try any of the expansions below.
 
-{{% rules-block heading="Variant: Multi-Food Menus" %}}
+### Variant: Multi-Food Menus
 
 If turned on, the material will print menus that sometimes require _multiple_ food tokens. 
 
@@ -86,9 +80,8 @@ This doesn't apply to "wrong food". Paying the wrong food always happens one tok
 
 If you want to keep the game as long as usual, start with _more_ food tokens per player (12 or even 15).
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Advanced Beasts" %}}
+### Advanced Beasts
 
 This expansion requires printing the **advanced beasts** too.
 
@@ -97,11 +90,10 @@ These are simply beasts that are harder to play or understand. They can have **t
 * **FURY:** This rule triggers when you pay the "wrong food". (This happens _instead_ of the default rule.)
 * **FAIL:** If the situation mentioned occurs, the game ends instantly and all players lose ( = the monster wins).
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Save the Princess" %}}
+### Save the Princess
 
-{{% rules-double-view src="victim_skeleton.webp" alt="What a Victim Card looks like and what it means." %}}
+{{< rules/rules-image-sidebar src="victim_skeleton.webp" alt="What a Victim Card looks like and what it means." >}}
 
 This expansion requires adding new material: the **victim cards**.
 
@@ -117,12 +109,9 @@ The player who freed them, takes one card and places it before them. Their rule 
 
 Finally, refill the victim row from the deck.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Most of my board games have some random generation and are regularly updated, which is why the exact images in the rulebook might match anything in your material. This is perfectly normal!
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

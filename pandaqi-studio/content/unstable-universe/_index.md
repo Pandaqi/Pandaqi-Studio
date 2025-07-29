@@ -65,8 +65,10 @@ Three steps:
 
 **Tip for Teaching?** Explain the first page, immediately start playing! Simply place the node list on the table, so players can look up what something does whilst playing.
 
+**Tip for Cleanup?** When done, you should have a bunch of puzzle pieces ( = all pieces of paper you cut off). Here's the challenge: try to fit them back together to recreate the original paper! Sounds easier than it is :)
 
-{{% boardgame-settings-container type="material" remarks="**Tip for Cleanup?** When done, you should have a bunch of puzzle pieces ( = all pieces of paper you cut off). Here's the challenge: try to fit them back together to recreate the original paper! Sounds easier than it is :)" %}}
+
+{{% boardgame-settings-container type="material" %}}
   
 {{< boardgame-settings type="board" game_title="Unstable Universe" local_storage="unstableUniverseConfig" defaults="true" >}}
   {{< setting-seed >}}

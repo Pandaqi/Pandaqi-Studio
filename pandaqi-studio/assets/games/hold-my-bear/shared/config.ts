@@ -3,10 +3,37 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        addBearIcons:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Add Bear Icons",
+            remark: "Adds icons on the Bear card to remind you of its abilities."
+        },
+
+        animalsBase:
+        {
+            type: SettingType.MULTI,
+            values: ["bear", "ferret", "tiger", "chicken", "dog", "cat", "hamster", "vole"],
+            default: ["bear", "ferret", "tiger", "hamster", "vole"],
+            label: "Animals (Base Game)",
+        },
+
+        animalsExpansion:
+        {
+            type: SettingType.MULTI,
+            label: "Animals (Expansion",
+            values: ["turtle", "beaver", "badger", "giraffe", "ape", "bat", "walrus", "fish", "bison", "kangaroo", "rabbit", "sheep", "squid", "aardvark"],
+            default: []
+        },
+    },
+
     debugWithoutFile: false, // @DEBUGGING (should be false)
 
     configKey: "holdMyBearConfig",
-    fileName: "[Material] Hold my Bear",
+    fileName: "Hold my Bear",
     resLoader: null,
     animals: [],
 

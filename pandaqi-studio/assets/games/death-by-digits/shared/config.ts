@@ -12,7 +12,7 @@ const CONFIG:any =
     },
 
     configKey: "deathByDigitsConfig",
-    fileName: "[Material] Death by Digits",
+    fileName: "Death by Digits",
 
     // set through user config on page
     inkFriendly: false,

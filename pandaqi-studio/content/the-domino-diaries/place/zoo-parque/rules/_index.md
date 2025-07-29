@@ -2,9 +2,9 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example of how to setup a new game." split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 For each Animal in the game, place its **Passport** on the table. It contains details about each animal. Don't worry, most of it **isn't used** in the _base game_.
 
@@ -14,11 +14,9 @@ Shuffle the deck and hand each player **5 Tiles**. Each player also picks a colo
 
 Finally, place 5 Tiles faceup next to the deck: this is the **market**.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 As soon as only **1 player remains who has Pawns**, that player takes the final turn of the game. 
 
@@ -26,9 +24,8 @@ Otherwise, the game ends immediately as soon as the **market is empty** (and can
 
 Everyone scores their claimed Exhibits. **Highest score wins!**
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
 From start player, take clockwise turns until done. 
 
@@ -38,15 +35,15 @@ First, two definitions.
 * An **Area** is any group of connected tiles of the same terrain. (Paths are not terrain.)
 * An **Exhibit** is a (smallest) group of connected Areas that is completely **enclosed** (fences on all sides). For the base game, just treat both fence types the same.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Yes, a single Exhibit can contain different terrains, animals, players, or even empty tiles and paths.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% rules-block heading="Play" %}}
+### Play
 
 Place **1 or 2 dominoes**. If you can't place anything, put 2 dominoes from your hand back into the deck (randomly).
 
-{{< rules-image src="gameplay_play.webp" alt="Example of how to play (valid) dominoes on your turn: 1 or 2, top or bottom, put animals on preferred terrain." >}}
+{{< rules/rules-image src="gameplay_play.webp" alt="Example of how to play (valid) dominoes on your turn: 1 or 2, top or bottom, put animals on preferred terrain." >}}
 
 Dominoes come in two flavors. If one part of the domino has _no background_ ( = no terrain), it's a "TOP" tile. Otherwise, it's a "BOTTOM" tile.
 
@@ -60,29 +57,24 @@ Only two placement rules apply.
 * When placing animals, they must be placed on one of their **preferred terrains** (see their Passport).
 * Once an Area is claimed by a player, **only they** are allowed to overlap it (and thus change some part of it).
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Claim" %}}
+### Claim
 
-{{% rules-double-view src="gameplay_claim.webp" alt="Example of how claim an Area." split="leftheavy" %}}
+{{<  rules-image-sidebar src="gameplay_claim.webp" alt="Example of how claim an Area." >}}
 
 You **may** claim an Area by placing your Pawn on it. Each Area can only be claimed once.
 
 Empty spaces and paths are **not** Areas.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Draw" %}}
+### Draw
 
 Finally, draw tiles from the market until your hand is full again. Refill the market from the deck as needed.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="scoring" heading="Scoring" icon="score" %}}
+## Scoring
 
 At the end of the game, each player scores the Exhibits they claimed.
 
@@ -92,31 +84,29 @@ At the end of the game, each player scores the Exhibits they claimed.
 
 Your score is _doubled_ if all animals inside the Exhibit are of the same type.
 
-{{< rules-image src="gameplay_scoring.webp" alt="Example of how to calculate the score of an Exhibit: largest area times animals times modifier." >}}
+{{< rules/rules-image src="gameplay_scoring.webp" alt="Example of how to calculate the score of an Exhibit: largest area times animals times modifier." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variants & Expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or want to tweak it a little to fit your group? Check out these variants and expansions!
 
 It's highly recommended to add the "Feeding" upgrade as soon as possible. It was left out of the base game merely to keep your first game as simple as possible.
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 **Want a harder game?** Add this rule: "You _must_ place 2 dominoes on your turn, and they must be separated from each other."
 
 **Want a more competitive game?** Change how exhibits score. Instead of counting the _most common terrain_, you simply count the size of _your (claimed) Area only_. Yes, this means different players get different points for the same Exhibit.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Upgrade: Feeding" %}}
+### Upgrade: Feeding
 
 This is an "upgrade" to the base game that requires no extra material. It uses those "food" icons that are on many tiles.
 
 Whenever someone **finishes an Exhibit**, a **Feed Phase** triggers.
 
-{{< rules-image src="gameplay_feed.webp" alt="Example of how to trigger and resolve a Feeding Phase." >}}
+{{< rules/rules-image src="gameplay_feed.webp" alt="Example of how to trigger and resolve a Feeding Phase." >}}
 
 * Check all **claimed Exhibits** that contain at least one animal. Its owner(s) must feed the animals inside! (The exhibit that triggered the Feed Phase is excluded from this.)
 * You do so by **discarding** a domino that shows Food from inside the Exhibit. (You always discard only 1 food, regardless of how many animals there are.)
@@ -124,9 +114,8 @@ Whenever someone **finishes an Exhibit**, a **Feed Phase** triggers.
 
 If this Exhibit has multiple players inside, they discuss what to do. In the end, though, the player closest to the one who triggered the Feed Phase has the final say.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Zooperative" %}}
+### Zooperative
 
 This expansion allows playing the game completely **cooperatively**. You win or lose together.
 
@@ -148,15 +137,14 @@ On higher levels, more conditions are possible.
 
 >**Replace:** if at the end of any turn, this condition is true, replace it with a new Campaign Card. Put the original card to the side. You can't win while there are "Replace" cards left.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Yes, if at least one Endgame is present, you'll have to play the entire game until the end.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Strong Species" %}}
+### Strong Species
 
-{{% rules-double-view src="expansion_strong.webp" alt="Example of what Strong fences mean." split="leftheavy" %}}
+{{<  rules-image-sidebar src="expansion_strong.webp" alt="Example of what Strong fences mean." >}}
 
 This expansion adds a few more animals and a new terrain.
 
@@ -164,13 +152,11 @@ It uses a new detail from the Animal Passport: **strong**.
 
 > All animals that are **strong** can only be enclosed by _strong fences_. The regular fence simply does nothing for an area that contains a strong animal.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Wildlife Wishes" %}}
+### Wildlife Wishes
 
-{{% rules-double-view src="expansion_wildlife.webp" alt="Example of the new Wildlife rules in action." split="leftheavy" %}}
+{{<  rules-image-sidebar src="expansion_wildlife.webp" alt="Example of the new Wildlife rules in action." >}}
 
 This expansion adds a few more animals, a new terrain, and **objects** (such as toys for the animals).
 
@@ -180,17 +166,15 @@ It also uses a few more details from the Animal Passport:
 * You **can't** mix Solitary and Social animals in the same Area or Exhibit.
 * An Area that contains only Social animals can be claimed by infinitely many players.
 
-{{% /rules-double-view %}}
 
 Below is a list of all objects.
 
-<div id="rules-table-objects"></div>
+<div data-table="objects"></div>
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Unnatural Utilities" %}}
+### Unnatural Utilities
 
-{{% rules-double-view src="expansion_utilities.webp" alt="Example of how to calculate food requirements following the new rule." split="leftheavy" %}}
+{{<  rules-image-sidebar src="expansion_utilities.webp" alt="Example of how to calculate food requirements following the new rule." >}}
 
 This expansion adds a few more animals, a new terrain, and **stalls** (or "utilities"). These modify their surroundings in some way.
 
@@ -200,7 +184,6 @@ The amount of **food** you must pay during the "Feed Phase" changes.
 * Divide by 4; round down.
 * That's how many Food icons must be discarded for this Exhibit.
 
-{{% /rules-double-view %}}
 
 It also enables **animal powers**. 
 
@@ -212,9 +195,7 @@ Finally, it adds **Extinct Animals** (a stamp on their Passport). You **can't pl
 
 Below is a list of all the stalls.
 
-<div id="rules-table-stalls"></div>
+<div data-table="stalls"></div>
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 

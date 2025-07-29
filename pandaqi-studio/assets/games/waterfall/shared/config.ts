@@ -13,7 +13,7 @@ const CONFIG:any =
     },
 
     configKey: "waterfallConfig",
-    fileName: "[Material] Waterfall",
+    fileName: "Waterfall",
 
     // set through user config on page
     inkFriendly: false,

@@ -2,27 +2,24 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example of how to setup a game, and what is meant by your cards being your die." split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a game, and what is meant by your cards being your die." >}}
 
 Everyone receives a random set of **6 cards**. (These are numbered 1--6.) This deck is your **"die"**.
 
 Place the remaining cards as a facedown draw pile.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game ends when a player is **out of cards**. That player wins!
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
 On your turn, you do a **battle**.
 
@@ -32,9 +29,9 @@ On your turn, you do a **battle**.
 
 _What does it mean to make your "die as large as X"?_ For example, if the opponent said "3", then both players only select 3 cards from their deck as their "die" this round. You may see and choose the cards you select. 
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 If you can't meet the number, simply use your entire deck.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 Both battlers "roll their die": shuffle the selected cards and reveal one at random.
 
@@ -47,23 +44,21 @@ If it's a **tie**, both players discard 1 card of choice and draw a new one from
 
 That's all! Have fun!
 
-{{< rules-image src="gameplay_play.webp" alt="Example of how to play a turn: picking a battle and resolving it." >}}
+{{< rules/rules-image src="gameplay_play.webp" alt="Example of how to play a turn: picking a battle and resolving it." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variants & Expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 To make the game **harder and more random**, make creating your die **blind**. Players can't pick and choose the cards they select.
 
 For a softer version of that, make picking _blind_, but allow players to _see_ their final die before picking the challenge (and rolling).
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Victory Dice" %}}
+### Victory Dice
 
 This expansion requires _no_ extra material.
 
@@ -80,11 +75,10 @@ The following **objective** rules change.
 
 <!--- VARIANT: In case of a tie, check the number of dice icons on the cards, and apply the challenge to those? (Would require pretty major randomization on those icons, which is probably not great.) --->
 
-{{< rules-image src="expansion_victory_dice.webp" alt="Example of how to count and use dice icons for this expansion." >}}
+{{< rules/rules-image src="expansion_victory_dice.webp" alt="Example of how to count and use dice icons for this expansion." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Wacky Numbers" %}}
+### Wacky Numbers
 
 This introduces cards with a **special action** (written on the card). These actions trigger when the battle is over and you're checking who won, unless stated otherwise.
 
@@ -92,7 +86,5 @@ In situations where both players "win" or both "lose" because of special actions
 
 If your die size in a battle is 1, you're **not** allowed to include a special card. (Unless you have no other choice.)
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 

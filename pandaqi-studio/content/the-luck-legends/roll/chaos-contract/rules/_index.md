@@ -2,25 +2,22 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example of how to setup the game." split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup the game." >}}
 
 Create a deck of **Contract Cards**. Place 5 of them faceup on the table.
 
 Deal all players a deck of **6 Dice Cards**: numbered 1--6, where 2 of them have an action.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game **ends** when a player has scored **6(+) contracts**. They win.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
 On your turn, pick one [Contract](#contracts) from the center of the table. (Then refill to 5 from deck.)
 
@@ -28,7 +25,7 @@ Every contract poses a **challenge**. You may decide to go it alone ... but you'
 
 The _players_ who enter the contract are called **Souls**. The _number_ of them is called the **Turnout**.
 
-{{< rules-image src="gameplay.webp" alt="Example of how to take a turn; pick a contract, try it, succeed or fail." >}}
+{{< rules/rules-image src="gameplay.webp" alt="Example of how to take a turn; pick a contract, try it, succeed or fail." >}}
 
 Then, **execute the challenge**, doing as it says. 
 * Players take turns rolling, in clockwise order, starting from the active player.
@@ -46,11 +43,10 @@ You decide **how to distribute** the reward/penalty over all Souls. The only thi
 
 That's it!
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Contracts" id="contracts" %}}
+## Contracts
 
-{{% rules-double-view src="contracts.webp" alt="All the properties of a contract card and how to read/use them." %}}
+{{< rules/rules-image-sidebar src="contracts.webp" alt="All the properties of a contract card and how to read/use them." >}}
 
 The challenge of a contract is written in the center. They are randomly generated (in a smart way), which is why there's no full list detailing all of them.
 
@@ -60,7 +56,6 @@ Any score/cards removed or gained are **shown** to the rest of the table.
 
 There are only two possible penalties/rewards.
 
-{{% /rules-double-view %}}
 
 **SCORE (Get/Lose)**: You need these to eventually win the game.
 * If you _get score_, it means grabbing a Contract card and placing it facedown in your score pile. The first card scored is always the contract you just played; any more contracts for scoring are simply drawn from the deck.
@@ -70,13 +65,12 @@ There are only two possible penalties/rewards.
 * If you _get card_, draw a card from the deck into your hand.
 * If you _lose card_, discard any card from your hand.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variants & Expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 To make the game **easier**, only select the 1-star and maybe 2-star contracts.
 
@@ -89,11 +83,10 @@ To **vary the objective**,
 * The game ends as soon as somebody has accumulated **12(+) stars** (over all their scored contracts).
 * They win!
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Lost Souls" %}}
+### Expansion: Lost Souls
 
-{{% rules-double-view src="expansion_lost_souls.webp" alt="Example of the two new types of contracts in this expansion." %}}
+{{< rules/rules-image-sidebar src="expansion_lost_souls.webp" alt="Example of the two new types of contracts in this expansion." >}}
 
 This expansion adds a few contracts that play with our Souls.
 
@@ -101,17 +94,15 @@ This expansion adds a few contracts that play with our Souls.
 
 **BATTLE:** This contract is a challenge _against_ each other. You select another player, who can't refuse, and you _both_ do the contract. 
 
-{{% /rules-double-view %}}
 
 In this case, it's **not** a test that you either fail or don't. Instead, both players must simply **do better** at the challenge than the other, or they lose. The winner gets the reward; the loser gets the penalty.
 
 Other players are allowed to voluntarily **join** the battle too (if they think they can beat you). If so, take turns between all participating players, in clockwise order. Multiple winners (in case of a tie) are fine.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Devilish Numbers" %}}
+### Expansion: Devilish Numbers
 
-{{% rules-double-view src="expansion_devilish_numbers.webp" alt="Example of the special number cards (wildcard / duo) from this expansion." split="leftheavy" %}}
+{{<  rules-image-sidebar src="expansion_devilish_numbers.webp" alt="Example of the special number cards (wildcard / duo) from this expansion." >}}
 
 This expansion adds a few new number cards.
 
@@ -120,11 +111,8 @@ This expansion adds a few new number cards.
 
 It also adds a few more special powers and higher/lower numbers in general.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
 
 

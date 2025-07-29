@@ -6,6 +6,34 @@ import CVal from "js/pq_games/tools/generation/cval";
 
 const CONFIG:Record<string,any> =
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                label: "Base Game",
+                default: true
+            },
+
+            score:
+            {
+                type: SettingType.CHECK,
+                label: "Terrific Tiles",
+                remark: "This is also the material for the Special Scores expansion."
+            },
+
+            pawns:
+            {
+                type: SettingType.CHECK,
+                label: "Peering Pawns"
+            }
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -14,7 +42,7 @@ const CONFIG:Record<string,any> =
     },
 
     configKey: "chickenColoroutConfig",
-    fileName: "[Material] Chicken Colorout",
+    fileName: "Chicken Colorout",
 
     // set through user config on page
     inkFriendly: false,

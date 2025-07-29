@@ -13,7 +13,7 @@ const CONFIG:any =
     },
 
     configKey: "waterfallRagingRapidsConfig",
-    fileName: "[Material] Waterfall: Raging Rapids",
+    fileName: "Waterfall: Raging Rapids",
 
     // set through user config on page
     inkFriendly: false,

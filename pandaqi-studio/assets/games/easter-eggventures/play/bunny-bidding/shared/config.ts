@@ -5,6 +5,33 @@ import Point from "js/pq_games/tools/geometry/point";
 
 const CONFIG:Record<string,any> = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                label: "Base Game",
+                default: true
+            },
+
+            special:
+            {
+                type: SettingType.CHECK,
+                label: "Special Eggs"
+            },
+
+            powers:
+            {
+                type: SettingType.CHECK,
+                label: "Powers & Handiceggs"
+            }
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -13,7 +40,7 @@ const CONFIG:Record<string,any> =
     },
 
     configKey: "bunnyBiddingConfig",
-    fileName: "[Material] Bunny Bidding",
+    fileName: "Bunny Bidding",
 
     // set through user config on page
     inkFriendly: false,

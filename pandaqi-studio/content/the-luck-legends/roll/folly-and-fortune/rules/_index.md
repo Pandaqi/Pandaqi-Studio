@@ -2,23 +2,21 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
 Deal all players a random deck of **8 cards**. Everyone picks 2 cards and places those faceup before them. The other 6 go into your hand.
 
 Pick anyone to be start player.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game **ends** as soon as everyone's "die" ( = the cards in their hand) is completely empty. 
 
 Count how much **health** each player has placed before them (indicated the heart icon on each card). Most health wins!
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
 From start player, take clockwise turns until done.
 
@@ -32,13 +30,13 @@ On your turn,
 
 Whenever you roll again, you apply the power of the _next_ card in your row. So after the second roll, you look at your _second card_. After the third roll, you check your _third card_, and so forth. 
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 The effect of your previous roll is simply completely forgotten, because you didn't stop there.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 If you run out of cards, you must stop rolling (and use your final result).
 
-{{< rules-image src="gameplay_roll.webp" alt="How to (re)roll your die until you stop and have your final attack strength." >}}
+{{< rules/rules-image src="gameplay_roll.webp" alt="How to (re)roll your die until you stop and have your final attack strength." >}}
 
 Now **attack**! Your **final value** (from your final roll + effect applied) determines the damage you do.
 
@@ -50,15 +48,14 @@ Finally, add the card you "rolled" to the left or right of your row.
 
 Next player's turn!
 
-{{< rules-image src="gameplay_attack.webp" alt="How to attack another player with your die result of this round." >}}
+{{< rules/rules-image src="gameplay_attack.webp" alt="How to attack another player with your die result of this round." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variants & Expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 For a **first game** (with new players),
 * Consider starting players with fewer cards (for a quick intro game)
@@ -80,11 +77,10 @@ For a **slightly different** game,
 * In other words: If the arrow points left, add the final roll result to the left of your row. If it points right, add to the right.
 * (Some special cards from expansions don't have this arrow. In that case, place the card at any end you want, as per the usual rules.)
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Superpowers" %}}
+### Expansion: Superpowers
 
-{{% rules-double-view src="expansion_superpowers.webp" alt="Example of using the new types of powers in action." %}}
+{{< rules/rules-image-sidebar src="expansion_superpowers.webp" alt="Example of using the new types of powers in action." >}}
 
 This expansion adds more types of powers on cards.
 
@@ -92,13 +88,10 @@ This expansion adds more types of powers on cards.
 * **Passed?** triggers as soon as you decide to keep rolling after this one and _stays_ on future rolls.
 * **Unseen?** triggers at the end of your turn if you never reached this card at all. This is always combined with a second effect of another type.
 
-{{% /rules-double-view %}}
 
 The _Unseen_ cards have an eye icon on them to make sure you don't forget them.
 
 This expansion also adds _Shield_ cards (with a shield icon). When used, their protective effect is true until your next turn. It's recommended to _rotate the card sideways_ to remember this.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 

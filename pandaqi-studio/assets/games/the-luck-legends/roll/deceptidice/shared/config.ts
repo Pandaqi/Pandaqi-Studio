@@ -15,7 +15,7 @@ const CONFIG:any =
     },
 
     configKey: "deceptidiceConfig",
-    fileName: "[Material] Deceptidice",
+    fileName: "Deceptidice",
 
     // set through user config on page
     inkFriendly: false,

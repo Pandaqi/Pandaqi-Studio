@@ -32,7 +32,9 @@ devlog: "/blog/boardgames/waitless-games/creature-quellector/"
 
 Any single PDF is fine, actually. Pick the one with the four elements or colors you like the most!
 
-{{% boardgame-settings-container type="material" remarks="**Creature names** are randomly generated from a huge list of words and phrases. This means there might be 'unfortunate' combinations to some people, such as 'childkill', which I just can't prevent. I hope we can all see the humor in silly random names!" %}}
+**DISCLAIMER: Creature names are randomly generated** from a huge list of words and phrases. This means there might be "unfortunate" combinations such as "childkill", which I just can't prevent 100%. I hope we can all see the humor in silly random names!
+
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="creatureQuellectorConfig" game_title="Creature Quellector" btn_label="Generate Material" defaults="true" >}}
   {{< setting-checkbox id="setting-multiType" text="Multitype?" remark="An expansion: some icons will become two types at once." >}}
@@ -59,9 +61,7 @@ What does that mean?
 
 In other words, take this game with you wherever you go. Whenever you have to wait for something, stand in line, have some downtime ... play it!
 
-
-
-## Credits
+## Background
 
 This game started when I had a discussion with somebody about how _annoying_ it is to _wait_ and do _nothing_! Especially in theme parks, where waiting might mean "standing for 2 hours doing nothing in a tight space".
 
@@ -79,11 +79,3 @@ After a long process of brainstorming and experimenting, this game was the resul
 Obviously, the aesthetic and rules were very much inspired by Pokémon (and similar card collection games). I tried to make it more unique, but hey, there's a reason Pokémon is as popular as it is ;)
 
 For a detailed diary about the game, check out the [devlog](/blog/boardgames/waitless-games/creature-quellector/).
-
-
-<!--- Loads a random element-related theme for the whole page --->
-<script>
-  const themes = ["red", "blue", "green", "purple"];
-  const randTheme = themes[Math.floor(Math.random() * themes.length)];
-  document.body.classList.add("theme-" + randTheme);
-</script>

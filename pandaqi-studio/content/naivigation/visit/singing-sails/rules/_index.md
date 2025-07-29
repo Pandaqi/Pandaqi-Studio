@@ -2,9 +2,9 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example of how to setup a new game." split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 This game has a special setup for the map, instead of the usual setup for a Naivigation game.
 
@@ -13,7 +13,6 @@ This game has a special setup for the map, instead of the usual setup for a Naiv
 * Divide the remaining map tiles into 4 roughly equal piles. Insert 2 harbor tiles into each and shuffle. (Add more harbor tiles if you want an even harder game.)
 * Place each pile at one edge of the compass (North, East, South, West), _faceup_.
 
-{{% /rules-double-view %}}
 
 <div class="rulebook-shared-rule">
 Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Shuffle and place as a FACEUP draw pile. Each player draws 3 of these to hold in their hand. 
@@ -23,21 +22,19 @@ Combine the default Health Cards and the specific Health Cards for this game. Sh
 Place 5 instruction tokens in a row. You'll place your vehicle cards underneath these each round. Pick any start player.
 </div>
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" %}}
+## Objective
 
 You win once you've collected **all harbors**. You lose immediately once you're total loss: your **health deck is empty**. 
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" %}}
+## Gameplay
 
 Skip "Rounds & Turns" if you already know how to play Naivigation. The other section has unique rules for this game.
 
-{{< rules-example id="naivigation-turn" >}}
+{{< rules/rules-example id="naivigation-turn" >}}
 
-{{% rules-block heading="Rounds & Turns" class="rulebook-shared-rule-block" %}}
+### Rounds & Turns
 
 Play happens in rounds.
 
@@ -53,17 +50,16 @@ _No communication about the game is allowed._
 
 Whenever you **take damage**, reveal the top card of your Health Deck. These cards always have a _handicap_, which must all be followed at all times.
 
-{{< rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
+{{< rules/rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Moving & Visiting" %}}
+### Moving & Visiting
 
 To collect a **Harbor Tile**, visit it with your Ship rotated to **point at the Harbor**.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Notice half a Harbor is land, i.e. you can only sail into it from the other side.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 Whenever you sail **off the board**, you **explore**.
 
@@ -79,15 +75,13 @@ Newly placed tiles should **match terrain** (if possible).
 
 There are two situations where you **take 1 damage** (and don't move): sailing into **land**, or there is **no more tile** to place underneath your ship.
 
-{{< rules-image src="gameplay_moving_visiting.webp" alt="How to sail around, explore new parts of the world, and collect harbors by visiting them." >}}
+{{< rules/rules-image src="gameplay_moving_visiting.webp" alt="How to sail around, explore new parts of the world, and collect harbors by visiting them." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="vehicle-cards" heading="Vehicle Cards & Map Tiles" icon="expansion" %}}
+## Vehicle Cards & Map Tiles
 
-{{< rules-image src="vehicle_cards.webp" alt="Examples of how to use the Vehicle Cards and special Map Tiles in the base game." >}}
+{{< rules/rules-image src="vehicle_cards.webp" alt="Examples of how to use the Vehicle Cards and special Map Tiles in the base game." >}}
 
 The following Vehicle Cards are in the game.
 
@@ -103,13 +97,12 @@ The following special Map Tiles are in the base game. Their action triggers when
 
 If you added the **Discuss** card (from shared material), it only works if **Wind < 2**. Without wind blowing your ears off, you can finally hear each other!
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? It's recommended to add these expansions in order, as they get progressively harder, but not required.
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 For an **easier game**, 
 
@@ -121,9 +114,8 @@ For a **harder game**,
 
 * Only allow collecting harbors if you **end the round** on them.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Supertiles & Slipstreams" %}}
+### Supertiles & Slipstreams
 
 This expansion adds some more **map tiles** (Buoy, Shipwreck, Treasure Map). They trigger, as usual, when the ship is on that tile.
 
@@ -133,15 +125,14 @@ Most of all, it adds map tiles with a **water current**.
 * When entered, you're automatically moved again by the water stream (in the direction shown).
 * This happens _after_ any other effects or special situations the tiles trigger.
 
-{{< rules-image src="expansion_supertiles_slipstreams.webp" alt="Example of how to follow water currents, and explanation for how new map tiles work." >}}
+{{< rules/rules-image src="expansion_supertiles_slipstreams.webp" alt="Example of how to follow water currents, and explanation for how new map tiles work." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Windstorms & Weather" %}}
+### Windstorms & Weather
 
 This expansion adds special **Vehicle Cards** that change the weather (as well as **Row** and **Spyglass**). They go from severe storms to sunny days, and the rules ensure that weather can't change _too much_ at once.
 
-{{< rules-image src="expansion_windstorms_weather.webp" alt="Example of how to play/use Weather Cards, and the other new vehicle cards." >}}
+{{< rules/rules-image src="expansion_windstorms_weather.webp" alt="Example of how to play/use Weather Cards, and the other new vehicle cards." >}}
 
 During **setup**, 
 
@@ -157,9 +148,8 @@ When it comes to playing and revealing Weather cards,
   * If it's more than 3 away, permanently remove your played card, it does nothing.
   * Otherwise, place it on top of the Weather Deck: this is now the active weather!
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Islands & Treasures" %}}
+### Islands & Treasures
 
 This expansion adds special **Treasure Cards**. It also adds a new Vehicle Card (**Dig**) and Map Tile (**Whirlpool**)
 
@@ -169,7 +159,7 @@ Each treasure has an "ideal island" where it can be found. This is any island th
 
 During **gameplay**, when you visit a harbor at an "ideal island", you collect the associated treasure! You get the bonus described. Remove the treasure; you can't collect it multiple times.
 
-{{< rules-image src="expansion_islands_treasures.webp" alt="Example of how to read and collect Treasures." >}}
+{{< rules/rules-image src="expansion_islands_treasures.webp" alt="Example of how to read and collect Treasures." >}}
 
 Below are some optional variants to modulate game difficulty.
 
@@ -177,9 +167,8 @@ Below are some optional variants to modulate game difficulty.
 * Notice that every treasure also shows a specific harbor. For an **easier** game, add this rule: "You also get the treasure by simply visiting that harbor, regardless of what its island looks like."
 * For a **harder** game, add this to the objective: you can only win once you collected _all treasures_.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Pirates & Cannons" %}}
+### Pirates & Cannons
 
 This expansion adds (Enemy) **Pawns** (Pirate Ship, Sea Monster, Huge Wave), and a special **tile** and **vehicle card** to deal with them.
 
@@ -192,16 +181,14 @@ During **gameplay**,
 * Each round, _1 vehicle card_ needs to be played to every Enemy Instruction Token, faceup. It doesn't matter who does it or when.
 * After moving your own ship, move all Enemies (in any order), according to their single Vehicle Card.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 So yes, all pawns of the same type, will all move in the same way.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{< rules-image src="expansion_pirates_cannons.webp" alt="Examples of how to place Pawns, give them instructions, then move and interact with them." >}}
+{{< rules/rules-image src="expansion_pirates_cannons.webp" alt="Examples of how to place Pawns, give them instructions, then move and interact with them." >}}
 
 In these rules, "adjacent" means **to the side**. A tile is adjacent to another if it's directly to the left or right. 
 
 Similarly, distance is measured _without diagonals_ too: if something is "2 spaces away", it means you can take 2 left/right/up/down steps to reach the tile.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

@@ -2,37 +2,35 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Opzet" icon="setup" %}}
+## Opzet
 
 Stop alle kaarten in één stapel en schud. Kies iemand om de eerste Sinterklaas te zijn: zij krijgen de _Small Sint_ kaart.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Doel" icon="objective" %}}
+## Doel
 
 Het spel eindigt zodra je niet meer genoeg kaarten kan uitdelen om een ronde te spelen. Spelers tellen de punten op alle kaarten die ze hebben _gewonnen_, en de **hoogste totale score wint**!
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Spelverloop" icon="action" %}}
+## Spelverloop
 
 Het spel verloopt in rondes met twee stappen: BIEDEN en SCOREN.
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% rules-block heading="Bieden" %}}
+## Bieden
 
 Iedereen neemt **3 (willekeurige) kaarten** in de hand uit hun **eerder gescoorde kaarten** (als mogelijk).
 
 Daarna krijgt ieder **nieuwe kaarten** van de stapel totdat ze in **totaal 6 handkaarten** hebben. 
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Je mag nooit een ronde beginnen met meer of minder dan 6 handkaarten.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 _Bijvoorbeeld: aan het begin van het spel heeft nog niemand iets gescoord natuurlijk. Dus slaat iedereen die eerste stap over en krijgt gewoon 6 handkaarten van de stapel._
 
-{{< rules-image src="gameplay_round.webp" alt="Voorbeeld van hoe een ronde in het algemeen verloopt." >}}
+{{< rules/rules-image src="gameplay_round.webp" alt="Voorbeeld van hoe een ronde in het algemeen verloopt." >}}
 
 Herhaal dan onderstaande 3 keer.
 
@@ -43,17 +41,16 @@ Herhaal dan onderstaande 3 keer.
 
 Zodra nog maar één iemand over is, stopt de ronde ook direct. 
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Ja, in tegenstelling tot echt Poker, ga je hier gewoon één keer de tafel rond per onthulde kaart.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 Bieden betekent simpelweg dat je handkaarten open voor je legt, zoals het naar voren schuiven van fiches bij echt poker.
 
 Als jij _al_ jouw handkaarten inzet, mag de rest jouw bod negeren. Je ligt effectief uit de ronde.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Scoren" %}}
+## Scoren
 
 Elke speler die nog meedoet zoekt de **beste combinatie** wanneer ze hun eigen kaarten en de Pakjeskamer combineren.
 
@@ -62,7 +59,7 @@ Dit spel kent maar **twee mogelijke combinaties**.
 * Zoveel mogelijk kaarten van dezelfde kleur.
 * Of zoveel mogelijk kaarten met hetzelfde getal.
 
-{{< rules-image src="gameplay_scoring.webp" alt="Voorbeeld van welke combinaties wel of niet scoren, en hoe je zo de ronde afhandelt." >}}
+{{< rules/rules-image src="gameplay_scoring.webp" alt="Voorbeeld van welke combinaties wel of niet scoren, en hoe je zo de ronde afhandelt." >}}
 
 Hierbij winnen _meer kaarten_ dus van _minder kaarten_. Bij gelijkspel winnen _getallen_ van _kleuren_, en _hoger getal_ van _lager getal_. 
 
@@ -72,17 +69,15 @@ Als nog steeds gelijk, dan wint niemand.
 
 Degene met de beste combinatie wint alle _geboden kaarten_ en wordt de nieuwe Sint. Iedereen die tot het einde meeging verliest ook al diens handkaarten (want die zijn gebruikt voor combinaties scoren).
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Uitbreidingen & Varianten" icon="expansion" %}}
+## Uitbreidingen & Varianten
 
 Heb je het basisspel onder de knie en ben je op zoek naar meer? Probeer dan deze varianten (geen nieuw materiaal nodig) of uitbreidingen (extra materiaal nodig)!
 
-{{% rules-block heading="Variant: Surprises!" %}}
+### Surprises!
 
-{{% rules-double-view src="variant_surprise.webp" alt="Voorbeeld van icoontje voor surprise op kaarten." split="leftheavy" %}}
+{{<  rules-image-sidebar src="variant_surprise.webp" alt="Voorbeeld van icoontje voor surprise op kaarten." >}}
 
 Er zijn eigenlijk drie manieren om dit spel te gebruiken voor een **volledige surpriseavond**.
 
@@ -90,13 +85,11 @@ Er zijn eigenlijk drie manieren om dit spel te gebruiken voor een **volledige su
 * Als een kaart met een _uitroepteken_ is ingezet (het **"surprisesymbool"**), kiest de winnaar van deze ronde de volgende surprise uit.
 * De **winnaar** van het **hele spel** kiest de volgende surprise uit. (Gehele potjes kunnen vrij vlot gaan in kleinere groepen.)
 
-{{% /rules-double-view %}}
 
 Ook kan het spel simpelweg fungeren als een leidraad of leuke activiteit, maar niet de individuele surprises aanduiden. Bijvoorbeeld, met deze regel: "De winnaar van het _hele spel_ (dat de hele avond duurt) krijgt een extra beloning."
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variant: Meer Pakjes" %}}
+### Meer Pakjes
 
 Het basisspel gebruikt **veelvouden van 3** voor alle getallen. (Je hebt 6 kaarten, pakt 3 uit eigen voorraad, speelt 3 open kaarten naar pakjeskamer, ...)
 
@@ -104,9 +97,8 @@ Dit getal kan je simpelweg veranderen! Voor een langer en tactischer spel, met m
 
 Voor juist een veel korter spel, meer gebaseerd op geluk of voor de állerkleinsten, kan je zelfs naar veelvouden van 2.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variant: Speculaas van Maken" %}}
+### Variant: Speculaas van maken
 
 Deze variant stelt vijf simpele regeltjes voor die het spel strategischer maken. Deze zijn weggehouden uit het basisspel om deze absoluut zo simpel mogelijk te houden.
 
@@ -121,7 +113,7 @@ Elke regel is optioneel en staat op zichzelf. Je hoeft ze zeker niet allemaal _t
 * Aan het eind van elke ronde mag men nu _kiezen_ of ze hun handkaarten willen behouden, of allemaal weggooien (voor nieuwe kaarten volgende ronde).
 * Als deze handlimiet is genoemd, dan hoef je _niet_ te stoppen als je bod te laag is maar je zit aan je maximale kaartlimiet.
 
-{{% rules-double-view src="variant_biedregel.webp" alt="Visualisatie van de Biedregel en Remiseregel." split="leftheavy" %}}
+{{<  rules-image-sidebar src="variant_biedregel.webp" alt="Visualisatie van de Biedregel en Remiseregel." >}}
 
 **Biedregel:** als je een kaart inzet met geldicoontje, heb je een keuze: "meer inzet" of "meer handkaarten".
 
@@ -130,13 +122,11 @@ Elke regel is optioneel en staat op zichzelf. Je hoeft ze zeker niet allemaal _t
 
 **Remiseregel:** bij gelijkspel in score, wint de persoon die _meer heeft ingezet_.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Uitbreiding: Actiepiet" %}}
+### Uitbreiding: Actiepiet
 
-{{% rules-double-view src="uitbreiding_actiekaarten.webp" alt="Voorbeeld van een actiekaart en hoe je die gebruikt." split="leftheavy" %}}
+{{<  rules-image-sidebar src="uitbreiding_actiekaarten.webp" alt="Voorbeeld van een actiekaart en hoe je die gebruikt." >}}
 
 Deze uitbreiding voegt speciale kaarten toe met een _actie_ erop. Dit staat op de kaart zelf geschreven. 
 
@@ -144,13 +134,11 @@ Actiekaarten gelden pas als je ze **toevoegt aan je bod**, tenzij anders aangege
 
 Je kan er zo veel of zo weinig toevoegen aan je spel als gewenst. Sommige zijn meer strategisch, sommige meer flauw, dus kies welke je leuk lijken.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Uitbreiding: Pietje Precies" %}}
+### Uitbreiding: Pietje Precies
 
-{{% rules-double-view src="uitbreiding_pietjeprecies.webp" alt="Voorbeeld van mogelijke combinaties en hoe Pietje Precies dit beïnvloedt." split="leftheavy" %}}
+{{<  rules-image-sidebar src="uitbreiding_pietjeprecies.webp" alt="Voorbeeld van mogelijke combinaties en hoe Pietje Precies dit beïnvloedt." >}}
 
 Deze uitbreiding heeft één cruciale nieuwe regel: 
 
@@ -160,7 +148,6 @@ Als jij bijvoorbeeld wilt scoren op "kaarten van dezelfde kleur", moeten dus _al
 
 Om hierbij te helpen, is een derde combinatie toegestaan: **straatje**. Dat betekent dat alle kaarten opeenvolgende getallen hebben (zonder dubbele).
 
-{{% /rules-double-view %}}
 
 Om óók hierbij te helpen voeg je de **Pietje Precies** actiekaart toe. 
 
@@ -170,15 +157,14 @@ _Bijvoorbeeld: Jij hebt 4 Rode kaarten en 1 Blauwe. Je hebt één Pietje Precies
 
 Als je speelt met de Actiepiet uitbreiding, mag je ook _elke andere actiekaart_ gebruiken als een Pietje Precies. Dat doe je door deze kaart _gedekt_ op te leggen, waardoor de normale inhoud (actie én waarde) dus _niet gelden_.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variant: Wie kent hem niet?" %}}
+### Variant: Wie kent hem niet?
 
 Misschien is het opgevallen dat er twee Sintkaarten zijn: **Small Sint** en **Big Sint**. 
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Namen die natuurlijk verwijzen naar iets uit poker ... zeker als je het een beetje raar uitspreekt ...
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 In deze variant worden ze beide gebruikt.
 
@@ -191,6 +177,4 @@ Als je speelt met de _Stafpiet_ actiekaart, mag je bij uitvoering kiezen of je d
 
 Ten slotte kan je deze (optionele) regelverandering toevoegen: "De eerste persoon die stopt in een ronde, wordt per direct de Sint."
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

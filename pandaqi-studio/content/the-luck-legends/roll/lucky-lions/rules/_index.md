@@ -2,27 +2,24 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example of how to setup a game and the different kinds of material." split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a game and the different kinds of material." >}}
 
 Create a deck of **Zoo Cards**. Place the top 4 cards faceup on the table.
 
 Deal all players 6 random **Animal Cards**. This is their "die". Place the remaining cards as a facedown draw pile.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game ends as soon as a player has **scored 10(+) points**. They win!
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
 On your turn, 
 
@@ -37,13 +34,12 @@ In case of a **tie**, one battler must discard a card and the other wins the Zoo
 
 That's it, have fun!
 
-{{< rules-image src="gameplay_play.webp" alt="Example of how to play a general turn: pick a battle, roll, resolve winner." >}}
+{{< rules/rules-image src="gameplay_play.webp" alt="Example of how to play a general turn: pick a battle, roll, resolve winner." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="zoo_cards" heading="Zoo Cards" icon="score" %}}
+## Zoo Cards
 
-{{% rules-double-view src="zoo_cards.webp" alt="The different parts of a Zoo Card and how to use its cycle to find the best animal in a battle." split="leftheavy" %}}
+{{<  rules-image-sidebar src="zoo_cards.webp" alt="The different parts of a Zoo Card and how to use its cycle to find the best animal in a battle." >}}
 
 A Zoo Card states how **valuable** animals are this turn. It also shows a **number**: how many points it's worth.
 
@@ -55,15 +51,13 @@ To know who wins a battle, find who played **the best animal**:
 
 Sometimes, this cycle does not include all animals. All **missing animals** are considered _equal in value_, but _less valuable_ than all included animals.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variants & Expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 To give the game **more decisions** to make, use the following variant.
 
@@ -85,11 +79,10 @@ To make the game **longer** (and your die more changeable), use the following va
 * Whenever you win a Zoo card, you can decide to **draw Animal cards instead** (increasing your hand size).
 * You draw as many as the **score** number on that Zoo card you refused.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Busy Zoo" %}}
+### Busy Zoo
 
-{{% rules-double-view src="expansion_busy_zoo.webp" alt="Example of a battle between many different players (in a Busy Zoo)" %}}
+{{< rules/rules-image-sidebar src="expansion_busy_zoo.webp" alt="Example of a battle between many different players (in a Busy Zoo)" >}}
 
 This expansion adds new material: Zoo Cards with special requirements (on top of the usual cycle).
 
@@ -100,17 +93,13 @@ Some Zoo Cards include the "people icon". If you choose this card,
 
 If there are 2 winners, the "tie" rules apply but only to them. If there are 3(+) winners, some of them simply get nothing, at the active player's discretion.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Wild Animals" %}}
+### Wild Animals
 
 This expansion adds new material: Animal Cards with special powers. These are written on the card and always the same per animal. 
 
 These only apply if _written on the card_. That is, base game cards DON'T have the special powers of their species.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 

@@ -4,9 +4,78 @@ import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 
-
 const CONFIG:any = 
 {
+    _settings:
+    {
+        generateGenreCards:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            remark: "If on, generates the cards for all selected genres below. If off, those settings do nothing."
+        },
+
+        shelves:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Book Shelf Cards"
+        },
+
+        actions:
+        {
+            type: SettingType.CHECK,
+            label: "Thrills Expansion"
+        },
+
+        packs:
+        {
+            type: SettingType.GROUP,
+
+            red:
+            {
+                type: SettingType.ENUM,
+                values: ["horror", "detective", "true_crime", "tragedy"],
+                label: "Red",
+            },
+
+            green:
+            {
+                type: SettingType.ENUM,
+                values: ["romance", "comedy", "adventure", "self_help"],
+                label: "Green",
+            },
+
+            blue:
+            {
+                type: SettingType.ENUM,
+                values: ["thriller", "action", "travel", "mythology"],
+                label: "Blue",
+            },
+
+            purple:
+            {
+                type: SettingType.ENUM,
+                values: ["fantasy", "scifi", "poetry", "graphic_novel"],
+                label: "Purple",
+            },
+
+            yellow:
+            {
+                type: SettingType.ENUM,
+                values: ["biography", "science", "business", "cooking"],
+                label: "Yellow",
+            },
+
+            black:
+            {
+                type: SettingType.ENUM,
+                values: ["mystery", "crime", "drama", "picture_book"],
+                label: "Black",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -15,7 +84,7 @@ const CONFIG:any =
     },
 
     configKey: "librariansConfig",
-    fileName: "[Material] Librarians",
+    fileName: "Librarians",
 
     // set through user config on page
     inkFriendly: false,

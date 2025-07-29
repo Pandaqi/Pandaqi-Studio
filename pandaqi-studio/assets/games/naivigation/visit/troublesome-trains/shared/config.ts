@@ -3,11 +3,89 @@ import { NetworkType, TerrainType, TileType } from "games/naivigation/shared/dic
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
-;
 import { MATERIAL } from "./dict";
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        addTextOnTiles:
+        {
+            type: SettingType.CHECK,
+            remark: "Map tiles explain themselves with text on them.",
+            label: "Add text on tiles"
+        },
+
+        vehiclesAsPawns:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Create vehicles as pawns",
+            remark: "If enabled, you can fold the vehicle to place it on the board standing up." 
+        },
+
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            vehicleTiles:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Vehicle Pawns",
+            },
+
+            mapTiles:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Map Tiles",
+            },
+
+            vehicleCards:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Vehicle Cards",
+            },
+
+            specialCards:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Special Cards",
+                remark: "Refers to the (unique) health, time, GPS, or action cards for this game."
+            },
+        },
+        
+        expansions:
+        {
+            leadersFollowers:
+            {
+                type: SettingType.CHECK,
+                label: "Leaders & Followers",
+            },
+
+            animalsCrossings:
+            {
+                type: SettingType.CHECK,
+                label: "Animals & Crossings",
+            },
+
+            railsFails:
+            {
+                type: SettingType.CHECK,
+                label: "Rails & Fails",
+            },
+
+            directionDelay:
+            {
+                type: SettingType.CHECK,
+                label: "Direction & Delay",
+            },
+        }
+    },
+
     debug:
     {
         filterAssets: [], // @DEBUGGING (should be empty)
@@ -17,7 +95,7 @@ const CONFIG:any =
     },
 
     configKey: "naivigationTroublesomeTrainsConfig",
-    fileName: "[Material] Naivigation: Troublesome Trains",
+    fileName: "Naivigation: Troublesome Trains",
 
     addTextOnTiles: false,
     sets:

@@ -11,7 +11,7 @@ const CONFIG:Record<string,any> =
     },
 
     configKey: "kingseatConfig",
-    fileName: "[Material] Kingseat (Throneless Games)",
+    fileName: "Kingseat (Throneless Games)",
 
     assetsBase: "/throneless-games/conquer/kingseat/assets/",
 

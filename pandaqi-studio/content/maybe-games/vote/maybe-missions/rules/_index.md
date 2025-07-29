@@ -2,27 +2,25 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="yellow" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="How to setup the game." %}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="How to setup the game." >}}
 
 Create a deck containing **5 YES and 5 NO Votes per player**. Shuffle and deal each player 10 secret Vote Tokens. (Change these numbers to modify duration of a game.) 
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 If someone starts with only Votes of a single type, however rare, deal again.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 Create a deck of Master Cards and a deck of Mission Cards next to it.
 
 Finally, create the market: 6 faceup Mission Cards in a row.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="purple" %}}
+## Objective
 
-{{% rules-double-view src="objective.webp" alt="Example of how to determine your score at the end of the game." %}}
+{{< rules/rules-image-sidebar src="objective.webp" alt="Example of how to determine your score at the end of the game." >}}
 
 The game ends once **everyone's Votes have run out**. The player with the **highest score wins**.
 
@@ -30,13 +28,11 @@ Of the cards you collected, only the side pointing _up_ ("away from you") counts
 * The resource which you have the most counts _double_. 
 * The resource which you have the least does _not count_. (In case of a tie, you pick any one of the options.)
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="yellow" %}}
+## Gameplay
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
 From start player, take clockwise turns.
 
@@ -63,19 +59,18 @@ Exceptional Round: If **everyone voted NO**, then everyone must collect a missio
 
 Once done, all Votes are discarded. Next round!
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 If the mission cards have run out while picking, any players remaining simply don't collect anything.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{< rules-image src="gameplay.webp" alt="Example of how to play a turn (prepare, vote, handle fail/success)." >}}
+{{< rules/rules-image src="gameplay.webp" alt="Example of how to play a turn (prepare, vote, handle fail/success)." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="purple" %}}
+## Upgrades
 
 Played the base game and ready for more? Or feel like your group needs some tweaks to the game? Check out these variants and expansions.
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 You can allow Master Cards to be **played** as well. This only applies to collected Master Cards that are positive (green side up).
 
@@ -88,9 +83,8 @@ To **reduce randomness** ("bad luck of the draw"), you can add the following rul
 
 > If you didn't collect a card this round, you may discard 2 Votes to draw new ones from the deck.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Secret Identities" %}}
+### Secret Identities
 
 For this expansion, also use the Identity cards. 
 
@@ -103,9 +97,8 @@ When a secret identity talks about icons showing on a card, it's always about a 
 
 <!--- @TODO: EXAMPLE IMAGE --->
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gadget Shopping" %}}
+### Gadget Shopping
 
 For this expansion, also use the **Shop Cards**.
 
@@ -124,6 +117,4 @@ It's also allowed to put the current shop card **into your proposed mission**. I
 
 <!--- @TODO: EXAMPLE IMAGE --->
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

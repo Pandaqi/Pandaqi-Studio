@@ -1,7 +1,6 @@
 ---
 type: "project"
 
-
 title: "Kaizerseat"
 blurb: "Vote, swap places, use powers and backstab to ensure the right Seeker wins the throne. The longest and most strategical Throneless Game."
 # blurb: "A [Throneless Game](/throneless-games/) game about helping your animal win the throne, aimed more at kids."
@@ -9,9 +8,6 @@ blurbProject: "The most complicated version, giving you the deepest gameplay in 
 weightProject: 40
 
 downloadLink: "https://drive.google.com/drive/folders/1XYqoqGmFc2gfgWcIsjDOJG48GQ2qjZGJ"
-
-
-
 
 date: 2025-11-12
 
@@ -29,11 +25,9 @@ ages: everyone
 
 ---
 
+When generating your own material, check the rules to see **how many Seekers ("packs")** are recommended for each player count. Each choice adds ~1 page to print.
 
-
-
-
-{{% boardgame-settings-container type="material" remarks="Check the rules to see **how many Seekers** are recommended for each player count. Each choice adds ~1 page to print." %}}
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" btn_label="Create Material" local_storage="kaizerseatConfig" game_title="Kaizerseat" defaults="true" >}}
   {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
@@ -58,9 +52,7 @@ ages: everyone
 
 {{% /boardgame-settings-container %}}
 
-## Credits
-
-Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.
+## Background
 
 Whenever I create a game, the idea always starts on a sort of middle ground and I usually try to _simplify, simplify, simplify_. I chuck out rules, I discard special actions that sound really cool but take 20 extra words to explain, etcetera.
 
@@ -70,3 +62,6 @@ I have also learned, however, that those nice ideas can be brought back if you s
 
 As expected, this became Kaizerseat. About half of it is the result of discarded ideas that I pushed upstream, the other half unique mechanics and actions invented just for this version. For example, it contains a Seatcard that randomizes a few rules per game, and it has _multiple types of actions_. Both were ideas I'd originally given to other games, but which turned out to be slightly too much for those simple versions. So they ended up here!
 
+## Credits
+
+Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.

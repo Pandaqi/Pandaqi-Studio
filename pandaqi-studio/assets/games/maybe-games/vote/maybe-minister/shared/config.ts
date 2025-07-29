@@ -7,6 +7,33 @@ import { DecreeType, LawType } from "./dict";
 
 const CONFIG:Record<string,any> = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Set",
+            },
+
+            abstain:
+            {
+                type: SettingType.CHECK,
+                label: "Abstain Attacks",
+            },
+
+            advanced:
+            {
+                type: SettingType.CHECK,
+                label: "Advanced Politics",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -15,7 +42,7 @@ const CONFIG:Record<string,any> =
     },
 
     configKey: "maybeMinisterConfig",
-    fileName: "[Material] Maybe Minister",
+    fileName: "Maybe Minister",
 
     // set through user config on page
     inkFriendly: false,

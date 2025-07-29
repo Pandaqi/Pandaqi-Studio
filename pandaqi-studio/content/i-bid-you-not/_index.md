@@ -1,12 +1,10 @@
 ---
 type: "project"
 
-
 title: "I Bid You Not"
 blurb: "Take turns either adding items to the offer or declaring an auction. But once the auction is over, you might not be happy with how much you paid for what you got."
 # blurb: "Sweeten the deal and be the highest bidder---or sour the deal and run away."
 downloadLink: "https://drive.google.com/drive/folders/17wUGca1wpZq7EFj3XV7zTPL_Q774X4lN"
-
 
 date: 2025-02-26
 
@@ -25,23 +23,7 @@ devlog: "/blog/boardgames/i-bid-you-not/"
 
 ---
 
-
-
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="iBidYouNotConfig" btn_label="Generate Material" game_title="I Bid You Not" defaults="true" >}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-oddInventions" text="Odd Inventions?" >}}
-    {{< setting-checkbox id="setting-sets-doubleDevices" text="Double Devices?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
+## Background
 
 This game started as the question "what's the simplest bidding game I can come up with?" (With the added requirement that it actually be a good game and not a vague shouting match.)
 
@@ -56,6 +38,8 @@ It has this push-and-pull that you want in all games. On the one hand, you want 
 It also had the usual issue of number-based games where higher number are just "always better". As such, there's one more rule that turns auctions on their head, allowing any number to win. And once that part worked, I polished it with the usual suspects: some cards have _special actions_ and some cards are worth _negative_ points.
 
 All of that combined into the simplest bidding game I can imagine, with as much strategy and variety as possible.
+
+## Credits
 
 The fonts used are **Digitalt** (header, thick) and **Inter Tight** (body, paragraphs), both freely available for commercial use. Some imagery was generated with AI. Everything else (code, rules, idea, assets, etcetera) is entirely mine.
 

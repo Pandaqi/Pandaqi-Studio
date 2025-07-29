@@ -13,7 +13,7 @@ const CONFIG:any =
     },
 
     configKey: "aLittleWhiteDieConfig",
-    fileName: "[Material] A Little White Die",
+    fileName: "A Little White Die",
 
     // set through user config on page
     inkFriendly: false,

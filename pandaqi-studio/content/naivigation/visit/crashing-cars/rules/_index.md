@@ -2,11 +2,11 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" %}}
+## Setup
 
-{{< rules-example id="naivigation-setup" >}}
+{{< rules/rules-example id="naivigation-setup" >}}
 
-{{% rules-double-view src="setup.webp" alt="Example of how to setup a new game." split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 Alternatively, manually do the setup as follows.
 
@@ -17,7 +17,6 @@ Alternatively, manually do the setup as follows.
 
 Grab all **Gear Cards** and sort them from low to high. The top card of this pile always represents your current "Gear". Start at 0.
 
-{{% /rules-double-view %}}
 
 <div class="rulebook-shared-rule">
 Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Give each player 3 of these to hold in their hand.
@@ -27,21 +26,19 @@ Combine the default Health Cards and the specific Health Cards for this game. Sh
 Place 5 instruction tokens in a row. You'll place your vehicle cards underneath these each round. Pick any start player.
 </div>
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" %}}
+## Objective
 
 You win once you've visited **all the shops**. You lose immediately once you're total loss: your **health deck is empty**. 
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" %}}
+## Gameplay
 
 Skip "Rounds & Turns" if you already know how to play Naivigation. The other section has unique rules for this game.
 
-{{< rules-example id="naivigation-turn" >}}
+{{< rules/rules-example id="naivigation-turn" >}}
 
-{{% rules-block heading="Rounds & Turns" class="rulebook-shared-rule-block" %}}
+### Rounds & Turns
 
 Play happens in rounds.
 
@@ -57,11 +54,10 @@ _No communication about the game is allowed._
 
 Whenever you **take damage**, reveal the top card of your Health Deck. These cards always have a _handicap_, which must all be followed at all times.
 
-{{< rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
+{{< rules/rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Moving & Visiting" %}}
+### Moving & Visiting
 
 To **visit a shop**, it must have a parking lot next to it. If your car is "properly parked" ( = matches orientation printed on tile), you successfully visit all adjacent shops. Collect the tile, replace with a new map tile.
 
@@ -78,15 +74,13 @@ Whenever you take damage, you can also do it in another way (instead of lowering
 
 If there are fewer replaceable tiles left (than 5), just replace as much as possible. If _none_ are left, you can't take this option anymore.
 
-{{< rules-image src="gameplay_moving_visiting.webp" alt="How to visit shops, drive safely (or not), or change the map over time." >}}
+{{< rules/rules-image src="gameplay_moving_visiting.webp" alt="How to visit shops, drive safely (or not), or change the map over time." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="vehicle-cards" heading="Vehicle Cards" icon="expansion" %}}
+## Vehicle Cards
 
-{{< rules-image src="vehicle_cards.webp" alt="Examples of how to use the default Vehicle Cards and Map Tiles in the base game." >}}
+{{< rules/rules-image src="vehicle_cards.webp" alt="Examples of how to use the default Vehicle Cards and Map Tiles in the base game." >}}
 
 The following vehicle cards are available.
 
@@ -101,13 +95,12 @@ There are also three special **map tiles** with traffic signs.
 * **Construction**: When entered, take 1 damage.
 * **Earthquake**: Swap 2 map tiles, or replace 1 map tile from the deck. (You can't swap your current tile.)
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Try out these expansions! They are in no particular order; each expansion changes the game in equally interesting ways.
 
-{{% rules-block heading="Traffic & Police" %}}
+### Traffic & Police
 
 This expansion adds the Police Pawn, as well as new Vehicle Cards (**Police**, **Lock Doors**) and Map Tiles (**Traffic Light**, **Maximum Speed**).
 
@@ -121,7 +114,7 @@ During **gameplay**,
 
 By default, **going off-road** breaks traffic laws, of course!
 
-{{< rules-image src="expansion_traffic_police.webp" alt="Examples of how the police moves, and how the new cards/tiles influence this." >}}
+{{< rules/rules-image src="expansion_traffic_police.webp" alt="Examples of how the police moves, and how the new cards/tiles influence this." >}}
 
 It also modifies existing map tiles to allow "breaking the law".
 
@@ -129,9 +122,8 @@ It also modifies existing map tiles to allow "breaking the law".
 * **Construction Work** (if included): If you enter this tile, you break the law.
 * **Stop Sign** (if included): you may _decide_ to ignore it and not stop the round. But if you do, you break the law.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Fuel & Fear" %}}
+### Fuel & Fear
 
 This expansion adds a **Fuel Deck**.
 
@@ -146,15 +138,14 @@ There are two ways to refuel.
 * Play the **Refuel** vehicle card. Gain as many Fuel cards as your current Gear.
 * Visit the **Tank Station**. This completely fills up your fuel tank.
 
-{{< rules-image src="expansion_fuel_fear.webp" alt="Examples of how fuel is drained, what that means, and how to refuel." >}}
+{{< rules/rules-image src="expansion_fuel_fear.webp" alt="Examples of how fuel is drained, what that means, and how to refuel." >}}
 
 For an even bigger challenge (_optional_), deplete Fuel _every time_ a Drive card is played instead. This replaces draining Fuel at the end of the round.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Taxis & Cargo" %}}
+### Taxis & Cargo
 
-{{% rules-double-view src="setup.webp" alt="Example of how to setup a new game." split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 This expansion adds a deck of **Passenger Cards** (with destinations, curses and rewards).
 
@@ -163,7 +154,6 @@ It also adds two Vehicle Cards.
 * **Load/Unload**: either grab a new passenger from the deck (they're now in your car), or drop off an existing passenger.
 * **Turn On Radio:** if the radio is turned on this round, the _curses_ of all your passengers are ignored.
 
-{{% /rules-double-view %}}
 
 Your car has a maximum size of 3. (Some curses or rewards change this.)
 
@@ -173,13 +163,12 @@ Your car has a maximum size of 3. (Some curses or rewards change this.)
 
 For an even bigger challenge (_optional_), add this to the objective: "You can't win the game until you've successfully dropped off 3 passengers."
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Lower or raise this number of passengers to modulate difficulty further.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Terrain & Tripplanning" %}}
+### Terrain & Tripplanning
 
 This expansion finally gives special powers to different **road types** (Dirt, Asphalt, Cobblestones) and adds a new map tile (**Tunnel**).
 
@@ -191,8 +180,6 @@ For example, the first shop you visit is a 3-shop. Then you must first visit _al
 
 Visiting a shop out of order will **instantly lose** you the game. (For a more friendly version, simply incur **1 damage** for this.)
 
-{{< rules-image src="expansion_terrain_tripplanning.webp" alt="Examples of how to visit shops in order, as well as the different road types." >}}
+{{< rules/rules-image src="expansion_terrain_tripplanning.webp" alt="Examples of how to visit shops in order, as well as the different road types." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

@@ -2,25 +2,23 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+## Setup
 
 Create two shuffled, facedown decks: one with the large **Word Tiles** (10 words), one with the smaller **Cave Drawings** (a single drawing).
 
 Place the **Choice Tokens** (number + color) within easy reach.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Material can be downloaded from [the website](https://pandaqi.com/mammoth-messages/).
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+## Objective
 
 The game ends after 10 rounds. Collectively score as many points as possible!
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" class="allow-page-break" %}}
+## Gameplay
 
 On your turn, 
 * Draw 1 random **Word Tile** and display it for everyone to see. They show **10 words** (numbered and colored).
@@ -38,16 +36,15 @@ Once the other players want to make their guess, they _say_ and _tap_ the 2 word
 * **Both correct?** You score 10 points, minus how many symbols you revealed.
 * **Otherwise?** Your turn is over and you score 0 points.
 
-{{< rules-image src="gameplay.webp" alt="Example turn that shows how to determine your word and how you might go about communicating it." >}}
+{{< rules/rules-image src="gameplay.webp" alt="Example turn that shows how to determine your word and how you might go about communicating it." >}}
 
 Finally, some remarks for clarity.
 * If the timer runs out (without a guess), you instantly lose the round.
 * If there's a disagreement, the player to the _left_ of the current communicator has the final say.
 * Your number and color might fall on the same word. If so, simply communicate that single word, and you win if the _first guess_ by the others matches that word.
 
-{{% /rules-block %}}
 
-{{% rules-block id="variants" heading="Variants" icon="expansion" icontint="red" class="allow-page-break" %}}
+## Upgrades
 
 Once you know the base game, try these variants to suit the game more to your group's needs.
 
@@ -76,4 +73,3 @@ If you've played the game _so much_ that you know all the Choice Tokens and/or W
 * Create two separate decks of Choice Tokens. Draw one from each: use the _number_ from each token (ignore color) to decide what to communicate.
 * Generate a new set of word cards (and enable "tough words") from the website.
 
-{{% /rules-block %}}

@@ -46,7 +46,9 @@ For the words, pick whatever style suits you best.
 * **Don't mind a smartphone?** Use [the word generator](#game) on a device (like a smartphone) to get secret words while playing.
 * **Travelling? Low on space?** Enable the "include words" option when generating boards. This means the words are printed _on the board itself_.
 
-{{% boardgame-settings-container type="board" remarks="For most game modes, using _core_ (or _easy_) words is ideal. With words printed on the board, however, the game becomes much easier and it's recommended to allow much harder words!" %}}
+**Remark** (for generating boards): For most game modes, using _core_ (or _easy_) words is ideal. With words printed on the board, however, the game becomes much easier and it's recommended to allow much harder words!
+
+{{% boardgame-settings-container type="board" %}}
 
 {{< boardgame-settings type="board" local_storage="photomoneConfig" game_title="Photomone" defaults="true" >}}
   {{< setting-checkbox id="setting-printWordsOnPaper" text="Include Words?" remark="Prints random words on the paper itself." >}}
@@ -77,14 +79,15 @@ For the words, pick whatever style suits you best.
 
 {{% /boardgame-settings-container %}}
 
-
 ## Background
-
-Check out the main page for [Photomone Games](/photomone-games/) for detailed credits and more information.
 
 This was, as expected, the first and original version. It's probably also the simplest. Even though there are many ways to play (with a phone? without phone? printed word cards?), the core rules are incredibly simple yet always create challenges when trying to draw something.
 
 Even though the other ideas came later and sought to give the game more depth or variation, I think I still prefer this first version the most. I'm just a person who likes really minimal and simple games that you can just pick up and instantly play with anyone.
+
+## Credits
+
+Check out the main page for [Photomone Games](/photomone-games/) for detailed credits and more information.
 
 <script>
 window.onload = (ev) => {

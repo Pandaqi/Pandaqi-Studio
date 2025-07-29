@@ -9,7 +9,7 @@ const CONFIG =
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "pumpkinPatrolConfig",
-    fileName: "[Material] Pumpkin Patrol",
+    fileName: "Pumpkin Patrol",
     resLoader: null,
     seed: "test",
 

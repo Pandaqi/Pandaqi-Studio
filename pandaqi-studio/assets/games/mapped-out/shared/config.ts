@@ -3,11 +3,37 @@ import { CardMovement, TileAction } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
-
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Set",
+            },
+
+            landsUnknown:
+            {
+                type: SettingType.CHECK,
+                label: "Lands Unknown",
+            },
+
+            unclearInstructions:
+            {
+                type: SettingType.CHECK,
+                label: "Unclear Instructions",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -16,7 +42,7 @@ const CONFIG:any =
     },
 
     configKey: "mappedOutConfig",
-    fileName: "[Material] Mapped Out",
+    fileName: "Mapped Out",
 
     // set through user config on page
     inkFriendly: false,

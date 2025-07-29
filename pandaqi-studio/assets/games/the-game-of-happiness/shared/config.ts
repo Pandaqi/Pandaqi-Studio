@@ -11,7 +11,7 @@ const CONFIG =
     },
 
     configKey: "theGameOfHappinessConfig",
-    fileName: "[Material] The Game of Happiness",
+    fileName: "The Game of Happiness",
 
     // set through user config on page
     inkFriendly: false,

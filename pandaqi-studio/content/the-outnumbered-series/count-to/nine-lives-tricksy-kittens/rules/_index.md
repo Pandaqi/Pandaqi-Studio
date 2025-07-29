@@ -2,29 +2,27 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+## Setup
 
 Include 1 suit (all cards 1-9 of one color) per player. Pick anyone to be the Kittykeeper ( = start player). That's it!
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Material can be downloaded from [the website](https://pandaqi.com/the-outnumbered-series/count-to/nine-lives-tricksy-kittens/).
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
+## Objective
 
 The game ends when **a player reaches 9(+) lives**. The player with the most lives wins.
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="purple" class="allow-page-break" %}}
+## Gameplay
 
 Play happens in rounds. Each round has three steps: bidding, playing, scoring.
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% rules-block heading="Bidding" class="allow-page-break" %}}
+### Bidding
 
 Shuffle the deck and deal as fairly as possible. (You might have a few cards left over in some rounds. Reveal them, but don't use them.)
 
@@ -32,11 +30,10 @@ At the start of each round, everyone secretly **places a bid**. Simultaneously, 
 
 Once done, reveal all the bids. Any players who bid the **same suit** are---for this round only---in the **same "team"**.
 
-{{< rules-image src="bidding.webp" alt="Example of the bidding phase (of a round)." >}}
+{{< rules/rules-image src="bidding.webp" alt="Example of the bidding phase (of a round)." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Playing" %}}
+### Playing
 
 This is a trick-taking game with a twist. You keep playing "tricks" until all players are out of cards.
 
@@ -58,11 +55,10 @@ Now comes the biggest twist of this game.
 
 The winner receives the trick and places it facedown before them (to track how many you've won). They become the new Kittykeeper.
 
-{{< rules-image src="playing_a_trick.webp" alt="Example of how to play and resolve a trick." >}}
+{{< rules/rules-image src="playing_a_trick.webp" alt="Example of how to play and resolve a trick." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Scoring" %}}
+### Scoring
 
 Once you've played all the tricks, scoring happens.
 
@@ -70,23 +66,21 @@ Once you've played all the tricks, scoring happens.
 
 If you were in a **team**, you also score if you _collectively_ scored the correct amount. 
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Exception: when ALL players are in the same team, this rule is ignored.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 EXAMPLE: A and B are teamed. A bid 2, B bid 3. But at the end of the round, A has won 5 tricks and B has won 0. They're still both allowed to score, because _together_ they've scored the right amount (2 + 3 = 5 + 0). 
 
 If this causes somebody to have 9 (or more) lives, the game ends here. Otherwise, play the next round!
 
-{{< rules-image src="scoring.webp" alt="Example of how to score (at the end of a round)." >}}
+{{< rules/rules-image src="scoring.webp" alt="Example of how to score (at the end of a round)." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="after_your_first_game" heading="After your first game" icon="expansion" class="allow-page-break" icontint="lightblue" %}}
+## After Your First Game
 
-{{% rules-block heading="Powers" class="allow-page-break" %}}
+### Powers
 
 You might have noticed that there are **powers** on the cards. These can be ignored for your first few games. Once you're familiar with trick-taking, however, it's highly recommended to add the rules below.
 
@@ -103,17 +97,16 @@ On each turn, you _may_
 
 Powers are executed **before** playing your card for this trick. Unless the power specifically states some other moment at which it triggers.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Notice that paying the card means _losing_ that trick. Which means you may not be able to score your bid anymore!
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 Powers only apply to the remainder of the _current trick_. If multiple powers contradict each other, the _last_ one played overrides the others.
 
-{{< rules-image src="card_powers.webp" alt="Example of how to manage the row in front of you and active card powers." >}}
+{{< rules/rules-image src="card_powers.webp" alt="Example of how to manage the row in front of you and active card powers." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Black Cat"  class="allow-page-break" %}}
+### Black Cat
 
 This is a variant you can try. The black suit ("crowns") is a **wildcard** and an **inverter**.
 
@@ -121,6 +114,4 @@ This is a variant you can try. The black suit ("crowns") is a **wildcard** and a
 * It can never be your bid card.
 * If any black cat is played, the _lowest_ number wins this trick (instead of the highest).
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

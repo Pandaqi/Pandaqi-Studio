@@ -14,7 +14,7 @@ const CONFIG:any =
     },
 
     configKey: "naivigationConfig",
-    fileName: "[Material] Naivigation (Shared)",
+    fileName: "Naivigation (Shared)",
 
     // set through user config on page
     inkFriendly: false,

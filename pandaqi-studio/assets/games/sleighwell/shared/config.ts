@@ -7,7 +7,7 @@ const CONFIG =
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "sleighwellConfig",
-    fileName: "[Material] Sleighwell",
+    fileName: "Sleighwell",
 
     // set through user config on page
     inkFriendly: false,

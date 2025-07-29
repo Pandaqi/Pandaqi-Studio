@@ -2,9 +2,9 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="The two card types explained, and an example setup for 4 players." %}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="The two card types explained, and an example setup for 4 players." >}}
 
 Pick a set from [the website](https://pandaqi.com/pumpkin-patrol). For your first games, just play the starter set.
 
@@ -19,17 +19,14 @@ Randomly place the remaining Person Cards faceup in the center of the table, in 
 
 The scariest person is start player.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="orange" %}}
+## Objective
 
 The game ends as soon as **2 or fewer Persons remain** (unscored) at the start of a round. Players sum the points on the Persons they scored: **highest score wins!**
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" class="allow-page-break" icontint="lightblue" %}}
+## Gameplay
 
 Play happens in rounds. Rounds have two phases: PLAY and WALK.
 
@@ -37,13 +34,13 @@ _What's the general idea?_ During the game, players create a row of cards in fro
 
 But that's not enough. Balance building your decorations with building your bowl of treats. Because to score any visitor, you also need to pay the Treats they require.
 
-{{% rules-block heading="Play"  class="allow-page-break" %}}
+### Play
 
 Take clockwise turns, beginning with the start player. On your turn, take **two actions**. 
 
 The possible actions are **add** or **remove**.
 
-{{< rules-image src="gameplay.webp" alt="Examples of both actions (add to a home or remove from your home)" >}}
+{{< rules/rules-image src="gameplay.webp" alt="Examples of both actions (add to a home or remove from your home)" >}}
 
 **ADD**: Add a card from your hand to _any_ home. Make sure the side you want ( = which specific decoration) points up. 
 
@@ -55,13 +52,12 @@ If you add it to somebody else's home,
 
 **REMOVE**: Draw 2 new Hand Cards, either from the facedown deck _or_ from the discard pile. Pay for it by discarding 1 card from your home or hand.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 If the draw pile runs out, immediately take the discard pile, shuffle it, and make it the new facedown deck.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Walk"  class="allow-page-break" %}}
+### Walk
 
 All Persons currently in play will **walk**. They can do so simultaneously.
 
@@ -77,17 +73,15 @@ Once all Persons have moved, scoring happens in turn order. You _may_ score anyo
 
 Start player moves one to the left. Next round!
 
-{{< rules-image src="walking.webp" alt="Example of how Persons walk at the end of a round, and how to score them (if you want)." >}}
+{{< rules/rules-image src="walking.webp" alt="Example of how Persons walk at the end of a round, and how to score them (if you want)." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion"  icontint="purple"  class="allow-page-break" %}}
+## Upgrades
 
 Once you're familiar with the base game, you can try the more advanced sets!
 
-{{% rules-block heading="Variants" class="allow-page-break" %}}
+### Variants
 
 **Want an easier game?** (Perhaps when playing with kids or first-timers.) Add this rule:
 
@@ -102,9 +96,8 @@ This makes it easier to attract Persons in certain situations, without being ove
 * Whenever you add a new Person to the game, you may pick _any_ card from the row in the center of the table. 
 * (If that's too overwhelming, keep a market of 4 faceup Persons at any time. Keep the rest as a facedown deck, unpickable until revealed.)
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Beginner Set" class="allow-page-break" %}}
+### Beginner Set
 
 This set adds two new mechanics.
 
@@ -127,9 +120,8 @@ Example:
 
 It also adds new treats and decorations. These have a different value / probability behind the scenes, but change no rules for players.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Advanced Set" class="allow-page-break" %}}
+### Advanced Set
 
 This set adds two new mechanics.
 
@@ -139,15 +131,13 @@ This set adds two new mechanics.
 * "Same" (<span class="inline-icon inline-icon-set-match"></span>): they want X icons of the _same_ type. (The type itself doesn't matter, as long as the whole set is the same one.)
 * "Different" (<span class="inline-icon inline-icon-set-nomatch"></span>): they want X icons that are all a _different_ type.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expert Set" class="allow-page-break" %}}
+### Expert Set
 
 This adds no new rules. It simply contains the people with the toughest powers, and of course uses everything introduced before now.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Assemble your own deck" %}}
+### Assemble your own deck
 
 Firstly, there's no need to play with exactly 16 Persons (2 of each type). You can shrink the Person pool for a shorter game, or include each person only once and add _more_ types.
 
@@ -158,6 +148,4 @@ Secondly, you can combine sets to create your own deck.
 
 However, sets are randomly generated! This means a specific card (e.g. "Vampire") is never the same, and also that a set is balanced with _itself_. It's recommended to just play specific sets _or_ generate an entirely new "Random" set.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

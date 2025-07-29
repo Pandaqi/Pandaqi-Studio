@@ -6,6 +6,33 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG:Record<string,any> = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Set",
+            },
+
+            identities:
+            {
+                type: SettingType.CHECK,
+                label: "Secret Identities",
+            },
+
+            gadgets:
+            {
+                type: SettingType.CHECK,
+                label: "Gadget Shopping",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -14,7 +41,7 @@ const CONFIG:Record<string,any> =
     },
 
     configKey: "maybeMissionsConfig",
-    fileName: "[Material] Maybe Missions",
+    fileName: "Maybe Missions",
 
     // set through user config on page
     inkFriendly: false,

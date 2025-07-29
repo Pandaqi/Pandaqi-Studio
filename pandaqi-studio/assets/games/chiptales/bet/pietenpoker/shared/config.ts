@@ -2,12 +2,38 @@ import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
-;
 import { ColorType } from "./dict";
 import CVal from "js/pq_games/tools/generation/cval";
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                label: "Basisspel",
+                default: true
+            },
+
+            pietjePrecies:
+            {
+                type: SettingType.CHECK,
+                label: "Pietje Precies"
+            },
+
+            actiePiet:
+            {
+                type: SettingType.CHECK,
+                label: "Actiepiet"
+            }
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -16,7 +42,7 @@ const CONFIG:any =
     },
 
     configKey: "pietenpokerConfig",
-    fileName: "[Materiaal] Pietenpoker",
+    fileName: "Pietenpoker",
 
     fonts:
     {

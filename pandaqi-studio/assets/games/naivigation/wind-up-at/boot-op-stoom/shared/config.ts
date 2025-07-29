@@ -2,10 +2,48 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point"
-;
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Basisspel",
+            },
+
+            krappeKalender:
+            {
+                type: SettingType.CHECK,
+                label: "Uitbreiding: Krappe Kalender",
+            },
+
+            prachtigePakjes:
+            {
+                type: SettingType.CHECK,
+                label: "Uitbreiding: Prachtige Pakjes",
+            },
+
+            pepernootPlekken:
+            {
+                type: SettingType.CHECK,
+                label: "Uitbreiding: Pepernootplekken",
+            },
+
+            rebelsePietjes:
+            {
+                type: SettingType.CHECK,
+                label: "Uitbreiding: Rebelse Pietjes",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -14,7 +52,7 @@ const CONFIG:any =
     },
 
     configKey: "naivigationBootOpStoomConfig",
-    fileName: "[Materiaal] Boot op Stoom",
+    fileName: "Boot op Stoom",
 
     // set through user config on page
     inkFriendly: false,

@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="red" %}}
+## Setup
 
 All players receive **5 cards**. The remaining cards become a (shuffled) facedown deck: the draw pile. 
 
@@ -10,15 +10,13 @@ For a **shorter game**, simply remove any number of cards from the deck. (Anybod
 
 Biggest food thief starts.
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="orange" %}}
+## Objective
 
 The game ends after the round when **the draw pile runs out**. All players count their score: **highest score wins**.
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" class="allow-page-break" icontint="red" %}}
+## Gameplay
 
 Each round ...
 * The start player locates a new treasure (*Draw*).
@@ -27,13 +25,13 @@ Each round ...
 * The treasure is split (*Split Treasure*).
 * Start player advances clockwise.
 
-{{< rules-image src="round_overview.webp" alt="Overview of how to play a single round." >}}
+{{< rules/rules-image src="round_overview.webp" alt="Overview of how to play a single round." >}}
 
 Each individual step should be simple and fast. They're all explained below.
 
 **On being a Pearate:** it's *absolutely allowed* to lie, bluff, etcetera. Bluff about what's inside your treasure. Promise something, then break that promise. As long as you *follow the rules* explicitly stated in this rulebook.
 
-{{% rules-block heading="Draw" %}}
+### Draw
 
 This is done by the _start player_.
 * Take the bigger number: your **hand size** or **2**.
@@ -41,9 +39,8 @@ This is done by the _start player_.
 * Look at the treasure and arrange the cards any way you wish.
 * Then place it facedown in the center of the table.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Pass, Bid or Play" %}}
+### Pass, Bid, or Play
 
 **Passing** simply means doing nothing for the rest of this round.
 
@@ -55,9 +52,8 @@ Whenever an action allows you to add/remove cards, you may
 * Do so from the _top_ OR the _bottom_ of the treasure.
 * Take them from your _hand_ or from the _deck_.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Split Treasure" %}}
+### Split Treasure
 
 **Total bid is larger than the treasure size (a "Mutiny")?** The player with the highest bid receives the treasure. (If tied, the start player chooses.) The start player receives the highest bid; everyone else receives their own bid.
 
@@ -69,13 +65,11 @@ The hand limit is 8 cards. If you can't fit all new cards into your hand, you mu
 
 <!--- @TODO: Optional rule? "You can't win your own treasure with Mutiny." (Or you can, but you don't get back your own bid in this case.) --->
 
-{{< rules-image src="split_treasure.webp" alt="Explanation of the two ways a treasure can be split." >}}
+{{< rules/rules-image src="split_treasure.webp" alt="Explanation of the two ways a treasure can be split." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="scoring" heading="Scoring" icon="scoring" class="allow-page-break" icontint="orange" %}}
+## Scoring
 
 {{< rules-double-view src="scoring.webp" alt="Example of how to score your cards at the end of the game." >}}
 
@@ -89,13 +83,12 @@ Highest score wins. If tied, the player with the most _hand cards_ wins.
 
 {{< /rules-double-view >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions & More" icon="expansion" class="allow-page-break" icontint="red" %}}
+## Upgrades
 
 Once you've played the base game a few times, maybe you're ready for some expansions or variants!
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 **Want a friendlier game?** Use the following rules.
 * If nobody bids on a treasure, the start player receives it.
@@ -109,11 +102,10 @@ Once you've played the base game a few times, maybe you're ready for some expans
 
 **Want a longer game?** When the draw pile is empty, shuffle the discarded cards and make it the new draw pile. You can do this once, or twice, or however long you want the game to last.
 
-{{% /rules-block %}}
 
 <!--- This would be inside its own "Clarifications" subsection => Below are some clarifications in case of uncertainty about card powers (from the _base game_). @TODO --->
 
-{{% rules-block heading="Appetite for All" %}}
+### Appetite for All
 
 This one adds more cards with special actions.
 
@@ -123,9 +115,8 @@ Once a card is definitively scored or in your hand, however, you can't strike an
 
 <!--- Below are some clarifications in case of uncertainty about card powers. @TODO --->
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Coins for Combos" %}}
+### Coins for Combos
 
 This one introduces cards that **score** in a special way. 
 
@@ -135,6 +126,4 @@ These cards have a **golden ("score") coin** underneath the numbers to remind yo
 
 <!--- Below are some clarifications in case of uncertainty about card powers. @TODO --->
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

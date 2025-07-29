@@ -9,7 +9,7 @@ const CONFIG =
     },
 
     configKey: "cookieSmasherConfig",
-    fileName: "[Material] Cookie Smasher",
+    fileName: "Cookie Smasher",
 
     // set through user config on page
     inkFriendly: false,

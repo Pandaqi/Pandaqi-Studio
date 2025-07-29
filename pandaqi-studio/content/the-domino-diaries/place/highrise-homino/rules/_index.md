@@ -2,9 +2,9 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example of how to setup a new game." split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 Create a deck of **Tenant Tiles** and one for **Room Tiles**.
 
@@ -14,21 +14,18 @@ Draw 6 room tiles from the deck and also place them faceup on the table: that is
 
 Pick anyone to be start player.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game **ends** as soon as either the Tenant Deck or Room Deck is **empty**. Players sum the value of all Tenants they have (and any special tiles that tell you they score points). **Highest score wins!**
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
 Gameplay happens in _rounds_. Each round, players take clockwise **Turns**. Once done, execute one **Attract** Phase.
 
-{{% rules-block heading="Turn" %}}
+### Turn
 
 On your turn, grab **1 domino** from the Market, and place it in your map.
 
@@ -40,11 +37,10 @@ The placement rules are simple.
 
 You may also _destroy_ as much of your personal map as you want, as long as your map is _connected_ (no loose parts) by the end of your turn. The destroyed tiles are discarded permanently. This is called **Construction** and can have consequences.
 
-{{< rules-image src="gameplay_turn.webp" alt="Example of how to take a turn: pick a domino from market and place it in your personal map." >}}
+{{< rules/rules-image src="gameplay_turn.webp" alt="Example of how to take a turn: pick a domino from market and place it in your personal map." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Attract" %}}
+### Attract
 
 First, determine what floor every player is on.
 
@@ -52,7 +48,7 @@ First, determine what floor every player is on.
 * Then sort players based on that, low to high. (The player who has the least such icons is the _first_ floor, the next player is the _second floor_, etcetera.)
 * Ties are allowed: those players are simply all on the same floor. If so, they take turns in clockwise order, from start player.
 
-{{< rules-image src="gameplay_attract.webp" alt="Example of how to sort players and then attract Tenants (if you fulfill their wishes)." >}}
+{{< rules/rules-image src="gameplay_attract.webp" alt="Example of how to sort players and then attract Tenants (if you fulfill their wishes)." >}}
 
 Now, in that order, players **attract a Tenant**.
 
@@ -65,13 +61,11 @@ By default, you are connected to everyone _on the same floor as you_. Special ic
 
 Once done, refill the Guests and the Market, and play the next round.
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="guests" heading="Guests & Wishes" icon="score" %}}
+## Guests & Wishes
 
-{{% rules-double-view src="guests_wishes.webp" alt="Example of what every part of a Guest tile means." split="leftheavy" %}}
+{{<  rules-image-sidebar src="guests_wishes.webp" alt="Example of what every part of a Guest tile means." >}}
 
 Guests have two sides: one side shows their SCORE (on the star icon), the other their WISHES. 
 
@@ -81,15 +75,13 @@ Their wish icons follow a few simple rules.
 * If there's a **number** as well, it means you need to have at least **that many** of the object.
 * A **red cross** means it's inverted: you should **not** have that object. (Thus, if there's a number, it means you must have strictly **fewer** of the object than the number.)
 
-{{% /rules-double-view %}}
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 If you want, you can fold the Tenants down the middle so they become actual pawns you can place.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variants & Expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or want to tweak it a little to fit your group? Check out these variants and expansions!
 
@@ -99,13 +91,13 @@ The expansions also talk about Tenants **"leaving"**. This simply means that the
 
 Leaving Tenants are always "cheatable". This means that it's up to the player who _receives_ the Tenant to check if they go to them, and say so. The current owner of that Tenant can "forget" it if nobody else catches it.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 If multiple players are valid targets, you _choose_ to which one the leaving Tenant goes.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{% rules-block id="roomService" heading="Room Service" %}}
+### Room Service
 
-{{% rules-double-view src="expansion_room_service.webp" alt="Example of what a Room is and how Construction works." split="leftheavy" %}}
+{{<  rules-image-sidebar src="expansion_room_service.webp" alt="Example of what a Room is and how Construction works." >}}
 
 From now on, it becomes important to create **Rooms**.
 
@@ -113,7 +105,6 @@ From now on, it becomes important to create **Rooms**.
 
 This expansion adds a property to some Tenants: **Construction**. If this icon shows (next to their star), 
 
-{{% /rules-double-view %}}
 
 * You **can't** attract this Tenant if you did Construction this turn. 
 * Additionally, they will **leave** if you do Construction during your turn. 
@@ -121,17 +112,16 @@ This expansion adds a property to some Tenants: **Construction**. If this icon s
 
 Guests can now have **Special Wishes** (that relate to Rooms). The table below explains what each icon means.
 
-<div id="rules-table-roomService-wishes"></div>
+<div data-table="roomService-wishes"></div>
 
 There are also some new **Objects** that can appear.
 
-<div id="rules-table-roomService-objects"></div>
+<div data-table="roomService-objects"></div>
 
-{{% /rules-block %}}
 
-{{% rules-block id="walletWatchers" heading="Wallet Watchers" %}}
+### Wallet Watchers
 
-{{% rules-double-view src="expansion_wallet_watchers.webp" alt="Example of the Wallet property and calculating your apartment Price." split="leftheavy" %}}
+{{<  rules-image-sidebar src="expansion_wallet_watchers.webp" alt="Example of the Wallet property and calculating your apartment Price." >}}
 
 This expansion adds another property to some Tenants: **Wallet**. If this icon shows, 
 
@@ -139,7 +129,6 @@ This expansion adds another property to some Tenants: **Wallet**. If this icon s
 * Their score = the maximum price they're willing to pay.
 * The current price of your map is the _smaller_ of these two numbers: your LARGEST ROOM or the number of UNIQUE ICONS.
 
-{{% /rules-double-view %}}
 
 If you're in for a challenge, also add this _optional_ rule.
 
@@ -151,21 +140,19 @@ At the **end of the game**, the final **price** of your map is ADDED to your tot
 
 Finally, this expansion also adds a few more Special Wishes and Objects. (If you choose "text on tiles", which is the default, the way an Object works is simply written on the tile itself.)
 
-<div id="rules-table-walletWatchers-wishes"></div>
+<div data-table="walletWatchers-wishes"></div>
 
-<div id="rules-table-walletWatchers-objects"></div>
+<div data-table="walletWatchers-objects"></div>
 
-{{% /rules-block %}}
 
-{{% rules-block id="usefulUtilities" heading="Useful Utilities" %}}
+### Useful Utilities
 
-{{% rules-double-view src="expansion_utilities.webp" alt="Example of how to access and provide Utility wishes." %}}
+{{< rules/rules-image-sidebar src="expansion_utilities.webp" alt="Example of how to access and provide Utility wishes." >}}
 
 This expansion adds some basic **utilities**: Power ("electricity"), Water and Wi-Fi ("internet").
 
 How do you get them?
 
-{{% /rules-double-view %}}
 
 * Special "generator" icons appear on the dominoes.
 * If you place such a generator in your map, you get the utility _if_ you have "Access" to it.
@@ -174,15 +161,14 @@ How do you get them?
 
 From now on, guests will **wish** for these things. See the added Special Wishes (and Objects) below.
 
-<div id="rules-table-usefulUtilities-wishes"></div>
+<div data-table="usefulUtilities-wishes"></div>
 
-<div id="rules-table-usefulUtilities-objects"></div>
+<div data-table="usefulUtilities-objects"></div>
 
-{{% /rules-block %}}
 
-{{% rules-block id="happyHousing" heading="Happy Housing" %}}
+### Happy Housing
 
-{{% rules-double-view src="expansion_happy_housing.webp" alt="Example of the Wandering property." split="leftheavy" %}}
+{{<  rules-image-sidebar src="expansion_happy_housing.webp" alt="Example of the Wandering property." >}}
 
 This expansion adds some more Special Wishes and Objects (again).
 
@@ -191,23 +177,21 @@ It also adds a new property: **Wandering**. If a Tenant shows this icon,
 * You can attract it by satisfying just _one_ of its wishes.
 * Whenever you Attract a new Tenant, however, they can **leave**. If another player satisfies _ALL their wishes_ now, they go to them.
 
-{{% /rules-double-view %}}
 
 As usual, this expansion adds some special Wishes and Objects too.
 
-<div id="rules-table-happyHousing-wishes"></div>
+<div data-table="happyHousing-wishes"></div>
 
-<div id="rules-table-happyHousing-objects"></div>
+<div data-table="happyHousing-objects"></div>
 
-{{% /rules-block %}}
 
-{{% rules-block id="livingTogether" heading="Living Together" %}}
+### Living Together
 
 This expansion makes it possible (or simply more fun and challenging) to play the game completely _cooperatively_.
 
 You'll be working together to achieve goals for your entire skyscraper, for which you're rewarded with unique tiles and objects to place in your map. But you'll also be threatened, such as by quality inspection, and you must collectively pass these checks.
 
-{{< rules-image src="expansion_living_together.webp" alt="Example of how to play the cooperative variant (in general)." >}}
+{{< rules/rules-image src="expansion_living_together.webp" alt="Example of how to play the cooperative variant (in general)." >}}
 
 During **setup**, create two decks: **Goal Dominoes** and **Threat Dominoes**. Remove any dominoes from a set that you're _not_ using this game.
 
@@ -226,7 +210,5 @@ Unless stated otherwise, goals refer to a _single floor_. (If it's your secret p
 
 When the **game is over**, you win if all personal goals have been reached. Your score is the combined score of all the individual maps---higher is better!
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 

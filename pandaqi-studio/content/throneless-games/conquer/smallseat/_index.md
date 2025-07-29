@@ -1,7 +1,6 @@
 ---
 type: "project"
 
-
 title: "Smallseat"
 blurb: "Vote, swap places and use powers to ensure the right Animal gets the throne. A game playable without a table or chairs."
 # blurb: "A [Throneless Game](/throneless-games/) about helping your Animal win the throne, aimed more at kids."
@@ -9,9 +8,6 @@ blurbProject: "The most simplified and streamlined version, with a visual style 
 weightProject: 10
 
 downloadLink: "https://drive.google.com/drive/folders/1Q5I2VAXnGEC268x5If10e_Gpjed3vDxj"
-
-
-
 
 date: 2024-11-12
 
@@ -31,7 +27,9 @@ ages: everyone
 
 The cards contain text. However, this text is simple and consistent ( = the same for each card of that animal), so you can explain them beforehand if some players can't read (English).
 
-{{% boardgame-settings-container type="material" remarks="Check the rules to see **how many Animals** are recommended for each player count. Each choice adds ~1 page to print." %}}
+When generating material yourself, check the rules to see **how many Animals** are recommended for each player count. Each choice adds ~1 page to print.
+
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" btn_label="Create Material" local_storage="smallseatConfig" game_title="Smallseat" defaults="true" >}}
   {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
@@ -54,9 +52,7 @@ The cards contain text. However, this text is simple and consistent ( = the same
 
 {{% /boardgame-settings-container %}}
 
-## Credits
-
-Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.
+## Background
 
 After making the first game ([Kingseat](/throneless-games/conquer/kingseat)), I saw that the idea could really go in two directions. It could be simplified even further, or it could receive a few more mechanics to make it a deeper strategical game. (Kingseat kind of hovered between the two, which is why it's a mid-game of the project.)
 
@@ -69,3 +65,6 @@ So what's different in this version?
 * Both of these things simplify setup and gameplay even more, at the slight cost of the action text usually requiring a few more words.
 * The graphic design is cuter and more aimed at kids.
 
+## Credits
+
+Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.

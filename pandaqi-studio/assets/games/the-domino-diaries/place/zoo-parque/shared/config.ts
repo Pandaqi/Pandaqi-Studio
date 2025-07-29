@@ -14,7 +14,7 @@ const CONFIG:any =
     },
 
     configKey: "zooParqueConfig",
-    fileName: "[Material] Zoo Parque",
+    fileName: "Zoo Parque",
 
     // set through user config on page
     inkFriendly: false,

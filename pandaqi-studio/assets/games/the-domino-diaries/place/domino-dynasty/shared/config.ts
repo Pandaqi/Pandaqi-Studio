@@ -14,7 +14,7 @@ const CONFIG:any =
     },
 
     configKey: "dominoDynastyConfig",
-    fileName: "[Material] Domino Dynasty",
+    fileName: "Domino Dynasty",
 
     // set through user config on page
     inkFriendly: false,

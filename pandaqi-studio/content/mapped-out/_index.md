@@ -1,10 +1,8 @@
 ---
 type: "project"
 
-
 title: "Mapped Out"
 blurb: "Design the treasure map to make the most of the random route you were given at the start."
-
 
 downloadLink: "https://drive.google.com/drive/folders/1_jKU6uzGmq2h1d1IVBt3R_kadOrny3vB"
 
@@ -25,25 +23,7 @@ devlog: "/blog/boardgames/mapped-out/"
 
 ---
 
-
-
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="mappedOutConfig" btn_label="Generate Material" game_title="Mapped Out" defaults="true">}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-landsUnknown" text="Lands Unknown?" >}}
-    {{< setting-checkbox id="setting-sets-unclearInstructions" text="Unclear Instructions?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
-
-The fonts used are **Vanilla Whale** (headings) and **Source Serif (4)** (body text). Everything else is mine.
+## Background
 
 This idea was hard to "finalize". It started with a very simple one-liner idea: "Let's turn the typical board game with a map _on its head!_"
 
@@ -56,4 +36,8 @@ After several iterations, I figured out the simplest system possible to accompli
 It took a few tries, but finally the ideas came together and we get this nice little game as a result!
 
 Also, a lot of my original ideas were decisively moved to _expansions_, to really keep the base game small, textless, and kid friendly. If you think the base game is a bit too simplistic or straightforward, be sure to try out the expansions.
+
+## Credits
+
+The fonts used are **Vanilla Whale** (headings) and **Source Serif (4)** (body text). Everything else is mine.
 

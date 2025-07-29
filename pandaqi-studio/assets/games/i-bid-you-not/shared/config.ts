@@ -5,6 +5,33 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                label: "Base Game",
+                default: true
+            },
+
+            oddInventions:
+            {
+                type: SettingType.CHECK,
+                label: "Odd Inventions",
+            },
+
+            doubleDevices:
+            {
+                type: SettingType.CHECK,
+                label: "Double Devices",
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -13,7 +40,7 @@ const CONFIG:any =
     },
 
     configKey: "iBidYouNotConfig",
-    fileName: "[Material] I Bid You Not",
+    fileName: "I Bid You Not",
 
     // set through user config on page
     inkFriendly: false,

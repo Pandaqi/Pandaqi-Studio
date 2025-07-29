@@ -2,6 +2,55 @@ import Point from "js/pq_games/tools/geometry/point";
 
 const CONFIG =
 {
+    _settings:
+    {
+        playerCount:
+        {
+            type: SettingType.NUMBER,
+            min: 2,
+            max: 8,
+            default: 4
+        },
+
+        boardVariation:
+        {
+            type: SettingType.ENUM,
+            values: ["none", "small", "medium", "large", "extreme"],
+            default: "medium",
+            label: "Variation",
+            remark: "Higher means more curving streets, irregular building shapes, and distinct areas. Choose whatever you prefer."
+        },
+
+        expansions:
+        {
+            type: SettingType.GROUP,
+
+            pizzaPolice:
+            {
+                type: SettingType.CHECK,
+                label: "Pizza Police",
+            },
+
+            treacherousTraffic:
+            {
+                type: SettingType.CHECK,
+                label: "Treacherous Traffic",
+            },
+
+            ingeniousIngredients:
+            {
+                type: SettingType.CHECK,
+                label: "Ingenious Ingredients",
+            },
+
+            preposterousPlaces:
+            {
+                type: SettingType.CHECK,
+                label: "Preposterous Places",
+            },
+        }
+    },
+
     configKey: "onePizzaThePuzzleConfig",
     assetsBase: "/one-pizza-the-puzzle/assets/",
     assets:

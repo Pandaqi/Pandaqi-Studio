@@ -4,12 +4,39 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        includeCards:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Include Cards",
+            remark: "Generates the action cards with which you play."
+        },
+
+        includeCharacters:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Include Characters",
+            remark: "Generates material for all possible suspects."
+        },
+
+        cardSet:
+        {
+            type: SettingType.ENUM,
+            label: "Set",
+            values: ["base", "advanced", "expert"],
+            default: "base"
+        },
+    },
+
     debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "hastyAccusationsConfig",
-    fileName: "[Material] Hasty Accusations",
+    fileName: "Hasty Accusations",
 
     // set through user config on page
     inkFriendly: false,

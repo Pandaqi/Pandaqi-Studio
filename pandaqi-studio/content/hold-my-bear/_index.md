@@ -27,10 +27,6 @@ devlog: "/blog/boardgames/hold-my-bear/"
 
 ---
 
-
-
-
-
 ## Unbearable Games
 
 Welcome to the Unbearable Games! Where the rules change every second and bears are sure to ruin everything.
@@ -48,28 +44,15 @@ But bears ... have several special powers that can either hand you victory or de
 
 It's your goal to win _so hard_ that nobody can do the two things above. Have fun! 
 
+## Generate Your Own Material
 
-{{% boardgame-settings-container type="material" remarks="**Help! What do I need?** For most player counts, the default values (1 bear + 4 animals) are fine. With more players, you can add the other animals. If you're up for a bigger challenge, add expansion animals (one at a time)." %}}
+Like most of my games, you can click the big "Generator" button and arrive at an interface to design the material yourself. In this case, the game contains _many_ unique animals and you can choose which to include.
 
-{{< boardgame-settings type="game" local_storage="holdMyBearConfig" btn_label="Generate PDF" game_title="Hold my Bear" defaults="true" >}}
-  {{< setting-checkbox id="setting-addBearIcons" text="Add Bear Icons?" checked="checked" remark="Adds icons on the Bear card to remind you of its abilities." >}}
-  {{< boardgame-settings-section heading="Animals" >}}
-    {{< setting-checkbox-multiple id="setting-animalsBase" values="bear,ferret,tiger,chicken,dog,cat,hamster,vole" values_checked="bear,ferret,tiger,hamster,vole" >}}
-  {{< /boardgame-settings-section >}}
-  {{< boardgame-settings-section heading="Expansion Animals" >}}
-    < setting-checkbox-multiple id="setting-animalsExpansion" values="turtle,beaver,badger,giraffe,ape,bat,walrus,fish,bison,kangaroo,rabbit,sheep,squid,aardvark" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
+**What do I need?** For most player counts, the default values (1 bear + 4 animals) are fine. With more players, you can add the other animals. If you're up for a bigger challenge, add expansion animals (one at a time).
 
-{{% /boardgame-settings-container %}}
+Of course, you can simply ignore this and use the "Download" button to get the pre-made PDF for the base game and expansion!
 
-## Credits
-
-The fonts used are **Sloval** (headings) and **Ciscopic** (body), both freely available (for commercial use). The website and rules use **Merriweather**, as that is more readable for longer paragraphs. 
-
-Many images were generated with AI (after careful research to make sure there was no copyright infringement). Though most were edited afterwards, because it's not smart enough to understand how an animal could play any sport. 
-
-Everything else (game design, code, icons, general graphics, etcetera) is entirely mine.
+## Background
 
 This game started with the idea "what if there was a card game in which you sometimes want other people to hold onto a card of yours for a while?" In other words, a certain card is sometimes _really powerful_, but you can't win while you have it.
 
@@ -77,4 +60,11 @@ I combined this with some other ideas, such as the simple game loop of "on your 
 
 Until I ended up with this simple game that has surprising depth.
 
+## Credits
+
+The fonts used are **Sloval** (headings) and **Ciscopic** (body), both freely available (for commercial use). The website and rules use **Merriweather**, as that is more readable for longer paragraphs. 
+
+Many images were generated with AI. Though most were edited afterwards, because it's not smart enough to understand how an animal could play any sport. 
+
+Everything else (game design, code, icons, general graphics, etcetera) is entirely mine.
 

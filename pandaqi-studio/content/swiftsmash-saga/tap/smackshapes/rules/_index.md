@@ -2,21 +2,19 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
 Deal everyone 3 cards. Pick anyone to be _Smackhead_ ( = start player).
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game ends as soon as somebody is **out of (hand) cards**. The number of cards you won is your score: **highest score wins!**
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
 Gameplay happens in _rounds_. There are no turns: everyone plays _at the same time_.
 
@@ -35,21 +33,19 @@ How do you find the "winning card"?
 
 The winning player collects all cards played and places them facedown in their "score pile". They become the new _Smackhead_.
 
-{{< rules-image src="gameplay.webp" alt="Example of playing and resolving a single turn." >}}
+{{< rules/rules-image src="gameplay.webp" alt="Example of playing and resolving a single turn." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansions & Variants" id="expansions" icon="expansion" %}}
+## Upgrades
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variants" %}}
+### Variants
 
 This game has no official variants.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Colorcracks" %}}
+### Expansion: Colorcracks
 
 You probably noticed that cards have _colors_ too. These become important now.
 
@@ -63,9 +59,7 @@ This can lead to _multiple winning cards_. This is fine! Every player who was th
 
 It can also lead to _no winning cards_. In that case, you win if you're the first to slap empty space in the center of the table and yell: "Nothing to smack!"
 
-{{< rules-image src="expansion_colorcracks.webp" alt="Example of using the new inversion rule, and possible multi/no win rounds." >}}
+{{< rules/rules-image src="expansion_colorcracks.webp" alt="Example of using the new inversion rule, and possible multi/no win rounds." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 

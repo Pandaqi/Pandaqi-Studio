@@ -1,14 +1,12 @@
 ---
 type: "project"
 
-
 title: "Nine Lives: Tricksy Kittens"
 blurb: "A trick-taking game about getting your nine lives before anybody else, by placing smart bets on the right cats."
 
 weightProject: 92
 
 downloadLink: "https://drive.google.com/drive/folders/1FxdHCEaLdaSrGDIrCx5yZHMx6P07_Ios"
-
 
 date: 2024-09-11
 
@@ -27,13 +25,10 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives-tricksy-kittens/"
 
 ---
 
-<div class="bg-cats"></div>
+As stated in the rules, you need 1 suit per player. Each suit is only 9 cards (1 page in regular size), so when unsure, just include all of them.
 
 
-
-
-
-{{% boardgame-settings-container type="material" remarks="As stated in the rules, you need 1 suit per player. Each suit is only 9 cards (1 page in regular size), so when unsure, just include all of them." %}}
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="nineLivesTricksyKittensConfig" btn_label="Generate Material" game_title="Nine Lives: Tricksy Kittens" defaults="true" >}}
   {{< setting-checkbox id="setting-includePowers" text="Include Powers?" checked="checked" remark="Remove them if you're sure you never want to play with them." >}}
@@ -44,9 +39,7 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives-tricksy-kittens/"
 
 {{% /boardgame-settings-container %}}
 
-## Credits
-
-The fonts used are **Puss in Boots** (headings, fancy text) and **Catcafe** (body text, readable). Both freely available online. Parts of the illustrations were generated with AI. Everything else is mine.
+## Background
 
 This game is obviously a variant on the original game [Nine Lives](/the-outnumbered-series/nine-lives/).
 
@@ -58,3 +51,6 @@ Do you have a favorite version of Nine Lives? Let me know which one and why!
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/the-outnumbered-series/nine-lives-tricksy-kittens/).
 
+## Credits
+
+The fonts used are **Puss in Boots** (headings, fancy text) and **Catcafe** (body text, readable). Both freely available online. Parts of the illustrations were generated with AI. Everything else is mine.

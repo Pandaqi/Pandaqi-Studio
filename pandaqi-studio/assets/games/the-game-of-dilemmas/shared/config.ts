@@ -12,7 +12,7 @@ const CONFIG =
     },
 
     configKey: "theGameOfDilemmasConfig",
-    fileName: "[Material] The Game of Dilemmas",
+    fileName: "The Game of Dilemmas",
 
     // set through user config on page
     inkFriendly: false,

@@ -13,7 +13,7 @@ const CONFIG:Record<string,any> =
     },
 
     configKey: "kaizerseatConfig",
-    fileName: "[Material] Kaizerseat (Throneless Games)",
+    fileName: "Kaizerseat (Throneless Games)",
 
     assetsBase: "/throneless-games/conquer/kaizerseat/assets/",
 

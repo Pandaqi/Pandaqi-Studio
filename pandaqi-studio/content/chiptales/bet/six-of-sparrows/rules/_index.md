@@ -2,35 +2,32 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Example of game setup and the different components." split="leftheavy" %}}
+{{<  rules-image-sidebar src="setup.webp" alt="Example of game setup and the different components." >}}
 
 Create a deck from all **Playing Cards**. Create a separate deck of **Bid Cards**.
 
 Grab a **pen and paper** (for tracking score) and pick anyone to be **Dealer**.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+## Objective
 
 The game works with **quick rounds** that you play over and over.
 
 You can keep playing rounds as long as you like, but a recommended target is **500 points**: if someone reaches that, **they win**.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+## Gameplay
 
 Every round has three simple phases: **preparing**, **dealing** and **scoring**.
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% rules-block heading="Preparing" %}}
+### Preparing
 
-{{% rules-double-view src="gameplay_preparing.webp" alt="How to prepare for a new round." split="leftheavy" %}}
+{{<  rules-image-sidebar src="gameplay_preparing.webp" alt="How to prepare for a new round." >}}
 
 Draw **Bid Cards** from the deck until there are 6 faceup bids on the table. They should be easy to reach and read for all players.
 
@@ -38,11 +35,9 @@ Also place all **Bid Tokens** (with unique numbers 1--6) faceup on the table.
 
 Finally, Dealer moves clockwise to the next player.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Dealing" %}}
+### Dealing
 
 Repeat the following cycle until all players have 6 cards.
 
@@ -54,15 +49,14 @@ Repeat the following cycle until all players have 6 cards.
   * Once you've bid, you can't change your mind. 
 * If **multiple** players want to bid at the same time, only the one closest to the Dealer (in clockwise order) may do so.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 Every Bid Token number only appears once for this reason.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
-{{< rules-image src="gameplay_dealing.webp" alt="Example of how to deal cards and take bids." >}}
+{{< rules/rules-image src="gameplay_dealing.webp" alt="Example of how to deal cards and take bids." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="scoring" heading="Scoring" %}}
+### Scoring
 
 Once all cards have been given, players score themselves.
 
@@ -72,13 +66,11 @@ Once all cards have been given, players score themselves.
 
 Write down the scores on the paper. Next round!
 
-{{< rules-image src="gameplay_scoring.webp" alt="Example of how to score the final bids and results of players in a round." >}}
+{{< rules/rules-image src="gameplay_scoring.webp" alt="Example of how to score the final bids and results of players in a round." >}}
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Expansion" icon="expansion" %}}
+## Upgrades
 
 This expansion adds some extra material (_Bonus Bids_ and _Bid Token 10_) and fun wrinkles to the rules. It mostly allows players with a very unlucky hand to still score, or players who think they have a very lucky hand to risk it all for even more points. (Or, if it goes wrong, nothing at all.)
 
@@ -104,4 +96,3 @@ During the **scoring phase**,
 * Players who have _no bid card_ may still grab one just before calculating their score.
 * But they must also grab Bid Token 10. (Which severely lowers the number of points you score.)
 
-{{% /rules-block %}}

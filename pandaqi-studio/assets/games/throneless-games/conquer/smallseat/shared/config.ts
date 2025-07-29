@@ -11,7 +11,7 @@ const CONFIG:Record<string,any> =
     },
 
     configKey: "smallseatConfig",
-    fileName: "[Material] Smallseat (Throneless Games)",
+    fileName: "Smallseat (Throneless Games)",
 
     assetsBase: "/throneless-games/conquer/smallseat/assets/",
 

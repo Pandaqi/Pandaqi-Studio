@@ -2,39 +2,35 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+## Setup
 
-{{% rules-double-view src="setup.webp" alt="Visualization of how to setup the game." %}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Visualization of how to setup the game." >}}
 
 Create a deck of **Votes**: 5 YES and 5 NO per player. Shuffle and deal 10 secret Votes to each player.
 
-{{% remark %}}
+{{% rules/rules-remark %}}
 If someone starts with only Votes of a single type, however rare, deal again.
-{{% /remark %}}
+{{% /rules/rules-remark %}}
 
 Place any remaining votes in a faceup draw pool. 
 
 Create a deck of **Movie Cards**. Place 6 of them faceup next to the deck: the market.
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+## Objective
 
-{{% rules-double-view src="objective.webp" alt="Example of how to determine your score at the end of the game." %}}
+{{< rules/rules-image-sidebar src="objective.webp" alt="Example of how to determine your score at the end of the game." >}}
 
 The game ends when **all players are out of Votes**.
 
 During the game, you build a row of **Movies Made**. Each Vote Card you've **won** (not in hand) is worth the number of times its icon appears on these Movies Made. The **highest score wins**!
 
-{{% /rules-double-view %}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+## Gameplay
 
-{{< rules-image src="gameplay.webp" alt="Example of how to play a round (pitch, vote, handle fail/success)" >}}
+{{< rules/rules-image src="gameplay.webp" alt="Example of how to play a round (pitch, vote, handle fail/success)" >}}
 
 From start player, take clockwise turns.
 
@@ -68,15 +64,14 @@ If the movie fails, all NO-voters _win_ their own vote. If _everyone_ voted NO, 
 
 Any remaining Movie Cards are discarded.
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
+## Upgrades
 
 Played the base game and ready for more? Or feel like your group needs some tweaks to the game? Check out these expansions.
 
-{{% rules-block heading="Trendsetter Tricks" %}}
+### Trendsetter Tricks
 
 This expansion _expands_ on the idea of market demands and tracking Movies Made. We now track if a movie failed or not, and new pitches with matching properties change based on that.
 
@@ -92,11 +87,10 @@ At the **end of the round**, the following rule replaces the "save a successful 
 * If success, place the green side up, otherwise orange side. 
 * Place this stack into the row of Movies Made.
 
-{{< rules-image src="trendsetter_tricks.webp" alt="Examples of the changes to the base game in the Trendsetter Tricks expansion." >}}
+{{< rules/rules-image src="trendsetter_tricks.webp" alt="Examples of the changes to the base game in the Trendsetter Tricks expansion." >}}
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Breaking Changes" %}}
+### Breaking Changes
 
 During **setup**, 
 * Also include 2 CHANGE tokens per player.
@@ -112,9 +106,8 @@ Optionally, players may improvise a pitch for why their change is amazing and ma
 
 <!--- @TODO: EXAMPLE IMAGE for this --->
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Blockbuster Budgets" %}}
+### Blockbuster Budgets
 
 This expansion includes **Movie Cards** with text (instead of icons) for _Cost_ and _Profit_. This means pitches are more varied.
 
@@ -128,6 +121,4 @@ As always,
 
 <!--- @TODO: EXAMPLE IMAGE for this?? --->
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}

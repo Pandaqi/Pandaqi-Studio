@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
+## Setup
 
 The website proposes "sets" of cards (ordered based on difficulty). For your first games, just pick one of those. Once you feel comfortable, you can assemble your own decks (see [variants](#variants)).
 
@@ -12,15 +12,13 @@ Deal the deck until empty. It's fine if some players have one more card.
 
 Pick any player to be the "king".
 
-{{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="lightblue" %}}
+## Objective
 
 The game ends when everyone is **out of cards**. The player with the **most points wins**.
 
-{{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" class="allow-page-break" icontint="purple" %}}
+## Gameplay
 
 Rounds are played simultaneously.
 
@@ -29,7 +27,7 @@ Rounds are played simultaneously.
 * Based on the cards played, one of them will be "poisoned" (see [next section](#finding_the_poison)).
 * The first player to tap this card, wins the round! (Congratulations, you've saved the king's life again!) 
 
-{{< rules-image src="gameplay.webp" alt="Overview of how a round plays." >}}
+{{< rules/rules-image src="gameplay.webp" alt="Overview of how a round plays." >}}
 
 The winner adds all cards from the table to their score pile. The smasher of this round becomes the new **king**!
 
@@ -39,11 +37,10 @@ Any violation of the rules (such as tapping the wrong card) means you are **out 
 * _Everyone plays with one hand. That hand both reveals their own card and smashes the poisoned food. Using the wrong hand is, of course, a rules violation._
 * You _can_ be softer and punish a wrong guess with only a temporary elimination (e.g. 4 rounds). In practice, however, without the threat of total elimination players will just smash instantly and carelessly---which ruins the game.
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% /rules-block %}}
 
-{{% rules-block id="finding_the_poison" heading="Finding the Poison" class="allow-page-break" icon="scoring" icontint="lightblue" %}}
+## Finding The Poison
 
 Each card shows a food item. It has a **rule**, a **number** and a **type** (animal, drink, vegetable, cereal, spice).
 
@@ -54,19 +51,18 @@ It's your job to rapidly consider these rules and calculate which one is **true*
 3. If **multiple are true**, the card with the _highest number_ is poisoned. Smash that!
 4. If **none are true**, smash the center of the table.
 
-{{< rules-image src="finding_the_poison.webp" alt="Example of how to evaluate a given round." >}}
+{{< rules/rules-image src="finding_the_poison.webp" alt="Example of how to evaluate a given round." >}}
 
 Regarding rule 2: if multiple cards have the same number, the others still count! Don't remove or ignore them. You simply don't evaluate their power, which means they're **never** poisoned.
 
 Later sets contain "safe food": they show a green checkmark. These are **never** poisoned themselves, but have a **permanent rule** that applies to this round.
 
-{{% /rules-block %}}
 
-{{% rules-block id="variants" heading="Variants" icon="expansion" class="allow-page-break" icontint="purple" %}}
+## Upgrades
 
 Once you're familiar with the base game, you can try these variants or expansions!
 
-{{% rules-block heading="Assemble your own deck" %}}
+### Assemble your own deck
 
 You can use _any_ cards you want! Below are some guidelines to help you. 
 
@@ -80,9 +76,8 @@ Additionally, you can control difficulty and game length.
 * DIFFICULTY: Include more different cards to increase difficulty.
 * GAME LENGTH: There's often no need to use _all_ cards of a type you want to include. Shrink the deck for a shorter game.
 
-{{% /rules-block %}}
 
-{{% rules-block heading="Variant: Blind Smashing" %}}
+### Variant: Blind Smashing
 
 This is a fun variant to try.
 
@@ -92,6 +87,4 @@ When you _win_ a card, you stick it back into your pile wherever you want.
 
 The last player who still has cards, wins!
 
-{{% /rules-block %}}
 
-{{% /rules-block %}}
