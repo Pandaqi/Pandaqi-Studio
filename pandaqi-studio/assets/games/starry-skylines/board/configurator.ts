@@ -34,7 +34,7 @@ export default {
         const planetSet = new Set();
         const planets = cfg.planetNames.splice(0, cfg.difficulty + 1);
     
-        // always add the Learnth planet
+        // always add the learnth planet
         // (@IMPROV: perhaps mark a few buildings as "basic/core", and only add those, instead of fixing one planet of the set)
         planetSet.add( planets.splice(0, 1)[0] );
     
@@ -65,7 +65,7 @@ export default {
         cfg.playingManualCombo = true;
         cfg.planetSetEnabled = true;
 
-        planetSet.push("Learnth");
+        planetSet.push("learnth");
         cfg.planetSet = planetSet;
     },
 
@@ -78,7 +78,7 @@ export default {
         const planetSetEnabled = cfg.planetSetEnabled;
 
         for(const [name,obj] of Object.entries(list)) {
-            const planet = obj.planet || "Learnth";
+            const planet = obj.planet || "learnth";
             const difficulty = PLANET_MAP[planet];
 
             if(!planetSetEnabled)

@@ -3,7 +3,7 @@
 {{- if $subdir -}}
     {{- $url := trim .RelPermalink "/" -}}
     {{- $final_dir := printf "content/%s/%s/" $url $subdir -}}
-    {{- $pages := where .Site.Pages "Type" "project" -}}
+    {{- $pages := union (where .Pages "Type" "project") (where .Pages "Type" "tools") -}}
     <!--- Find all project pages in subdir --->
     {{- range (readDir $final_dir) -}}
         {{- if .IsDir -}}

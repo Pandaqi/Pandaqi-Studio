@@ -40,10 +40,9 @@ Now ...
 * **Remove** one or more sliders, but never _all_ of them.
 * Draw equally many **new sliders**.
 
-
 ### Communicate
 
-Start a [timer](https://pandaqi.com/tools/timer). The recommended duration is 1 or 2 minutes.
+Start a [timer](https://pandaqi.com/tools/use/timer/). The recommended duration is 1 or 2 minutes.
 
 You must communicate your secret word ... using only the sliders. 
 
@@ -54,8 +53,6 @@ You obviously can't communicate in _any_ other way during your turn. Others can 
 If somebody guesses the correct word, you score **5 points**. If time runs out, your turn is over with **0 points**.
 
 That's it! Have fun!
-
-
 
 ## Upgrades
 

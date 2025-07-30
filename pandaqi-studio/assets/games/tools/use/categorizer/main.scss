@@ -1,0 +1,105 @@
+main
+{
+    max-width: 900px;
+}
+
+table
+{
+    background-color: rgba(255,255,255,0.66);
+}
+
+tr:nth-child(2n)
+{
+    background-color: rgba(255,255,255,0.85);
+}
+
+td 
+{
+    padding: 0.75em;
+}
+
+td:first-child
+{
+    font-weight: bold;
+    font-family: "Dosis";
+}
+
+.settings-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.setting {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0;
+    padding: 0;
+}
+
+input
+{
+    font-size: 1em;
+    margin: 0;
+}
+
+label
+{
+    width: 100%;
+    text-align: center;
+}
+
+input[type="checkbox"]
+{
+    width: 64px;
+    height: 64px;
+    border-radius: 0.5em;
+}
+
+.white-background
+{
+    background-color: rgba(255,255,255,0.66);
+    border-radius: 0.33em;
+}
+
+h2
+{
+    text-align: center;
+    font-weight: bold;
+    font-family: "Dosis";
+    font-size: 1.8em;
+    margin-top: 1.5em;
+    margin-bottom: 0.25em;
+}
+
+.result-draw-random
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.result-draw-random div
+{
+    margin: 0.75em;
+    padding: 0;
+}
+
+.list-display, .list-display-container
+{
+    padding: 0;
+    margin: 0;
+}
+
+.entry-type
+{
+    opacity: 0.5;
+    font-size: 0.75em;
+    display: block;
+}

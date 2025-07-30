@@ -34,7 +34,7 @@ export default class Interface {
     {
         const baseConfig = {
             playerCount: 4,
-			difficulty: "Training Wheels",
+			difficulty: "trainingWheels",
 			pointsToWin: 30,
 			minGoodTimer: 35,
 			maxGoodTimer: 80,
@@ -65,9 +65,9 @@ export default class Interface {
         baseConfig.difficultyIndex = difficultyIndex;
         baseConfig.goodsEnabled = (difficultyIndex > 0);
 		baseConfig.planesAndTrainsDisabled = (difficultyIndex < 2);
-        baseConfig.upgradesEnabled = (difficultyIndex >= DIFFICULTY_LEVELS["Another Upgrade"]);
+        baseConfig.upgradesEnabled = (difficultyIndex >= DIFFICULTY_LEVELS["anotherUpgrade"]);
         baseConfig.addGlobalTimer = (baseConfig.playerCount == 1);
-        baseConfig.eventsEnabled = (difficultyIndex >= DIFFICULTY_LEVELS["Extraordinary Events"])
+        baseConfig.eventsEnabled = (difficultyIndex >= DIFFICULTY_LEVELS["extraordinaryEvents"])
         return baseConfig
     }
 
@@ -81,7 +81,7 @@ export default class Interface {
         this.config.goods = goods;
 		for(const [key,value] of Object.entries(goods)) {
             // @ts-ignore
-            const goodDifficulty = DIFFICULTY_LEVELS[value.difficulty || "Training Wheels"];
+            const goodDifficulty = DIFFICULTY_LEVELS[value.difficulty || "trainingWheels"];
             if(goodDifficulty <= this.config.difficultyIndex) { continue; }
             delete goods[key];
 		}
@@ -95,7 +95,7 @@ export default class Interface {
         // some events are only included in later difficulty levels (e.g. Rubber madness stuff); filter
         for(const [key,value] of Object.entries(events)) {
             // @ts-ignore
-            const eventDifficulty = DIFFICULTY_LEVELS[value.difficulty || "Training Wheels"];
+            const eventDifficulty = DIFFICULTY_LEVELS[value.difficulty || "trainingWheels"];
             if(eventDifficulty <= this.config.difficultyIndex) { continue; }
             delete events[key];
         }

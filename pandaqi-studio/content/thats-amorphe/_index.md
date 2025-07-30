@@ -53,7 +53,7 @@ Four simple steps.
 
 Coming up with a great morph is _hard_. People might take too long on their turn, while they keep thinking and can't make a decision.
 
-To solve that, use my [timer](/tools/timer/). A length of 1-2 minutes (at most!) should be great.
+To solve that, use my [timer](/tools/use/timer/). A length of 1-2 minutes (at most!) should be great.
 
 ## Credits
           

@@ -14,12 +14,12 @@ export default
         planet:
         {
             type: SettingType.ENUM,
-            values: ["Learnth", "Uronus", "Marsh", "Yumpiter", "Meercury", "Intervenus", "Pluto", "Naptune"]
+            values: ["learnth", "uronus", "marsh", "yumpiter", "meercury", "intervenus", "pluto", "naptune"]
         },
 
         manualCombo:
         {
-            values: ["", "Nature", "Leadership", "Resources", "Entertainment", "Chaotic"],
+            values: ["", "nature", "leadership", "resources", "entertainment", "chaotic"],
             label: "Play Handpicked Combination?",
             remark: "Choose a handpicked combination of planets if you want to follow a particular theme. Only use this if you've read the rules for all planets before."
         }

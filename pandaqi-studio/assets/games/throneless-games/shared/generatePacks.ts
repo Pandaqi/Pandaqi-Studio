@@ -9,13 +9,13 @@ export default (list:CardThroneless[], config:Record<string,any>, dictPacks:Reco
 
     // figure out which ones to include
     let packsIncluded = [];
-    const set = config.set ?? "none";
+    const set = config._settings.set.value ?? "none";
     if(set in dictSets) { 
         packsIncluded = dictSets[set].slice(); 
     } else if(set == "random") {
-        packsIncluded = shuffle(Object.keys(config.packs)).slice(0,5);
+        packsIncluded = shuffle(Object.keys(config._settings.packs.value)).slice(0,5);
     } else if(set == "none") { 
-        for(const [packName,enabled] of Object.entries(config.packs))
+        for(const [packName,enabled] of Object.entries(config._settings.packs.value))
         {
             if(!enabled) { continue; }
             packsIncluded.push(packName);

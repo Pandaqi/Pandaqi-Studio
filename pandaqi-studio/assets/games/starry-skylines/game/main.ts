@@ -38,7 +38,7 @@ export default class Game
             width: 8,
             height: 8,
             playerCount: 4,
-            planet: "Learnth",
+            planet: "learnth",
             planetNames: Object.keys(PLANET_MAP),
             planetSets: PLANET_SETS,
             manualCombo: "",

@@ -1,0 +1,15 @@
+<!--- Any custom stuff to load --->
+<!--- This is its own file ("footer dynamic") because this obviously depends on the page and should thus NEVER be cached --->
+{{ if .Params.customJS }}
+    {{ $output_url := printf "%scustom.bundle.js" .RelPermalink }}
+    {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url }}
+    {{ $js_custom := resources.Get .Params.customJS | js.Build $opts | fingerprint }}
+    <script async defer src="{{ $js_custom.RelPermalink }}"></script>
+{{ end }}
+
+{{ if .Params.customCSS }}
+    {{ $output_url := printf "%scustom.bundle.css" .RelPermalink }}
+    {{ $options := (dict "targetPath" $output_url "outputStyle" "compressed" "transpiler" "dartsass") }}
+    {{ $css_custom := resources.Get .Params.customCSS | css.Sass $options | fingerprint }}
+    <link rel="stylesheet" type="text/css" href="{{ $css_custom.RelPermalink }}">
+{{ end }}

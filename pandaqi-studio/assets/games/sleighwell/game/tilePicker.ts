@@ -17,9 +17,9 @@ export default class TilePicker
     {
         this.tiles = [];
 
-        if(CONFIG.set == "baseGame") { this.generateBaseGame(); }
-        else if(CONFIG.set == "reindeerWay") { this.generateReindeerWay(); }
-        else if(CONFIG.set == "toughTrees") { this.generateToughTrees(); }
+        if(CONFIG._settings.sets.base.value) { this.generateBaseGame(); }
+        if(CONFIG._settings.sets.reindeerWay.value) { this.generateReindeerWay(); }
+        if(CONFIG._settings.sets.toughTrees.value) { this.generateToughTrees(); }
     }
 
     generateBaseGame()

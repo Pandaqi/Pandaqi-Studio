@@ -26,7 +26,9 @@
     <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}">
 
     <!-- Load Default JS --->
-    {{ $js := resources.Get "/lib/functionality.ts" | js.Build "/lib/pq-games-functionality.js" | minify | fingerprint }}
+    {{ $output_url := "/lib/pq-games-functionality.js" }}
+    {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url }}
+    {{ $js := resources.Get "/lib/functionality.ts" | js.Build $opts | fingerprint }}
     <script async defer src="{{ $js.RelPermalink }}"></script>
 
     <!-- Favicon (use default one on regular pages, unique one for game pages) -->

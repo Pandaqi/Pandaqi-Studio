@@ -12,18 +12,21 @@ const CONFIG =
             {
                 type: SettingType.CHECK,
                 default: true,
+                value: true,
                 label: "Base Game"
             },
 
             reindeerWay:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Reindeer Way"
             },
 
             toughTrees:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Tough Trees"
             },
         }
@@ -39,7 +42,6 @@ const CONFIG =
     // set through user config on page
     inkFriendly: false,
     itemSize: "regular",
-    set: "baseGame", // baseGame, specialSleighs, toughTrees
 
     fonts:
     {

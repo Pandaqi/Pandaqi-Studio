@@ -105,14 +105,14 @@ const PLAYER_COLORS =
 	];
 
 const DIFFICULTY_LEVELS = 
-	{
-		"Training Wheels": 0,
-		"Good Luck": 1,
-		"Fancy Vehicles": 2,
-		"Another Upgrade": 3,
-		"Extraordinary Events": 4,
-		"Crazy Cargo": 5
-	};
+{
+	"trainingWheels": 0,
+	"goodLuck": 1,
+	"fancyVehicles": 2,
+	"anotherUpgrade": 3,
+	"extraordinaryEvents": 4,
+	"crazyCargo": 5
+};
 
 const GOODS = 
 	{
@@ -156,7 +156,7 @@ const GOODS =
 				pointMax: 6,
 				prob: 2,
 				frame: 4,
-				difficulty: "Crazy Cargo",
+				difficulty: "crazyCargo",
 			},
 
 		Rubber:
@@ -165,7 +165,7 @@ const GOODS =
 				pointMax: 5,
 				prob: 3,
 				frame: 5,
-				difficulty: "Crazy Cargo",
+				difficulty: "crazyCargo",
 			},
 
 		Mahogany:
@@ -174,7 +174,7 @@ const GOODS =
 				pointMax: 5,
 				prob: 2,
 				frame: 6,
-				difficulty: "Crazy Cargo",
+				difficulty: "crazyCargo",
 			},
 
 		Toucan:
@@ -183,7 +183,7 @@ const GOODS =
 				pointMax: 4,
 				prob: 2,
 				frame: 7,
-				difficulty: "Crazy Cargo",
+				difficulty: "crazyCargo",
 			},
 	};
 

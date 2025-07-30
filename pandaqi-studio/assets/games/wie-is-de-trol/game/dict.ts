@@ -3,7 +3,7 @@ class Task
 	name: string;
 	story: string;
 	desc: string;
-	category: string;
+	category: string[];
 	money: number;
 	questions: Q[];
 	treasurer: boolean;
@@ -11,7 +11,7 @@ class Task
 	type: string;
 	params: Record<string,any>;
 
-	constructor(name, story, desc, category, money, questions, treasurer, leader, type, params = {}) 
+	constructor(name:string, story:string, desc:string, category:string[], money:number, questions:Q[], treasurer:boolean, leader:boolean, type:string, params:Record<string,any> = {}) 
 	{
 		this.name = name;
 
@@ -45,13 +45,13 @@ class Q
 {
 	question: string;
 	answers: string[];
-	connectedTask: null;
+	connectedTask: string;
 
-	constructor(question, answers) 
+	constructor(question:string, answers:string[]) 
 	{
 		this.question = question;
 		this.answers = answers;
-		this.connectedTask = null;
+		this.connectedTask = "";
 	}
 }
 
@@ -90,7 +90,8 @@ const ROLVOORDELEN =
 	// @IMPROV: a few more entries? (Also different types, because being the "trol" is also a sort of "role"?)
 ];
 
-const ADDERTJES = [
+const ADDERTJES = 
+[
 	'Je mag helemaal niks tegen elkaar zeggen of overleggen.',
 	'Iedereen speelt zijn kaarten <em>gedekt</em>',
 	'Iedereen moet deze opdracht individueel doen (alleen toepasselijk op groepsopdrachten). Bondjes tellen ook even niet.',
@@ -141,7 +142,8 @@ const ADDERTJES = [
 	'De leider is deze opdracht beschermd: er mogen geen leiderkaarten worden gespeeld.',
 ]
 
-const TASKS = [
+const TASKS = 
+[
 	new Task(
 		"Rennen door Regenwoud", 
 		"Zodadelijk rennen jullie in twee teams naar de finish aan de andere kant van dit regenwoud. De winnaar krijgt geld voor de pot ... maar de beste renner van het verliezende team krijgt een joker.",

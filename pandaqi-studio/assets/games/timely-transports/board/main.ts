@@ -16,8 +16,8 @@ const SETTINGS =
     difficulty:
     {
         type: SettingType.ENUM,
-        values: ["Training Wheels", "Good Luck", "Fancy Vehicles", "Another Upgrade", "Extraordinary Events", "Crazy Cargo"],
-        default: "Training Wheels",
+        values: ["trainingWheels", "goodLuck", "fancyVehicles", "anotherUpgrade", "extraordinaryEvents", "crazyCargo"],
+        default: "trainingWheels",
         label: "Scenario"
     },
 

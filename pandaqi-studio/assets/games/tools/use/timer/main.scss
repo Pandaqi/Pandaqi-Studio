@@ -1,0 +1,51 @@
+#common-values, #controls {
+    display: flex;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#common-values button, #controls button {
+    width: auto;
+    margin: 0.25em;
+}
+
+#common-values button {
+    opacity: 0.66;
+}
+
+#time {
+    font-size: 4em;
+    line-height: 0;
+    text-align: center;
+    font-family: "Dosis", sans-serif;
+    font-weight: bold;
+    margin: 0;
+}
+
+.timer-active {
+    color: #9623a6;
+    animation: pop 1s linear;
+    animation-iteration-count: infinite;
+}
+
+.timer-almost-done {
+    color: #c52020;
+}
+
+.timer-inactive {
+    color: #076b7a;
+}
+
+@keyframes pop{
+    0%  { transform: scale(1.1); }
+    15%  { transform: scale(1.0); }
+}     
+
+#desc {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    opacity: 0.8;
+}

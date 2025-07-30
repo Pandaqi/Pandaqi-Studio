@@ -1,0 +1,16 @@
+{{ define "head" }}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>{{ .Parent.Title }} | Tool | Pandaqi Games</title>
+</head>
+{{ end }}
+        
+{{- define "main" -}}
+{{ .Content }}
+{{- end -}}
+
+{{ define "footer" }}
+    {{ partial "func/load-assets.html" . }}
+{{ end }}

@@ -39,7 +39,7 @@ You can start completely blank. Or you can use the generator to get a nice rando
 
 ## That's Not A Word!
 
-Having discussions about whether something is a word? Use my [dictionary](/tools/dictionary) as your judge.
+Having discussions about whether something is a word? Use my [dictionary](/tools/use/dictionary) as your judge.
 
 It only contains more common or popular words. Using it will solve this issue for groups endlessly debating what is a valid word!
 

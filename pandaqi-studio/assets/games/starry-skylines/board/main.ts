@@ -16,12 +16,12 @@ const SETTINGS =
     planet:
     {
         type: SettingType.ENUM,
-        values: ["Learnth", "Uronus", "Marsh", "Yumpiter", "Meercury", "Intervenus", "Pluto", "Naptune"]
+        values: ["learnth", "uronus", "marsh", "yumpiter", "meercury", "intervenus", "pluto", "naptune"]
     },
 
     manualCombo:
     {
-        values: ["", "Nature", "Leadership", "Resources", "Entertainment", "Chaotic"],
+        values: ["", "nature", "leadership", "resources", "entertainment", "chaotic"],
         label: "Play Handpicked Combination?"
     }
 }

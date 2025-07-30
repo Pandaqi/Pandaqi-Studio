@@ -13,7 +13,14 @@ export default class CardPicker
     {
         this.cards = [];
 
-        const set = SETS[CONFIG.cardSet];
+        if(CONFIG._settings.sets.base.value) { this.generateSet("base"); }
+        if(CONFIG._settings.sets.appetite.value) { this.generateSet("appetite"); }
+        if(CONFIG._settings.sets.coins.value) { this.generateSet("coins"); }
+    }
+
+    generateSet(key:string)
+    {
+        const set = SETS[key];
         for(const [key,data] of Object.entries(set))
         {
             const freq = data.freq ?? 1;

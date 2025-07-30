@@ -13,18 +13,21 @@ const CONFIG =
             {
                 type: SettingType.CHECK,
                 default: true,
+                value: true,
                 label: "Base Game"
             },
 
             appetite:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Appetite for All"
             },
 
             coins:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Coins for Combos"
             },
         }

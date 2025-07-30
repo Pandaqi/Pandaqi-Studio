@@ -40,7 +40,7 @@ Now communicate your word by drawing on the board! Draw as many lines as the wor
 
 The others guess what you're drawing. Choose one of these options to limit turn length:
 
-* Set a [timer](https://pandaqi.com/tools/timer/) of 60 or 90 seconds. 
+* Set a [timer](https://pandaqi.com/tools/use/timer/) of 60 or 90 seconds. 
 * Or allow as many guesses as the number of lines you were allowed to draw. (Ask the guessers when a guess is definite, and only respond to those with "correct" or "incorrect".)
 
 {{% rules/rules-remark %}}

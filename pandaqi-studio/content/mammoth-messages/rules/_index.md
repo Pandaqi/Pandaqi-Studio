@@ -25,7 +25,7 @@ On your turn,
 * Draw 10 random **Cave Drawings**.
 * Pick a **Choice Tile**. 
 
-Now set a [timer](https://pandaqi.com/tools/timer/) for 60 seconds and start it!
+Now set a [timer](https://pandaqi.com/tools/use/timer/) for 60 seconds and start it!
 
 Choice Tiles show a number and a color: _those are the two words you must communicate!_
 * You may only use Cave Drawing tiles, no other communication.

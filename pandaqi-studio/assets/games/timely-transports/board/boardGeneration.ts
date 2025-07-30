@@ -135,7 +135,7 @@ export default class BoardGeneration
 			landCityProbability: 0.35,
 
 			numPlayers: userConfig.numPlayers,
-			difficulty: userConfig.difficulty ?? "Training Wheels",
+			difficulty: userConfig.difficulty ?? "trainingWheels",
 			inkFriendly: userConfig.inkFriendly ?? false,
 			splitBoard: userConfig.splitBoard ?? false,
 			cityBonus: userConfig.cityBonus ?? false,
@@ -791,7 +791,7 @@ export default class BoardGeneration
 		
 		for(const name in GOODS) 
 		{
-			const goodDifficulty = DIFFICULTY_LEVELS[GOODS[name].difficulty || "Training Wheels"];
+			const goodDifficulty = DIFFICULTY_LEVELS[GOODS[name].difficulty || "trainingWheels"];
 			if(goodDifficulty > gameDifficulty) { continue; }
 
 			totalGoodProbability += GOODS[name].prob;
