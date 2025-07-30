@@ -59,9 +59,4 @@ You use a **secret part** of the board to infect cities, which means medics will
 
 This is an expansion to the base game. It introduces a random event at the start of each round, to shake things up and add extra challenge.
 
-At the start of a game, go to this website and click the button below. It opens an interface in a new tab. Whenever you start a new round (in the real game), click the button again to get a new event.
-
-{{< boardgame-settings type="game" local_storage="epicMedicsConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Epic Medics" >}}
-	{{< setting-playercount min="2" max="7" def="4" >}}
-{{< /boardgame-settings >}}
+At the start of a game, go to the [game page](game). Pick your settings, click the button. Whenever you start a new round (in the real game), click the button again to get a **new event**!

@@ -4,8 +4,41 @@ import InstructionScreen from "./instructionScreen";
 import SlidersScreen from "./slidersScreen";
 import WordsScreen from "./wordsScreen";
 import GameState from "./gameState";
-import Point from "js/pq_games/tools/geometry/point";
 
+const SETTINGS =
+{
+    maxTurns:
+    {
+        type: SettingType.NUMBER,
+        min: 5,
+        max: 25,
+        step: 5,
+        default: 10,
+        label: "How Many Rounds?"
+    },
+
+    wordSettings:
+    {
+        type: SettingType.GROUP,
+
+        wordComplexity:
+        {
+            type: SettingType.ENUM,
+            values: ["core", "easy", "medium"],
+            default: "core",
+            label: "Word Complexity",
+            remark: "How hard should the words be?"
+        },
+
+        includeNamesAndGeography:
+        {
+            type: SettingType.CHECK,
+            label: "Include Names",
+            remark: "Adds geography and proper names of people, brands, ..."
+        }
+    },
+}
+CONFIG._settings = SETTINGS;
 
 class Game
 {

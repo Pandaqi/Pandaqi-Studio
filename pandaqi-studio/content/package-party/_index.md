@@ -27,11 +27,9 @@ playtime: 5
 playercount: [1,2,3,4]
 input: ["keyboard", "controller"]
 
-media: [video/packageparty_1, video/packageparty_2, video/packageparty_5, video/packageparty_6]
+media: [https://www.youtube.com/embed/Fcyjk8app9w, video/packageparty_1, video/packageparty_2, video/packageparty_5, video/packageparty_6]
 
 ---
-
-{{% embed-video vid="https://www.youtube.com/embed/Fcyjk8app9w" class="limit-width" full-size="true" %}}
 
 **Package Party** is a local multiplayer (“couch co-op”) game for literally anyone. Gather your friends, family, kids, girlfriend, boyfriend, neighbors, neighbor’s dog – and start working together to deliver packages!
 

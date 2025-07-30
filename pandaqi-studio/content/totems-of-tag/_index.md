@@ -32,11 +32,9 @@ playercount: [1,2,3,4]
 input: ["controller", "keyboard"]
 devlog: "/blog/videogames/one-week-games/devlog-totems-of-tag/"
 
-media: [totems_ss1,totems_ss2,totems_ss3,totems_ss4,totems_ss5,totems_ss6,totems_ss7, totems-of-tag-header-narrow]
+media: [https://www.youtube.com/embed/KSz3iXlhZ8k, totems_ss1,totems_ss2,totems_ss3,totems_ss4,totems_ss5,totems_ss6,totems_ss7, totems-of-tag-header-narrow]
 
 ---
-
-{{% embed-video src="https://www.youtube.com/embed/KSz3iXlhZ8k" %}}
 
 It's **dodgeball**. Without any rules, and with a literal twist.
 

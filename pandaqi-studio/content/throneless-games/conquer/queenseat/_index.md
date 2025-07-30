@@ -27,30 +27,6 @@ ages: everyone
 
 When generating material yourself, check the rules to see **how many Princesses** are recommended for each player count. Each choice adds ~1 page to print.
 
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" btn_label="Create Material" local_storage="queenseatConfig" game_title="Queenseat" defaults="true" >}}
-  {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
-  {{< setting-enum id="setting-set" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princesses below!" >}}
-  {{< boardgame-settings-section heading="Princesses" >}}
-    {{< setting-checkbox id="setting-packs-stingersHive" text="Stinger's Hive?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-gallopingSun" text="Galloping Sun?" >}}
-    {{< setting-checkbox id="setting-packs-trunktrumpets" text="Trunktrumpets?" >}}
-    {{< setting-checkbox id="setting-packs-featherdancer" text="Featherdancer?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-whistleyWine" text="Whistley Wine?" >}}
-    {{< setting-checkbox id="setting-packs-edibusEggsnatcher" text="Edibus Eggsnatcher?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-fearedFlame" text="Feared Flame?" >}}
-    {{< setting-checkbox id="setting-packs-eyrieFeyle" text="Eyrie Feyle?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-chatteredFins" text="Chattered Fins?" >}}
-    {{< setting-checkbox id="setting-packs-galaksea" text="Galaksea?" >}}
-    {{< setting-checkbox id="setting-packs-venomfruit" text="Venomfruit?" >}}
-    {{< setting-checkbox id="setting-packs-colorcoats" text="Colorcoats?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
 ## Background
 
 This game was originally meant to have the "Seatcard" that is now the prominent part of Kaizerseat, and that would have been its only change. When coming back to the idea later, however, I realized this was too little variation. It made all the Throneless Games almost identical, just with different animal illustrations!

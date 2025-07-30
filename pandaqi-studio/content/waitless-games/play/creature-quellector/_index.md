@@ -1,14 +1,10 @@
 ---
 type: "project"
 
-
 title: "Creature Quellector"
 blurb: "Choose your battles wisely and build the strongest hand of magical creatures. A waitless game, playable without table, chairs, or loads of material."
 # blurb: "Pick your battles wisely to design the best squad of cute creatures."
 blurbProject: "Design the best squad of _creature cards_ by winning or tactically losing battles against your opponent's hands."
-
-
-
 
 date: 2024-02-25
 
@@ -17,7 +13,6 @@ genres: ["family"]
 categories: ["board-game", "card-game", "waitless-game", "standard"]
 tags: ["set-collecting", "battle", "hidden-score", "modular", "turn-based"]
 themes: ["colorful", "monsters"]
-
 
 driveLink: "https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi"
 
@@ -30,23 +25,9 @@ devlog: "/blog/boardgames/waitless-games/creature-quellector/"
 
 ---
 
-Any single PDF is fine, actually. Pick the one with the four elements or colors you like the most!
+Any single PDF (from Download) is fine. Pick the one with the four elements or colors you like the most!
 
 **DISCLAIMER: Creature names are randomly generated** from a huge list of words and phrases. This means there might be "unfortunate" combinations such as "childkill", which I just can't prevent 100%. I hope we can all see the humor in silly random names!
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="creatureQuellectorConfig" game_title="Creature Quellector" btn_label="Generate Material" defaults="true" >}}
-  {{< setting-checkbox id="setting-multiType" text="Multitype?" remark="An expansion: some icons will become two types at once." >}}
-  {{< boardgame-settings-section heading="Elements" >}}
-    {{< setting-enum id="setting-elements-red" text="Red" values="fire,electric,star,dragon" valaskey="true" def="fire" >}}
-    {{< setting-enum id="setting-elements-blue" text="Blue" values="water,ice,poison,weather" valaskey="true" def="water" >}}
-    {{< setting-enum id="setting-elements-green" text="Green" values="earth,grass,rock,bug" valaskey="true" def="earth" >}}
-    {{< setting-enum id="setting-elements-purple" text="Purple" values="air,magic,ghost,dark" valaskey="true" def="air" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
 
 ## Waitless Games?
 
@@ -76,6 +57,8 @@ This was my first attempt. (Well, actually my second, but the first one turned i
 
 After a long process of brainstorming and experimenting, this game was the result.
 
-Obviously, the aesthetic and rules were very much inspired by Pokémon (and similar card collection games). I tried to make it more unique, but hey, there's a reason Pokémon is as popular as it is ;)
-
 For a detailed diary about the game, check out the [devlog](/blog/boardgames/waitless-games/creature-quellector/).
+
+## Credits
+
+Obviously, the aesthetic and rules were very much inspired by Pokémon (and similar card collection games). I tried to make it more unique, but hey, there's a reason Pokémon is as popular as it is ;)

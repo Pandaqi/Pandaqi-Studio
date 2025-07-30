@@ -28,27 +28,25 @@ playercount: [1,2,3,4]
 input: ["keyboard", "controller", "touch"]
 devlog: "/blog/videogames/one-week-games/devlog-i-wish-you-good-hug/"
 
-media: [goodhug_1, goodhug_2, goodhug_3]
+media: [https://www.youtube.com/embed/9Qwpho6_8uc, goodhug_1, goodhug_2, goodhug_3]
 
 ---
 
-{{% embed-video bg="goodhug_header" vid="https://www.youtube.com/embed/9Qwpho6_8uc" %}}
+You have been given the most important task known to mankind: **making sure that teddybears get the soft, warm hugs they deserve!**
 
-You have been given the most important task known to mankind: <span style="color:purple;">making sure that teddybears get the soft, warm hugs they deserve!</span>
+In "I Wish You Good Hug", 1--4 players will cooperatively try to grab teddy bears (by hugging them) and (gently) throw them in the arms of their fellow players. Why? So they'll eventually end up in a warm soft bed!
 
-In "I Wish You Good Hug", 1&ndash;4 players will cooperatively try to grab teddy bears (by hugging them) and (gently) throw them in the arms of their fellow players. Why? So they'll eventually end up in a warm soft bed!
-
-But <span style="color:#43610d;">... you can only <em>move</em> and <em>rotate</em></span>
+But ... you can only **move** and **rotate**.
 
 So we've added some very special cells to help you, such as trampolines that periodically shoot the teddy bears, stores where you can buy pillows, and holes where you can throw away those prickly cacti that sometimes appear.
 
-A short couch coop chaos game for 1&ndash;4 players. A campaign with 27 levels. A warm hug, in video game form.
+A short couch coop chaos game for 1--4 players. A campaign with 27 levels. A warm hug, in video game form.
 
 ## Controls
 
 This game is playable ... 
-- On <span style="color:#b8341f;">Windows/Mac/Linux</span> with any combination of keyboard and controllers
-- On <span style="color:#b8341f;">Android</span>. Make sure multitouch is on and (media) gestures are off.
+- On **Windows/Mac/Linux** with any combination of keyboard and controllers
+- On **Android**, but perhaps ensure multitouch is on and (media) gestures are off.
 
 The full game only has two controls: move your character around and rotate it.
 

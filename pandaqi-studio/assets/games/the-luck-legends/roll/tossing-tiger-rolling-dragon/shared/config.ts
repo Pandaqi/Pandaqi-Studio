@@ -1,10 +1,45 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
-;
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            zooOfMoves:
+            {
+                type: SettingType.CHECK,
+                label: "Zoo of Moves",
+                remark: "A big expansion adding more animals."
+            },
+
+            fightTogether:
+            {
+                type: SettingType.CHECK,
+                label: "Fight Together",
+                remark: "A tiny expansion that allows playing in teams with simultaneous wars."
+            },
+
+            dawnDojo:
+            {
+                type: SettingType.CHECK,
+                label: "Dawndojo",
+                remark: "An expansion with risky Rooster cards that can upset an entire war before it even started."
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

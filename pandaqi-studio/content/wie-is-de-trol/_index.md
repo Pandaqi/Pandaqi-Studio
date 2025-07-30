@@ -32,16 +32,19 @@ Dit is een bordspelvariant op het programma _Wie is de Mol?_ De ervaring probeer
 Je speelt in combinatie met de computer (deze website). Daarop verschijnen de opdrachten en wordt elke ronde een echte test ingevuld.
 
 ### Doel?
+
 Eén speler wordt stiekem de _trol_. Hij wil zo min mogelijk geld binnenhalen.
 
 De rest zijn _kandidaten_. Die willen samen geld verdienen, maar kunnen alleen individueel winnen door de trol te ontmaskeren!
 
 ### Spelverloop?
+
 Men speelt in rondes (of "afleveringen"). Elke bestaat uit **drie opdrachten, een test, en de executie**
 
 Als je afvalt bij de test, blijf je in het spel, maar krijgt enkele handicaps.
 
 ### Opdrachten?
+
 Iedereen heeft kaarten vast. Elke opdracht maakt _op een of andere manier_ gebruik van deze kaarten om een uitdaging te creëren.
 
 De ene opdracht ben je aan het pokeren. De andere opdracht moet je in groepen elkaars code ontcijferen. En de volgende keer moet je samen 5 kaarten van dezelfde soort op tafel krijgen.
@@ -52,6 +55,7 @@ De ene opdracht ben je aan het pokeren. De andere opdracht moet je in groepen el
 ## Wat heb ik nodig?
 
 Klik de **"Download"**-knop hierboven.
+
 * **Files** bevat 3 bestanden: _hulpkaarten_ (jokers, vrijstellingen), _geldbriefjes_ en _speelkaarten_. Print deze uit en volg de instructies op de blaadjes.
 * **Rules** bevat de spelregels (met plaatjes en voorbeelden). Het basisspel is slechts de eerste 4 pagina's.
 
@@ -59,31 +63,7 @@ Het spel heeft **75+ unieke opdrachten**. Dus zelfs met het basisspel zal het no
 
 En als laatste natuurlijk: medespelers, gezelligheid, een bak chips, en een goede pokerface.
 
-
-## Speel het spel!
-
-Kies de gewenste instellingen hieronder en klik "Start spel!"
-
-Je hoeft het spel maar op één apparaat (computer, tablet, smartphone) te starten/
-
-Eenmaal begonnen kan je de pagina niet meer verlaten, want dan verlies je alle voortgang. (Het spel zal je ook tegenhouden.)
-	
-{{< boardgame-settings type="game" local_storage="wieIsDeTrolConfig" game_title="Wie is de Trol" >}}
-	{{< setting-playercount min="3" max="10" def="4" text="Hoeveel spelers?" >}}
-	{{< setting-enum id="setting-numRounds" text="Hoeveel rondes?" values="Automatisch,2,3,4,5,6,7,8" >}}
-	{{< setting-enum id="setting-numQuestions" text="Hoeveel vragen per test?" values="4,7,10" keys="1,2,3" def="10" remark="Verlaag het aantal rondes/vragen voor een korter spel. Eén ronde is doorgaans een half uur." >}}
-	{{< setting-checkbox id="setting-firstGame" text="Eerste potje(s)?" remark="De computer kiest alleen de makkelijkste opdrachten die helpen om het spel beter te begrijpen en simpel uit te leggen." >}}
-	{{< boardgame-settings-section heading="Uitbreidingen" >}}
-		{{< setting-checkbox id="setting-expansions-addertjes" text="Addertjes (onder het gras)?" >}}
-		{{< setting-checkbox id="setting-expansions-eigenschappen" text="Eigenschappen?" >}}
-		{{< setting-checkbox id="setting-expansions-bondjes" text="Bondjes?" >}}
-		{{< setting-checkbox id="setting-expansions-specialeKrachten" text="Speciale Krachten?" >}}
-		{{< setting-checkbox id="setting-expansions-fysiekeOpdrachten" text="Fysieke Opdrachten?" remark="(Deze uitbreiding is wat anders dan de rest en dus nog niet af.)" >}}
-  	{{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-<p style="opacity: 0.5; font-size: 12px;"><em>Opmerking:</em> het spel opent op een nieuwe pagina. Op sommige apparaten denkt hij daarom dat dit een pop-up is en blokkeert deze. Dat is het niet, ik zou nooit pop-ups laten zien.</p>
-
+Zodra je klaar bent, **[start je het spel](game)**! Je hoeft het spel maar op één apparaat (computer, tablet, smartphone) te starten. Eenmaal begonnen kan je de pagina niet meer verlaten, want dan verlies je alle voortgang. (Het spel zal je ook tegenhouden.)
 
 ## Eerste potje?
 

@@ -1,15 +1,12 @@
 ---
 type: "project"
 
-
 title: "Deceptidice"
 blurb: "Bank on riskier and riskier combinations appearing on the secret dice, or call your neighbor's bluff."
 
 weightProject: 35
 
 driveLink: "https://drive.google.com/drive/folders/11ELawc0hyiDkflmzuKTKb94sOzccwPXw"
-
-fontSizeBase: 17
 
 date: 2025-11-26
 
@@ -29,24 +26,7 @@ devlog: "/blog/boardgames/the-luck-legends/deceptidice/"
 ---
 
 
-
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="deceptidiceConfig" btn_label="Generate Material" game_title="Deceptidice" defaults="true">}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-wildCards" text="Wildcards?" remark="A tiny expansion that adds wildcards (that can be anything you want)." >}}
-    {{< setting-checkbox id="setting-sets-powerCards" text="Power Cards?" remark="An expansion that adds special powers, for more bluffing and wild reveals." >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
-
-The fonts used are **Brasspounder** (headings; multiple variations) and **Caslon Antique** (body text). Everything else is mine.
+## Background
 
 This idea spun off from an earlier Luck Legends game called _A Little White Die_. Both are based on the famous classic _Liar's Dice_. That other game is the most basic, simplest version of it. This game takes it into a more unique direction by combining bluffing and secret dice rolls with combinations that score higher and higher. Similar to poker hands, but simpler and more creative.
 
@@ -58,3 +38,6 @@ After playing 1 or 2 games, I highly recommend playing with some of the variants
 ALTERNATE NAMES: "Fortune Favors the Fire" (because alliteration and fire sounds like liar) or "Fortune Favors the Fibber" or "Fibber's Fortune" or "Truth & Dice" 
 --->
 
+## Credits
+
+The fonts used are **Brasspounder** (headings; multiple variations) and **Caslon Antique** (body text). Everything else is mine.

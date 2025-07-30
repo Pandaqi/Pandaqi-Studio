@@ -3,26 +3,15 @@ type: "project"
 draft: true
 
 title: "Bread & Plunder"
-blurb: "Bread & Plunder -- the adventure of space pirates using a bakery to cover up their crimes"
-
-
-googleFonts: "https://fonts.googleapis.com/css2?family=Acme&family=Rajdhani:wght@300;500;700&display=swap"
+blurb: "The adventure of space pirates using a bakery to cover up their crimes"
 
 date: 2021-04-29
 
-categories: ["board-game"]
-tags: [""]
-
-meta: 
-  - name: ages
-    val: everyone
-  - name: complexity
-    val: medium
-  - name: playtime
-    val: 45 minutes
 ---
 
 <!--
+FINAL CHOSEN FONTS => googleFonts: "https://fonts.googleapis.com/css2?family=Acme&family=Rajdhani:wght@300;500;700&display=swap"
+
 FONTS? 
 Teko (space-like): https://fonts.google.com/specimen/Teko
 Sniglet (cartoony, thick): https://fonts.google.com/specimen/Sniglet

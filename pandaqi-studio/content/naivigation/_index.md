@@ -32,11 +32,13 @@ In other words, want to try it? We recommend ...
 * Do the same for [Naivigation: Swerving Spaceships](/naivigation/visit/swerving-spaceships/), and read its short rulebook.
 * Print, cut, have fun!
 
-## Journey through the Universe
+## Journey Through The Universe
+
+### Major Games
 
 Below is a list of all major games, roughly sorted by difficulty. These really represent the core of the Naivigation experience and will be consistent fun for any group. You will be steering a commonly known vehicle.
 
-{{< collection-list subdir="visit" >}}
+{{< navigation/collection-list subdir="visit" >}}
 
 <!---
 * Swerving Spaceships (Space) weightProject = 10
@@ -46,44 +48,32 @@ Below is a list of all major games, roughly sorted by difficulty. These really r
 * Troublesome Trains (Train) weightProject = 50
 --->
 
+You can [read the shared rules](rules), though they are repeated within the rulebook of each specific game. (On their own, they're not a full game!)
+
+You can [generate your own material](#material) right on this website. (If the PDFs at the "Download" button don't suit your needs, or you're just curious!)
+
+### Minor Games
+
 Below is a list of smaller or more unique vehicles, roughly sorted by difficulty. These are a bit more unique or experimental, presenting a wider spread of play. Some are even simpler and shorter than the major games, some are harder and take longer to play.
 
-{{< collection-list subdir="swing-by" >}}
+{{< navigation/collection-list subdir="swing-by" >}}
 
 <!---
 * Suspicious Submarines (Submarine) weightProject = 10
 * ??
 --->
 
+### Specials
+
 Below is a list of _very_ special vehicles. These are merely _inspired_ by _parts_ of the Naivigation core. They are therefore best considered as standalone spin-offs.
 
-{{< collection-list subdir="wind-up-at" >}}
-
-You can [read the shared rules](rules), though they are repeated within the rulebook of each specific game. (On their own, they're not a full game!)
-
-You can [generate your own material](#material) right on this website. (If the PDFs at the "Download" button don't suit your needs, or you're just curious!)
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="naivigationConfig" btn_label="Generate Material" game_title="Naivigation" defaults="true">}}
-  {{< boardgame-settings-section heading="Core Set" >}}
-    {{< setting-checkbox id="setting-sets-instructionTokens" text="Include Instruction Tokens?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-vehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-healthCards" text="Include Health Cards?" checked="checked" >}}
-  {{< /boardgame-settings-section >}}
-  {{< boardgame-settings-section heading="Expansion Sets" >}}
-    {{< setting-checkbox id="setting-sets-actionCards" text="Include Action Cards?" >}}
-    {{< setting-checkbox id="setting-sets-timeCards" text="Include Time Deck?" >}}
-    {{< setting-checkbox id="setting-sets-GPSCards" text="Include GPS Cards?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
+{{< navigation/collection-list subdir="wind-up-at" >}}
 
 ## Credits
 
 The fonts used are **Ambery Gardens** (headings, decorative text) and **K2D** (body, longer paragraphs). Both are freely available online. Some generative AI was used for complex illustrations, everything else is entirely mine.
+
+## Background
 
 This project started a long time ago, when I had the well-known experience of "multiple people sit in a car shouting directions, but nobody really knows where to go next".
 
@@ -98,4 +88,3 @@ Now the world can enjoy the final result :)
 I honestly think these are my masterpiece so far. The games aren't extremely "deep" or "ground-breaking" or "innovative", surely not. But the amount of _fun_ and _(diverse) challenge_ you get out of extremely simple rules and material is unmatched. 
 
 I mostly make games for families and casual groups. These games are cooperative, mostly textless, simple, fast, intuitive, thematic, cheap to print/cut yourself, varied, anything I'd want games to be.
-

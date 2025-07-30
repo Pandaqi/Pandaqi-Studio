@@ -2,12 +2,29 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        includeLifeCards:
+        {
+            type: SettingType.CHECK,
+            label: "Generate Life Cards",
+            default: true
+        },
+
+        includeNumberCards:
+        {
+            type: SettingType.CHECK,
+            label: "Generate Number Cards",
+            default: true
+        },
+    },
+
     debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "nineLivesMathMeowsConfig",
-    fileName: "Nine Lives - Math Meows",
+    fileName: "Nine Lives: Math Meows",
     resLoader: null,
 
     // set through user config on page

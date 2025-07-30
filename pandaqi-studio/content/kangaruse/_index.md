@@ -1,7 +1,6 @@
 ---
 type: "project"
 
-
 title: "Kangaruse"
 blurb: "Jumping has never been so tactical and treacherous. Hop along the smartest route to collect the most points before your opponents stamped the whole brushland to dust."
 # blurb: "Hop along the smartest route to collect points and powers---before your opponents blocked all your desired jumps."
@@ -31,7 +30,7 @@ media: [page/kangaruse_playtest_paper]
 <!--- HEADING 1 --->
 {{< figure src="page/page_heading_1" >}}
 
-[Generate](#board) a paper below. Or click the "Download" button to find a PDF I already generated for you.
+Click the "Download" button to find a PDF I already generated for you. You can pick any single one.
 
 Print and play!
 
@@ -40,16 +39,7 @@ If you didn't add rules on the paper itself---or just want more clarification---
 <!--- HEADING 2 --->
 {{< figure src="page/page_heading_2" >}}
 
-Input your desired settings and click "generate".
-
-{{< boardgame-settings type="board" local_storage="kangaruseConfig" game_title="Kangaruse" defaults="true" >}}
-  {{< setting-enum id="setting-sideBarType" text="Side Bar?" values="No,Rules,Score" valaskey="true" remark="Add the rules or a score tracker on the paper itself?" def="Rules" >}}
-  {{< setting-checkbox id="setting-startingPositions" text="Starting Positions?" remark="Marks a few squares as possible starting positions." >}}
-  {{< setting-enum id="setting-boardSize" text="Board Size?" values="Tiny,Small,Regular,Large,Huge" valaskey="true" remark="For a really short or really long game." def="Regular" >}}
-  {{< setting-checkbox id="setting-simplifiedIcons" text="Simplified Icons?" remark="Uses simple icons for all types, instead of realistic illustrations." >}}
-{{< /boardgame-settings >}}
-
-<p class="settings-remark"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
+You can also [generate boards](board) on this website. This allows you to customize it to your liking. And, in the rare case you've played through _all_ existing boards, to get new ones to play with!
 
 <!--- HEADING 3 --->
 {{< figure src="page/page_heading_3" >}}

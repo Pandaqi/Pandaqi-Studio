@@ -5,6 +5,19 @@ import allEvents from "./dict"
 const eventList : Event[] = [];
 var eventNum = -1;
 
+// @TODO: Load settings and actually use this
+const SETTINGS =
+{
+	playerCount:
+	{
+		type: SettingType.NUMBER,
+		min: 2,
+		max: 7,
+		default: 4,
+		label: "Player Count"
+	}
+}
+
 // when the event button is clicked ...
 const eventButton = document.getElementById('eventButton');
 const displayNode = document.getElementById('curEventDisplay');

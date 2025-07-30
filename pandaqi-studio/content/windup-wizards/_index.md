@@ -26,11 +26,9 @@ playercount: [1]
 input: ["controller", "keyboard", "touch"]
 devlog: "/blog/videogames/game-jams/devlog-windup-wizards/"
 
-media: [screenshot1,screenshot2,screenshot3,screenshot4,screenshot5,screenshot6,screenshot7,screenshot8,screenshot9,screenshot10, windup-wizards-header-itch]
+media: [https://www.youtube.com/embed/WMB_kvQn-og, screenshot1,screenshot2,screenshot3,screenshot4,screenshot5,screenshot6,screenshot7,screenshot8,screenshot9,screenshot10, windup-wizards-header-itch]
 
 ---
-
-{{% embed-video src="https://www.youtube.com/embed/WMB_kvQn-og" %}}
 
 Odd creatures have sabotaged our electricity cables, leading to a blackout! Without energy, how will we defend ourselves? No longer able to look at screens all day, the humans put out a desperate cry for help.  
 
@@ -74,5 +72,3 @@ This game was made for the GoGodot Jam 2. The theme was **Energy Source**, which
 It's designed using Godot (surprising, I know). Everything is custom made by me (idea, code, models, sound, ...)
 
 I've written a devlog about the whole process: [Windup Wizards (devlog)](/blog/videogames/game-jams/devlog-windup-wizards)
-
-

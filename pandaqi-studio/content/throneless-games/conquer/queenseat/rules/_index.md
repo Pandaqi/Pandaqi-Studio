@@ -71,62 +71,62 @@ The cards **explain themselves**, but the overview below contains clarifications
 
 Whenever you **receive cards** for an action, you may _choose_ whether to make them public or secret. (Unless the action explicitly states what to do, of course.)
 
-{{% rules-block heading="Stinger's Hive" icon="pack-queenseat-stingersHive" %}}
+### Stinger's Hive
 
 <div class="prince-info" data-prince="stingersHive"></div>
 
 
-{{% rules-block heading="Galloping Sun" icon="pack-queenseat-gallopingSun" %}}
+### Galloping Sun
 
 <div class="prince-info" data-prince="gallopingSun"></div>
 
 
-{{% rules-block heading="Trunktrumpets" icon="pack-queenseat-trunktrumpets" %}}
+### Trunktrumpets
 
 <div class="prince-info" data-prince="trunktrumpets"></div>
 
 
-{{% rules-block heading="Featherdancer" icon="pack-queenseat-featherdancer" %}}
+### Featherdancer
 
 <div class="prince-info" data-prince="featherdancer"></div>
 
 
-{{% rules-block heading="Whistley Wine" icon="pack-queenseat-whistleyWine" %}}
+### Whistley Wine
 
 <div class="prince-info" data-prince="whistleyWine"></div>
 
 
-{{% rules-block heading="Edibus Eggsnatcher" icon="pack-queenseat-edibusEggsnatcher" %}}
+### Edibus Eggsnatcher
 
 <div class="prince-info" data-prince="edibusEggsnatcher"></div>
 
 
-{{% rules-block heading="Feared Flame" icon="pack-queenseat-fearedFlame" %}}
+### Feared Flame
 
 <div class="prince-info" data-prince="fearedFlame"></div>
 
 
-{{% rules-block heading="Eyrie Feyle" icon="pack-queenseat-eyrieFeyle" %}}
+### Eyrie Feyle
 
 <div class="prince-info" data-prince="eyrieFeyle"></div>
 
 
-{{% rules-block heading="Chattered Fins" icon="pack-queenseat-chatteredFins" %}}
+### Chattered Fins
 
 <div class="prince-info" data-prince="chatteredFins"></div>
 
 
-{{% rules-block heading="Galaksea" icon="pack-queenseat-galaksea" %}}
+### Galaksea
 
 <div class="prince-info" data-prince="galaksea"></div>
 
 
-{{% rules-block heading="Venomfruit" icon="pack-queenseat-venomfruit" %}}
+### Venomfruit
 
 <div class="prince-info" data-prince="venomfruit"></div>
 
 
-{{% rules-block heading="Colorcoats" icon="pack-queenseat-colorcoats" %}}
+### Colorcoats
 
 <div class="prince-info" data-prince="colorcoats"></div>
 

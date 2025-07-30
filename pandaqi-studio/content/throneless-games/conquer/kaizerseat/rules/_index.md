@@ -81,62 +81,62 @@ There are 5 possible actions that can appear
 * **When won:** triggers when the card is part of the winning votes.
 * **When hired**: these cards are placed permanently before you (faceup), granting a recurring special power the rest of the game. (Remember that this only happens if you did _not_ win the round, otherwise the card just goes away into the Tell.)
 
-{{% rules-block heading="Solongnecks" icon="pack-kaizerseat-solongnecks" %}}
+### Solongnecks
 
 <div class="prince-info" data-prince="solongnecks"></div>
 
 
-{{% rules-block heading="Boardom Thieves" icon="pack-kaizerseat-boardomThieves" %}}
+### Boardom Thieves
 
 <div class="prince-info" data-prince="boardomThieves"></div>
 
 
-{{% rules-block heading="Longsword Fins" icon="pack-kaizerseat-longswordFins" %}}
+### Longsword Fins
 
 <div class="prince-info" data-prince="longswordFins"></div>
 
 
-{{% rules-block heading="Atheneyes" icon="pack-kaizerseat-atheneyes" %}}
+### Atheneyes
 
 <div class="prince-info" data-prince="atheneyes"></div>
 
 
-{{% rules-block heading="Gallopeers" icon="pack-kaizerseat-gallopeers" %}}
+### Gallopeers
 
 <div class="prince-info" data-prince="gallopeers"></div>
 
 
-{{% rules-block heading="Candlesticks" icon="pack-kaizerseat-candlesticks" %}}
+### Candlesticks
 
 <div class="prince-info" data-prince="candlesticks"></div>
 
 
-{{% rules-block heading="Taredtula" icon="pack-kaizerseat-taredtula" %}}
+### Taredtula
 
 <div class="prince-info" data-prince="taredtula"></div>
 
 
-{{% rules-block heading="Sonar & Sons" icon="pack-kaizerseat-sonarAndSons" %}}
+### Sonar & Sons
 
 <div class="prince-info" data-prince="sonarAndSons"></div>
 
 
-{{% rules-block heading="Sirens of Seatongue" icon="pack-kaizerseat-sirensOfSeatongue" %}}
+### Sirens of Seatongue
 
 <div class="prince-info" data-prince="sirensOfSeatongue"></div>
 
 
-{{% rules-block heading="Cracktapus" icon="pack-kaizerseat-cracktapus" %}}
+### Cracktapus
 
 <div class="prince-info" data-prince="cracktapus"></div>
 
 
-{{% rules-block heading="Ravenletters" icon="pack-kaizerseat-ravenletters" %}}
+### Ravenletters
 
 <div class="prince-info" data-prince="ravenletters"></div>
 
 
-{{% rules-block heading="Twistertoots" icon="pack-kaizerseat-twistertoots" %}}
+### Twistertoots
 
 <div class="prince-info" data-prince="twistertoots"></div>
 

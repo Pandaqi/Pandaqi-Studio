@@ -28,11 +28,9 @@ playtime: 20
 playercount: [1,2]
 input: ["keyboard"]
 
-media: [tof_ss1,tof_ss2,tof_ss3,tof_ss4,tof_ss5,tof_ss6,tof_ss7]
+media: [https://www.youtube.com/embed/rRJRZrNZp1E, tof_ss1,tof_ss2,tof_ss3,tof_ss4,tof_ss5,tof_ss6,tof_ss7]
 
 ---
-
-{{% embed-video src="https://www.youtube.com/embed/rRJRZrNZp1E" %}}
 
 Grab the right tools and resources, and build your tower to the portal!
 

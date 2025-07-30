@@ -28,13 +28,9 @@ playercount: [1,2]
 input: ["keyboard", "touch"]
 source: https://github.com/Pandaqi/Into-My-Arms
 
-media: [ima_1,ima_2,ima_3,ima_4,ima_5,ima_6,ima_7, video/intomyarms_video]
+media: [https://www.youtube.com/embed/L3HQCfPT7n8, ima_1,ima_2,ima_3,ima_4,ima_5,ima_6,ima_7, video/intomyarms_video]
 
 ---
-
-{{% embed-video src="https://www.youtube.com/embed/L3HQCfPT7n8" %}}
-
-{{% double-view media="video/intomyarms_video" video="true" class="limit-width reversed" %}}
 
 Once upon a time, a witch gave two lovers a terrible curse: **they were never allowed to see each other again!**
 
@@ -45,8 +41,6 @@ But how, if they may never look at each other?
 Well, by making **a leap of faith**.
 
 The only way to pass each stage, is by falling backwards from a great height. Falling into your lover's arms ... that's how love will bloom tonight.
-
-{{% /double-view %}}
 
 ## Co-op Puzzling
 

@@ -1,7 +1,33 @@
 import Point from "js/pq_games/tools/geometry/point";
 
 const CONFIG =
-{
+{   
+    _settings:
+    {
+        includeRules:
+        {
+            type: SettingType.CHECK,
+            label: "Include Rules",
+            default: true,
+            remark: "Only turn off if you're familiar with all the rules."
+        },
+
+        difficulty:
+        {
+            type: SettingType.ENUM,
+            values: ["easy", "medium", "hard"],
+            default: "easy",
+            remark: "Higher difficulties fill more of the board and use more complicated powerups."
+        },
+
+        noRotation:
+        {
+            type: SettingType.CHECK,
+            label: "Rotate Icons Identically",
+            remark: "Normally, icons rotate towards the player to whom they belong." 
+        }
+    },
+
     typeDict: {}, // to be filled by type sustem; ugly method, saw no better way when converting to TypeScript
     difficulty: "easy",
     includeRules: true,

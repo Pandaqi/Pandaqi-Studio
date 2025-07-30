@@ -4,6 +4,48 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 export default 
 {
+    _settings:
+    {
+        multiType: 
+        {
+            type: SettingType.CHECK,
+            label: "An expansion: some icons will become two types at once."
+        },
+
+        elements:
+        {
+            type: SettingType.GROUP,
+
+            red:
+            {
+                type: SettingType.ENUM,
+                values: ["fire", "electric", "star", "dragon"],
+                default: ["fire"]
+            },
+
+            blue:
+            {
+                type: SettingType.ENUM,
+                values: ["water", "ice", "poison", "weather"],
+                default: ["water"]
+            },
+
+            green:
+            {
+                type: SettingType.ENUM,
+                values: ["earth", "grass", "rock", "bug"],
+                default: ["earth"]
+            },
+
+            purple:
+            {
+                type: SettingType.ENUM,
+                values: ["air", "magic", "ghost", "dark"],
+                default: ["air"]
+            },
+        }
+    },
+
     debugWithoutPDF: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugRandomizeTypes: false, // @DEBUGGING (should be false)

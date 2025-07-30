@@ -1,6 +1,151 @@
 import Point from "js/pq_games/tools/geometry/point";
 
-const CONFIG = {
+const CONFIG = 
+{
+    _settings:
+    {
+        randomizePacks:
+        {
+            type: SettingType.CHECK,
+            label: "Randomize Packs",
+            remark: "Ignores the settings below and just selects random packs."
+        },
+
+        packs:
+        {
+            type: SettingType.GROUP,
+
+            blank:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 3,
+                label: "Blank",
+                remark: "These are cards with no special ability. See the rules."
+            },
+
+            reverse:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 2,
+                label: "Reverse",
+            },
+
+            takeback:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 1,
+                label: "Takeback",
+            },
+
+            seethrough:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Seethrough",
+            },
+
+            lateArrival:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Late Arrival",
+            },
+
+            sheriff:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Sheriff",
+            },
+
+            veto:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Veto",
+            },
+
+            noSuperheroes:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "No Superheroes",
+            },
+
+            superNumbers:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Super Numbers",
+            },
+
+            bitingHand:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Biting Hand",
+            },
+
+            sticky:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Sticky",
+            },
+
+            secondHand:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Second Hand",
+            },
+
+            carousel:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Carousel",
+            },
+
+            pileDriver:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Pile Driver",
+            },
+
+            copycat:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Copycat",
+            },
+
+            calculator:
+            {
+                type: SettingType.ENUM,
+                values: [0,1,2,3,4,5,6],
+                default: 0,
+                label: "Calculator",
+            },
+        }
+    },
+
     debugWithoutPDF: false, // @DEBUGGING (should be false)
     
     itemSize: "regular",

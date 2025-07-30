@@ -1,10 +1,38 @@
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
-;
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            wildCards:
+            {
+                type: SettingType.CHECK,
+                label: "Wildcards",
+                remark: "A tiny expansion that adds wildcard numbers."
+            },
+
+            powerCards:
+            {
+                type: SettingType.CHECK,
+                label: "Power Cards",
+                remark: "An expansion that adds special powers, for more bluffing and wild reveals."
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

@@ -29,11 +29,9 @@ input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/devlog-windowsilk/"
 source: https://github.com/Pandaqi/Windowsilk
 
-media: [ws_sc_1,ws_sc_2,ws_sc_3,ws_sc_4,ws_sc_5,ws_sc_6,ws_sc_7,ws_sc_8, windowsilk-header-narrow]
+media: [https://www.youtube.com/embed/AUpIi8ksarQ, ws_sc_1,ws_sc_2,ws_sc_3,ws_sc_4,ws_sc_5,ws_sc_6,ws_sc_7,ws_sc_8, windowsilk-header-narrow]
 
 ---
-
-{{% embed-video src="https://www.youtube.com/embed/AUpIi8ksarQ" %}}
 
 **A game for 1-6 players about eating … or being eaten.** Run over the spider web to trap bugs. Jump at the right moments to create new lines or catch flying bugs mid-air.  Avoid bigger and meaner bugs trying to steal your thunder (and your precious points).
 

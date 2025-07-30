@@ -1,10 +1,38 @@
 import Point from "js/pq_games/tools/geometry/point"
 import { ContractType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
-;
 
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            lostSouls:
+            {
+                type: SettingType.CHECK,
+                label: "Lost Souls",
+                remark: "An expansion with more special contracts."
+            },
+
+            devilishNumbers:
+            {
+                type: SettingType.CHECK,
+                label: "Devilish Numbers",
+                remark: "An expansion with more wacky numbers and strong powers."
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

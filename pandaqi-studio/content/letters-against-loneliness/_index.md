@@ -25,11 +25,9 @@ playtime: 5
 playercount: [1]
 input: ["mouse", "touch"]
 
-media: [video/intro_sequence, screenshot1,screenshot2,screenshot3,screenshot4,screenshot5,screenshot6,screenshot7,screenshot8]
+media: [https://www.youtube.com/embed/RFmb-sz5Ox0, video/intro_sequence, screenshot1,screenshot2,screenshot3,screenshot4,screenshot5,screenshot6,screenshot7,screenshot8]
 
 ---
-
-{{% embed-video src="https://www.youtube.com/embed/RFmb-sz5Ox0" %}}
 
 Internet has disappeared. But the human need to socialize and relate has not.
 

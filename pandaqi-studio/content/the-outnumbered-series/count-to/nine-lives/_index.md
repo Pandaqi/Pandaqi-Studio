@@ -1,7 +1,6 @@
 ---
 type: "project"
 
-
 title: "Nine Lives"
 blurb: "As we all know, cats start with nine lives. And as we all know, playing the wrong cards makes you lose a life ... unless you're willing to bet on it."
 # blurb: "A simple and fast card game about losing your nine lives less quickly than all the other players."
@@ -9,7 +8,6 @@ blurbProject: "You're a cat with 9 lives. But blowing up a round with the wrong 
 weightProject: 90
 
 driveLink: "https://drive.google.com/drive/folders/1WkqwCiMo_ggHSkjPDfKS1fSDENgWjzoh"
-
 
 date: 2024-08-25
 
@@ -28,25 +26,7 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives/"
 
 ---
 
-<div class="bg-cats"></div>
-
-
-
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="nineLivesConfig" btn_label="Generate Material" game_title="Nine Lives" defaults="true" >}}
-  {{< setting-checkbox id="setting-includeLifeCards" text="Generate Life Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeCatCards" text="Generate Cat Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-limitedPowers" text="Limited Powers?" checked="checked" remark="Only includes a handful of unique powers, to make playing your first game even easier." >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
-
-The fonts used are **Puss in Boots** (headings, fancy text) and **Catcafe** (body text, readable). Both freely available online. Parts of the illustrations were generated with AI. Everything else is mine.
+## Background
 
 This game has two spin-offs!
 
@@ -63,3 +43,6 @@ Do you have a favorite version of Nine Lives? Let me know which one and why!
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/the-outnumbered-series/nine-lives/).
 
+## Credits
+
+The fonts used are **Puss in Boots** (headings, fancy text) and **Catcafe** (body text, readable). Both freely available online. Parts of the illustrations were generated with AI. Everything else is mine.

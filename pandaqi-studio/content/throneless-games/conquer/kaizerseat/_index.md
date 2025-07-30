@@ -27,31 +27,6 @@ ages: everyone
 
 When generating your own material, check the rules to see **how many Seekers ("packs")** are recommended for each player count. Each choice adds ~1 page to print.
 
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" btn_label="Create Material" local_storage="kaizerseatConfig" game_title="Kaizerseat" defaults="true" >}}
-  {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
-  {{< setting-checkbox id="setting-generateThroneCards" text="Generate Thronecards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-generateSeatCards" text="Generate Seatcards?" checked="checked" >}}
-  {{< setting-enum id="setting-set" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princes below!" >}}
-  {{< boardgame-settings-section heading="Seekers" >}}
-    {{< setting-checkbox id="setting-packs-solongNecks" text="Solongnecks?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-boardomThieves" text="Boardom Thieves?" >}}
-    {{< setting-checkbox id="setting-packs-longswordFins" text="Longsword Fins?" >}}
-    {{< setting-checkbox id="setting-packs-atheneyes" text="Atheneyes?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-gallopeers" text="Gallopeers?" >}}
-    {{< setting-checkbox id="setting-packs-candlesticks" text="Candlesticks?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-taredtula" text="Taredtula?" >}}
-    {{< setting-checkbox id="setting-packs-sonarAndSons" text="Sonar & Sons?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-sirensOfSeatongue" text="Sirens of Seatongue?" >}}
-    {{< setting-checkbox id="setting-packs-cracktapus" text="Cracktapus?" >}}
-    {{< setting-checkbox id="setting-packs-ravenletters" text="Ravenletters?" >}}
-    {{< setting-checkbox id="setting-packs-twistertoots" text="Twistertoots?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
 ## Background
 
 Whenever I create a game, the idea always starts on a sort of middle ground and I usually try to _simplify, simplify, simplify_. I chuck out rules, I discard special actions that sound really cool but take 20 extra words to explain, etcetera.

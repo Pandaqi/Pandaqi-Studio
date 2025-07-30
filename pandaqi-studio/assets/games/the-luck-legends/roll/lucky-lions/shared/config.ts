@@ -4,9 +4,37 @@ import CVal from "js/pq_games/tools/generation/cval"
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 
-
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            busyZoo:
+            {
+                type: SettingType.CHECK,
+                label: "Busy Zoo",
+                remark: "A small expansion that adds special zoo cards."
+            },
+
+            wildAnimals:
+            {
+                type: SettingType.CHECK,
+                label: "Wild Animals",
+                remark: "An expansion that adds special animal powers."
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

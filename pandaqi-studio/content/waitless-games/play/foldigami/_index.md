@@ -26,23 +26,13 @@ devlog: "/blog/boardgames/waitless-games/foldigami/"
 
 ## What Do I Need?
 
-Generate a paper below. Print and play!
+Click the "Download" button and pick one of the PDFs I already generated for you. Print and play!
 
-Or click the "Download" button to print one of the PDFs I already generated for you.
+Rules are explained on the board itself.
 
-## Board
+You can also [generate random boards](board) with custom settings.
 
-Input your desired settings and click "generate".
-
-The boards are designed to print and play immediately. If your printer adds margins ( = white space) around the board, and you don't know how to turn that off, you'll have to _cut off_ those margins before playing. (All squares must be, well, exactly square to allow folding nicely.)
-
-{{< boardgame-settings type="board" local_storage="foldigamiConfig" game_title="Foldigami" defaults="true" >}}
-  {{< setting-checkbox id="setting-includeRules" text="Include Rules?" remark="Only turn off if you're familiar with all the rules." checked="checked" >}}
-  {{< setting-enum id="setting-difficulty" text="Difficulty?" values="Easy,Medium,Hard" valaskey="true" def="Easy" remark="Higher difficulties fill more of the board and use more complicated powerups." >}}
-  {{< setting-checkbox id="setting-noRotation" text="Rotate icons identically?" remark="Normally, icons rotate towards the player to whom they belong." >}}
-{{< /boardgame-settings >}}
-
-<p class="remark-under-settings"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
+**Remark:** The boards are designed to print and play immediately. If your printer adds margins ( = white space) around the board, and you don't know how to turn that off, you'll have to _cut off_ those margins before playing. (All squares must be, well, exactly square to allow folding nicely.)
 
 ## Clarifications
 
@@ -52,7 +42,7 @@ Below, however, is a list of clarifications in case you're uncertain.
 
 ### Setup
 
-* The team with the _fewest_ points (at the start) is usually the best team to start. It often, however, doesn't matter.
+* The team with the _fewest_ points (at the start) is usually the best team to start. It usually, however, doesn't matter.
 * The game assumes the two players sit opposite each other. (As the placement of team icons reinforces.)
 * You can replay the same paper 5--10 times, as long as the first move is different.
 

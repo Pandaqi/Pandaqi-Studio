@@ -88,62 +88,62 @@ It's recommended to **not** include two Animals of **similar color** in the same
 
 The cards **explain themselves**, but the overview below contains clarifications or extra details.
 
-{{% rules-block heading="Karate Chicks" icon="pack-smallseat-karateChicks" %}}
+### Karate Chicks
 
 <div class="prince-info" data-prince="karateChicks"></div>
 
 
-{{% rules-block heading="Pricklypettes" icon="pack-smallseat-pricklypettes" %}}
+### Pricklypettes
 
 <div class="prince-info" data-prince="pricklypettes"></div>
 
 
-{{% rules-block heading="Sleepersippies" icon="pack-smallseat-sleepersippies" %}}
+### Sleepersippies
 
 <div class="prince-info" data-prince="sleepersippies"></div>
 
 
-{{% rules-block heading="Chewy Carrots" icon="pack-smallseat-chewyCarrots" %}}
+### Chewy Carrots
 
 <div class="prince-info" data-prince="chewyCarrots"></div>
 
 
-{{% rules-block heading="Tree of Hainut" icon="pack-smallseat-treeOfHainut" %}}
+### Tree of Hainut
 
 <div class="prince-info" data-prince="treeOfHainut"></div>
 
 
-{{% rules-block heading="Curlysnouts" icon="pack-smallseat-curlysnouts" %}}
+### Curlysnouts
 
 <div class="prince-info" data-prince="curlysnouts"></div>
 
 
-{{% rules-block heading="Tinybears" icon="pack-smallseat-tinybears" %}}
+### Tinybears
 
 <div class="prince-info" data-prince="tinybears"></div>
 
 
-{{% rules-block heading="Purplepaws" icon="pack-smallseat-purplepaws" %}}
+### Purplepaws
 
 <div class="prince-info" data-prince="purplepaws"></div>
 
 
-{{% rules-block heading="Ottermother" icon="pack-smallseat-ottermother" %}}
+### Ottermother
 
 <div class="prince-info" data-prince="ottermother"></div>
 
 
-{{% rules-block heading="Sealalater" icon="pack-smallseat-sealalater" %}}
+### Sealalater
 
 <div class="prince-info" data-prince="sealalater"></div>
 
 
-{{% rules-block heading="Snufflesniff" icon="pack-smallseat-snufflesniff" %}}
+### Snufflesniff
 
 <div class="prince-info" data-prince="snufflesniff"></div>
 
 
-{{% rules-block heading="Ponytailors" icon="pack-smallseat-ponytailors" %}}
+### Ponytailors
 
 <div class="prince-info" data-prince="ponytailors"></div>
 

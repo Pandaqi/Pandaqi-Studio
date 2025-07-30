@@ -2,6 +2,25 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        includePowers:
+        {
+            type: SettingType.CHECK,
+            label: "Include Powers",
+            default: true,
+            label: "Remove them if you're sure you never want to play with them."
+        },
+
+        suits:
+        {
+            type: SettingType.MULTI,
+            values: ["hearts", "spades", "diamonds", "clubs", "hourglasses", "cups", "stars", "cats", "crowns"],
+            default: ["hearts", "spades", "diamonds", "clubs"],
+            label: "Suits",
+        },
+    },
+
     debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)

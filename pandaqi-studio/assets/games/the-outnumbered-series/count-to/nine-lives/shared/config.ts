@@ -2,6 +2,31 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
+    _settings:
+    {
+        includeLifeCards:
+        {
+            type: SettingType.CHECK,
+            label: "Generate Life Cards",
+            default: true
+        },
+
+        includeCatCards:
+        {
+            type: SettingType.CHECK,
+            label: "Generate Cat Cards",
+            default: true
+        },
+
+        limitedPowers:
+        {
+            type: SettingType.CHECK,
+            label: "Limited Powers",
+            default: true,
+            remark: "Only includes a handful of unique powers, to make playing your first game even easier."
+        },
+    },
+
     debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)

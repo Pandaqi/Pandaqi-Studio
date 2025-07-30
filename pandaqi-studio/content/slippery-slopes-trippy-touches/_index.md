@@ -12,8 +12,6 @@ categories: ["game", "spin-off"]
 tags: ["social", "guessing", "sorting", "language", "creative", "limited-communication"]
 themes: ["retro", "colorful"]
 
-customJS: ["external"]
-
 multiplayermode: "cooperative"
 language: EN
 playtime: 20
@@ -23,25 +21,9 @@ devlog: "/blog/boardgames/slippery-slopes/"
 
 ---
 
-<p style="font-size: 1.5em; line-height: 1.35em; text-align: center;">How would you communicate the word <strong>"<span id="random-slippery-word">...</span>"</strong> using only the four sliders below?</p>
+How would you communicate the word "house"? And how would you do it if you only had scales like cold->hot and soft->hard?
 
-<div class="slippery-slopes-interactive-widget" data-wordnodeid="random-slippery-word" data-reloadbtnid="slippery-reload-button"></div>
-
-<p style="font-size: 0.75em; opacity: 0.75; text-align: center; margin-top: 0;">(Use your mouse/finger to move them!)</p>
-
-Congratulations, you've just learned how to play this quick party game! Use the section below to start an official game on your phone. Or <a href="" id="slippery-reload-button">refresh this example</a> as much as you like.
-
-## Game
-
-Input your settings, click the button. The game opens in a new page and explains itself as you go!
-
-{{< boardgame-settings type="game" local_storage="slipperySlopesTrippyTouchesConfig" game_title="Slippery Slopes: Trippy Touches" >}}
-  {{< setting-enum id="setting-maxTurns" text="How many rounds?" values="5,10,15,20,25" valaskey="true" def="10" >}}
-  {{< boardgame-settings-section heading="Word Settings" >}}
-    {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
-    {{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
+This is the _digital_ version of the party game Slippery Slopes, so you don't need to print anything and can play by simply [opening the game](game) on any device.
 
 ## Background
 

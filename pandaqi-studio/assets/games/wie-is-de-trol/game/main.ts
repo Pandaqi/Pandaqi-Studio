@@ -1336,18 +1336,18 @@ function readConfiguration() {
 	if(gameConfig == null || gameConfig == undefined) {
 		gameConfig = 
 			{
-				'playerCount': 3,
-				'numRounds': 'Automatisch',
-				'numQuestions': 3,
-				'firstGame': false,
-				'expansions': 
-					{
-						'addertjes': false,
-						'eigenschappen': false,
-						'bondjes': false,
-						'specialeKrachten': false,
-						'fysiekeOpdrachten': false,
-					}
+				playerCount: 3,
+				numRounds: 'Automatisch',
+				numQuestions: 3,
+				firstGame: false,
+				expansions: 
+				{
+					addertjes: false,
+					eigenschappen: false,
+					bondjes: false,
+					specialeKrachten: false,
+					fysiekeOpdrachten: false,
+				}
 			}
 	}
 
@@ -1362,7 +1362,7 @@ function readConfiguration() {
 
 	numPlayers = parseInt(gameConfig.playerCount) || 3;
 	numTasksPerRound = 3;
-	numQuestionsPerTask = parseInt(gameConfig.numQuestions) || 3;
+	numQuestionsPerTask = Math.ceil((parseInt(gameConfig.numQuestions)-1)/numTasksPerRound) || 3;
 	firstGame = gameConfig.firstGame;
 
 	if(gameConfig.numRounds == 'Automatisch') {

@@ -24,28 +24,11 @@ ages: everyone
 devlog: "/blog/boardgames/waitless-games/finger-food/"
 ---
 
-## What do I need?
+Click the "Download" button and pick one of the PDFs I already generated for you. Print and play!
 
-Generate a paper. Print and play!
+Rules are explained on the board itself.
 
-Or click the "Download" button to print one of the PDFs I already generated for you.
-
-
-## Board
-
-Input your desired settings and click "generate". Rules are explained on the board itself.
-
-{{< boardgame-settings type="board" local_storage="fingerFoodConfig" game_title="Finger Food" defaults="true" >}}
-  {{< setting-checkbox id="setting-includeRules" text="Include Rules?" remark="Only turn off if you're familiar with all the rules." checked="checked" >}}
-  {{< boardgame-settings-section heading="Expansions" >}}
-    {{< setting-checkbox id="setting-expansions-machines" text="Mighty Machines?" remark="Adds squares with a special action when you pick them." >}}
-    {{< setting-checkbox id="setting-expansions-recipeBook" text="Recipe Book?" remark="Adds more ways to score by combining specific ingredients!" >}}
-    {{< setting-checkbox id="setting-expansions-money" text="Dining Dollars?" remark="Adds the element of money, causing longer and more tactical games." >}}
-    {{< setting-checkbox id="setting-expansions-fixedFingers" text="Fixed Fingers?" remark="Adds restrictions to which finger you're allowed to use for something." >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-<p class="remark-under-settings"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
+You can also [generate random boards](board) with custom settings.
 
 ## Clarifications
 
@@ -57,7 +40,7 @@ Boards are as balanced and pretty as I can make them (through random generation 
 
 To make sure we're all on the same page, here is an image of how a single hand might be placed and how to score it (at the end of the game.)
 
-{{% figure alt="Example of hand placement and scoring" url="page/rules_explanation" %}}
+{{% figure url="page/rules_explanation" alt="Example of hand placement and scoring" %}}
 
 At the end, you might want to take a picture (from above) or write down the fingers for each player on another paper. Especially if you have many players (4+), it can be tiring to keep your hand in a difficult position for a long time, or very hard to verify scores from your own perspective.
 

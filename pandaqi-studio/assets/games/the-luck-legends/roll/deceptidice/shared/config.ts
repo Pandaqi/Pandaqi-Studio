@@ -4,9 +4,37 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 import { SUITS } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
 
-
 const CONFIG:any = 
 {
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                default: true,
+                label: "Base Game"
+            },
+
+            wildCards:
+            {
+                type: SettingType.CHECK,
+                label: "Wildcards",
+                remark: "A tiny expansion that adds wildcards (that can be anything you want)."
+            },
+
+            powerCards:
+            {
+                type: SettingType.CHECK,
+                label: "Power Cards",
+                remark: "An expansion that adds special powers, for more bluffing and wild reveals."
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

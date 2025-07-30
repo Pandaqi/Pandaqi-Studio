@@ -32,11 +32,9 @@ playercount: [1,2,3,4,5,6]
 input: ["controller", "keyboard"]
 devlog: "/blog/videogames/one-week-games/devlog-rolling-in-the-sheepe/"
 
-media: [banner-itch, video/sheepe_video_1, video/sheepe_video_1_5, video/sheepe_video_2, video/sheepe_video_3, video/sheepe_video_4, video/sheepe_video_5, video/sheepe_video_6]
+media: [https://www.youtube.com/embed/OorjwESxxZ4, banner-itch, video/sheepe_video_1, video/sheepe_video_1_5, video/sheepe_video_2, video/sheepe_video_3, video/sheepe_video_4, video/sheepe_video_5, video/sheepe_video_6]
 
 ---
-
-{{% embed-video src="https://www.youtube.com/embed/OorjwESxxZ4" %}}
 
 The Sheepe are a simple folk. They are born with a random shape and one burning desire in their woolly heart: **cross the finish line before the others!**
 

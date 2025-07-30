@@ -26,11 +26,9 @@ playtime: 5
 playercount: [1,2,3,4]
 input: ["touch", "mouse"]
 
-media: [arthockey_1, arthockey_2, arthockey_3, arthockey_4, arthockey_5, arthockey_6, arthockey_7, arthockey_8]
+media: [https://www.youtube.com/embed/EnU19uRTz_M, arthockey_1, arthockey_2, arthockey_3, arthockey_4, arthockey_5, arthockey_6, arthockey_7, arthockey_8]
 
 ---
-
-{{% embed-video src="https://www.youtube.com/embed/EnU19uRTz_M" %}}
 
 Brush your friends aside and draw out their defenses in this creative game of air hockey ... with a twist.
 

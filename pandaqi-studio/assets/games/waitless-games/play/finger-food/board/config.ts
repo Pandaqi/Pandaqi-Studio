@@ -3,6 +3,48 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG =
 {
+    _settings:
+    {
+        includeRules:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Include Rules",
+            remark: "Only turn off if you're familiar with all the rules."
+        },
+
+        expansions:
+        {
+            machines:
+            {
+                type: SettingType.CHECK,
+                label: "Mighty Machines",
+                remark: "Adds squares with a special action when you pick them."
+            },
+
+            recipeBook:
+            {
+                type: SettingType.CHECK,
+                label: "Recipe Book",
+                remark: "Adds more ways to score by combining specific ingredients!"
+            },
+
+            money:
+            {
+                type: SettingType.CHECK,
+                label: "Dining Dollars",
+                remark: "Adds the element of money, causing longer and more tactical games."
+            },
+
+            fixedFingers:
+            {
+                type: SettingType.CHECK,
+                label: "Fixed Fingers",
+                remark: "Adds restrictions to which finger you're allowed to use for something."
+            }
+        }
+    },
+
     visualizer: null,
     configKey: "fingerFoodConfig",
     assetsBase: "/waitless-games/play/finger-food/assets/",

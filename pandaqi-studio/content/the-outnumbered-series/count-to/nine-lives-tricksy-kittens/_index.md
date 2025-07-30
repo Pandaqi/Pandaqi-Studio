@@ -27,18 +27,6 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives-tricksy-kittens/"
 
 As stated in the rules, you need 1 suit per player. Each suit is only 9 cards (1 page in regular size), so when unsure, just include all of them.
 
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="nineLivesTricksyKittensConfig" btn_label="Generate Material" game_title="Nine Lives: Tricksy Kittens" defaults="true" >}}
-  {{< setting-checkbox id="setting-includePowers" text="Include Powers?" checked="checked" remark="Remove them if you're sure you never want to play with them." >}}
-  {{< boardgame-settings-section heading="Suits" >}}
-    {{< setting-checkbox-multiple id="setting-suits" values="hearts,spades,diamonds,clubs,hourglasses,cups,stars,cats,crowns" values_checked="hearts,spades,diamonds,clubs" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
 ## Background
 
 This game is obviously a variant on the original game [Nine Lives](/the-outnumbered-series/nine-lives/).

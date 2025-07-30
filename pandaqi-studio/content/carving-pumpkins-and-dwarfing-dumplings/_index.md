@@ -32,11 +32,9 @@ playercount: [2,3,4,5,6,7,8]
 input: ["controller", "keyboard"]
 devlog: "/blog/videogames/one-week-games/devlog-carving-pumpkins-and-dwarfing-dumplings/"
 
-media: [carvingpumpkins_itchlogo.webp, video/01-TrainingRavine.webm, video/02-FamilyDinner.webm, video/03-JungleAndTown.webm, video/04-SwimmingPoolAndBlackouts.webm, video/05-ForestAndPirate.webm, video/06-HauntedHouse.webm, video/07-Menus.webm, video/08-GraveyardAndTown.webm, video/09-DinnerAndRavine.webm]
+media: [https://www.youtube.com/embed/4eBCYBOjo-0, carvingpumpkins_itchlogo.webp, video/01-TrainingRavine.webm, video/02-FamilyDinner.webm, video/03-JungleAndTown.webm, video/04-SwimmingPoolAndBlackouts.webm, video/05-ForestAndPirate.webm, video/06-HauntedHouse.webm, video/07-Menus.webm, video/08-GraveyardAndTown.webm, video/09-DinnerAndRavine.webm]
 
 ---
-
-{{% embed-video src="https://www.youtube.com/embed/4eBCYBOjo-0" %}}
 
 **A party game about slicing your friends into smaller and smaller pieces, or protecting a huge dumpling from meeting the same fate.**
 

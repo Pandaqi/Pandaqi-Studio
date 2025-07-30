@@ -23,11 +23,9 @@ playercount: [1,2,3,4,5,6,7,8,9,10]
 input: ["touch"]
 devlog: "/blog/videogames/the-peerful-project/pizza-peers/"
 
-media: [pizzapeers-logo, video/1_how_to_move, video/2_how_to_buy, video/3_how_to_deliver, video/4_how_to_combine, video/5_how_allergies_work, video/6_how_to_bake, video/7_how_to_take_orders, pizzapeers-logo-animated]
+media: [https://youtube.com/embed/6BKfPS9q3qI, pizzapeers-logo, video/1_how_to_move, video/2_how_to_buy, video/3_how_to_deliver, video/4_how_to_combine, video/5_how_allergies_work, video/6_how_to_bake, video/7_how_to_take_orders, pizzapeers-logo-animated]
 
 ---
-
-{{% embed-video src="https://youtube.com/embed/6BKfPS9q3qI" caption="(Hover/click logo for the trailer)" static-logo="pizzapeers_logo_animated" %}}
 
 ## How do I start a game?
 

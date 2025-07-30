@@ -28,12 +28,11 @@ devlog: "/blog/boardgames/wondering-witches/devlog-wondering-witches/"
 
 Three steps.
 
-* Click the download button above to find the rulebook.
-* Grab a blank paper and pens.
-* Visit this website on a device.
+* Click the download button to find the rulebook.
+* Grab a blank paper and pens. (You can also [generate a random starting board](board) instead.)
+* Visit this website on a single device and [start the High Witch](game).
 
 There's also a solo mode, a competitive variant and an offline variant (that doesn't need this website).
-
 
 ## How does it work?
 
@@ -44,45 +43,19 @@ On your turn, call out an ingredient. Everybody either ...
 * **Places** that in a garden of theirs
 * Or **grows** an entire garden (which contains that ingredient)
 
-When satisfied, **test a potion**! Input a garden on the game interface; it tells you the results. Maybe some parts were correct, others were not. Maybe an effect is triggered that changes everything!
+When satisfied, **test a potion**! Input a garden on the game interface ("The High Witch"). It tells you the results. Maybe some parts were correct, others were not. Maybe an effect is triggered that changes everything!
 
 Brew your potions wisely ... and you might discover the secret combination.
 
-
-## Board
-  
-Input your settings. Click the button. Copy the gardens and ingredients to your paper.
-
-{{< boardgame-settings type="board" local_storage="wonderingWitchesConfig" game_title="Wondering Witches" >}}
-	{{< setting-playercount id="setting-numPlayers" min="1" max="4" def="4" >}}
-	{{< setting-checkbox id="setting-supercells" text="Supercells?" remark="Turns some cells into a special one!" >}}
-	{{< setting-checkbox id="setting-pageBack" text="Two-sided?" remark="With expansions enabled, you'll need both sides of the paper (64 cells) to stand a chance!" >}}
-{{< /boardgame-settings >}}
-
-<p style="font-size:0.5em;opacity:0.66;">The generator isn't working? Don't worry! The "Download" button also gives you PDFs with valid boards! (And a colorized game board, if you don't like blank papers.)</p>
-
-
-## The High Witch
-
-Input your settings, click the button. A new page opens with the interface for testing your potions!
-
-{{< boardgame-settings type="game" local_storage="wonderingWitchesConfig" game_title="Wondering Witches" >}}
-	{{< setting-checkbox id="setting-competitive" text="Competitive?" >}}
-	{{< setting-checkbox id="setting-events" text="Events?" checked="checked" >}}
-	{{< setting-checkbox id="setting-freeClue" text="Free Clue?" checked="checked" remark="Start the game with a free (cryptic) hint. Recommended." >}}
-	{{< setting-checkbox id="setting-effects" text="Effects?" >}}
-	{{< setting-enum id="setting-recipeLength" text="Number of Ingredients?" values="4,5,6,7,8,9,10" def="4" valaskey="true" remark="The secret recipe is always length four. But other ingredients make it harder to find it." >}}
-	{{< setting-checkbox id="setting-dramaDecoys" text="Drama Decoys?" remark="Decoy ingredients can now be one of three different types." >}}
-{{< /boardgame-settings >}}
-
-## Credits
-
-Fonts? **Niconne** for headings and **Mali** for the body text. Both freely available on Google Fonts.
-
-The digital part was made using standard website code (HTML/CSS/JavaScript) and the Phaser (v3) framework 
+## Background
 
 As always, I wrote two devlogs about the development process of this game:
 - [(Devlog) Wondering Witches](/blog/boardgames/wondering-witches/devlog-wondering-witches) => about the whole process for the (board)game
 - [(Technical Devlog) Wondering Witches](/blog/boardgames/wondering-witches/tech-devlog-wondering-witches) => about the technical side, programming this website
 - [(Update) Wondering Witches](/blog/boardgames/wondering-witches/v2-update) => about the huge update I did a few years later, making the game as good as it is now
 
+## Credits
+
+Fonts? **Niconne** for headings and **Mali** for the body text. Both freely available on Google Fonts.
+
+The digital part was made using standard website code (HTML/CSS/JavaScript) and my own game frameworks. 

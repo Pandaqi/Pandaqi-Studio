@@ -79,63 +79,63 @@ Each Prince has two "Dark cards". Each has a unique action that is often more po
 
 The cards **explain themselves**. The overview below exists to help you make a decision or clarify potential rule misunderstandings.
 
-{{% rules-block id="lionsyre" heading="Lionsyre" icon="pack-kingseat-lionsyre" %}}
+### Lionsyre
 
 <!-- The JavaScript has a function that reads these and inserts the right content automatically (from dictionary.js) -->
 <div class="prince-info" data-prince="lionsyre"></div>
 
 
-{{% rules-block id="slydefox" heading="Slydefox" icon="pack-kingseat-slydefox" %}}
+### Slydefox
 
 <div class="prince-info" data-prince="slydefox"></div>
 
 
-{{% rules-block id="woolfhall" heading="Woolfhall" icon="pack-kingseat-woolfhall" %}}
+### Woolfhall
 
 <div class="prince-info" data-prince="woolfhall"></div>
 
 
-{{% rules-block id="hornseeker" heading="Hornseeker" icon="pack-kingseat-hornseeker" %}}
+### Hornseeker
 
 <div class="prince-info" data-prince="hornseeker"></div>
 
 
-{{% rules-block id="brownbeards" heading="Brownbeards" icon="pack-kingseat-brownbeards" %}}
+### Brownbeards
 
 <div class="prince-info" data-prince="brownbeards"></div>
 
 
-{{% rules-block id="monarchrys" heading="Monarchrys" icon="pack-kingseat-monarchrys" %}}
+### Monarchrys
 
 <div class="prince-info" data-prince="monarchrys"></div>
 
 
-{{% rules-block id="crassclamps" heading="Crassclamps" icon="pack-kingseat-crassclamps" %}}
+### Crassclamps
 
 <div class="prince-info" data-prince="crassclamps"></div>
 
 
-{{% rules-block id="gulliballistas" heading="Gulliballistas" icon="pack-kingseat-gulliballistas" %}}
+### Gulliballistas
 
 <div class="prince-info" data-prince="gulliballistas"></div>
 
 
-{{% rules-block id="hardshellHero" heading="Hardshell Hero" icon="pack-kingseat-hardshellHero" %}}
+### Hardshell Hero
 
 <div class="prince-info" data-prince="hardshellHero"></div>
 
 
-{{% rules-block id="squlofish" heading="Squlofish" icon="pack-kingseat-squlofish" %}}
+### Squlofish
 
 <div class="prince-info" data-prince="squlofish"></div>
 
 
-{{% rules-block id="smugwing" heading="Smugwing" icon="pack-kingseat-smugwing" %}}
+### Smugwing
 
 <div class="prince-info" data-prince="smugwing"></div>
 
 
-{{% rules-block id="salsaSalamanda" heading="Salsa Salamanda" icon="pack-kingseat-salsaSalamanda" %}}
+### Salsa Salamanda
 
 <div class="prince-info" data-prince="salsaSalamanda"></div>
 

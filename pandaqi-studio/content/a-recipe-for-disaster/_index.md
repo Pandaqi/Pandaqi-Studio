@@ -32,10 +32,8 @@ playercount: [1,2,3,4]
 input: ["controller", "keyboard", "touch"]
 devlog: "/blog/videogames/one-week-games/devlog-a-recipe-for-disaster/"
 
-media: [arfd_1, arfd_2, arfd_3]
+media: [https://www.youtube.com/embed/MQ7srCHHXZg, arfd_1, arfd_2, arfd_3]
 ---
-
-{{% embed-video src="https://www.youtube.com/embed/MQ7srCHHXZg" %}}
 
 Ever wondered how to run a bakery without hands? Well, wonder no more!
 

@@ -6,6 +6,50 @@ import CONFIG_NAIVIGATION_SHARED from "./configShared"
 
 const CONFIG:any = 
 {
+    _generation:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            instructionTokens:
+            {
+                type: SettingType.CHECK,
+                default: true,
+            },
+
+            vehicleCards:
+            {
+                type: SettingType.CHECK,
+                default: true
+            },
+
+            healthCards:
+            {
+                type: SettingType.CHECK,
+                default: true
+            },
+
+            actionCards:
+            {
+                type: SettingType.CHECK,
+                default: false
+            },
+
+            timeCards:
+            {
+                type: SettingType.CHECK,
+                default: false
+            },
+
+            GPSCards:
+            {
+                type: SettingType.CHECK,
+                default: false
+            },
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

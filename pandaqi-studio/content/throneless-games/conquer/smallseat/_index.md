@@ -29,29 +29,6 @@ The cards contain text. However, this text is simple and consistent ( = the same
 
 When generating material yourself, check the rules to see **how many Animals** are recommended for each player count. Each choice adds ~1 page to print.
 
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" btn_label="Create Material" local_storage="smallseatConfig" game_title="Smallseat" defaults="true" >}}
-  {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
-  {{< setting-enum id="setting-set" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princes below!" >}}
-  {{< boardgame-settings-section heading="Animals" >}}
-    {{< setting-checkbox id="setting-packs-karateChicks" text="Karate Chicks?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-pricklypettes" text="Pricklypettes?" >}}
-    {{< setting-checkbox id="setting-packs-sleepersippies" text="Sleepersippies?" >}}
-    {{< setting-checkbox id="setting-packs-chewyCarrots" text="Chewy Carrots?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-treeOfHainut" text="Tree of Hainut?" >}}
-    {{< setting-checkbox id="setting-packs-curlysnouts" text="Curlysnouts?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-tinybears" text="Tinybears?" >}}
-    {{< setting-checkbox id="setting-packs-purplepaws" text="Purplepaws?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-ottermother" text="Ottermother?" >}}
-    {{< setting-checkbox id="setting-packs-sealalater" text="Sealalater?" >}}
-    {{< setting-checkbox id="setting-packs-snufflesniff" text="Snufflesniff?" >}}
-    {{< setting-checkbox id="setting-packs-ponytailors" text="Ponytailors?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
 ## Background
 
 After making the first game ([Kingseat](/throneless-games/conquer/kingseat)), I saw that the idea could really go in two directions. It could be simplified even further, or it could receive a few more mechanics to make it a deeper strategical game. (Kingseat kind of hovered between the two, which is why it's a mid-game of the project.)

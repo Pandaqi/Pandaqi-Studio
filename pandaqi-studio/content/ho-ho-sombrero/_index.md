@@ -28,11 +28,9 @@ playercount: [1,2,3,4]
 input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/devlog-ho-ho-sombrero/"
 
-media: [training_screenshot,forest_screenshot,desert_screenshot,north_pole_screenshot,cuddly_clouds_screenshot]
+media: [https://www.youtube.com/embed/WMB_kvQn-og, training_screenshot,forest_screenshot,desert_screenshot,north_pole_screenshot,cuddly_clouds_screenshot]
 
 ---
-
-{{% embed-video src="https://www.youtube.com/embed/WMB_kvQn-og" %}}
 
 In an unexpected collaborative effort, _Santa Claus_, the _Easter Bunny_, a bunch of birds, and the _Sombrero Hombres_ have joined forces!
 

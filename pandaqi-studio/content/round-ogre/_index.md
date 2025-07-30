@@ -25,16 +25,12 @@ playtime: 10
 playercount: 1
 input: ["touch", "keyboard", "mouse"]
 
-media: [round-ogre-itch, video/roundogre_video0, video/roundogre_video1, video/roundogre_video2, video/roundogre_video3, video/roundogre_video4]
+media: [https://youtube.com/embed/oPflIMz4kys, round-ogre-itch, video/roundogre_video0, video/roundogre_video1, video/roundogre_video2, video/roundogre_video3, video/roundogre_video4]
 
 ---
 
-{{% embed-video src="https://youtube.com/embed/oPflIMz4kys" %}}
-
 <!-- Section 1: Seeing possibilities -->
 {{< figure url="roundogre_h1" alt="Seeing Possibilities" >}}
-
-{{% double-view heading="" media="video/roundogre_video0" video="true" class="limit-width"  %}}
 
 **Round Ogre** is a **puzzle game** with the simplest of controls: swipe to move in a direction. (Keyboard and mouse fully supported too.)
 
@@ -42,12 +38,8 @@ But the puzzles are anything _but_ simple. Round Ogre is so excited about everyt
 
 Guide her to the cave exit to reunite with _Square Ogre_. But to do so, you'll have to think creatively and always see all the possibilities ...
 
-{{% /double-view %}}
-
 <!-- Section 2: A Cave of Content -->
 {{< figure url="roundogre_h2" alt="A Cave of Content" >}}
-
-{{% double-view heading="" media="video/roundogre_video1" video="true" class="reversed limit-width" %}}
 
 **500 puzzles** across **31 worlds** will entertain you for hours!
 
@@ -57,12 +49,8 @@ Solving a complete world grants you an optional bonus world, with the toughest t
 
 A free demo is available on the Play Store, supported by ads. (The full game has no ads or restrictions whatsoever.)
 
-{{% /double-view %}}
-
 <!-- Section 3: The Ways of the Ogre -->
 {{< figure url="roundogre_h3" alt="The Ways of the Ogre" >}}
-
-{{% double-view heading="" media="video/roundogre_video2" video="true" class="limit-width" %}}
 
 The prequel, Square Ogre, is all about restoring his eyesight. Each turn you had to take into account how far he could _see_.
 
@@ -72,12 +60,8 @@ You'll be bouncing from mattrass walls, running into fireflies and glowworms, an
 
 But most importantly: after all this work, Round Ogre is tired and _will_ fall asleep. Let's just hope she isn't in some dangerous spot when it happens.
 
-{{% /double-view %}}
-
 <!-- Section 4: Square Ogre -->
 {{< figure url="roundogre_h4" alt="Square Ogre" >}}
-
-{{% double-view heading="" media="video/roundogre_video3" video="true" class="reversed limit-width" %}}
 
 This game is the sequel to [Square Ogre](https://pandaqi.com/square-ogre) ... sort-of. It's more of a standalone expansion.
 
@@ -86,12 +70,9 @@ This game is the sequel to [Square Ogre](https://pandaqi.com/square-ogre) ... so
 The core objective and input are the same. A handful of basic mechanics and themes are the same as well, and you'll appreciate those more if you know where they came from.
 
 But in all other ways, this game stands on its own and is completely different.
-{{% /double-view %}}
 
 <!-- Section 5: Feedback -->
 {{< figure url="roundogre_h5" alt="Feedback" >}}
-
-{{% double-view heading="" media="video/roundogre_video4" video="true" class="limit-width" %}}
 
 **Feedback is highly appreciated!**
 

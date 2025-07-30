@@ -1,14 +1,12 @@
 ---
 type: "project"
 
-
 title: "Lucky Lions"
 blurb: "Create more attractive zoos than others, but the animals that come out might be a bit ... random."
 
 weightProject: 20
 
 driveLink: "https://drive.google.com/drive/folders/1plpmBaxsa6Qez87puJDpXHiCsU0nwK6Q"
-
 
 date: 2025-11-26
 
@@ -27,25 +25,7 @@ devlog: "/blog/boardgames/the-luck-legends/lucky-lions/"
 
 ---
 
-
-
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="luckyLionsConfig" btn_label="Generate Material" game_title="Lucky Lions" defaults="true">}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-busyZoo" text="Busy Zoo?" remark="A small expansion that adds special zoo cards." >}}
-    {{< setting-checkbox id="setting-sets-wildAnimals" text="Wild Animals?" remark="An expansion that adds special animal powers." >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-## Credits
-
-The fonts used are **Bamboo Gothic** (headings) and **Berylium** (body text). Everything else is mine.
+## Background
 
 I've made many games now that have numbered cards and "highest wins". The recurring issue when designing all of those was the fact that you can simply get very (un)lucky with your cards. If higher numbers are always better, well, getting higher numbers in your starting hand is always better (and leads to a more unfair and boring game)!
 
@@ -55,3 +35,6 @@ That's how this idea was born! You roll your die (with animals), but you also se
 
 This also turned out to be the simplest of all my ideas for the Luck Legends, which is why I put it first on the list.
 
+## Credits
+
+The fonts used are **Bamboo Gothic** (headings) and **Berylium** (body text). Everything else is mine.

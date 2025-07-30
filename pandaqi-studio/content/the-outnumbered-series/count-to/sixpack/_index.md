@@ -26,34 +26,9 @@ devlog: "/blog/boardgames/the-outnumbered-series/sixpack/"
 
 ---
 
+You get six cards. Play them well, but don't be the first to play them all.
+
 **Reminder** (when generating your own material): You always need (at least) one more pack than the number of players.
-
-
-{{% boardgame-settings-container type="material" %}}
-
-{{< boardgame-settings type="game" local_storage="sixpackConfig" btn_label="Generate Material" game_title="Sixpack" defaults="true" >}}
-  {{< setting-checkbox id="setting-randomizePacks" text="Randomize Packs?" remark="Ignores the settings below and just selects random packs." >}}
-  {{< boardgame-settings-section heading="Packs" >}}
-    {{< setting-enum id="setting-packs-blank" text="Blank?" values="0,1,2,3,4,5,6" valaskey="true" remark="These are cards with no special ability. See the rules." def="3" >}}
-    {{< setting-enum id="setting-packs-reverse" text="Reverse?" values="0,1,2,3,4,5,6" valaskey="true" def="2" >}}
-    {{< setting-enum id="setting-packs-takeback" text="Takeback?" values="0,1,2,3,4,5,6" valaskey="true" def="1" >}}
-    {{< setting-enum id="setting-packs-seethrough" text="Seethrough?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-lateArrival" text="Late Arrival?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-sheriff" text="Sheriff?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-veto" text="Veto?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-noSuperheroes" text="No Superheroes?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-superNumbers" text="Super Numbers?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-bitingHand" text="Biting Hand?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-sticky" text="Sticky?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-secondHand" text="Second Hand?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-carousel" text="Carousel?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-pileDriver" text="Pile Driver?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-copycat" text="Copycat?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-    {{< setting-enum id="setting-packs-calculator" text="Calculator?" values="0,1,2,3,4,5,6" valaskey="true" def="0" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
 
 ## Background
 

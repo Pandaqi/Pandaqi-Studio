@@ -5,6 +5,47 @@ import Point from "js/pq_games/tools/geometry/point";
 
 const CONFIG:Record<string,any> = 
 {
+    _settings:
+    {
+        highLegibility:
+        {
+            type: SettingType.CHECK,
+            label: "High Legibility",
+            default: true,
+            remark: "Picks a more neutral font for maximum legibility.",
+        },
+
+        generateThroneCards:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Generate Thronecards",
+        },
+
+        generateSeatCards:
+        {
+            type: SettingType.CHECK,
+            default: true,
+            label: "Generate Seatcards",
+        },
+
+        set:
+        {
+            type: SettingType.ENUM,
+            values: ["none", "starter", "medium", "advanced", "complete", "random"],
+            default: "starter",
+            remark: "Pick a predetermined set, or use none and pick your specific card packs below!"
+        },
+
+        packs:
+        {
+            type: SettingType.MULTI,
+            values: ["solongNecks", "boardomThieves", "longswordFins", "atheneyes", "gallopeers", "candlesticks", "taredtula", "sonarAndSons", "sirensOfSeatongue", "cracktapus", "ravenletters", "twistertoots"],
+            default: ["solongNecks", "atheneyes", "candlesticks", "sonarAndSons"],
+            label: "Seekers"
+        }
+    },
+
     debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
@@ -13,7 +54,7 @@ const CONFIG:Record<string,any> =
     },
 
     configKey: "kaizerseatConfig",
-    fileName: "Kaizerseat (Throneless Games)",
+    fileName: "Kaizerseat",
 
     assetsBase: "/throneless-games/conquer/kaizerseat/assets/",
 

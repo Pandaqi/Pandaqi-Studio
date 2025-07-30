@@ -3,6 +3,41 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG = 
 {
+    _settings:
+    {
+        sideBarType:
+        {
+            type: SettingType.ENUM,
+            values: ["no", "rules", "score"],
+            default: "no",
+            label: "Side Bar",
+            remark: "Add the rules or a score tracker on the paper itself?"
+        },
+
+        startingPositions:
+        {
+            type: SettingType.CHECK,
+            label: "Include Starting Positions",
+            remark: "Marks a few squares as possible starting positions."
+        },
+
+        boardSize:
+        {
+            type: SettingType.ENUM,
+            values: ["tiny", "small", "regular", "large", "huge"],
+            default: "regular",
+            label: "Board Size",
+            remark: "For a really short or really long game. Changes #elements on page, not page size."
+        },
+
+        simplifiedIcons:
+        {
+            type: SettingType.CHECK,
+            label: "Simplified Icons",
+            remark: "Uses simple icons for all types, instead of realistic illustrations."
+        }
+    },
+
     configKey: "kangaruseConfig",
     assetsBase: "/kangaruse/assets/",
     assets:
