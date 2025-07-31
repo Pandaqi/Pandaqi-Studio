@@ -22,7 +22,7 @@ playtime: 20-30
 playercount: [3,4,5,6]
 ages: everyone
 
-media: [the-animal-bandit-in-play]
+media: [assets/the-animal-bandit-in-play]
 
 ---
 

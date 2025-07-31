@@ -21,7 +21,7 @@ playtime: 60-120
 playercount: [3,4,5,6,7,8,9,10]
 ages: everyone
 
-media: [wieisdetrol_inaction_1, wieisdetrol_inaction_2, wieisdetrol_inaction_3]
+media: [assets/wieisdetrol_inaction_1, assets/wieisdetrol_inaction_2, assets/wieisdetrol_inaction_3]
 
 ---
 
@@ -49,8 +49,7 @@ Iedereen heeft kaarten vast. Elke opdracht maakt _op een of andere manier_ gebru
 
 De ene opdracht ben je aan het pokeren. De andere opdracht moet je in groepen elkaars code ontcijferen. En de volgende keer moet je samen 5 kaarten van dezelfde soort op tafel krijgen.
 
-{{< figure url="wieisdetrol_tutorial_1" alt="Hoe een typische opdracht werkt. (Plaatje uit spelregels.)" >}}
-
+{{< content/figure src="assets/wieisdetrol_tutorial_1" alt="Hoe een typische opdracht werkt. (Plaatje uit spelregels.)" >}}
 
 ## Wat heb ik nodig?
 

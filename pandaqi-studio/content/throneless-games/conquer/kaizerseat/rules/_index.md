@@ -23,8 +23,6 @@ During the game, you'll track two piles. These should be handled by the Leader.
 
 Finally, pick a player. Their **position** is the "Kaizerseat" and whoever sits there is called "Leader".
 
-
-
 ## Objective
 
 {{< rules/rules-image-sidebar src="objective.webp" alt="Example of how to decide who won based on the final votes in the Tell." >}}
@@ -32,8 +30,6 @@ Finally, pick a player. Their **position** is the "Kaizerseat" and whoever sits 
 The game ends once **nobody can Vote anymore**.
 
 Check the votes in the Tell. The Seeker with the most votes wins. Any player whose secret Loyalty matches a winning Seeker **wins the game**!
-
-
 
 ## Gameplay
 
@@ -63,7 +59,6 @@ That's it! Next round!
 {{< rules/rules-image src="gameplay_2.webp" alt="Example of handling the remaining (losing) cards; do its action, or swap places if the action did nothing." >}}
 
 {{< rules/rules-example id="turn" >}}
-
 
 ## Packs
 

@@ -27,7 +27,7 @@ playtime: 5
 playercount: [1,2,3,4]
 input: ["keyboard", "controller"]
 
-media: [https://www.youtube.com/embed/Fcyjk8app9w, video/packageparty_1, video/packageparty_2, video/packageparty_5, video/packageparty_6]
+media: [https://www.youtube.com/embed/Fcyjk8app9w, assets/video/packageparty_1, assets/video/packageparty_2, assets/video/packageparty_5, assets/video/packageparty_6]
 
 ---
 

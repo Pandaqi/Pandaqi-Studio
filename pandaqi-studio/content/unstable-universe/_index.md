@@ -22,7 +22,7 @@ playercount: [2,3,4,5,6,7,8,9]
 ages: everyone
 devlog: "/blog/boardgames/unstable-universe/devlog-unstable-universe/"
 
-media: [video/unstableuniverse_explanation_gif, page/unstableuniverse_inaction_1, page/unstableuniverse_inaction_2]
+media: [assets/video/unstableuniverse_explanation_gif, assets/page/unstableuniverse_inaction_1, assets/page/unstableuniverse_inaction_2]
 
 ---
 

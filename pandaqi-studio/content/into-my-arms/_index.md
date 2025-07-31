@@ -28,7 +28,7 @@ playercount: [1,2]
 input: ["keyboard", "touch"]
 source: https://github.com/Pandaqi/Into-My-Arms
 
-media: [https://www.youtube.com/embed/L3HQCfPT7n8, ima_1,ima_2,ima_3,ima_4,ima_5,ima_6,ima_7, video/intomyarms_video]
+media: [https://www.youtube.com/embed/L3HQCfPT7n8, assets/ima_1, assets/ima_2, assets/ima_3, assets/ima_4, assets/ima_5, assets/ima_6, assets/ima_7, assets/video/intomyarms_video]
 
 ---
 

@@ -4,6 +4,8 @@
 $cutoff-mid: 960px;
 $cutoff-small: 600px;
 
+$size-xxxl: 5.0625em;
+$size-xxl: 3.375em;
 $size-xl: 2.25em;
 $size-l: 1.5em;
 $size-m: 1em;
@@ -469,6 +471,11 @@ $size-xs: 0.44em;
 @layer modules
 {
 	// Main Arranging/Blocks
+	.width-limit-small
+	{
+		max-width: $cutoff-small;
+	}
+
 	.width-limit
 	{
 		max-width: $cutoff-mid;
@@ -503,6 +510,16 @@ $size-xs: 0.44em;
 	.block-center
 	{
 		margin: auto;
+	}
+
+	.move-to-back
+	{
+		z-index: -1;
+	}
+
+	.move-to-front
+	{
+		z-index: 1024;
 	}
 
 	.position-absolute
@@ -688,6 +705,21 @@ $size-xs: 0.44em;
 	}
 
 	// Text
+	.font-header
+	{
+		font-family: var(--header-font)
+	}
+
+	.font-body
+	{
+		font-family: var(--body-font)
+	}
+
+	.font-accent
+	{
+		font-family: var(--accent-font)
+	}
+
 	.font-size-s
 	{
 		font-size: $size-s;
@@ -696,6 +728,16 @@ $size-xs: 0.44em;
 	.font-size-l
 	{
 		font-size: $size-l;
+	}
+
+	.font-size-xl
+	{
+		font-size: $size-xl;
+	}
+
+	.font-size-xxxl
+	{
+		font-size: $size-xxxl;
 	}
 
 	.text-thin

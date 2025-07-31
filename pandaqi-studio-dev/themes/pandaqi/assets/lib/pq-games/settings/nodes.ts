@@ -1,4 +1,3 @@
-import { generateMaterial } from "../generateMaterial";
 import { FeedbackNode } from "../tools/dom/feedbackNode";
 import { isNumber } from "../tools/numbers/checks";
 import { GameConfig, ensureConfigProperties } from "./configuration";
@@ -222,7 +221,7 @@ export const readSettingsFromHTML = (node:HTMLElement) =>
         // (integers don't exist in JS; so parseFloat for all is fine)
         if(isNumber(value)) { value = parseFloat(value); }
 
-        curPosition[key] = value;
+        curPosition[key].value = value;
     }
 
     return obj;
@@ -257,8 +256,11 @@ const changeFoldedStateAll = (node:HTMLElement, folded = false) =>
     }
 }
 
-export const loadSettings = (config:GameConfig, parent = document.body) =>
+export const loadSettings = (config:GameConfig, callback: Function, parent = document.body) =>
 {
+    // this is just a way to allow the raw object to be put in too, for easier out-of-framework usage
+    // @ts-ignore
+    if(!config._settings) { config = { _settings: config }; } 
     ensureConfigProperties(config);
 
     const container = document.createElement("div");
@@ -309,15 +311,18 @@ export const loadSettings = (config:GameConfig, parent = document.body) =>
     const feedbackNode = new FeedbackNode(btn, progressInfo);
     btn.addEventListener("click", async () => 
     {
+        config._settings.meta.button = btn;
+        config._settings.meta.settingsContainer = container;
+        config._settings.meta.feedbackNode = feedbackNode.signalReceiver;
+
         btn.disabled = true;
-        btn.innerHTML = "... generating ...";
 
         const settings = readSettingsFromHTML(container);
         Object.assign(config._settings, settings);
-        await generateMaterial(config, feedbackNode.signalReceiver);
+        await callback(config);
 
         btn.disabled = false;
-        btn.innerHTML = "Generate!";
+        if(config._settings.meta.selfDestroy) { container.remove(); }
     });
 
     settingsList.appendChild(btn);

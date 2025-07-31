@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{< rules-double-view src="starting_setup.webp" alt="Examples of a starting setup (3 players, 2 sides)." >}}
+{{< rules-image-sidebar src="starting_setup.webp" alt="Examples of a starting setup (3 players, 2 sides)." >}}
 
 All players pick a clear side at which they sit: left, right, top or bottom. This is important! It determines how you must _read_ the letters on the board.
 
@@ -14,13 +14,9 @@ Shuffle all cards into a face-down deck. Deal all players **4** cards. Finally, 
 On low player counts (2--3), you might use roughly half the deck. On high player counts (6+), consider printing two PDFs for a double-sized deck.
 {{% /rules/rules-remark %}}
 
-{{< /rules-double-view >}}
-
-
 ## Objective
 
 The game ends when somebody runs out of cards and can't draw (enough) new ones. The player with the most points wins.
-
 
 ## How it works
 
@@ -35,7 +31,6 @@ Empty cells are just empty, not a wildcard. Regard them as if it's an empty unfi
 {{% /rules/rules-remark %}}
 
 {{< rules/rules-image src="how_it_works.webp" alt="Example of rotating dominoes for other letters, and wildcards." >}}
-
 
 ## Gameplay
 
@@ -57,10 +52,9 @@ If you lack table space, enable a "maximum board size": the playing area is at m
 
 {{< rules/rules-image src="word_placement_wrong.webp" alt="Examples of wrong domino placements" >}}
 
-
 ### Score
 
-{{< rules-double-view src="scoring.webp" alt="Example of scoring your turn (with valid and invalid words)" >}}
+{{< rules-image-sidebar src="scoring.webp" alt="Example of scoring your turn (with valid and invalid words)" >}}
 
 Every new **valid** word gives you points. However, every new **invalid** word means minus points.
 
@@ -68,14 +62,9 @@ Each symbol is simply worth 1 point. A word is at least 2 letters long. (So igno
 
 Score is tracked with a face-down pile in front of you. Grab as many cards from the deck as points you scored, and add them to your score pile.
 
-{{< /rules-double-view >}}
-
-
 ### Refill Hand
 
 Refill your hand back to 4. If you **did not** play a domino this turn, you must draw 1--4 cards _from your own score pile_.
-
-
 
 ## Upgrades
 
@@ -89,56 +78,7 @@ However, when you _overlap_ this space with another domino, the action is trigge
 
 Below are all options.
 
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Double Letter" >}}
-        Doubles the value of the letter inside (when scoring this turn).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Double Word" >}}
-        Doubles the value of all words that use this cell (when scoring this turn).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Thief" >}}
-        At the end of your turn, refill your hand using another player's score pile.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Destroyer" >}}
-        Remove one domino from the board (immediately).
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Dictionary" >}}
-        All words you create this turn must be valid.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Shield" >}}
-        Invalid words (created this turn) do not give minus points.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Gift" >}}
-        All <em>other</em> players must give one card from their score pile back to the draw pile
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Rotate" >}}
-        Rotate a domino that's fully visible any way you like.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Detour" >}}
-        You're allowed to move away from your straight line (when placing dominoes this turn)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="X-Ray" >}}
-        When scoring, pretend walls, wildcards and empty spaces aren't there.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-{{< /rules/rules-table >}}
-
+<div data-rulebook-table="supercells">
 
 ### Werewalls
 
@@ -147,5 +87,3 @@ Ah, our favorite Keebble element again! Walls can now be baked into dominoes, at
 It allows breaking up words or creating words where you otherwise couldn't. But beware, because they also increase the likelihood of negative points for invalid words created!
 
 {{< rules/rules-image src="wall_placement.webp" alt="Examples of (in)valid wall usage." >}}
-
-

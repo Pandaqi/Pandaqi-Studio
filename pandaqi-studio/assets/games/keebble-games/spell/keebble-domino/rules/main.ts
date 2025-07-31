@@ -1,8 +1,10 @@
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
 import shuffle from "js/pq_games/tools/random/shuffle"
 import Point from "js/pq_games/tools/geometry/point"
+import CONFIG from "../game/config"
 
-const LETTER_DICTIONARY = {
+const LETTER_DICTIONARY = 
+{
     "joker": { frame: 0 },
     "E": { frame: 1 },
     "A": { frame: 2 },
@@ -32,36 +34,32 @@ const LETTER_DICTIONARY = {
     "Q": { frame: 19 },
 }
 
-const tools = {
+const visualizeSymbol = (params) =>
+{
+    if(!params.value) { return; }
+
+    const ctx = params.ctx;
+    const cs = params.cs;
+
+    const img = params.sprites;
+    const frame = LETTER_DICTIONARY[params.value].frame || 0;
+    const rotIndex = LETTER_DICTIONARY[params.value].rot || 0;
+    const rotRadians = rotIndex * 0.5 * Math.PI;
+    const spriteSize = 256
+    const sourceX = (frame % 8) * spriteSize;
+    const sourceY = Math.floor(frame / 8) * spriteSize;
+    const scale = params.scale || 1.0;
     
-    visualizeSymbol(params)
-    {
-        if(!params.value) { return; }
+    ctx.save();
+    ctx.pos((params.x + 0.5) * cs, (params.y + 0.5) * cs);
+    ctx.rotate(rotRadians);
+    ctx.drawImage(
+        img,
+        sourceX, sourceY, spriteSize, spriteSize,
+        -0.5*scale*cs, -0.5*scale*cs, scale*cs, scale*cs 
+    );
 
-        const ctx = params.ctx;
-        const cs = params.cs;
-
-        const img = params.sprites;
-        const frame = LETTER_DICTIONARY[params.value].frame || 0;
-        const rotIndex = LETTER_DICTIONARY[params.value].rot || 0;
-        const rotRadians = rotIndex * 0.5 * Math.PI;
-        const spriteSize = 256
-        const sourceX = (frame % 8) * spriteSize;
-        const sourceY = Math.floor(frame / 8) * spriteSize;
-        const scale = params.scale || 1.0;
-        
-        ctx.save();
-        ctx.pos((params.x + 0.5) * cs, (params.y + 0.5) * cs);
-        ctx.rotate(rotRadians);
-        ctx.drawImage(
-            img,
-            sourceX, sourceY, spriteSize, spriteSize,
-            -0.5*scale*cs, -0.5*scale*cs, scale*cs, scale*cs 
-        );
-
-        ctx.restore();
-    }
-
+    ctx.restore();
 }
 
 // orient = 0 means wide (2x1), 1 means tall (1x2)
@@ -264,11 +262,11 @@ class Domino
             value: this.valuesDisplayed[0],
             sprites: board.spriteSheet
         }
-        tools.visualizeSymbol(params);
+        visualizeSymbol(params);
 
         params.value = this.valuesDisplayed[1];
         params.y = 1;
-        tools.visualizeSymbol(params);
+        visualizeSymbol(params);
 
         return new Promise((resolve, reject) => {
             const img = document.createElement("img");
@@ -327,7 +325,7 @@ class Cell
 
         params.x = this.x;
         params.y = this.y;
-        tools.visualizeSymbol(params);
+        visualizeSymbol(params);
     }
 }
 
@@ -796,9 +794,9 @@ class Board
     }
 }
 
-
-async function generate() 
+export const generateRulebookExample = async (sim) =>
 {
+    const o = sim.getOutputBuilder();
     const wordOptions = ["CAT", "DOG", "EAT", "ALE", "HUT", "CAR", "OPEN", "OKAY", "INN", "MINT", "HAT", "ACE", "PEAR", "HAND", "DUST", "SIN", "SAP", "OLD", "SAY", "MET", "BIN", "EYE", "LOT", "LUCK", "COW", "BIKE", "BUY", "SING"];
 
     // board state
@@ -940,8 +938,4 @@ async function generate()
     }
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
-
-const o = e.getOutputBuilder();
+loadRulebook(CONFIG._rulebook);

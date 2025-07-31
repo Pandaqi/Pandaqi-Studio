@@ -6,6 +6,8 @@ import CardThroneless from "../cardThroneless";
 
 export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
 {
+    await sim.loadMaterial(planLoadMaterialFromGameConfig(CONFIG));
+
     // because the number of types to include depends on player count
     // we have to re-generate and re-draw it every time we simulate
     // (we could do it on every ITERATION too, but that's just too heavy)

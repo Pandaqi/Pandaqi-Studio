@@ -2,26 +2,8 @@ import createCanvas from "js/pq_games/layout/canvas/createCanvas";
 import Point from "js/pq_games/tools/geometry/point";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import { CATEGORIES } from "../shared/dict"
-
-const CONFIG =
-{
-    types: ["red", "blue", "green", "purple"],
-    canvasSize: new Point(960, 540),
-    itemSize: new Point(150, 200),
-    paddingBetweenCards: 30,
-    mainTypeSize: 0.25, // relative to card size
-    typeSize: 0.185, // relative to card size
-    paddingBetweenTypes: 0.1, // relative to type size
-    includeActions: true,
-    actionProb: 0.15,
-    fonts:
-    {
-        heading: "comica",
-        body: "cabin"
-    }
-}
+import { CONFIG } from "../game/config";
+import { CATEGORIES } from "../shared/dict";
 
 type Stats = Record<string,number>
 
@@ -284,8 +266,10 @@ class Squad
     }
 }
 
-async function generate()
+export const generateForRulebook = async (sim:InteractiveExampleSimulator) =>
 {
+    const o = sim.getOutputBuilder();
+
     // create squads + cards
     const numCards = rangeInteger(1,3);
     const squads = [new Squad(numCards), new Squad(numCards)];
@@ -366,8 +350,4 @@ async function generate()
     o.addParagraph("Next player's turn!");
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
-
-const o = e.getOutputBuilder();
+loadRulebook(CONFIG._rulebook);

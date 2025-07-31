@@ -22,7 +22,7 @@ playercount: [1,2,3,4,5,6,7,8,9]
 ages: everyone
 devlog: "/blog/boardgames/starry-skylines/devlog-starry-skylines/"
 
-media: [video/starryskylines_explanation_gif, page/starryskylines_finishedgames]
+media: [assets/video/starryskylines_explanation_gif, assets/page/starryskylines_finishedgames]
 
 ---
 

@@ -49,7 +49,7 @@ const CONFIG:Record<string,any> =
         endGameTrigger: "noVotes",
 
         swapPlacesAlsoSwapsCards: true,
-    }
+    },
 }
 
 mergeObjects(CONFIG, CONFIG_SHARED);

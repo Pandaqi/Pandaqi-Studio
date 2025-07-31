@@ -1,4 +1,32 @@
-import { SettingConfig, SettingType } from "lib/pq-games";
+export enum SettingType
+{
+    GROUP = "group",
+    ENUM = "enum",
+    CHECK = "checkbox",
+    NUMBER = "number",
+    TEXT = "text",
+    INPUT = "input",
+    RADIO = "radio",
+}
+
+export interface SettingConfig
+{
+    id?: string,
+
+    type?: SettingType,
+    label?: string,
+    default?: any,
+    remark?: string,
+    placeholder?: string,
+
+    value?: any,
+    values?: any[],
+    keys?: any[],
+
+    min?: number,
+    max?: number,
+    step?: number,
+}
 
 export class RulebookSettings
 {

@@ -25,12 +25,12 @@ playtime: 10
 playercount: 1
 input: ["touch", "keyboard", "mouse"]
 
-media: [https://youtube.com/embed/oPflIMz4kys, round-ogre-itch, video/roundogre_video0, video/roundogre_video1, video/roundogre_video2, video/roundogre_video3, video/roundogre_video4]
+media: [https://youtube.com/embed/oPflIMz4kys, assets/round-ogre-itch, assets/video/roundogre_video0, assets/video/roundogre_video1, assets/video/roundogre_video2, assets/video/roundogre_video3, assets/video/roundogre_video4]
 
 ---
 
 <!-- Section 1: Seeing possibilities -->
-{{< figure url="roundogre_h1" alt="Seeing Possibilities" >}}
+{{< content/figure src="assets/roundogre_h1" alt="Seeing Possibilities" >}}
 
 **Round Ogre** is a **puzzle game** with the simplest of controls: swipe to move in a direction. (Keyboard and mouse fully supported too.)
 
@@ -39,7 +39,7 @@ But the puzzles are anything _but_ simple. Round Ogre is so excited about everyt
 Guide her to the cave exit to reunite with _Square Ogre_. But to do so, you'll have to think creatively and always see all the possibilities ...
 
 <!-- Section 2: A Cave of Content -->
-{{< figure url="roundogre_h2" alt="A Cave of Content" >}}
+{{< content/figure src="assets/roundogre_h2" alt="A Cave of Content" >}}
 
 **500 puzzles** across **31 worlds** will entertain you for hours!
 
@@ -50,7 +50,7 @@ Solving a complete world grants you an optional bonus world, with the toughest t
 A free demo is available on the Play Store, supported by ads. (The full game has no ads or restrictions whatsoever.)
 
 <!-- Section 3: The Ways of the Ogre -->
-{{< figure url="roundogre_h3" alt="The Ways of the Ogre" >}}
+{{< content/figure src="assets/roundogre_h3" alt="The Ways of the Ogre" >}}
 
 The prequel, Square Ogre, is all about restoring his eyesight. Each turn you had to take into account how far he could _see_.
 
@@ -61,7 +61,7 @@ You'll be bouncing from mattrass walls, running into fireflies and glowworms, an
 But most importantly: after all this work, Round Ogre is tired and _will_ fall asleep. Let's just hope she isn't in some dangerous spot when it happens.
 
 <!-- Section 4: Square Ogre -->
-{{< figure url="roundogre_h4" alt="Square Ogre" >}}
+{{< content/figure src="assets/roundogre_h4" alt="Square Ogre" >}}
 
 This game is the sequel to [Square Ogre](https://pandaqi.com/square-ogre) ... sort-of. It's more of a standalone expansion.
 
@@ -72,7 +72,7 @@ The core objective and input are the same. A handful of basic mechanics and them
 But in all other ways, this game stands on its own and is completely different.
 
 <!-- Section 5: Feedback -->
-{{< figure url="roundogre_h5" alt="Feedback" >}}
+{{< content/figure src="assets/roundogre_h5" alt="Feedback" >}}
 
 **Feedback is highly appreciated!**
 

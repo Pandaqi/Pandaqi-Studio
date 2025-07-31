@@ -28,7 +28,7 @@ playercount: [1,2,3,4]
 input: ["keyboard", "controller", "touch"]
 devlog: "/blog/videogames/one-week-games/devlog-i-wish-you-good-hug/"
 
-media: [https://www.youtube.com/embed/9Qwpho6_8uc, goodhug_1, goodhug_2, goodhug_3]
+media: [https://www.youtube.com/embed/9Qwpho6_8uc, assets/goodhug_1, assets/goodhug_2, assets/goodhug_3]
 
 ---
 
@@ -52,8 +52,8 @@ The full game only has two controls: move your character around and rotate it.
 
 This means it's simple to pick up and playable by literally anyone. But not because it's an easy game &mdash; oh no, properly hugging is never easy!
 
-{{% figure url="goodhug_1" alt="Action 1: How to move" %}}
-{{% figure url="goodhug_2" alt="Action 2: How to rotate" %}}
+{{< content/figure src="assets/goodhug_1" alt="Action 1: How to move" >}}
+{{< content/figure src="assets/goodhug_2" alt="Action 2: How to rotate" >}}
 
 ## What Do I Do?
 
@@ -61,7 +61,7 @@ The objective is the same throughout the whole game: <span style="color:purple;"
 
 However, you can only grab bears by hugging them, and there are a great many thorny obstacles to avoid on your way. You must move past cacti, alarm clocks, shooters, and more, whilst being correctly rotated to hug the things you want to hug.
 
-{{% figure url="goodhug_3" alt="Explanation: how to hug ... properly" %}}
+{{< content/figure src="assets/goodhug_3" alt="Explanation: how to hug ... properly" >}}
 			
 Additionally, there's an annoying but necessary secret ingredient called _teamwork_ Each player has their own area and cannot (easily) visit others, which means you'll have to communicate, hand your bears to your teammates, and make sure they are rotated correctly to receive them.
 

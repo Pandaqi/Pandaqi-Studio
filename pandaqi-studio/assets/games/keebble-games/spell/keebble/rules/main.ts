@@ -1,66 +1,66 @@
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import shuffle from "js/pq_games/tools/random/shuffle"
+import shuffle from "js/pq_games/tools/random/shuffle";
+import { KEEBBLE_TYPES } from "../../../shared/dict";
 
-const tools = {
-
-    printGameState(o, names, hands)
-    { 
-        const list : string[] = [];
-        for(let i = 0; i < names.length; i++)
-        {
-            const name = names[i];
-            const handString = hands[i].join(", ");
-            let fullHandString = " has letters <strong>" + handString + "</strong>";
-            if(hands[i].length <= 0) { fullHandString = " has no letters."; }
-
-            list.push("<strong>" + name + "</strong>" + fullHandString);
-        }
-        o.addParagraphList(list);
-    },
-
-    getWordScore(word, words) 
+const printGameState = (o, names, hands) =>
+{ 
+    const list : string[] = [];
+    for(let i = 0; i < names.length; i++)
     {
-        // remove our hand, as it doesn't matter
-        const wordsReduced = words.slice()
-        wordsReduced.shift();
+        const name = names[i];
+        const handString = hands[i].join(", ");
+        let fullHandString = " has letters <strong>" + handString + "</strong>";
+        if(hands[i].length <= 0) { fullHandString = " has no letters."; }
 
-        console.log(wordsReduced);
-
-        // count score for each letter
-        const numPointsVowel = 1;
-        const numPointsConsonant = 3;
-        const numPointsUnique = 5;
-        let score : number[] = [];
-        for(let i = 0; i < word.length; i++)
-        {
-            const char = word[i];
-            const isVowel = ["A", "E", "I", "O", "U"].includes(char);
-            const isConsonant = !isVowel;
-            let isUnique = true;
-            for(const word of wordsReduced)
-            {
-                if(word.includes(char)) { isUnique = false; break; }
-            }
-
-            if(isUnique) { score.push(numPointsUnique); }
-            else if(isConsonant) { score.push(numPointsConsonant); }
-            else { score.push(numPointsVowel); }
-        }
-
-        // turn into a nice calculation string
-        let totalScore = 0;
-        for(const value of score) { totalScore += value; }
-
-        let str = score.join(" + ");
-        str += " = "
-        str += totalScore;
-
-        return str;
+        list.push("<strong>" + name + "</strong>" + fullHandString);
     }
-
+    o.addParagraphList(list);
 }
 
-async function generate() {
+const getWordScore = (word, words) =>
+{
+    // remove our hand, as it doesn't matter
+    const wordsReduced = words.slice()
+    wordsReduced.shift();
+
+    console.log(wordsReduced);
+
+    // count score for each letter
+    const numPointsVowel = 1;
+    const numPointsConsonant = 3;
+    const numPointsUnique = 5;
+    let score : number[] = [];
+    for(let i = 0; i < word.length; i++)
+    {
+        const char = word[i];
+        const isVowel = ["A", "E", "I", "O", "U"].includes(char);
+        const isConsonant = !isVowel;
+        let isUnique = true;
+        for(const word of wordsReduced)
+        {
+            if(word.includes(char)) { isUnique = false; break; }
+        }
+
+        if(isUnique) { score.push(numPointsUnique); }
+        else if(isConsonant) { score.push(numPointsConsonant); }
+        else { score.push(numPointsVowel); }
+    }
+
+    // turn into a nice calculation string
+    let totalScore = 0;
+    for(const value of score) { totalScore += value; }
+
+    let str = score.join(" + ");
+    str += " = "
+    str += totalScore;
+
+    return str;
+}
+
+const generate = async (sim:InteractiveExampleSimulator) => 
+{
+    const e = sim.getExample();
+    const o = sim.getOutputBuilder();
+
     const numPlayers = e.getNumPlayers(2,4)
     const names = e.getNames(numPlayers);
     const wordOptions = ["CAT", "DOG", "PHONE", "CHAIR", "EAT", "ALE", "TABLE", "HUT", "APPLE", "RANGE", "CAR", "DANCE", "OPEN", "OKAY", "INN", "MINT", "HAT", "ACE", "PEAR", "HAND", "DUST", "SIN", "SAP", "SUPER", "OLD"];
@@ -85,7 +85,7 @@ async function generate() {
 
     // starting hand
     o.addParagraph("The game looks like this,")
-    tools.printGameState(o, names, hands);
+    printGameState(o, names, hands);
 
     // first action: play a word or not
     const pName = names[0];
@@ -102,7 +102,7 @@ async function generate() {
             pHand.splice(pHand.indexOf(char), 1);
         }
 
-        o.addParagraph("They score " + tools.getWordScore(pWord, words) + " points.");
+        o.addParagraph("They score " + getWordScore(pWord, words) + " points.");
     }
 
     // second action: ask new letters
@@ -128,12 +128,72 @@ async function generate() {
     }
 
     o.addParagraph("At the end of the turn, the game looks like this,");
-    tools.printGameState(o, names, hands);
-
+    printGameState(o, names, hands);
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
+const CONFIG =
+{
+    _rulebook:
+    {
+        examples:
+        {
+            turn:
+            {
+                buttonText: "Give me an example turn!",
+                callback: generate
+            }
+        },
 
-const o = e.getOutputBuilder();
+        tables:
+        {
+            supercells:
+            {
+                config:
+                {
+                    icons:
+                    {
+                        sheetURL: "special_cells.webp",
+                        sheetWidth: 8,
+                        icons: KEEBBLE_TYPES,
+                        base: "/keebble-games/spell/keebble/assets/"
+                    }
+                },
+
+                data:
+                {
+                    doubleLetter: KEEBBLE_TYPES.doubleLetter,
+                    tripleLetter: KEEBBLE_TYPES.tripleLetter,
+                    doubleWord: KEEBBLE_TYPES.doubleWord,
+                    tripleWord: KEEBBLE_TYPES.tripleWord
+                }
+            },
+
+            celldance:
+            {
+                config:
+                {
+                    icons:
+                    {
+                        sheetURL: "special_cells.webp",
+                        sheetWidth: 8,
+                        icons: KEEBBLE_TYPES,
+                        base: "/keebble-games/spell/keebble/assets/"
+                    }
+                },
+
+                data:
+                {
+                    bigAsk: KEEBBLE_TYPES.bigAsk,
+                    thief: KEEBBLE_TYPES.thief,
+                    destroyer: KEEBBLE_TYPES.destroyer,
+                    goAgain: KEEBBLE_TYPES.goAgain,
+                    garbage: KEEBBLE_TYPES.garbage,
+                    blockade: KEEBBLE_TYPES.blockade,
+                    collector: KEEBBLE_TYPES.collector
+                }
+            }
+        }
+    }
+}
+
+loadRulebook(CONFIG._rulebook);

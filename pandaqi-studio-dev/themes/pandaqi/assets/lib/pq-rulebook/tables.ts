@@ -3,8 +3,9 @@ import type { RulebookParams } from "./rulebook"
 
 export interface RulebookEntryData
 {
-    heading: string,
-    desc: string,
+    heading?: string,
+    label?: string, // alias for heading => kept around for legacy purposes, because older games use heading/label interchangeably :/
+    desc?: string,
     class?: string,
     frame?: number,
     sheetURL?: string,
@@ -35,7 +36,7 @@ export const convertDictToRulesTableHTML = (dict:Record<string,any>, props:Recor
 export const convertDictToRulesTableDict = (dict:Record<string,any>, props:Record<string,string>) : Record<string,RulebookEntryData> =>
 {
     const newDict = {};
-    const defProps = ["heading", "desc", "class", "icon", "frame", "sheetURL", "sheetWidth"]; // @NOTE: should be the same as the interface keys of RulesEntryData => is there a way to AUTOMATE getting them then?
+    const defProps = ["heading", "label", "desc", "class", "icon", "frame", "sheetURL", "sheetWidth"]; // @NOTE: should be the same as the interface keys of RulesEntryData => is there a way to AUTOMATE getting them then?
     for(const [key,data] of Object.entries(dict))
     {
         const obj = {};
@@ -77,9 +78,10 @@ export const convertRulesTableDictToHTML = (dict:Record<string,RulebookEntryData
 
         iconCont.appendChild( getRulebookIconNode(data, params.icons) );
 
+        const heading = data.heading ?? data.label ?? key;
         const headingCont = document.createElement("div");
         headingCont.classList.add("heading-container");
-        headingCont.innerHTML = `<div>${data.heading}</div>`;
+        headingCont.innerHTML = `<div>${heading}</div>`;
         entry.appendChild(headingCont);
 
         let desc = data.desc;

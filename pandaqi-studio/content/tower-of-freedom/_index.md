@@ -28,7 +28,7 @@ playtime: 20
 playercount: [1,2]
 input: ["keyboard"]
 
-media: [https://www.youtube.com/embed/rRJRZrNZp1E, tof_ss1,tof_ss2,tof_ss3,tof_ss4,tof_ss5,tof_ss6,tof_ss7]
+media: [https://www.youtube.com/embed/rRJRZrNZp1E, assets/tof_ss1, assets/tof_ss2, assets/tof_ss3, assets/tof_ss4, assets/tof_ss5, assets/tof_ss6, assets/tof_ss7]
 
 ---
 

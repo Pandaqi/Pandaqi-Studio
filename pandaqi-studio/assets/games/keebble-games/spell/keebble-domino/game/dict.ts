@@ -1,6 +1,7 @@
 import Color from "js/pq_games/layout/color/color"
 
-const KEEBBLE_LETTER_VALUES = {
+export const KEEBBLE_LETTER_VALUES = 
+{
     A: 1,
     B: 3,
     C: 3,
@@ -29,7 +30,8 @@ const KEEBBLE_LETTER_VALUES = {
     Z: 10
 }
 
-const REAL_LETTER_FREQS = {
+export const REAL_LETTER_FREQS = 
+{
     E: 0.111,
     A: 0.085,
     R: 0.076,
@@ -58,7 +60,7 @@ const REAL_LETTER_FREQS = {
     Q: 0.002
 }
 
-interface LetterData
+export interface LetterData
 {
     frame:number, 
     prob?:number,
@@ -68,7 +70,8 @@ interface LetterData
     expansion?:string
 }
 
-const LETTERS:Record<string,LetterData> = {
+export const LETTERS:Record<string,LetterData> = 
+{
     joker: { frame: 0, prob: 1.0, letters: [null, null, null, null] }, 
     EMDW: { frame: 1, letters: ["E", "M", "D", "W"], probFactor: 1.5 },
     A_VK: { frame: 2, letters: ["A", null, "V", "K"] },
@@ -100,30 +103,23 @@ const LETTERS:Record<string,LetterData> = {
     TYEM: { frame: 26, letters: ["T", "Y", "E", "M"], probFactor: 0.66, expansion: "toughLetters" },
 }
 
-const CELLS = {
-    double_word: { frame: 0, prob: 2 },
-    double_letter: { frame: 1, prob: 4 },
-    thief: { frame: 2, prob: 4 }, // refill your hand using another player's score pile
-    destroyer: { frame: 3, prob: 2 }, // remove one domino from the board (immediately)
-    dictionary: { frame: 4, prob: 1 }, // all words you create this turn must be valid
-    shield: { frame: 5, prob: 1 }, // invalid words you create this turn don't give minus points
-    gift: { frame: 6, prob: 2 }, // all _other_ players must give one card from their score pile back to the draw pile
-    rotate: { frame: 7, prob: 1 }, // rotate a domino that's fully visible any way you like
-    detour: { frame: 8, prob: 2 }, // you're allowed to go outside of your straight line (when placing dominoes)
+export const CELLS = 
+{
+    double_word: { frame: 0, prob: 2, desc: "Doubles the value of the letter inside (when scoring this turn)." },
+    double_letter: { frame: 1, prob: 4, desc: "Doubles the value of all words that use this cell (when scoring this turn)." },
+    thief: { frame: 2, prob: 4, desc: "At the end of your turn, refill your hand using another player's score pile." }, // refill your hand using another player's score pile
+    destroyer: { frame: 3, prob: 2, desc: "Remove one domino from the board (immediately)." }, // remove one domino from the board (immediately)
+    dictionary: { frame: 4, prob: 1, desc: "All words you create this turn must be valid." }, // all words you create this turn must be valid
+    shield: { frame: 5, prob: 1, desc: "Invalid words (created this turn) do not give minus points." }, // invalid words you create this turn don't give minus points
+    gift: { frame: 6, prob: 2, desc: "All <em>other</em> players must give one card from their score pile back to the draw pile" }, // all _other_ players must give one card from their score pile back to the draw pile
+    rotate: { frame: 7, prob: 1, desc: "Rotate a domino that's fully visible any way you like." }, // rotate a domino that's fully visible any way you like
+    detour: { frame: 8, prob: 2, desc: "You're allowed to move away from your straight line (when placing dominoes this turn)" }, // you're allowed to go outside of your straight line (when placing dominoes)
     // wall frame = 9; not pickable as a cell type
-    x_ray: { frame: 10, prob: 2 }
+    x_ray: { frame: 10, prob: 2, desc: "When scoring, pretend walls, wildcards and empty spaces aren't there." }
 }
 
-const DOMINO_COLORS = [
+export const DOMINO_COLORS = [
     new Color(86,100,83), new Color(171,80,79), 
     new Color(231,100,87), new Color(290,100, 81), 
     new Color(4,88,86)
 ];
-
-export {
-    REAL_LETTER_FREQS,
-    LETTERS,
-    CELLS,
-    DOMINO_COLORS,
-    KEEBBLE_LETTER_VALUES
-}

@@ -4,9 +4,9 @@
 <div class="game-grid">
 	{{ $pages := where .Site.Pages $metadata_path "intersect" (slice $key) | first 8 }}
 	{{ range $pages }}
-		{{ $img_url := partial "func/get-game-header.html" . }}
+		{{ $src := partial "func/get-game-header.html" . }}
 		<a href="{{ .RelPermalink }}">
-			{{ partial "content/show-image.html" (dict "context" . "src" $img_url) }}
+			{{ partial "content/show-image.html" (dict "context" . "src" $src) }}
 			<h3>{{ .Title }}</h3>
 			<p>{{ .Params.blurb }}</p>
 		</a>

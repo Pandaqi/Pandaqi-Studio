@@ -73,42 +73,7 @@ Each action, however,
 
 Below is a table of all actions and what they mean.
 
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Add" >}}
-        Draw two extra sliders and mark your word on those.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Replace" >}}
-        Replace one or more sliders by new ones.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Ignore" >}}
-        You may ignore one or more sliders. (Don't mark anything on them.)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Double" >}}
-        Place two markers on the same slider (to indicate two separate values).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Hint" >}}
-        Give a one-word hint, but it can't be a word from your card.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Category" >}}
-        Say the category to which your secret word belongs.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Order" >}}
-        Explain the order of importance of your sliders. (Which is the best hint, the second-best, ...)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Property" >}}
-        Rename the ends of a slider to two different properties. Now mark your secret word on that new scale!
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-{{< /rules/rules-table >}}
-
+<div data-rulebook-table="glidy-gifts"></div>
 
 ### Crashery Cliffs
 

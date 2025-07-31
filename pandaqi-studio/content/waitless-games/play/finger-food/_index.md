@@ -40,7 +40,7 @@ Boards are as balanced and pretty as I can make them (through random generation 
 
 To make sure we're all on the same page, here is an image of how a single hand might be placed and how to score it (at the end of the game.)
 
-{{% figure url="page/rules_explanation" alt="Example of hand placement and scoring" %}}
+{{< content/figure src="assets/page/rules_explanation" alt="Example of hand placement and scoring" >}}
 
 At the end, you might want to take a picture (from above) or write down the fingers for each player on another paper. Especially if you have many players (4+), it can be tiring to keep your hand in a difficult position for a long time, or very hard to verify scores from your own perspective.
 

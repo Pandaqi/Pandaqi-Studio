@@ -22,7 +22,7 @@ playtime: 90
 playercount: [2,3,4,5,6,7]
 ages: everyone
 
-media: [epicmedics_board, epicmedics_med, epicmedics_virus]
+media: [assets/epicmedics_board, assets/epicmedics_med, assets/epicmedics_virus]
 
 ---
 

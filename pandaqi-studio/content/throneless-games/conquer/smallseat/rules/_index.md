@@ -31,7 +31,7 @@ During the game, whoever sits at the Smallseat position is called the **Boss**.
 
 ## Objective
 
-{{< rules-double-view src="objective.webp" alt="Example of counting the votes and declaring a winner (at the end)." >}}
+{{< rules-image-sidebar src="objective.webp" alt="Example of counting the votes and declaring a winner (at the end)." >}}
 
 The game ends once **no Candidate can vote anymore**.
 
@@ -39,9 +39,6 @@ Count the **secret cards** in the Teller's hand. The animal that appears **most 
 
 * If this was the animal that the Teller called out at the start, _they win alone_!
 * Otherwise, each player whose _final card_ is the same as the _winning animal_, wins!
-
-{{< /rules-double-view >}}
-
 
 ## Gameplay
 
@@ -77,7 +74,7 @@ Remember that Smallseat is a **position**. Whoever sits there, is currently Boss
 
 {{< rules/rules-image src="gameplay_2.webp" alt="Example of handling the remaining (non-winning) cards." >}}
 
-{{< rules/rules-example id="turn" >}}
+{{< rules/rules-example id="turn-smallseat" >}}
 
 
 ## Packs

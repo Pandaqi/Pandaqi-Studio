@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{< rules-double-view src="starting_setup_1.webp" alt="Example of a starting setup. (Square tiles, 4 players, mosaic style.)" >}}
+{{< rules-image-sidebar src="starting_setup_1.webp" alt="Example of a starting setup. (Square tiles, 4 players, mosaic style.)" >}}
 
 Divide the players into pairs ( = teams of 2). If your player count is odd, include one team of 3.
 
@@ -19,9 +19,6 @@ The code card shows the "secret tile" of your teammate that you, somehow, must c
 Finally, shuffle the **tiles**. Arrange them in a grid to match the layout on the code cards.
 
 On the [website](https://pandaqi.com/photomone-antsassins), you can pick whatever tile type you want. The rules are identical for all. However, do not "mix" different tiles in the same game.
-
-{{< /rules-double-view >}}
-
 
 ## Objective
 
@@ -72,7 +69,7 @@ Playing cooperatively? The tokens are required. After each turn, mark a secret t
 
 ## Almost Tiles
 
-{{< rules-double-view src="almost_actions.webp" alt="How almost actions are placed + example of how its used." >}}
+{{< rules-image-sidebar src="almost_actions.webp" alt="How almost actions are placed + example of how its used." >}}
 
 The _almost_ tiles appear in one of three ways: same _column_, same _row_, or _adjacent_ (to the secret tile of its team).
 
@@ -84,40 +81,4 @@ The team picks which of its members takes the action. If this team isn't in the 
 First game? You can turn off all actions when printing your PDF from the website.
 {{% /rules/rules-remark %}}
 
-{{< /rules-double-view >}}
-
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Spy" >}}
-        Point at two tiles that don't belong to you. (Not your secret tile or a matching almost tile.)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Double" >}}
-        Immediately give another clue.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Antsassin Clue" >}}
-        Give a clue about where antsassins are.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Secret" >}}
-        Give a clue about where secret tiles are. (As opposed to the regular clue about where it is NOT.)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Rotate" >}}
-        Rotate 3 tiles. You can't pick your secret tile(s).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Swap" >}}
-        Swap 2 tiles with others from the board or new ones from the pile. You can't pick your secret tile(s).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Big Hint" >}}
-        Tap a tile. All other teams must state its type: team, almost, assassin, or otherwise.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Retry" >}}
-        Swap your code card for a new one.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
+<div data-rulebook-table="almost-tiles"></div>

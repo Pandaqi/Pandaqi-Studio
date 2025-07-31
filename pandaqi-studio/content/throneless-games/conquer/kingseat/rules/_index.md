@@ -26,14 +26,11 @@ Finally, keep two piles of cards during the game.
 
 ## Objective
 
-{{< rules-double-view src="objective.webp" alt="Example counting the votes and declaring a winner (at the end)" >}}
+{{< rules-image-sidebar src="objective.webp" alt="Example counting the votes and declaring a winner (at the end)" >}}
 
 The game ends when **all players are out of cards**. 
 
 Reveal the **Tell** and count the votes. The Prince with the most votes wins. All players whose secret **Loyalty** matches that Prince, win!
-
-{{< /rules-double-view >}}
-
 
 ## Gameplay
 

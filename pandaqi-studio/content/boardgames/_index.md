@@ -25,7 +25,7 @@ collection: true
 
 <div class="colorScheme-blue background-pattern">
 	<div class="underline-image">
-{{< figure url="boardgames_games" alt="Traditional Games logo">}}
+{{< content/figure src="assets/boardgames_games" alt="Traditional Games logo">}}
 	</div>
 
 ## Traditional Games
@@ -43,7 +43,7 @@ This is by far the largest category of games on this website. If unfamiliar with
 
 <div class="colorScheme-beige background-pattern">
 	<div class="underline-image">
-{{< figure url="boardgames_opg" alt="One Paper Games logo" >}}
+{{< content/figure src="assets/boardgames_opg" alt="One Paper Games logo" >}}
 	</div>
 
 ## One Paper Games
@@ -59,7 +59,7 @@ This simplicity is great. You can download, explain, carry, play or pause these 
 
 <div class="colorScheme-green background-pattern">
 	<div class="underline-image">
-{{< figure url="boardgames_hybrid" alt="Hybrid Games logo">}}
+{{< content/figure src="assets/boardgames_hybrid" alt="Hybrid Games logo">}}
 	</div>
 
 ## Hybrid
@@ -77,7 +77,7 @@ Sometimes an offline mode is present or the digital component is optional. But t
 
 <div class="colorScheme-beige background-pattern">
 	<div class="underline-image">
-{{< figure url="boardgames_faq" alt="Frequently Asked Questions (Ilustration)" >}}
+{{< content/figure src="assets/boardgames_faq" alt="Frequently Asked Questions (Ilustration)" >}}
 	</div>
 
 ## How does it work?
@@ -100,7 +100,7 @@ The project sometimes contains a third folder called "Vault". That's where I sto
 
 <div class="colorScheme-black">
 	<div class="underline-image">
-{{< figure url="boardgames_pnp" alt="Print 'n Play (Ilustration)" >}}
+{{< content/figure src="assets/boardgames_pnp" alt="Print 'n Play (Ilustration)" >}}
 	</div>
 
 ## Print & Play

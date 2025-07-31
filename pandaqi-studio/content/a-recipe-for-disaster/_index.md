@@ -32,7 +32,7 @@ playercount: [1,2,3,4]
 input: ["controller", "keyboard", "touch"]
 devlog: "/blog/videogames/one-week-games/devlog-a-recipe-for-disaster/"
 
-media: [https://www.youtube.com/embed/MQ7srCHHXZg, arfd_1, arfd_2, arfd_3]
+media: [https://www.youtube.com/embed/MQ7srCHHXZg, assets/arfd_1, assets/arfd_2, assets/arfd_3]
 ---
 
 Ever wondered how to run a bakery without hands? Well, wonder no more!
@@ -53,8 +53,8 @@ On mobile, make sure your phone supports multitouch, and that (media) gestures a
 
 The images below explain all controls you'll ever need!
 
-{{% figure url="arfd_1" alt="Action 1: How to Move" %}}
-{{% figure url="arfd_2" alt="Action 2: How to Throw Things" %}}
+{{< content/figure src="assets/arfd_1" alt="Action 1: How to Move" >}}
+{{< content/figure src="assets/arfd_2" alt="Action 2: How to Throw Things" >}}
 
 ## What do I do?
 
@@ -64,7 +64,7 @@ In short: you'll be baking bread.
 
 In long: the game is split into 20 levels. Each level teaches a new ingredient, or machine, or mechanic. The image below shows the full workflow for baking bread that is active in the final level.
 
-{{% figure url="arfd_3" alt="Overview of How to Bake Bread" %}}
+{{< content/figure src="assets/arfd_3" alt="Overview of How to Bake Bread" >}}
 
 ## The 1-week challenge
 

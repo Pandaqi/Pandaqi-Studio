@@ -3,7 +3,7 @@
 {{ $metadata := partial "func/get-game-metadata.html" . }}
 {{ $blurb_text := or (.Params.blurb | markdownify) "This is a mysterious game without a description ..." }}
 
-<a class="no-default-link-styles display-block bg-color-light padding-m border-radius-m hover_invert hover_popup" href="{{ .RelPermalink }}">
+<a class="no-default-link-styles bg-color-light display-block padding-m border-radius-m hover_invert hover_popup" href="{{ .RelPermalink }}">
     {{ if $header_url }}
         <div class="bg-image">
             {{ partial "content/show-image.html" (dict "context" . "src" $header_url) }}

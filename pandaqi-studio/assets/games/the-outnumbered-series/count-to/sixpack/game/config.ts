@@ -1,4 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point";
+import { PACKS } from "./dict";
+import { generateForRulebook } from "../rules/main";
 
 const CONFIG = 
 {
@@ -142,6 +144,35 @@ const CONFIG =
                 values: [0,1,2,3,4,5,6],
                 default: 0,
                 label: "Calculator",
+            },
+        }
+    },
+
+    _rulebook:
+    {
+        examples:
+        {
+            "turn":
+            {
+                buttonText: "Give me an example turn!",
+                callback: generateForRulebook,
+            },
+
+            "turn-reverse":
+            {
+                buttonText: "Give me an example turn!",
+                callback: (sim) => { generateForRulebook(sim, true) },
+            },
+        },
+
+        icons:
+        {
+            packs:
+            {
+                sheetURL: "card_types.webp",
+                sheetWidth: 8,
+                base: "/the-outnumbered-series/count-to/sixpack/assets/",
+                icons: PACKS
             },
         }
     },

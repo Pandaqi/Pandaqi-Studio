@@ -8,40 +8,33 @@ type: "rules"
 
 Grab a paper. Fold it in half six times: you should have 64 "cells" now.
 
-You can start with an empty page. Or let [the website](../#board) generate a starting board and copy it to your paper.
+You can start with an empty page. Or let the website generate a starting board and copy it to your paper.
 
 Each player grabs a pen and invents **some simple icon** they'll use throughout the game. (Square, circle, ...)
 
-Grab a device and start [the game](../#game).
+Grab a device and start [the game](../game).
 
 {{% rules/rules-remark %}}
-Decide on two things before the game starts. 
-
-**Direction of play**: how words are oriented and read. 
-
-**Dictionary**: what source decides if a word is valid.
+Decide on two things before the game starts. **Direction of play**: how words are oriented and read. **Dictionary**: what source decides if a word is valid.
 {{% /rules/rules-remark %}}
-
 
 ## Objective
 
 The game ends when the interface says so. (It gives a warning beforehand.) The player with the most points wins.
 
-
 ## Gameplay
 
 The device shows a list of options. On your turn, **pick any option**!
 
-Tap it. Execute the option. If you created new words, [**score them**](#action_scoring).
+Tap it. Execute the option. If you created new words, [**score them**](#scoring).
 
 When only _one option_ is left, the current round ends. The interface automatically starts the next one.
 
 {{< rules/rules-example id="turn" >}}
 
-
 ### Scoring
 
-{{< rules-double-view src="scoring.webp" alt="Examples of scoring your word(s)." >}}
+{{< rules-image-sidebar src="scoring.webp" alt="Examples of scoring your word(s)." >}}
 
 If you've created **new and valid** words, score them at the end of your turn. 
 
@@ -53,9 +46,6 @@ For each new word ...
 To update score, open that window in the interface. Tap a name to add +1 score.
 
 If your combined score at the end of a turn is _negative_, don't do anything. (This can happen with expansions, both for you and others profiting from your word.)
-
-{{< /rules-double-view >}}
-
 
 ## Options
 
@@ -76,25 +66,19 @@ Two special letters exist.
 * **Question mark** ("?"). This is a wildcard: it can be any letter you want!
 * **Exclamation mark** ("!"). For each of these, you must _overwrite_ an existing letter of yours (instead of placing the new letter in an empty cell).
 
-
 ### Wall
 
 Place a wall on any empty edge on the board. A wall means the two cells aren’t considered “adjacent” anymore. (Which allows for creating more words, or breaking up bad patches of letters.)
 
 {{< rules/rules-image src="wall_placement.webp" alt="Example of placing/using a wall." >}}
 
-
 ### Start Player
 
 The next round starts with you! (The interface remembers this and will show the correct player name.)
 
-
 ### Points
 
 You simply get the points indicated. (The interface does this automatically for you!)
-
-
-
 
 ## Upgrades
 
@@ -108,26 +92,7 @@ The option "special cell" can appear. When picked, draw the cell type in the **t
 
 Below are all possible types.
 
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Double Letter" >}}
-        Doubles the value of the letter inside.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Triple Letter" >}}
-        Triples the value of the letter inside.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Double Word" >}}
-        Doubles the value of the word that used it.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Triple Word" >}}
-        Triples the value of the word that used it.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-{{< /rules/rules-table >}}
-
+<div data-rulebook-table="supercells"></div>
 
 ### Poignant Powerups
 
@@ -139,45 +104,13 @@ At most four powerups can exist at the same time. If a fifth one is added, the o
 Choosing a powerup always gives you 2 points. This happens automatically.
 {{% /rules/rules-remark %}}
 
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Letter Change" iconprefix="option" >}}
-        The value of a specific letter is changed (by the amount shown).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Word Change" iconprefix="option" >}}
-        The score for each new word is changed (by the amount shown)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Straight" iconprefix="option" >}}
-        If you place new letters, they must all be in the same row or column
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Connect" iconprefix="option" >}}
-        If you place new letters, they must all connect to existing letters
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Clear" iconprefix="option" >}}
-        Removes all active powerups!
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
+<div data-rulebook-table="poignant-powerups"></div>
 
 ### Ominous Options
 
 Adds more advanced options that can appear in the interface.
 
-{{< rules/rules-table class="single-line" >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Swap" iconprefix="option" >}}
-        Change one letter on the board into any other one. (Cross out the original, write the new one in the cell.)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Destroy" iconprefix="option" >}}
-        Pick a cell and cross out one part of it: <strong>owner, type, score or content</strong>. If you destroy the <em>content</em> (even in an empty cell), it can't be used anymore.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
+<div data-rulebook-table="ominous-options"></div>
 
 ### Beefy Backpacks
 
@@ -187,10 +120,4 @@ How? Open that backpack interface (tap its icon) and tap your name. It knows the
 
 A new option can appear: empty backpack.
 
-{{< rules/rules-table class="single-element" >}}
-    {{< rules/rules-table-entry heading="Empty Backpack" iconprefix="option" >}}
-        When chosen, place all letters inside your backpack on the board at once. The interface empties it for you.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
-
+<div data-rulebook-table="beefy-backpacks"></div>

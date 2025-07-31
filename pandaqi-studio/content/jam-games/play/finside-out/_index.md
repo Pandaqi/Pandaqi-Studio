@@ -27,7 +27,7 @@ input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/finside-out/"
 sourcecode: "https://github.com/Pandaqi/Wanna-Jam-2024/"
 
-media: [finside_out_sc0,finside_out_sc1,finside_out_sc2,finside_out_sc3,finside_out_sc4,finside_out_sc5]
+media: [assets/finside_out_sc0, assets/finside_out_sc1, assets/finside_out_sc2, assets/finside_out_sc3, assets/finside_out_sc4, assets/finside_out_sc5]
 
 ---
 

@@ -28,7 +28,7 @@ input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/druids-in-the-dark/"
 sourcecode: "https://github.com/Pandaqi/Druids-in-the-Dark/"
 
-media: [druids_screenshot_1,druids_screenshot_2,druids_screenshot_3]
+media: [assets/druids_screenshot_1, assets/druids_screenshot_2, assets/druids_screenshot_3]
 
 ---
 

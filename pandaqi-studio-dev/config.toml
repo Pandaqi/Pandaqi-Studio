@@ -23,6 +23,8 @@ SectionPagesMenu = "main"
   title = "Pandaqi"
   subtitle = "Board & Video Game Developer"
 
+  favicon     = "theme/favicon.png"
+
   description = "The official website of game studio Pandaqi"
   metaDescription = "The official website of game studio Pandaqi"
   

@@ -1,8 +1,10 @@
 import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { ELEMENTS } from "../shared/dict"
+import { generateForRulebook } from "../rules/main";
 
-export default 
+export const CONFIG =
 {
     _settings:
     {
@@ -46,19 +48,111 @@ export default
         }
     },
 
+    _rulebook:
+    {
+        examples:
+        {
+            turn:
+            {
+                buttonText: "Generate a random turn!",
+                callback: generateForRulebook,
+            }
+        },
+
+        tables:
+        {
+            red:
+            {
+                config:
+                {
+                    icons:
+                    {
+                        sheetURL: "quellector_actions_with_bg.webp",
+                        sheetWidth: 8,
+                        icons: ELEMENTS,
+                        base: "/waitless-games/play/creature-quellector/assets/"
+                    }
+                },
+                data: 
+                {
+                    fire: ELEMENTS.fire,
+                    electric: ELEMENTS.electric,
+                    star: ELEMENTS.star,
+                    dragon: ELEMENTS.dragon
+                }
+            },
+
+            blue:
+            {
+                config:
+                {
+                    icons:
+                    {
+                        sheetURL: "quellector_actions_with_bg.webp",
+                        sheetWidth: 8,
+                        icons: ELEMENTS,
+                        base: "/waitless-games/play/creature-quellector/assets/"
+                    }
+                },
+                data: 
+                {
+                    water: ELEMENTS.water,
+                    ice: ELEMENTS.ice,
+                    poison: ELEMENTS.poison,
+                    weather: ELEMENTS.weather
+                }
+            },
+
+            green:
+            {
+                config:
+                {
+                    icons:
+                    {
+                        sheetURL: "quellector_actions_with_bg.webp",
+                        sheetWidth: 8,
+                        icons: ELEMENTS,
+                        base: "/waitless-games/play/creature-quellector/assets/"
+                    }
+                },
+                data: 
+                {
+                    earth: ELEMENTS.earth,
+                    grass: ELEMENTS.grass,
+                    rock: ELEMENTS.rock,
+                    bug: ELEMENTS.bug
+                }
+            },
+
+            purple:
+            {
+                config:
+                {
+                    icons:
+                    {
+                        sheetURL: "quellector_actions_with_bg.webp",
+                        sheetWidth: 8,
+                        icons: ELEMENTS,
+                        base: "/waitless-games/play/creature-quellector/assets/"
+                    }
+                },
+                data: 
+                {
+                    air: ELEMENTS.air,
+                    magic: ELEMENTS.magic,
+                    ghost: ELEMENTS.ghost,
+                    dark: ELEMENTS.dark
+                }
+            }
+        }
+    },
+
     debugWithoutPDF: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugRandomizeTypes: false, // @DEBUGGING (should be false)
     
     fileName: "[Creature Quellector] Material",
     configKey: "creatureQuellectorConfig",
-    progressBar: null,
-    resLoader: null,
-    gridMapper: null,
-    pdfBuilder: null,
-    itemSize: "regular",
-    pageSize: "a4",
-    inkFriendly: false,
 
     multiType: false,
     multiTypeImageResource: null,
@@ -229,6 +323,15 @@ export default
             width: 0.02,
         },
         genericNames: ["mon", "snout", "leg", "fur", "paw", "tail", "speed", "critter", "creat", "monster", "god", "child", "baby", "beak", "wing", "dweller", "kid", "roam", "breath", "blast", "jump", "leap"],
+    },
 
-    }
+    types: ["red", "blue", "green", "purple"],
+    canvasSize: new Point(960, 540),
+    itemSize: new Point(150, 200),
+    paddingBetweenCards: 30,
+    mainTypeSize: 0.25, // relative to card size
+    typeSize: 0.185, // relative to card size
+    paddingBetweenTypes: 0.1, // relative to type size
+    includeActions: true,
+    actionProb: 0.15,
 }

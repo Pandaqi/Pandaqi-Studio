@@ -37,4 +37,4 @@ Each treasure gives you special powers. But the police might also have some spec
 
 A game about stealing the most useful treasures before anyone else, setting yourself up for a quick exit, and making sure your fellow players don't completely block all your passages.
 
-{{< figure url="paperthieves_board" alt="Example game board (Map: Amsterdam)" >}}
+{{< content/figure src="assets/paperthieves_board" alt="Example game board (Map: Amsterdam)" >}}

@@ -26,7 +26,7 @@ playtime: 5
 playercount: [1,2,3,4]
 input: ["touch", "mouse"]
 
-media: [https://www.youtube.com/embed/EnU19uRTz_M, arthockey_1, arthockey_2, arthockey_3, arthockey_4, arthockey_5, arthockey_6, arthockey_7, arthockey_8]
+media: [https://www.youtube.com/embed/EnU19uRTz_M, assets/arthockey_1, assets/arthockey_2, assets/arthockey_3, assets/arthockey_4, assets/arthockey_5, assets/arthockey_6, assets/arthockey_7, assets/arthockey_8]
 
 ---
 
@@ -64,7 +64,7 @@ Defend against attacks from all sides, grab the powerups you need, and deflect t
 
 In case you've forgotten what a powerup does, or want a glimpse of what you can unlock, I present **The Great Library of Powerups!**
 
-{{% figure url="powerup_overview" alt="The full library of powerups" %}} 
+{{< content/figure src="assets/powerup_overview" alt="The full library of powerups" >}} 
 
 ## Why Free?
 

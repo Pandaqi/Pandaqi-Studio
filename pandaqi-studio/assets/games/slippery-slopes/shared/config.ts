@@ -3,8 +3,9 @@ import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { ACTIONS } from "./dict";
 
-const CONFIG = 
+export const CONFIG =
 {
     _settings:
     {
@@ -59,6 +60,27 @@ const CONFIG =
                 type: SettingType.CHECK,
                 label: "Crashery Cliffs",
                 remark: "Slight rule changes and more slider types."
+            },
+        }
+    },
+
+    _rulebook:
+    {
+        tables:
+        {
+            "glidy-gifts":
+            {
+                config:
+                {
+                    icons:
+                    {
+                        sheetURL: "actions.webp",
+                        sheetWidth: 8,
+                        icons: ACTIONS,
+                        base: "/slippery-slopes/assets/"
+                    }
+                },
+                data: ACTIONS
             },
         }
     },
@@ -275,6 +297,3 @@ const CONFIG =
         })
     }
 }
-
-
-export default CONFIG;

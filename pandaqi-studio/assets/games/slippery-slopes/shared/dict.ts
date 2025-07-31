@@ -11,16 +11,16 @@ interface ActionData
     desc: string
 }
 
-const ACTIONS:Record<string, ActionData> = 
+export const ACTIONS:Record<string, ActionData> = 
 {
-    add: { frame: 0, prob: 1, desc: "Draw an extra slider and mark your word on it." },
+    add: { frame: 0, prob: 1, desc: "Draw two extra sliders and mark your word on those." },
     replace: { frame: 1, prob: 1.33, desc: "Replace one or more sliders by new ones." },
-    ignore: { frame: 2, prob: 0.33, desc: "You're allowed to ignore one or more sliders. (Don't mark anything on it.)" },
+    ignore: { frame: 2, prob: 0.33, desc: "You're allowed to ignore one or more sliders. (Don't mark anything on them.)" },
     double: { frame: 3, prob: 1, desc: "Place two markers on the same slider (to indicate two separate values)." },
-    hint: { frame: 4, prob: 1, desc: "Give a one-word hint, but it must start with the same letter as another word on your card. (You can't say your original word.)" },
+    hint: { frame: 4, prob: 1, desc: "Give a one-word hint, but it can't be a word from your card." },
     category: { frame: 5, prob: 1.33, desc: "Say the category to which the word belongs." },
-    order: { frame: 6, prob: 1.33, desc: "Explain the order of importance of your sliders. (Which one is the best hint, until the one that's the worst hint.)" },
-    property: { frame: 7, prob: 2.5, desc: "Rename the ends of a slider to two different properties. Now mark your secret word on that new scale." }
+    order: { frame: 6, prob: 1.33, desc: "Explain the order of importance of your sliders. (Which one is the best hint -> which one's the worst hint.)" },
+    property: { frame: 7, prob: 2.5, desc: "Rename the ends of a slider to two different properties. Now mark your secret word on that new scale!" }
 }
 
 interface PropertyData
@@ -32,7 +32,7 @@ interface PropertyData
     prob?:number
 }
 
-const PROPERTIES:Record<string, PropertyData> =
+export const PROPERTIES:Record<string, PropertyData> =
 {
     temperature: { low: "cold", high: "hot", frame: 0, req: true, prob: 1.5 },
     weight: { low: "heavy", high: "light", frame: 1, req: true, prob: 3 },
@@ -116,7 +116,7 @@ const PROPERTIES:Record<string, PropertyData> =
     friendliness: { low: "unfriendly", high: "friendly", frame: 77, prob: 0.66 }, // annoying-nice
 }
 
-const SLIDERS:Record<string, any> = 
+export const SLIDERS:Record<string, any> = 
 {
     property: { subTypes: PROPERTIES, prob: 5, needsMeter: true },
     words: { subTypes: {}, prob: 3, max: 10, actionsForbidden: true },
@@ -124,7 +124,7 @@ const SLIDERS:Record<string, any> =
     color: { subTypes: {}, prob: 1, max: 4, needsMeter: true },
 }
 
-const RANDOM_SHAPE_LIST = 
+export const RANDOM_SHAPE_LIST = 
 {
     circle: new Circle(),
     rect: new Rectangle(),
@@ -134,11 +134,4 @@ const RANDOM_SHAPE_LIST =
     octagon: new Polygon({ corners: 8 }),
     star: new Star(),
     el: new LShape(),
-}
-
-export {
-    ACTIONS,
-    SLIDERS,
-    PROPERTIES,
-    RANDOM_SHAPE_LIST
 }

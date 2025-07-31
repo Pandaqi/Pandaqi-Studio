@@ -5,6 +5,143 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG_SHARED =
 {
+    _rulebook:
+    {
+        examples:
+        {
+            "turn-smallseat":
+            {
+                buttonText: "Give me an example round!",
+                simulator:
+                {
+                    callbackInitStats,
+                    callbackFinishStats,
+                }
+            },
+
+            "turn-kingseat":
+            {
+                buttonText: "Give me an example round!",
+                simulator:
+                {
+                    callbackInitStats,
+                    callbackFinishStats,
+                }
+            },
+
+            "turn-queenseat":
+            {
+                buttonText: "Give me an example round!",
+                simulator:
+                {
+                    callbackInitStats,
+                    callbackFinishStats,
+                }
+            },
+
+            "turn-kaizerseat":
+            {
+                buttonText: "Give me an example round!",
+                simulator:
+                {
+                    callbackInitStats,
+                    callbackFinishStats,
+                }
+            }
+        },
+
+        icons:
+        {
+            smallseat:
+            {
+                sheetURL: "crests_full.webp",
+                sheetWidth: 6,
+                base: "/throneless-games/conquer/smallseat/assets/",
+                icons:
+                {
+                    "karate-chicks": { frame: 0 },
+                    pricklypettes: { frame: 1 },
+                    sleepersippies: { frame: 2 },
+                    "chewy-carrots": { frame: 3 },
+                    "tree-of-hainut": { frame: 4 },
+                    curlysnouts: { frame: 5 },
+                    tinybears: { frame: 6 },
+                    purplepaws: { frame: 7 },
+                    ottermother: { frame: 8 },
+                    sealalater: { frame: 9 },
+                    snufflesniff: { frame: 10 },
+                    poinytailors: { frame: 11 }
+                }
+            },
+
+            kingseat:
+            {
+                sheetURL: "crests_full.webp",
+                sheetWidth: 6,
+                base: "/throneless-games/conquer/kingseat/assets/",
+                icons:
+                {
+                    lionsyre: { frame: 0 },
+                    slydefox: { frame: 1 },
+                    woolfhall: { frame: 2 },
+                    hornseeker: { frame: 3 },
+                    brownbeards: { frame: 4 },
+                    monarchrys: { frame: 5 },
+                    crassclamps: { frame: 6 },
+                    gulliballistas: { frame: 7 },
+                    "hardshell-hero": { frame: 8 },
+                    squlofish: { frame: 9 },
+                    smugwing: { frame: 10 },
+                    "salsa-salamanda": { frame: 11 }
+                }
+            },
+
+            queenseat:
+            {
+                sheetURL: "crests_full.webp",
+                sheetWidth: 6,
+                base: "/throneless-games/conquer/queenseat/assets/",
+                icons:
+                {
+                    "stingers-hive": { frame: 0 },
+                    "galloping-sun": { frame: 1 },
+                    trunktrumpets: { frame: 2 },
+                    featherdancer: { frame: 3 },
+                    "whistley-wine": { frame: 4 },
+                    "edibus-eggsnatcher": { frame: 5 },
+                    "feared-flame": { frame: 6 },
+                    "eyrie-feyle": { frame: 7 },
+                    "chattered-fins": { frame: 8 },
+                    galaksea: { frame: 9 },
+                    venomfruit: { frame: 10 },
+                    colorcoats: { frame: 11 }
+                }
+            },
+
+            kaizerseat:
+            {
+                sheetURL: "crests_full.webp",
+                sheetWidth: 6,
+                base: "/throneless-games/conquer/kaizerseat/assets/",
+                icons:
+                {
+                    solongnecks: { frame: 0 },
+                    "boardom-thieves": { frame: 1 },
+                    "longsword-fins": { frame: 2 },
+                    atheneyes: { frame: 3 },
+                    gallopeers: { frame: 4 },
+                    candlesticks: { frame: 5 },
+                    taredtula: { frame: 6 },
+                    "sonar-and-sons": { frame: 7 },
+                    "sirens-of-seatongue": { frame: 8 },
+                    cracktapus: { frame: 9 },
+                    ravenletters: { frame: 10 },
+                    twistertoots: { frame: 11 }
+                }
+            },
+        }
+    },
+
     inkFriendly: false,
     itemSize: "regular",
     pageSize: "a4",

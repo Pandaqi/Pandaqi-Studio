@@ -210,7 +210,7 @@ button:hover
 .rules-icon {
     width: 48px;
     height: 48px;
-    background-image: url(/theme/webp/rules_icons.webp);
+    background-image: url(/theme/webp/rules-icons.webp);
     background-size: 800%;
 }
 

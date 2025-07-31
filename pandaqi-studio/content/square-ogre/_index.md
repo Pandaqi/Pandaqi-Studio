@@ -25,33 +25,33 @@ playtime: 10
 playercount: 1
 input: ["touch", "keyboard"]
 
-media: [https://youtube.com/embed/wbbFJdYkwZ4, video/squareogre_video1, video/squareogre_video2, video/squareogre_video3, square-ogre-picturebook, square-ogre-sketch]
+media: [https://youtube.com/embed/wbbFJdYkwZ4, assets/video/squareogre_video1, assets/video/squareogre_video2, assets/video/squareogre_video3, assets/square-ogre-picturebook, assets/square-ogre-sketch]
 
 ---
 
 <!-- Section 1: A Puzzler for Everyone -->
-{{< figure url="squareogre_h1" alt="Hiding in plain sight" >}}
+{{< content/figure src="assets/squareogre_h1" alt="Hiding in plain sight" >}}
 
 **Square Ogre** is a cute **puzzle game** with the simplest possible controls (swipe in a direction to move that way). Help Ogre improve his eyesight, so he can finally find the cave exit.
 
 It's based upon a children's story and therefore suitable **for all ages**. The simple controls allow puzzles to stay small and uncluttered, with the solution often hiding in plain sight ...
 
 <!-- Section 2: A Cave of Content -->
-{{< figure url="squareogre_h2" alt="A Cave of Content" >}}
+{{< content/figure src="assets/squareogre_h2" alt="A Cave of Content" >}}
 
 **500 unique puzzles** across **20 worlds** will entertain you for tens of hours!
 
 Start of a new world? A brand new mechanic to explore! This makes the game easy to learn, yet varied and challenging.
 
 <!-- Section 3: The Ways of the Ogre -->
-{{< figure url="squareogre_h3" alt="The Ways of the Ogre" >}}
+{{< content/figure src="assets/squareogre_h3" alt="The Ways of the Ogre" >}}
 
 You'll be opening doors, flying from trampolines, skidding across icy floors, collecting mysterious scrolls, and most importantly ... 
 
 ... improving his eyesight. The world is so beautiful! There is so much to see! Square eyes just aren't enough to take it all in. Would you help Square Ogre add some more corners to that eye?
 
 <!-- Section 4: Round Ogre -->
-{{< figure url="squareogre_h4" alt="Round Ogre" >}}
+{{< content/figure src="assets/squareogre_h4" alt="Round Ogre" >}}
 
 The story of Square Ogre doesn't end here! 
 
@@ -60,14 +60,14 @@ The story of Square Ogre doesn't end here!
 She's just too enthusiastic about life! She wants to see it all! She can barely keep her eyes closed, but when you finally manage to do so ... well, that's awkward, she might be sleepwalking for quite some time.
 
 <!-- Section 5: More than a game! (Picturebook) -->
-{{< figure url="squareogre_h5" alt="More than a game!" >}}
+{{< content/figure src="assets/squareogre_h5" alt="More than a game!" >}}
 
 This game is an extension to an _interactive picture book_ I published in the Netherlands: [Vierkante Ogre (prentenboek)](https://tiamopastoor.com/books/vierkante-ogre)
 
 If you're Dutch and like (the look of) this game, check out this book and support my work!
 
 <!-- Section 6: The Curse of the Ogres -->
-{{< figure url="squareogre_h6" alt="The Curse of the Ogres" >}}
+{{< content/figure src="assets/squareogre_h6" alt="The Curse of the Ogres" >}}
 
 Long ago, Ogres roamed our lands. They were a welcome sight, a happy sight, as they brought joy everywhere with their odd games and interesting sports.
 
@@ -82,7 +82,7 @@ What's up with this curse? Where does it come from and what does it do? Will he 
 Will the Ogres ever find the exit?
 
 <!-- Section 7: Feedback -->
-{{< figure url="squareogre_h7" alt="Feedback" >}}
+{{< content/figure src="assets/squareogre_h7" alt="Feedback" >}}
 
 Played the game? Liked it? Didn't like it? Whatever it is, let me know.
 

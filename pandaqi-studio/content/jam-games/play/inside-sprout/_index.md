@@ -27,7 +27,7 @@ input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/inside-sprout/"
 sourcecode: "https://github.com/Pandaqi/Inside-Sprout/"
 
-media: [inside_sprout_sc1,inside_sprout_sc2,inside_sprout_sc3,inside_sprout_sc4,inside_sprout_sc5]
+media: [assets/inside_sprout_sc1, assets/inside_sprout_sc2, assets/inside_sprout_sc3, assets/inside_sprout_sc4, assets/inside_sprout_sc5]
 
 ---
 

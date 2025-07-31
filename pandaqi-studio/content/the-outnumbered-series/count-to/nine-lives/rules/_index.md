@@ -49,8 +49,6 @@ Losing a life means discarding the top card of your lives deck, as well as _any 
 
 The player with the most cards becomes the new Kittyqueen. (If tied, the current Kittyqueen picks their successor from the tied players.)
 
-
-
 ## Lives
 
 {{< rules/rules-image src="life_card_skeleton.webp" class="float-right" alt="The different parts of a Life Card." >}}
@@ -68,9 +66,9 @@ Below are tables explaining what each icon means.
 
 If you enabled "limited powers", only these ones appear.
 
-<div id="powers-rules-table-limited"></div>
+<div data-rulebook-table="powers-rules-table-limited"></div>
 
 If all powers are enabled, these ones can also appear.
 
-<div id="powers-rules-table-advanced"></div>
+<div data-rulebook-table="powers-rules-table-advanced"></div>
 

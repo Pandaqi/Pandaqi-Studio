@@ -20,7 +20,7 @@ playtime: 30-60
 playercount: [2,3,4,5,6]
 ages: everyone
 
-media: [swerving-shots-board]
+media: [assets/swerving-shots-board]
 
 ---
 

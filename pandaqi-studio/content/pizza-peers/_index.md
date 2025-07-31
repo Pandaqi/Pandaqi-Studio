@@ -23,7 +23,7 @@ playercount: [1,2,3,4,5,6,7,8,9,10]
 input: ["touch"]
 devlog: "/blog/videogames/the-peerful-project/pizza-peers/"
 
-media: [https://youtube.com/embed/6BKfPS9q3qI, pizzapeers-logo, video/1_how_to_move, video/2_how_to_buy, video/3_how_to_deliver, video/4_how_to_combine, video/5_how_allergies_work, video/6_how_to_bake, video/7_how_to_take_orders, pizzapeers-logo-animated]
+media: [https://youtube.com/embed/6BKfPS9q3qI, assets/pizzapeers-logo, assets/video/1_how_to_move, assets/video/2_how_to_buy, assets/video/3_how_to_deliver, assets/video/4_how_to_combine, assets/video/5_how_allergies_work, assets/video/6_how_to_bake, assets/video/7_how_to_take_orders, assets/pizzapeers-logo-animated]
 
 ---
 
@@ -45,7 +45,7 @@ Do not worry if you don't immediately remember the rules below. Have fun, play a
 
 Simply move your finger around the screen! (For example: if you touch the top left, your character moves in that direction.)
 
-{{< video url="video/1_how_to_move" >}}
+{{< video src="assets/video/1_how_to_move" >}}
 
 ## Amateur: How do I make a pizza?
 
@@ -63,7 +63,7 @@ You can buy ingredients by walking to the corresponding building and pressing th
 
 _Beware!_ You only have space for **three things** in your personal backpack.
 
-{{< video url="video/2_how_to_buy" >}}
+{{< video src="assets/video/2_how_to_buy" >}}
 
 ## Amateur: How do I deliver?
 
@@ -71,7 +71,7 @@ Buildings will automatically place orders. How do you know? The building will fl
 
 Also, an orange circle appears in front of it. Stand on it and press "deliver order" on your phone!
 
-{{< video url="video/3_how_to_deliver" >}}
+{{< video src="assets/video/3_how_to_deliver" >}}
 
 ## Cook: How do I combine ingredients?
 
@@ -81,7 +81,7 @@ Walk up to them and press the buttons on your phone to drop or pick up ingredien
 
 _Beware!_ You can only combine ingredients if you have the basis of all pizzas: **dough**
 
-{{< video url="video/4_how_to_combine" >}}
+{{< video src="assets/video/4_how_to_combine" >}}
 
 ## Cook: Allergies!
 
@@ -91,7 +91,7 @@ You cannot _hold_ any of these ingredients in your backpack!
 
 If you have 4+ players, you also cannot hold a pizza that _contains_ any of those ingredients.
 
-{{< video url="video/5_how_allergies_work" >}}
+{{< video src="assets/video/5_how_allergies_work" >}}
 
 ## Chef: How do I bake a pizza?
 
@@ -103,7 +103,7 @@ Baking takes time. The heat meter will show you the current temperature.
 
 If it's **green** (or higher), the pizza is hot enough.
 
-{{< video url="video/6_how_to_bake" >}}
+{{< video src="assets/video/6_how_to_bake" >}}
 
 ## Chef: How do I get orders?
 
@@ -113,7 +113,7 @@ A **dancing exclamation mark** means this building wants to order.
 
 > Walk toward the orange circle in front of it and press "take their order" on your phone, before you're too late!
 
-{{< video url="video/7_how_to_take_orders" >}}
+{{< video src="assets/video/7_how_to_take_orders" >}}
 
 ## Master Chef: Special stuff
 

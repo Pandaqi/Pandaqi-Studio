@@ -83,6 +83,6 @@ const CONFIG =
     letterTextConfig: null,
     letterTextStrokeConfig: null,
     handTextConfig: null,
-};
+}
 
 export default CONFIG;

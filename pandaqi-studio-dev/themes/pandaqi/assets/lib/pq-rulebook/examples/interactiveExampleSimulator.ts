@@ -1,6 +1,5 @@
-import { MaterialVisualizer, ResourceLoader } from "lib/pq-games"
+import { GameConfig, MaterialVisualizer, ResourceLoader } from "lib/pq-games"
 import type { InteractiveExample } from "./interactiveExample"
-import { OutputBuilder } from "./outputBuilder"
 
 export interface InteractiveExampleSimulatorParams
 {
@@ -43,15 +42,20 @@ export class InteractiveExampleSimulator
         this.openStats();
     }
 
+    async loadMaterial(resLoader:any)
+    {
+        // @ts-ignore
+        if(window.pqRulebookCustomResources) { resLoader.setCustomResources(window.pqRulebookCustomResources); }
+        if(this.isHeadless()) { return resLoader; } // shortcut = no need to load resources here
+
+        await resLoader.loadPlannedResources();
+        return resLoader;
+    }
+
+    getExample() { return this.example; }
     setCallback(c:Function) { this.callback = c; }
     getOutputBuilder() { return this.example.getOutputBuilder() }
-    getPicker(key:string) { return (this.example.config._material[key] ?? {}).picker; }
     getSettings() { return this.example.settings; }
-    getVisualizer(key:string) 
-    {
-        const visualizerClass = this.example.config._material[key].visualizer ?? MaterialVisualizer;
-        return new visualizerClass(this.example.config, (this.example.config._material[key] ?? {}).itemSize);
-    }
 
     isHeadless() { return this.enabled; }
 
@@ -62,19 +66,12 @@ export class InteractiveExampleSimulator
     }
     displaySingleTurn() { return !this.displayFullGame(); }
 
-    async loadAssets(resLoader:ResourceLoader)
-    {
-        if(this.isHeadless()) { return; }
-        await resLoader.loadPlannedResources();
-    }
-
     callCustom(funcName: string, args:any[])
     {
         if(!this.isHeadless()) { return; }
         if(typeof this.custom[funcName] != 'function')
         {
-            console.error(`Function ${funcName} doesn't exist on custom simulator object.`);
-            return;
+            return console.error(`Function ${funcName} doesn't exist on custom simulator object.`);
         }
         args.unshift(this); // the simulator itself always passed in as first argument; wanted to keep this context clean
         this.custom[funcName].apply(this.custom, args);

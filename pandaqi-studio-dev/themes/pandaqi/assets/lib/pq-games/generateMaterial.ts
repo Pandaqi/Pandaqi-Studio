@@ -227,9 +227,10 @@ const setupRenderer = (config:GameConfig) =>
     return renderer; 
 }
 
-export const generateMaterial = async (config:GameConfig, feedbackNode:HTMLElement) =>
+export const generateMaterial = async (config:GameConfig) =>
 {
     const startTime = Date.now();
+    const feedbackNode = config._settings.meta.feedbackNode;
     sendProgressPhaseSignal(feedbackNode, "Starting");
 
     // prepare config

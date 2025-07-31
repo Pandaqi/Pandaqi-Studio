@@ -27,7 +27,7 @@ input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/bombgoggles/"
 sourcecode: "https://github.com/Pandaqi/Bombgoggles/"
 
-media: [bombgoggles_screenshot_1,bombgoggles_screenshot_2,bombgoggles_screenshot_3,bombgoggles_screenshot_4,bombgoggles_screenshot_5]
+media: [assets/bombgoggles_screenshot_1, assets/bombgoggles_screenshot_2, assets/bombgoggles_screenshot_3, assets/bombgoggles_screenshot_4, assets/bombgoggles_screenshot_5]
 
 ---
 

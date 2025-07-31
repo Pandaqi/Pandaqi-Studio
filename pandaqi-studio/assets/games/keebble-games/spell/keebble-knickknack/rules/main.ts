@@ -1,6 +1,9 @@
+import { KEEBBLE_TYPES } from "games/keebble-games/shared/dict";
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
+import { OPTIONS } from "../game/dict";
 
-const KEEBBLE_LETTER_VALUES = {
+const KEEBBLE_LETTER_VALUES = 
+{
     A: 1,
     B: 3,
     C: 3,
@@ -184,8 +187,106 @@ async function generate() {
     }
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
+const CONFIG =
+{
+    _rulebook:
+    {
+        examples:
+        {
+            turn:
+            {
+                buttonText: "Give me an example turn!",
+                callback: generate
+            }
+        },
 
-const o = e.getOutputBuilder();
+        tables:
+        {
+            supercells:
+            {
+                config:
+                {
+                    icons:
+                    {
+                        sheetURL: "special_cells.webp",
+                        sheetWidth: 8,
+                        icons: KEEBBLE_TYPES,
+                        base: "/keebble-games/spell/keebble/assets/"
+                    }
+                },
+
+                data:
+                {
+                    doubleLetter: KEEBBLE_TYPES.doubleLetter,
+                    tripleLetter: KEEBBLE_TYPES.tripleLetter,
+                    doubleWord: KEEBBLE_TYPES.doubleWord,
+                    tripleWord: KEEBBLE_TYPES.tripleWord
+                }
+            },
+
+            "poignant-powerups":
+            {
+                config:
+                {
+                    icons:
+                    {
+                        sheetURL: "option_icons.webp",
+                        base: "/keebble-games/spell/keebble-knickknack/assets/",
+                        sheetWidth: 14,
+                        icons: OPTIONS
+                    }
+                },
+
+                data:
+                {
+                    letterChange: OPTIONS.po_letter,
+                    wordChange: OPTIONS.po_word,
+                    straight: OPTIONS.po_straight,
+                    connect: OPTIONS.po_connect,
+                    clear: OPTIONS.po_clear
+                }
+            },
+
+            "ominous-options":
+            {
+                config:
+                {
+                    icons:
+                    {
+                        sheetURL: "option_icons.webp",
+                        base: "/keebble-games/spell/keebble-knickknack/assets/",
+                        sheetWidth: 14,
+                        icons: OPTIONS
+                    }
+                },
+
+                data:
+                {
+                    swap: OPTIONS.swap,
+                    destroy: OPTIONS.destroy,
+                }
+            },
+
+            "beefy-backpacks":
+            {
+                config:
+                {
+                    icons:
+                    {
+                        sheetURL: "option_icons.webp",
+                        base: "/keebble-games/spell/keebble-knickknack/assets/",
+                        sheetWidth: 14,
+                        icons: OPTIONS
+                    }
+                },
+
+                data:
+                {
+                    emptyBackpack: OPTIONS.empty_backpack,
+                }
+            }
+        }
+    }
+}
+
+loadRulebook(CONFIG._rulebook);

@@ -16,11 +16,9 @@ Card facing is important in this game. From now on, hand cards that face towards
 You CAN include more animals; this makes the game longer and harder.
 {{% /rules/rules-remark %}}
 
-
 ## Objective
 
 The game ends once **nobody can Vote anymore**. Whoever **is the Queen** when that happens, **wins**!
-
 
 ## Gameplay
 
@@ -59,7 +57,6 @@ That's it! Have fun!
 {{< rules/rules-image src="gameplay_3.webp" alt="Examples of the two rules (for voting and swapping) that are always active." >}}
 
 {{< rules/rules-example id="turn" >}}
-
 
 ## Packs
 

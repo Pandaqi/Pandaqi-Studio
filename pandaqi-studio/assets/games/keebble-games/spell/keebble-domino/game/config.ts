@@ -1,3 +1,5 @@
+import { generateRulebookExample } from "../rules/main";
+import { CELLS } from "./dict";
 
 const CONFIG =
 {
@@ -31,6 +33,37 @@ const CONFIG =
                 type: SettingType.CHECK,
                 label: "Tough Letters",
                 remark: "Adds symbols that are harder to read. Allows more unique letter combinations.
+            },
+        }
+    },
+
+    _rulebook:
+    {
+        examples:
+        {
+            turn:
+            {
+                buttonText: "Give me an example turn!",
+                callback: generateRulebookExample
+            }
+        },
+
+        tables:
+        {
+            supercells:
+            {
+                config:
+                {
+                    icons:
+                    {
+                        base: "/keebble-games/spell/keebble-domino/assets/",
+                        sheetURL: "special_cells.webp",
+                        sheetWidth: 8,
+                        icons: CELLS
+                    }
+                },
+
+                data: CELLS
             },
         }
     },

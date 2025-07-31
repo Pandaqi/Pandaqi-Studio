@@ -1,8 +1,7 @@
-import { GameConfig, MaterialConfig, rangeInteger, ResourceLoader, SettingConfig, shuffle } from "lib/pq-games";
-import { OutputBuilder } from "./outputBuilder"
-import { RulebookSettings } from "./rulebookSettings";
 import type { RulebookParams } from "../rulebook";
 import { InteractiveExampleSimulator, InteractiveExampleSimulatorParams } from "./interactiveExampleSimulator";
+import { OutputBuilder } from "./outputBuilder";
+import { RulebookSettings, SettingConfig } from "./settings";
 
 export interface InteractiveExampleParams
 {
@@ -13,7 +12,6 @@ export interface InteractiveExampleParams
     sidebar?: boolean, // place it in the sidebar?
     settings?: Record<string, SettingConfig>,
     simulator?: InteractiveExampleSimulatorParams,
-    config?: GameConfig,
 }
 
 const FAKE_PLAYER_NAMES = ["Anna", "Bella", "Chris", "Dennis", "Erik", "Frank", "Gini", "Harry", "Ingrid", "James", "Kayla", "Lily"];
@@ -48,16 +46,6 @@ export const createInteractiveExamples = (params:RulebookParams, node:HTMLElemen
     return examples;
 }
 
-export const planLoadExampleResources = (config:GameConfig) =>
-{
-    const resLoader = new ResourceLoader({ base: config._resources.base });
-    resLoader.planLoadMultiple(config._resources.files, config);
-    // @ts-ignore
-    if(window.pqRulebookCustomResources) { resLoader.setCustomResources(window.pqRulebookCustomResources); }
-    config._game.resLoader = resLoader;
-    return resLoader;
-}
-
 const DEFAULT_CALLBACK = (sim:InteractiveExampleSimulator) => { return false };
 
 export class InteractiveExample 
@@ -73,11 +61,9 @@ export class InteractiveExample
     generateCallback: Function;
     busy:boolean;
     settings: RulebookSettings;
-    config: GameConfig;
     
     constructor(params:InteractiveExampleParams = {})
     {
-        this.config = params.config;
         this.id = params.id;
         this.busy = false;
         
@@ -95,7 +81,6 @@ export class InteractiveExample
         if(params.sidebar) { this.node.classList.add("sidebar"); }
 
         this.outputBuilder = new OutputBuilder(this.contentNode);
-        const resLoader = planLoadExampleResources(this.config);
         
         const isSimulating = params.simulator && params.simulator.enabled;
         const callback = params.callback ?? DEFAULT_CALLBACK;
@@ -116,18 +101,12 @@ export class InteractiveExample
         {
             callbackButton = async () => 
             {
-                await resLoader.loadPlannedResources();
                 const sim = new InteractiveExampleSimulator({ enabled: false }, this);
                 return callback(sim);
             };
         }
 
         this.generateCallback = callbackButton;
-    }
-
-    createSimulator()
-    {
-
     }
 
     createHTML()
@@ -199,7 +178,7 @@ export class InteractiveExample
 
     getNumPlayers(min:number, max:number)
     {
-        return rangeInteger(min, max);
+        return min + Math.round(Math.random() * (max-min+1));
     }
 
     getNamesAlphabetical(num:number)
@@ -214,6 +193,11 @@ export class InteractiveExample
 
     getRandomFromList(list:any[], num:number)
     {
-        return shuffle(list).slice(0, num);
+        const arr = [];
+        for(let i = 0; i < num; i++)
+        {
+            arr.push(list.splice(Math.floor(Math.random() * list.length), 1));
+        }
+        return arr;
     }
 }

@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{< rules-double-view src="starting_setup.webp" alt="Example of a random board + different ways to get random words." >}}
+{{< rules-image-sidebar src="starting_setup.webp" alt="Example of a random board + different ways to get random words." >}}
 
 For each game, you need a board (to draw on) and random words. A board always has to be printed.
 
@@ -18,9 +18,6 @@ For words, pick the option you like best:
 Visit the [website](https://pandaqi.com/photomone) for the download link, more help, or to generate your own boards!
 {{% /rules/rules-remark %}}
 
-{{< /rules-double-view >}}
-
-
 ## Objective
 
 Score the amount of food your board indicates. Try to do so using the least turns possible! In this **cooperative** mode, you all work together as one team.
@@ -32,7 +29,7 @@ You can also play **competitively**. Divide the players into two teams. The firs
 
 Take clockwise turns until done.
 
-{{< rules-double-view src="photomone_turn.webp" alt="Example of a turn: pick a word, draw, others guess." >}}
+{{< rules-image-sidebar src="photomone_turn.webp" alt="Example of a turn: pick a word, draw, others guess." >}}
 
 On your turn, get new words. Look at them _in secret_, then pick one. Each word has a number of **lines** and an amount of **food**.
 
@@ -52,9 +49,6 @@ Additionally, each drawing has to pass through one **rectangular spot** on the b
 **Guessed correctly?** You score the food attached to the word!
 
 Now it's your left neighbor's turn.
-
-{{< /rules-double-view >}}
-
 
 ## Rules for Drawing
 
@@ -77,37 +71,11 @@ This expansion turns the dots into many different locations! Each has a special 
 
 {{< rules/rules-image src="sneaky_spots.webp" alt="Example of when a point activates + an example of the harder ones." >}}
 
-{{< rules/rules-table class="big" >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Lines" >}}
-        Changes your number of lines (allowed when drawing) by the number shown.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Distance" >}}
-        All points from your drawing must be within a certain distance of each other: the length of your thumb.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Food" >}}
-        Changes the food you score by the number shown.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Fixed" >}}
-        Your drawing must be one continuous line. (No lifting the pen!)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Curve" >}}
-        Your lines are allowed to <strong>curve</strong> (instead of being straight).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Repel" >}}
-        Your drawing must only use points that have <strong>not</strong> been used already.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
+<div data-rulebook-example="sneaky-spots"></div>
 
 {{% rules/rules-remark %}}
 About "distance": you can also use the word cards (if you printed those), or any other measurement tool of similar length.
 {{% /rules/rules-remark %}}
-
 
 ### Precise Painters
 
@@ -115,33 +83,7 @@ This expansion adds even more special locations, with much more wild or chaotic 
 
 {{< rules/rules-image src="precise_painters.webp" alt="Examples of the tougher powerups and how to use them." >}}
 
-{{< rules/rules-table class="big" >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Add" >}}
-        Add as many new points to the map (of any type) as the number shown. They can't overlap an existing line or point.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Remove" icon="remove">}}
-        Remove as many points from the board as the number shown. (Cross them out, they're gone from now on.)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Solid" icon="solid">}}
-        Color in a closed shape on the board. (Add scribbles, turning the area completely solid and unusable.)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Eyes" icon="eyes">}}
-        Draw one circle in <em>empty space</em> ( = "between te lines"). It can be any size, filled or not, but <em>can't</em> include an existing point or line.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Unfinished" icon="unfinished">}}
-        You may use any position on an existing line as the start / end point for new lines.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Eraser" >}}
-        Erase as many lines as the number shown <em>from your current drawing</em>. (Cross them out. They don't exist, but their two points also can't receive a new line.) If you don't have enough lines, you can't use this location.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
+<div data-rulebook-example="precise-painters"></div>
 
 ### Action Ants
 
@@ -156,25 +98,7 @@ At the end of your turn, move your ant. Cross out the old drawing, draw it at th
 
 {{< rules/rules-image src="action_ants.webp" alt="Example of starting your drawing from your ant + moving at the end of your turn." >}}
 
-{{< rules/rules-table class="single-line" >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Trap" >}}
-        You <strong>cannot</strong> move your ant (at the end of your turn).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Wings" >}}
-        Changes how far your ant is allowed to move (at the end of your turn), by the amount shown.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Teleport" >}}
-        When moving your ant (at the end of your turn), you're allowed to move <em>anywhere</em>!
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Poison Trail" >}}
-        You are <strong>not</strong> allowed to go through ( = "cross") other lines.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
+<div data-rulebook-example="action-ants"></div>
 
 ### Coop Colony
 
@@ -186,17 +110,7 @@ Starting with you, all players who know the word alternate drawing **one line** 
 
 The players who don't know the secret word---and didn't participate in drawing---actually guess it.
 
-{{< rules/rules-table class="single-line" >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Leader" >}}
-        The player that activated this point, must finish the entire drawing on their own.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Dreamdrawing" >}}
-        Even the players who <strong>don't</strong> know the word, participate in drawing one line at a time.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
+<div data-rulebook-example="coop-colony"></div>
 
 ### Antertainment Break
 
@@ -214,15 +128,4 @@ This cycle repeats until somebody guesses your word, or a special location bails
 This expansion **can't** be used with the digital word interface.
 {{% /rules/rules-remark %}}
 
-{{< rules/rules-table class="single-line" >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Break" >}}
-        Pause your drawing immediately. (End your turn without guessing/scoring.)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Pants on Fire" >}}
-        You <strong>can't</strong> pause your drawing. If it's not guessed this turn, you get -5 food.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
-
+<div data-rulebook-example="antertainment-break"></div>

@@ -1,19 +1,16 @@
 ---
 type: "rules"
-pdf: false
 ---
 
 ## Setup
 
 Create a deck with 5 cards per player (the actual cards inside do not matter). Shuffle. Deal all players 5 cards.
 
-
 ## Objective
 
 The game ends when a player is **out of cards**, _or_ all players have decided they're **done**.
 
 The winner is the player with the strongest squad in their hand.
-
 
 ## Gameplay
 
@@ -34,7 +31,6 @@ After the fight, if you're satisfied with your squad, you can decide to stop. Sa
 Your opponent can do so too, _after_ you've chosen what to do.
 
 {{< rules/rules-example id="turn" >}}
-
 
 ## Squads
 
@@ -58,7 +54,6 @@ When calculating your final score at the **end of the game**, pretend you're fig
 * All _actions_ score +1 point, but can be Countered as usual.
 * The _actions_ from the player who has **the most** (out of all players), however, aren't countered. (They all count +1, always.)
 
-
 ## Upgrades
 
 Each game will have 4 elements (red, blue, green, purple). Each element has 4 options to choose from, which you can pick on the website.
@@ -73,100 +68,27 @@ You can also turn on "multitype": icons can show two types at once. Choose which
 
 Red stands for aggression, attacking, destroying.
 
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Fire" icon="red-fire" >}}
-        <span class="action-timing">BEFORE</span>: Take 1 Squad card into your hand (from any squad).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Electric" icon="red-electric" >}}
-        <span class="action-timing">AFTER</span>: The loser steals one card <em>or</em> gives away one card to the winner.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Star" icon="red-star" >}}
-        <span class="action-timing">BEFORE</span>: Pick a type. Its icons count double!
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Dragon" icon="red-dragon" >}}
-        <span class="action-timing">BEFORE</span>: Add one more card from your hand to one of the squads.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
+<div data-rulebook-table="red"></div>
 
 ### Blue
 
 Blue stands for change, multitype, fluidity.
 
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Water" icon="blue-water" >}}
-        <span class="action-timing">BEFORE</span>: Swap 1 card from your squad with 1 from your hand.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Ice" icon="blue-ice" >}}
-        <span class="action-timing">BEFORE</span>: For every card with multiple types, pick only <em>one</em> that counts (for that card).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Poison" icon="blue-poison" >}}
-        <span class="action-timing">BEFORE</span>: Pick 2 types. All icons of type 1 turn into type 2.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Weather" icon="blue-weather" >}}
-        <span class="action-timing">BEFORE</span>: Swap 1 card from your squad with 1 card from the opponent's squad.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
+<div data-rulebook-table="blue"></div>
 
 ### Green
 
 Green stands for defense, blocking, safety.
 
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Earth" icon="green-earth" >}}
-        <span class="action-timing">BEFORE</span>: Pick a type. Ignore it entirely. (Icons are worth 0 points and main types do not Counter anything.)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Grass" icon="green-grass" >}}
-        <span class="action-timing">BEFORE</span>: Pick a type. It cannot be Countered.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Rock" icon="green-rock" >}}
-        <span class="action-timing">AFTER</span>: Pick a card. It does not get traded (after the fight).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Bug" icon="green-bug" >}}
-        <span class="action-timing">AFTER</span>: If one of the players says they're "done", the other must do so too.
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
-
+<div data-rulebook-table="green"></div>
 
 ### Purple
 
 Purple stands for revealing, randomness, surprises.
 
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Air" icon="purple-air" >}}
-        <span class="action-timing">AFTER</span>: The loser must show their whole hand to everyone.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Magic" icon="purple-magic" >}}
-        <span class="action-timing">BEFORE</span>: Both players add 1 (secret) card to the opponent's squad. The attacker decides: continue fighting, or cancel the fight.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Ghost" icon="purple-ghost" >}}
-        <span class="action-timing">AFTER</span>: Both players permanently reveal 1 card from their hand. (Rotate it to face away from you.)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Dark" icon="purple-dark" >}}
-        <span class="action-timing">BEFORE</span>: Pick a type. All its icons become a penalty (worth -1 instead of +1).
-    {{< /rules/rules-table-entry >}}
-{{< /rules/rules-table >}}
+<div data-rulebook-table="purple"></div>
 
 About the "Magic" action:
 
 * If you continue the fight, reveal the extra secret cards and continue as normal.
 * If you cancel the fight, both players take their squads back into their hand, and nothing more happens.
-
-

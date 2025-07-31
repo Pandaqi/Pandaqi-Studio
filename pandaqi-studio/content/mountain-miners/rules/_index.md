@@ -100,14 +100,11 @@ It also adds new actions and one new gemstone.
 
 <div data-rulebook-table="gemShards"></div>
 
-
 ### Golden Actions
 
 This expansion merely adds a few more (chaotic, powerful, spicy) actions. See the table below.
 
 <div data-rulebook-table="goldenActions"></div>
-
-
 
 <!--- 
 The possible actions are ...
@@ -116,7 +113,6 @@ The possible actions are ...
 * **Swap**: Swap 2 tiles on the board. You may also swap with an empty space, essentially _moving_ a tile, as long as the board stays connected.
 * **Double**: Grab 1 more tile this turn.
 * **Steal**: Steal a collected tile from another player.
-
 
 It also adds new actions:
 * **Lightbulb**: pick a row of tiles and _reveal_ all of them.
@@ -129,8 +125,6 @@ It also adds two new gemstones:
 * **Multiplier**: Add this to a gemstone pile to multiply its score at the end. Once done, however, you may never grab another tile with that icon again.
 
 
-
-
 It also adds new actions:
 * **Rotate Grabbed**: rotate a tile you've already grabbed. (To make another side point up and be true.)
 * **Rotate Board**: rotate a tile on the board
@@ -140,10 +134,7 @@ It also adds a new gemstone:
 * **Wildcard**: immediately decide to which gemstone pile of yours you want to add it. It becomes that type. You **can't** grab a wildcard if you have no regular gemstones yet.
 
 
-
-
-
-@TODO: Rules-table of what is added.
+@TODO: Table of what is added.
 
 * **Flashlight**: 
 * **Rumble**: Move 2 tiles to empty spaces in the mountain (still within the original grid).

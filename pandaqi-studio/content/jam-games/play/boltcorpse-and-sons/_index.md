@@ -27,7 +27,7 @@ input: ["controller", "keyboard", "touch"]
 devlog: "/blog/videogames/game-jams/boltcorpse-and-sons/"
 sourcecode: "https://github.com/Pandaqi/boltcorpse-and-sons/"
 
-media: [boltcorpse_screenshot_1,boltcorpse_screenshot_2,boltcorpse_screenshot_3,boltcorpse_screenshot_4,boltcorpse_screenshot_5,boltcorpse_screenshot_6]
+media: [assets/boltcorpse_screenshot_1, assets/boltcorpse_screenshot_2, assets/boltcorpse_screenshot_3, assets/boltcorpse_screenshot_4, assets/boltcorpse_screenshot_5, assets/boltcorpse_screenshot_6]
 
 ---
 

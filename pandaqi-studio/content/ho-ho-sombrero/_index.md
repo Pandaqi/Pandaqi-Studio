@@ -28,7 +28,7 @@ playercount: [1,2,3,4]
 input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/devlog-ho-ho-sombrero/"
 
-media: [https://www.youtube.com/embed/WMB_kvQn-og, training_screenshot,forest_screenshot,desert_screenshot,north_pole_screenshot,cuddly_clouds_screenshot]
+media: [https://www.youtube.com/embed/WMB_kvQn-og, assets/training_screenshot, assets/forest_screenshot, assets/desert_screenshot, assets/north_pole_screenshot, assets/cuddly_clouds_screenshot]
 
 ---
 

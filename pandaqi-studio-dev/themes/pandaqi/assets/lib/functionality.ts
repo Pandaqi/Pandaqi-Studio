@@ -104,7 +104,7 @@ window.addEventListener("DOMContentLoaded", () =>
 
         // navigation
         const ui = document.createElement("div");
-        ui.classList.add("flex", "margin-top-xs", "flex-space-between", "bg-color-light", "border-radius-m", "padding-s");
+        ui.classList.add("flex", "margin-top-xs", "flex-space-between", "font-size-s");
         gallery.parentElement.appendChild(ui);
 
         const buttonPrevious = document.createElement("button");

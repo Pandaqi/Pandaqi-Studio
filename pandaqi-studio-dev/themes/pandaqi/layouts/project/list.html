@@ -11,12 +11,7 @@
 </div>
 {{ end }}
 
-<div class="position-absolute opacity-half align-top width-maximize">
-	<!--- Big background image fading into content --->
-	{{ $src := partial "func/get-game-header.html" . }}
-	{{ partial "content/show-image.html" (dict "context" . "src" $src "alt" "Header image for this project") }}
-	<div class="gradient-fade-to-bg"></div>
-</div>
+{{ partial "content/background-header" (dict "context" .) }}
 
 <div class="width-limit block-center margin-top-super-xs">
 	{{ partial "navigation/breadcrumbs.html" . }}

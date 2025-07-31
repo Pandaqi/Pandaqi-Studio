@@ -23,12 +23,12 @@ complexity: low
 ages: everyone
 devlog: "/blog/boardgames/kangaruse/"
 
-media: [page/kangaruse_playtest_paper]
+media: [assets/page/kangaruse_playtest_paper]
 
 ---
 
 <!--- HEADING 1 --->
-{{< figure src="page/page_heading_1" >}}
+{{< content/figure src="assets/page/page_heading_1" >}}
 
 Click the "Download" button to find a PDF I already generated for you. You can pick any single one.
 
@@ -37,12 +37,12 @@ Print and play!
 If you didn't add rules on the paper itself---or just want more clarification---read the short [playful rules](rules).
 
 <!--- HEADING 2 --->
-{{< figure src="page/page_heading_2" >}}
+{{< content/figure src="assets/page/page_heading_2" >}}
 
 You can also [generate boards](board) on this website. This allows you to customize it to your liking. And, in the rare case you've played through _all_ existing boards, to get new ones to play with!
 
 <!--- HEADING 3 --->
-{{< figure src="page/page_heading_3" >}}
+{{< content/figure src="assets/page/page_heading_3" >}}
 
 I've used the fonts **Mail Ray Stuff** (headings, thick) and **Poppins** (body, thin). The latter is freely available on Google Fonts, the first was received from 1001fonts.
 

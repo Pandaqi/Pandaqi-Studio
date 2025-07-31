@@ -28,7 +28,7 @@ input: ["controller", "keyboard", "touch"]
 devlog: "/blog/videogames/game-jams/bot-bouldering/"
 sourcecode: "https://github.com/Pandaqi/gmtk-jam-2024/"
 
-media: [sc1,sc2,sc3,sc4]
+media: [assets/sc1, assets/sc2, assets/sc3, assets/sc4]
 
 ---
 

@@ -25,7 +25,7 @@ playtime: 5
 playercount: [1]
 input: ["mouse", "touch"]
 
-media: [https://www.youtube.com/embed/RFmb-sz5Ox0, video/intro_sequence, screenshot1,screenshot2,screenshot3,screenshot4,screenshot5,screenshot6,screenshot7,screenshot8]
+media: [https://www.youtube.com/embed/RFmb-sz5Ox0, assets/video/intro_sequence, assets/screenshot1, assets/screenshot2, assets/screenshot3, assets/screenshot4, assets/screenshot5, assets/screenshot6, assets/screenshot7, assets/screenshot8]
 
 ---
 

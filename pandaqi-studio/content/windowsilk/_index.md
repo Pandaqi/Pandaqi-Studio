@@ -29,7 +29,7 @@ input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/devlog-windowsilk/"
 source: https://github.com/Pandaqi/Windowsilk
 
-media: [https://www.youtube.com/embed/AUpIi8ksarQ, ws_sc_1,ws_sc_2,ws_sc_3,ws_sc_4,ws_sc_5,ws_sc_6,ws_sc_7,ws_sc_8, windowsilk-header-narrow]
+media: [https://www.youtube.com/embed/AUpIi8ksarQ, assets/ws_sc_1, assets/ws_sc_2, assets/ws_sc_3, assets/ws_sc_4, assets/ws_sc_5, assets/ws_sc_6, assets/ws_sc_7, assets/ws_sc_8, assets/windowsilk-header-narrow]
 
 ---
 
@@ -52,7 +52,7 @@ Here are 8 facts about this game.
 
 Although playable in the browser, I recommend downloading the game and running locally (especially if you’re playing multiplayer). Allows for a bigger screen, better performance, and more stable support for input devices. 
 
-{{< figure url="windowsilk-howtoplay" alt="Screenshot of in-game rules overview" >}}
+{{< content/figure src="assets/windowsilk-howtoplay" alt="Screenshot of in-game rules overview" >}}
 
 ## How to play?
 
@@ -65,7 +65,7 @@ The rules are simple:
 
 This makes the game accessible and easy to learn, as it requires only two inputs: move and jump.
 
-{{< figure url="windowsilk-bug-collection" alt="Examples of unique bugs in the game" >}}
+{{< content/figure src="assets/windowsilk-bug-collection" alt="Examples of unique bugs in the game" >}}
 
 ## Bugs
 

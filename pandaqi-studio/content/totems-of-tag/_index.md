@@ -32,7 +32,7 @@ playercount: [1,2,3,4]
 input: ["controller", "keyboard"]
 devlog: "/blog/videogames/one-week-games/devlog-totems-of-tag/"
 
-media: [https://www.youtube.com/embed/KSz3iXlhZ8k, totems_ss1,totems_ss2,totems_ss3,totems_ss4,totems_ss5,totems_ss6,totems_ss7, totems-of-tag-header-narrow]
+media: [https://www.youtube.com/embed/KSz3iXlhZ8k, assets/totems_ss1, assets/totems_ss2, assets/totems_ss3, assets/totems_ss4, assets/totems_ss5, assets/totems_ss6, assets/totems_ss7, assets/totems-of-tag-header-narrow]
 
 ---
 

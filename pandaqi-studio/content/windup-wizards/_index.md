@@ -26,7 +26,7 @@ playercount: [1]
 input: ["controller", "keyboard", "touch"]
 devlog: "/blog/videogames/game-jams/devlog-windup-wizards/"
 
-media: [https://www.youtube.com/embed/WMB_kvQn-og, screenshot1,screenshot2,screenshot3,screenshot4,screenshot5,screenshot6,screenshot7,screenshot8,screenshot9,screenshot10, windup-wizards-header-itch]
+media: [https://www.youtube.com/embed/WMB_kvQn-og, assets/screenshot1, assets/screenshot2, assets/screenshot3, assets/screenshot4, assets/screenshot5, assets/screenshot6, assets/screenshot7, assets/screenshot8, assets/screenshot9, assets/screenshot10, assets/windup-wizards-header-itch]
 
 ---
 

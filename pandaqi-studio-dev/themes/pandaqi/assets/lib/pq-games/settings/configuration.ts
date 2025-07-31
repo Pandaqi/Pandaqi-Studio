@@ -1,12 +1,46 @@
 import type { Vector2 } from "../geometry/vector2";
 import type { MapperPreset, ItemSize } from "../layout/gridMapper";
-import type { ResourceLoadParams, ResourceLoader } from "../layout/resources/resourceLoader";
+import { ResourceLoadParams, ResourceLoader } from "../layout/resources/resourceLoader";
+import { MaterialVisualizer } from "../renderers";
 import type { Renderer } from "../renderers/renderer";
 import { mergeObjects } from "../tools/collections/converters";
 import type { PageOrientation, PageSides, PageSize } from "../tools/pdf/tools";
 import { getRandomSeedString } from "../tools/random/values";
 
 export const PROTECTED_CONFIGURATION_PROPERTIES = ["_game", "_settings", "_generation", "_drawing", "_material", "_resources", "_debug", "_translation"];
+
+export const planLoadMaterialFromGameConfig = async (config:GameConfig) =>
+{
+    const resLoader = new ResourceLoader({ base: config._resources.base });
+    resLoader.planLoadMultiple(config._resources.files, config);
+    config._game.resLoader = resLoader; // this is required for the MaterialVisualizer to find it later
+    return resLoader;
+}
+
+export const getSetting = (path:string, config:GameConfig) =>
+{
+    if(!config._settings) { return false; }
+    const pathParts = path.split(".");
+    let obj:Record<string,any> = config._settings;
+    while(pathParts.length > 0 && obj)
+    {
+        obj = obj[pathParts.shift()];
+    }
+    return obj.value;
+}
+
+export const getPicker = (key:string, config:GameConfig) =>
+{ 
+    if(!config._material) { config._material = {}; }
+    return (config._material[key] ?? {}).picker;
+}
+
+export const getVisualizer = (key:string, config:GameConfig) =>
+{
+    if(!config._material) { config._material = {}; }
+    const visualizerClass = (config._material[key] ?? {}).visualizer ?? MaterialVisualizer;
+    return new visualizerClass(config, (config._material[key] ?? {}).itemSize);
+}
 
 export const addConfigFromLocalStorage = (config:GameConfig) =>
 {
@@ -24,6 +58,7 @@ export const ensureConfigProperties = (config:GameConfig) =>
 
     // default settings are one of the rare subfields the system basically requires
     config._settings.defaults = config._settings.defaults ?? {};
+    config._settings.meta = config._settings.meta ?? {};
 
     // random seeding (if no fixed one set)
     if(!config._settings.defaults.seed) { config._settings.defaults.seed = getRandomSeedString(); }
@@ -72,6 +107,15 @@ export interface GameConfig
 
     _settings?:
     {
+        // settings ABOUT the settings as a whole
+        meta?:
+        {
+            selfDestroy?: boolean,
+            button?: HTMLButtonElement,
+            settingsContainer?: HTMLElement,
+            feedbackNode?: HTMLElement
+        },
+
         // @TODO: might have the FINAL VALUES of each setting NOT OVERRIDE the original config in here? It hasn't created any problems so far, but it might in the future?
         defaults?:
         {

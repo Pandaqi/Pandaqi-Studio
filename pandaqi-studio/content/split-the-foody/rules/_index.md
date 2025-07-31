@@ -71,7 +71,7 @@ The hand limit is 8 cards. If you can't fit all new cards into your hand, you mu
 
 ## Scoring
 
-{{< rules-double-view src="scoring.webp" alt="Example of how to score your cards at the end of the game." >}}
+{{< rules-image-sidebar src="scoring.webp" alt="Example of how to score your cards at the end of the game." >}}
 
 "Scoring" a card simply means placing it faceup in front of you. You can't use these cards anymore.
 
@@ -80,9 +80,6 @@ When determining the winner at the end of the game ...
 > Only count types **of which you have the most** (out of all players). Ties for majority are allowed.
 
 Highest score wins. If tied, the player with the most _hand cards_ wins.
-
-{{< /rules-double-view >}}
-
 
 ## Upgrades
 

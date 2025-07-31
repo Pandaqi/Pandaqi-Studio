@@ -52,7 +52,7 @@ The paper itself explains how each Magneeple scores you points. Or you can read 
 
 Once you're familiar with the game, and start playing other sets, you can use the advanced rules. This introduces **2 rules changes**.
 
-{{< rules-double-view src="rules_advanced.webp" alt="Example of executing the destroy action.">}}
+{{< rules-image-sidebar src="rules_advanced.webp" alt="Example of executing the destroy action.">}}
 
 On your turn, you can also pick the **destroy** action. 
 
@@ -60,13 +60,9 @@ On your turn, you can also pick the **destroy** action.
 * Scratch it out entirely. (Make it unrecognizable.)
 * This icon is now simply removed from the board.
 
-
 You don't "get" the icon in your collection. But it can take away good squares from other players, or open up possibilities for yourself. (Because a destroyed icon is removed from the board, it's not considered for the Repel rule.)
 
 Secondly, if you collect any type **4 times**, you take no more turns.
-
-{{< /rules-double-view >}}
-
 
 ## Magnetmen
 

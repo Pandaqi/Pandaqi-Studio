@@ -28,7 +28,7 @@ playercount: [1,2,3,4,5,6]
 input: ["controller", "keyboard"]
 devlog: "/blog/videogames/one-week-games/devlog-own-goals-not-allowed/"
 
-media: [https://www.youtube.com/embed/o5YTcyDlT70, sc1, sc2, sc3, sc4, sc5]
+media: [https://www.youtube.com/embed/o5YTcyDlT70, assets/sc1, assets/sc2, assets/sc3, assets/sc4, assets/sc5]
 
 ---
 

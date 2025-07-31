@@ -53,10 +53,9 @@ This is the "star" square if you use a generated setup.
 
 {{< rules/rules-image src="word_placement.webp" alt="Examples of valid and invalid words" >}}
 
-
 ### Scoring
 
-{{< rules-double-view src="scoring.webp" alt="Examples of scoring your word." >}}
+{{< rules-image-sidebar src="scoring.webp" alt="Examples of scoring your word." >}}
 
 Unlike Scrabble, letters don't have their own value. Instead, follow these simple rules.
 
@@ -65,10 +64,6 @@ Unlike Scrabble, letters don't have their own value. Instead, follow these simpl
 * **Unique** = 5 points
 
 _Unique_ means nobody else has this letter in their hand. 
-
-{{< /rules-double-view >}}
-
-
 
 ### Ask New Letters
 
@@ -136,25 +131,7 @@ If no types are valid, you simply can't do this action.
 
 Below are your options.
 
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Double Letter" >}}
-        Doubles the value of the letter inside.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Triple Letter" >}}
-        Triples the value of the letter inside.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Double Word" >}}
-        Doubles the value of the first word that uses it.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Triple Word" >}}
-        Triples the value of the first word that uses it.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-{{< /rules/rules-table >}}
+<div data-rulebook-table="supercells"></div>
 
 
 ### Celldance
@@ -165,38 +142,7 @@ This adds even more special cells that could be on the board! As usual, they act
 Requires "Supercells" expansion. The website automatically does this for you.
 {{% /rules/rules-remark %}}
 
-{{< rules/rules-table >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Big Ask" >}}
-        You can name <em>six letters</em> at the end of this turn (instead of the usual two).
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Thief" >}}
-        Steal a letter from another player. (They cross it out; you add it to your hand.)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Destroyer" >}}
-        Cross out two cells on the board. They are unusable and mean nothing until the end of the game.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Go Again" >}}
-        Once this turn is done, immediately take another one!
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Garbage" >}}
-        Everyone removes the letter placed on this cell from their hand. (Example: if you placed an A on this square, everybody loses all their "A"s.)
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Blockade" >}}
-        Place at most 3 letters from your hand in empty cells. They don't score any points, but they also don't need to form valid words ...
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-    {{< rules/rules-table-entry heading="Collector" >}}
-        This turn, you may exceed the hand limit.
-    {{< /rules/rules-table-entry >}}
-<!-- -->
-{{< /rules/rules-table >}}
-
+<div data-rulebook-table="celldance"></div>
 
 ### Scrabble Scoring
 
