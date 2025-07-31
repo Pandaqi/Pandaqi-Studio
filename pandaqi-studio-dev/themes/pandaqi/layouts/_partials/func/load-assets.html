@@ -36,7 +36,7 @@
 
 <!--- Default rulebook system, which will be enough for at least half of them --->
 {{ $is_rulebook := strings.Contains $url_prefixed "/rules/" }}
-{{ if and (not $res) $is_rulebook }}
+{{ if and (not $res_js) $is_rulebook }}
     {{ $output_url := "/rulebook-default.js" }}
     {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url }}
     {{ $script_default := resources.Get "/lib/rulebook-default.ts" | js.Build $opts }}

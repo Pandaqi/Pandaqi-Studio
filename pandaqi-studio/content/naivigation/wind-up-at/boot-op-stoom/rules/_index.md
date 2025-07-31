@@ -116,14 +116,14 @@ Ten slotte bevat het nieuwe kaarten voor de Stoomrij. Deze speciale kracht geldt
 
 Hieronder staat de volledige lijst met icoontjes en wat ze betekenen. Als dit te veel is voor jonge/nieuwe spelers, kan je natuurlijk slechts een paar toevoegen aan het deck voor dit potje.
 
-<div data-table="stoomIcoontjes"></div>
+<div data-rulebook-table="stoomIcoontjes"></div>
 
 
 ### Pepernoot Plekken
 
 Deze uitbreiding bevat speciale tegels voor de kaart. Schud deze met de rest van de tegels voordat je het Speelbord bouwt. Het is prima als slechts een paar van deze voorkomen in jouw spel.
 
-<div data-table="pepernootPlekken"></div>
+<div data-rulebook-table="pepernootPlekken"></div>
 
 {{<  rules-image-sidebar src="expansion_plekken.webp" alt="Voorbeeld van wat de boot schade doet en de gevolgen daarvan ( = Stoomrij korter)." >}}
 

@@ -1,4 +1,5 @@
-import { RulebookParams } from "./rulebook"
+import { getRulebookIconNode, type IconSheetData } from "./icons"
+import type { RulebookParams } from "./rulebook"
 
 export interface RulebookEntryData
 {
@@ -12,10 +13,8 @@ export interface RulebookEntryData
 
 export interface RulebookTableData
 {
-    sheetURL?: string
-    sheetWidth?: number
-    base?: string,
-    class?: string
+    class?: string,
+    icons?: IconSheetData    
 }
 
 export interface RulebookTableParams
@@ -62,15 +61,13 @@ export const convertRulesTableDictToHTML = (dict:Record<string,RulebookEntryData
 
     const uiHint = document.createElement("div");
     uiHint.classList.add("ui-hint");
-    uiHint.innerHTML = "Click a symbol to see its name / meaning.";
+    uiHint.innerHTML = `Click an item to inspect.`;
     cont.appendChild(uiHint);
-
-    const base = params.base ?? "";
 
     for(const [key,data] of Object.entries(dict))
     {
         const entry = document.createElement("div");
-        entry.classList.add("rulebook-table-entry", "rulebook-table-entry-clicked");
+        entry.classList.add("rulebook-table-entry");
         if(params.class) { entry.classList.add(params.class); }
         table.appendChild(entry);
 
@@ -78,25 +75,11 @@ export const convertRulesTableDictToHTML = (dict:Record<string,RulebookEntryData
         iconCont.classList.add("icon-container");
         entry.appendChild(iconCont);
 
-        const icon = document.createElement("div");
-        icon.classList.add("rulebook-table-icon");
-
-        const sheetURL = data.sheetURL ?? params.sheetURL;
-        const sheetWidth = data.sheetWidth ?? (params.sheetWidth ?? 8);
-
-        if(sheetURL) { icon.style.backgroundImage = "url(" + base + sheetURL + ")"; }
-        icon.style.backgroundSize = (sheetWidth*100) + "%";
-
-        const xPos = data.frame % sheetWidth;
-        const yPos = Math.floor(data.frame / sheetWidth); 
-        icon.style.backgroundPositionX = -(xPos * 100) + "%";
-        icon.style.backgroundPositionY = -(yPos * 100) + "%";
-
-        iconCont.appendChild(icon);
+        iconCont.appendChild( getRulebookIconNode(data, params.icons) );
 
         const headingCont = document.createElement("div");
         headingCont.classList.add("heading-container");
-        headingCont.innerHTML = "<div>" + data.heading + "</div>";
+        headingCont.innerHTML = `<div>${data.heading}</div>`;
         entry.appendChild(headingCont);
 
         let desc = data.desc;
@@ -190,7 +173,7 @@ export const createRulebookTables = (params:RulebookParams, node:HTMLElement) =>
     // then look for custom IDs that need to build the table from JS
     for(const [id,tableData] of Object.entries(tablesData))
     {
-        const nodesMatching = Array.from(node.querySelectorAll(`[data-table="${id}"]`)) as HTMLElement[];
+        const nodesMatching = Array.from(node.querySelectorAll(`[data-rulebook-table="${id}"]`)) as HTMLElement[];
         for(const nodeMatch of nodesMatching)
         {
             tableData.node = nodeMatch;

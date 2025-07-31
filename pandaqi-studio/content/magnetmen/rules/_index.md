@@ -76,13 +76,13 @@ Please note that there is slight randomization in the generator. Many of the Mag
 
 The **base** set contains ...
 
-<div data-table="base"></div>
+<div data-rulebook-table="base"></div>
 
 The **advanced** set contains ...
 
-<div data-table="advanced"></div>
+<div data-rulebook-table="advanced"></div>
 
 The **expert** set contains ...
 
-<div data-table="expert"></div>
+<div data-rulebook-table="expert"></div>
 

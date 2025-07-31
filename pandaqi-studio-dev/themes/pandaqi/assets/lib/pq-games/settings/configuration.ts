@@ -130,6 +130,7 @@ export interface MaterialConfig
     picker?:Function, 
     mapper?:MapperConfig,
     visualizer?:any,
+    itemSize?: Vector2, // if no item size was given by other settings (e.g. PageMapper) it always uses this size
     splitDims?: Vector2, // these splitDims are only applied to this specific bit of material
     fileName?: string, // unique filename for this material
     frontDefault?: any, // if all cards have same front/back, you can just create that canvas once and reuse it this way

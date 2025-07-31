@@ -7,16 +7,6 @@ title: "The Domino Diaries"
 blurb: "A series of games about placing domino tiles to shape your dream world---or simply the one that scores you the most points."
 
 driveLink: "https://drive.google.com/drive/folders/1lxKWuSj0hlggY0Nx1_jQsNr0yqjfhoHb"
-# @DEBUGGING
-externalLinks:
-  - label: "Play on POKI"
-    url: "https://poki.com/en/g/a-recipe-for-disaster"
-    platforms: ["web"]
-    price: 0 
-  - label: "Play on ITCH"
-    url: "http://pandaqi.itch.io/a-recipe-for-disaster"
-    platforms: ["windows", "mac", "linux"]
-    price: 2
 
 date: 2025-06-26
 

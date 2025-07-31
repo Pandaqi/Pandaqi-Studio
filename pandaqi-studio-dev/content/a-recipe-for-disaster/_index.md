@@ -1,0 +1,79 @@
+---
+type: "project"
+
+title: "A Recipe For Disaster"
+blurb: "Baking breads by throwing hats. Chaotic co-op game for 1-4 players trying to run a bakery."
+
+date: 2021-04-26
+
+difficulty: "simple"
+genres: ["action", "family", "party"]
+categories: ["game", "desktop", "mobile", "one-week-game", "local-multiplayer"]
+tags: ["chaos", "cooking", "grid", "shared-map", "pick-up-and-deliver", "real-time"]
+themes: ["2D", "food", "humor"]
+
+externalLinks:
+  - label: "Play on POKI"
+    url: "https://poki.com/en/g/a-recipe-for-disaster"
+    platforms: ["web"]
+    price: 0 
+  - label: "Play on ITCH"
+    url: "http://pandaqi.itch.io/a-recipe-for-disaster"
+    platforms: ["windows", "mac", "linux"]
+    price: 2
+
+multiplayertype: 'offline'
+multiplayermode: 'cooperative'
+price: 2
+platform: ["windows", "mac", "linux", "android"]
+language: EN
+playtime: 5
+playercount: [1,2,3,4]
+input: ["controller", "keyboard", "touch"]
+devlog: "/blog/videogames/one-week-games/devlog-a-recipe-for-disaster/"
+
+media: [https://www.youtube.com/embed/MQ7srCHHXZg, assets/arfd_1, assets/arfd_2, assets/arfd_3]
+---
+
+Ever wondered how to run a bakery without hands? Well, wonder no more!
+
+In "A Recipe for Disaster" you'll cooperatively bake the best breads ... by moving and throwing. (Because obviously, you do not need hands for throwing something.)
+
+A short couch coop chaos game for 1&ndash;4 players. A campaign with 20 levels. A masterclass in creative baking.
+
+On mobile, it plays with 2 players, opposite each other, each with their own two joysticks for moving and throwing.
+
+## Controls
+
+This game is playable ... 
+- On Windows/Mac/Linux with any combination of keyboard and controllers
+- On Android with, well, your finger and the touchscreen
+
+On mobile, make sure your phone supports multitouch, and that (media) gestures are off!
+
+The images below explain all controls you'll ever need!
+
+{{< content/figure src="assets/arfd_1" alt="Action 1: How to Move" >}}
+{{< content/figure src="assets/arfd_2" alt="Action 2: How to Throw Things" >}}
+
+## What do I do?
+
+You'll mainly throw ingredients at your teammates (which they don't need), collect way too many yeast (which you didn't need), and accidentally throw stuff (which you DID need) in the recycling bin ... but somehow still deliver edible bread in time.
+
+In short: you'll be baking bread.
+
+In long: the game is split into 20 levels. Each level teaches a new ingredient, or machine, or mechanic. The image below shows the full workflow for baking bread that is active in the final level.
+
+{{< content/figure src="assets/arfd_3" alt="Overview of How to Bake Bread" >}}
+
+## The 1-week challenge
+
+I love couch co-op games.
+
+However, I tend to overscope my projects big time, so I decided to do the following: pick an old idea I've wanted to make for a long time, and just see how far I can get in a week. (In the end, it became 1.5 weeks, but hey.)
+
+Surprisingly, if you contain your scope and just focus on one thing (baking bread), you can create awesome games in a short time period!
+
+For a more detailed "devlog" (with the lessons I learned, the original idea, etcetera), visit ...
+
+[A Recipe For Disaster: What I've Learned](/blog/videogames/one-week-games/devlog-a-recipe-for-disaster)

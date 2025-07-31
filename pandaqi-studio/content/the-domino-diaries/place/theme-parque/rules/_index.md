@@ -81,7 +81,7 @@ Finally, some deadend paths have a special icon: **tunnel**. It connects to any 
 
 Below are all (special) tiles that can appear in the base game.
 
-<div data-table="base"></div>
+<div data-rulebook-table="base"></div>
 
 
 ## Upgrades
@@ -148,14 +148,14 @@ Finally, some clarifications on terms used in the events.
 
 This adds a few more attractions, decoration and stalls. These are the "simpler" additions to the game, with one-liner rules and often no special requirements.
 
-<div data-table="wishneyland"></div>
+<div data-rulebook-table="wishneyland"></div>
 
 
 ### Unibearsal Honeyos
 
 This adds a few more attractions, decoration and stalls. These are the slightly "harder" additions to the game, which often score in very unique ways or have strict requirements before scoring.
 
-<div data-table="unibearsal"></div>
+<div data-rulebook-table="unibearsal"></div>
 
 
 ### Raging Rollercoasters

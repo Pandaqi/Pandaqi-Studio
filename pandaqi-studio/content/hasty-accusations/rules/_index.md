@@ -112,7 +112,7 @@ As usual, when the action gives a choice, the currently active player is the one
 
 Below is a table explaining all the suspect's powers.
 
-<div data-table="powers"></div>
+<div data-rulebook-table="powers"></div>
 
 
 ### Big Hands Variant
@@ -135,14 +135,14 @@ Below is an overview of _all_ cards in the game.
 
 The **base** set contains ...
 
-<div data-table="base"></div>
+<div data-rulebook-table="base"></div>
 
 The **advanced** set contains ...
 
-<div data-table="advanced"></div>
+<div data-rulebook-table="advanced"></div>
 
 The **expert** set contains ...
 
-<div data-table="expert"></div>
+<div data-rulebook-table="expert"></div>
 
 

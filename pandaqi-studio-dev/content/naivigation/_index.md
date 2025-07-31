@@ -7,7 +7,7 @@ blurb: "A universe of simple party board games about driving one vehicle togethe
 
 driveLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-LzrkwfBM_de"
 
-date: 2025-06-26
+date: 2025-10-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic", "simulation"]

@@ -1,3 +1,4 @@
+import { findSheetForRulebookIcon, getAllRulebookIconKeys, getRulebookIconNode } from "./icons";
 import type { RulebookParams } from "./rulebook";
 import { ICONS } from "./theme/style";
 import { toggleSectionFold } from "./toolbar";
@@ -130,19 +131,32 @@ export const makeSectionHeader = (section:RulebookSection, indices = [], params:
 
     const possibleIcons = params.headerIcons ?? ICONS;
     const iconID = section.headingNode.id;
-    const addIcon = !params.hideHeaderIcons && possibleIcons.includes(iconID);
-    if(addIcon) {
+    const addDefaultIcon = !params.hideHeaderIcons && possibleIcons.includes(iconID);
+    const allCustomIconKeys = getAllRulebookIconKeys(params.icons);
+    const addCustomIcon = !params.hideHeaderIconsCustom && allCustomIconKeys.includes(iconID);
+    const addIcon = addDefaultIcon || addCustomIcon;
+    if(addIcon) 
+    {
         const cont = document.createElement("span");
         cont.classList.add("rulebook-section-header-container");
 
-        const icon = document.createElement("span");
+        let icon;
+        if(addDefaultIcon) {
+            icon = document.createElement("span");
+        } else {
+            icon = getRulebookIconNode(iconID, findSheetForRulebookIcon(iconID, params));
+        }
+
         icon.classList.add(`rules-icon`,`rules-icon-${iconID}`);
         cont.appendChild(icon);
-        cont.appendChild(section.headingNode);
+        cont.appendChild(section.headingNode.cloneNode(true));
 
         header.appendChild(cont);
-    } else {
-        header.appendChild(section.headingNode);
+    }
+    
+    if(!addDefaultIcon && !addCustomIcon)
+    {
+        header.appendChild(section.headingNode.cloneNode(true));
     }
 
     const arrow = document.createElement("div");
@@ -165,7 +179,7 @@ export const makeSectionContent = (section:RulebookSection, indices = [], params
     const curLevel = section.getLevel();
     for(const child of section.content)
     {
-        if(child instanceof HTMLElement) { node.appendChild(child); }
+        if(child instanceof HTMLElement) { node.appendChild(child.cloneNode(true)); }
         if(child instanceof RulebookSection) 
         { 
             indices[curLevel-1] += 1;

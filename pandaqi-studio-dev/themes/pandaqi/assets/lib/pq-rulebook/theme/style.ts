@@ -74,7 +74,7 @@ blockquote, .rulebook-shared-rule
     width: 100%;
 }
 
-p, ul, blockquote, .rulebook-shared-rule, custom
+p, ul, blockquote, .rulebook-shared-rule, [data-rulebook-example], [data-rulebook-table], custom
 {
     max-width: var(--main-width);
     margin-left: 0;
@@ -259,7 +259,7 @@ button:hover
 /* The width here is the point at which main and sidebar will start encroaching on each other */
 @media all and (max-width:45em)
 {
-    p, ul, blockquote, .rulebook-shared-rule, custom
+    p, ul, blockquote, .rulebook-shared-rule, [data-rulebook-example], [data-rulebook-table], custom
     {
         max-width: 20em;
     }
@@ -268,7 +268,7 @@ button:hover
 /* This width is simply the point where text and images CAN'T be side by side anymore */
 @media all and (max-width:35em)
 {
-    p, ul, blockquote, .rulebook-shared-rule, custom
+    p, ul, blockquote, .rulebook-shared-rule, [data-rulebook-example], [data-rulebook-table], custom
     {
         max-width: 100%;
     }
@@ -322,14 +322,14 @@ button:hover
         --color-dark: #333;
     }
 
-    p, ul, blockquote, .rulebook-shared-rule, custom
+    p, ul, blockquote, .rulebook-shared-rule, [data-rulebook-example], [data-rulebook-table], custom
     {
-        max-width: 66vw;
+        max-width: 28em;
     }
 
     .sidebar
     {
-        max-width: 33vw;
+        max-width: 14em;
     }
 
     .rulebook-section
@@ -578,7 +578,6 @@ $rules-table-size-print: 0.75*$rules-table-icon-size;
     }
 }
 */
-
 
 `
 

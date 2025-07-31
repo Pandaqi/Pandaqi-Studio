@@ -169,7 +169,7 @@ It also uses a few more details from the Animal Passport:
 
 Below is a list of all objects.
 
-<div data-table="objects"></div>
+<div data-rulebook-table="objects"></div>
 
 
 ### Unnatural Utilities
@@ -195,7 +195,7 @@ Finally, it adds **Extinct Animals** (a stamp on their Passport). You **can't pl
 
 Below is a list of all the stalls.
 
-<div data-table="stalls"></div>
+<div data-rulebook-table="stalls"></div>
 
 
 

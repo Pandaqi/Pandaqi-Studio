@@ -1,4 +1,4 @@
-import type { RulebookParams } from "./rulebook";
+import { resetRulebook, type RulebookParams } from "./rulebook";
 import { DEFAULT_SECTION_CONTENT_CLASS, DEFAULT_SECTION_HEADER_CLASS, getAllSections, getSectionAsFlatHTML, RulebookSection, unfoldAllSectionsAbove } from "./sections";
 
 export const isLocalFile = () =>
@@ -90,12 +90,17 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
     buttonPrint.innerHTML = "Print"
     buttonPrint.addEventListener("click", async () => 
     {
+        window.onafterprint = () =>
+        {
+            resetRulebook(params, node);
+        }
+
         // @ts-ignore
         const pagedJS = window.PagedPolyfill;
         if(pagedJS)
         {
             const div = getSectionAsFlatHTML(params._sectionRoot, params);
-            node.innerHTML = "";
+            node.parentElement.removeChild(node);
             document.body.appendChild(div);
             await pagedJS.preview();
             print();

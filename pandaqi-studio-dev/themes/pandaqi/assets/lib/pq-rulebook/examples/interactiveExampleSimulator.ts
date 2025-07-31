@@ -1,6 +1,6 @@
 import { MaterialVisualizer, ResourceLoader } from "lib/pq-games"
+import type { InteractiveExample } from "./interactiveExample"
 import { OutputBuilder } from "./outputBuilder"
-import { RulebookSettings } from "./rulebookSettings"
 
 export interface InteractiveExampleSimulatorParams
 {
@@ -10,38 +10,30 @@ export interface InteractiveExampleSimulatorParams
     showFullGame?: boolean,
     custom?: any,
     runParallel?: boolean,
-    settings?: RulebookSettings,
-    pickers?: Record<string,Function>,
-    visualizer?: MaterialVisualizer,
     callbackInitStats?: () => any,
     callbackFinishStats?: (s:InteractiveExampleSimulator) => void
 }
 
 export class InteractiveExampleSimulator
 {
+    example: InteractiveExample
     enabled: boolean
     iterations: number
     silent: boolean  // prints results by default; silent = true keeps it, well, silent
-    outputBuilder: OutputBuilder 
     callback: Function;
     stats:any;
     callbackInitStats: Function;
     callbackFinishStats: Function;
-    pickers: Record<string,Function>;
-    visualizer: MaterialVisualizer;
     showFullGame: boolean;
     runParallel: boolean;
-    settings: RulebookSettings;
     custom: any; // for any custom functions or variables we want to tack onto this
 
-    constructor(params:InteractiveExampleSimulatorParams = {})
+    constructor(params:InteractiveExampleSimulatorParams = {}, e:InteractiveExample)
     {
+        this.example = e;
         this.enabled = params.enabled ?? false;
         this.iterations = params.iterations ?? 0;
         this.silent = params.silent ?? false;
-        this.settings = params.settings;
-        this.pickers = params.pickers ?? {};
-        this.visualizer = params.visualizer;
         this.callbackInitStats = params.callbackInitStats;
         this.callbackFinishStats = params.callbackFinishStats;
         this.custom = params.custom ?? {};
@@ -51,10 +43,17 @@ export class InteractiveExampleSimulator
         this.openStats();
     }
 
-    isHeadless() { return this.enabled; }
-    setOutputBuilder(o:OutputBuilder) { this.outputBuilder = o; }
     setCallback(c:Function) { this.callback = c; }
-    getPicker(key:string) { return this.pickers[key]; }
+    getOutputBuilder() { return this.example.getOutputBuilder() }
+    getPicker(key:string) { return (this.example.config._material[key] ?? {}).picker; }
+    getSettings() { return this.example.settings; }
+    getVisualizer(key:string) 
+    {
+        const visualizerClass = this.example.config._material[key].visualizer ?? MaterialVisualizer;
+        return new visualizerClass(this.example.config, (this.example.config._material[key] ?? {}).itemSize);
+    }
+
+    isHeadless() { return this.enabled; }
 
     displayFullGame()
     {
@@ -160,12 +159,12 @@ export class InteractiveExampleSimulator
     //
     print(s:string)
     {
-        this.output(() => this.outputBuilder.addParagraph(s));
+        this.output(() => this.getOutputBuilder().addParagraph(s));
     }
 
     printList(s:string[])
     {
-        this.output(() => this.outputBuilder.addParagraphList(s));
+        this.output(() => this.getOutputBuilder().addParagraphList(s));
     }
 
     async listImages(object:any, drawFunction = "draw")
@@ -178,6 +177,6 @@ export class InteractiveExampleSimulator
         }
 
         const images = await object[drawFunction](this);
-        this.outputBuilder.addFlexList(images);
+        this.getOutputBuilder().addFlexList(images);
     }
 }

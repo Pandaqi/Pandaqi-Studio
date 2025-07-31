@@ -2,16 +2,17 @@
 {{- $src := .src -}}
 {{- $is_embed := strings.Contains $src "youtube.com/embed" -}}
 {{- if $is_embed -}}
-{{ partial "content/embed-video/html" (dict "src" $src) }}
-{{- end -}}
+{{- partial "content/embed-video" (dict "src" $src) -}}
+{{- else -}}
 
 {{- $image_url_exists := partial "func/get-valid-image-url.html" (dict "context" .context "src" $src) -}}
 {{- if $image_url_exists -}}
-{{- partial "content/show-image.html" (dict "context" $context "src" $src) -}}
+{{- partial "content/show-image" (dict "context" $context "src" $src) -}}
 {{- end -}}
 
 {{- $video_url_exists := partial "func/get-valid-video-url.html" (dict "context" .context "src" $src) -}}
 {{- $is_video := or .is_video ($video_url_exists) -}}
 {{- if $is_video -}}
-{{- partial "content/show-video.html" (dict "context" $context "src" $src) -}}
+{{- partial "content/show-video" (dict "context" $context "src" $src) -}}
+{{- end -}}
 {{- end -}}

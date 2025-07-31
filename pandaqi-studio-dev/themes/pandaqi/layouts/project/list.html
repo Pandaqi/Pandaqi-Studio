@@ -18,7 +18,7 @@
 	<div class="gradient-fade-to-bg"></div>
 </div>
 
-<div class="width-limit block-center margin-top-xs">
+<div class="width-limit block-center margin-top-super-xs">
 	{{ partial "navigation/breadcrumbs.html" . }}
 	<div class="double-view double-view-main-sidebar">
 		<!--- Media Gallery: Trailers, Screenshots, etc --->
@@ -42,7 +42,7 @@
 		</div> 
 
 		<!--- Small image, small desc, anything else --->
-		<div class="sidebar-block">
+		<div class="sidebar-block drop-shadow-soft">
 			{{ $src := partial "func/get-game-header.html" . }}
 			{{ partial "content/show-image.html" (dict "context" . "src" $src "alt" "Header image for this project") }}
 			<p class="text-italic">{{ $blurb }}</p>

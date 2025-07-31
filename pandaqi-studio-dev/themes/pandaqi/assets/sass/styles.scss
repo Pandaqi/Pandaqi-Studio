@@ -428,10 +428,18 @@ $size-xs: 0.44em;
 	{
 		display: grid;
 		justify-content: center;
-		align-items: center;
+		align-items: stretch;
 		grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
 		gap: $size-m;
 		margin: $size-m;
+
+		li {
+			height: 100%;
+
+			a {
+				height: 100%;
+			}
+		}
 	}
 
 	.video-embedded 
@@ -445,11 +453,8 @@ $size-xs: 0.44em;
 			width: 100%;
 			height: 0;
 			padding-bottom: 56.25%;
-
-			border: 0.1em solid var(--color-accent-orange-contrast);
-			border-radius: 0.1em;
 		
-			.video
+			.youtube-video
 			{
 				position: absolute;
 				top: 0;
@@ -530,6 +535,11 @@ $size-xs: 0.44em;
 		top: 0;
 	}
 
+	.padding-s
+	{
+		padding: $size-s;
+	}
+
 	.padding-m
 	{
 		padding: $size-m;
@@ -555,6 +565,11 @@ $size-xs: 0.44em;
 		flex-wrap: wrap;
 	}
 
+	.flex-space-between
+	{
+		justify-content: space-between;
+	}
+
 	.flex-wrap-until-cutoff-s
 	{
 		flex-wrap: wrap;
@@ -576,6 +591,11 @@ $size-xs: 0.44em;
 		align-items: center;
 	}
 
+	.flex-stretch-vertical
+	{
+		align-items: stretch;
+	}
+
 	.gap-xs
 	{
 		gap: $size-xs;
@@ -593,6 +613,11 @@ $size-xs: 0.44em;
 
 	.margin-top-xs
 	{
+		margin-top: $size-xs;
+	}
+
+	.margin-top-super-xs
+	{
 		margin-top: 10em;
 	}
 
@@ -604,7 +629,7 @@ $size-xs: 0.44em;
 
 	.drop-shadow-soft
 	{
-		filter: drop-shadow(0 0 2px #977);
+		filter: drop-shadow(0 0 0.25em var(--color-mid-dark));
 	}
 
 	.effect-glow-m

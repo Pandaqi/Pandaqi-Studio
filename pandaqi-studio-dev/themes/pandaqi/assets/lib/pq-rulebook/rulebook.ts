@@ -1,4 +1,5 @@
 import { createInteractiveExamples, InteractiveExampleParams } from "./examples/interactiveExample";
+import { createRulebookIcons, IconSheetData } from "./icons";
 import { parseInput } from "./parser/parser";
 import { createRootSection, findSections, makeSectionInteractiveRecursively, RulebookSection } from "./sections";
 import { createRulebookTables, RulebookTableParams } from "./tables";
@@ -10,6 +11,7 @@ export interface RulebookParams
     // actual content/text input
     text?: string
     container?: string|HTMLElement,
+    _rulebook?: HTMLElement // has the final, parsed, converted rulebook; should only be used by system, not user
 
     // custom styling
     styles?: string,
@@ -23,10 +25,53 @@ export interface RulebookParams
     exampleClass?: string,
     examples?: Record<string,InteractiveExampleParams>,
     tableClass?: string,
-    tables?: Record<string,RulebookTableParams>
+    tables?: Record<string,RulebookTableParams>,
+    iconClass?: string,
+    icons?: Record<string,IconSheetData>,
+    hideHeaderIconsCustom?: boolean, // doesn't add icons to headers if they match the custom `icons`
 
     // dynamic stuff used by system (hence underscore before)
     _sectionRoot?: RulebookSection
+}
+
+export const resetRulebook = (params:RulebookParams, node:HTMLElement) =>
+{
+    document.body.innerHTML = "";
+    document.body.appendChild(node);
+    params._rulebook = node;
+    loadRulebookCallback(params);
+}
+
+export const loadRulebookCallback = (params:RulebookParams) =>
+{
+    // get rulebook content
+    const node = parseInput(params);
+    const toolbar = createToolbar(params, node);
+    node.parentElement.insertBefore(toolbar, node);
+
+    // divide into sections hierarchy
+    if(!params._rulebook)
+    {
+        const sectionRoot = createRootSection(params);
+        findSections(node, sectionRoot);
+        node.innerHTML = "";
+        node.appendChild(makeSectionInteractiveRecursively(sectionRoot, undefined, params));
+        console.log("[Rulebook] Sections", sectionRoot);
+    }
+
+    // add basic qol interactivity
+    makeImagesClickable(node);
+    makeInternalAnchorsWork(node);
+
+    // register and activate special tools
+    const interactiveExamples = createInteractiveExamples(params, node);
+    const rulesTables = createRulebookTables(params, node);
+    const rulesIcons = createRulebookIcons(params, node);
+    console.log("[Rulebook] Examples, Tables & Icons", interactiveExamples, rulesTables, rulesIcons);
+
+    // insert stylesheet
+    addDefaultRulebookStyles(document.head);
+    addCustomRulebookStyles(params, document.head);
 }
 
 export const loadRulebook = (params:RulebookParams = {}) =>
@@ -45,28 +90,6 @@ export const loadRulebook = (params:RulebookParams = {}) =>
 
     window.addEventListener("load", () => 
     {
-        // get rulebook content
-        const node = parseInput(params);
-        const toolbar = createToolbar(params, node);
-        node.parentElement.insertBefore(toolbar, node);
-
-        // divide into sections hierarchy
-        const sectionRoot = createRootSection(params);
-        findSections(node, sectionRoot);
-        node.appendChild(makeSectionInteractiveRecursively(sectionRoot, undefined, params));
-        console.log("[Rulebook] Sections", sectionRoot);
-
-        // add basic qol interactivity
-        makeImagesClickable(node);
-        makeInternalAnchorsWork(node);
-
-        // register and activate special tools
-        const interactiveExamples = createInteractiveExamples(params, node);
-        const rulesTables = createRulebookTables(params, node);
-        console.log("[Rulebook] Examples & Tables", interactiveExamples, rulesTables);
-
-        // insert stylesheet
-        addDefaultRulebookStyles(document.head);
-        addCustomRulebookStyles(params, document.head);
+        loadRulebookCallback(params);
     })
 }

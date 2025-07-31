@@ -10,6 +10,8 @@ export const parseMarkdown = (s:string) : string =>
 
 export const parseInput = (params:RulebookParams) : HTMLElement =>
 {
+    if(params._rulebook) { return params._rulebook; }
+
     const useExistingDefaultNode = !params.container && !params.text;
     let container = params.container;
     if(useExistingDefaultNode)

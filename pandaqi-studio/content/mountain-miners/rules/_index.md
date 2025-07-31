@@ -50,7 +50,7 @@ Ties (for first or last place) are allowed. Action tiles score nothing.
 
 To make this easy to see, keep your collected gemstones in piles sorted by _icon_.
 
-<div data-table="base"></div>
+<div data-rulebook-table="base"></div>
 
 Action tiles can move the arrow tile to diagonals. This is allowed and follows all the same rules; see the example.
 
@@ -83,7 +83,7 @@ At the end of each turn, when you move the arrow, you must also **gather informa
 
 It also adds new actions and gemstones.
 
-<div data-table="darkTunnels"></div>
+<div data-rulebook-table="darkTunnels"></div>
 
 A second Arrow simply means you have more options to choose from when picking your tile. Both of them move automatically at the end of each turn.
 
@@ -98,14 +98,14 @@ In some situations, the Arrow Tile may point at the line between _two sides_. In
 
 It also adds new actions and one new gemstone.
 
-<div data-table="gemShards"></div>
+<div data-rulebook-table="gemShards"></div>
 
 
 ### Golden Actions
 
 This expansion merely adds a few more (chaotic, powerful, spicy) actions. See the table below.
 
-<div data-table="goldenActions"></div>
+<div data-rulebook-table="goldenActions"></div>
 
 
 

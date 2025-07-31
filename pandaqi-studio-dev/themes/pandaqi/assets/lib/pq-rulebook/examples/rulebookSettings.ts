@@ -1,24 +1,4 @@
-
-// TO DO: Some day, all of this needs to generalized and put into PQ_GAMES
-// (most of this would be in tools > dom, perhaps the main settings under website folder)
-export enum SettingType
-{
-    TEXT,
-    NUMBER,
-    RADIO,
-    CHECK,
-    ENUM,
-}
-
-export interface SettingsParams
-{
-    id?: string,
-    type?: SettingType,
-    label?: string,
-    default?: string,
-    values?: string|string[],
-    keys?: string|string[]
-}
+import { SettingConfig, SettingType } from "lib/pq-games";
 
 export class RulebookSettings
 {
@@ -33,7 +13,17 @@ export class RulebookSettings
     }
 
     getContainer() { return this.node; }
-    add(params:SettingsParams)
+    addMultiple(params:Record<string,SettingConfig>)
+    {
+        for(const [key,data] of Object.entries(params))
+        {
+            data.id = key;
+            this.add(data);
+        }
+        return this;
+    }
+
+    add(params:SettingConfig)
     {
         const id = params.id ?? "default";
         const newNode = this.createHTML(params);
@@ -59,7 +49,6 @@ export class RulebookSettings
         
         } else if(nodeInput instanceof HTMLSelectElement) {
             return nodeInput.options[nodeInput.selectedIndex].value;
-            
         }
         
         if(nodeInput.dataset.type == "radio") {
@@ -74,7 +63,7 @@ export class RulebookSettings
         return null;
     }
 
-    createHTML(params:SettingsParams)
+    createHTML(params:SettingConfig)
     {
         const div = document.createElement("div");
         const id = params.id;

@@ -1,8 +1,10 @@
 {{- $class := or .class "" -}}
-{{- $urls_string := or .urls (.context.Params.media) }}
-{{- $urls := split .urls_string "," -}}
+{{- $urls := or .context.Params.media slice }}
+{{- if .urls -}}
+	{{- $urls = split $urls "," -}}
+{{- end -}}
 {{- $context := .context -}}
-<section class="media-gallery-container {{ $class }}">
+<section class="media-gallery-container drop-shadow-soft {{ $class }}">
 	<div class="media-gallery">
 		{{- range $k, $v := $urls -}}
 			{{ $v = trim $v " " }}

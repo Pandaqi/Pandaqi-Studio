@@ -13,10 +13,13 @@ export enum SettingType
     NUMBER = "number",
     TEXT = "text",
     INPUT = "input",
+    RADIO = "radio", // @TODO: not implemented yet because practically same as enum
 }
 
 export interface SettingConfig
 {
+    id?: string,
+
     type?: SettingType,
     label?: string,
     default?: any,
@@ -25,6 +28,7 @@ export interface SettingConfig
 
     value?: any,
     values?: any[],
+    keys?: any[],
 
     min?: number,
     max?: number,

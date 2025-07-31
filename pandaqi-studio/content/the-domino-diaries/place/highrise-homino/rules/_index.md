@@ -112,11 +112,11 @@ This expansion adds a property to some Tenants: **Construction**. If this icon s
 
 Guests can now have **Special Wishes** (that relate to Rooms). The table below explains what each icon means.
 
-<div data-table="roomService-wishes"></div>
+<div data-rulebook-table="roomService-wishes"></div>
 
 There are also some new **Objects** that can appear.
 
-<div data-table="roomService-objects"></div>
+<div data-rulebook-table="roomService-objects"></div>
 
 
 ### Wallet Watchers
@@ -140,9 +140,9 @@ At the **end of the game**, the final **price** of your map is ADDED to your tot
 
 Finally, this expansion also adds a few more Special Wishes and Objects. (If you choose "text on tiles", which is the default, the way an Object works is simply written on the tile itself.)
 
-<div data-table="walletWatchers-wishes"></div>
+<div data-rulebook-table="walletWatchers-wishes"></div>
 
-<div data-table="walletWatchers-objects"></div>
+<div data-rulebook-table="walletWatchers-objects"></div>
 
 
 ### Useful Utilities
@@ -161,9 +161,9 @@ How do you get them?
 
 From now on, guests will **wish** for these things. See the added Special Wishes (and Objects) below.
 
-<div data-table="usefulUtilities-wishes"></div>
+<div data-rulebook-table="usefulUtilities-wishes"></div>
 
-<div data-table="usefulUtilities-objects"></div>
+<div data-rulebook-table="usefulUtilities-objects"></div>
 
 
 ### Happy Housing
@@ -180,9 +180,9 @@ It also adds a new property: **Wandering**. If a Tenant shows this icon,
 
 As usual, this expansion adds some special Wishes and Objects too.
 
-<div data-table="happyHousing-wishes"></div>
+<div data-rulebook-table="happyHousing-wishes"></div>
 
-<div data-table="happyHousing-objects"></div>
+<div data-rulebook-table="happyHousing-objects"></div>
 
 
 ### Living Together

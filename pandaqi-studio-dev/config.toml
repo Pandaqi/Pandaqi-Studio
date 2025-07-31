@@ -27,3 +27,18 @@ SectionPagesMenu = "main"
   metaDescription = "The official website of game studio Pandaqi"
   
   pageNotFoundTitle = "404 - Page not found"
+
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+  platform = 'platform'
+  genre = 'genre'
+  language = 'language'
+  playtime = 'playtime'
+  playercount = 'playercount'
+  multiplayertype = 'multiplayertype'
+  multiplayermode = 'multiplayermode'
+  input = 'input'
+  complexity = 'complexity'
+  ages = 'ages'
+  price = 'price'

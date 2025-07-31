@@ -1,7 +1,8 @@
-import { rangeInteger, shuffle } from "lib/pq-games";
+import { GameConfig, MaterialConfig, rangeInteger, ResourceLoader, SettingConfig, shuffle } from "lib/pq-games";
 import { OutputBuilder } from "./outputBuilder"
 import { RulebookSettings } from "./rulebookSettings";
 import type { RulebookParams } from "../rulebook";
+import { InteractiveExampleSimulator, InteractiveExampleSimulatorParams } from "./interactiveExampleSimulator";
 
 export interface InteractiveExampleParams
 {
@@ -10,7 +11,9 @@ export interface InteractiveExampleParams
     callback?: Function, // the function called when you press that button
     buttonText?: string,
     sidebar?: boolean, // place it in the sidebar?
-    settings?: RulebookSettings
+    settings?: Record<string, SettingConfig>,
+    simulator?: InteractiveExampleSimulatorParams,
+    config?: GameConfig,
 }
 
 const FAKE_PLAYER_NAMES = ["Anna", "Bella", "Chris", "Dennis", "Erik", "Frank", "Gini", "Harry", "Ingrid", "James", "Kayla", "Lily"];
@@ -24,7 +27,7 @@ export const createInteractiveExamples = (params:RulebookParams, node:HTMLElemen
     const examplesData = params.examples ?? {};
     for(const [id,exampleData] of Object.entries(examplesData))
     {
-        const nodesMatching = Array.from(node.querySelectorAll(`[data-example="${id}"]`)) as HTMLElement[];
+        const nodesMatching = Array.from(node.querySelectorAll(`[data-rulebook-example="${id}"]`)) as HTMLElement[];
         for(const nodeMatch of nodesMatching)
         {
             exampleData.node = nodeMatch;
@@ -45,6 +48,18 @@ export const createInteractiveExamples = (params:RulebookParams, node:HTMLElemen
     return examples;
 }
 
+export const planLoadExampleResources = (config:GameConfig) =>
+{
+    const resLoader = new ResourceLoader({ base: config._resources.base });
+    resLoader.planLoadMultiple(config._resources.files, config);
+    // @ts-ignore
+    if(window.pqRulebookCustomResources) { resLoader.setCustomResources(window.pqRulebookCustomResources); }
+    config._game.resLoader = resLoader;
+    return resLoader;
+}
+
+const DEFAULT_CALLBACK = (sim:InteractiveExampleSimulator) => { return false };
+
 export class InteractiveExample 
 {
     id: string;
@@ -58,28 +73,61 @@ export class InteractiveExample
     generateCallback: Function;
     busy:boolean;
     settings: RulebookSettings;
+    config: GameConfig;
     
-    constructor(config:InteractiveExampleParams = {})
+    constructor(params:InteractiveExampleParams = {})
     {
-        this.id = config.id;
+        this.config = params.config;
+        this.id = params.id;
         this.busy = false;
-
-        this.generateCallback = config.callback;
         
-        this.buttonText = config.buttonText ?? "Give me an example turn!"
-        this.settings = config.settings;
+        this.buttonText = params.buttonText ?? "Give me an example turn!";
+        if(params.settings)
+        {
+            this.settings = new RulebookSettings().addMultiple(params.settings);
+        }
 
-        this.node = config.node;
-        if(!this.node) { this.node = document.querySelector(`[data-example="${this.id}"]`); }; // if no node given, try to find it from existing HTML
+        this.node = params.node;
+        if(!this.node) { this.node = document.querySelector(`[data-rulebook-example="${this.id}"]`); }; // if no node given, try to find it from existing HTML
         if(!this.node) { console.error(`Interactive example cannot find its button/node with id ${this.id}`); return; }
         this.createHTML();
 
-        if(config.sidebar)
-        {
-            this.node.classList.add("sidebar");
-        }
+        if(params.sidebar) { this.node.classList.add("sidebar"); }
 
         this.outputBuilder = new OutputBuilder(this.contentNode);
+        const resLoader = planLoadExampleResources(this.config);
+        
+        const isSimulating = params.simulator && params.simulator.enabled;
+        const callback = params.callback ?? DEFAULT_CALLBACK;
+        let callbackButton:Function;
+
+        // if we're simulating, create one simulator and tell it that every "iteration" should run the callback
+        // and pressing the button should start that simulation
+        if(isSimulating) 
+        {
+            const sim = new InteractiveExampleSimulator(params.simulator, this);
+            sim.setCallback(async () => { return callback(sim) });
+            callbackButton = async () => { sim.simulate() };
+        }
+
+        // otherwise, the callback should load resources
+        // and then run the simulation only _once_ with no other functionality
+        if(!isSimulating)
+        {
+            callbackButton = async () => 
+            {
+                await resLoader.loadPlannedResources();
+                const sim = new InteractiveExampleSimulator({ enabled: false }, this);
+                return callback(sim);
+            };
+        }
+
+        this.generateCallback = callbackButton;
+    }
+
+    createSimulator()
+    {
+
     }
 
     createHTML()
@@ -112,7 +160,7 @@ export class InteractiveExample
             btn.style.opacity = "0.75";
             btn.innerHTML = "Generating ...";
 
-            await this.generateCallback(this);
+            await this.generateCallback();
 
             this.closeButton.style.display = "block";
             this.busy = false;
@@ -167,10 +215,5 @@ export class InteractiveExample
     getRandomFromList(list:any[], num:number)
     {
         return shuffle(list).slice(0, num);
-    }
-
-    attachSettings(s:RulebookSettings)
-    {
-        this.uiNode.parentNode.insertBefore(s.getContainer(), this.uiNode);
     }
 }
