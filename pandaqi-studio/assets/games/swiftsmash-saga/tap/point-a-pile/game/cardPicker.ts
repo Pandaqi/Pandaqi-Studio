@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardType, ColorType, MATERIAL } from "../shared/dict";
 import Card from "./card";
 import getWeighted from "js/pq_games/tools/random/getWeighted";

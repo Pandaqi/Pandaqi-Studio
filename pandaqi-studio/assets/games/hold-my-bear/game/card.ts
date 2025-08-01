@@ -1,6 +1,6 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import { ANIMALS, AnimalData, COLORS } from "../shared/dict";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Point from "js/pq_games/tools/geometry/point";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";

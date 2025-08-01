@@ -118,7 +118,6 @@ There are also some new **Objects** that can appear.
 
 <div data-rulebook-table="roomService-objects"></div>
 
-
 ### Wallet Watchers
 
 {{<  rules-image-sidebar src="expansion_wallet_watchers.webp" alt="Example of the Wallet property and calculating your apartment Price." >}}

@@ -1,7 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point";
 import { KEEBBLE_TYPES, KEEBBLE_LETTER_VALUES } from "./dict"
 
-const CONFIG =
+export const CONFIG =
 {
     inkFriendly: false,
     playerColors: [],
@@ -84,5 +84,3 @@ const CONFIG =
     letterTextStrokeConfig: null,
     handTextConfig: null,
 }
-
-export default CONFIG;

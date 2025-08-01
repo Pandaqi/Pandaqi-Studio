@@ -3,7 +3,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ACTIONS, PROPERTIES, SLIDERS } from "../shared/dict";
 import Slider from "../shared/slider";
 

@@ -1,6 +1,6 @@
 import { Vector2, PathAdvanced, calculateCentroid, subdividePath, signRandom, smoothPath } from "lib/pq-games";
 import Area from "./area";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 
 export default class Region
 {

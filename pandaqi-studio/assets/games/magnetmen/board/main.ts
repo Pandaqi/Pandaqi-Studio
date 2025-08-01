@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config"
+import { CONFIG } from "../shared/config"
 import BoardGen from "./boardGen"
 import BoardDraw from "./boardDraw"
 import Evaluator from "./evaluator"

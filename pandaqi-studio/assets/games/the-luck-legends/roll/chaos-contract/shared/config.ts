@@ -2,7 +2,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import { ContractType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -247,6 +247,3 @@ const CONFIG:any =
 
     },
 }
-
-
-export default CONFIG

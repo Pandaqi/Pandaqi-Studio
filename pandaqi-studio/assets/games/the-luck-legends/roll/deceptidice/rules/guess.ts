@@ -1,5 +1,5 @@
 import fromArray from "js/pq_games/tools/random/fromArray";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Hand from "./hand";
 import Sequence from "./sequence";
 import { SUITS } from "../shared/dict";

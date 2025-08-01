@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import CardPicker from "./cardPicker";
 import Visualizer from "./visualizer";
 import MaterialGenerator from "js/pq_games/tools/generation/materialGenerator";

@@ -1,5 +1,5 @@
 import PandaqiWords from "js/pq_words/main";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Card from "./card";
 import { DRAWINGS } from "../shared/dict";
 

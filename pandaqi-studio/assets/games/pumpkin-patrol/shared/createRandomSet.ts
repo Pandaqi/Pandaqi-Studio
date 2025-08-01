@@ -1,4 +1,4 @@
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import { CardData, SETS, Type } from "./dict";
 import shuffle from "js/pq_games/tools/random/shuffle";
 

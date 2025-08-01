@@ -1,5 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import { MAIN_TYPES, COLOR_GROUPS } from "./dictionary"
 import Type from "./type"
 

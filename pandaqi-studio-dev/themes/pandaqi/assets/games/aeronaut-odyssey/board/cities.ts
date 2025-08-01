@@ -1,6 +1,6 @@
 import BoardState from "./boardState";
 import Route from "./route";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import { Vector2Graph, range, clamp } from "lib/pq-games";
 
 export default class Cities

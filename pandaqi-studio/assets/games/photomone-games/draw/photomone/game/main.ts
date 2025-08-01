@@ -534,4 +534,9 @@ async function startPhotomoneGame(config:Record<string,any>)
     }
 }
 
-new PhotomoneGame({ gameTitle: "photomone", loadGame: true, callback: startPhotomoneGame })
+const callback = (cfg) =>
+{
+    new PhotomoneGame({ gameTitle: "photomone", loadGame: true, callback: startPhotomoneGame })
+}
+
+loadSettings(CONFIG, callback);

@@ -6,7 +6,7 @@ import TextConfig from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { GeneralData, MISC, OBJECTS, TENANTS, WISHES, WishType } from "../shared/dict";
 
 export default class TenantWish

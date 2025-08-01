@@ -41,7 +41,6 @@ You **can't** enter a tile that contains another player, _unless_ both your opti
 
 {{< rules/rules-example id="turn" >}}
 
-
 ## Actions
 
 Everything in this game happens by executing a tile's action (when you visit it). The main actions are ADD, DRAW and SCORE.

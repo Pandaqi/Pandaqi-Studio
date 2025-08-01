@@ -1,5 +1,5 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Point from "js/pq_games/tools/geometry/point";
 import { MISC, Type } from "../shared/dict";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";

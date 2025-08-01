@@ -4,7 +4,7 @@ import CVal from "js/pq_games/tools/generation/cval"
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -215,6 +215,3 @@ const CONFIG:any =
         }
     },
 }
-
-
-export default CONFIG

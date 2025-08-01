@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardType, GiftType, ROUTEKAARTEN } from "../shared/dict";
 import Card from "./card";
 

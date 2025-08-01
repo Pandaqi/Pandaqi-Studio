@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config"
+import { CONFIG } from "../shared/config"
 import { SETS } from "../shared/dict"
 import BoardDraw from "./boardDraw"
 import BoardGen from "./boardGen"

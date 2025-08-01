@@ -1,5 +1,5 @@
 import arraysAreDuplicates from "js/pq_games/tools/collections/arraysAreDuplicates";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CATS, POWERS, Type } from "../shared/dict";
 import Card from "./card";
 import getWeighted from "js/pq_games/tools/random/getWeighted";

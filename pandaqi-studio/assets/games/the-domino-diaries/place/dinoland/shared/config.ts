@@ -4,7 +4,7 @@ import { DinoType, TerrainType } from "./dict"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -257,6 +257,3 @@ const CONFIG:any =
         }
     },
 }
-
-
-export default CONFIG

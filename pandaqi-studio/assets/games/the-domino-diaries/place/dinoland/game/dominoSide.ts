@@ -6,7 +6,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import drawBlurryRectangle from "js/pq_games/layout/tools/drawBlurryRectangle";
 
 export default class DominoSide

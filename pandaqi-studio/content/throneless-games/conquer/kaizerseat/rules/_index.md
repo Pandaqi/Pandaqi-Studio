@@ -58,7 +58,7 @@ That's it! Next round!
 
 {{< rules/rules-image src="gameplay_2.webp" alt="Example of handling the remaining (losing) cards; do its action, or swap places if the action did nothing." >}}
 
-{{< rules/rules-example id="turn" >}}
+{{< rules/rules-example id="turn-kaizerseat" >}}
 
 ## Packs
 

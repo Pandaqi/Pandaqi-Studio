@@ -11,7 +11,7 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { MISC } from "../shared/dict";
 import BoardState from "./boardState";
 

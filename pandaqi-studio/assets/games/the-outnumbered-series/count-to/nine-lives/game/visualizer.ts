@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { MISC } from "../shared/dict";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import patternizeGrid from "js/pq_games/layout/patterns/patternizeGrid";

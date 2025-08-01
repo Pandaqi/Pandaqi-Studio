@@ -1,4 +1,4 @@
-import CONFIG from "games/slippery-slopes/shared/config";
+import { CONFIG } from "games/slippery-slopes/shared/config";
 import GameState from "./gameState";
 
 export default class InstructionScreen

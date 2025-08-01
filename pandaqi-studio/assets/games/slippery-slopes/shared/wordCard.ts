@@ -7,7 +7,7 @@ import equidistantColorsBetweenOpposites from "../game/tools/equidistantColorsBe
 import createWavyRect from "../game/tools/createWavyRect";
 import Color from "js/pq_games/layout/color/color";
 import ColorLike from "js/pq_games/layout/color/colorLike";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import Point from "js/pq_games/tools/geometry/point";
 
 export default class WordCard

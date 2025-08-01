@@ -1,6 +1,6 @@
 import getAllPossibleCombinations from "js/pq_games/tools/collections/getAllPossibleCombinations";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { BLOCKBUSTERS, CardType, DYNAMIC_OPTIONS, ICONS, MAIN_TEXTS, MovieDetails, MovieType, TextDetails } from "../shared/dict";
 import Card from "./card";
 import getWeighted from "js/pq_games/tools/random/getWeighted";

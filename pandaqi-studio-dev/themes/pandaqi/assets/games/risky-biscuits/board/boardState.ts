@@ -1,4 +1,4 @@
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import Region from "./region";
 import Area from "./area";
 import Continents from "./continents";

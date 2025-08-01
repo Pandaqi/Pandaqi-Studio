@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ASTEROID_TILES, DINOS, DominoType, IMPACT_TILES, TERRAINS } from "../shared/dict";
 import Domino from "./domino";
 import fromArray from "js/pq_games/tools/random/fromArray";

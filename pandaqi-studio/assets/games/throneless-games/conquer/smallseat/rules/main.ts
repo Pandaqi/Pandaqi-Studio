@@ -1,7 +1,7 @@
 import loadPrinceDataIntoRules from "games/throneless-games/shared/loadPrinceDataIntoRules";
 import generateShared from "games/throneless-games/shared/rules/generateShared";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { PACKS } from "../shared/dict";
 
 const SIMULATION_ENABLED = false;

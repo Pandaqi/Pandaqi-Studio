@@ -1,5 +1,5 @@
 import MaterialGenerator from "js/pq_games/tools/generation/materialGenerator";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import CardPicker from "./cardPicker";
 
 const generator = new MaterialGenerator(CONFIG);

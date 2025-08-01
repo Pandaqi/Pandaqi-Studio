@@ -4,7 +4,7 @@ import Card from "../game/card";
 import Board, { Move } from "./board";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import Pair from "./pair";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 
 export default class Player
 {

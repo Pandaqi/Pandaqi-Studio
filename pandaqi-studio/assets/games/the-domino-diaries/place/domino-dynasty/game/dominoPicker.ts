@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { DominoType, EVENTS, GeneralData, ICONS, MISSION_PENALTIES, MISSION_REWARDS, MISSION_SCALARS, MISSION_TEXTS, ROLES, TERRAINS } from "../shared/dict";
 import Domino from "./domino";
 import DominoSide from "./dominoSide";

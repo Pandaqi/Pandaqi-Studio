@@ -1,5 +1,5 @@
 import BoardState from "./boardState";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import Region from "./region";
 import Area from "./area";
 import { Vector2, Rectangle, LayoutOperation, equidistantColors, Circle, Path, Color, TextConfig, TextAlign, ResourceText } from "lib/pq-games";

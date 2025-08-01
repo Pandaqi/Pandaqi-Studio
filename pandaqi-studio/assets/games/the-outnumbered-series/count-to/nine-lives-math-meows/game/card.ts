@@ -14,7 +14,7 @@ import Path from "js/pq_games/tools/geometry/paths/path";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import movePath from "js/pq_games/tools/geometry/transform/movePath";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CATS, MISC, SUITS, Type } from "../shared/dict";
 import Visualizer from "./visualizer";
 

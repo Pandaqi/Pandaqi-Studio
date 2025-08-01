@@ -1,7 +1,7 @@
 import FloodFiller from "js/pq_games/tools/generation/floodFiller";
 import BoardState from "./boardState";
 import Cell from "./cell";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 
 export default class Evaluator
 {

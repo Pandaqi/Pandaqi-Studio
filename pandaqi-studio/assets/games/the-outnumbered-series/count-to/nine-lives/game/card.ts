@@ -1,6 +1,6 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import { CATS, MISC, Type } from "../shared/dict";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Point from "js/pq_games/tools/geometry/point";
 import Visualizer from "./visualizer";

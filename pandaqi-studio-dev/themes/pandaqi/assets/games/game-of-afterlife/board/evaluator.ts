@@ -1,5 +1,5 @@
 import Board from "./board";
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 
 export default class Evaluator
 {

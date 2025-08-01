@@ -1,6 +1,7 @@
 import { SettingType } from "lib/pq-games";
 
-export const CONFIG = {
+export const CONFIG = 
+{
     _settings:
     {
         playerCount:

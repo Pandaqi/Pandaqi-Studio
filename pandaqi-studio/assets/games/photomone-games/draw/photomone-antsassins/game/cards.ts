@@ -1,6 +1,6 @@
 import Card from "./card"
 import GridMapper from "js/pq_games/layout/gridMapper"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import createContext from "js/pq_games/layout/canvas/createContext"

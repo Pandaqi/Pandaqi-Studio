@@ -11,7 +11,7 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle"
 import Random from "js/pq_games/tools/random/main"
 import BoardState from "./boardState"
 import Cell from "./cell"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import { TUTORIAL_DATA } from "./dict"
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
 

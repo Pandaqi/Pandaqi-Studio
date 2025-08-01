@@ -1,6 +1,6 @@
 import { EGGS_SHARED, EggType, TileDataDict } from "games/easter-eggventures/shared/dictShared";
 import Bounds from "js/pq_games/tools/numbers/bounds";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import Point from "js/pq_games/tools/geometry/point";
 

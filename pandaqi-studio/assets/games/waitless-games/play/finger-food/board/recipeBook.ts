@@ -9,7 +9,7 @@ import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import BoardDisplay from "./boardDisplay";
 import Cell from "./cell";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import { CUSTOM } from "./dictionary";
 import Type from "./type";
 import TypeManager from "./typeManager";

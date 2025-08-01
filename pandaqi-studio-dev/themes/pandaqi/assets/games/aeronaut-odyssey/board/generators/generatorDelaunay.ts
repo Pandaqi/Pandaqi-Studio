@@ -1,6 +1,6 @@
 import { Vector2, range, Vector2Graph, shuffle, rangeInteger, getWeightedByIndex, d3 } from "lib/pq-games";
 import BoardState from "../boardState";
-import CONFIG from "../config";
+import { CONFIG } from "../config";
 
 class RequiredArea
 {

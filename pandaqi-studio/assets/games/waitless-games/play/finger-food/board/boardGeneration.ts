@@ -2,7 +2,7 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
 import BoardDisplay from "./boardDisplay"
 import BoardState from "./boardState"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import Evaluator from "./evaluator"
 import TypeManager from "./typeManager"
 

@@ -1,6 +1,6 @@
 import BalancedFrequencyPickerWithMargin from "js/pq_games/tools/generation/balancedFrequencyPickerWithMargin";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ACTIONS, FOOD, GeneralData, MaterialType, Recipe, RecipeList, RecipeRewardType, VICTIMS } from "../shared/dict";
 import Card from "./card";
 import getWeighted from "js/pq_games/tools/random/getWeighted";

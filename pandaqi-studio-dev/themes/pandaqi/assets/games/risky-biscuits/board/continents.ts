@@ -1,7 +1,7 @@
 import { shuffle, Bounds } from "lib/pq-games";
 import Area from "./area";
 import BoardState from "./boardState";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import Continent from "./continent";
 
 export default class Continents

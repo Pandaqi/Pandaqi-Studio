@@ -1,5 +1,5 @@
 import Player from "./player";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import GameMap from "./gameMap";
 import { fromArray } from "lib/pq-games";
 import { PeerfulServer, createPhaserSceneTemplate, instantiatePhaser, PHASER_SCENE_KEY, receiveAction } from "lib/pq-peerful";

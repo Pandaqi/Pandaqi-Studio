@@ -12,6 +12,11 @@ export interface IconSheetData
     sheetURL?: string
     sheetWidth?: number
     base?: string,
+}
+
+export interface IconSheetParams
+{
+    config?: IconSheetData,
     class?: string,
     icons?: Record<string,IconData>
 }
@@ -31,15 +36,15 @@ export const findSheetForRulebookIcon = (key:string, params:RulebookParams) =>
     return params.icons[sheetKey] ?? {};
 }
 
-export const getRulebookIconNode = (key:string|IconData, sheetData:IconSheetData) : HTMLElement =>
+export const getRulebookIconNode = (key:string|IconData, sheetData:IconSheetParams) : HTMLElement =>
 {
     const iconData = (typeof key == "string") ? sheetData.icons[key] : key;
     const icon = document.createElement("div");
     icon.classList.add(sheetData.class ?? DEFAULT_ICON_CLASS);
 
-    const base = sheetData.base ?? "";
-    const sheetURL = iconData.sheetURL ?? sheetData.sheetURL;
-    const sheetWidth = iconData.sheetWidth ?? (sheetData.sheetWidth ?? 8);
+    const base = sheetData.config.base ?? "";
+    const sheetURL = iconData.sheetURL ?? sheetData.config.sheetURL;
+    const sheetWidth = iconData.sheetWidth ?? (sheetData.config.sheetWidth ?? 8);
 
     if(sheetURL) { icon.style.backgroundImage = `url(${base}${sheetURL})`; }
     icon.style.backgroundSize = (sheetWidth*100) + "%";

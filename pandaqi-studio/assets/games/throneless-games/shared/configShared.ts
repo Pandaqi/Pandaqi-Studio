@@ -3,7 +3,7 @@ import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-const CONFIG_SHARED =
+export const CONFIG_SHARED =
 {
     _rulebook:
     {
@@ -54,9 +54,12 @@ const CONFIG_SHARED =
         {
             smallseat:
             {
-                sheetURL: "crests_full.webp",
-                sheetWidth: 6,
-                base: "/throneless-games/conquer/smallseat/assets/",
+                config:
+                {
+                    sheetURL: "crests_full.webp",
+                    sheetWidth: 6,
+                    base: "/throneless-games/conquer/smallseat/assets/",
+                },
                 icons:
                 {
                     "karate-chicks": { frame: 0 },
@@ -76,9 +79,12 @@ const CONFIG_SHARED =
 
             kingseat:
             {
-                sheetURL: "crests_full.webp",
-                sheetWidth: 6,
-                base: "/throneless-games/conquer/kingseat/assets/",
+                config:
+                {
+                    sheetURL: "crests_full.webp",
+                    sheetWidth: 6,
+                    base: "/throneless-games/conquer/kingseat/assets/",
+                },
                 icons:
                 {
                     lionsyre: { frame: 0 },
@@ -98,9 +104,12 @@ const CONFIG_SHARED =
 
             queenseat:
             {
-                sheetURL: "crests_full.webp",
-                sheetWidth: 6,
-                base: "/throneless-games/conquer/queenseat/assets/",
+                config:
+                {
+                    sheetURL: "crests_full.webp",
+                    sheetWidth: 6,
+                    base: "/throneless-games/conquer/queenseat/assets/",
+                },
                 icons:
                 {
                     "stingers-hive": { frame: 0 },
@@ -120,9 +129,12 @@ const CONFIG_SHARED =
 
             kaizerseat:
             {
-                sheetURL: "crests_full.webp",
-                sheetWidth: 6,
-                base: "/throneless-games/conquer/kaizerseat/assets/",
+                config:
+                {
+                    sheetURL: "crests_full.webp",
+                    sheetWidth: 6,
+                    base: "/throneless-games/conquer/kaizerseat/assets/",
+                },
                 icons:
                 {
                     solongnecks: { frame: 0 },
@@ -289,5 +301,3 @@ const CONFIG_SHARED =
         }
     }
 }
-
-export default CONFIG_SHARED;

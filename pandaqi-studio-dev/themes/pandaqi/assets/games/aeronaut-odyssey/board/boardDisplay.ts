@@ -1,5 +1,5 @@
 import BoardState from "./boardState";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import Route from "./route";
 import { BLOCKS, BONUSES } from "./dict";
 import { Vector2, shuffle, Color, Vector2Graph, Circle, LayoutOperation, TextConfig, TextAlign, ResourceText, Rectangle, rotatePath, bevelPath, calculateCenter, Path, Line, GrayScaleEffect, fromArray, calculateCentroid } from "lib/pq-games";

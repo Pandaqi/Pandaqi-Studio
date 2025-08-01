@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point"
 
-const CONFIG = 
+export const CONFIG = 
 {
     _settings:
     {
@@ -9,7 +9,7 @@ const CONFIG =
             type: SettingType.CHECK,
             label: "Include Powers",
             default: true,
-            label: "Remove them if you're sure you never want to play with them."
+            remark: "Remove them if you're sure you never want to play with them."
         },
 
         suits:
@@ -148,5 +148,3 @@ const CONFIG =
         }
     }
 }
-
-export default CONFIG

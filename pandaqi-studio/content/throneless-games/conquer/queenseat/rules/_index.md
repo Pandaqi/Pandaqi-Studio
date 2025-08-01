@@ -56,7 +56,7 @@ That's it! Have fun!
 
 {{< rules/rules-image src="gameplay_3.webp" alt="Examples of the two rules (for voting and swapping) that are always active." >}}
 
-{{< rules/rules-example id="turn" >}}
+{{< rules/rules-example id="turn-queenseat" >}}
 
 ## Packs
 

@@ -2,7 +2,7 @@ import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 
-const CONFIG_SHARED =
+export const CONFIG_SHARED =
 {
     fonts:
     {
@@ -123,5 +123,3 @@ const CONFIG_SHARED =
         },
     },
 }
-
-export default CONFIG_SHARED

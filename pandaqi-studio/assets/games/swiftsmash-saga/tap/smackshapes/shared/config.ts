@@ -3,7 +3,7 @@ import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -135,6 +135,3 @@ const CONFIG:any =
         }
     },
 }
-
-
-export default CONFIG

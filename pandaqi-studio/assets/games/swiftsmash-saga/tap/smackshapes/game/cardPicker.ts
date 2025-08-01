@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardType, Color, SPECIAL_ACTIONS, Shape } from "../shared/dict";
 import Card from "./card";
 import fromArray from "js/pq_games/tools/random/fromArray";

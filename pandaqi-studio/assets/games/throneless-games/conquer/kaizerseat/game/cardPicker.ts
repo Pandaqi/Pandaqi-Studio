@@ -1,5 +1,5 @@
 import generatePacks from "games/throneless-games/shared/generatePacks";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { PACKS, SEAT_CARDS, SETS, THRONE_CARDS } from "../shared/dict";
 import CardThroneless from "games/throneless-games/shared/cardThroneless";
 import cacheDefaultData from "games/throneless-games/shared/cacheDefaultData";

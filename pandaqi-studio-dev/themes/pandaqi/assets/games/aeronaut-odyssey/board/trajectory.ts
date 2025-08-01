@@ -1,5 +1,5 @@
 import Route from "./route";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import { BONUSES } from "./dict";
 import { Vector2Graph, LineGraph, clamp } from "lib/pq-games";
 

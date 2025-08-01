@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ATTRACTIONS, CHALLENGES, COASTER_PARTS, DECORATIONS, DominoType, EVENTS, ITEMS, ItemType, PATHS, PathType, STALLS } from "../shared/dict";
 import Domino from "./domino";
 import DominoSide from "./dominoSide";

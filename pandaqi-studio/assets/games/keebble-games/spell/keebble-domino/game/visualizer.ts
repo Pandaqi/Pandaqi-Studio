@@ -8,7 +8,7 @@ import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 
 export default class Visualizer
 {

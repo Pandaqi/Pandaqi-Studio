@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardType, VoteType } from "../shared/dict";
 import Card from "./card";
 

@@ -1,5 +1,5 @@
 import GridMapper from "js/pq_games/layout/gridMapper";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import PandaqiWords from "js/pq_words/main";
 import WordData from "js/pq_words/wordData";
 import Point from "js/pq_games/tools/geometry/point";

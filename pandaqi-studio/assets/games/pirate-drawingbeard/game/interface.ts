@@ -1,4 +1,4 @@
-import Config from "./config"
+import { CONFIG } from "./config"
 import Hints from "./hints"
 import Map from "./map"
 
@@ -41,21 +41,21 @@ export default {
 		this.interface = document.getElementById('interface');
 		this.gameImagesContainer = document.getElementById('game-canvases-container');
 
-		var useInterface = Config.useInterface;
+		var useInterface = CONFIG.useInterface;
 		if(!useInterface) {
 			this.clearInterface();
 			this.interfaceContainer.style.display = 'none';
 			return;
 		}
 
-		if(Config.createPremadeGame) {
+		if(CONFIG.createPremadeGame) {
 			this.setInterfaceTo(this.texts.premadeGameFinished);
 			return;
 		}
 
 
 		var welcomeMessage = this.texts.welcomeMessage;
-		if(Config.useRealMaterial) {
+		if(CONFIG.useRealMaterial) {
 			welcomeMessage = welcomeMessage.replace("{0}", '<strong>Step 1:</strong> grab the material you already have.');
 		} else {
 			welcomeMessage = welcomeMessage.replace("{0}", '<strong>Step 1:</strong> grab some papers and pens.');
@@ -127,8 +127,8 @@ export default {
 
 	createContinueButton(playerNum)
 	{
-		var playerCount = Config.playerCount;
-		if(Config.addBot) { playerCount -= 1; }
+		var playerCount = CONFIG.playerCount;
+		if(CONFIG.addBot) { playerCount -= 1; }
 
 		var allHintsDisplayed = playerNum >= playerCount;
 
@@ -182,7 +182,7 @@ export default {
 			this.interfaceContainer.classList.remove("interfaceContainer-lowvis");
 			this.interface.classList.remove("interface-lowvis");
 
-			if(Config.addBot) {
+			if(CONFIG.addBot) {
 				this.showBotInterface();
 				return;
 			}
@@ -247,7 +247,7 @@ export default {
 		var btn = this.addButtonToInterface('Show Botbeard Hints');
 		btn.addEventListener("click", function(ev) {
 			this.clearInterface();
-			this.showPlayerHint(Config.playerCount - 1, true);
+			this.showPlayerHint(CONFIG.playerCount - 1, true);
 		}.bind(this))
 	},
 

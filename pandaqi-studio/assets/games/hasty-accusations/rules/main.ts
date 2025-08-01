@@ -1,12 +1,11 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ActionSet, SETS, SUSPECTS } from "../shared/dict";
-import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
 
-// auto-display all card options and descriptions inside rulebook
-const rtConversion = { heading: "label", desc: "desc" };
-const rtParams = { sheetURL: null, base: CONFIG.assetsBase, sheetWidth: 8, class: null };
+const suspectsParsed = Object.assign({}, SUSPECTS);
+delete suspectsParsed.loupe;
+delete suspectsParsed.traitor;
 
-const parse = (dict:ActionSet) =>
+const parseRulebookTableData = (dict:ActionSet) =>
 {
     for(const [key,data] of Object.entries(dict))
     {
@@ -18,36 +17,87 @@ const parse = (dict:ActionSet) =>
     return dict;
 }
 
-rtParams.sheetURL = CONFIG.assets.base.path;
-const nodeBase = convertDictToRulesTableHTML(parse(SETS.base), rtConversion, rtParams);
-document.getElementById("rules-table-base").appendChild(nodeBase);
-
-rtParams.sheetURL = CONFIG.assets.advanced.path;
-const nodeAdvanced = convertDictToRulesTableHTML(parse(SETS.advanced), rtConversion, rtParams);
-document.getElementById("rules-table-advanced").appendChild(nodeAdvanced);
-
-rtParams.sheetURL = CONFIG.assets.expert.path;
-const nodeExpert = convertDictToRulesTableHTML(parse(SETS.expert), rtConversion, rtParams);
-document.getElementById("rules-table-expert").appendChild(nodeExpert);
-
-rtParams.sheetURL = CONFIG.assets.suspect_powers.path;
-const suspectsParsed = Object.assign({}, SUSPECTS);
-delete suspectsParsed.loupe;
-delete suspectsParsed.traitor;
-rtParams.sheetWidth = 11;
-rtParams.class = "big";
-rtConversion.desc = "power";
-const nodePowers = convertDictToRulesTableHTML(suspectsParsed, rtConversion, rtParams);
-document.getElementById("rules-table-powers").appendChild(nodePowers);
-
-/*
-const entries = Array.from(nodePowers.getElementsByClassName("rules-table-entry"));
-nodePowers.getElementsByClassName("rules-table")[0].classList.add("big");
-for(const entry of entries)
+CONFIG._rulebook =
 {
-    entry.classList.add("big");
-}
-*/
+    tables:
+    {
+        base:
+        {
+            icons: 
+            {
+                config:
+                {
+                    sheetURL: CONFIG.assets.base.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                },
+                icons: SETS.base
+            },
+            data: parseRulebookTableData(SETS.base)
+        },
 
-// @ts-ignore
-if(window.PQ_RULEBOOK) { window.PQ_RULEBOOK.refreshRulesTables(); }
+        advanced:
+        {
+            icons: 
+            {
+                config:
+                {
+                    sheetURL: CONFIG.assets.advanced.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                },
+            },
+            data: parseRulebookTableData(SETS.advanced)
+        },
+
+        expert:
+        {
+            icons: 
+            {
+                config:
+                {
+                    sheetURL: CONFIG.assets.expert.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                },
+            },
+            data: parseRulebookTableData(SETS.expert)
+        },
+
+        powers:
+        {
+            icons: 
+            {
+                config:
+                {
+                    sheetURL: CONFIG.assets.suspect_powers.path,
+                    sheetWidth: 11,
+                    base: CONFIG.assetsBase,
+                },
+            },
+            data: suspectsParsed
+        }
+    },
+    
+    icons:
+    {
+        inline:
+        {
+            config:
+            {
+                sheetURL: "misc.webp",
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons:
+            {
+                "only-review": { frame: 0 },
+                "only-play": { frame: 1 },
+                "skull": { frame: 5 },
+                "card": { frame: 6 }
+            }
+        }
+    }
+}
+
+loadRulebook(CONFIG._rulebook);

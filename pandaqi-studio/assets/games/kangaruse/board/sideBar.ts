@@ -12,7 +12,7 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import { CELLS, COLOR_GROUPS, GENERAL } from "../shared/dictionary";
 import BoardDisplay from "./boardDisplay";
 import BoardState from "./boardState";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 
 export default class SideBar
 {

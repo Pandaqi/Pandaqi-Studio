@@ -2,7 +2,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import { PACKS } from "./dict";
 import { generateForRulebook } from "../rules/main";
 
-const CONFIG = 
+export const CONFIG = 
 {
     _settings:
     {
@@ -169,9 +169,12 @@ const CONFIG =
         {
             packs:
             {
-                sheetURL: "card_types.webp",
-                sheetWidth: 8,
-                base: "/the-outnumbered-series/count-to/sixpack/assets/",
+                config:
+                {
+                    sheetURL: "card_types.webp",
+                    sheetWidth: 8,
+                    base: "/the-outnumbered-series/count-to/sixpack/assets/",
+                },
                 icons: PACKS
             },
         }
@@ -253,4 +256,3 @@ const CONFIG =
 
     }
 }
-export default CONFIG;

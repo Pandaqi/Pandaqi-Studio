@@ -13,7 +13,7 @@ import Random from "js/pq_games/tools/random/main";
 import { CELLS, COLOR_GROUPS, CORNER_OFFSETS, GENERAL } from "../shared/dictionary";
 import BoardDisplay from "./boardDisplay";
 import Cell from "./cell";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 export default class CellDisplay

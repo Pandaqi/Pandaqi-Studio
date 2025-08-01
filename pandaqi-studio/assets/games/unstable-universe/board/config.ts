@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point";
 
-const CONFIG =
+export const CONFIG =
 {
     _settings:
     {
@@ -112,22 +112,4 @@ const CONFIG =
             frames: new Point(2,1)
         }
     }
-
-    /*
-    this.load.image('fault_line', base + 'fault_line.png')
-
-		this.load.spritesheet('node_outlines', base + 'node_outlines.png?c=1', spritesheetSlice);
-		this.load.spritesheet('mission_nodes', base + 'mission_nodes.png?c=1', spritesheetSlice);
-		this.load.spritesheet('regular_nodes', base + 'regular_nodes.png?c=3', spritesheetSlice);
-
-		this.load.spritesheet('expedition_nodes', base + 'expedition_nodes.png?c=1', spritesheetSlice)
-
-		this.load.spritesheet('tiny_nodes', base + 'tiny_nodes.png', spritesheetSlice)
-		this.load.spritesheet('natural_resources', base + 'natural_resources.png', spritesheetSlice);
-		this.load.spritesheet('landmarks', base + 'landmarks.png', spritesheetSlice)
-
-		this.load.spritesheet('daynight_icons', base + 'daynight_icons.png', spritesheetSlice)
-        */
 }
-
-export default CONFIG;

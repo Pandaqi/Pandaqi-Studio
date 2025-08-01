@@ -1,5 +1,5 @@
 import Card from "./card"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import Random from "js/pq_games/tools/random/main"
 import { TypeStats } from "./main"
 import ElementIcon from "./elementIcon"

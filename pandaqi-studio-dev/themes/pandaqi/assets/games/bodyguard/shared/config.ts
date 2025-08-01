@@ -1,7 +1,7 @@
 import { Vector2, Bounds } from "lib/pq-games"
 import { TYPES } from "./dict"
 
-const CONFIG = 
+export const CONFIG = 
 {
     debugWithoutFile: true, // @DEBUGGING (should be false)
     debugSinglePack: false, // @DEBUGGING (should be false)
@@ -155,5 +155,3 @@ const CONFIG =
         }
     }
 }
-
-export default CONFIG

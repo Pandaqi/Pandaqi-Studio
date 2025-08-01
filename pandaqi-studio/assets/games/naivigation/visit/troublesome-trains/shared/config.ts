@@ -1,11 +1,11 @@
-import CONFIG_NAIVIGATION_SHARED from "games/naivigation/shared/configShared";
+import { CONFIG_NAIVIGATION_SHARED } from "games/naivigation/shared/configShared";
 import { NetworkType, TerrainType, TileType } from "games/naivigation/shared/dictShared";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import { MATERIAL } from "./dict";
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -227,5 +227,3 @@ const CONFIG:any =
 }
 
 mergeObjects(CONFIG, CONFIG_NAIVIGATION_SHARED, false);
-
-export default CONFIG

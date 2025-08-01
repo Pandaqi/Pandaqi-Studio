@@ -1,6 +1,6 @@
 import BalancedFrequencyPickerWithMargin from "js/pq_games/tools/generation/balancedFrequencyPickerWithMargin";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardType, MEDICINE, PATIENTS, SPECIAL_ACTIONS } from "../shared/dict";
 import Card from "./card";
 

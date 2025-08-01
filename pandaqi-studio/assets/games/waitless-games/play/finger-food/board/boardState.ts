@@ -2,7 +2,7 @@ import Cell from "./cell";
 import Point from "js/pq_games/tools/geometry/point";
 import Random from "js/pq_games/tools/random/main";
 import TypeManager from "./typeManager";
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import RecipeBook from "./recipeBook";
 import { NB_OFFSETS } from "./dictionary"
 import Type from "./type";

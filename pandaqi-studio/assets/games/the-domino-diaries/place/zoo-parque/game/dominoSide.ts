@@ -5,7 +5,7 @@ import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
 import drawBlurryRectangle from "js/pq_games/layout/tools/drawBlurryRectangle";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ANIMALS, ITEMS, ItemType, MISC, TERRAINS, TerrainType } from "../shared/dict";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import shuffle from "js/pq_games/tools/random/shuffle";

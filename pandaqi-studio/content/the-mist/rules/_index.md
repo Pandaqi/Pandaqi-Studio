@@ -12,11 +12,9 @@ Each player invents their own unique symbol and draws it on any unused starting 
 Material can be downloaded from [the website](https://pandaqi.com/the-mist/).
 {{% /rules/rules-remark %}}
 
-
 ## Objective
 
 The game ends as soon as **all players are out**. Each player checks the entire path that they walked. Sum the values of all squares: **highest score wins**!
-
 
 ## Gameplay
 
@@ -36,7 +34,6 @@ That's it!
 
 The paper itself explains how each Square works and/or how it scores. You can also read the next section on the [Squares](#squares).
 
-
 ### Advanced Rules
 
 {{< rules/rules-image-sidebar src="gameplay_advanced.webp" alt="Example of a turn following the advanced rules." >}}
@@ -46,9 +43,6 @@ When playing with advanced sets, you probably want to use the advanced rules. Th
 There is only one change: **when moving, you skip over squares already taken.** 
 
 You land on the first available free square in the chosen direction. Only if _that_ doesn't exist, you're out of the game.
-
-
-
 
 ## Squares
 

@@ -5,7 +5,7 @@ import { CardDisplayType, ColorType } from "./dict";
 import CVal from "js/pq_games/tools/generation/cval";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -219,6 +219,3 @@ const CONFIG:any =
         }
     },
 }
-
-
-export default CONFIG

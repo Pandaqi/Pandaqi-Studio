@@ -1,7 +1,7 @@
 import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
 import Board from "./board";
 import BoardState from "./boardState";
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";

@@ -1,9 +1,7 @@
 import { KEEBBLE_LETTER_VALUES, KEEBBLE_TYPES } from "games/keebble-games/shared/dict";
 
-export default 
+export const CONFIG =
 {
-    GAME:null, // will contain reference to active game; ugly but I saw no other way while converting to TypeScript
-
     _settings:
     {
         expansions:

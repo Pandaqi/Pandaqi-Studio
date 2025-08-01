@@ -1,7 +1,8 @@
 import AI from "./ai"
 import Events from "./events"
 import Options from "./options"
-import { BUILDINGS, EFFECTS, PLANET_MAP, PLANET_SETS } from "../shared/dict"
+import { PLANET_MAP, PLANET_SETS } from "../shared/dict"
+import { CONFIG } from "./config"
 import configurator from "../board/configurator"
 
 export default class Game 
@@ -191,11 +192,10 @@ export default class Game
     }
 }
 
-const g = new Game();
-if(!g.failed) { g.load(); }
+const callback = async (config) => 
+{
+    const g = new Game();
+    if(!g.failed) { g.load(); }
+}
 
-// @NOTE: the below is needed for library-of-components.html to get this data
-// @ts-ignore
-window.STARRY_EFFECTS = EFFECTS;
-// @ts-ignore
-window.STARRY_BUILDINGS = BUILDINGS;
+loadSettings(CONFIG, callback);

@@ -5,7 +5,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import { ACTIONS, PAWNS } from "../shared/dict";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import createContext from "js/pq_games/layout/canvas/createContext";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";

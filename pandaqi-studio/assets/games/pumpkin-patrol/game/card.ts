@@ -15,7 +15,7 @@ import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPosi
 import Path from "js/pq_games/tools/geometry/paths/path";
 import Point from "js/pq_games/tools/geometry/point";
 import movePath from "js/pq_games/tools/geometry/transform/movePath";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { COLORS, MISC, Type } from "../shared/dict";
 import RequirementData from "./requirementData";
 import SideData from "./sideData";

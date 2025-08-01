@@ -1,7 +1,7 @@
 import { SettingType, CVal, mergeObjects, Vector2 } from "lib/pq-games";
-import CONFIG_NAIVIGATION_SHARED from "./configShared"
+import { CONFIG_NAIVIGATION_SHARED } from "./configShared"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _generation:
     {
@@ -114,5 +114,3 @@ const CONFIG:any =
 }
 
 mergeObjects(CONFIG, CONFIG_NAIVIGATION_SHARED);
-
-export default CONFIG

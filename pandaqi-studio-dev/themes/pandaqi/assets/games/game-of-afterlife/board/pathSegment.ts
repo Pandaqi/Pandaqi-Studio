@@ -1,5 +1,5 @@
 import { Path } from "lib/pq-games";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 
 export default class PathSegment
 {

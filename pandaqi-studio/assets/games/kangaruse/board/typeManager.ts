@@ -1,5 +1,5 @@
 import { CELLS } from "../shared/dictionary";
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import BalancedDictionaryPicker from "js/pq_games/tools/generation/balancedDictionaryPicker";
 
 export default class TypeManager

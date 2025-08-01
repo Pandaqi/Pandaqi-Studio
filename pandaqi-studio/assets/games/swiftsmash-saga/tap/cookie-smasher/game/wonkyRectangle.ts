@@ -8,7 +8,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import movePath from "js/pq_games/tools/geometry/transform/movePath";
 import range from "js/pq_games/tools/random/range";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 
 export default class WonkyRectangle
 {

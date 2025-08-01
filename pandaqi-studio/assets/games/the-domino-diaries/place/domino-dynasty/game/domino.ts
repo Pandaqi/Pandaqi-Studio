@@ -8,7 +8,7 @@ import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import MissionRequirement from "./missionRequirement";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import drawBlurryRectangle from "js/pq_games/layout/tools/drawBlurryRectangle";

@@ -4,7 +4,7 @@ import shuffle from "js/pq_games/tools/random/shuffle";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import Card from "../game/card";
 import { CardType } from "../shared/dict";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
 import Point from "js/pq_games/tools/geometry/point";
 

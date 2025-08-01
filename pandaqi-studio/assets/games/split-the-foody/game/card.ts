@@ -1,6 +1,6 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import { MISC, PowerData } from "../shared/dict";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Visualizer from "./visualizer";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";

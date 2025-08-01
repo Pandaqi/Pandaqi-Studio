@@ -5,7 +5,7 @@ import { FloorType, GeneralData, ItemType, MISC, OBJECTS, TENANTS } from "../sha
 import TenantWish from "./tenantWish";
 import Point from "js/pq_games/tools/geometry/point";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import drawBlurryRectangle from "js/pq_games/layout/tools/drawBlurryRectangle";
 import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";

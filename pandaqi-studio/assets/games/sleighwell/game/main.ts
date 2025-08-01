@@ -1,5 +1,5 @@
 import ProgressBar from "js/pq_games/website/progressBar";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
 import { PageOrientation } from "js/pq_games/pdf/pdfEnums";

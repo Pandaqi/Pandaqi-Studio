@@ -9,7 +9,7 @@ import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExam
 import Card from "../game/card";
 import CardPicker from "../game/cardPicker";
 import VotePicker from "../game/votePicker";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardSubType, DYNAMIC_OPTIONS, DecreeType, LAWS, LawType, VoteType } from "../shared/dict";
 
 

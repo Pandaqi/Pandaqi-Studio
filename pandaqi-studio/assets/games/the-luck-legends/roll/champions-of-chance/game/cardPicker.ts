@@ -1,5 +1,5 @@
 import Bounds from "js/pq_games/tools/numbers/bounds";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Card from "./card";
 import { SPECIAL_CARDS } from "../shared/dict";
 import shuffle from "js/pq_games/tools/random/shuffle";

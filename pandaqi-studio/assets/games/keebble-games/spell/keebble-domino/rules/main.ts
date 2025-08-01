@@ -1,7 +1,7 @@
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
 import shuffle from "js/pq_games/tools/random/shuffle"
 import Point from "js/pq_games/tools/geometry/point"
-import CONFIG from "../game/config"
+import { CONFIG } from "../game/config"
 
 const LETTER_DICTIONARY = 
 {

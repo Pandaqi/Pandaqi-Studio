@@ -1,4 +1,4 @@
-import Config from "./config"
+import { CONFIG } from "./config"
 import HintBuilder from "./hintBuilder"
 import Map from "./map"
 import { DISCRETE_LISTS, HINT_CATEGORIES, HINT_DICT } from "./dictionary"
@@ -23,7 +23,7 @@ export default {
 
 	initialize()
 	{
-		if(!Config.generateHints) { this.solution = true; return; }
+		if(!CONFIG.generateHints) { this.solution = true; return; }
 
 		this.hintGenFail = true;
 		this.solution = false;
@@ -70,19 +70,19 @@ export default {
 		this.availableHints = structuredClone(HINT_DICT);
 		this.categories = HINT_CATEGORIES.slice();
 
-		if(!Config.expansions.rot) { 
+		if(!CONFIG.expansions.rot) { 
 			this.categories.splice(this.categories.indexOf("rotation"), 1);
 		}
 
-		if(!Config.expansions.networks) { 
+		if(!CONFIG.expansions.networks) { 
 			this.categories.splice(this.categories.indexOf("network"), 1);
 		}
 
-		if(!Config.expansions.symbols) { 
+		if(!CONFIG.expansions.symbols) { 
 			this.categories.splice(this.categories.indexOf("symbols"), 1);
 		}
 
-		if(!Config.expansions.special) { 
+		if(!CONFIG.expansions.special) { 
 			this.categories.splice(this.categories.indexOf("special"), 1);
 		}
 	},
@@ -109,10 +109,10 @@ export default {
 			let categoryIsForbidden = !this.categories.includes(originalHint.category);
 			if(categoryIsForbidden) { continue; }
 
-			let expansionMissing = ("expansion" in originalHint) && !Config.expansions[originalHint.expansion] && !this.buildForDownload;
+			let expansionMissing = ("expansion" in originalHint) && !CONFIG.expansions[originalHint.expansion] && !this.buildForDownload;
 			if(expansionMissing) { continue; }
 
-			let forbiddenBecauseAdvanced = ("advanced" in originalHint) && !Config.advancedHints && !this.buildForDownload;
+			let forbiddenBecauseAdvanced = ("advanced" in originalHint) && !CONFIG.advancedHints && !this.buildForDownload;
 			if(forbiddenBecauseAdvanced) { continue; }
 
 			// This is an array of arrays
@@ -154,7 +154,7 @@ export default {
 				// for download we only need ONE of each type
 				if(this.buildForDownload) 
 				{ 
-					const randValue = values[Math.floor(Config.rng.hints() * values.length)];
+					const randValue = values[Math.floor(CONFIG.rng.hints() * values.length)];
 					values = [randValue]; 
 				}
 			}
@@ -181,8 +181,8 @@ export default {
 				let strippedList = Map.mapList.slice();
 				this.stripList(strippedList, params.hint);
 
-				let hintIsTooPowerful = (strippedList.length <= Config.minTilesLeftPerHint);
-				let hintIsTooWeak = (strippedList.length >= (Map.mapList.length - Config.minTilesRemovedPerHint));
+				let hintIsTooPowerful = (strippedList.length <= CONFIG.minTilesLeftPerHint);
+				let hintIsTooWeak = (strippedList.length >= (Map.mapList.length - CONFIG.minTilesRemovedPerHint));
 				if(hintIsTooPowerful || hintIsTooWeak) { continue; }
 
 				if(hint.category == "network")
@@ -206,7 +206,7 @@ export default {
 			this.shuffle(this.fullList[category]);
 		}
 
-		if(Config.debugging) { console.log("FULL HINT LIST"); console.log(this.fullList); }
+		if(CONFIG.debugging) { console.log("FULL HINT LIST"); console.log(this.fullList); }
 	},
 
 	reduce()
@@ -265,7 +265,7 @@ export default {
 				// hints only need to be impactful when we have lots of tiles left
 				// when we're already near the end, a hint often only removes 1 or 2 tiles, logically
 				let hintDidNothing = (prevNumSolutions == validLocations.length);
-				let hintDidAlmostNothing = (Math.abs(prevNumSolutions - validLocations.length) < Config.minImpactPerHint);
+				let hintDidAlmostNothing = (Math.abs(prevNumSolutions - validLocations.length) < CONFIG.minImpactPerHint);
 				
 				if(hintDidNothing || (hintDidAlmostNothing && prevNumSolutions >= 4)) 
 				{ 
@@ -273,7 +273,7 @@ export default {
 					continue; 
 				}
 
-				let checkRedundancy = !Config.fastGeneration;
+				let checkRedundancy = !CONFIG.fastGeneration;
 				if(checkRedundancy)
 				{
 					// we only check against the hints we've already decided on
@@ -291,14 +291,14 @@ export default {
 
 			// in fast generation, we don't check sublists
 			// general hints are most likely to produce sublist redundancy, so only allow one of those hints at most
-			if(Config.fastGeneration && category == "general") { forbidGeneralHints = true; }
+			if(CONFIG.fastGeneration && category == "general") { forbidGeneralHints = true; }
 			if(isSwapResistant) { forbidSwapResistantHints = true; }
 
-			let tooManyHintsNeeded = totalNumHints > Config.playerCount*Config.maxHintsPerPlayer;
+			let tooManyHintsNeeded = totalNumHints > CONFIG.playerCount*CONFIG.maxHintsPerPlayer;
 			if(tooManyHintsNeeded)
 			{
 				this.hintGenFail = true;
-				if(Config.debugging) { console.log("FAIL: Too many hints"); }
+				if(CONFIG.debugging) { console.log("FAIL: Too many hints"); }
 				return;
 			}
 		}
@@ -306,14 +306,14 @@ export default {
 		if(validLocations.length != 1)
 		{
 			this.hintGenFail = true;
-			if(Config.debugging) { console.log("FAIL: No single tile solution (probably ran out of hints to try)"); }
+			if(CONFIG.debugging) { console.log("FAIL: No single tile solution (probably ran out of hints to try)"); }
 			return;
 		}
 
-		if(totalNumHints < Config.playerCount*Config.minHintsPerPlayer) 
+		if(totalNumHints < CONFIG.playerCount*CONFIG.minHintsPerPlayer) 
 		{
 			this.hintGenFail = true;
-			if(Config.debugging) { console.log("FAIL: Too few hints"); }
+			if(CONFIG.debugging) { console.log("FAIL: Too few hints"); }
 			return;
 		}
 
@@ -325,12 +325,12 @@ export default {
 		this.shuffle(this.categories);
 
 		this.perPlayer = [];
-		for(let i = 0; i < Config.playerCount; i++)
+		for(let i = 0; i < CONFIG.playerCount; i++)
 		{
 			this.perPlayer[i] = [];
 		}
 
-		let curPlayer = Math.floor(Config.rng.hints() * Config.playerCount);
+		let curPlayer = Math.floor(CONFIG.rng.hints() * CONFIG.playerCount);
 		for(let i = 0; i < this.categories.length; i++)
 		{
 			let list = this.finalList[this.categories[i]];
@@ -339,26 +339,26 @@ export default {
 			for(let a = 0; a < list.length; a++)
 			{
 				this.perPlayer[curPlayer].push(list[a]);
-				curPlayer = (curPlayer + 1) % Config.playerCount;
+				curPlayer = (curPlayer + 1) % CONFIG.playerCount;
 			}
 		}
 
-		if(Config.debugging) { console.log("Hints PER PLAYER"); console.log(this.perPlayer); }
+		if(CONFIG.debugging) { console.log("Hints PER PLAYER"); console.log(this.perPlayer); }
 	},
 
 	checkFairness()
 	{
 		let offset = 0;
-		if(Config.fastGeneration) { offset = Math.floor(0.15*Config.totalTileCount); }
+		if(CONFIG.fastGeneration) { offset = Math.floor(0.15*CONFIG.totalTileCount); }
 
-		let minOptionsLeft = Math.round(0.4*Config.totalTileCount) - offset; // min options is the more important number
-		let maxOptionsLeft = Math.round(0.8*Config.totalTileCount) + offset;
+		let minOptionsLeft = Math.round(0.4*CONFIG.totalTileCount) - offset; // min options is the more important number
+		let maxOptionsLeft = Math.round(0.8*CONFIG.totalTileCount) + offset;
 
 		// first we calculate how many tiles each player has left
 		// and do an absolute check: must be between some min and max
 		let failed = false;
 		let tilesLeftPerPlayer = [];
-		for(let i = 0; i < Config.playerCount; i++)
+		for(let i = 0; i < CONFIG.playerCount; i++)
 		{
 			let hints = this.perPlayer[i];
 			let list  = Map.mapList.slice();
@@ -368,7 +368,7 @@ export default {
 			{
 				prevNumSolutions = list.length;
 				this.stripList(list, hints[h]);
-				if(Math.abs(prevNumSolutions - list.length) >= Config.minImpactPerHint) { continue; }
+				if(Math.abs(prevNumSolutions - list.length) >= CONFIG.minImpactPerHint) { continue; }
 				
 				failed = true;
 				break;
@@ -376,14 +376,14 @@ export default {
 
 			tilesLeftPerPlayer.push(list);
 
-			if(list.length < minOptionsLeft) { if(Config.debugging) { console.log("FAIL: Too few tiles at start for player"); } failed = true; }
-			if(list.length > maxOptionsLeft) { if(Config.debugging) { console.log("FAIL: Too many tiles at start for player"); } failed = true; }
+			if(list.length < minOptionsLeft) { if(CONFIG.debugging) { console.log("FAIL: Too few tiles at start for player"); } failed = true; }
+			if(list.length > maxOptionsLeft) { if(CONFIG.debugging) { console.log("FAIL: Too many tiles at start for player"); } failed = true; }
 			if(failed) { break; }
 		}
 
 		Map.tilesLeftPerPlayer = tilesLeftPerPlayer;
 
-		if(Config.debugging) {
+		if(CONFIG.debugging) {
 			console.log("TILES LEFT PER PLAYER");
 			console.log(tilesLeftPerPlayer);
 		}
@@ -395,10 +395,10 @@ export default {
 		}
 
 		// then we do a relative check: the difference between the values of different players
-		let maxDifference = Math.round(0.4*Config.totalTileCount) + offset;
-		for(let a = 0; a < Config.playerCount; a++)
+		let maxDifference = Math.round(0.4*CONFIG.totalTileCount) + offset;
+		for(let a = 0; a < CONFIG.playerCount; a++)
 		{
-			for(let b = 0; b < Config.playerCount; b++)
+			for(let b = 0; b < CONFIG.playerCount; b++)
 			{
 				if(a == b) { continue; }
 				if(Math.abs(tilesLeftPerPlayer[a].length - tilesLeftPerPlayer[b].length) <= maxDifference) { continue; }
@@ -502,7 +502,7 @@ export default {
 
 	saveBotbeardInformation()
 	{
-		if(!Config.addBot) { return; }
+		if(!CONFIG.addBot) { return; }
 
 		let list = this.getBotbeardPositiveList();
 		for(let i = 0; i < list.length; i++)
@@ -511,7 +511,7 @@ export default {
 		}
 
 		// count the number of changes due to swaps, to see how likely it even is
-		if(Config.debugging)
+		if(CONFIG.debugging)
 		{
 			let numSwaps = 100;
 			let numChanges = 0;
@@ -608,7 +608,7 @@ export default {
 	shuffle(a) {
 	    let j, x, i;
 	    for (i = a.length - 1; i > 0; i--) {
-	        j = Math.floor(Config.rng.general() * (i + 1));
+	        j = Math.floor(CONFIG.rng.general() * (i + 1));
 	        x = a[i];
 	        a[i] = a[j];
 	        a[j] = x;

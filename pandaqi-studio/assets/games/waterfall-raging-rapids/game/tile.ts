@@ -8,7 +8,7 @@ import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import { ACTIONS, DECORATION, GATES, GEMSTONES, MISC, TileType, WaterFlow } from "../shared/dict";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import Bounds from "js/pq_games/tools/numbers/bounds";

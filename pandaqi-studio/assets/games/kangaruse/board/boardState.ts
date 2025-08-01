@@ -4,7 +4,7 @@ import TypeManager from "./typeManager"
 import BoardHole from "./boardHole";
 import BoardRiver from "./boardRiver";
 import distributeDiscrete from "js/pq_games/tools/generation/distributeDiscrete";
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import FloodFiller from "js/pq_games/tools/generation/floodFiller";
 import range from "js/pq_games/tools/random/range";
 import shuffle from "js/pq_games/tools/random/shuffle";

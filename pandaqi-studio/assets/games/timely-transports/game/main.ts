@@ -2,8 +2,10 @@ import AudioLoader from "./audioLoader"
 import FontLoader from "./fontLoader"
 import Overlay from "./overlay"
 import Interface from "./interface"
+import { CONFIG } from "../shared/config";
 
-export default class Game {
+export default class Game 
+{
     config: Record<string,any>;
     gameover: boolean;
     weWon: boolean;
@@ -79,5 +81,7 @@ export default class Game {
         this.overlay.gotoGameOver();
     }
 }
+
+loadSettings(CONFIG, () => new Game().start());
 
 new Game().start();

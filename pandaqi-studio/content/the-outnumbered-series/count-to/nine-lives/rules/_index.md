@@ -66,9 +66,9 @@ Below are tables explaining what each icon means.
 
 If you enabled "limited powers", only these ones appear.
 
-<div data-rulebook-table="powers-rules-table-limited"></div>
+<div data-rulebook-table="powers-limited"></div>
 
 If all powers are enabled, these ones can also appear.
 
-<div data-rulebook-table="powers-rules-table-advanced"></div>
+<div data-rulebook-table="powers-advanced"></div>
 

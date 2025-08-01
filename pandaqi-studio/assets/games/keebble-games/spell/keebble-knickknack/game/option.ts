@@ -1,5 +1,5 @@
 import { OPTIONS } from "./dict"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 
 export default class Option 
 {

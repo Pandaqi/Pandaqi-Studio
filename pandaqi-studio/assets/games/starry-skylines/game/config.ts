@@ -1,4 +1,4 @@
-export default 
+export const CONFIG =
 {
     assetsBase: "/starry-skylines/assets/",
     _settings:

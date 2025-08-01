@@ -1,5 +1,5 @@
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Point from "js/pq_games/tools/geometry/point";
 import { cardPicker, tilePicker } from "../game/generators";
 import RandomNaivigationSetupGenerator, { TileData } from "games/naivigation/shared/randomNaivigationSetupGenerator";

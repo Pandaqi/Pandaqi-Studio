@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { SPECIAL_CARDS } from "../shared/dict";
 import Card from "./card";
 import lerp from "js/pq_games/tools/numbers/lerp";

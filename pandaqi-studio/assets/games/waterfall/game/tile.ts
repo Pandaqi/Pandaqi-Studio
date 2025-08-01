@@ -7,7 +7,7 @@ import TextConfig from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ACTIONS, GEMSTONES, MISC, TileType } from "../shared/dict";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 

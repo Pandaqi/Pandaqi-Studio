@@ -1,5 +1,5 @@
 import numberRange from "js/pq_games/tools/collections/numberRange";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { COLORS } from "../shared/dict";
 import Token from "./token";
 

@@ -1,5 +1,5 @@
 import GeneralPickerNaivigation from "games/naivigation/shared/generalPickerNaivigation";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { MATERIAL, TREASURE_BONUSES, TREASURE_CONDITIONS, WEATHER_CARDS } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";

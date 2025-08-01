@@ -1,5 +1,5 @@
 import { shuffle } from "lib/pq-games";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import { CardData, SETS } from "./dict";
 
 export default (size = CONFIG.generation.randomSetSize) => 

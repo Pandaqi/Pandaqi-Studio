@@ -8,7 +8,7 @@ import shuffle from "js/pq_games/tools/random/shuffle";
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
 import Tile from "../game/tile";
 import TilePicker from "../game/tilePicker";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
 import { TILES, TileData } from "../shared/dict";
 
@@ -198,8 +198,18 @@ class Board
     }
 }
 
+const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+resLoader.planLoadMultiple(CONFIG.assets);
 
-async function generate()
+CONFIG.resLoader = resLoader;
+CONFIG.itemSize = new Point(CONFIG.rulebook.tileSize);
+const visualizer = new MaterialVisualizer(CONFIG);
+
+const picker = new TilePicker();
+picker.generate();
+picker.removeArrows();
+
+const generate = async (sim:InteractiveExampleSimulator) =>
 {
     await resLoader.loadPlannedResources();
 
@@ -212,6 +222,7 @@ async function generate()
 
     // show state + what you may grab 
     const topLayerTiles = board.getTopLayerTiles();
+    const o = sim.getOutputBuilder();
     o.addParagraph("At the start of your turn, the board looks like this. The highlighted tiles are the ones you're allowed to grab.");
     o.addNode(await board.draw(topLayerTiles));
 
@@ -225,32 +236,7 @@ async function generate()
     o.addNode(await board.draw());
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
-
-const o = e.getOutputBuilder();
-
-const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-resLoader.planLoadMultiple(CONFIG.assets);
-
-CONFIG.resLoader = resLoader;
-CONFIG.itemSize = new Point(CONFIG.rulebook.tileSize);
-const visualizer = new MaterialVisualizer(CONFIG);
-
-const picker = new TilePicker();
-picker.generate();
-picker.removeArrows();
-
-
-// 
-// For auto-displaying all options in nice rules tables in rulebook
-// 
-
-const rtConversion = { heading: "label" };
-const rtParams = { sheetURL: CONFIG.assets.tiles.path, base: CONFIG.assetsBase };
-
-const parse = (dict:Record<string,TileData>, setFilter:string = "base") =>
+const parseRulebookTableData = (dict:Record<string,TileData>, setFilter:string = "base") =>
 {
     const output = {};
     for(const [key,data] of Object.entries(dict))
@@ -264,17 +250,63 @@ const parse = (dict:Record<string,TileData>, setFilter:string = "base") =>
     return output;
 }
 
-const nodeBase = convertDictToRulesTableHTML(parse(TILES, "base"), rtConversion, rtParams);
-document.getElementById("rules-table-base").appendChild(nodeBase);
+CONFIG._rulebook =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example turn!",
+            callback: generate
+        }
+    },
 
-const nodeDarkTunnels = convertDictToRulesTableHTML(parse(TILES, "darkTunnels"), rtConversion, rtParams);
-document.getElementById("rules-table-darkTunnels").appendChild(nodeDarkTunnels);
+    tables:
+    {
+        base:
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.tiles.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: parseRulebookTableData(TILES, "base")
+        },
 
-const nodeGemshards = convertDictToRulesTableHTML(parse(TILES, "gemShards"), rtConversion, rtParams);
-document.getElementById("rules-table-gemShards").appendChild(nodeGemshards);
+        darkTunnels:
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.tiles.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: parseRulebookTableData(TILES, "darkTunnels")
+        },
 
-const nodeGoldenActions = convertDictToRulesTableHTML(parse(TILES, "goldenActions"), rtConversion, rtParams);
-document.getElementById("rules-table-goldenActions").appendChild(nodeGoldenActions);
+        gemShards:
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.tiles.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: parseRulebookTableData(TILES, "gemShards")
+        },
 
-// @ts-ignore
-if(window.PQ_RULEBOOK) { window.PQ_RULEBOOK.refreshRulesTables(); }
+        goldenActions:
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.tiles.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: parseRulebookTableData(TILES, "goldenActions")
+        },
+    }
+}
+
+loadRulebook(CONFIG._rulebook);

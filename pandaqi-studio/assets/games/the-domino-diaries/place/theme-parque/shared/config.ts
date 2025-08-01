@@ -6,7 +6,7 @@ import { PathType } from "./dict"
 import Color from "js/pq_games/layout/color/color"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -293,6 +293,3 @@ const CONFIG:any =
         }
     },
 }
-
-
-export default CONFIG

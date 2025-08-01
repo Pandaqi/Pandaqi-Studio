@@ -3,7 +3,7 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import BoardDisplay from "./boardDisplay";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 
 export default class FixedFingers
 {

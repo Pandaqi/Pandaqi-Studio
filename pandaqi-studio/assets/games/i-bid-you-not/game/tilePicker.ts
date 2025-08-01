@@ -1,5 +1,5 @@
 import range from "js/pq_games/tools/random/range";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { TYPES } from "../shared/dict";
 import Tile from "./tile";
 import Bounds from "js/pq_games/tools/numbers/bounds";

@@ -13,7 +13,7 @@ import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getR
 import Path from "js/pq_games/tools/geometry/paths/path";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CATS, POWERS } from "../shared/dict";
 import Visualizer from "./visualizer";
 

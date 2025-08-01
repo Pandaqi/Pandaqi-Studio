@@ -1,19 +1,7 @@
-import CONFIG from "../shared/config";
-import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
+import { CONFIG } from "../shared/config";
 import { ActionSet, SETS } from "../shared/dict";
 
-// 
-// For auto-displaying all options in nice rules tables in rulebook
-// 
-
-const rtConversion = { heading: "label" };
-const rtParams = { sheetURL: null, base: CONFIG.assetsBase };
-
-// @TODO: Find clean, automatic system for displaying icons/formatting within descriptions as CSS as well.
-//  => Maybe another functionality of TextDrawer? toCSS? Invoked automatically by this system?
-// @IDEA: When setting an icon, also set a NAME for it on the <img> object => <img name="points">
-//   When displaying in html/css, we only extract that NAME and display that?
-const parse = (dict:ActionSet) =>
+const parseForRulebookTable = (dict:ActionSet) =>
 {
     for(const [key,data] of Object.entries(dict))
     {
@@ -27,17 +15,43 @@ const parse = (dict:ActionSet) =>
     return dict;
 }
 
-rtParams.sheetURL = CONFIG.assets.base.path;
-const nodeBase = convertDictToRulesTableHTML(parse(SETS.base), rtConversion, rtParams);
-document.getElementById("rules-table-base").appendChild(nodeBase);
+CONFIG._rulebook =
+{
+    tables:
+    {
+        base:
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.base.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: parseForRulebookTable(SETS.base)
+        },
 
-rtParams.sheetURL = CONFIG.assets.advanced.path;
-const nodeAdvanced = convertDictToRulesTableHTML(parse(SETS.advanced), rtConversion, rtParams);
-document.getElementById("rules-table-advanced").appendChild(nodeAdvanced);
+        advanced:
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.advanced.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: parseForRulebookTable(SETS.advanced)
+        },
 
-rtParams.sheetURL = CONFIG.assets.expert.path;
-const nodeExpert = convertDictToRulesTableHTML(parse(SETS.expert), rtConversion, rtParams);
-document.getElementById("rules-table-expert").appendChild(nodeExpert);
+        expert:
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.expert.path
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: parseForRulebookTable(SETS.expert)
+        },
+    }
+}
 
-// @ts-ignore
-if(window.PQ_RULEBOOK) { window.PQ_RULEBOOK.refreshRulesTables(); }
+loadRulebook(CONFIG._rulebook);

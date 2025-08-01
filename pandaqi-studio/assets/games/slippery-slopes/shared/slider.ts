@@ -1,5 +1,5 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import equidistantColorsBetweenOpposites from "../game/tools/equidistantColorsBetweenOpposites";
 import createWavyRect from "../game/tools/createWavyRect";
 import Point from "js/pq_games/tools/geometry/point";

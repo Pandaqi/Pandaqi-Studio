@@ -1,5 +1,5 @@
 import getWeighted from "js/pq_games/tools/random/getWeighted";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ActionData, SETS, SUSPECTS, Type } from "../shared/dict";
 import Card from "./card";
 

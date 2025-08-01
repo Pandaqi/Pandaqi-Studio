@@ -1,5 +1,5 @@
 import getWeighted from "js/pq_games/tools/random/getWeighted";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ANIMALS, CAMPAIGN_MISSIONS, CAMPAIGN_RULES, CampDiff, CampType, DominoType, ITEMS, ItemType, OBJECTS, RuleVibe, STALLS, TERRAINS, TerrainType } from "../shared/dict";
 import Domino from "./domino";
 import DominoSide from "./dominoSide";

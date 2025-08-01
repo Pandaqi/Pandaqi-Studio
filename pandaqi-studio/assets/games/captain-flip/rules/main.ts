@@ -3,7 +3,7 @@ import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import Point from "js/pq_games/tools/geometry/point";
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
 import TilePicker from "../game/tilePicker";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 
 async function generate()
 {

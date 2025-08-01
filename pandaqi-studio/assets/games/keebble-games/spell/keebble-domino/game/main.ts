@@ -7,7 +7,7 @@ import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import GridMapper from "js/pq_games/layout/gridMapper"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import Point from "js/pq_games/tools/geometry/point"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 
 export default class Generator {
     constructor() {}

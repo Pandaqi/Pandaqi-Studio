@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { TILE_TYPES } from "../shared/dict";
 import Tile from "./tile";
 import getWeighted from "js/pq_games/tools/random/getWeighted";

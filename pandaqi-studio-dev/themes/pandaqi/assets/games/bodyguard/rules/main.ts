@@ -5,7 +5,7 @@ import createRandomSet from "../shared/createRandomSet";
 import { Vector2, fromArray, getWeighted, rangeInteger } from "lib/pq-games";
 import { InteractiveExample } from "lib/pq-rulebook";
 
-const CONFIG =
+export const CONFIG =
 {
     debugSpecificSet: "starter", // @DEBUGGING (should be null)
     debugSimulate: false, // @DEBUGGING (should be false)

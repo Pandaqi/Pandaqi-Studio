@@ -3,7 +3,7 @@ import Point from "../shapes/point"
 import GridMapper, { GridMapperLayout } from "js/pq_games/layout/gridMapper"
 import Colorizer from "../tools/colorizer"
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
-import CONFIG from "../config"
+import { CONFIG } from "../config"
 
 export default class Tiles 
 {

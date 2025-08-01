@@ -63,7 +63,7 @@ Remember that Kingseat is a **position**. Whoever sits there, is currently king.
 
 Bluffing, making deals, lying, it's all very much allowed. That's it! Have fun!
 
-{{< rules/rules-example id="turn" >}}
+{{< rules/rules-example id="turn-kingseat" >}}
 
 
 ## Packs

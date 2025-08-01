@@ -5,7 +5,7 @@ import Triangle from "./shapes/triangle"
 import Hexagon from "./shapes/hexagon"
 import Random from "js/pq_games/tools/random/main"
 import { ALMOST_ACTIONS } from "./dict"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import createContext from "js/pq_games/layout/canvas/createContext"
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
 

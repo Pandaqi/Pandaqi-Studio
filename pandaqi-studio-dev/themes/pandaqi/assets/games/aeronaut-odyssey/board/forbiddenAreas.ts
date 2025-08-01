@@ -1,5 +1,5 @@
 import { Rectangle, Line, lineIntersectsShape, pointIsInsideRectangle, Vector2 } from "lib/pq-games";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 
 export default class ForbiddenAreas
 {

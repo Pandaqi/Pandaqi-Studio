@@ -2,7 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 
-const CONFIG = 
+export const CONFIG = 
 {
     _settings:
     {
@@ -227,5 +227,3 @@ const CONFIG =
         }
     }
 }
-
-export default CONFIG

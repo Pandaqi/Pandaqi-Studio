@@ -3,7 +3,7 @@ import Card from "../game/card";
 import { BEASTS, RecipeReward, RecipeRewardType } from "../shared/dict";
 import Hand, { TokenData } from "./hand";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import shuffle from "js/pq_games/tools/random/shuffle";
 
 interface GameState

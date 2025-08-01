@@ -5,7 +5,7 @@ import Buttons from "./buttons"
 import Goods from "./goods"
 import Events from "./events"
 import Random from "js/pq_games/tools/random/main"
-import CONFIG from "../shared/config"
+import { CONFIG } from "../shared/config"
 
 export default class Interface {
     game: any

@@ -1,7 +1,7 @@
 import fromArray from "js/pq_games/tools/random/fromArray";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CARD_ACTIONS, CardType, GeneralDict } from "../shared/dict";
 import Card from "./card";
 import Contract from "./contracts/contract";

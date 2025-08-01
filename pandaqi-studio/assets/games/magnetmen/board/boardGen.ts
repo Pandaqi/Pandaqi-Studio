@@ -1,7 +1,7 @@
 import BalancedDictionaryPicker from "js/pq_games/tools/generation/balancedDictionaryPicker";
 import Point from "js/pq_games/tools/geometry/point";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import BoardState from "./boardState";
 import Cell from "./cell";
 

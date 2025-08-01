@@ -3,7 +3,7 @@
 import Board from "./board"
 import Drawer from "./drawer"
 import Evaluator from "./evaluator"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 
 const sceneKey = "boardGeneration"
 

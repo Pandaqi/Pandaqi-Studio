@@ -3,7 +3,7 @@ import CVal from "js/pq_games/tools/generation/cval";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -240,6 +240,3 @@ const CONFIG:any =
 
     },
 }
-
-
-export default CONFIG

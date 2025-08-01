@@ -1,7 +1,7 @@
 
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     assetsBase: "/the-domino-diaries/assets/",
 
@@ -31,6 +31,3 @@ const CONFIG:any =
         },
     }
 }
-
-
-export default CONFIG

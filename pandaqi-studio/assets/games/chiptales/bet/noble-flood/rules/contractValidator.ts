@@ -1,5 +1,5 @@
 import Card from "../game/card";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { DYNAMIC_OPTIONS } from "../shared/dict";
 import Board from "./board";
 

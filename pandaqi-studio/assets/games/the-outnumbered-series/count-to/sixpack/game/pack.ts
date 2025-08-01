@@ -1,5 +1,5 @@
 import Card from "./card"
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 
 export default class Pack 
 {

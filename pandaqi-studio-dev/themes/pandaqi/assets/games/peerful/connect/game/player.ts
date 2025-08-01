@@ -1,6 +1,6 @@
 
 import GameServer from "./gameServer";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import BackpackItem, { BackpackItemRaw } from "./backpackItem";
 import { Vector2 } from "lib/pq-games";
 import { receiveAction, listenForEvent, sendAction } from "lib/pq-peerful";

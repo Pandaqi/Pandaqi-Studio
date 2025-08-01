@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { HANDICAPS, POWERS, SPECIAL_EGGS, TileType } from "../shared/dict";
 import Tile from "./tile";
 import { EGGS_SHARED } from "games/easter-eggventures/shared/dictShared";

@@ -1,5 +1,5 @@
 import Card from "../game/card";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { MISC } from "../shared/dict";
 
 export default class Combo

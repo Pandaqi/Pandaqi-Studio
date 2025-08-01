@@ -3,7 +3,7 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardType, DYNAMIC_OPTIONS, DecreeType, ICONS, IconData, LAWS, LawData, LawDataRaw, LawType, LawVibe, ResourceVibe, SPECIAL_RESOURCES, SideDetails } from "../shared/dict";
 import Card from "./card";
 import toTextDrawerImageStrings from "js/pq_games/tools/text/toTextDrawerImageStrings";

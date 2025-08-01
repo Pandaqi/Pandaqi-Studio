@@ -1,5 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 
 enum CardType
 {

@@ -4,7 +4,7 @@ import RandomNaivigationTurnGenerator from "games/naivigation/shared/randomNaivi
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import { cardPicker, tilePicker } from "../game/generators";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 
 const visualizerTiles = new MaterialVisualizer(CONFIG, new Point(256,256));
 const setup = new RandomNaivigationSetupGenerator({

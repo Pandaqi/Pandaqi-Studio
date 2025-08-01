@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point"
 
-const CONFIG = 
+export const CONFIG = 
 {
     _settings:
     {
@@ -179,5 +179,3 @@ const CONFIG =
         }
     }
 }
-
-export default CONFIG

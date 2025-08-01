@@ -1,4 +1,4 @@
-import CONFIG from "games/slippery-slopes/shared/config";
+import { CONFIG } from "games/slippery-slopes/shared/config";
 import GameState from "./gameState";
 import PandaqiWords from "js/pq_words/main";
 import loadPandaqiWords from "games/slippery-slopes/shared/loadPandaqiWords";

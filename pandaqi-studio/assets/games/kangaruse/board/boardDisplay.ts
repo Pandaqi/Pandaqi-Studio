@@ -12,7 +12,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import { GENERAL } from "../shared/dictionary";
 import BoardState from "./boardState";
 import CellDisplay from "./cellDisplay";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import SideBar from "./sideBar";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 

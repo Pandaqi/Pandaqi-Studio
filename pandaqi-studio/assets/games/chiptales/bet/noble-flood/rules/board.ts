@@ -7,7 +7,7 @@ import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { DYNAMIC_OPTIONS } from "../shared/dict";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";

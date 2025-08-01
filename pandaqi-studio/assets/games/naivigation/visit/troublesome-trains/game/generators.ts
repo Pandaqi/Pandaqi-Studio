@@ -1,6 +1,6 @@
 import { TileType } from "games/naivigation/shared/dictShared";
 import GeneralPickerNaivigation from "games/naivigation/shared/generalPickerNaivigation";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { MATERIAL } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";

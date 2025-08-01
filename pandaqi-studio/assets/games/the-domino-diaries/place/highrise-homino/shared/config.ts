@@ -4,7 +4,7 @@ import { FloorType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -312,6 +312,3 @@ const CONFIG:any =
         setTextAlpha: 0.5,
     }
 }
-
-
-export default CONFIG

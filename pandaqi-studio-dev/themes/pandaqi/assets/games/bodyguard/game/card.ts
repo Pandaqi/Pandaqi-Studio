@@ -1,5 +1,5 @@
 import { COLORS, CardData, Type } from "../shared/dict";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { Vector2, signRandom, createContext, TextConfig, TextAlign, ResourceText, LayoutOperation, convertCanvasToImage, fillCanvas, strokeCanvas } from "lib/pq-games";
 
 interface EliminationData

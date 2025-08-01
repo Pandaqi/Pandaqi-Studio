@@ -1,5 +1,5 @@
 import { KEEBBLE_TYPES } from "games/keebble-games/shared/dict"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import Option from "./option"
 
 export default class Instructions 

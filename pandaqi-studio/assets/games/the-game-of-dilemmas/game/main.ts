@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import CardPicker from "./cardPicker";
 import TokenPicker from "./tokenPicker";
 import Visualizer from "./visualizer";

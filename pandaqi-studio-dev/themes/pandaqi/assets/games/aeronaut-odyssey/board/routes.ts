@@ -1,6 +1,6 @@
 import Route from "./route";
 import BoardState from "./boardState";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import RouteSet from "./routeSet";
 import { Vector2Graph, Line, range, getWeightedByIndex, rangeInteger, shuffle, fromArray, getWeighted } from "lib/pq-games";
 import { BONUSES } from "./dict";

@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { BID_CARDS, CardType, Suit } from "../shared/dict";
 import Card from "./card";
 

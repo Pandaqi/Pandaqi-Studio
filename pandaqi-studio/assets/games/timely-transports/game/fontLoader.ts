@@ -1,6 +1,7 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 
-export default class FontLoader {
+export default class FontLoader 
+{
     constructor() {}
     async load()
     {

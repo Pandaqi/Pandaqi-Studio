@@ -3,7 +3,7 @@ import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import { ActionType } from "./dict"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -134,5 +134,3 @@ const CONFIG:any =
 
     },
 }
-
-export default CONFIG

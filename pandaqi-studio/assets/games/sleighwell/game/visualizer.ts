@@ -1,7 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
 

@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CONTRACTS, CardType, DYNAMIC_OPTIONS, NUMBERS, SPECIAL_CARDS, SUITS } from "../shared/dict";
 import Card from "./card";
 import toTextDrawerImageStrings from "js/pq_games/tools/text/toTextDrawerImageStrings";

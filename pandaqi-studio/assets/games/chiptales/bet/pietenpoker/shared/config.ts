@@ -5,7 +5,7 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 import { ColorType } from "./dict";
 import CVal from "js/pq_games/tools/generation/cval";
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -237,6 +237,3 @@ const CONFIG:any =
         }
     },
 }
-
-
-export default CONFIG

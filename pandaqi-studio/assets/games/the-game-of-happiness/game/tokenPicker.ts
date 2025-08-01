@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CATEGORIES, Category } from "../shared/dict";
 import Token from "./token";
 

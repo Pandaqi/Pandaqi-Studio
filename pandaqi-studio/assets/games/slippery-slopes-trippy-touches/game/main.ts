@@ -1,5 +1,5 @@
 import SignalManager from "js/pq_games/tools/signals/signalManager";
-import CONFIG from "../../slippery-slopes/shared/config";
+import { CONFIG } from "../../slippery-slopes/shared/config";
 import InstructionScreen from "./instructionScreen";
 import SlidersScreen from "./slidersScreen";
 import WordsScreen from "./wordsScreen";
@@ -166,5 +166,4 @@ class Game
     */
 }
 
-const g = new Game();
-g.start();
+loadSettings(CONFIG, () => { new Game().start(); });

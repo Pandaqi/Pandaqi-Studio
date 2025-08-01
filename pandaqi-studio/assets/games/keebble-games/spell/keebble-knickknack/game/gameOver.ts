@@ -1,5 +1,5 @@
 import Game from "./main"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 
 export default class GameOver 
 {
@@ -62,7 +62,8 @@ export default class GameOver
         restartBtn.innerHTML = 'Play Again (same players)';
         restartBtn.classList.add("button-look");
         restartBtn.addEventListener("click", (ev) => {
-            CONFIG.GAME.restart();
+            // @ts-ignore
+            window.keebbleKnickknackGame.restart();
         })
 
         const leaveBtn = document.createElement("button");

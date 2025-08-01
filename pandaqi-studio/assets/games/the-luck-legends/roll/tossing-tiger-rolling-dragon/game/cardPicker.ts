@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { AnimalType, DAWN_ACTIONS, MOVES, MovesDictionary, ROOSTER_CHANGES } from "../shared/dict";
 import Card from "./card";
 

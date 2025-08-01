@@ -1,0 +1,142 @@
+$header-font-raw: "subrayada";
+$header-font: $header-font-raw, sans-serif;
+$body-font-raw: "titillium";
+$body-font: $body-font-raw, sans-serif;
+$bg-pattern-url: url(starryskylines_bg.webp);
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $header-font-raw;
+    src: url($base-fonts + 'MontserratSubrayada-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font-raw;
+    src: url($base-fonts + 'MontserratSubrayada-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'TitilliumWeb-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'TitilliumWeb-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'TitilliumWeb-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+    color: #FCFFFC;
+    background-color: #040F0F;
+}
+
+h1 {
+    font-family: $header-font;
+}
+
+#bigTable {
+    width: 100%;
+    max-width: 1280px;
+    margin: auto;
+    font-size: 16pt;
+}
+
+td {
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+td:first-child {
+    font-weight: bold;
+}
+
+td.planetIntroduceRow {
+    text-align: center;
+    font-family: $header-font;
+    font-size: 36pt;
+    padding-top: 40px;
+}
+
+tr:nth-child(even) {
+    background: transparent;
+}
+
+tr:nth-child(odd) {
+    background: rgba(0, 30, 30, 0.8);
+}
+
+.buildingTypeSpan {
+    display: none;
+}
+
+.buildingProbability {
+    color: #666;
+    font-weight: lighter;
+}
+
+/* all styles for the different effect categories */
+.typeEnvironment {
+    color: #2BA84A;
+}
+
+.typeGovernment {
+    color: gray;
+}
+
+.typeEntertainment {
+    color: #FB3640;
+}
+
+.typeBuilding {
+    color: brown;
+}
+
+.typeEffect {
+    color: #EA638C;
+}
+
+.typeStreet {
+    color: #FA7921;
+}
+
+/* on narrow screens, make the whole type column disappear and instead display type underneath name */
+@media all and (max-width: 600px) {
+    .buildingTypeCell {
+        display: none;
+    }
+
+    .buildingTypeSpan {
+        display: block;
+    }
+}
+
+@media all and (orientation: portrait) {
+    .buildingTypeCell {
+        display: none;
+    }
+
+    .buildingTypeSpan {
+        display: block;
+    }
+}

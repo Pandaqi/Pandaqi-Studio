@@ -3,7 +3,7 @@ import shuffle from "js/pq_games/tools/random/shuffle";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 import Card from "../game/card";
 import Player from "./player";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardType, ShapeType } from "../shared/dict";
 import RulesTracker from "./rulesTracker";
 

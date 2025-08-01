@@ -4,7 +4,7 @@ import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import Point from "js/pq_games/tools/geometry/point"
 import ProgressBar from "js/pq_games/website/progressBar"
 import CodeCards from "./cards"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import Tiles from "./tiles/tiles"
 import Tokens from "./tokens"
 

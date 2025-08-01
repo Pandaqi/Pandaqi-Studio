@@ -9,7 +9,7 @@ import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
 import Rectangle from "js/pq_games/tools/geometry/rectangle"
-import Config from "./config"
+import { CONFIG } from "./config"
 import { SYMBOLS, TILE_DICT } from "./dictionary"
 import { createPremadeGame } from "./extractor"
 import HintVisualizer from "./hintVisualizer"
@@ -33,13 +33,13 @@ export default class BoardGeneration
 		const container = document.getElementsByTagName("main")[0];
 		container.insertBefore(div, container.firstChild);
 
-    	Config.initialize(this, vis.config);
+    	CONFIG.initialize(this, vis.config);
 
     	const timeout = 20;
     	let interval;
     	const mainGenerationAction = () =>
     	{
-    		Config.numGens += 1;
+    		CONFIG.numGens += 1;
 
     		Map.initialize();
     		Hints.initialize();
@@ -68,7 +68,7 @@ export default class BoardGeneration
 		const images = [imgMap];
 
 		// if premade game, generate hint cards too
-		if(Config.createPremadeGame) {
+		if(CONFIG.createPremadeGame) {
 			const groupHintCards = this.visualizeHintCards();
 			const imgHints = await this.visualizer.finishDraw(groupHintCards);
 			images.push(imgHints);
@@ -94,10 +94,10 @@ export default class BoardGeneration
 	{
 		const group = new ResourceGroup();
 
-		const oX = Config.oX;
-		const oY = Config.oY;
-		const cs = Config.cellSize;
-		const inkFriendly = Config.inkFriendly;
+		const oX = CONFIG.oX;
+		const oY = CONFIG.oY;
+		const cs = CONFIG.cellSize;
+		const inkFriendly = CONFIG.inkFriendly;
 
 		let textureKey = 'tile_types';
 		let symbolTextureKey = 'symbols';
@@ -147,7 +147,7 @@ export default class BoardGeneration
 			group.add(resTileType, opTileType);
 
 			// show network connections
-			if(Config.expansions.networks)
+			if(CONFIG.expansions.networks)
 			{
 				for(const nb of cell.connNbs)
 				{
@@ -160,7 +160,7 @@ export default class BoardGeneration
 			}
 			
 			// show symbols
-			if(Config.expansions.symbols)
+			if(CONFIG.expansions.symbols)
 			{
 				for(let s = 0; s < cell.symbols.length; s++)
 				{
@@ -238,7 +238,7 @@ export default class BoardGeneration
 
 		// display the SEED
 		const textConfig = new TextConfig({
-			font: Config.fontFamily,
+			font: CONFIG.fontFamily,
 			size: 11
 		})
 
@@ -253,11 +253,11 @@ export default class BoardGeneration
 			// depth: 10000 => not supported by my own system yet
 		});
 
-		const resText = new ResourceText({ text: Config.seed, textConfig: textConfig });
+		const resText = new ResourceText({ text: CONFIG.seed, textConfig: textConfig });
 		group.add(resText, opText);
 
 		// display the hints (only when debugging of course)
-		if(Config.debugging && Config.debugHintText) 
+		if(CONFIG.debugging && CONFIG.debugHintText) 
 		{
 			const margin = 12;
 			const lineHeight = 24;
@@ -289,10 +289,10 @@ export default class BoardGeneration
 	{
 		const group = new ResourceGroup();
 
-		let fX = Config.oX + Map.treasureLocation.x*Config.cellSize;
-		let fY = Config.oY + Map.treasureLocation.y*Config.cellSize;
+		let fX = CONFIG.oX + Map.treasureLocation.x*CONFIG.cellSize;
+		let fY = CONFIG.oY + Map.treasureLocation.y*CONFIG.cellSize;
 
-		const rect = new Rectangle().fromTopLeft(new Point(fX, fY), new Point(Config.cellSize));
+		const rect = new Rectangle().fromTopLeft(new Point(fX, fY), new Point(CONFIG.cellSize));
 		const op = new LayoutOperation({
 			stroke: "#FF0000",
 			strokeWidth: 6
@@ -312,7 +312,7 @@ export default class BoardGeneration
 		let cardSize = new Point(495*scale, 525*scale);
 
 		let cardIdx = 0;
-		if(Config.inkFriendly) { cardIdx = 1; }
+		if(CONFIG.inkFriendly) { cardIdx = 1; }
 
 		const alpha = 0.4;
 		const opGridStroke = new LayoutOperation({
@@ -329,11 +329,11 @@ export default class BoardGeneration
 		const resHintCard = this.visualizer.getResource("hint_cards");
 
 		const textConfig = new TextConfig({
-			font: Config.fontFamily,
+			font: CONFIG.fontFamily,
 			size: 11
 		})
 
-		for(let i = 0; i < Config.playerCount; i++)
+		for(let i = 0; i < CONFIG.playerCount; i++)
 		{
 			// card background
 			const row = i % 3;
@@ -348,7 +348,7 @@ export default class BoardGeneration
 			group.add(resHintCard, opHintCard);
 
 			// add metadata (player number, seed, etcetera) in header
-			const metadata = "(player " + (i+1) + "; " + Config.seed + ")";
+			const metadata = "(player " + (i+1) + "; " + CONFIG.seed + ")";
 
 			const resTextMetadata = new ResourceText({ text: metadata, textConfig: textConfig });
 			const opTextMetadata = new LayoutOperation({
@@ -370,7 +370,7 @@ export default class BoardGeneration
 				const xPos = basePos.x + h*(hintImageSize+hintMargin) + hintOffset;
 				const yPos = basePos.y + headerHeight;
 
-				const id = Config.getImageIDFromHint(hints[h]);
+				const id = CONFIG.getImageIDFromHint(hints[h]);
 				const resTemp = this.visualizer.getResource(id);
 				const opTemp = new LayoutOperation({
 					pos: new Point(xPos, yPos),
@@ -382,19 +382,19 @@ export default class BoardGeneration
 
 			// create the grid with all squares we can cross off
 			let tiles = Map.tilesLeftPerPlayer[i];
-			if(Config.invertHintGrid) { tiles = Map.invertLocationList(tiles); }
+			if(CONFIG.invertHintGrid) { tiles = Map.invertLocationList(tiles); }
 
-			const cs = Math.floor((cardSize.x - 2*cardMargin.x)/Config.width);
-			const gridSize = new Point( cs*Config.width, cs*Config.height);
+			const cs = Math.floor((cardSize.x - 2*cardMargin.x)/CONFIG.width);
+			const gridSize = new Point( cs*CONFIG.width, cs*CONFIG.height);
 			const gridPos = new Point(basePos.x + cardMargin.x, basePos.y + cardSize.y - cardMargin.y - gridSize.y);
 			
-			for(let x = 1; x < Config.width; x++)
+			for(let x = 1; x < CONFIG.width; x++)
 			{
 				const line = new Line(new Point(gridPos.x + x*cs, gridPos.y), new Point(gridPos.x + x*cs, gridPos.y + gridSize.y));
 				group.add(new ResourceShape(line), opGridStroke);
 			}
 
-			for(let y = 1; y < Config.height; y++)
+			for(let y = 1; y < CONFIG.height; y++)
 			{
 				const line = new Line(new Point(gridPos.x, gridPos.y + y*cs), new Point(gridPos.x + gridSize.x, gridPos.y + y*cs));
 				group.add(new ResourceShape(line), opGridStroke);

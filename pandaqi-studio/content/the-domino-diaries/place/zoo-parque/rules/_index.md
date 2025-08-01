@@ -166,11 +166,9 @@ It also uses a few more details from the Animal Passport:
 * You **can't** mix Solitary and Social animals in the same Area or Exhibit.
 * An Area that contains only Social animals can be claimed by infinitely many players.
 
-
 Below is a list of all objects.
 
 <div data-rulebook-table="objects"></div>
-
 
 ### Unnatural Utilities
 
@@ -184,7 +182,6 @@ The amount of **food** you must pay during the "Feed Phase" changes.
 * Divide by 4; round down.
 * That's how many Food icons must be discarded for this Exhibit.
 
-
 It also enables **animal powers**. 
 
 * Some animals have a power written on their passport. By default, the power triggers once, at the moment this animal is _played_.
@@ -196,6 +193,3 @@ Finally, it adds **Extinct Animals** (a stamp on their Passport). You **can't pl
 Below is a list of all the stalls.
 
 <div data-rulebook-table="stalls"></div>
-
-
-

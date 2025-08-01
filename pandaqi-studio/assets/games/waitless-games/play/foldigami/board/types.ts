@@ -1,6 +1,6 @@
 import { CELL_TYPES, BASE_TYPES } from "./dict"
 import Random from "js/pq_games/tools/random/main"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 
 export default class Types 
 {

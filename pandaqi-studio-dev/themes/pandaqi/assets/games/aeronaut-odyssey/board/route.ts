@@ -1,5 +1,5 @@
 import { Vector2, Vector2Graph, Rectangle, Line, countElementsInArray, isZero, signRandom, range, bezierCurveWithLength, calculatePathLength, simplifyPath, thickenPath, calculateBoundingBox, Dims } from "lib/pq-games";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import RouteSet from "./routeSet";
 
 

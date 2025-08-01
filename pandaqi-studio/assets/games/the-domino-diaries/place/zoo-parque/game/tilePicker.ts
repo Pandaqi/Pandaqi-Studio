@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ANIMALS, AnimalType } from "../shared/dict";
 import Tile from "./tile";
 

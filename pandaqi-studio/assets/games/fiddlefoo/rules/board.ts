@@ -8,7 +8,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 import Card from "../game/card";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Player from "./player";
 import Pair from "./pair";
 import shuffle from "js/pq_games/tools/random/shuffle";

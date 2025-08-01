@@ -4,6 +4,7 @@ import Ingredient from "./ingredient";
 import Interface from "./interface";
 import Puzzle from "./puzzle";
 import { INGREDIENTS, EVENTS } from "../shared/dict"
+import { CONFIG } from "../shared/config";
 
 export default class Game 
 {
@@ -139,4 +140,4 @@ export default class Game
 
 }
 
-new Game();
+loadSettings(CONFIG, () => { new Game() });

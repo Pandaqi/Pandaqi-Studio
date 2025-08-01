@@ -1,12 +1,12 @@
 import { Bounds, SettingType, Vector2 } from "lib/pq-games"
 
-enum GenerationMethod
+export enum GenerationMethod
 {
     DELAUNAY,
     ROPE
 }
 
-const CONFIG = 
+export const CONFIG = 
 {
     _settings:
     {
@@ -263,6 +263,3 @@ const CONFIG =
         debugDrawForbiddenAreas: false, // @DEBUGGING (should be false)
     }
 }
-
-export { CONFIG, GenerationMethod }
-export default CONFIG

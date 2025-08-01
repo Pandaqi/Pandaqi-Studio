@@ -71,7 +71,7 @@ This expansion turns the dots into many different locations! Each has a special 
 
 {{< rules/rules-image src="sneaky_spots.webp" alt="Example of when a point activates + an example of the harder ones." >}}
 
-<div data-rulebook-example="sneaky-spots"></div>
+<div data-rulebook-table="sneaky-spots"></div>
 
 {{% rules/rules-remark %}}
 About "distance": you can also use the word cards (if you printed those), or any other measurement tool of similar length.
@@ -83,7 +83,7 @@ This expansion adds even more special locations, with much more wild or chaotic 
 
 {{< rules/rules-image src="precise_painters.webp" alt="Examples of the tougher powerups and how to use them." >}}
 
-<div data-rulebook-example="precise-painters"></div>
+<div data-rulebook-table="precise-painters"></div>
 
 ### Action Ants
 
@@ -98,7 +98,7 @@ At the end of your turn, move your ant. Cross out the old drawing, draw it at th
 
 {{< rules/rules-image src="action_ants.webp" alt="Example of starting your drawing from your ant + moving at the end of your turn." >}}
 
-<div data-rulebook-example="action-ants"></div>
+<div data-rulebook-table="action-ants"></div>
 
 ### Coop Colony
 
@@ -110,7 +110,7 @@ Starting with you, all players who know the word alternate drawing **one line** 
 
 The players who don't know the secret word---and didn't participate in drawing---actually guess it.
 
-<div data-rulebook-example="coop-colony"></div>
+<div data-rulebook-table="coop-colony"></div>
 
 ### Antertainment Break
 
@@ -128,4 +128,4 @@ This cycle repeats until somebody guesses your word, or a special location bails
 This expansion **can't** be used with the digital word interface.
 {{% /rules/rules-remark %}}
 
-<div data-rulebook-example="antertainment-break"></div>
+<div data-rulebook-table="antertainment-break"></div>

@@ -1,5 +1,5 @@
 import { OBSTACLES } from "../../egghunt-esports/shared/dict";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ROOMS, TileType } from "../shared/dict";
 import Tile from "./tile";
 

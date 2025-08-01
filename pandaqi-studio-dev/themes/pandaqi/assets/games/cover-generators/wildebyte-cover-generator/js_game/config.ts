@@ -2,7 +2,7 @@ import TARGETS from "./targetData";
 import BOOK_DATA from "./bookData";
 import { Vector2, TextConfig, TextStyle, TextWeight } from "lib/pq-games";
 
-const CONFIG = 
+export const CONFIG = 
 {
     debug:
     {
@@ -103,5 +103,3 @@ const CONFIG =
         }
     }
 }
-
-export default CONFIG;

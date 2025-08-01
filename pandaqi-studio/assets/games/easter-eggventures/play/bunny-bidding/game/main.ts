@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import MaterialGenerator from "js/pq_games/tools/generation/materialGenerator";
 import TilePicker from "./tilePicker";
 

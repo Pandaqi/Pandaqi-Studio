@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { BEASTS, MaterialType } from "../shared/dict";
 import Card from "./card";
 

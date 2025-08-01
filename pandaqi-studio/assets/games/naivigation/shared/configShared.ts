@@ -3,7 +3,7 @@ import CVal from "js/pq_games/tools/generation/cval"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import Point from "js/pq_games/tools/geometry/point"
 
-const CONFIG_NAIVIGATION_SHARED = 
+export const CONFIG_NAIVIGATION_SHARED = 
 {
     // All Naivigation games use the same two "main fonts"
     // Each one can also, however, have one "special" font (defined in its own config),
@@ -244,5 +244,3 @@ const CONFIG_NAIVIGATION_SHARED =
         }
     }
 }
-
-export default CONFIG_NAIVIGATION_SHARED

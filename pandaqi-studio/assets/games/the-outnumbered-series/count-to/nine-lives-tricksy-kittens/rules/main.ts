@@ -2,7 +2,7 @@ import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
 import Visualizer from "../game/visualizer";
 import Point from "js/pq_games/tools/geometry/point";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Card from "../game/card";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
 import CardPicker from "../game/cardPicker";

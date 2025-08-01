@@ -1,5 +1,5 @@
 import Cell from "./cell"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import { KEEBBLE_TYPES } from "./dict"
 import Edge from "./edge"
 import Color from "js/pq_games/layout/color/color"

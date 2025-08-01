@@ -1,7 +1,6 @@
-import Config from "./config"
+import { CONFIG } from "./config"
 import Map from "./map"
 import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
-import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import Point from "js/pq_games/tools/geometry/point";
 
 class HintVisualizer
@@ -26,7 +25,7 @@ class HintVisualizer
 		const img = await this.convertCanvasToImage(hint, canvas);	
 
 		// @TODO/@NOTE: This is a bit meh, but it's clean enough and I don't expect many changes to this API
-		const id = Config.getImageIDFromHint(hint);
+		const id = CONFIG.getImageIDFromHint(hint);
 		await vis.resLoader.cacheLoadedImage(id, {}, img);
 		vis.resLoader.getResource(id).setUniqueKey(id);
 
@@ -49,7 +48,7 @@ class HintVisualizer
 		let layers = structuredClone(hint.layers);
 
 		// hints can stay colored if we're fully digital, even if we're on ink friendly
-		let inkFriendly = Config.inkFriendly && (Config.createPremadeGame || Config.useRealMaterial)
+		let inkFriendly = CONFIG.inkFriendly && (CONFIG.createPremadeGame || CONFIG.useRealMaterial)
 
 		// shuffle layers around if needed
 		// (when we find one, with 50% chance, find another shuffle layer and swap)
@@ -210,7 +209,7 @@ class HintVisualizer
 		await image.decode();
 		hint.image = image;
 	
-		if(Config.debugging)
+		if(CONFIG.debugging)
 		{
 			document.getElementById('debugging').appendChild(image);
 		}

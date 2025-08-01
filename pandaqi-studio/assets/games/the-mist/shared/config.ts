@@ -3,7 +3,7 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 import { ActionType } from "./dict"
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 
-const CONFIG = 
+export const CONFIG = 
 {
     _settings:
     {
@@ -215,5 +215,3 @@ const CONFIG =
         },
     }
 }
-
-export default CONFIG

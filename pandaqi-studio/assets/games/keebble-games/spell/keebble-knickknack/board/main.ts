@@ -1,5 +1,5 @@
 import BoardGeneration from "games/keebble-games/shared/boardGeneration";
-import CONFIG from "games/keebble-games/shared/config";
+import { CONFIG } from "games/keebble-games/shared/config";
 import RendererPixi from "js/pq_games/layout/renderers/rendererPixi";
 import BoardGenerator from "js/pq_games/tools/generation/boardGenerator";
 

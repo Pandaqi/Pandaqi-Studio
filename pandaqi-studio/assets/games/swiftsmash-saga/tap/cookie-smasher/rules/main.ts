@@ -5,7 +5,7 @@ import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExam
 import RulesSettings, { SettingsType } from "js/pq_rulebook/examples/rulesSettings";
 import Card from "../game/card";
 import CardPicker from "../game/cardPicker";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Round from "./round";
 
 const callbackInitStats = () =>

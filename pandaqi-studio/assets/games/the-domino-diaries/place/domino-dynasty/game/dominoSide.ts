@@ -6,7 +6,7 @@ import TextConfig from "js/pq_games/layout/text/textConfig";
 import drawBlurryRectangle from "js/pq_games/layout/tools/drawBlurryRectangle";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ICONS, PATHS, TERRAINS, TerrainType } from "../shared/dict";
 
 export default class DominoSide

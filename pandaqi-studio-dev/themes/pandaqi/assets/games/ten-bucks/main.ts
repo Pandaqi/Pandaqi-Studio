@@ -1,6 +1,6 @@
 import { SettingType } from "lib/pq-games";
 
-const CONFIG =
+export const CONFIG =
 {
     _settings:
     {

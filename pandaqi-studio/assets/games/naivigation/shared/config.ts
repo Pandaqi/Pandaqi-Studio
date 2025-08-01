@@ -2,9 +2,9 @@ import mergeObjects from "js/pq_games/tools/collections/mergeObjects"
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 
-import CONFIG_NAIVIGATION_SHARED from "./configShared"
+import { CONFIG_NAIVIGATION_SHARED } from "./configShared"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _generation:
     {
@@ -117,5 +117,3 @@ const CONFIG:any =
 }
 
 mergeObjects(CONFIG, CONFIG_NAIVIGATION_SHARED);
-
-export default CONFIG

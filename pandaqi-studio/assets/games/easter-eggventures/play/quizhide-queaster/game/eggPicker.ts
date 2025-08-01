@@ -1,5 +1,5 @@
 import { EGGS_SHARED } from "games/easter-eggventures/shared/dictShared";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { OBSTACLES, TileType } from "../shared/dict";
 import Tile from "./tile";
 

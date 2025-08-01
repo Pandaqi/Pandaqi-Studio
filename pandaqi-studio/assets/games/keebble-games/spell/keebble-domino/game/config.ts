@@ -1,7 +1,7 @@
 import { generateRulebookExample } from "../rules/main";
 import { CELLS } from "./dict";
 
-const CONFIG =
+export const CONFIG =
 {
     _settings:
     {
@@ -74,5 +74,3 @@ const CONFIG =
     pdfBuilder: null,
     assetsBase: "/keebble-games/spell/keebble-domino/assets/"
 }
-
-export default CONFIG;

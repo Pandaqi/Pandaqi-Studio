@@ -4,7 +4,7 @@ import Visualizer from "./visualizer";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import Point from "js/pq_games/tools/geometry/point";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 

@@ -1,6 +1,6 @@
 import { TextConfig, TextWeight, TextStyle, Vector2, CVal, MapperPreset } from "lib/pq-games"
 
-const CONFIG_NAIVIGATION_SHARED = 
+export const CONFIG_NAIVIGATION_SHARED = 
 {
     // All Naivigation games use the same two "main fonts"
     // Each one can also, however, have one "special" font (defined in its own config),
@@ -241,5 +241,3 @@ const CONFIG_NAIVIGATION_SHARED =
         }
     }
 }
-
-export default CONFIG_NAIVIGATION_SHARED

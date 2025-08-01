@@ -1,4 +1,4 @@
-import CONFIG from "../js_shared/config";
+import { CONFIG } from "../js_shared/config";
 import Card from "./card";
 
 export default class Pack

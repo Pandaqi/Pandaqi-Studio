@@ -1,5 +1,5 @@
 
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import FloodFillerTree, { FloodFillerTreeNode } from "lib/pq-games/tools/generation/floodFillerTree";
 import PathSegment from "./pathSegment";
 import { Vector2, Vector2Graph, createGrid, assignGridNeighbors, Bounds, mergePaths, Path, calculatePathLength, fromArray, PathAdvanced } from "lib/pq-games";

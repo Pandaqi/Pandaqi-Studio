@@ -1,7 +1,7 @@
-import CONFIG_SHARED from "games/throneless-games/shared/configShared";
+import { CONFIG_SHARED } from "games/throneless-games/shared/configShared";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 
-const CONFIG:Record<string,any> = 
+export const CONFIG:Record<string,any> = 
 {
     _settings:
     {
@@ -57,5 +57,3 @@ const CONFIG:Record<string,any> =
 }
 
 mergeObjects(CONFIG, CONFIG_SHARED);
-
-export default CONFIG;

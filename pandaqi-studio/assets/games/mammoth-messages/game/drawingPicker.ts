@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { DRAWINGS } from "../shared/dict";
 import Drawing from "./drawing";
 

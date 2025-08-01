@@ -1,7 +1,7 @@
 import Token from "./token"
 import GridMapper, { GridMapperLayout } from "js/pq_games/layout/gridMapper"
 import Point from "js/pq_games/tools/geometry/point"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 
 export default class Tokens 

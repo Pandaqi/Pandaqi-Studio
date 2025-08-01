@@ -1,4 +1,4 @@
-import { getRulebookIconNode, type IconSheetData } from "./icons"
+import { getRulebookIconNode, IconSheetParams } from "./icons"
 import type { RulebookParams } from "./rulebook"
 
 export interface RulebookEntryData
@@ -12,10 +12,10 @@ export interface RulebookEntryData
     sheetWidth?: number,
 }
 
+// @TODO: looks silly now, but will receive more config/attributes stuff later, so good to already put into its own object
 export interface RulebookTableData
 {
     class?: string,
-    icons?: IconSheetData    
 }
 
 export interface RulebookTableParams
@@ -23,53 +23,31 @@ export interface RulebookTableParams
     id?: string,
     node?: HTMLElement,
     useExistingHTML?: boolean, // if true, it doesn't build the table but accepts whatever HTML is already inside the node
-    config?: RulebookTableData
+    config?: RulebookTableData,
+    icons?: IconSheetParams,
     data?: Record<string,RulebookEntryData>
 }
 
-export const convertDictToRulesTableHTML = (dict:Record<string,any>, props:Record<string,string>, params:RulebookTableData = {}) =>
-{
-    return convertRulesTableDictToHTML( convertDictToRulesTableDict(dict, props), params);
-}
-
-// This is just a helper function to easily map any set of data to the right format for a RulesTable to display
-export const convertDictToRulesTableDict = (dict:Record<string,any>, props:Record<string,string>) : Record<string,RulebookEntryData> =>
-{
-    const newDict = {};
-    const defProps = ["heading", "label", "desc", "class", "icon", "frame", "sheetURL", "sheetWidth"]; // @NOTE: should be the same as the interface keys of RulesEntryData => is there a way to AUTOMATE getting them then?
-    for(const [key,data] of Object.entries(dict))
-    {
-        const obj = {};
-        for(const defProp of defProps)
-        {
-            obj[defProp] = data[props[defProp] ?? defProp];
-            if(defProp == "heading" && !obj[defProp]) { obj[defProp] = key; }
-            if(defProp == "icon" && !obj[defProp]) { obj[defProp] = key; }
-        }
-        newDict[key] = obj;
-    }
-    return newDict;
-}
-
-export const convertRulesTableDictToHTML = (dict:Record<string,RulebookEntryData>, params:RulebookTableData = {}) =>
+export const convertRulesTableDictToHTML = (params:RulebookTableParams = {}) =>
 {
     const cont = document.createElement("div"); 
 
     const table = document.createElement("section");
     table.classList.add("rulebook-table");
     cont.appendChild(table);
-    if(params.class) { table.classList.add(params.class); }
+    if(params.config.class) { table.classList.add(params.config.class); }
 
     const uiHint = document.createElement("div");
     uiHint.classList.add("ui-hint");
     uiHint.innerHTML = `Click an item to inspect.`;
     cont.appendChild(uiHint);
 
+    const dict = params.data;
     for(const [key,data] of Object.entries(dict))
     {
         const entry = document.createElement("div");
         entry.classList.add("rulebook-table-entry");
-        if(params.class) { entry.classList.add(params.class); }
+        if(data.class) { entry.classList.add(data.class); }
         table.appendChild(entry);
 
         const iconCont = document.createElement("div");
@@ -109,7 +87,7 @@ export class RulebookTable
 
         if(!params.useExistingHTML) 
         {
-            const cont = convertRulesTableDictToHTML(params.data, params.config);
+            const cont = convertRulesTableDictToHTML(params);
             this.node.parentElement.replaceChild(cont, this.node);
             this.node = cont;
         }

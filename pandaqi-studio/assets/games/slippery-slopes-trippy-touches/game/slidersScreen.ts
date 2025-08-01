@@ -1,4 +1,4 @@
-import CONFIG from "games/slippery-slopes/shared/config";
+import { CONFIG } from "games/slippery-slopes/shared/config";
 import GameState from "./gameState";
 import Timer from "./timer";
 import lerp from "js/pq_games/tools/numbers/lerp";

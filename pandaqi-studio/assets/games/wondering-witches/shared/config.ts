@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point";
 
-const CONFIG =
+export const CONFIG =
 {
     // @NOTE: this is for the GAME interface (the board generator overrides this with its own settings when loading that)
     _settings:
@@ -72,5 +72,3 @@ const CONFIG =
         }
     }
 }
-
-export default CONFIG;

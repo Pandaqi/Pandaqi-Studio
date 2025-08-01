@@ -1,10 +1,10 @@
-import CONFIG_SHARED from "games/easter-eggventures/shared/configShared";
+import { CONFIG_SHARED } from "games/easter-eggventures/shared/configShared";
 import Point from "js/pq_games/tools/geometry/point";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import CVal from "js/pq_games/tools/generation/cval";
 
-const CONFIG:Record<string,any> =
+export const CONFIG:Record<string,any> =
 {
     _settings:
     {
@@ -158,5 +158,3 @@ const CONFIG:Record<string,any> =
 
 mergeObjects(CONFIG, CONFIG_SHARED);
 delete CONFIG.assets.eggs_backgrounds;
-
-export default CONFIG;

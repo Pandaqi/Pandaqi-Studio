@@ -4,7 +4,7 @@ import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
 import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import ProgressBar from "js/pq_games/website/progressBar";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Card from "./card";
 import CardPicker from "./cardPicker";
 import Visualizer from "./visualizer";

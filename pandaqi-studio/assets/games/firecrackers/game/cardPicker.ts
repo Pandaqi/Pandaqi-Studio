@@ -1,5 +1,5 @@
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardMainType, CardType, PACKS, SCORING_RULES } from "../shared/dict";
 import Card from "./card";
 import shuffle from "js/pq_games/tools/random/shuffle";

@@ -2,7 +2,7 @@ import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     debug:
     {
@@ -127,5 +127,3 @@ const CONFIG:any =
         }
     },
 }
-
-export default CONFIG

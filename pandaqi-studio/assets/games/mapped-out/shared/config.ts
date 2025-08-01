@@ -5,7 +5,7 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 
-const CONFIG:any = 
+export const CONFIG:any = 
 {
     _settings:
     {
@@ -273,6 +273,3 @@ const CONFIG:any =
         }
     }
 }
-
-
-export default CONFIG

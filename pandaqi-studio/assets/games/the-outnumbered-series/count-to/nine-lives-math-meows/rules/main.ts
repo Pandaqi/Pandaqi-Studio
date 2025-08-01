@@ -8,7 +8,7 @@ import shuffle from "js/pq_games/tools/random/shuffle";
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
 import Card from "../game/card";
 import Visualizer from "../game/visualizer";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { SUITS, Type } from "../shared/dict";
 
 

@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ANIMALS, AnimalType, CardType, ZOO_CARDS } from "../shared/dict";
 import Card from "./card";
 

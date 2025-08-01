@@ -1,14 +1,13 @@
-import fromArray from "js/pq_games/tools/random/fromArray";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExampleGenerator";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
+import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
+import Tile from "../game/tile";
 import TilePicker from "../game/tilePicker";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
+import { ACTIONS, PAWNS } from "../shared/dict";
 import Board, { GameState } from "./board";
 import Hand from "./hand";
-import Tile from "../game/tile";
-import { ACTIONS, GeneralData, PAWNS } from "../shared/dict";
-import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
 
 const callbackInitStats = () =>
 {
@@ -189,29 +188,39 @@ const SIMULATION_ENABLED = false;
 const SIMULATION_ITERATIONS = 5000;
 const SHOW_FULL_GAME = false;
 
-const gen = new InteractiveExampleGenerator({
-    id: "turn",
-    buttonText: "Give me an example turn!",
-    callback: generate,
-    config: CONFIG,
-    itemSize: CONFIG.rulebook.itemSize,
-    pickers: { tile: TilePicker },
-    simulateConfig: {
-        enabled: SIMULATION_ENABLED,
-        iterations: SIMULATION_ITERATIONS,
-        showFullGame: SHOW_FULL_GAME,
-        runParallel: false,
-        callbackInitStats,
-        callbackFinishStats,
+CONFIG._rulebook =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "turn",
+            callback: generate,
+            simulator:
+            {
+                enabled: SIMULATION_ENABLED,
+                iterations: SIMULATION_ITERATIONS,
+                showFullGame: SHOW_FULL_GAME,
+                runParallel: false,
+                callbackInitStats,
+                callbackFinishStats,
+            }
+        }
+    },
+
+    tables:
+    {
+        actions:
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.actions.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: ACTIONS
+        }
     }
-})
+}
 
-
-// auto-display all requirement options and descriptions inside rulebook
-const rtConversion = { heading: "label", desc: "desc" };
-const rtParams = { sheetURL: CONFIG.assets.actions.path, base: CONFIG.assetsBase, sheetWidth: 8, class: null };
-const nodeBase = convertDictToRulesTableHTML(ACTIONS, rtConversion, rtParams);
-document.getElementById("rules-table-actions").appendChild(nodeBase);
-
-// @ts-ignore
-if(window.PQ_RULEBOOK) { window.PQ_RULEBOOK.refreshRulesTables(); }
+loadRulebook(CONFIG._rulebook);

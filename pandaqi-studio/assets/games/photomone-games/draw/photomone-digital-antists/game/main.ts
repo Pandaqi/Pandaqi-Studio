@@ -5,6 +5,7 @@ import Turn from "./turn"
 import Random from "js/pq_games/tools/random/main"
 import PhotomoneGame from "games/photomone-games/shared/main"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import { CONFIG } from "./config"
 
 export default class Game 
 {
@@ -278,55 +279,8 @@ export default class Game
     }
 }
 
-const SETTINGS =
-{
-    enableTutorial:
-    {
-        type: SettingType.CHECK,
-        default: true,
-        label: "Tutorial?",
-        remark: "Explains how to play while taking your first few turns."
-    },
-
-    wordComplexity:
-    {
-        type: SettingType.ENUM,
-        values: ["core", "easy", "medium"],
-        default: "core",
-        label: "Word Complexity",
-        remark: "How hard should the words be?"
-    },
-
-    timerLength:
-    {
-        type: SettingType.NUMBER,
-        min: 30,
-        max: 90,
-        step: 15,
-        label: "Timer Duration",
-        remark: "How many seconds do you want to have per drawing?"
-    },
-
-    sneakySpots:
-    {
-        type: SettingType.CHECK,
-        label: "Sneaky Spots",
-        remark: "Adds dots with special powers."
-    },
-
-    categories:
-    {
-        type: SettingType.MULTI,
-        values: ["anatomy", "animals", "clothes", "food", "items", "nature", "occupations", "places", "sports", "vehicles"],
-        default: ["anatomy", "animals", "clothes", "food", "items", "nature", "occupations", "places", "sports", "vehicles"],
-        
-    }
-}
-
 async function startPhotomoneGame(config: Record<string, any>)
 {
-    config._settings = SETTINGS;
-
     const r = new ResourceLoader();
     r.planLoad("geldotica", { path: "/photomone-games/assets/fonts/GelDoticaLowerCaseThick.woff2" });
     await r.loadPlannedResources();
@@ -348,4 +302,11 @@ async function startPhotomoneGame(config: Record<string, any>)
     new Game(config);
 }
 
-new PhotomoneGame({ gameTitle: "photomoneDigital", loadGame: true, callback: startPhotomoneGame })
+
+
+const callbackSettings = (cfg) =>
+{
+    new PhotomoneGame({ gameTitle: "photomoneDigital", loadGame: true, callback: startPhotomoneGame })
+}
+
+loadSettings(CONFIG, callbackSettings);

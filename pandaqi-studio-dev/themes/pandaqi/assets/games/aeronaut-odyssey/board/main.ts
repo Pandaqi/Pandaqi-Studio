@@ -2,7 +2,7 @@
 // import { Scene } from "lib/pq-games/phaser/phaser.esm"
 import BoardDisplay from "./boardDisplay"
 import BoardState from "./boardState"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import Evaluator from "./evaluator"
 import { ResourceLoader, PDF_DPI } from "lib/pq-games"
 

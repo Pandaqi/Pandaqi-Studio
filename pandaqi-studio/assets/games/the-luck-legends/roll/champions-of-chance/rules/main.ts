@@ -3,7 +3,7 @@ import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExam
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 import Card from "../game/card";
 import CardPicker from "../game/cardPicker";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Player from "./player";
 
 const callbackInitStats = () =>

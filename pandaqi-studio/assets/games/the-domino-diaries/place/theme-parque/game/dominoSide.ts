@@ -10,7 +10,7 @@ import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { COASTER_PARTS, ITEMS, ItemType, MISC, PATHS, PATHS_ORDER, PathType } from "../shared/dict";
 
 export default class DominoSide

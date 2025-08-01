@@ -1,5 +1,5 @@
 import fromArray from "js/pq_games/tools/random/fromArray";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardMovement, CardType, FishType, MOVEMENT_SPECIAL, TILE_ACTIONS, TileAction } from "../shared/dict";
 import Card from "./card";
 import shuffle from "js/pq_games/tools/random/shuffle";

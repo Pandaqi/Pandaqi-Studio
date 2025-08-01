@@ -1,6 +1,6 @@
 import { Vector2, countElementsInArray, rectIntersectsRect, pathIntersectsPath, distToPath } from "lib/pq-games";
 import BoardState from "./boardState";
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import Route from "./route";
 
 export default class Evaluator

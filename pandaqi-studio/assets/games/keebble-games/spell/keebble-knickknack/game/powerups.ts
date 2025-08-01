@@ -1,5 +1,5 @@
 import { OPTIONS } from "./dict"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import Option from "./option"
 
 export default class Powerups {

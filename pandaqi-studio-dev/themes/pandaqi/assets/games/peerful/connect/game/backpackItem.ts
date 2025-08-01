@@ -1,5 +1,5 @@
 import GameServer from "./gameServer";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import { ITEMS } from "./dict";
 import { Vector2 } from "lib/pq-games";
 

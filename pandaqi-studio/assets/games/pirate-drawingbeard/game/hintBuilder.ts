@@ -1,4 +1,4 @@
-import Config from "./config"
+import { CONFIG } from "./config"
 import Map from "./map"
 import { DISCRETE_LISTS } from "./dictionary"
 import Point from "js/pq_games/tools/geometry/point";
@@ -161,11 +161,11 @@ export default
 
 			/* GENERAL */
 			case 'general_vertical':
-				values[0] = (params.cell.y < 0.5*Config.height);
+				values[0] = (params.cell.y < 0.5*CONFIG.height);
 				break;
 
 			case 'general_horizontal':
-				values[0] = (params.cell.x < 0.5*Config.width);
+				values[0] = (params.cell.x < 0.5*CONFIG.width);
 				break;
 
 			case 'general_quadrant':

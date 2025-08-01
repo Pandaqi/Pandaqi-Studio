@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { GPS_PENALTIES, GPS_REWARDS, MATERIAL } from "../shared/dict";
 import { CardType } from "../shared/dictShared";
 import MaterialNaivigation from "../shared/materialNaivigation";

@@ -1,21 +1,19 @@
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import CONFIG from "../shared/config";
-import { ActionSet, SETS } from "../shared/dict";
-import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
-import Bounds from "js/pq_games/tools/numbers/bounds";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import Point from "js/pq_games/tools/geometry/point";
 import createContext from "js/pq_games/layout/canvas/createContext";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import Cell from "../board/cell";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import Line from "js/pq_games/tools/geometry/line";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import assignGridNeighbors, { GridNeighborType } from "js/pq_games/tools/graphs/assignGridNeighbors";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 import isApprox from "js/pq_games/tools/numbers/isApprox";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import Cell from "../board/cell";
+import { CONFIG } from "../shared/config";
+import { ActionSet, SETS } from "../shared/dict";
 
 class Collection
 {
@@ -189,8 +187,10 @@ class Board
 const NUM_UNIQUE_ICONS = new Bounds(4,6);
 const COLLECTION_BOUNDS = new Bounds(2,3);
 const GRID_SIZE = new Bounds(3,4);
+const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+resLoader.planLoad("base", CONFIG.assets.base);
 
-async function generate()
+const generate = async (sim:InteractiveExampleSimulator) =>
 {
     await resLoader.loadPlannedResources();
 
@@ -198,6 +198,7 @@ async function generate()
     const allowedIcons = shuffle(allIcons).slice(0, NUM_UNIQUE_ICONS.randomInteger());
 
     const collection = new Collection(COLLECTION_BOUNDS.randomInteger(), allowedIcons);
+    const o = sim.getOutputBuilder();
     console.log(collection.icons.slice());
     o.addParagraph("Your collection looks like this:");
     const collNode = o.addFlexList(await collection.draw());
@@ -208,26 +209,7 @@ async function generate()
     o.addNode(await board.draw(collection));
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
-
-const o = e.getOutputBuilder();
-
-const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-resLoader.planLoad("base", CONFIG.assets.base);
-
-
-/*
-For auto-displaying all options in nice rules tables in rulebook
-*/
-
-const rtConversion = { heading: "label" };
-const rtParams = { sheetURL: null, base: CONFIG.assetsBase };
-
-// @TODO: Find clean, automatic system for displaying icons/formatting within descriptions as CSS as well.
-//  => Maybe another functionality of TextDrawer? toCSS? Invoked automatically by this system?
-const parse = (dict:ActionSet) =>
+const parseRulebookTableData = (dict:ActionSet) =>
 {
     for(const [key,data] of Object.entries(dict))
     {
@@ -239,17 +221,52 @@ const parse = (dict:ActionSet) =>
     return dict;
 }
 
-rtParams.sheetURL = CONFIG.assets.base.path;
-const nodeBase = convertDictToRulesTableHTML(parse(SETS.base), rtConversion, rtParams);
-document.getElementById("rules-table-base").appendChild(nodeBase);
+CONFIG._rulebook =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example turn!",
+            callback: generate
+        }
+    },
 
-rtParams.sheetURL = CONFIG.assets.advanced.path;
-const nodeAdvanced = convertDictToRulesTableHTML(parse(SETS.advanced), rtConversion, rtParams);
-document.getElementById("rules-table-advanced").appendChild(nodeAdvanced);
+    tables:
+    {
+        base:
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.base.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: parseRulebookTableData(SETS.base)
+        },
 
-rtParams.sheetURL = CONFIG.assets.expert.path;
-const nodeExpert = convertDictToRulesTableHTML(parse(SETS.expert), rtConversion, rtParams);
-document.getElementById("rules-table-expert").appendChild(nodeExpert);
+        advanced:
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.advanced.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: parseRulebookTableData(SETS.advanced)
+        },
 
-// @ts-ignore
-if(window.PQ_RULEBOOK) { window.PQ_RULEBOOK.refreshRulesTables(); }
+        expert:
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.expert.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: parseRulebookTableData(SETS.expert)
+        },
+    }
+}
+
+loadRulebook(CONFIG._rulebook);

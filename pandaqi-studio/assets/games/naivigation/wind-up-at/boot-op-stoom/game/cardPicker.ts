@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardType, GeneralData, KALENDER_KAARTEN, PAKJE_CARDS, STOOM_CARDS, VAAR_CARDS } from "../shared/dict";
 import Card from "./card";
 

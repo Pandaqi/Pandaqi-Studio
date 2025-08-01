@@ -1,5 +1,5 @@
 import Bounds from "js/pq_games/tools/numbers/bounds";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { POWER_CARDS } from "../shared/dict";
 import Card from "./card";
 import getWeighted from "js/pq_games/tools/random/getWeighted";

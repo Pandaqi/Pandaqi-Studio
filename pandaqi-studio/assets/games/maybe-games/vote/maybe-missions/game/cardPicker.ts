@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { CardGadgetData, CardResourceData, CardType, DYNAMIC_OPTIONS, GADGET_NAMES, IdentityCardData, IdentityCardType, MASTER_CARDS, MissionType, PUBLIC_IDENTITIES, RANDOM_TEXTS, RESOURCES, SECRET_IDENTITIES, SHOP_REWARDS, ShopType, ShopVibe } from "../shared/dict";
 import Card from "./card";
 import Bounds from "js/pq_games/tools/numbers/bounds";

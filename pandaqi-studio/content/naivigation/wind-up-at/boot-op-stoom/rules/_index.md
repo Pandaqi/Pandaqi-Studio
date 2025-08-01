@@ -116,14 +116,13 @@ Ten slotte bevat het nieuwe kaarten voor de Stoomrij. Deze speciale kracht geldt
 
 Hieronder staat de volledige lijst met icoontjes en wat ze betekenen. Als dit te veel is voor jonge/nieuwe spelers, kan je natuurlijk slechts een paar toevoegen aan het deck voor dit potje.
 
-<div data-rulebook-table="stoomIcoontjes"></div>
-
+<div data-rulebook-table="stoom-icoontjes"></div>
 
 ### Pepernoot Plekken
 
 Deze uitbreiding bevat speciale tegels voor de kaart. Schud deze met de rest van de tegels voordat je het Speelbord bouwt. Het is prima als slechts een paar van deze voorkomen in jouw spel.
 
-<div data-rulebook-table="pepernootPlekken"></div>
+<div data-rulebook-table="pepernoot-plekken"></div>
 
 {{<  rules-image-sidebar src="expansion_plekken.webp" alt="Voorbeeld van wat de boot schade doet en de gevolgen daarvan ( = Stoomrij korter)." >}}
 
@@ -133,8 +132,6 @@ Ook kan je Stoomboot nu **schade** oplopen.
 * Tegen een ROTS knallen doet **1 schade**. 
 
 Voor elke schade die je oploopt, **haal een Stoomrij kaart weg**. Als daardoor de Stoomrij helemaal leeg is, verlies je het spel ook direct.
-
-
 
 ### Rebelse Pietjes
 

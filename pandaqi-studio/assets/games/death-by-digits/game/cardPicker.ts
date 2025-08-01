@@ -1,5 +1,5 @@
 import equidistantColors from "js/pq_games/layout/color/equidistantColors";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { EXPANSION } from "../shared/dict";
 import Card from "./card";
 

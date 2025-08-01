@@ -1,4 +1,4 @@
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import createRandomSet from "../shared/createRandomSet";
 import { SETS } from "../shared/dict";
 import Card from "./card";

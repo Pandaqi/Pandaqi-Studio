@@ -1,7 +1,7 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import Visualizer from "./visualizer";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import { ASSETS, TILE_TYPES } from "../shared/dict";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";

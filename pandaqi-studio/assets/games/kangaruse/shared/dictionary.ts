@@ -1,5 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point";
-import CONFIG from "../board/config"
+import { CONFIG } from "../board/config"
 
 // This is an easy reminder/link what every frame stands for in the general spritesheet
 const GENERAL = {

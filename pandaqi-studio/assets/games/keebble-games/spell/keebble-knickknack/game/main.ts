@@ -6,7 +6,7 @@ import Options from "./options"
 import Instructions from "./instructions"
 import Powerups from "./powerups"
 import Backpacks from "./backpacks"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 
 export default class Game 
 {
@@ -222,7 +222,13 @@ export default class Game
     }
 }
 
-const gm = new Game();
-CONFIG.GAME = gm;
-const prevPlayers = JSON.parse(window.localStorage.getItem(CONFIG.playerSaveKey) || "{}");
-gm.start(prevPlayers);
+const callback = () =>
+{
+    const gm = new Game();
+    // @ts-ignore
+    window.keebbleKnickknackGame = gm;
+    const prevPlayers = JSON.parse(window.localStorage.getItem(CONFIG.playerSaveKey) || "{}");
+    gm.start(prevPlayers);
+}
+
+loadSettings(CONFIG, callback);

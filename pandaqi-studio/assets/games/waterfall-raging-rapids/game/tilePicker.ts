@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ACTIONS, ACTIONS_CONDITIONAL, CONDITIONS, GATES, GEMSTONES, TileType, WaterFlow } from "../shared/dict";
 import Tile from "./tile";
 import BalancedFrequencyPickerWithMargin from "js/pq_games/tools/generation/balancedFrequencyPickerWithMargin";

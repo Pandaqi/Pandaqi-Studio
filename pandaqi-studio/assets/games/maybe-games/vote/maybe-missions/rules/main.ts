@@ -3,7 +3,7 @@ import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import Point from "js/pq_games/tools/geometry/point";
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
 import CardPicker from "../game/cardPicker";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import VotePicker from "../game/votePicker";
 import Card from "../game/card";
 import { MissionType, VoteType } from "../shared/dict";

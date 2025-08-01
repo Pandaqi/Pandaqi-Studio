@@ -1,6 +1,6 @@
 import fromArray from "js/pq_games/tools/random/fromArray";
 import Card from "../game/card";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import PowerChecker from "./powerChecker";
 import { getIndexOfProp } from "./queries";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";

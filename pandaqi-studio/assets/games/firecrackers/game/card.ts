@@ -1,5 +1,5 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Visualizer from "./visualizer";
 import { ACTIONS, CardMainType, CardType, MISC, PACKS, SCORING_RULES } from "../shared/dict";

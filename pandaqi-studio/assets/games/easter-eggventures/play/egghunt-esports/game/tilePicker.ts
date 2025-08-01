@@ -1,5 +1,5 @@
 import { EGGS_SHARED } from "games/easter-eggventures/shared/dictShared";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { OBSTACLES, SPECIAL_EGGS, TileType } from "../shared/dict";
 import Tile from "./tile";
 import shuffle from "js/pq_games/tools/random/shuffle";

@@ -1,7 +1,7 @@
 import Type from "./type";
 import { MAIN_TYPES, INGREDIENTS, MACHINES, MONEY, TUTORIAL } from "./dictionary";
 import Random from "js/pq_games/tools/random/main";
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import Cell from "./cell";
 import range from "js/pq_games/tools/random/range";
 import distributeDiscrete from "js/pq_games/tools/generation/distributeDiscrete";

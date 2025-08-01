@@ -1,7 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-const CONFIG =
+export const CONFIG =
 {
     _settings:
     {
@@ -216,5 +216,3 @@ const CONFIG =
         handScale: 0.35, // relative to entire height of the "extra data frame"
     }
 }
-
-export default CONFIG;

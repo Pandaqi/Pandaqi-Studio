@@ -1,6 +1,6 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
-import CONFIG from "../game/config";
+import { CONFIG } from "../game/config";
 
 const cardDrawConfig = 
 {

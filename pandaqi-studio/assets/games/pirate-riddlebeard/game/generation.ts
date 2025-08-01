@@ -1,7 +1,3 @@
-import seedRandom from "js/pq_games/tools/random/seedrandom";
-import { HINTS, HINT_ICONS, LANDMARKS, LISTS, NATURE, QUADRANTS, ROADS, STONES, TERRAINS, TERRAIN_DATA, alphabet } from "./dictionary";
-import Interface from "./interface";
-import Color from "js/pq_games/layout/color/color";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
@@ -14,7 +10,10 @@ import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
 import Line from "js/pq_games/tools/geometry/line";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import seedRandom from "js/pq_games/tools/random/seedrandom";
 import Cell from "./cell";
+import { HINTS, HINT_ICONS, LANDMARKS, LISTS, NATURE, QUADRANTS, ROADS, STONES, TERRAINS, TERRAIN_DATA, alphabet } from "./dictionary";
+import Interface from "./interface";
 
 type Hint = { final_text?: string, html_text?: string }
 

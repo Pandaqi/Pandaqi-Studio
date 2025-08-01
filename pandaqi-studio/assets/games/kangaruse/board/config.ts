@@ -1,7 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-const CONFIG = 
+export const CONFIG = 
 {
     _settings:
     {
@@ -256,5 +256,3 @@ const CONFIG =
         maxRiverCells: 0.166 // percentage of total # cells
     }
 }
-
-export default CONFIG

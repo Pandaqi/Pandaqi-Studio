@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point";
 
-const CONFIG = 
+export const CONFIG = 
 {
     configKey: "starrySkylinesConfig",
     assetsBase: "/starry-skylines/assets/",
@@ -89,5 +89,3 @@ const CONFIG =
         },
     }
 }
-
-export default CONFIG;

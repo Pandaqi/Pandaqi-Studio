@@ -1,12 +1,13 @@
 import { Bounds } from "lib/pq-games"
 
-enum GenerationMethod
+export enum GenerationMethod
 {
     DELAUNAY,
     ROPE
 }
 
-const CONFIG = {
+export const CONFIG = 
+{
     inkFriendly: false,
     boardSize: "regular",
     printSize: "singlePage",
@@ -62,6 +63,3 @@ const CONFIG = {
         smoothOutlines: true
     }
 }
-
-export { CONFIG, GenerationMethod }
-export default CONFIG

@@ -1,5 +1,5 @@
 import BoardState from "./boardState";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import Trajectory from "./trajectory";
 import { BONUSES } from "./dict";
 import { Rectangle, range, Vector2, Vector2Graph, rangeInteger, shuffle, fromArray, getWeighted } from "lib/pq-games";

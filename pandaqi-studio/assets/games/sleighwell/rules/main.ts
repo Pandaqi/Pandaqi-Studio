@@ -4,7 +4,7 @@ import shuffle from "js/pq_games/tools/random/shuffle";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import Point from "js/pq_games/tools/geometry/point";
 import Tile from "../game/tile";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import range from "js/pq_games/tools/random/range";
 import createContext from "js/pq_games/layout/canvas/createContext";
 import Visualizer from "../game/visualizer";

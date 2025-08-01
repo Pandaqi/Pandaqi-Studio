@@ -1,5 +1,5 @@
 import { CardType, FishType, TILE_ACTIONS, TileAction } from "../shared/dict";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Card from "./card";
 import { shuffle } from "lib/pq-games";
 

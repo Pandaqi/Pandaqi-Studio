@@ -1,6 +1,6 @@
 import { Vector2 } from "lib/pq-games";
 import BackpackItem from "./backpackItem";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import GameServer from "./gameServer";
 import Player from "./player";
 

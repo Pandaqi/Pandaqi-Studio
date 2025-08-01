@@ -1,7 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point";
 import { PACKS, PackData } from "./dict"
 import createContext from "js/pq_games/layout/canvas/createContext";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";

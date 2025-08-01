@@ -1,7 +1,7 @@
 import Point from "./shapes/point"
 import PointNonPhotomone from "js/pq_games/tools/geometry/point"
 import { PHOTOMONE_TOKENS } from "./dict"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import createContext from "js/pq_games/layout/canvas/createContext";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import RandomWalk from "./tools/randomWalk";

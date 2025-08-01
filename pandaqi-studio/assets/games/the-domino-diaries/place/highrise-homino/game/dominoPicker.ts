@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { DominoType, FloorType, ItemType, MISSIONS, OBJECTS, TENANTS, TenantProperties, UtilityType, WISHES, WishType } from "../shared/dict";
 import Domino from "./domino";
 import DominoSide from "./dominoSide";

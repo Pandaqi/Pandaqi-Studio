@@ -1,7 +1,7 @@
 import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExampleGenerator";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 import TilePicker from "../game/tilePicker";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 
 const callbackInitStats = () =>
 {

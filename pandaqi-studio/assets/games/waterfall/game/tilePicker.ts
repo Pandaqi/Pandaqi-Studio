@@ -1,7 +1,7 @@
 import BalancedFrequencyPickerWithMargin from "js/pq_games/tools/generation/balancedFrequencyPickerWithMargin";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { ACTIONS, GEMSTONES, TileType } from "../shared/dict";
 import Tile from "./tile";
 

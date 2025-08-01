@@ -8,7 +8,7 @@ import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
 import Card from "../game/card";
 import CardPicker from "../game/cardPicker";
 import Visualizer from "../game/visualizer";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import { POWERS } from "../shared/dict";
 
 class Hand
@@ -108,7 +108,15 @@ const findPossibleMoves = (hand:Hand, table:Hand) : Hand =>
     return new Hand().fromCards(validMoves);
 }
 
-async function generate()
+const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+resLoader.planLoad("cats", CONFIG.assets.cats)
+
+const visualizer = new Visualizer(resLoader, new Point(600, 840), false);
+
+CONFIG.includeLifeCards = false;
+const cardPicker = new CardPicker();
+
+const generate = async (sim:InteractiveExampleSimulator) =>
 {
     await resLoader.loadPlannedResources();
 
@@ -121,6 +129,7 @@ async function generate()
     const cardOptions = shuffle(cardPicker.get()).slice();
     console.log(cardOptions);
 
+    const o = sim.getOutputBuilder();
     o.addParagraph("These cards are on the table.");
     const numTableCards = rangeInteger(3,5);
     const tableCards = new Hand().fromNum(numTableCards, cardOptions)
@@ -160,23 +169,6 @@ async function generate()
     }
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
-
-const o = e.getOutputBuilder();
-
-const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-resLoader.planLoad("cats", CONFIG.assets.cats)
-
-const visualizer = new Visualizer(resLoader, new Point(600, 840), false);
-
-CONFIG.includeLifeCards = false;
-const cardPicker = new CardPicker();
-
-const rtConversion = { heading: "label" };
-const rtParams = { sheetURL: CONFIG.assetsBase + CONFIG.assets.powers.path };
-
 const powersLimited = {};
 const powersAll = {};
 for(const [key,data] of Object.entries(POWERS))
@@ -185,14 +177,41 @@ for(const [key,data] of Object.entries(POWERS))
     else { powersAll[key] = data; }
 }
 
-const node = convertDictToRulesTableHTML(powersLimited, rtConversion, rtParams);
-document.getElementById("powers-rules-table-limited").appendChild(node);
+CONFIG._rulebook =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "turn",
+            callback: generate
+        }
+    },
 
-const node2 = convertDictToRulesTableHTML(powersAll, rtConversion, rtParams);
-document.getElementById("powers-rules-table-advanced").appendChild(node2);
+    tables:
+    {
+        "powers-limited":
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.powers.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: powersLimited
+        },
 
-// I don't want to force a fixed order/blockage when loading different scripts,
-// so for now, whenever I dynamically add content, also refresh
-// @TODO: Possible solution = don't load the rulebook as a separate auto-script, but as part of THIS script.
-// @ts-ignore
-if(window.PQ_RULEBOOK) { window.PQ_RULEBOOK.refreshRulesTables(); }
+        "powers-advanced":
+        {
+            config:
+            {
+                sheetURL: CONFIG.assets.powers.path,
+                sheetWidth: 8,
+                base: CONFIG.assetsBase,
+            },
+            icons: powersAll
+        },
+    }
+}
+
+loadRulebook(CONFIG._rulebook);

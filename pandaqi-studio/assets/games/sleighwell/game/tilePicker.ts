@@ -1,5 +1,5 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import Tile from "./tile";
 import getAllPossibleCombinations from "js/pq_games/tools/collections/getAllPossibleCombinations";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";

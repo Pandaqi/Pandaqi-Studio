@@ -16,7 +16,7 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle"
 import fromArray from "js/pq_games/tools/random/fromArray"
 import rangeInteger from "js/pq_games/tools/random/rangeInteger"
 import { CATEGORIES, ELEMENTS } from "../shared/dict"
-import CONFIG from "./config"
+import { CONFIG } from "./config"
 import ElementIcon from "./elementIcon"
 
 export default class Card 

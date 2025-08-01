@@ -1,7 +1,7 @@
 import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExampleGenerator";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 import CardPicker from "../game/cardPicker";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import TilePicker from "../game/tilePicker";
 import TokenPicker from "../game/tokenPicker";
 import shuffle from "js/pq_games/tools/random/shuffle";

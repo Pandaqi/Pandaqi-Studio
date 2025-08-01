@@ -2,7 +2,7 @@ import { TILE_DICT, DISCRETE_LISTS } from "./dictionary"
 import Random from "js/pq_games/tools/random/main"
 import Point from "js/pq_games/tools/geometry/point";
 
-const CONFIG =  
+export const CONFIG =  
 {
 	_settings:
 	{
@@ -310,5 +310,3 @@ const CONFIG =
 		return hint.id + "_" + hint.numericID;
 	},
 };
-
-export default CONFIG;

@@ -1,5 +1,5 @@
 import { createInteractiveExamples, InteractiveExampleParams } from "./examples/interactiveExample";
-import { createRulebookIcons, IconSheetData } from "./icons";
+import { createRulebookIcons, IconSheetParams } from "./icons";
 import { parseInput } from "./parser/parser";
 import { createRootSection, findSections, makeSectionInteractiveRecursively, RulebookSection } from "./sections";
 import { createRulebookTables, RulebookTableParams } from "./tables";
@@ -27,7 +27,7 @@ export interface RulebookParams
     tableClass?: string,
     tables?: Record<string,RulebookTableParams>,
     iconClass?: string,
-    icons?: Record<string,IconSheetData>,
+    icons?: Record<string,IconSheetParams>,
     hideHeaderIconsCustom?: boolean, // doesn't add icons to headers if they match the custom `icons`
 
     // dynamic stuff used by system (hence underscore before)

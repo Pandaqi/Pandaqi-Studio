@@ -2,7 +2,7 @@ import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
 import { TokenType } from "./dict"
 
-const CONFIG = 
+export const CONFIG = 
 {
     _settings:
     {
@@ -164,5 +164,3 @@ const CONFIG =
         },
     }
 }
-
-export default CONFIG

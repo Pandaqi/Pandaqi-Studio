@@ -71,19 +71,16 @@ Finally, all players fill up their hand. Starting with the active player, take c
 
 Next turn!
 
-
 ## Cards
 
 Cards always have a power. As stated, this triggers when _revealed_. This happens when played faceup or when a pile is evaluated during Review.
 
 Some cards, however, show an icon in the top left.
 
-* A <span class="inline-icon inline-icon-only-review"></span> means their action **only** triggers during **review**! (Not when played faceup in regular play.)
-* A <span class="inline-icon inline-icon-only-play"></span> means their action does **not** trigger during **review**! (Only in regular play.)
+* A <span data-rulebook-icon="only-review"></span> means their action **only** triggers during **review**! (Not when played faceup in regular play.)
+* A <span data-rulebook-icon="only-play"></span> means their action does **not** trigger during **review**! (Only in regular play.)
 
 See [All Cards](#cards_reference) if you want a reference that displays and explains all cards in the game.
-
-
 
 ## Upgrades
 
@@ -103,8 +100,8 @@ The traitor wins if _everyone else loses_. In other words,
 
 You probably noticed some icons on the suspects. We'll use those now!
 
-* A <span class="inline-icon inline-icon-power-skull"></span> power triggers when this suspect **dies**.
-* A <span class="inline-icon inline-icon-power-card"></span> power triggers when you **play a card** here.
+* A <span data-rulebook-icon="skull"></span> power triggers when this suspect **dies**.
+* A <span data-rulebook-icon="power-card"></span> power triggers when you **play a card** here.
 
 It's recommended to have a balanced mix of death and play powers on your chosen suspects.
 
@@ -114,7 +111,6 @@ Below is a table explaining all the suspect's powers.
 
 <div data-rulebook-table="powers"></div>
 
-
 ### Big Hands Variant
 
 Instead of drawing cards as you go, deal the _whole deck_ at the start (as fairly as possible; discard any leftovers). 
@@ -123,11 +119,9 @@ You can play at most 2 cards during a turn. (And don't refill during review as t
 
 If you have no cards at the start of your turn, your suspect is immediately reviewed. If they don't die, you receive their evidence pile as your new hand cards.
 
-
 ### Speedy Variant
 
 When a suspect is murdered, completely remove their tile from the row. This means the game speeds up (and simplifies) more and more as it progresses.
-
 
 ## All Cards
 

@@ -6,7 +6,7 @@ import assignGridNeighbors, { GridNeighborType } from "js/pq_games/tools/graphs/
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CONFIG from "../shared/config";
+import { CONFIG } from "../shared/config";
 import BoardState from "./boardState";
 import Cell from "./cell";
 

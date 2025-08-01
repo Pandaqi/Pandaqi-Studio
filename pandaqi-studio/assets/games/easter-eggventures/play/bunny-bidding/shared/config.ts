@@ -1,9 +1,9 @@
-import CONFIG_SHARED from "games/easter-eggventures/shared/configShared";
+import { CONFIG_SHARED } from "games/easter-eggventures/shared/configShared";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 
-const CONFIG:Record<string,any> = 
+export const CONFIG:Record<string,any> = 
 {
     _settings:
     {
@@ -99,5 +99,3 @@ const CONFIG:Record<string,any> =
 }
 
 mergeObjects(CONFIG, CONFIG_SHARED);
-
-export default CONFIG;
