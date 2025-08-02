@@ -1,7 +1,7 @@
 import { PackData } from "games/throneless-games/shared/dictShared"
 import Point from "js/pq_games/tools/geometry/point"
 
-const PACKS:Record<string, PackData> = 
+export const PACKS:Record<string, PackData> = 
 {
     lionsyre: 
     { 
@@ -311,16 +311,10 @@ const PACKS:Record<string, PackData> =
     },
 }
 
-const SETS =
+export const SETS =
 {
     starter: ["lionsyre", "hornseeker", "monarchrys", "gulliballistas"],
     medium: ["slydefox", "brownbeards", "hardshellHero", "smugwing"],
     advanced: ["woolfhall", "crassclamps", "squlofish", "salsaSalamanda"],
     complete: Object.keys(PACKS)
-}
-
-export
-{
-    PACKS,
-    SETS
 }

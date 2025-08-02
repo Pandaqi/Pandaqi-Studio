@@ -1,32 +1,32 @@
 import toTextDrawerImageStrings from "js/pq_games/tools/text/toTextDrawerImageStrings"
 
-enum CardType
+export enum CardType
 {
     MOVIE = "movie",
     VOTE = "vote"
 }
 
-enum MovieType
+export enum MovieType
 {
     MOVIE = "movie"
 }
 
-enum VoteType
+export enum VoteType
 {
     YES = "yes",
     NO = "no",
     CHANGE = "change"
 }
 
-type CardSubType = VoteType | MovieType
+export type CardSubType = VoteType | MovieType
 
-interface VoteDetails
+export interface VoteDetails
 {
     icon: string,
     num: number
 }
 
-interface MovieDetails
+export interface MovieDetails
 {
     costIcons?: string[],
     profit?: number,
@@ -34,13 +34,13 @@ interface MovieDetails
     profitText?: string
 }
 
-interface IconData
+export interface IconData
 {
     frame: number,
     set?: string
 }
 
-const CARD_TEMPLATES:Record<string, IconData> =
+export const CARD_TEMPLATES:Record<string, IconData> =
 {
     movie: { frame: 0 },
     vote_yes: { frame: 1 },
@@ -52,7 +52,7 @@ const CARD_TEMPLATES:Record<string, IconData> =
 // @NOTE: things that were hard to visualize: editing (scissors cutting film strip), visual effects, "marketing"
 // @NOTE: with 6 icons, the chance of a succesful movie is about ~50%
 // (if you removed the Wildcard rule, this only happens at 3 icons! And that was just too few!)
-const ICONS:Record<string, IconData> =
+export const ICONS:Record<string, IconData> =
 {
     money: { frame: 1, set: "base" },
     actors: { frame: 2, set: "base" },
@@ -66,7 +66,7 @@ const ICONS:Record<string, IconData> =
     popcorn: { frame: 10, set: "??" }  
 }
 
-enum TextType
+export enum TextType
 {
     GENRE = "genre",
     SETTING = "setting",
@@ -75,26 +75,26 @@ enum TextType
     TIMEPERIOD = "timeperiod"
 }
 
-interface TextData
+export interface TextData
 {
     desc: string,
     list: string[],
     prob?: number
 }
 
-interface TextDetails
+export interface TextDetails
 {
     main: string,
     option: string
 }
 
-const GENRES = ["Comedy", "Action", "Adventure", "Romance", "Animation", "Crime", "Documentary", "Thriller", "Drama", "Fantasy", "Science-Fiction", "Horror", "Mystery", "Historical", "Musical", "Western", "War", "Superhero"];
-const SETTINGS = ["City", "Village", "Forest", "Jungle", "Desert", "Mountains", "Countryside", "Beach", "Island", "Space", "Underwater", "Prison", "Hospital", "School", "University", "Office", "Theme Park", "Circus", "Stadium", "Sports Arena", "Military Base", "Haunted House", "Castle", "Subway", "Train Station", "Airport", "Ship", "Parallel Universe", "Fantasy Realm"];
-const CHARACTERS = ["Humans", "Aliens", "Dinosaurs", "Animals", "Robots", "Heroes", "Villains", "Babies", "Children", "Adults", "Elderly", "Teachers", "Lovers", "Underdogs", "Femme Fatales", "Geniuses", "Inventors", "Farmers", "Writers", "Outlaws", "Detectives", "Uninspired", "Reluctant Heroes", "Objects", "Toys", "Vehicles", "Cars", "Computers", "Engineers", "Students", "Bosses", "Artists", "Athletes", "Pets", "Celebrities", "Accountants", "Spies", "Dragon Riders", "Wizards", "Witches", "Superheroes", "Dancers", "Musicians", "Scientists", "Lumberjacks", "Buildings", "Plants", "Trees", "Clouds", "Painters", "Entrepeneurs", "Dumb", "Fighters", "Cooks", "Volunteers", "Programmers", "Doctors", "Nurses", "Retail Workers", "Janitors", "Waiters", "Receptionists", "Police", "Firemen", "Strangers", "Pilots", "Bakers", "Insane", "Astronauts", "Soldiers", "Merchants", "Kings", "Queens", "Princes", "Princesses", "Traitors", "Peasants", "Slaves", "Disabled", "Insomniacs", "Clairvoyant", "Coaches", "Corrupt", "Politicians", "Critics", "Zookeepers", "Serial Killers"];
-const TIMEPERIOD = ["Post-Apocalypse", "Medieval", "Ancient Rome", "Prehistoric", "Ancient Greece", "Modern", "Past", "Future", "Unclear", "19th century", "18th century", "Renaissance", "Victorian Era", "Wild West", "World War I", "World War II", "Great Depression", "Roaring Twenties", "Post-War", "Near Future", "Alternate Past", "Industrial Age", "Information Age", "Bronze Age", "Stone Age", "Iron Age", "Persian Empire", "Byzantine Empire", "French Revolution"];
-const THEMES = ["Handicap", "Betrayal", "Relationship", "Friendship", "Growing Up", "Loss", "Money", "Politics", "Power", "Free Will", "Love", "Redemption", "Personal Identity", "Courage", "Family", "Corruption", "Good / Evil", "Justice", "Revenge", "Hope", "Escape", "Freedom", "Entertainment", "Society", "Nature", "Science", "Education", "Humanity", "Empathy", "Transformation", "Isolation", "Sacrifice", "Legacy", "Forgiveness", "Ethical Dilemmas", "Cultural Identity", "Technology", "Mindfulness", "Inequality", "Dreams", "Reality", "Aging", "Mortality", "War", "Faith", "Ghost Stories", "Expression", "Mythology", "Truth", "Resistance", "Rebellion", "Community", "Exploration", "Discovery", "Philosophy", "Disasters", "Uncertainty", "Talking Animals", "Fairy Tales", "Climate Change", "Zombies", "Trust", "Trauma", "Quest", "Journey", "Incompetence", "Intelligence", "Stealing", "Succession", "Magic", "Deadly Sins", "Illness", "Injury", "Dragons", "Human Nature", "True Events", "Tragedy", "Getting Rich", "Finding Someone", "Learning Skills", "Defeating Villains", "History", "Finding Clues", "Marketing", "Nothing", "Me", "Religion", "Promises", "Hate", "Greed", "Gluttony", "Memory Loss", "Time Travel", "Dignity", "Honor", "Clothing", "Architecture", "Terrorism", "Discrimination", "Gifts", "Revolution", "Food", "Games", "Dating", "Social Media", "Music", "Sports", "Art", "Time"];
+export const GENRES = ["Comedy", "Action", "Adventure", "Romance", "Animation", "Crime", "Documentary", "Thriller", "Drama", "Fantasy", "Science-Fiction", "Horror", "Mystery", "Historical", "Musical", "Western", "War", "Superhero"];
+export const SETTINGS = ["City", "Village", "Forest", "Jungle", "Desert", "Mountains", "Countryside", "Beach", "Island", "Space", "Underwater", "Prison", "Hospital", "School", "University", "Office", "Theme Park", "Circus", "Stadium", "Sports Arena", "Military Base", "Haunted House", "Castle", "Subway", "Train Station", "Airport", "Ship", "Parallel Universe", "Fantasy Realm"];
+export const CHARACTERS = ["Humans", "Aliens", "Dinosaurs", "Animals", "Robots", "Heroes", "Villains", "Babies", "Children", "Adults", "Elderly", "Teachers", "Lovers", "Underdogs", "Femme Fatales", "Geniuses", "Inventors", "Farmers", "Writers", "Outlaws", "Detectives", "Uninspired", "Reluctant Heroes", "Objects", "Toys", "Vehicles", "Cars", "Computers", "Engineers", "Students", "Bosses", "Artists", "Athletes", "Pets", "Celebrities", "Accountants", "Spies", "Dragon Riders", "Wizards", "Witches", "Superheroes", "Dancers", "Musicians", "Scientists", "Lumberjacks", "Buildings", "Plants", "Trees", "Clouds", "Painters", "Entrepeneurs", "Dumb", "Fighters", "Cooks", "Volunteers", "Programmers", "Doctors", "Nurses", "Retail Workers", "Janitors", "Waiters", "Receptionists", "Police", "Firemen", "Strangers", "Pilots", "Bakers", "Insane", "Astronauts", "Soldiers", "Merchants", "Kings", "Queens", "Princes", "Princesses", "Traitors", "Peasants", "Slaves", "Disabled", "Insomniacs", "Clairvoyant", "Coaches", "Corrupt", "Politicians", "Critics", "Zookeepers", "Serial Killers"];
+export const TIMEPERIOD = ["Post-Apocalypse", "Medieval", "Ancient Rome", "Prehistoric", "Ancient Greece", "Modern", "Past", "Future", "Unclear", "19th century", "18th century", "Renaissance", "Victorian Era", "Wild West", "World War I", "World War II", "Great Depression", "Roaring Twenties", "Post-War", "Near Future", "Alternate Past", "Industrial Age", "Information Age", "Bronze Age", "Stone Age", "Iron Age", "Persian Empire", "Byzantine Empire", "French Revolution"];
+export const THEMES = ["Handicap", "Betrayal", "Relationship", "Friendship", "Growing Up", "Loss", "Money", "Politics", "Power", "Free Will", "Love", "Redemption", "Personal Identity", "Courage", "Family", "Corruption", "Good / Evil", "Justice", "Revenge", "Hope", "Escape", "Freedom", "Entertainment", "Society", "Nature", "Science", "Education", "Humanity", "Empathy", "Transformation", "Isolation", "Sacrifice", "Legacy", "Forgiveness", "Ethical Dilemmas", "Cultural Identity", "Technology", "Mindfulness", "Inequality", "Dreams", "Reality", "Aging", "Mortality", "War", "Faith", "Ghost Stories", "Expression", "Mythology", "Truth", "Resistance", "Rebellion", "Community", "Exploration", "Discovery", "Philosophy", "Disasters", "Uncertainty", "Talking Animals", "Fairy Tales", "Climate Change", "Zombies", "Trust", "Trauma", "Quest", "Journey", "Incompetence", "Intelligence", "Stealing", "Succession", "Magic", "Deadly Sins", "Illness", "Injury", "Dragons", "Human Nature", "True Events", "Tragedy", "Getting Rich", "Finding Someone", "Learning Skills", "Defeating Villains", "History", "Finding Clues", "Marketing", "Nothing", "Me", "Religion", "Promises", "Hate", "Greed", "Gluttony", "Memory Loss", "Time Travel", "Dignity", "Honor", "Clothing", "Architecture", "Terrorism", "Discrimination", "Gifts", "Revolution", "Food", "Games", "Dating", "Social Media", "Music", "Sports", "Art", "Time"];
 
-const MAIN_TEXTS:Record<TextType, TextData> = 
+export const MAIN_TEXTS:Record<TextType, TextData> = 
 {
     [TextType.GENRE]: { desc: "The genre is ...", list: GENRES, prob: 0.75 },
     [TextType.SETTING]: { desc: "The setting is (a) ...", list: SETTINGS },
@@ -112,7 +112,7 @@ For example,
 * Profit = equal to the number of times this pitch was CHANGED.
 */
 
-const BLOCKBUSTERS =
+export const BLOCKBUSTERS =
 {
     cost:
     {
@@ -151,27 +151,9 @@ const BLOCKBUSTERS =
     }
 }
 
-const DYNAMIC_OPTIONS =
+export const DYNAMIC_OPTIONS =
 {
     "%resource%": null, // is set dynamically based on config
     "%vote%": ["YES", "NO"], // @NOTE: CHANGE vote is from expansion, so not included by default here
     "%numlow%": [1,2,3],
 }
-
-export 
-{
-    CardType,
-    CardSubType,
-    VoteType,
-    VoteDetails,
-    MovieType,
-    MovieDetails,
-    CARD_TEMPLATES,
-    ICONS,
-    TextType,
-    TextDetails,
-    MAIN_TEXTS,
-    BLOCKBUSTERS,
-    DYNAMIC_OPTIONS
-};
-

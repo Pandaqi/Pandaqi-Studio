@@ -1,5 +1,5 @@
 
-enum DominoType
+export enum DominoType
 {
     REGULAR = "regular",
     ROLE = "role",
@@ -7,7 +7,7 @@ enum DominoType
     EVENT = "event"
 }
 
-enum RoleType
+export enum RoleType
 {
     WARFARE = "warfare",
     MONEY = "money",
@@ -16,7 +16,7 @@ enum RoleType
     GOODS = "goods"
 }
 
-enum TerrainType
+export enum TerrainType
 {
     LAVA = "lava", // = red = warfare
     DESERT = "desert", // = yellow = money
@@ -25,13 +25,13 @@ enum TerrainType
     GRASS = "grass", // = green = goods
 }
 
-enum IconType
+export enum IconType
 {
     GOOD,
     BAD
 }
 
-interface GeneralData
+export interface GeneralData
 {
     frame?: number,
     label?: string, // mostly used for proper role names
@@ -50,7 +50,7 @@ interface GeneralData
     matches?: string[], // used to match mission flavor texts with suitable missions
 }
 
-const ICONS:Record<string, GeneralData> =
+export const ICONS:Record<string, GeneralData> =
 {
     empty: { frame: -1, prob: 4.5, sets: ["base", "proximity", "direction", "machine"] },
     [RoleType.WARFARE]: { frame: 0, prob: 0.66, desc: "Gives \"Brother of Warfare\" +1 Military.", mainIcon: true, missionIcon: true, sets: ["base", "proximity", "direction", "machine"] },
@@ -82,7 +82,7 @@ const ICONS:Record<string, GeneralData> =
 
 }
 
-const TERRAINS:Record<string, GeneralData> =
+export const TERRAINS:Record<string, GeneralData> =
 {
     [TerrainType.LAVA]: { frame: 0 },
     [TerrainType.DESERT]: { frame: 1 },
@@ -91,7 +91,7 @@ const TERRAINS:Record<string, GeneralData> =
     [TerrainType.GRASS]: { frame: 4 }
 }
 
-const PATHS:Record<string,GeneralData> =
+export const PATHS:Record<string,GeneralData> =
 {
     deadend: { frame: 5, sides: [true, false, false, false] },
     straight: { frame: 6, sides: [true, false, true, false] },
@@ -100,7 +100,7 @@ const PATHS:Record<string,GeneralData> =
     all: { frame: 9, sides: [true, true, true, true] },
 }
 
-const ROLES:Record<string, GeneralData> =
+export const ROLES:Record<string, GeneralData> =
 {
     [RoleType.WARFARE]: { frame: 0, label: "Brother of Warfare", num: 0, terrain: TerrainType.LAVA, power: "Once per round, you may <b>remove</b> a Domino from a previous round.", reportPhase: "You must decide who gets your strength right now." },
     [RoleType.MONEY]: { frame: 1, label: "Sister of Coin", num: 1, terrain: TerrainType.DESERT, power: "Each round, you draw 2 Missions and pick which one you want.", reportPhase: "If you didn't add to the shared map, you can't use your own strength." },
@@ -109,7 +109,7 @@ const ROLES:Record<string, GeneralData> =
     [RoleType.GOODS]: { frame: 4, label: "Aunt of Goods", num: 4, terrain: TerrainType.GRASS, power: "Once per round, you may <b>draw 2 dominoes</b> or none at all.", reportPhase: "If you mismatched terrains or paths, your score is halved." }
 }
 
-const MISSION_SCALARS:Record<string, GeneralData> =
+export const MISSION_SCALARS:Record<string, GeneralData> =
 {
     num_people: { frame: 0, desc: "# people", value: 1.0, sets: ["base", "proximity", "direction"] },
     missions_achieved: { frame: 1, desc: "# missions achieved", value: 0.5, sets: ["base", "proximity"] },
@@ -126,7 +126,7 @@ const MISSION_SCALARS:Record<string, GeneralData> =
 }
 
 // The "%neutral%" is replaced by something like "neutral strength" dynamically
-const MISSION_REWARDS:Record<string, GeneralData> = 
+export const MISSION_REWARDS:Record<string, GeneralData> = 
 {
     draw: { desc: "Draw 3 Dominoes from the deck, place 1 for free.", sets: ["base"] },
     draw_dynamic: { desc: "Draw as many dominoes from deck as your %neutral% (and place them).", sets: ["base"] },
@@ -146,7 +146,7 @@ const MISSION_REWARDS:Record<string, GeneralData> =
     extra_score_dynamic: { desc: "Next round, add as many points to your score (at all times) as your %neutral%", sets: ["proximity"] },
 }
 
-const MISSION_PENALTIES:Record<string, GeneralData> =
+export const MISSION_PENALTIES:Record<string, GeneralData> =
 {
     remove: { desc: "Remove 1 Domino from your map.", sets: ["base"] },
     remove_all: { desc: "All players remove 1 Domino from their map.", sets: ["base", "machine"] },
@@ -164,7 +164,7 @@ const MISSION_PENALTIES:Record<string, GeneralData> =
     attack: { desc: "The goblins Attack.", sets: ["goblin"] }
 }
 
-const MISSION_TEXTS:Record<string, GeneralData> =
+export const MISSION_TEXTS:Record<string, GeneralData> =
 {
     military: { desc: "An enemy stands at our borders, ready for war. We must defend the empire.", matches: [RoleType.WARFARE] },
     money: { desc: "A natural disaster has destroyed our factories and farms, which we must repair.", matches: [RoleType.MONEY] },
@@ -194,7 +194,7 @@ const MISSION_TEXTS:Record<string, GeneralData> =
     military_money_housing: { desc: "We are looking to attack our treacherous neighbor, but don't want to harm any civilians. Pay them to leave to safer homes.", matches: [RoleType.WARFARE, RoleType.MONEY, RoleType.HOUSING] },
 }
 
-const EVENTS:Record<string, GeneralData> = 
+export const EVENTS:Record<string, GeneralData> = 
 {
     storm_remove: { label: "Terrible Storms", desc: "A storm visited our empire last night! In Role order, each player <b>removes</b> 1 Domino from the shared map." },
     floods_punish: { label: "Forceful Floods", desc: "A flood has ravaged our lands! This round, nobody has their Role power, and everyone must <b>remove</b> 2 Dominoes from their map." },
@@ -235,28 +235,9 @@ const EVENTS:Record<string, GeneralData> =
 
 }
 
-const MISC =
+export const MISC =
 {
     shush: { frame: 0 },
     mission_reward: { frame: 1 },
     mission_penalty: { frame: 2 }
-}
-
-export
-{
-    MISC,
-    ICONS,
-    TERRAINS,
-    ROLES,
-    PATHS,
-    EVENTS,
-    MISSION_SCALARS,
-    MISSION_REWARDS,
-    MISSION_PENALTIES,
-    MISSION_TEXTS,
-    DominoType,
-    RoleType,
-    TerrainType,
-    IconType,
-    GeneralData,
 }

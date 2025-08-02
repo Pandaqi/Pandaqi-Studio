@@ -1,5 +1,5 @@
 
-enum AnimalType
+export enum AnimalType
 {
     TIGER = "tiger",
     DRAGON = "dragon",
@@ -40,8 +40,8 @@ interface GeneralData
     strengthless?: boolean,
 }
 
-type MovesDictionary = Record<AnimalType,GeneralData>
-const MOVES:MovesDictionary =
+export type MovesDictionary = Record<AnimalType,GeneralData>
+export const MOVES:MovesDictionary =
 {
     // base game
     // it has the simplest actions and many without action at all
@@ -74,7 +74,7 @@ const MOVES:MovesDictionary =
     [AnimalType.PARROT]: { frame: 17, label: "Blabbering Bird", desc: "Until the next battle is started, players on my team may freely <b>communicate</b>.", set: "fightTogether", color: "#ffffff" }
 }
 
-const DAWN_ACTIONS:Record<string,GeneralData> =
+export const DAWN_ACTIONS:Record<string,GeneralData> =
 {
     one_less: { desc: "The opponent places <b>1 fewer pile</b>. (You always win against an empty spot.)", type: ActionType.AUTO },
     one_merge: { desc: "Once this war, force the opponent to merge two piles and re-roll. (You always win against an empty spot.)", type: ActionType.CHOICE },
@@ -95,7 +95,7 @@ const DAWN_ACTIONS:Record<string,GeneralData> =
 
 }
 
-const ROOSTER_CHANGES:Record<string,GeneralData> =
+export const ROOSTER_CHANGES:Record<string,GeneralData> =
 {
     rooster_always_win: { desc: "<b>I always win.</b> But if the opponent rolls this card too, the war <b>instantly ends</b> and <b>they win</b> (overall).", type: ActionType.AUTO },
     rooster_always_lose: { desc: "<b>I always lose.</b> But you can <b>stop</b> the war right now <i>OR</i> <b>remove</b> an earlier battle.", type: ActionType.CHOICE },
@@ -120,7 +120,7 @@ DEPRECATED (at least for the standard animals):
 * CHOICE: "You _may_ lose this battle to pretend you won an earlier one." => too similar to a Dawn action, not valuable enough to keep
 */
 
-const MISC:Record<string, GeneralData> =
+export const MISC:Record<string, GeneralData> =
 {
     heading_box: { frame: 0 },
     text_box: { frame: 1 },
@@ -128,7 +128,7 @@ const MISC:Record<string, GeneralData> =
     sun_icon: { frame: 3 }
 }
 
-const TEMPLATES:Record<string,GeneralData> =
+export const TEMPLATES:Record<string,GeneralData> =
 {
     bamboo: { frame: 0 },
     patterns: { frame: 1 },
@@ -136,15 +136,4 @@ const TEMPLATES:Record<string,GeneralData> =
     outline: { frame: 3 },
     spiral: { frame: 4 },
     cherry_blossom: { frame: 5 }
-}
-
-export 
-{
-    MISC,
-    TEMPLATES,
-    MOVES,
-    DAWN_ACTIONS,
-    ROOSTER_CHANGES,
-    AnimalType,
-    MovesDictionary
 }

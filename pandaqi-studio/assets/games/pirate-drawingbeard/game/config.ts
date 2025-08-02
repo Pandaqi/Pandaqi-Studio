@@ -1,4 +1,4 @@
-import { TILE_DICT, DISCRETE_LISTS } from "./dictionary" 
+import { TILE_DICT, DISCRETE_LISTS } from "./dict" 
 import Random from "js/pq_games/tools/random/main"
 import Point from "js/pq_games/tools/geometry/point";
 

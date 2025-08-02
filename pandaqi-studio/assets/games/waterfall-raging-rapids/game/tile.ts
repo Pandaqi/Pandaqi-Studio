@@ -1,21 +1,18 @@
-import createContext from "js/pq_games/layout/canvas/createContext";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import Point from "js/pq_games/tools/geometry/point";
-import { ACTIONS, DECORATION, GATES, GEMSTONES, MISC, TileType, WaterFlow } from "../shared/dict";
-import { CONFIG } from "../shared/config";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import Bounds from "js/pq_games/tools/numbers/bounds";
-import Line from "js/pq_games/tools/geometry/line";
 import Circle from "js/pq_games/tools/geometry/circle";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import Line from "js/pq_games/tools/geometry/line";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import { CONFIG } from "../shared/config";
+import { ACTIONS, DECORATION, GATES, GEMSTONES, MISC, TileType, WaterFlow } from "../shared/dict";
 
 export default class Tile
 {

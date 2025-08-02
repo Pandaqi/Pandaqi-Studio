@@ -1,6 +1,6 @@
 import { CONFIG } from "./config"
 import Map from "./map"
-import { DISCRETE_LISTS } from "./dictionary"
+import { DISCRETE_LISTS } from "./dict"
 import Point from "js/pq_games/tools/geometry/point";
 
 export default 

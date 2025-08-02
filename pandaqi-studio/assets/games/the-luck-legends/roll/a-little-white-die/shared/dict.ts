@@ -9,7 +9,7 @@ interface GeneralData
 }
 
 // Aiming for 18 of these cards, as that fits perfectly on 2 A4 pages.
-const POWER_CARDS:Record<string,GeneralData> =
+export const POWER_CARDS:Record<string,GeneralData> =
 {
     add_number: { frame: 0, desc: "<b>Add</b> a card of the next highest (unused) number to all player's decks.", freq: 3 },
     reroll: { frame: 1, desc: "<b>Reroll</b> all of your dice." },
@@ -29,9 +29,9 @@ const POWER_CARDS:Record<string,GeneralData> =
     discard: { frame: 15, desc: "<b>Discard</b> the top card of any one die." }
 }
 
-const WILDCARD_DATA:GeneralData = { frame: -1, desc: "Wildcard!\nRepresents any number from any guess." }
+export const WILDCARD_DATA:GeneralData = { frame: -1, desc: "Wildcard!\nRepresents any number from any guess." }
 
-const MISC:Record<string, GeneralData> =
+export const MISC:Record<string, GeneralData> =
 {
     dice_1: { frame: 0, tint: "#ff4141" },
     dice_2: { frame: 1, tint: "#ffb800" },
@@ -50,7 +50,7 @@ const MISC:Record<string, GeneralData> =
     dice_9: { frame: 14, tint: "#ab73ff" }
 }
 
-const DICE_ARRANGEMENTS = [
+export const DICE_ARRANGEMENTS = [
     [],
     [4],
     [0,8],
@@ -63,7 +63,7 @@ const DICE_ARRANGEMENTS = [
     [0,1,2,3,4,5,6,7,8]
 ]
 
-const DICE_POSITIONS = [
+export const DICE_POSITIONS = [
     new Point(-1,-1), // 0-2
     new Point(0,-1),
     new Point(1,-1),
@@ -74,12 +74,3 @@ const DICE_POSITIONS = [
     new Point(0,1),
     new Point(1,1)
 ]
-
-export 
-{
-    MISC,
-    POWER_CARDS,
-    DICE_POSITIONS,
-    DICE_ARRANGEMENTS,
-    WILDCARD_DATA
-}

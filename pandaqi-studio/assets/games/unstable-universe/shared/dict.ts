@@ -1,5 +1,5 @@
-const NODE_ACTION_TYPES = ['Cutting', 'Turn', 'Modify', 'Movement', 'Progression', 'Blocking', 'Ownership']
-const NODE_CATEGORIES = 
+export const NODE_ACTION_TYPES = ['Cutting', 'Turn', 'Modify', 'Movement', 'Progression', 'Blocking', 'Ownership']
+export const NODE_CATEGORIES = 
 {
 	Plants: 
 		{
@@ -58,7 +58,7 @@ const NODE_CATEGORIES =
  - forbiddenOnEdge: whether this node may appear on the edge of the board
 
 */
-const NODES_DICT = 
+export const NODES_DICT = 
 {
 	'Center':
 		{
@@ -571,7 +571,7 @@ const NODES_DICT =
 		},
 };
 
-const MISSION_NODES_DICT = 
+export const MISSION_NODES_DICT = 
 {
 	Preserver: 
 	{
@@ -662,7 +662,7 @@ const MISSION_NODES_DICT =
 	}
 }
 
-const EXPEDITION_NODES_DICT = 
+export const EXPEDITION_NODES_DICT = 
 {
 	'Research Race':
 	{
@@ -715,7 +715,7 @@ const EXPEDITION_NODES_DICT =
 }
 
 // NOTE: no need to create a dictionary for this and then copy, as this is always the same
-const TINY_NODES = 
+export const TINY_NODES = 
 {
 	Circle:
 	{
@@ -749,7 +749,7 @@ const TINY_NODES =
 }
 
 // NOTE: Same
-const NATURAL_RESOURCES = 
+export const NATURAL_RESOURCES = 
 {
 	Coal:
 	{
@@ -782,7 +782,7 @@ const NATURAL_RESOURCES =
 	}
 }
 
-const LANDMARKS =
+export const LANDMARKS =
 {
 	Mountain:
 	{
@@ -813,15 +813,4 @@ const LANDMARKS =
 		prob: 2,
 		iconFrame: 4
 	},
-}
-
-export {
-	NODE_ACTION_TYPES,
-	NODE_CATEGORIES,
-	NODES_DICT,
-	MISSION_NODES_DICT,
-	EXPEDITION_NODES_DICT,
-	TINY_NODES,
-	LANDMARKS,
-	NATURAL_RESOURCES
 }

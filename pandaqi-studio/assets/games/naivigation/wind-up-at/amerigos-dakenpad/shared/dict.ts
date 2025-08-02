@@ -1,4 +1,4 @@
-enum CardType
+export enum CardType
 {
     PAWN = "pawn",
     ROUTE = "route",
@@ -6,7 +6,7 @@ enum CardType
     PAKJE = "pakje",
 }
 
-enum GiftType
+export enum GiftType
 {
     SQUARE = "square",
     CIRCLE = "circle",
@@ -23,7 +23,7 @@ interface GeneralData
     customScale?: number
 }
 
-const KAARTEN:Record<string, GeneralData> =
+export const KAARTEN:Record<string, GeneralData> =
 {
     vooruit: { frame: 4, textureKey: "misc", set: "base", desc: "Ga vooruit." },
     achteruit: { frame: 5, textureKey: "misc", set: "base", desc: "Ga achteruit." },
@@ -36,7 +36,7 @@ const KAARTEN:Record<string, GeneralData> =
     niks: { frame: 3, textureKey: "paarden_sprongen", set: "paardenSprongen", desc: "Vervang mij met een andere handkaart.", customScale: 0.75 },
 }
 
-const ROUTEKAARTEN:Record<string,GeneralData> =
+export const ROUTEKAARTEN:Record<string,GeneralData> =
 {
     niks: { desc: "Niks bijzonders.", textureKey: "none" },
     huis: { desc: "Bezorg de aangegeven pakjes om het huis te scoren.", textureKey: "misc", requiresGifts: true },
@@ -50,7 +50,7 @@ const ROUTEKAARTEN:Record<string,GeneralData> =
     staf: { frame: 7, textureKey: "gladde_daken", set: "gladdeDaken", desc: "<b>Vervang een huiskaart</b> met eentje niet in het spel." }, // slecht/goed
 }
 
-const MISC:Record<string, GeneralData> =
+export const MISC:Record<string, GeneralData> =
 {
     home_0: { frame: 0 },
     home_1: { frame: 1 },
@@ -61,7 +61,7 @@ const MISC:Record<string, GeneralData> =
     pakje_triangle: { frame: 14 }
 }
 
-const CARD_TEMPLATES:Record<string, GeneralData> =
+export const CARD_TEMPLATES:Record<string, GeneralData> =
 {
     route_bg: { frame: 0 },
     route_overlay: { frame: 1 },
@@ -71,12 +71,3 @@ const CARD_TEMPLATES:Record<string, GeneralData> =
     pakje_overlay: { frame: 5 },
     pawn: { frame: 6 }
 }
-
-export {
-    CardType,
-    GiftType,
-    MISC,
-    CARD_TEMPLATES,
-    KAARTEN,
-    ROUTEKAARTEN,
-};

@@ -1,5 +1,5 @@
 
-enum DominoType
+export enum DominoType
 {
     REGULAR = "regular",
     PAWN = "pawn",
@@ -7,7 +7,7 @@ enum DominoType
     IMPACT = "impact"
 }
 
-enum TerrainType
+export enum TerrainType
 {
     GRASS = "grass",
     STONE = "stone",
@@ -17,7 +17,7 @@ enum TerrainType
     WILDCARD = "wildcard"
 }
 
-enum DinoType
+export enum DinoType
 {
     EGG = "egg", // neutral egg that will hatch into a dinosaur LATER
     TRI = "tri", // triceratops; thorny carnivore
@@ -36,7 +36,7 @@ interface GeneralData
     multi?: boolean, // if true, the card can appear multiple times; otherwise it's just once
 }
 
-const TERRAINS:Record<TerrainType, GeneralData> = 
+export const TERRAINS:Record<TerrainType, GeneralData> = 
 {
     [TerrainType.GRASS]: { frame: 0, sets: ["base", "expansion"] },
     [TerrainType.STONE]: { frame: 1, sets: ["base", "expansion"] },
@@ -46,7 +46,7 @@ const TERRAINS:Record<TerrainType, GeneralData> =
     [TerrainType.WILDCARD]: { frame: 5, sets: ["expansion"] }
 }
 
-const DINOS:Record<DinoType, GeneralData> =
+export const DINOS:Record<DinoType, GeneralData> =
 {
     [DinoType.EGG]: { frame: 0, sets: ["base", "expansion"], desc: "Hatches when Egg Hatch on top of asteroid deck." },
     [DinoType.TRI]: { frame: 1, sets: ["base", "expansion"], desc: "Move crosshairs in direction of arrow.", needsArrow: true },
@@ -56,7 +56,7 @@ const DINOS:Record<DinoType, GeneralData> =
     [DinoType.WILDCARD]: { frame: 5, sets: ["expansion"], desc: "Can be any dinosaur you want!" }
 }
 
-const ASTEROID_TILES:Record<string, GeneralData> =
+export const ASTEROID_TILES:Record<string, GeneralData> =
 {
     move_pawn: { frame: 0, desc: "Move one Pawn of yours to a different (unclaimed) Area.", multi: true },
     return_asteroid: { frame: 1, desc: "Put one discarded Asteroid Tile back into the deck at a random location." },
@@ -76,7 +76,7 @@ const ASTEROID_TILES:Record<string, GeneralData> =
 }
 
 // @TODO: a Tooth icon in the center indicates the "target" (the one place where the crosshairs meet)
-const IMPACT_TILES:Record<string, GeneralData> =
+export const IMPACT_TILES:Record<string, GeneralData> =
 {
     regular: { frame: 0, desc: "Destroy target and its 8 neighbors." },
     single: { frame: 1, desc: "Destroy all Areas with same color as target." },
@@ -96,22 +96,10 @@ const IMPACT_TILES:Record<string, GeneralData> =
     regular_limit: { frame: 15, desc: "Destroy target and its 8 neighbors. Only destroy entire areas if 3(+) spaces inside are hit." }
 }
 
-const MISC:Record<string, GeneralData> =
+export const MISC:Record<string, GeneralData> =
 {
     arrow: { frame: 0 },
     asteroid_crosshair: { frame: 1 },
     asteroid_regular: { frame: 2, desc: "A regular Asteroid tile." },
     asteroid_egghatch: { frame: 3, desc: "Hatch all eggs!" }
-}
-
-export 
-{
-    TERRAINS,
-    DINOS,
-    MISC,
-    ASTEROID_TILES,
-    IMPACT_TILES,
-    DinoType,
-    DominoType,
-    TerrainType,
 }

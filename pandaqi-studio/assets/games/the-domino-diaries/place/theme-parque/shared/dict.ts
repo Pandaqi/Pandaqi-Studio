@@ -1,12 +1,12 @@
 
-enum DominoType
+export enum DominoType
 {
     REGULAR = "regular",
     PAWN = "pawn",
     EVENT = "event"
 }
 
-enum ItemType
+export enum ItemType
 {
     PATH = "path",
     ATTRACTION = "attraction",
@@ -14,7 +14,7 @@ enum ItemType
     DECORATION = "decoration"
 }
 
-enum PathType
+export enum PathType
 {
     REGULAR = "regular",
     QUEUE1 = "queue1",
@@ -22,7 +22,7 @@ enum PathType
     COASTER = "coaster"
 }
 
-interface GeneralData
+export interface GeneralData
 {
     frame?: number,
     desc?: string,
@@ -37,7 +37,7 @@ interface GeneralData
 // Attractions are your biggest scorers, but they depend on their queue length (and if it's finished)
 // value = its point value (or an indication/guess towards it), 
 // but the inverse is also used for probabilities (it appears 1/value percentage, so higher value things appear LESS often)
-const ATTRACTIONS:Record<string,GeneralData> =
+export const ATTRACTIONS:Record<string,GeneralData> =
 {
     carousel: { frame: 0, label: "Carousel", desc: "", value: 1, set: "base" },
     swinging_ship: { frame: 1, label: "Swinging Ship", desc: "", value: 2, set: "base" },
@@ -56,7 +56,7 @@ const ATTRACTIONS:Record<string,GeneralData> =
 }
 
 // "Simpler" scoring methods. Don't need a queue or any other setup, often just a raw number of points with nothing else.
-const STALLS:Record<string,GeneralData> = 
+export const STALLS:Record<string,GeneralData> = 
 {
     toilet: { frame: 0, label: "Toilet", desc: "Worth <b>#Toilets</b> along its nearby path(s).", value: 1, dynamic: true, set: "base" },
     food: { frame: 1, label: "Food Stall", desc: "", value: 2, set: "base" },
@@ -75,7 +75,7 @@ const STALLS:Record<string,GeneralData> =
 }
 
 // Decoration never scores on its own. It fulfills the role of modifier; special actions/changes/abilities to what's around it
-const DECORATIONS:Record<string,GeneralData> =
+export const DECORATIONS:Record<string,GeneralData> =
 {
     tree: { frame: 0, label: "Tree", desc: "", value: 1, set: "base" },
     dump: { frame: 1, label: "Dump", desc: "Adds <b>-2</b> to each <b>nearby scorable item</b>.", value: 2, set: "base" },
@@ -93,8 +93,8 @@ const DECORATIONS:Record<string,GeneralData> =
     sign: { frame: 11, label: "Signpost", desc: "<b>Move</b> or <b>rotate</b> an existing tile.", value: 2, set: "unibearsal" },
 }
 
-const PATHS_ORDER = [PathType.REGULAR, PathType.QUEUE1, PathType.QUEUE2];
-const PATHS =
+export const PATHS_ORDER = [PathType.REGULAR, PathType.QUEUE1, PathType.QUEUE2];
+export const PATHS =
 {
     deadend: { frame: 0, sides: [true, false, false, false], value: 5 },
     corner: { frame: 1, sides: [true, true, false, false], value: 1 },
@@ -103,7 +103,7 @@ const PATHS =
     all: { frame: 4, sides: [true, true, true, true], value: 4 }
 }
 
-const COASTER_PARTS =
+export const COASTER_PARTS =
 {
     station: { frame: 15, sides: [true, false, true, false], value: 2 },
     straight: { frame: 16, sides: [true, false, true, false], value: 1 },
@@ -111,7 +111,7 @@ const COASTER_PARTS =
     tunnel: { frame: 18, sides: [false, false, true, false], value: 2.5 }
 }
 
-const MISC =
+export const MISC =
 {
     score_star_attraction: { frame: 0 },
     tunnel: { frame: 1 },
@@ -123,7 +123,7 @@ const MISC =
     type_icon_stall: { frame: 7 }
 }
 
-const ITEMS =
+export const ITEMS =
 {
     [ItemType.PATH]: {},
     [ItemType.ATTRACTION]: ATTRACTIONS,
@@ -131,20 +131,20 @@ const ITEMS =
     [ItemType.DECORATION]: DECORATIONS
 }
 
-enum EventType
+export enum EventType
 {
     INSTANT = "instant",
     PERMANENT = "permanent"
 }
 
-enum EventVibe
+export enum EventVibe
 {
     GOOD = "good",
     MIXED = "mixed",
     BAD = "bad"
 }
 
-interface EventData
+export interface EventData
 {
     desc?: string,
     descPower?: string,
@@ -153,7 +153,7 @@ interface EventData
     prob?: number
 }
 
-const EVENTS:Record<string,EventData> = 
+export const EVENTS:Record<string,EventData> = 
 {
     // GOOD
     celeb: { desc: "A celebrity visits!", descPower: "Each player may <b>return a used pawn</b> back to them.", vibe: EventVibe.GOOD, type: EventType.INSTANT },
@@ -199,13 +199,13 @@ const EVENTS:Record<string,EventData> =
     nothing: { desc: "Nothing special!", descPower: "", vibe: EventVibe.MIXED, type: EventType.PERMANENT, prob: 4 },
 }
 
-enum ChallengeType
+export enum ChallengeType
 {
     WIN = "win",
     LOSE = "lose"
 }
 
-interface ChallengeData
+export interface ChallengeData
 {
     desc?: string,
     value?: number, // default = 1
@@ -217,7 +217,7 @@ interface ChallengeData
 
 // @NOTE: most of these have multiple variants (with higher numbers = higher difficulty); it picks randomly, the event score calculator automatically assigns a higher score if it picked a higher index.
 //@IDEA: Add a few Challenges that SCALE with player count/map size/general scores?
-const CHALLENGES:Record<string,ChallengeData> =
+export const CHALLENGES:Record<string,ChallengeData> =
 {
     // WIN
     player_score: { desc: "The <b>%playerextreme%</b> player has <b>%num%(+) points</b>.", numScale: [4,6,10], type: ChallengeType.WIN },
@@ -278,7 +278,7 @@ const CHALLENGES:Record<string,ChallengeData> =
     rollercoaster_length: { desc: "The park has a <b>Rollercoaster</b> of <b>%num%(+) spaces</b> long.", numScale: [2,4,6,8], type: ChallengeType.WIN, sets: ["rollercoasters"] },
 }
 
-const DYNAMIC_REPLACEMENTS:Record<string, any[]> =
+export const DYNAMIC_REPLACEMENTS:Record<string, any[]> =
 {
     "%nearbytype%": ["path", "queue", "Attraction", "Stall", "Decoration"],
     "%queue%": ["Queue Common", "Queue Rare"],
@@ -286,29 +286,4 @@ const DYNAMIC_REPLACEMENTS:Record<string, any[]> =
     "%playerextreme": ["weakest", "strongest"],
     "%extreme%": ["best", "worst"],
     "%itemscorable%": ["Attraction", "Stall"],
-}
-
-export
-{
-    ATTRACTIONS,
-    STALLS,
-    DECORATIONS,
-    MISC,
-    PATHS,
-    PATHS_ORDER,
-    ITEMS,
-    COASTER_PARTS,
-    ItemType,
-    DominoType,
-    PathType,
-    GeneralData,
-
-    EVENTS,
-    EventVibe,
-    EventType,
-    EventData,
-    CHALLENGES,
-    ChallengeType,
-    ChallengeData,
-    DYNAMIC_REPLACEMENTS
 }

@@ -1,5 +1,5 @@
 
-enum TileType
+export enum TileType
 {
     REGULAR = "regular",
     GATED = "gated",
@@ -15,7 +15,7 @@ interface GeneralData
     default?: boolean
 }
 
-interface WaterFlow
+export interface WaterFlow
 {
     topLeft: boolean,
     topRight: boolean,
@@ -23,7 +23,7 @@ interface WaterFlow
     bottomRight: boolean
 }
 
-const ACTIONS:Record<string, GeneralData> =
+export const ACTIONS:Record<string, GeneralData> =
 {
     // core/default actions that can also be icons
     score: { desc: "<b>Score</b> a tile.", default: true, prob: 4.0 },
@@ -45,7 +45,7 @@ const ACTIONS:Record<string, GeneralData> =
     move_pawns: { desc: "<b>Move</b> a (stuck) Pawn to another tile." },
 }
 
-const ACTIONS_CONDITIONAL:Record<string, GeneralData> =
+export const ACTIONS_CONDITIONAL:Record<string, GeneralData> =
 {
     score_twice: { desc: "<b>score</b> twice." },
     add_three: { desc: "<b>add</b> 3(-) tiles to the Waterfall." },
@@ -54,7 +54,7 @@ const ACTIONS_CONDITIONAL:Record<string, GeneralData> =
     jump_ability: { desc: "<b>jump</b> over occupied tiles." },
 }
 
-const CONDITIONS:Record<string, GeneralData> =
+export const CONDITIONS:Record<string, GeneralData> =
 {
     pawn_stuck_adjacent: { desc: "If a <i>pawn</i> is stuck on an <i>adjacent tile</i>" },
     path_all_gemstones: { desc: "If your path has <i>all unique gemstones</i>" },
@@ -65,7 +65,7 @@ const CONDITIONS:Record<string, GeneralData> =
     path_specific_2: { desc: "If your path has <b>only blue or yellow</b> gemstones" },
 }
 
-const GATES:Record<string, GeneralData> =
+export const GATES:Record<string, GeneralData> =
 {
     num_stuck_low: { desc: "<b>No Pawn is stuck</b>." },
     num_stuck_high: { desc: "At least <b>1 Pawn is stuck</b>." },
@@ -86,7 +86,7 @@ const GATES:Record<string, GeneralData> =
     multi_space: { desc: "This tile or an adjacent one is <b>occupied</b>." }
 }
 
-const GEMSTONES:Record<string, GeneralData> =
+export const GEMSTONES:Record<string, GeneralData> =
 {
     red: { frame: 0 },
     green: { frame: 1 },
@@ -96,7 +96,7 @@ const GEMSTONES:Record<string, GeneralData> =
     yellow: { frame: 5 }
 }
 
-const DECORATION:Record<string, GeneralData> = 
+export const DECORATION:Record<string, GeneralData> = 
 {
     template_regular: { frame: 0 },
     template_gated: { frame: 1 },
@@ -113,7 +113,7 @@ const DECORATION:Record<string, GeneralData> =
     decoration_3: { frame: 11 }
 }
 
-const MISC =
+export const MISC =
 {
     water_straight: { frame: 0 },
     water_diagonal: { frame: 1 },
@@ -125,17 +125,3 @@ const MISC =
     default_action_draw: { frame: 7 },
     default_action_add: { frame: 8 }
 }
-
-
-export {
-    TileType,
-    DECORATION,
-    MISC,
-    ACTIONS,
-    GATES,
-    GEMSTONES,
-    CONDITIONS,
-    ACTIONS_CONDITIONAL,
-    WaterFlow
-};
-

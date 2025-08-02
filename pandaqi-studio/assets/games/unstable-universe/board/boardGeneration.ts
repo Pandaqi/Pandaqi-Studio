@@ -5,7 +5,7 @@ import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
-import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import Circle from "js/pq_games/tools/geometry/circle"
 import Line from "js/pq_games/tools/geometry/line"
 import Path from "js/pq_games/tools/geometry/paths/path"
@@ -23,15 +23,16 @@ import {
 	NODE_ACTION_TYPES,
 	NODE_CATEGORIES,
 	TINY_NODES
-} from "./dictionary"
+} from "../shared/dict"
 import GraphElement from "./graphElement"
 import GraphNode from "./graphNode"
 import Obstacle from "./obstacle"
+import { CONFIG } from "../shared/config"
 
 const DEBUG_FILL_AREAS = false;
 const ENERGETIC_NODES = ['Oil', 'Fire', 'Wood', 'Sun', 'Moon', 'Wind', 'Biomass', 'Electricity', 'Battery'];
 
-type PowerDot = { x:number, y:number, angle:number }
+export type PowerDot = { x:number, y:number, angle:number }
 type NaturalResource = { x:number, y:number, type:string }
 type Landmark = { center:Point, type:string }
 type IntermediaryPoint = { x: number, y: number, type:string, angle: number }
@@ -55,7 +56,6 @@ interface EdgePointData
 	bottom: GraphNode[]
 }
 
-export type { PowerDot }
 export default class BoardGeneration
 {
 	cfg: Record<string,any>
@@ -83,17 +83,16 @@ export default class BoardGeneration
 	iteratingTimer: any
 
 	// user-input settings should be passed through config
-	async draw(vis:MaterialVisualizer) : Promise<ResourceGroup[]>
+	async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
 	{
 		this.setup(vis)
 		this.generateBoard();
-		return this.finishGeneration(vis);
+		return await this.finishGeneration(vis);
 	}
 
 	setup(vis:MaterialVisualizer)
 	{
-		this.cfg = {}		
-		Object.assign(this.cfg, vis.config);
+		this.cfg = CONFIG;
 
 		const canvasWidth = vis.size.x;
 		const scaleFactorDPI = (canvasWidth/1160.0); // this was a one-time crutch needed to rescale all values when I switched to modern system; should be removed one day and replaced with the actual correct values for all config stuff
@@ -810,9 +809,8 @@ export default class BoardGeneration
 		}
 	}
 
-	finishGeneration(vis:MaterialVisualizer) 
+	async finishGeneration(vis:MaterialVisualizer) 
 	{
-		const group = new ResourceGroup();
 		console.log("FINISHING GENERATION");
 
 		// create connections between all points
@@ -857,8 +855,7 @@ export default class BoardGeneration
 
 		// finally, visualize the whole thing we created
 		// and convert to a static image
-		this.visualizeGame(vis, group);
-		return [group];
+		return await this.visualizeGame(vis);
 	}
 
 	orderEdgesByAngle() 
@@ -1452,7 +1449,7 @@ export default class BoardGeneration
 		// update total sum (we stop filling the list when we have enough for the whole board)
 		let nodeMin = node.min ?? 0;
 		nodeMin = Math.round(nodeMin * this.cfg.nodeSettingScaleFactor);
-		let nodeMax = node.max*this.cfg.nodeSettingScaleFactor ?? nodeMin;
+		let nodeMax = (node.max*this.cfg.nodeSettingScaleFactor) || nodeMin;
 		nodeMax = Math.round(nodeMax);
 
 		let diff = Math.ceil((nodeMin + nodeMax) * 0.5) + 1;
@@ -1738,8 +1735,9 @@ export default class BoardGeneration
 
 	// This USED TO BE a partial visualization (only core features, no details) for speed and snapshots while relaxing
 	// Now there are no snapshots and this is just a one-time draw of the whole thing
-	visualizeGame(vis:MaterialVisualizer, group:ResourceGroup) 
+	async visualizeGame(vis:MaterialVisualizer) 
 	{
+		const group = vis.prepareDraw();
 		const RNG = seedRandom(this.cfg.seed + '-visualization')
 
 		const backgroundGroup = new ResourceGroup();
@@ -2253,6 +2251,8 @@ export default class BoardGeneration
 				foregroundGroup.add(resTextAreaNum, opTextAreaNum);
 			}
 		}
+
+		return  await vis.finishDraw(group);
 	}
 
 	dist(a:GraphNode, b:GraphNode) 

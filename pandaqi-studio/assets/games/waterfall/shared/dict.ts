@@ -1,12 +1,12 @@
 
-enum TileType
+export enum TileType
 {
     REGULAR = "regular",
     GATED = "gated",
     PAWN = "pawn"
 }
 
-interface GeneralData
+export interface GeneralData
 {
     frame?: number,
     label?: string,
@@ -18,7 +18,7 @@ interface GeneralData
     max?: number
 }
 
-interface WaterFlow
+export interface WaterFlow
 {
     topLeft: boolean,
     topRight: boolean,
@@ -26,7 +26,7 @@ interface WaterFlow
     bottomRight: boolean
 }
 
-const GEMSTONES:Record<string, GeneralData> =
+export const GEMSTONES:Record<string, GeneralData> =
 {
     red: { frame: 0 },
     green: { frame: 1 },
@@ -36,7 +36,7 @@ const GEMSTONES:Record<string, GeneralData> =
     yellow: { frame: 5 }
 }
 
-const ACTIONS:Record<string, GeneralData> = 
+export const ACTIONS:Record<string, GeneralData> = 
 {
     add: { frame: 0, label: "Add", desc: "<b>Add</b> a tile to the waterfall.", prob: 1.5, min: 5 },
     draw: { frame: 1, label: "Draw", desc: "<b>Draw</b> 3 tiles (into your hand).", prob: 2.0, min: 8 },
@@ -48,7 +48,7 @@ const ACTIONS:Record<string, GeneralData> =
     wildcard: { frame: 7, label: "Wildcard", desc: "Take <b>any other action</b> that's in the path you've taken." }
 }
 
-const MISC =
+export const MISC =
 {
     bg_0: { frame: 0 },
     bg_1: { frame: 1 },
@@ -60,7 +60,7 @@ const MISC =
     card_template: { frame: 7 }
 }
 
-const PAWNS =
+export const PAWNS =
 {
     0: { color: "#FF837F", label: "Red" },
     1: { color: "#FF6EC3", label: "Pink" },
@@ -69,14 +69,3 @@ const PAWNS =
     4: { color: "#9DFE75", label: "Green" },
     5: { color: "#FFA76A", label: "Orange" },
 }
-
-export {
-    TileType,
-    ACTIONS,
-    MISC,
-    GEMSTONES,
-    WaterFlow,
-    GeneralData,
-    PAWNS
-};
-

@@ -1,11 +1,11 @@
-import { CardType, EventType, GameNaivigationData, MaterialNaivigationData, PASSENGERS, TileType } from "games/naivigation/shared/dictShared";
+import { CardType, EventType, GameNaivigationData, MaterialNaivigationData, TileType } from "games/naivigation/shared/dictShared";
 
-const GAME_DATA:GameNaivigationData = { bgColor: "#de4d87", tintColor: "#ffe6f0", textColor: "#260311", mapTileColor: "#FFFFFF" };
+export const GAME_DATA:GameNaivigationData = { bgColor: "#de4d87", tintColor: "#ffe6f0", textColor: "#260311", mapTileColor: "#FFFFFF" };
 
 //
 // Vehicle Cards (thing #1 that'll be unique for each game)
 //
-const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
+export const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
 {
     fly: { frame: 0, label: "Fly", desc: "<b>Move 1 tile</b> forward ( = in the direction your airplane faces).", freq: 10 },
     turn: { frame: 1, label: "Turn", desc: "<b>Rotate</b> a quarter turn <b>left or right</b>.", freq: 10 },
@@ -17,7 +17,7 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
     refuel: { frame: 7, label: "Refuel", desc: "<b>Replenish fuel if landed.</b> Otherwise, take 1 damage and only gain 3 Fuel.", freq: 10, sets: ["fuelFalling"] },
 };
 
-const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
+export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 {
     downgrade: { label: "Downgrade", desc: "You can't wrap around the map anymore.", num: 2 },
     fragile_ship: { label: "Fragile Plane", desc: "Flying over the wrong elevation does <b>2 damage</b> (instead of 1).", num: 2 },
@@ -28,7 +28,7 @@ const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
     disoriented_super: { label: "Super Disoriented", desc: "After executing a <b>Stunt</b> or <b>Backflip</b>, all later cards are <b>inverted</b>.", num: 2 }
 }
 
-const ACTION_CARDS:Record<string,MaterialNaivigationData> =
+export const ACTION_CARDS:Record<string,MaterialNaivigationData> =
 {
     ghost_plane: { frame: 0, label: "Ghost Plane", desc: "Completely <b>ignore elevation</b> on further moves. (No damage, land automatically.)" },
     solar_plane: { frame: 1, label: "Solar Plane", desc: "<b>Replenish fuel.</b> Ignore any fuel lost (this round).", sets: ["fuelFalling"] },
@@ -38,7 +38,7 @@ const ACTION_CARDS:Record<string,MaterialNaivigationData> =
     snowstorm: { frame: 5, label: "Snowstorm", desc: "This round, you can <b>match any tile's elevation</b> (= \"land on it\") without taking damage." },
 }
 
-const TIME_CARDS:Record<string,MaterialNaivigationData> =
+export const TIME_CARDS:Record<string,MaterialNaivigationData> =
 {
     mayday: { label: "Mayday", desc: "Return to the <b>last airport</b> you visited.", type: EventType.EVENT },
     fuel_explosion: { label: "Fuel Explosion", desc: "Instantly reduce your Fuel tank to 1.", type: EventType.EVENT, sets: ["fuelFalling"] },
@@ -53,7 +53,7 @@ const TIME_CARDS:Record<string,MaterialNaivigationData> =
 //
 // The map tiles (thing #2 that'll be unique each game---there are no "shared" map tiles)
 //
-const MAP_TILES:Record<string,MaterialNaivigationData> =
+export const MAP_TILES:Record<string,MaterialNaivigationData> =
 {
     empty: { frame: -1, label: "Regular", freq: 26 },
     airport_0: { frame: 0, label: "Airport", collectible: true },
@@ -68,21 +68,21 @@ const MAP_TILES:Record<string,MaterialNaivigationData> =
     fireworks: { frame: 15, label: "Fireworks Show", desc: "Reveal the remaining instructions. Decide if you still want to execute them.", freq: 3, sets: ["repairsRacing"] },
 }
 
-const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
+export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
 {
     vehicle_0: { frame: 5, label: "Vehicle" },
     vehicle_1: { frame: 6, label: "Vehicle" },
     vehicle_2: { frame: 7, label: "Vehicle" },
 }
 
-const PAWN_TILES:Record<string,MaterialNaivigationData> =
+export const PAWN_TILES:Record<string,MaterialNaivigationData> =
 {
     pawn_balloon: { frame: 9, label: "Balloon", sets: ["birdsBumps"], freq: 2 },
     pawn_bird: { frame: 10, label: "Bird", sets: ["birdsBumps"], freq: 2 },
     pawn_tornado: { frame: 11, label: "Tornado", sets: ["birdsBumps"], freq: 2 },
 }
 
-const PASSENGER_BONUSES:Record<string, MaterialNaivigationData> =
+export const PASSENGER_BONUSES:Record<string, MaterialNaivigationData> =
 {
     health: { desc: "<b>Repair</b> 1 health." },
     health_double: { desc: "<b>Repair</b> 2 health." },
@@ -99,7 +99,7 @@ const PASSENGER_BONUSES:Record<string, MaterialNaivigationData> =
     strong_plane: { desc: "Next round, all movement is <b>doubled</b>, but you <b>can't take damage</b>." },
 }
 
-const PASSENGER_CURSES:Record<string, MaterialNaivigationData> =
+export const PASSENGER_CURSES:Record<string, MaterialNaivigationData> =
 {
     nothing: { desc: "No curse." },
     bad_passenger: { desc: "If this is the <b>final remaining passenger</b>, you instantly <b>lose</b> the game." },
@@ -117,7 +117,7 @@ const PASSENGER_CURSES:Record<string, MaterialNaivigationData> =
     fuel_cutoff: { desc: "You already enter freefall when you have <b>2 Fuel (or fewer)</b> left." }
 }
 
-const MISC =
+export const MISC =
 {
     game_icon: { frame: 0 },
     game_pattern: { frame: 1 },
@@ -125,7 +125,7 @@ const MISC =
     clock_template: { frame: 3 },
 }
 
-const MATERIAL =
+export const MATERIAL =
 {
     [CardType.VEHICLE]: VEHICLE_CARDS,
     [CardType.HEALTH]: HEALTH_CARDS,
@@ -135,13 +135,4 @@ const MATERIAL =
     [TileType.MAP]: MAP_TILES,
     [TileType.VEHICLE]: VEHICLE_TILES,
     [TileType.PAWN]: PAWN_TILES,
-}
-
-export 
-{
-    GAME_DATA,
-    MATERIAL,
-    PASSENGER_BONUSES,
-    PASSENGER_CURSES,
-    MISC,
 }

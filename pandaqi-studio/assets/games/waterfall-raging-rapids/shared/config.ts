@@ -2,6 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { tilePicker } from "../game/tilePicker"
 
 export const CONFIG:any = 
 {
@@ -10,6 +11,7 @@ export const CONFIG:any =
         useIconsForDefaultActions:
         {
             type: SettingType.CHECK,
+            value: false,
             label: "Use Icons For Common Actions",
             remark: "Some actions are 90% of the game; represent those with an icon instead of English text."
         },
@@ -17,6 +19,7 @@ export const CONFIG:any =
         useConditionalActions:
         {
             type: SettingType.CHECK,
+            value: false,
             label: "Allow Conditional Actions",
             remark: "Slightly harder to understand, but allow more depth and variety."
         },
@@ -28,20 +31,21 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             pawns:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Player Pawns"
             },
 
             gates:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Droplets With Demands?",
                 remark: "Harder to understand and play with, but allow more depth and variety."
             },
@@ -58,24 +62,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Waterfall: Raging Rapids",
-    },
-
-    
-
-    useIconsForDefaultActions: false,
-    useConditionalActions: false,
-    
-    sets:
-    {
-        pawns: true,
-        base: true,
-        gates: false,
-    },
-
-    fonts:
-    {
-        heading: "merienda",
-        body: "avrile",
     },
 
     // assets
@@ -132,11 +118,6 @@ export const CONFIG:any =
         },
     },
 
-    rulebook:
-    {
-        
-    },
-
     generation:
     {
         numBaseTiles: 36,
@@ -186,64 +167,80 @@ export const CONFIG:any =
         gemstoneRectangleSize: 0.885
     },
 
-    tiles:
+    _material:
     {
-        drawerConfig:
+        tiles:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1),
-            size: 
-            { 
-                small: new Point(5,7),
-                regular: new Point(3,5),
-                large: new Point(2,3)
-            }, 
-        },
-
-        score:
-        {
-            fontSize: new CVal(0.135, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.125), "sizeUnit"),
-            textColor: "#372B00",
-            strokeColor: "#FFFFFF",
-            strokeWidth: new CVal(0.1, "tiles.score.fontSize"),
-        },
-
-        action:
-        {
-            fontSize: new CVal(0.085, "sizeUnit"),
-            fontSizeWithGate: new CVal(0.06, "sizeUnit"),
-            textColor: "#FFEEEE",
-            textBoxDims: new CVal(new Point(0.66, 0.66), "size"),
-            textBoxDimsWithGate: new CVal(new Point(0.66, 0.4), "size"),
-            pos: new CVal(new Point(0.5), "size"),
-            posWithGate: new CVal(new Point(0.5, 0.382), "size"),
-        },
-
-        gate:
-        {
-            fontSize: new CVal(0.04, "sizeUnit"),
-            textColor: "#110000",
-            textBoxDims: new CVal(new Point(0.7, 0.35), "size"),
-            pos: new CVal(new Point(0.5, 0.715), "size")
-        },
-
-        gemstones:
-        {
-            iconDims: new CVal(new Point(0.07), "sizeUnit")
-        },
-
-        decoration:
-        {
-            iconDims: new CVal(new Point(0.1), "sizeUnit"),
-            iconDimsBoulder: new CVal(new Point(0.12), "sizeUnit"),
-            boulderOffset: new CVal(0.0375, "sizeUnit")
-        },
-
-        water:
-        {
-            fillColor: "#B1FEEF",
-            circleRadius: new CVal(0.0335, "sizeUnit"), // should be same or close to decoration.boulderOffset
+            picker: tilePicker,
+            mapper:
+            {
+                autoStroke: true,
+                sizeElement: new Point(1, 1),
+                size: 
+                { 
+                    small: new Point(5,7),
+                    regular: new Point(3,5),
+                    large: new Point(2,3)
+                }, 
+            },
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "merienda",
+            body: "avrile",
+        },
+
+        tiles:
+        {
+            score:
+            {
+                fontSize: new CVal(0.135, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.125), "sizeUnit"),
+                textColor: "#372B00",
+                strokeColor: "#FFFFFF",
+                strokeWidth: new CVal(0.1, "tiles.score.fontSize"),
+            },
+
+            action:
+            {
+                fontSize: new CVal(0.085, "sizeUnit"),
+                fontSizeWithGate: new CVal(0.06, "sizeUnit"),
+                textColor: "#FFEEEE",
+                textBoxDims: new CVal(new Point(0.66, 0.66), "size"),
+                textBoxDimsWithGate: new CVal(new Point(0.66, 0.4), "size"),
+                pos: new CVal(new Point(0.5), "size"),
+                posWithGate: new CVal(new Point(0.5, 0.382), "size"),
+            },
+
+            gate:
+            {
+                fontSize: new CVal(0.04, "sizeUnit"),
+                textColor: "#110000",
+                textBoxDims: new CVal(new Point(0.7, 0.35), "size"),
+                pos: new CVal(new Point(0.5, 0.715), "size")
+            },
+
+            gemstones:
+            {
+                iconDims: new CVal(new Point(0.07), "sizeUnit")
+            },
+
+            decoration:
+            {
+                iconDims: new CVal(new Point(0.1), "sizeUnit"),
+                iconDimsBoulder: new CVal(new Point(0.12), "sizeUnit"),
+                boulderOffset: new CVal(0.0375, "sizeUnit")
+            },
+
+            water:
+            {
+                fillColor: "#B1FEEF",
+                circleRadius: new CVal(0.0335, "sizeUnit"), // should be same or close to decoration.boulderOffset
+            }
+        },
+    }
 }

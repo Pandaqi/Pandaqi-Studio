@@ -1,11 +1,11 @@
-enum ActionType
+export enum ActionType
 {
     STOPPED = "stopped",
     PASSED = "passed",
     UNSEEN = "unseen"
 }
 
-interface GeneralData
+export interface GeneralData
 {
     frame?: number,
     desc?: string,
@@ -16,19 +16,19 @@ interface GeneralData
     shield?: boolean, // if true, this is a shield card, which means we add an automatic icon and "rotate sideways to remember"
 }
 
-const NUMBERS_WRITTEN = 
+export const NUMBERS_WRITTEN = 
 [
     "Minus One", "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"
 ]
 
-const ACTION_PREFIXES:Record<ActionType, string> = 
+export const ACTION_PREFIXES:Record<ActionType, string> = 
 {
     [ActionType.STOPPED]: "<col hex=\"#ff4645\">Stopped?</col>",
     [ActionType.PASSED]: "<col hex=\"#955a16\">Passed?</col>",
     [ActionType.UNSEEN]: "<col hex=\"#6b2eae\">Unseen?</col>"
 }
 
-const ACTION_REPLACEMENTS:Record<string,any> =
+export const ACTION_REPLACEMENTS:Record<string,any> =
 {
     "%change%": ["add", "subtract"],
     "%compare%": ["less than", "more than"],
@@ -40,7 +40,7 @@ const ACTION_REPLACEMENTS:Record<string,any> =
     "%sign%": ["+1", "-1"],
 }
 
-const ACTIONS:Record<string,GeneralData> =
+export const ACTIONS:Record<string,GeneralData> =
 {
     // BASE GAME
     subtract: { frame: 0, desc: "<b>Subtract %numlow%</b> from the result.", prob: 3, sets: ["base"], canCombine: true },
@@ -86,7 +86,7 @@ const ACTIONS:Record<string,GeneralData> =
     
 }
 
-const MISC:Record<string, GeneralData> =
+export const MISC:Record<string, GeneralData> =
 {
     number_box: { frame: 0 },
     health_box: { frame: 1 },
@@ -95,15 +95,4 @@ const MISC:Record<string, GeneralData> =
     shield_icon: { frame: 4 },
     unseen_icon: { frame: 5 },
     arrow: { frame: 6 }
-}
-
-export 
-{
-    MISC,
-    ACTIONS,
-    ACTION_REPLACEMENTS,
-    ACTION_PREFIXES,
-    NUMBERS_WRITTEN,
-    ActionType,
-    GeneralData
 }

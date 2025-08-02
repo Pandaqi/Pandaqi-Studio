@@ -1,11 +1,11 @@
 
-enum CardType
+export enum CardType
 {
     DICE = "dice",
     CONTRACT = "contract"
 }
 
-enum ContractType
+export enum ContractType
 {
     REGULAR = "regular",
     BATTLE = "battle",
@@ -30,9 +30,10 @@ interface GeneralData
     diffScaleRolls?: number, // 0 by default; an extra difficulty factor based on the NUMBER OF ROLLS
     diffScaleNumber?: number, // 0 by default; an extra difficulty factor based on the NUMBER randomly selected in the contractPart
 }
-type GeneralDict = Record<string, GeneralData>
 
-const NUMBERS:GeneralDict = 
+export type GeneralDict = Record<string, GeneralData>
+
+export const NUMBERS:GeneralDict = 
 {
     "-1": { color: "#b394ff", label: "Minus One" },
     0: { color: "#7997ff", label: "Zero" },
@@ -46,13 +47,13 @@ const NUMBERS:GeneralDict =
     8: { color: "#f279ff", label: "Eight" },
 }
 
-const CONTRACT_DO_WHO:GeneralDict =
+export const CONTRACT_DO_WHO:GeneralDict =
 {
     all: { desc: "All Souls", prob: 8, battle: true },
     all_except: { desc: "All Souls except 1", diff: 2 },
 }
 
-const CONTRACT_DO_FREQ:GeneralDict =
+export const CONTRACT_DO_FREQ:GeneralDict =
 {
     once: { desc: "once", battle: true },
     x_times: { desc: "%numfreq% times", battle: true },
@@ -60,7 +61,7 @@ const CONTRACT_DO_FREQ:GeneralDict =
     loop: { desc: "until somebody wins", battle: true, battleExclusive: true },
 }
 
-const CONTRACT_DO_MOD:GeneralDict =
+export const CONTRACT_DO_MOD:GeneralDict =
 {
     empty: { desc: "", prob: 5, diff: 0, battle: true },
     half_deck: { desc: "using only half their deck", diff: -0.5 }, // using fewer cards gives more certainty, so easier diff
@@ -68,7 +69,7 @@ const CONTRACT_DO_MOD:GeneralDict =
     simul: { desc: "simultaneously", prob: 0.5, sets: ["lost"], diff: 2 }, // simultaneous adds way more uncertainty and actions are harder to use well, so harder diff
 }
 
-const CONTRACT_TEST_WHAT:GeneralDict =
+export const CONTRACT_TEST_WHAT:GeneralDict =
 {
     total: { desc: "The sum of results", descBattle: "The sum of your results is", battle: true },
     all: { desc: "All results", diff: 2, descBattle: "All of your results are", battle: true },
@@ -81,7 +82,7 @@ const CONTRACT_TEST_WHAT:GeneralDict =
     sequence: { desc: "Each consecutive result", requireCompare: ["sequence"], diff: 2 }
 }
 
-const CONTRACT_TEST_COMPARE:GeneralDict =
+export const CONTRACT_TEST_COMPARE:GeneralDict =
 {
     lower: { desc: "lower than", battle: true },
     higher: { desc: "higher than", battle: true },
@@ -90,7 +91,7 @@ const CONTRACT_TEST_COMPARE:GeneralDict =
     sequence: { desc: "%compare% the previous result", filterWhat: ["sequence"], noNumber: true, diff: 3 }
 }
 
-const CONTRACT_TEST_NUMBER:GeneralDict =
+export const CONTRACT_TEST_NUMBER:GeneralDict =
 {
     empty: { desc: "", prob: 0, diff: 0 },
     number: { desc: "%num%", prob: 10 },
@@ -101,7 +102,7 @@ const CONTRACT_TEST_NUMBER:GeneralDict =
     battle: { desc: "that of your opponent(s)", battle: true, battleExclusive: true }
 }
 
-const CONTRACT_SPECIAL:GeneralDict =
+export const CONTRACT_SPECIAL:GeneralDict =
 {
     empty: { desc: "", prob: 10, diff: 0, battle: true },
     actions_none: { desc: "Actions don't work", diff: 3 },
@@ -117,7 +118,7 @@ const CONTRACT_SPECIAL:GeneralDict =
     blind: { desc: "1 Soul rolls secretly: only state your result(s) at the end", diff: 1 }
 }
 
-const DYNAMIC_REPLACEMENTS:Record<string,any[]> =
+export const DYNAMIC_REPLACEMENTS:Record<string,any[]> =
 {
     "%num%": [2,3,4,5],
     "%numfreq%": [2,3],
@@ -133,7 +134,7 @@ const DYNAMIC_REPLACEMENTS:Record<string,any[]> =
     "%include%": ["with", "without"]
 }
 
-const CARD_ACTIONS:GeneralDict =
+export const CARD_ACTIONS:GeneralDict =
 {
     // base game
     reroll_forced: { label: "Forced Reroll", desc: "Another Soul <b>must reroll</b> once." },
@@ -174,7 +175,7 @@ DEPRECATED: The "Swap Card" penalty/reward. Too much hassle to explain and intro
 
 */
 
-const TEMPLATES:GeneralDict =
+export const TEMPLATES:GeneralDict =
 {
     texture: { frame: 0 },
     gradient: { frame: 1 },
@@ -183,7 +184,7 @@ const TEMPLATES:GeneralDict =
     contract: { frame: 4 }
 }
 
-const MISC:GeneralDict =
+export const MISC:GeneralDict =
 {
     card_reward: { frame: 0 },
     card_penalty: { frame: 1 },
@@ -193,23 +194,4 @@ const MISC:GeneralDict =
     battle_icon: { frame: 5 },
     forced_icon: { frame: 6 },
     wildcard_icon: { frame: 7 }
-}
-
-export 
-{
-    MISC,
-    CONTRACT_DO_WHO,
-    CONTRACT_DO_FREQ,
-    CONTRACT_DO_MOD,
-    CONTRACT_TEST_WHAT,
-    CONTRACT_TEST_COMPARE,
-    CONTRACT_TEST_NUMBER,
-    CONTRACT_SPECIAL,
-    DYNAMIC_REPLACEMENTS,
-    CARD_ACTIONS,
-    TEMPLATES,
-    NUMBERS,
-    CardType,
-    ContractType,
-    GeneralDict
 }

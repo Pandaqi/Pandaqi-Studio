@@ -26,11 +26,11 @@ export default class BoardGeneration
 	obstacles: Cell[]
 	cfg:Record<string,any>
 
-	async draw(vis:MaterialVisualizer) 
+	async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
 	{
 		this.setupConfig(vis);
 		initializeDictionaries(this.cfg);
-		return this.generateBoard(vis);
+		return await this.generateBoard(vis);
 	}
 
 	setupConfig(vis:MaterialVisualizer)
@@ -106,12 +106,12 @@ export default class BoardGeneration
 		this.cfg.difficulty = PLANET_MAP[this.cfg.planet];
 	}
 
-	generateBoard(vis:MaterialVisualizer) 
+	async generateBoard(vis:MaterialVisualizer) 
 	{
 		this.createGrid();
 		this.determineStartingPositions();
 		this.determineRandomObstacles();
-		return this.visualizeBoard(vis);
+		return await this.visualizeBoard(vis);
 	}
 
 	createGrid() 
@@ -462,7 +462,7 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizeBoard(vis:MaterialVisualizer) 
+	async visualizeBoard(vis:MaterialVisualizer) 
 	{
 		const group = vis.prepareDraw();
 
@@ -471,7 +471,7 @@ export default class BoardGeneration
 		this.visualizeCellContents(vis, group);
 		this.visualizeGrid(vis, group);
 		this.visualizePlanets(vis, group);
-		return vis.finishDraw(group);
+		return await vis.finishDraw(group);
 	}
 
 	capitalize(str:string)

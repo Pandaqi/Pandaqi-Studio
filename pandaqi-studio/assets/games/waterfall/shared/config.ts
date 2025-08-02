@@ -2,6 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { tilePicker } from "../game/tilePicker"
 
 export const CONFIG:any = 
 {
@@ -14,14 +15,14 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             pawns:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Player Pawns"
             },
         }
@@ -37,20 +38,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Waterfall",
-    },
-
-    
-    
-    sets:
-    {
-        pawns: true,
-        base: true,
-    },
-
-    fonts:
-    {
-        heading: "merienda",
-        body: "avrile",
     },
 
     // assets
@@ -141,48 +128,65 @@ export const CONFIG:any =
         },
     },
 
-    tiles:
+    _material:
     {
-        drawerConfig:
+        tiles:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1),
-            size: 
-            { 
-                small: new Point(5,7),
-                regular: new Point(3,5),
-                large: new Point(2,3)
-            }, 
-        },
-
-        shared:
-        {
-            shadow:
+            itemSize: new Point(512, 512),
+            picker: tilePicker,
+            mapper: 
             {
-                color: "#FFFFFF",
-                blur: new CVal(0.02, "sizeUnit")
-            }
-        },
-
-        score:
-        {
-            fontSize: new CVal(0.16, "sizeUnit"),
-            pos: new CVal(new Point(0.85, 0.265), "sizeUnit"),
-            textColor: "#372B00",
-            strokeColor: "#FFFFFF",
-            strokeWidth: new CVal(0.08, "tiles.score.fontSize"),
-        },
-
-        action:
-        {
-            pos: new CVal(new Point(0.5, 0.825), "size"),
-            size: new CVal(new Point(0.3), "sizeUnit")
-        },
-
-        gemstones:
-        {
-            pos: new CVal(new Point(0.15, 0.265), "sizeUnit"),
-            size: new CVal(new Point(0.18), "sizeUnit"), // should be close to "score.fontSize", but higher
-        },
+                autoStroke: true,
+                sizeElement: new Point(1, 1),
+                size: 
+                { 
+                    small: new Point(5,7),
+                    regular: new Point(3,5),
+                    large: new Point(2,3)
+                }, 
+            },
+        }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "merienda",
+            body: "avrile",
+        },
+
+        tiles:
+        {
+            shared:
+            {
+                shadow:
+                {
+                    color: "#FFFFFF",
+                    blur: new CVal(0.02, "sizeUnit")
+                }
+            },
+
+            score:
+            {
+                fontSize: new CVal(0.16, "sizeUnit"),
+                pos: new CVal(new Point(0.85, 0.265), "sizeUnit"),
+                textColor: "#372B00",
+                strokeColor: "#FFFFFF",
+                strokeWidth: new CVal(0.08, "tiles.score.fontSize"),
+            },
+
+            action:
+            {
+                pos: new CVal(new Point(0.5, 0.825), "size"),
+                size: new CVal(new Point(0.3), "sizeUnit")
+            },
+
+            gemstones:
+            {
+                pos: new CVal(new Point(0.15, 0.265), "sizeUnit"),
+                size: new CVal(new Point(0.18), "sizeUnit"), // should be close to "score.fontSize", but higher
+            },
+        },
+    }
 }

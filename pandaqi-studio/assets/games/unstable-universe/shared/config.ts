@@ -1,7 +1,15 @@
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi";
 import Point from "js/pq_games/tools/geometry/point";
+import { boardPicker } from "../board/boardPicker";
 
 export const CONFIG =
 {
+    _game:
+    {
+        fileName: "Unstable Universe",
+        renderer: new RendererPixi()
+    },
+
     _settings:
     {
         playerCount:
@@ -9,13 +17,13 @@ export const CONFIG =
             type: SettingType.NUMBER,
             min: 2,
             max: 9,
-            default: 4
+            value: 4
         },
 
         firstGame:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "First Game(s)?",
             remark: "Everyone gets the same Mission, to simplify learning and teaching the game."
         },
@@ -27,30 +35,43 @@ export const CONFIG =
             nastyNodes:
             {
                 type: SettingType.CHECK,
-                label: "Nasty Nodes"
+                label: "Nasty Nodes",
+                value: false
             },
 
             theElectricExpansion:
             {
                 type: SettingType.CHECK,
-                label: "The Electric Expansion"
+                label: "The Electric Expansion",
+                value: false
             },
 
             extremeExpeditions:
             {
                 type: SettingType.CHECK,
-                label: "Extreme Expeditions"
+                label: "Extreme Expeditions",
+                value: false
             },
 
             sharpScissors:
             {
                 type: SettingType.CHECK,
-                label: "Sharp Scissors"
+                label: "Sharp Scissors",
+                value: false
             },
         }
     },
 
-        assetsBase: "/unstable-universe/assets/",
+    _material:
+    {
+        board:
+        {
+            picker: boardPicker,
+            mapper: MapperPreset.FULL_PAGE
+        }
+    },
+
+    assetsBase: "/unstable-universe/assets/",
     assets:
     {
         scifly:

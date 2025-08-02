@@ -1,4 +1,4 @@
-enum CardType
+export enum CardType
 {
     PAWN = "pawn",
     BORD = "bord",
@@ -8,7 +8,7 @@ enum CardType
     KALENDER = "kalender"
 }
 
-interface GeneralData
+export interface GeneralData
 {
     frame?: number,
     desc?: string,
@@ -20,7 +20,7 @@ interface GeneralData
     cantDuo?: boolean, // if set to true, it can't be randomly picked as an option for a duo card
 }
 
-const MAP_TILES:Record<string, GeneralData> =
+export const MAP_TILES:Record<string, GeneralData> =
 {
     water: { frame: 0, freq: 9, set: "base" },
     rots: { frame: 1, freq: 8, set: "base" },
@@ -33,7 +33,7 @@ const MAP_TILES:Record<string, GeneralData> =
     speelgoedwinkel: { frame: 8, freq: 2, set: "pepernootPlekken", desc: "Als een speler 4 verschillende vaarkaarten kan inleveren, mag je de Stoomboot teleporteren naar elk ander vakje.", label: "Winkel" }, // of "fabriek"?
 }
 
-const PAKJE_CARDS:Record<string, GeneralData> =
+export const PAKJE_CARDS:Record<string, GeneralData> =
 {
     square: { frame: 0, freq: 4, set: "base" },
     circle: { frame: 1, freq: 4, set: ["base", "prachtigePakjes"], desc: "<b>Verplaats de Stoomboot</b> naar een andere tegel." },
@@ -43,7 +43,7 @@ const PAKJE_CARDS:Record<string, GeneralData> =
     telefoon: { frame: 5, freq: 4, set: "prachtigePakjes", desc: "Je mag <b>communiceren</b>! (Totdat je de volgende kaart onthult.)" },
 }
 
-const VAAR_CARDS:Record<string, GeneralData> =
+export const VAAR_CARDS:Record<string, GeneralData> =
 {
     vooruit: { frame: 0, freq: 6, set: "base", desc: "Vaar vooruit." },
     draai_links: { frame: 1, freq: 5, set: "base", desc: "Draai een kwartslag naar links." },
@@ -56,7 +56,7 @@ const VAAR_CARDS:Record<string, GeneralData> =
     anker: { frame: 7, freq: 2, set: "prachtigePakjes", desc: "Negeer alle kaarten hierna (in de Stoomrij)." },
 }
 
-const STOOM_CARDS:Record<string, GeneralData> =
+export const STOOM_CARDS:Record<string, GeneralData> =
 {
     niks: { frame: 0, freq: 4, set: "base", desc: "Niks bijzonders.", label: "Niks" },
     oog: { frame: 1, freq: 4, set: "base", desc: "Speel je kaart hier <b>open</b>.", label: "Oog" },
@@ -68,7 +68,7 @@ const STOOM_CARDS:Record<string, GeneralData> =
     boek: { frame: 7, freq: 1, set: "prachtigePakjes", desc: "Vul <b>meteen</b> je hand aan tot 5 kaarten.", label: "Boek" },
 }
 
-const KALENDER_KAARTEN:Record<string, GeneralData> =
+export const KALENDER_KAARTEN:Record<string, GeneralData> =
 {
     niks: { frame: 0, label: "Rustige Avond", desc: "Niks bijzonders.", freq: 3 }, // slecht/goed
     intocht: { frame: 1, label: "Sinterklaasintocht", desc: "<b>Voeg</b> gratis 2 Stoombootkaarten <b>toe</b>." }, // goed
@@ -84,7 +84,7 @@ const KALENDER_KAARTEN:Record<string, GeneralData> =
     boek_kwijt: { frame: 11, label: "Boek Kwijt", desc: "Komende ronde wil elk huis <b>1 extra pakje</b>. (De soort daarvan mag alles zijn.)" } // slecht/goed
 }
 
-const CARD_TEMPLATES:Record<string, GeneralData> =
+export const CARD_TEMPLATES:Record<string, GeneralData> =
 {
     stoomboot_bg: { frame: 0 },
     stoomboot_overlay: { frame: 1 },
@@ -96,14 +96,3 @@ const CARD_TEMPLATES:Record<string, GeneralData> =
     kalender_bg: { frame: 7 },
     kalender_overlay: { frame: 8 },
 }
-
-export {
-    CardType,
-    CARD_TEMPLATES,
-    MAP_TILES,
-    KALENDER_KAARTEN,
-    PAKJE_CARDS,
-    VAAR_CARDS,
-    STOOM_CARDS,
-    GeneralData
-};

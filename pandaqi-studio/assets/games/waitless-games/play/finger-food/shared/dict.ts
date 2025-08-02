@@ -1,6 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point"
 
-const INGREDIENTS = {
+export const INGREDIENTS = 
+{
     // low-level
     flour: { frame: 0, colorGroup: "red", prob: 1.25 },
     butter: { frame: 1, colorGroup: "yellow", power: 2 },
@@ -30,7 +31,8 @@ const INGREDIENTS = {
     icecream: { frame: 21, colorGroup: "blue", power: 1, requiredExpansions: ["recipeBook"], prob: 1.5 },
 }
 
-const MACHINES = {
+export const MACHINES = 
+{
     oven: { frame: 0, colorGroup: "red", power: 1, prob: 1.2 },
     microwave: { frame: 1, colorGroup: "turquoise", max: 2, prob: 0.75, timerRelevant: true },
     knife: { frame: 2, colorGroup: "white", max: 3, power: 2, prob: 1.5, timerRelevant: true },
@@ -56,11 +58,13 @@ const MACHINES = {
     coffeemaker: { frame: 20, colorGroup: "red", power: 1, requiredExpansions: ["money"], max: 4, prob: 1.33, timerRelevant: true }
 }
 
-const MONEY = {
+export const MONEY = 
+{
     money: { frame: -1 }
 }
 
-const TUTORIAL = {
+export const TUTORIAL = 
+{
     howtoplay: { frame: 0 },
     objective: { frame: 1 },
     money: { frame: 2 },
@@ -68,14 +72,16 @@ const TUTORIAL = {
     recipeBook: { frame: 4 }
 }
 
-const MAIN_TYPES = {
+export const MAIN_TYPES = 
+{
     ingredient: { DICT: INGREDIENTS },
     machine: { DICT: MACHINES },
     money: { DICT: MONEY },
     tutorial: { DICT: TUTORIAL }
 }
 
-const CUSTOM = {
+export const CUSTOM = 
+{
     tutorialBG: { frame: 0 },
     machineBG: { frame: 1 },
     moneyBG: { frame: 2 },
@@ -85,7 +91,8 @@ const CUSTOM = {
 }
 
 // @NOTE: no green or gray/black, as those are for money and machines
-const COLOR_GROUPS = {
+export const COLOR_GROUPS = 
+{
     red: "#FFCC55", // also orange
     yellow: "#FFFFAA",
     blue: "#CCCCFF",
@@ -98,20 +105,10 @@ const COLOR_GROUPS = {
     reserved: "#FFFFFF" // ??
 }
 
-const NB_OFFSETS = [
+export const NB_OFFSETS = 
+[
     Point.RIGHT,
     Point.DOWN,
     Point.LEFT,
     Point.UP
 ]
-
-export {
-    MAIN_TYPES,
-    INGREDIENTS,
-    MACHINES,
-    MONEY,
-    TUTORIAL,
-    COLOR_GROUPS,
-    CUSTOM,
-    NB_OFFSETS
-}

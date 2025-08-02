@@ -1,19 +1,19 @@
 import Bounds from "js/pq_games/tools/numbers/bounds"
 
-enum DominoType
+export enum DominoType
 {
     REGULAR = "regular",
     TENANT = "tenant",
     MISSION = "mission"
 }
 
-enum MissionType
+export enum MissionType
 {
     GOAL = "goal",
     THREAT = "threat"
 }
 
-enum ItemType
+export enum ItemType
 {
     EMPTY = "empty",
     OBJECT = "object",
@@ -21,34 +21,34 @@ enum ItemType
     TENANTWISH = "tenant_wishes"
 }
 
-enum WishType
+export enum WishType
 {
     OBJECT = "object",
     SPECIAL = "special"
 }
 
-enum FloorType
+export enum FloorType
 {
     WOOD = "wood",
     CONCRETE = "concrete",
     CARPET = "carpet"
 }
 
-enum UtilityType
+export enum UtilityType
 {
     ELEC = "electricity",
     WATER = "water",
     WIFI = "wifi"
 }
 
-interface TenantProperties
+export interface TenantProperties
 {
     construction?: boolean,
     wallet?: boolean,
     wandering?: boolean
 }
 
-interface GeneralData
+export interface GeneralData
 {
     frame?: number,
     desc?: string,
@@ -70,7 +70,7 @@ interface GeneralData
 
 // @NOTE: It's written "Wi-Fi" because otherwise the font adds ligature ("ifi") and that's just unreadable at small size.
 // @NOTE: It's "Power" because it's shorter than "Electricity"
-const OBJECTS:Record<string, GeneralData> =
+export const OBJECTS:Record<string, GeneralData> =
 {
     staircase: { frame: 0, prob: 2, label: "Staircase", desc: "<b>Connects</b> you to the floor <b>below</b> you.", sets: ["walletWatchers", "roomService"] },
     elevator: { frame: 1, label: "Elevator", desc: "<b>Connects</b> you to anybody with an elevator.", sets: ["usefulUtilities", "happyHousing"] },
@@ -94,7 +94,7 @@ const OBJECTS:Record<string, GeneralData> =
     lamp: { frame: 19, label: "Lamp", desc: "Can only place me <b>if</b> you currently have <b>Power</b>.", sets: ["usefulUtilities"] },
 }
 
-const TENANTS:Record<string, GeneralData> = 
+export const TENANTS:Record<string, GeneralData> = 
 {
     boy: { frame: 0, sets: ["base"] },
     girl: { frame: 1, sets: ["base", "happyHousing"] },
@@ -115,7 +115,7 @@ const TENANTS:Record<string, GeneralData> =
 }
 
 // @NOTE: All wishes are "at least"; inverting them with a cross will always make them "less than" (not "at most", as that's not actually the proper inverse)
-const WISHES:Record<string, GeneralData> =
+export const WISHES:Record<string, GeneralData> =
 {
     map_size: { frame: 0, label: "Map Size", desc: "You need at least this many dominoes.", range: new Bounds(3,8), sets: ["roomService"] },
     floor_num: { frame: 1, label: "Floor Sort", desc: "You need to be on this floor (or higher) in the building.", range: new Bounds(1,3), sets: ["roomService"] },
@@ -130,7 +130,7 @@ const WISHES:Record<string, GeneralData> =
     num_windows: { frame: 10, label: "Window Count", desc: "You need at least this many windows.", range: new Bounds(1,4), sets: ["roomService", "happyHousing", "walletWatchers"] }
 }
 
-const MISC =
+export const MISC =
 {
     floor_wood: { frame: 0 },
     floor_concrete: { frame: 1 },
@@ -157,7 +157,7 @@ interface MissionData
     set?: string
 }
 
-const MISSIONS:Record<string,MissionData> = 
+export const MISSIONS:Record<string,MissionData> = 
 {
     diversity_tenant: { type: MissionType.GOAL, descTask: "Have <b>5 different tenants</b>.", descReward: "<b>Power:</b> you may Move 1 Tenant during the Attract Phase.", set: "base" },
     diversity_objects: { type: MissionType.GOAL, descTask: "Have all the <b>different objects</b> available in this game.", descReward: "<b>Power:</b> when attracting a Tenant, you may always ignore one object icon of choice.", set: "base" },
@@ -197,20 +197,3 @@ const MISSIONS:Record<string,MissionData> =
     no_adjacent_match: { type: MissionType.THREAT, descTask: "One player must have <b>no objects of the same type adjacent</b> to each other.", set: "base" },
     no_holes: { type: MissionType.THREAT, descTask: "No player may have <b>holes</b> in their map. (A space without a domino, surrounded by other dominoes on all sides.)", set: "base" }
 };
-
-export
-{
-    MISC,
-    OBJECTS,
-    TENANTS,
-    WISHES,
-    MISSIONS,
-    GeneralData,
-    TenantProperties,
-    DominoType,
-    ItemType,
-    FloorType,
-    WishType,
-    UtilityType,
-    MissionType
-}

@@ -46,7 +46,7 @@ export default class Tile
             this.drawBackgroundTexture(vis, group);
             this.drawIcons(vis, group);
         }
-        return vis.finishDraw(group);
+        return await vis.finishDraw(group);
     }
 
     isArrowTile() { return this.keys.includes("arrow"); }

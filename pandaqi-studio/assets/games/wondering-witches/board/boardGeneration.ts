@@ -13,6 +13,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import shuffle from "js/pq_games/tools/random/shuffle"
 import Cell from "./cell"
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
+import { CONFIG } from "../shared/config"
 
 interface GenData
 {
@@ -30,19 +31,19 @@ export default class BoardGeneration
 	cfg:Record<string,any>
 	gen:GenData
 	
-	async draw(vis:MaterialVisualizer) : Promise<ResourceGroup[]>
+	async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement[]>
 	{
 		this.createConfig(vis);
 		
 		const groups = [];
 
 		this.generateBoard();
-		groups.push(this.visualize(vis));
+		groups.push(await this.visualize(vis));
 		
 		if(this.cfg.pageBack)
 		{
 			this.generateBoard();
-			groups.push(this.visualize(vis));
+			groups.push(await this.visualize(vis));
 		}
 
 		return groups;
@@ -50,9 +51,9 @@ export default class BoardGeneration
 
 	createConfig(vis:MaterialVisualizer)
 	{
-		const userConfig = vis.config;
+		const userConfig = CONFIG;
 		const cfg : Record<string,any> = {};
-		userConfig.numPlayers = parseInt(userConfig.numPlayers);
+		userConfig.numPlayers = parseInt(userConfig._settings.numPlayers.value);
 		Object.assign(cfg, userConfig);
 
 		console.log(cfg);
@@ -81,7 +82,7 @@ export default class BoardGeneration
 		cfg.recipeLength = 4;
 		cfg.maxGardenSize = cfg.recipeLength;
 		cfg.minGardensOfPotionLength = 2; // how many gardens should exist (at least) that can contain the final potion
-		cfg.useBackPage = userConfig.pageBack;
+		cfg.useBackPage = userConfig._settings.pageBack.value;
 
 		cfg.fullWidth = vis.size.x;
 		cfg.fullHeight = vis.size.y;
@@ -263,15 +264,15 @@ export default class BoardGeneration
 		}
 	}
 
-	visualize(vis:MaterialVisualizer) : ResourceGroup
+	async visualize(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
 	{
-		const group = new ResourceGroup();
+		const group = vis.prepareDraw();
 		this.visualizeGardens(vis, group);
 		this.visualizeGrid(vis, group);
 		this.visualizeGardenBorders(vis, group);
 		this.visualizeIngredients(vis, group);
 		this.visualizeSpecialCells(vis, group);
-		return group;
+		return await vis.finishDraw(group);
 	}
 
 	paintGarden(vis:MaterialVisualizer, group:ResourceGroup, garden:Garden, idx: number)

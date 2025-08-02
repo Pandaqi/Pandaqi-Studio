@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point"
 
-interface PackData
+export interface PackData
 {
     frame: number,
     mainNumber?: { strokeColor?:string, color?: string, offsetColor?:string, strokeWidth?:number },
@@ -8,8 +8,10 @@ interface PackData
     outlineColor?: string
 }
 
-const PACKS:Record<string,PackData> = {
-    blank: { 
+export const PACKS:Record<string,PackData> = 
+{
+    blank: 
+    { 
         frame: 0, 
         mainNumber: {
             strokeColor: "#F3CE97",
@@ -20,7 +22,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    reverse: { 
+    reverse: 
+    { 
         frame: 1,
         mainNumber: {
             strokeColor: "#FFB8B7",
@@ -32,7 +35,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    seethrough: { 
+    seethrough: 
+    { 
         frame: 2,
         mainNumber: {
             strokeColor: "#D9EFF7",
@@ -44,7 +48,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    takeback: { 
+    takeback: 
+    { 
         frame: 3,
         mainNumber: {
             strokeColor: "#F6FF92",
@@ -56,7 +61,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    secondHand: { 
+    secondHand: 
+    { 
         frame: 4,
         mainNumber: {
             strokeColor: "#FFE7CF",
@@ -68,7 +74,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    bitingHand: { 
+    bitingHand: 
+    { 
         frame: 5,
         mainNumber: {
             strokeColor: "#BBBBBB",
@@ -80,7 +87,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
     
-    sheriff: { 
+    sheriff: 
+    { 
         frame: 6,
         mainNumber: {
             strokeColor: "#F0C441",
@@ -92,7 +100,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    sticky: { 
+    sticky: 
+    { 
         frame: 7,
         mainNumber: {
             strokeColor: "#E9C0FF",
@@ -104,7 +113,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    noSuperheroes: { 
+    noSuperheroes: 
+    { 
         frame: 8,
         mainNumber: {
             strokeColor: "#FFC3DE",
@@ -116,7 +126,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    carousel: { 
+    carousel: 
+    { 
         frame: 9,
         mainNumber: {
             strokeColor: "#D4EAFF",
@@ -128,7 +139,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    superNumbers: { 
+    superNumbers: 
+    { 
         frame: 10,
         mainNumber: {
             strokeColor: "#E3E3E3",
@@ -140,7 +152,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    pileDriver: { 
+    pileDriver: 
+    { 
         frame: 11,
         mainNumber: {
             strokeColor: "#D9FFE4",
@@ -152,7 +165,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    copycat: { 
+    copycat: 
+    { 
         frame: 12,
         mainNumber: {
             strokeColor: "#FFFB68",
@@ -164,7 +178,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    lateArrival: { 
+    lateArrival: 
+    { 
         frame: 13,
         mainNumber: {
             strokeColor: "#AEFFF3",
@@ -176,7 +191,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    calculator: { 
+    calculator: 
+    { 
         frame: 14,
         mainNumber: {
             strokeColor: "#D9E2FF",
@@ -188,7 +204,8 @@ const PACKS:Record<string,PackData> = {
         }
     },
 
-    veto: { 
+    veto: 
+    { 
         frame: 15,
         mainNumber: {
             strokeColor: "#FFDBD1",
@@ -200,5 +217,3 @@ const PACKS:Record<string,PackData> = {
         }
     },
 }
-
-export { PACKS, PackData }

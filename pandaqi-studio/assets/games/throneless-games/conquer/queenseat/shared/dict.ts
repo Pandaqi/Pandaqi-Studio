@@ -1,6 +1,6 @@
 import { PackData } from "games/throneless-games/shared/dictShared"
 
-const PACKS:Record<string, PackData> =
+export const PACKS:Record<string, PackData> =
 {
     stingersHive: 
     { 
@@ -307,15 +307,10 @@ const PACKS:Record<string, PackData> =
     },
 }
 
-const SETS =
+export const SETS =
 {
     starter: ["gallopingSun", "edibusEggsnatcher", "eyrieFeyle", "venomfruit"],
     medium: ["stingersHive", "featherdancer", "whistleyWine", "galaksea"],
     advanced: ["trunktrumpets", "fearedFlame", "chatteredFins", "colorcoats"],
     complete: Object.keys(PACKS)
-}
-
-export {
-    PACKS,
-    SETS
 }

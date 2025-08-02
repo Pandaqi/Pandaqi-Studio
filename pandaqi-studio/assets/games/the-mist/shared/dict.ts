@@ -1,4 +1,4 @@
-enum ActionType
+export enum ActionType
 {
     SCORE, // scores, perhaps based on certain conditions
     STATE, // scores based on overall board state (usually frequency of occurrence)
@@ -7,7 +7,7 @@ enum ActionType
     ACTION, // any other type of action, usually paid for by minus points, or destructive
 }
 
-interface ActionData
+export interface ActionData
 {
     frame?: number,
     label?: string,
@@ -27,7 +27,7 @@ interface ActionData
     textureKey?: string, // filled in automatically upon loading (based on set name)
 }
 
-const MISC =
+export const MISC =
 {
     points: { frame: 0 },
     item: { frame: 1 },
@@ -35,12 +35,12 @@ const MISC =
     starting_position: { frame: 3 },
 }
 
-const pIcon = '<img id="misc" frame="' + MISC.points.frame + '">';
-const iIcon = '<img id="misc" frame="' + MISC.item.frame + '">';
-const hIcon = '<img id="misc" frame="' + MISC.hazard.frame + '">';
+export const pIcon = '<img id="misc" frame="' + MISC.points.frame + '">';
+export const iIcon = '<img id="misc" frame="' + MISC.item.frame + '">';
+export const hIcon = '<img id="misc" frame="' + MISC.hazard.frame + '">';
 
-type ActionSet = Record<string, ActionData>;
-const BASE_SET:ActionSet = 
+export type ActionSet = Record<string, ActionData>;
+export const BASE_SET:ActionSet = 
 {
     food: { frame: 0, label: "Food", desc: "Worth +1 " + pIcon + ".", type: ActionType.SCORE, color: "red" },
     water: { frame: 1, label: "Water", desc: "Worth +3 " + pIcon + ".", type: ActionType.SCORE, color: "blue" },
@@ -61,7 +61,7 @@ const BASE_SET:ActionSet =
     river: { frame: 13, label: "River", desc: "Worth as many " + pIcon + " as the <b>longest connected chain of Rivers</b> to which this square belongs.", type: ActionType.TERRA, prePass: "chain", minAbs: 5, prob: 1.5, color: "blue", forbiddenTypes: ["trail"] },
 }
 
-const ADVANCED_SET:ActionSet = 
+export const ADVANCED_SET:ActionSet = 
 {
     cursed: { frame: 0, label: "Curse", desc: "Worth -1 " + pIcon + ".", type: ActionType.SCORE, hazard: true, item: true, color: "black" },
     coconut: { frame: 1, label: "Coconut", desc: "Worth +3 " + pIcon + ".", type: ActionType.SCORE, color: "brown" },
@@ -83,7 +83,7 @@ const ADVANCED_SET:ActionSet =
     sheep: { frame: 14, label: "Sheep", desc: "Worth +1 " + pIcon + ". If <b>at least 2 neighbors</b> show a Sheep, you <b>must</b> pick this option.", type: ActionType.TERRA, forbiddenTypes: ["virus"], prePass: "chain", minAbs: 5, prob: 1.0, color: "black" }, // @TODO: Make sure this is balanced; there are locations where it does NOT have 2 neighbors, it doesn't appear too often, etcetera => might be better served with floodfill algorithm? Custom parameters for prePass? Or just a better rule?
 }
 
-const EXPERT_SET:ActionSet = 
+export const EXPERT_SET:ActionSet = 
 {
     bag: { frame: 0, label: "Bag", desc: "Worth as many " + pIcon + " as the number of " + iIcon + " you collected.", type: ActionType.SCORE, requiresMetadata: true, item: true, color: "brown" },
     boar: { frame: 1, label: "Boar", desc: "Worth -2 " + pIcon + ", but immediately <b>take another turn</b>.", type: ActionType.ACTION, maxRel: 0.066, color: "brown" },
@@ -108,14 +108,14 @@ const EXPERT_SET:ActionSet =
 }
 
 
-const SETS:Record<string, ActionSet> = 
+export const SETS:Record<string, ActionSet> = 
 {
     base: BASE_SET,
     advanced: ADVANCED_SET,
     expert: EXPERT_SET
 }
 
-const COLORS = 
+export const COLORS = 
 {
     red: { dark: "#290303", light: "#ffc9c9" },
     yellow: { dark: "#292803", light: "#f9f69a" },
@@ -126,18 +126,4 @@ const COLORS =
     purple: { dark: "#170323", light: "#ebcafe" },
     pink: { dark: "#31051b", light: "#fcbedd" },
     black: { dark: "#212121", light: "#eeeeee" }
-}
-
-
-export 
-{
-    ActionData,
-    ActionType,
-    ActionSet,
-    SETS,
-    BASE_SET,
-    ADVANCED_SET,
-    EXPERT_SET,
-    MISC,
-    COLORS
 }

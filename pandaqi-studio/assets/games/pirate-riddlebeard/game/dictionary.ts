@@ -1,9 +1,9 @@
 
 
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-const TERRAINS = ['grass', 'water', 'desert', 'mountain', 'tundra', 'snow'];
-const TERRAIN_DATA = 
+export const TERRAINS = ['grass', 'water', 'desert', 'mountain', 'tundra', 'snow'];
+export const TERRAIN_DATA = 
 {
 	grass: {
 		color: "#009E73",
@@ -36,13 +36,14 @@ const TERRAIN_DATA =
 	}
 }
 
-const NATURE = ['', 'tree', 'flower'];
-const STONES = [0,1,2,3,4];
-const QUADRANTS = ['top left', 'top right', 'bottom left', 'bottom right'];
-const LANDMARKS = ['ship', 'temple', 'rocks'];
-const ROADS = ['', 'straight', 'corner', 'end']
+export const NATURE = ['', 'tree', 'flower'];
+export const STONES = [0,1,2,3,4];
+export const QUADRANTS = ['top left', 'top right', 'bottom left', 'bottom right'];
+export const LANDMARKS = ['ship', 'temple', 'rocks'];
+export const ROADS = ['', 'straight', 'corner', 'end']
 
-const HINT_ICONS = {
+export const HINT_ICONS = 
+{
 	grass: [0],
 	water: [1],
 	desert: [2],
@@ -63,7 +64,8 @@ const HINT_ICONS = {
 	"road piece": [9,10,11]
 }
 
-const LISTS = {
+export const LISTS = 
+{
 	terrain: TERRAINS,
 	nature: NATURE,
 	stones: STONES,
@@ -104,9 +106,8 @@ Optional:
  - fail_text (string) => the hint in case calculating the values has failed or is somehow impossible => stopped using this as there's usually a better workaround
 
 */
-const HINTS = 
+export const HINTS = 
 {
-
 	terrain: 
 		[
 			{
@@ -932,18 +933,4 @@ const HINTS =
 				]
 			},
 		]
-}
-
-export {
-	TERRAINS,
-	TERRAIN_DATA,
-	NATURE,
-	STONES,
-	QUADRANTS,
-	LANDMARKS,
-	ROADS,
-	HINT_ICONS,
-	LISTS,
-	HINTS,
-	alphabet
 }

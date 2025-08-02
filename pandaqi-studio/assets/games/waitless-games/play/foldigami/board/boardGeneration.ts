@@ -1,6 +1,6 @@
 import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
 import Board from "./board"
-import { CONFIG } from "./config"
+import { CONFIG } from "../shared/config"
 import Evaluator from "./evaluator"
 import Types from "./types"
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"

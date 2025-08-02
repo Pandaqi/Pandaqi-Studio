@@ -1,12 +1,12 @@
 import { ActionType, CardType, PackData } from "games/throneless-games/shared/dictShared"
 
-const PACKS:Record<string, PackData> =
+export const PACKS:Record<string, PackData> =
 {
     solongnecks: 
     { 
         frame: 0,
         clarification: "An open round means you take turns (starting from Kaizerseat, clockwise) and play your card faceup.",
-        backstory: "The large frame of these giraffes gives them an imposing appearance. Some even believe they were chosen by nature to be leaders, giving them a slight edge and a constant communication with whoever sits on the Throne. Others believe their long necks will just make them miss anything that happens close to the ground---and that's where the biggest swings occur.",
+        backstory: "The large frame of these giraffes gives them an imposing appearance. Some even believe they were chosen by nature to be leaders, giving them a slight edge and a export constant communication with whoever sits on the Throne. Others believe their long necks will just make them miss anything that happens close to the ground---and that's where the biggest swings occur.",
         animal: "Giraffe",
         colorClass: "Yellow",
 
@@ -370,7 +370,7 @@ const PACKS:Record<string, PackData> =
     },
 }
 
-const SETS =
+export const SETS =
 {
     starter: ["boardomThieves", "candlesticks", "sonarAndSons", "twistertoots"],
     medium: ["solongnecks", "atheneyes", "gallopeers", "sirensOfSeatongue"],
@@ -378,7 +378,7 @@ const SETS =
     complete: Object.keys(PACKS)
 }
 
-const THRONE_CARDS =
+export const THRONE_CARDS =
 [
     "<b>Alternate</b> between <em>open</em> and <em>secret</em> rounds. Start with an open round.",
     "<b>Don't pick a Loyalty.</b> Instead, your <em>last Hand card</em> becomes your Loyalty.\n\n(You're out of the game once you have 1 card left, and you can't lose that one for any reason.)",
@@ -403,7 +403,7 @@ const THRONE_CARDS =
 ]
 
 
-const SEAT_CARDS =
+export const SEAT_CARDS =
 [
     "The direction of this round is <b>counter clockwise</b>.",
     "This round is played <b>openly</b>.",
@@ -441,7 +441,7 @@ const SEAT_CARDS =
     "The winning voter <b>closest to Kaizerseat, steals</b> 1 card from all other players.",
 ]
 
-const ACTION_TYPES =
+export const ACTION_TYPES =
 {
     [ActionType.HANDLE]: { frame: 0, label: "When Handled" },
     [ActionType.REVEAL]: { frame: 1, label: "When Revealed" },
@@ -450,18 +450,8 @@ const ACTION_TYPES =
     [ActionType.HIRE]: { frame: 4, label: "When Hired" },
 }
 
-const CARD_TEMPLATES =
+export const CARD_TEMPLATES =
 {
     [CardType.THRONE]: { frame: 0, label: "Thronecard" },
     [CardType.SEAT]: { frame: 1, label: "Seatcard" }
-}
-
-
-export {
-    PACKS,
-    SETS,
-    THRONE_CARDS,
-    SEAT_CARDS,
-    ACTION_TYPES,
-    CARD_TEMPLATES
 }

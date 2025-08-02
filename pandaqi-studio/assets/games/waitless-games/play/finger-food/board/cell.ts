@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point"
-import { CONFIG } from "./config"
-import { MAIN_TYPES, COLOR_GROUPS } from "./dictionary"
+import { CONFIG } from "../shared/config"
+import { MAIN_TYPES, COLOR_GROUPS } from "../shared/dict"
 import Type from "./type"
 
 export default class Cell

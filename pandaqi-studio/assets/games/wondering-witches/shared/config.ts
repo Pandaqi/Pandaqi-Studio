@@ -2,26 +2,35 @@ import Point from "js/pq_games/tools/geometry/point";
 
 export const CONFIG =
 {
+    _game:
+    {
+        fileName: "Wondering Witches"
+    },
+
+    numPlayers: 4,
+    recipeLength: 4,
+
     // @NOTE: this is for the GAME interface (the board generator overrides this with its own settings when loading that)
     _settings:
     {
         competitive:
         {
             type: SettingType.CHECK,
-            label: "Competitive"
+            label: "Competitive",
+            value: false,
         },
 
         events:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "Events"
         },
 
         freeClue:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "Free Clue",
             remark: "Start the game with a free (cryptic) hint. Recommended."
         },
@@ -29,14 +38,16 @@ export const CONFIG =
         effects:
         {
             type: SettingType.CHECK,
-            label: "Effects"
+            label: "Effects",
+            value: false,
         },
 
         dramaDecoys:
         {
             type: SettingType.CHECK,
             label: "Drama Decoys",
-            remark: "Decoy ingredients can now be one of three different types."
+            remark: "Decoy ingredients can now be one of three different types.",
+            value: false,
         },
 
         recipeLength:
@@ -44,13 +55,22 @@ export const CONFIG =
             type: SettingType.NUMBER,
             min: 4,
             max: 10,
-            default: 4,
+            value: 4,
             label: "Number of Ingredients",
             remark: "The secret recipe is always length 4. But other ingredients make it harder to find those 4."
         }
     },
 
-        assetsBase: "/wondering-witches/assets/",
+    _material:
+    {
+        board:
+        {
+            picker: boardPicker,
+            mapper: MapperPreset.FULL_PAGE
+        }
+    },
+
+    assetsBase: "/wondering-witches/assets/",
     assets:
     {
         mali:

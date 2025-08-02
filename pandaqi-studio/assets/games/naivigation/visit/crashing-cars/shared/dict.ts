@@ -1,11 +1,11 @@
-import { CardType, EventType, GameNaivigationData, MaterialNaivigationData, PASSENGERS, TileType } from "games/naivigation/shared/dictShared";
+import { CardType, EventType, GameNaivigationData, MaterialNaivigationData, TileType } from "games/naivigation/shared/dictShared";
 
-const GAME_DATA:GameNaivigationData = { bgColor: "#9bc61b", tintColor: "#f7ffdf", textColor: "#1c2402", mapTileColor: "#FFFFFF" };
+export const GAME_DATA:GameNaivigationData = { bgColor: "#9bc61b", tintColor: "#f7ffdf", textColor: "#1c2402", mapTileColor: "#FFFFFF" };
 
 //
 // Vehicle Cards (thing #1 that'll be unique for each game)
 //
-const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
+export const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
 {
     gear: { frame: 0, label: "Gear", desc: "<b>Change Gear</b> by as much as the <b>slot number</b> in which it's played (up or down).", freq: 10 },
     drive: { frame: 1, label: "Drive", desc: "<b>Move</b> as many tiles <b>forward</b> as your <b>Gear</b>. (Negative Gear = Backward.)", freq: 12 },
@@ -19,7 +19,7 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 
 };
 
-const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
+export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 {
     fragile_car: { label: "Fragile Car", desc: "Driving off-road does <b>2 damage</b> (instead of 1).", num: 2 },
     careful_steering: { label: "Tiny Wheel", desc: "All <b>Turn</b> cards only turn one step (regardless of Gear).", num: 4 },
@@ -31,7 +31,7 @@ const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
     foggy_window: { label: "Foggy Window", desc: "<b>No</b> cards may ever be played <b>faceup</b> (for whatever reason).", num: 5 },
 }
 
-const ACTION_CARDS:Record<string,MaterialNaivigationData> =
+export const ACTION_CARDS:Record<string,MaterialNaivigationData> =
 {
     towtruck: { frame: 0, label: "Towtruck", desc: "Put <b>3 crossroads tiles</b> back into the map." },
     refueler: { frame: 1, label: "Refueler", desc: "<b>Replenish fuel.</b> Ignore any fuel lost (this round).", sets: ["fuelFear"] },
@@ -40,7 +40,7 @@ const ACTION_CARDS:Record<string,MaterialNaivigationData> =
     parking_attendant: { frame: 4, label: "Parking Attendant", desc: "<b>Move or Rotate</b> 1 parking lot." },
 }
 
-const TIME_CARDS:Record<string,MaterialNaivigationData> =
+export const TIME_CARDS:Record<string,MaterialNaivigationData> =
 {
     sinkhole: { label: "Sinkhole", desc: "If you're on a <b>crossroads</b> or <b>dead end</b>, take 1 damage, but move to anywhere.", type: EventType.EVENT },
     fuel_explosion: { label: "Fuel Explosion", desc: "<b>Reduce your Fuel</b> tank to 1.", type: EventType.EVENT, sets: ["fuelFear"] },
@@ -62,7 +62,7 @@ const TIME_CARDS:Record<string,MaterialNaivigationData> =
 //
 // The map tiles (thing #2 that'll be unique each game---there are no "shared" map tiles)
 //
-const MAP_TILES:Record<string,MaterialNaivigationData> =
+export const MAP_TILES:Record<string,MaterialNaivigationData> =
 {
     empty: { frame: -1, label: "Regular", freq: 30 },
     shop_0: { frame: 0, label: "Shop", collectible: true },
@@ -73,7 +73,7 @@ const MAP_TILES:Record<string,MaterialNaivigationData> =
     starting_tile: { frame: 8, label: "Starting Tile", freq: 1, starting: true },
     parking_lot: { frame: 9, label: "Parking Lot", freq: 5 },
     stop_sign: { frame: 10, label: "Stop Sign", desc: "End the round. Reset Gear to 0.", freq: 2 },
-    construction: { frame: 11, label: "Construction Work", desc: "Take 1 damage.", freq: 2 },
+    export construction: { frame: 11, label: "Construction Work", desc: "Take 1 damage.", freq: 2 },
     earthquake: { frame: 12, label: "Earthquake", desc: "Swap 2 map tiles OR replace 1 map tile (from deck).", freq: 2 },
     traffic_light: { frame: 13, label: "Traffic Light", desc: "You must move away from this tile with a card past slot 3. Otherwise, law broken.", sets: ["trafficPolice"], freq: 3 },
     max_speed: { frame: 14, label: "Max Speed", desc: "Your Gear must stay between 1 and 2. Otherwise, law broken.", sets: ["trafficPolice"], freq: 3 },
@@ -83,19 +83,19 @@ const MAP_TILES:Record<string,MaterialNaivigationData> =
     shop_special_2: { frame: 18, label: "Shop Special", collectible: true, sets: ["terrainTripplanning"] }, // simply has a new illustration + higher number?
 }
 
-const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
+export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
 {
     vehicle_0: { frame: 5, label: "Vehicle" },
     vehicle_1: { frame: 6, label: "Vehicle" },
     vehicle_2: { frame: 7, label: "Vehicle" },
 }
 
-const PAWN_TILES:Record<string,MaterialNaivigationData> =
+export const PAWN_TILES:Record<string,MaterialNaivigationData> =
 {
     pawn_police: { frame: 19, label: "Police", sets: ["trafficPolice"], freq: 3 },
 }
 
-const PASSENGER_BONUSES:Record<string, MaterialNaivigationData> =
+export const PASSENGER_BONUSES:Record<string, MaterialNaivigationData> =
 {
     health: { desc: "<b>Repair</b> 1 health." },
     health_double: { desc: "<b>Repair</b> 2 health." },
@@ -120,7 +120,7 @@ const PASSENGER_BONUSES:Record<string, MaterialNaivigationData> =
     terrain_car: { desc: "Next round, you can move <b>off the road</b> without taking damage." }
 }
 
-const PASSENGER_CURSES:Record<string, MaterialNaivigationData> =
+export const PASSENGER_CURSES:Record<string, MaterialNaivigationData> =
 {
     nothing: { desc: "No curse." },
     bad_passenger: { desc: "If this is the <b>final remaining passenger</b>, you instantly <b>lose</b> the game." },
@@ -141,7 +141,7 @@ const PASSENGER_CURSES:Record<string, MaterialNaivigationData> =
     slow_loading: { desc: "Only the first <b>(Un)Load</b> card in a round works." }
 }
 
-const NETWORK_TYPES =
+export const NETWORK_TYPES =
 {
     regular: { frame: 0, desc: "Nothing special." },
     dirt_road: { frame: 1, desc: "Your Gear instantly jumps to -1. It can't go above it while here." },
@@ -149,14 +149,14 @@ const NETWORK_TYPES =
     cobblestones: { frame: 3, desc: "Turning here always incurs 1 damage." },
 }
 
-const MISC =
+export const MISC =
 {
     game_icon: { frame: 0 },
     game_pattern: { frame: 1 },
     gear_template: { frame: 2 },
 }
 
-const MATERIAL =
+export const MATERIAL =
 {
     [CardType.VEHICLE]: VEHICLE_CARDS,
     [CardType.HEALTH]: HEALTH_CARDS,
@@ -166,14 +166,4 @@ const MATERIAL =
     [TileType.MAP]: MAP_TILES,
     [TileType.VEHICLE]: VEHICLE_TILES,
     [TileType.PAWN]: PAWN_TILES,
-}
-
-export 
-{
-    GAME_DATA,
-    MATERIAL,
-    PASSENGER_BONUSES,
-    PASSENGER_CURSES,
-    NETWORK_TYPES,
-    MISC,
 }

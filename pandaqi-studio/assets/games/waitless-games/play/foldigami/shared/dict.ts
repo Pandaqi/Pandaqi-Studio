@@ -1,4 +1,4 @@
-const BASE_TYPES = 
+export const BASE_TYPES = 
 {
     scroll: { frame: 0, bg: "#FFC8B0" },
     crown: { frame: 1, bg: "#FFF586" },
@@ -41,7 +41,7 @@ interface CellTypeData
     frame?: number
 }
 
-const CELL_TYPES:Record<string,CellTypeData> = 
+export const CELL_TYPES:Record<string,CellTypeData> = 
 {
     scroll: { num: { min: 1, max: 1 }, tutorial: "scroll", type: "required", skipEval: true },
     crown1: { num: { min: 1, max: 2 }, type: "objective", skipEval: true, prob: 0.1 },
@@ -75,10 +75,8 @@ const CELL_TYPES:Record<string,CellTypeData> =
     joker2: { tutFrame: 22, needsTeam: true, value: { min: 1, max: 4 }, type: "score", prob: 0.25 },
 }
 
-const TUTORIAL_DATA = 
+export const TUTORIAL_DATA = 
 {
     objective: { frame: 15 },
     foldAction: { frame: 14 }
 }
-
-export { CELL_TYPES, TUTORIAL_DATA, BASE_TYPES }

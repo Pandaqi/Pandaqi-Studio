@@ -83,5 +83,3 @@ export default class Game
 }
 
 loadSettings(CONFIG, () => new Game().start());
-
-new Game().start();

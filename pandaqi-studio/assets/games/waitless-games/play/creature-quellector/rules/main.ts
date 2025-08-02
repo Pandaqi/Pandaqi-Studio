@@ -2,7 +2,7 @@ import createCanvas from "js/pq_games/layout/canvas/createCanvas";
 import Point from "js/pq_games/tools/geometry/point";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import { CONFIG } from "../game/config";
+import { CONFIG } from "../shared/config";
 import { CATEGORIES } from "../shared/dict";
 
 type Stats = Record<string,number>

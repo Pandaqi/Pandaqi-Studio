@@ -2,6 +2,8 @@ import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import { ActionType } from "./dict"
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi"
+import { boardPicker } from "../board/boardPicker"
 
 export const CONFIG = 
 {
@@ -10,7 +12,7 @@ export const CONFIG =
         includeRules:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             remark: "Only disable this if you have the rulebook or know all the rules by heart."
         },
 
@@ -18,7 +20,7 @@ export const CONFIG =
         {
             type: SettingType.ENUM,
             values: ["tiny", "small", "regular", "big", "huge"],
-            default: "regular",
+            value: "regular",
             remark: "Increases or decreases the number of squares on the board; not page size."
         },
 
@@ -29,19 +31,21 @@ export const CONFIG =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             advanced:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Advanced Set"
             },
 
             expert:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Expert Set"
             },
         }
@@ -50,34 +54,11 @@ export const CONFIG =
     _game:
     {
         fileName: "The Mist",
+        renderer: new RendererPixi(),
     },
 
-    
     allTypes: {},
     inSimpleMode: false,
-
-    // all debugging toggles
-    _debug:
-    {
-
-    },
-
-    // set through user config on page
-    
-    includeRules: true,
-    boardSize: "regular", // tiny, small, regular, big, huge
-    sets:
-    {
-        base: true,
-        advanced: false,
-        expert: false
-    },
-    
-    fonts:
-    {
-        heading: "adventure",
-        body: "inika"
-    },
 
     // assets
     assetsBase: "/the-mist/assets/",
@@ -146,7 +127,7 @@ export const CONFIG =
     },
 
     // how generation/balancing happens
-    gen:
+    generation:
     {
         size: {
             tiny: new Point(5,5),
@@ -170,9 +151,24 @@ export const CONFIG =
         defNumIconsPerCell: 4
     },
 
-    // how to draw stuff
-    draw:
+    _material:
     {
+        board:
+        {
+            picker: boardPicker,
+            mapper: MapperPreset.FULL_PAGE
+        }
+    },
+
+    // how to draw stuff
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "adventure",
+            body: "inika"
+        },
+
         edgeMargin: new Point(0.05), // ~pageSizeUnit
         bgColor: "#fffdc9", //"#040404",
 

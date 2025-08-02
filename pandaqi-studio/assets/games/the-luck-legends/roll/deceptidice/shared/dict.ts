@@ -1,5 +1,5 @@
 
-enum Suit
+export enum Suit
 {
     RED = "red",
     BLUE = "blue",
@@ -20,13 +20,13 @@ interface GeneralData
     tintLight?: string,
 }
 
-type GeneralDict = Record<string,GeneralData>;
+export type GeneralDict = Record<string,GeneralData>;
 
 // @NOTE: In a 3-player game, there will only be 12 dice results (4 per player x 3) anyway. In a 2-player game, only 8! 
 // - As such, any bids that require near 12 cards OR have a value above that are practically useless anyway. I've only used these for "unicorns": hail maries that are your last risky bet if needed.
 // - Also, we skipped the "quintet" (5 of a kind) just to conserve space and not make the list too long.
 // - The bids are arranged to have a nice pattern where the number (say 2 pairs) usually matches the value in some multiple (2); don't accidentally reorder and ruin this!
-const SPECIAL_BIDS:GeneralDict =
+export const SPECIAL_BIDS:GeneralDict =
 {
     two_pairs: { frame: 0, value: 2, label: "Two Pairs", desc: "<b>Two numbers</b> appear <b>two times</b> each." },
     two_trios: { frame: 1, value: 3, label: "Two Trios", desc: "<b>Two numbers</b> appear <b>three times</b> each." },
@@ -44,7 +44,7 @@ const SPECIAL_BIDS:GeneralDict =
 
 // @TODO: Use the fact that there can be DUPLICATE CARDS now (there are multiple Red 2's, for example)? For some special bid or something?
 
-const SUITS:GeneralDict =
+export const SUITS:GeneralDict =
 {
     [Suit.PURPLE]: { frame: 4, tint: "#5e00bb", tintLight: "#ead5ff" },
     [Suit.RED]: { frame: 5, tint: "#bb0000", tintLight: "#ffd9d9" },
@@ -55,25 +55,15 @@ const SUITS:GeneralDict =
     //[Suit.BLACK]: { tint: "#AAAAAA" }
 }
 
-const TEMPLATES:GeneralDict =
+export const TEMPLATES:GeneralDict =
 {
     outline: { frame: 0, },
     outline_inner: { frame: 1 },
     texture_overlay: { frame: 2 }
 }
 
-const MISC:GeneralDict =
+export const MISC:GeneralDict =
 {
     center_circle: { frame: 0 },
     number_box: { frame: 1 }
-}
-
-export 
-{
-    MISC,
-    Suit,
-    SPECIAL_BIDS,
-    SUITS,
-    TEMPLATES,
-    GeneralDict
 }

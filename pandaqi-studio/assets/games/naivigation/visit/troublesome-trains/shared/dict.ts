@@ -1,11 +1,11 @@
 import { CardType, EventType, GameNaivigationData, MaterialNaivigationData, TileType } from "games/naivigation/shared/dictShared";
 
-const GAME_DATA:GameNaivigationData = { bgColor: "#ea7731", tintColor: "#ffddc8", textColor: "#240f03", mapTileColor: "#FFFFFF" };
+export const GAME_DATA:GameNaivigationData = { bgColor: "#ea7731", tintColor: "#ffddc8", textColor: "#240f03", mapTileColor: "#FFFFFF" };
 
 //
 // Vehicle Cards (thing #1 that'll be unique for each game)
 //
-const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
+export const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
 {
     train: { frame: 0, label: "Train", desc: "<b>Move</b> 1 train of a matching color by <b>1 step</b>.", freq: 16 },
     switch: { frame: 1, label: "Switch", desc: "<b>Rotate</b> the <b>Switch</b> tile however you like.", freq: 12 },
@@ -16,7 +16,7 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
     wildlife: { frame: 6, label: "Wildlife", desc: "<b>Move</b> an Animal to an adjacent tile.", freq: 6, sets: ["animalsCrossings"] },
 };
 
-const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
+export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 {
     fragile_car: { label: "Fragile Car", desc: "Driving off-track does <b>2 damage</b> (instead of 1).", num: 2 },
     trains_restricted: { label: "Color Mix-up", desc: "If a Train card has multiple options, you must pick one of the <b>first 2</b>.", num: 3 },
@@ -28,7 +28,7 @@ const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
     tired_steel: { label: "Tired Steel", desc: "<b>No</b> Train may move twice in the same round.", num: 5 },
 }
 
-const ACTION_CARDS:Record<string,MaterialNaivigationData> =
+export const ACTION_CARDS:Record<string,MaterialNaivigationData> =
 {
     nighttrain: { frame: 0, label: "Night Train", desc: "Make 2 <b>Trains</b> OR 2 <b>Stations</b> swap places." },
     train_of_thought: { frame: 1, label: "Thought Train", desc: "Make up to 3 Trains <b>take 1 step</b> immediately (in any order)." },
@@ -37,7 +37,7 @@ const ACTION_CARDS:Record<string,MaterialNaivigationData> =
     engineers: { frame: 4, label: "Engineers", desc: "<b>Change</b> (move, rotate or replace) 4 map tiles." },
 }
 
-const TIME_CARDS:Record<string,MaterialNaivigationData> =
+export const TIME_CARDS:Record<string,MaterialNaivigationData> =
 {
     sinkhole: { label: "Sinkhole", desc: "Every train on a <b>dead end</b> takes 1 damage, then teleports to anywhere.", type: EventType.EVENT },
     reorganize: { label: "Reorganize", desc: "Swap 1 <b>Station</b> with an adjacent tile.", type: EventType.EVENT },
@@ -68,7 +68,7 @@ const TIME_CARDS:Record<string,MaterialNaivigationData> =
 //
 // The map tiles (thing #2 that'll be unique each game---there are no "shared" map tiles)
 //
-const MAP_TILES:Record<string,MaterialNaivigationData> =
+export const MAP_TILES:Record<string,MaterialNaivigationData> =
 {
     empty: { frame: -1, label: "Regular", freq: 36 },
     station_0: { frame: 0, label: "Station", collectible: true },
@@ -80,7 +80,7 @@ const MAP_TILES:Record<string,MaterialNaivigationData> =
     crossing: { frame: 13, label: "Crossing", desc: "When added to the map, place a new Animal Pawn on it.", freq: 5, sets: ["animalsCrossings"] },
 }
 
-const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
+export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
 {
     vehicle_0: { frame: 5, label: "Train Purple", freq: 2 },
     vehicle_1: { frame: 6, label: "Train Red", freq: 2 },
@@ -89,14 +89,14 @@ const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
     vehicle_4: { frame: 9, label: "Train Orange", freq: 2 },
 }
 
-const PAWN_TILES:Record<string,MaterialNaivigationData> =
+export const PAWN_TILES:Record<string,MaterialNaivigationData> =
 {
     pawn_deer: { frame: 10, label: "Deer", sets: ["animalsCrossings"], freq: 2 },
     pawn_bunny: { frame: 11, label: "Bunny", sets: ["animalsCrossings"], freq: 2 },
     pawn_bear: { frame: 12, label: "Bear", sets: ["animalsCrossings"], freq: 2 },
 }
 
-const MISC =
+export const MISC =
 {
     game_icon: { frame: 0 },
     game_pattern: { frame: 1 },
@@ -108,7 +108,7 @@ const MISC =
     train_template: { frame: 7 },
 }
 
-const NETWORK_TYPES =
+export const NETWORK_TYPES =
 {
     regular: { frame: 0, desc: "Nothing special." },
     speedy_one_way: { frame: 1, desc: "If entered from the direction of the arrows, this trains instantly <b>moves again</b>. If entered otherwise, this train <b>stops</b> (it can't move anymore this round)." },
@@ -120,7 +120,7 @@ const NETWORK_TYPES =
     colored: { frame: 3, desc: "Only trains of the type(s) shown are allowed to move over this tile." }
 }
 
-const MATERIAL =
+export const MATERIAL =
 {
     [CardType.VEHICLE]: VEHICLE_CARDS,
     [CardType.HEALTH]: HEALTH_CARDS,
@@ -129,12 +129,4 @@ const MATERIAL =
     [TileType.MAP]: MAP_TILES,
     [TileType.VEHICLE]: VEHICLE_TILES,
     [TileType.PAWN]: PAWN_TILES,
-}
-
-export 
-{
-    GAME_DATA,
-    MATERIAL,
-    NETWORK_TYPES,
-    MISC,
 }

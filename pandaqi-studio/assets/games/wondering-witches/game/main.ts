@@ -21,8 +21,8 @@ export default class Game
 	setupConfig()
 	{
 		const config:Record<string,any> = {};
-		const userConfig = JSON.parse(window.localStorage.wonderingWitchesConfig);
-		userConfig.recipeLength = parseInt(userConfig.recipeLength);
+		const userConfig = CONFIG;
+		userConfig.recipeLength = parseInt(userConfig._settings.recipeLength.value + "");
 		Object.assign(config, userConfig);
 
 		config.numSecretIngredients = 4;
@@ -30,7 +30,7 @@ export default class Game
 
 		let minEffects = 1;
 		let maxEffects = config.recipeLength*0.5;
-		if(userConfig.competitive) { maxEffects *= 0.5; }
+		if(userConfig._settings.competitive.value) { maxEffects *= 0.5; }
 
 		config.numEffects = Math.floor(Math.random() * (maxEffects - minEffects) + minEffects);
 
@@ -67,7 +67,8 @@ export default class Game
 		config.totalEventProb = prob;
 
 		// useful functions
-		config.shuffle = function(a) {
+		config.shuffle = (a) => 
+		{
 			var j, x, i;
 			for (i = a.length - 1; i > 0; i--) {
 				j = Math.floor(Math.random() * (i + 1));
@@ -78,7 +79,8 @@ export default class Game
 			return a;
 		}
 		
-		config.getRandomSecretNum = function() {
+		config.getRandomSecretNum = () =>
+		{
 			return Math.floor(Math.random() * config.numSecretIngredients) + 1;
 		}
 		
@@ -88,7 +90,8 @@ export default class Game
 	cacheHTML()
 	{
 		// cache references to all important/interactive nodes
-		this.config.nodes = {
+		this.config.nodes = 
+		{
 			potionResult: document.getElementById('potion-result'),
 			cauldron: document.getElementById('current-cauldron'),
 			ingredientUI: document.getElementById("ingredient-clicker"),
@@ -103,7 +106,8 @@ export default class Game
 
 	setupClasses()
 	{
-		this.config.classes = {
+		this.config.classes = 
+		{
 			cauldron: new Cauldron(this.config),
 			UI: new Interface(this.config),
 			puzzle: new Puzzle(this.config),

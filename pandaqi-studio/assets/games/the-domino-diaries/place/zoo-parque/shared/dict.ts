@@ -1,12 +1,12 @@
 
-enum DominoType
+export enum DominoType
 {
     REGULAR = "regular",
     PAWN = "pawn",
     CAMPAIGN = "campaign"
 }
 
-enum ItemType
+export enum ItemType
 {
     ANIMAL = "animal",
     STALL = "stall",
@@ -18,7 +18,7 @@ enum ItemType
 // @TODO: the issue is that many animals are SAVANNAH/STEPPE which is a mix between Grass and Desert
 // @TODO: Perhaps swamp-like terrain? Don't really see clear animals that would use it, though
 
-enum TerrainType
+export enum TerrainType
 {
     GRASS = "grass", // grassland, farmland, hills, temperate
     WATER = "water", // anything ocean or water-related (marine, freshwater, ice, ...)
@@ -28,7 +28,7 @@ enum TerrainType
     WILDCARD = "wildcard"
 }
 
-enum AnimalType
+export enum AnimalType
 {
     LION = "lion", // in the category: TIGER / JAGUAR / CHEETAH
     POLARBEAR = "polarbear",
@@ -48,19 +48,19 @@ enum AnimalType
     DINO = "dino"
 }
 
-enum AnimalDiet
+export enum AnimalDiet
 {
     HERBI = "herbivore",
     CARNI = "carnivore",
 }
 
-enum AnimalSocial
+export enum AnimalSocial
 {
     SOLITARY = "solitary",
     HERD = "social"
 }
 
-interface AnimalDetailData
+export interface AnimalDetailData
 {
     frame: number,
     strong?: boolean,
@@ -83,7 +83,7 @@ interface AnimalDetailData
 
 // OLD FUNFACT + POWER for HIPPO: funFact: "Hippos produce their own sunblock, can hold their breath for 5 minutes, and know friend from foe by smelling poop.", power: "<b>Permanent</b>: <b>can't</b> be placed adjacent to an Object or Stall."
 
-const ANIMALS:Record<AnimalType, AnimalDetailData> =
+export const ANIMALS:Record<AnimalType, AnimalDetailData> =
 {
     [AnimalType.LION]: { frame: 0, value: 1, strong: true, food: 2, diet: AnimalDiet.CARNI, social: AnimalSocial.HERD, terrains: [TerrainType.DESERT, TerrainType.GRASS], sets: ["base", "strong"], funFact: "Lions are the only cats to live in groups. Which is surprising, because their roar is loud enough to be heard 8 km away.", power: "Any adjacent animals that are not Lions are <b>removed</b>." },
     [AnimalType.POLARBEAR]: { frame: 1, value: 2, strong: true, food: 3, diet: AnimalDiet.CARNI, social: AnimalSocial.SOLITARY, terrains: [TerrainType.WATER, TerrainType.TUNDRA, TerrainType.WILDCARD], sets: ["strong","utilities"], funFact: "The skin of a polar bear is actually black and they can swim for days without needing to rest.", power: "<b>When Scoring</b>: Worth 2 if placed on Water." },
@@ -113,7 +113,7 @@ interface GeneralData
     dark?: boolean,
 }
 
-const STALLS:Record<string, GeneralData> =
+export const STALLS:Record<string, GeneralData> =
 {
     toilet: { frame: 0, value: 0.5, label: "Toilet", desc: "Must be placed next to a path.", sets: ["utilities"] },
     photo_booth: { frame: 1, value: 1, label: "Photo Booth", desc: "All <b>adjacent Animals</b> are worth <b>+1</b> (for all players).", sets: ["utilities"] },
@@ -124,7 +124,7 @@ const STALLS:Record<string, GeneralData> =
     restaurant: { frame: 6, value: 1.5, label: "Restaurant", desc: "Any <b>adjacent Exhibit</b> does <b>not</b> need to be fed.", sets: ["utilities"] },
 }
 
-const OBJECTS:Record<string, GeneralData> =
+export const OBJECTS:Record<string, GeneralData> =
 {
     food: { frame: 0, value: 0.25, label: "Food", desc: "", sets: ["base", "wildlife", "strong", "utilities"] },
     toys: { frame: 1, value: 1, label: "Toys", desc: "Adds <b>+1</b> value to each <b>Animal</b> inside this Exhibit.", sets: ["wildlife"] },
@@ -135,7 +135,7 @@ const OBJECTS:Record<string, GeneralData> =
     camera: { frame: 6, value: 2, label: "Camera", desc: "Adds <b>+2</b> value to an Exhibit for each <b>adjacent Animal</b>.", sets: ["utilities"] }, // these would be INSIDE exhibits to track/look up close
 }
 
-const TERRAINS:Record<TerrainType, GeneralData> =
+export const TERRAINS:Record<TerrainType, GeneralData> =
 {
     [TerrainType.GRASS]: { frame: 0, value: 1, sets: ["base", "strong"] },
     [TerrainType.WATER]: { frame: 1, value: 2, sets: ["base", "wildlife"] },
@@ -145,7 +145,7 @@ const TERRAINS:Record<TerrainType, GeneralData> =
     [TerrainType.WILDCARD]: { frame: 5, value: 2, sets: ["utilities"] }
 }
 
-const ITEMS:Record<ItemType,any> =
+export const ITEMS:Record<ItemType,any> =
 {
     [ItemType.ANIMAL]: ANIMALS,
     [ItemType.STALL]: STALLS,
@@ -154,7 +154,7 @@ const ITEMS:Record<ItemType,any> =
     [ItemType.EMPTY]: { empty: { value: 0.25 } }
 }
 
-const MISC =
+export const MISC =
 {
     fence_weak: { frame: 0 },
     fence_strong: { frame: 1 },
@@ -164,14 +164,14 @@ const MISC =
     extinct_stamp: { frame: 5 }
 }
 
-enum RuleVibe
+export enum RuleVibe
 {
     GOOD = "good",
     BAD = "bad"
 }
 
 // @NOTE: Remember a large majority of these cards have no rule at all. The percentage of that is controlled separately by config
-const CAMPAIGN_RULES =
+export const CAMPAIGN_RULES =
 {
     // BAD
     terrain_bad: { desc: "Terrain %terrain% <b>can't be overlapped</b> by an animal.", vibe: RuleVibe.BAD },
@@ -190,21 +190,21 @@ const CAMPAIGN_RULES =
     score_formula_good: { desc: "The score of an Exhibit uses <b>all tiles inside</b>, not just those of one terrain.", vibe: RuleVibe.GOOD },
 }
 
-enum CampType
+export enum CampType
 {
     WIN = "win",
     REPLACE = "replace",
     ENDGAME = "endgame"
 }
 
-enum CampDiff
+export enum CampDiff
 {
     EASY = "easy",
     MEDIUM = "medium",
     HARD = "hard"
 }
 
-const CAMPAIGN_MISSIONS =
+export const CAMPAIGN_MISSIONS =
 {
     exhibit_score: { desc: "There's an Exhibit that <b>scores %num%(+) points.", numScale: [6, 10, 15], types: [CampType.WIN, CampType.ENDGAME, CampType.REPLACE] },
     player_points: { desc: "Every player has <b>%num%(+) points</b>.", numScale: [5, 10, 15], types: [CampType.WIN, CampType.ENDGAME, CampType.REPLACE] },
@@ -274,7 +274,7 @@ for(const [key,data] of Object.entries(ANIMALS))
     baseAnimals.push('<img id="animals" frame="' + data.frame + '">');
 }
 
-const DYNAMIC_REPLACEMENTS =
+export const DYNAMIC_REPLACEMENTS =
 {
     "%property%": ["terrain", "animal", "fence"],
     "%terrain%": baseTerrains,
@@ -284,28 +284,4 @@ const DYNAMIC_REPLACEMENTS =
     "%areatype%": ["Exhibit", "Area"],
     "%diet%": ["herbivores", "carnivores"],
     "%herd%": ["social", "solitary"]
-}
-
-export
-{
-    MISC,
-    ANIMALS,
-    STALLS,
-    OBJECTS,
-    ITEMS,
-    TERRAINS,
-    DominoType,
-    AnimalType,
-    TerrainType,
-    AnimalDiet,
-    AnimalSocial,
-    AnimalDetailData,
-    ItemType,
-
-    CAMPAIGN_RULES,
-    DYNAMIC_REPLACEMENTS,
-    CAMPAIGN_MISSIONS,
-    RuleVibe,
-    CampType,
-    CampDiff,
 }

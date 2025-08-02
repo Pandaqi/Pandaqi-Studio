@@ -17,7 +17,7 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import { CONFIG } from "../shared/config";
 import { COLORS, MISC } from "../shared/dict";
 import BoardState from "./boardState";
@@ -44,25 +44,33 @@ export default class BoardDraw
     showTypeMetadata: boolean;
     defaultEffects: LayoutEffect[];
 
-    async draw(vis:MaterialVisualizer, bs:BoardState)
+    board:BoardState;
+
+    constructor(bs:BoardState)
     {
-        const group = this.prepare(vis, bs);
-        this.drawBackground(vis, group);
-        this.drawBoard(vis, group, bs);
-        this.drawSidebar(vis, group, bs);
-        return [group];
+        this.board = bs;
     }
 
-    prepare(vis:MaterialVisualizer, bs:BoardState)
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
+    {
+        const group = vis.prepareDraw();
+        this.prepare(vis);
+        this.drawBackground(vis, group);
+        this.drawBoard(vis, group);
+        this.drawSidebar(vis, group);
+        return await vis.finishDraw(group);
+    }
+
+    prepare(vis:MaterialVisualizer)
     {
         const fullSize = vis.size;
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
-        const edgeMargin = CONFIG.draw.edgeMargin.clone().scale(fullSizeUnit);
+        const edgeMargin = CONFIG._drawing.edgeMargin.clone().scale(fullSizeUnit);
 
         const innerSize = fullSize.clone().sub(edgeMargin.clone().scale(2));
 
-        const sidebarSize = new Point(innerSize.x * CONFIG.draw.sidebar.width, innerSize.y);
-        let extraSidebarMargin = CONFIG.draw.sidebar.extraMargin * fullSizeUnit;
+        const sidebarSize = new Point(innerSize.x * CONFIG._drawing.sidebar.width, innerSize.y);
+        let extraSidebarMargin = CONFIG._drawing.sidebar.extraMargin * fullSizeUnit;
         if(!CONFIG.includeRules) { sidebarSize.x = 0; extraSidebarMargin = 0; }
 
         const boardSize = new Point(innerSize.x - sidebarSize.x - extraSidebarMargin, innerSize.y);
@@ -76,7 +84,7 @@ export default class BoardDraw
         this.boardSize = boardSize;
         this.sidebarSize = sidebarSize;
 
-        this.cellSize = boardSize.clone().div(bs.size);
+        this.cellSize = boardSize.clone().div(this.board.size);
         this.cellSizeHalf = this.cellSize.clone().scale(0.5);
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
@@ -84,21 +92,18 @@ export default class BoardDraw
         if(CONFIG.inkFriendly) { this.defaultEffects.push(new GrayScaleEffect()); }
 
         let requiresMetadata = false;
-        console.log("UNIQUE TYPES: ", bs.uniqueTypes);
-        for(const type of bs.uniqueTypes)
+        console.log("UNIQUE TYPES: ", this.board.uniqueTypes);
+        for(const type of this.board.uniqueTypes)
         {
             if(CONFIG.allTypes[type].requiresMetadata) { requiresMetadata = true; break; }
         }
 
         this.showTypeMetadata = requiresMetadata;
-
-        const drawGroup = new ResourceGroup();
-        return drawGroup
     }
 
     async drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.draw.bgColor;
+        const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG._drawing.bgColor;
         fillResourceGroup(this.fullSize, group, bgColor);
 
         if(!CONFIG.inkFriendly)
@@ -106,8 +111,8 @@ export default class BoardDraw
             const resBG = vis.getResource("bg_map");
             const opBG = new LayoutOperation({
                 pos: this.fullSize.clone().scale(0.5),
-                size: this.fullSize.clone().scale(CONFIG.draw.bg.mapScale),
-                alpha: CONFIG.draw.bg.mapAlpha,
+                size: this.fullSize.clone().scale(CONFIG._drawing.bg.mapScale),
+                alpha: CONFIG._drawing.bg.mapAlpha,
                 pivot: Point.CENTER,
                 //composite: "color-burn"
             })
@@ -120,16 +125,16 @@ export default class BoardDraw
         return this.originBoard.clone().add( pos.clone().scale(this.cellSize) );
     }
 
-    async drawBoard(vis:MaterialVisualizer, group:ResourceGroup, bs:BoardState)
+    async drawBoard(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const bgColorLightness = CONFIG.draw.cells.bgColorLightness;
-        const bgColorDarken = CONFIG.draw.cells.bgColorDarken;
+        const bgColorLightness = CONFIG._drawing.cells.bgColorLightness;
+        const bgColorDarken = CONFIG._drawing.cells.bgColorDarken;
         const bgColorSaturation = CONFIG.inkFriendly ? 0 : 100;
         const bgColor = new Color(Math.random()*360, bgColorSaturation, bgColorLightness);
 
-        const dotRadius = CONFIG.draw.cells.dotRadius * this.cellSizeUnit;
-        const iconDims = new Point(CONFIG.draw.cells.iconSize * this.cellSizeUnit);
-        const iconOffset = CONFIG.draw.cells.iconOffsetFromCenter * 0.5 * this.cellSizeUnit;
+        const dotRadius = CONFIG._drawing.cells.dotRadius * this.cellSizeUnit;
+        const iconDims = new Point(CONFIG._drawing.cells.iconSize * this.cellSizeUnit);
+        const iconOffset = CONFIG._drawing.cells.iconOffsetFromCenter * 0.5 * this.cellSizeUnit;
         const positions = [
             Point.UP.clone().scale(iconOffset),
             Point.RIGHT.clone().scale(iconOffset),
@@ -143,19 +148,19 @@ export default class BoardDraw
             effects: this.defaultEffects
         })
 
-        const cellStrokeWidth = CONFIG.draw.cells.strokeWidth * this.cellSizeUnit;
+        const cellStrokeWidth = CONFIG._drawing.cells.strokeWidth * this.cellSizeUnit;
         const rectOp = new LayoutOperation({
-            stroke: CONFIG.inkFriendly ? "#000000" : CONFIG.draw.cells.strokeColor,
+            stroke: CONFIG.inkFriendly ? "#000000" : CONFIG._drawing.cells.strokeColor,
         })
 
-        const dotStrokeWidth = CONFIG.draw.cells.dotStrokeWidth * this.cellSizeUnit;
-        const triangleStrokeWidth = CONFIG.draw.cells.triangleStrokeWidth * this.cellSizeUnit;
-        const triangleStrokeColor = CONFIG.inkFriendly ? "#666666" : CONFIG.draw.cells.triangleStrokeColor;
+        const dotStrokeWidth = CONFIG._drawing.cells.dotStrokeWidth * this.cellSizeUnit;
+        const triangleStrokeWidth = CONFIG._drawing.cells.triangleStrokeWidth * this.cellSizeUnit;
+        const triangleStrokeColor = CONFIG.inkFriendly ? "#666666" : CONFIG._drawing.cells.triangleStrokeColor;
 
-        const startPosColor = CONFIG.draw.cells.fillColorStart;
+        const startPosColor = CONFIG._drawing.cells.fillColorStart;
 
         // for each cell, 
-        for(const cell of bs.cells)
+        for(const cell of this.board.cells)
         {
             // - draw its rectangle
             const pos = this.convertGridPosToRealPos(cell.pos);
@@ -174,7 +179,7 @@ export default class BoardDraw
             ]
         
             // - draw its 4 icons
-            let counter = this.pickIdealIconStartingIndex(cell, bs);
+            let counter = this.pickIdealIconStartingIndex(cell, this.board);
             for(const iconName of cell.icons)
             {
                 const iconData = CONFIG.allTypes[iconName];
@@ -221,15 +226,15 @@ export default class BoardDraw
         }
 
         // add an extra layer of effects / thickening to signal starting locations
-        const strokeMult = CONFIG.draw.cells.strokeWidthMultiplierStart;
-        const startPosStrokeColor = CONFIG.draw.cells.strokeColorStart;
+        const strokeMult = CONFIG._drawing.cells.strokeWidthMultiplierStart;
+        const startPosStrokeColor = CONFIG._drawing.cells.strokeColorStart;
         const startRectOp = new LayoutOperation({
             stroke: startPosStrokeColor,
             strokeWidth: strokeMult * cellStrokeWidth,
         }) 
 
         const resMisc = vis.getResource("misc");
-        for(const cell of bs.startingPositions)
+        for(const cell of this.board.startingPositions)
         {
             const pos = this.convertGridPosToRealPos(cell.pos);
             const posCenter = pos.clone().add(this.cellSizeHalf);
@@ -252,7 +257,7 @@ export default class BoardDraw
 
     // We want to avoid icons that point OUTWARD (out of the edge of the board)
     // Because unless you have some special power, you can never pick those
-    pickIdealIconStartingIndex(cell:Cell, bs:BoardState) : number
+    pickIdealIconStartingIndex(cell:Cell) : number
     {
         let val = rangeInteger(0,3);
         if(cell.getNeighbors().length >= 4) { return val; } // neighbors on all sides, anything goes!
@@ -260,8 +265,8 @@ export default class BoardDraw
 
         const leftSide = cell.pos.x <= 0;
         const topSide = cell.pos.y <= 0;
-        const rightSide = cell.pos.x >= (bs.size.x-1);
-        const bottomSide = cell.pos.y >= (bs.size.y-1);
+        const rightSide = cell.pos.x >= (this.board.size.x-1);
+        const bottomSide = cell.pos.y >= (this.board.size.y-1);
 
         let possibleSides = [0,1,2,3];
         if(leftSide) { possibleSides.splice(possibleSides.indexOf(3), 1); }
@@ -273,14 +278,14 @@ export default class BoardDraw
         return fromArray(possibleSides);
     }
 
-    async drawSidebar(vis:MaterialVisualizer, group:ResourceGroup, bs:BoardState)
+    async drawSidebar(vis:MaterialVisualizer, group:ResourceGroup)
     {
         if(!CONFIG.includeRules) { return; }
 
         // tutorial image at the top
         const tut = vis.getResource("sidebar");
         const tutWidth = this.sidebarSize.x;
-        const tutDims = new Point(tutWidth, CONFIG.draw.sidebar.tutImageRatio * tutWidth);
+        const tutDims = new Point(tutWidth, CONFIG._drawing.sidebar.tutImageRatio * tutWidth);
         const frame = CONFIG.inSimpleMode ? 0 : 1;
         const tutOp = new LayoutOperation({
             frame: frame,
@@ -293,24 +298,24 @@ export default class BoardDraw
 
         // specific types explained below that
         const resMisc = vis.getResource("misc");
-        const uniqueTypes = bs.uniqueTypes;
+        const uniqueTypes = this.board.uniqueTypes;
         const ySpaceLeft = this.sidebarSize.y - tutDims.y;
         const maxYSpacePerItem = ySpaceLeft / uniqueTypes.length;
-        const yPadding = CONFIG.draw.sidebar.iconYPadding * maxYSpacePerItem;
+        const yPadding = CONFIG._drawing.sidebar.iconYPadding * maxYSpacePerItem;
 
         const iconDims = new Point(maxYSpacePerItem - yPadding);
-        const iconDimsWithPadding = iconDims.clone().scale(CONFIG.draw.sidebar.iconScale);
-        const xPadding = CONFIG.draw.sidebar.iconPadding * this.sidebarSize.x;
+        const iconDimsWithPadding = iconDims.clone().scale(CONFIG._drawing.sidebar.iconScale);
+        const xPadding = CONFIG._drawing.sidebar.iconPadding * this.sidebarSize.x;
         const entryDims = new Point(this.sidebarSize.x, iconDims.y);
         const textDims = entryDims.clone().sub(new Point(iconDims.x + 2*xPadding, 0));
 
         let pos = this.originSidebar.clone().move(new Point(0, tutDims.y));
 
-        const fontSize = Math.min(CONFIG.draw.sidebar.fontSize * textDims.y, CONFIG.draw.sidebar.maxFontSize);
+        const fontSize = Math.min(CONFIG._drawing.sidebar.fontSize * textDims.y, CONFIG._drawing.sidebar.maxFontSize);
         const textConfig = new TextConfig({
             font: CONFIG.fonts.body,
             size: fontSize,
-            lineHeight: CONFIG.draw.sidebar.lineHeight,
+            lineHeight: CONFIG._drawing.sidebar.lineHeight,
             alignHorizontal: TextAlign.START,
             alignVertical: TextAlign.MIDDLE ,
             resLoader: vis.resLoader
@@ -319,7 +324,7 @@ export default class BoardDraw
         const rectOp = new LayoutOperation({
             fill: "#FFFFFF",
             stroke: "#000000",
-            strokeWidth: CONFIG.draw.sidebar.rectStrokeWidth * this.sizeUnit
+            strokeWidth: CONFIG._drawing.sidebar.rectStrokeWidth * this.sizeUnit
         });
         const borderRadius = 0.1*iconDims.x;
 
@@ -372,7 +377,7 @@ export default class BoardDraw
                 if(arr.length > 0)
                 {
 
-                    const metaDims = new Point(CONFIG.draw.sidebar.metadataScale * iconDimsWithPadding.x);
+                    const metaDims = new Point(CONFIG._drawing.sidebar.metadataScale * iconDimsWithPadding.x);
                     const effects = [new DropShadowEffect({ blurRadius: 0.06 * metaDims.x }), this.defaultEffects].flat();
                     const anchorPos = new Point(iconPos.x, iconPos.y + 0.5*iconDimsWithPadding.y);
                     const pos = getPositionsCenteredAround({ pos: anchorPos, num: arr.length, size: metaDims })

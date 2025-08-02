@@ -1,6 +1,6 @@
 import Config from "./config"
 import Hints from "./hints"
-import { TILE_DICT, DISCRETE_LISTS, BEARING_CONDITIONS, FIXED_MAP_TILES } from "./dictionary"
+import { TILE_DICT, DISCRETE_LISTS, BEARING_CONDITIONS, FIXED_MAP_TILES } from "./dict"
 import Point from "js/pq_games/tools/geometry/point";
 import Cell from "./cell";
 

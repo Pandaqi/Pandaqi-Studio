@@ -1,11 +1,11 @@
 
-enum Type
+export enum Type
 {
     LIFE = "LIFE",
     CAT = "CAT"
 }
 
-interface PowerData
+export interface PowerData
 {
     core?: boolean,
     label?: string,
@@ -19,7 +19,7 @@ interface PowerData
 // @NOTE: power names should not have underscores; those are used for creating dynamic keys for powers that need it
 // (and thus, when drawing the card, to check which specific subType we have to draw)
 type PowerSet = Record<string, PowerData>;
-const POWERS:PowerSet = 
+export const POWERS:PowerSet = 
 {
     skip: { label: "Skip Turn", drawNum: 2, frame: 0, prob: 1, desc: "You MAY skip your turn. The next player MUST skip their turn.", core: true },
     copycat: { label: "Copycat", drawNum: 2, frame: 1, prob: 2.0, desc: "Copy the current power of another player.", core: true },
@@ -54,7 +54,7 @@ interface CatData
     excludeFromCombos?: boolean
 }
 
-const CATS: Record<string, CatData> = 
+export const CATS: Record<string, CatData> = 
 {
     circle: { frame: 0, color: "#134B00" }, // frame + 1 is the simplified version
     square: { frame: 2, color: "#084670" },
@@ -62,7 +62,7 @@ const CATS: Record<string, CatData> =
     star: { frame: 6, color: "#29125C", excludeFromCombos: true }
 }
 
-const MISC =
+export const MISC =
 {
     bg_cat: { frame: 0 },
     heart: { frame: 1 },
@@ -74,13 +74,4 @@ const MISC =
     card: { frame: 7 },
     plus: { frame: 8 },
     ignore: { frame: 9 }
-}
-
-export 
-{
-    Type,
-    PowerData,
-    CATS,
-    POWERS,
-    MISC
 }

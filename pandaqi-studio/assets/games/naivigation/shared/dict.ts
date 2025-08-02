@@ -4,7 +4,7 @@ import { CardType, EventType, MISC_SHARED, MaterialNaivigationData, TileType } f
 //
 // Vehicle Cards (only 1 for the shared material)
 //
-const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
+export const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
 {
     discuss: { shared: true, frame: 2, label: "Discuss", desc: "You may <b>communicate</b> until you decide to execute the next card.", freq: 5 },
     speedup: { shared: true, frame: 3, label: "Speedup", desc: "Remove or Add <b>1 Instruction Slot</b>. (There must be at least 3 and at most 8 slots.)", freq: 6 },
@@ -14,7 +14,7 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 //
 // Health Cards (a lot of them; keep their text/handicap simple though)
 //
-const HEALTH_CARDS:Record<string,MaterialNaivigationData> = 
+export const HEALTH_CARDS:Record<string,MaterialNaivigationData> = 
 {
     //last_life: { shared: true, label: "Regular Life", desc: "Nothing special.", num: 1, freq: 2 },
     be_special: { shared: true, label: "Be Special", desc: "Card types are only <b>executed once</b>. (Ignore duplicates.) <b>All cards</b> are duplicates? <b>Take 1 damage.</b>", num: 3 },
@@ -50,7 +50,7 @@ const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 // The actual red/green tiles are randomly generated
 // But the dictionary below contains the bonuses/penalties for GPS cards
 //
-const GPS_REWARDS:Record<string,MaterialNaivigationData> = 
+export const GPS_REWARDS:Record<string,MaterialNaivigationData> = 
 {
     health: { desc: "Repair 1 damage.", prob: 2.0 },
     health_plus: { desc: "Repair 2 damage.", prob: 0.25 },
@@ -70,7 +70,7 @@ const GPS_REWARDS:Record<string,MaterialNaivigationData> =
     one_exception: { desc: "Next round, after revealing, you may pick 1 card to ignore.", prob: 0.5 },
 }
 
-const GPS_PENALTIES:Record<string,MaterialNaivigationData> = 
+export const GPS_PENALTIES:Record<string,MaterialNaivigationData> = 
 {
     health: { desc: "Take 1 damage.", prob: 2.0 },
     health_plus: { desc: "Take 2 damage.", prob: 0.5 },
@@ -95,7 +95,7 @@ const GPS_PENALTIES:Record<string,MaterialNaivigationData> =
 // Time Cards
 // This doubles as an "event expansion" that always works nicely in games
 //
-const TIME_CARDS:Record<string,MaterialNaivigationData> = 
+export const TIME_CARDS:Record<string,MaterialNaivigationData> = 
 {
     blank: { shared: true, label: "Regular Card", desc: "Nothing special.", freq: 10, type: EventType.NONE },
 
@@ -135,7 +135,7 @@ const TIME_CARDS:Record<string,MaterialNaivigationData> =
 //
 // Action Cards
 //
-const ACTION_CARDS:Record<string,MaterialNaivigationData> = 
+export const ACTION_CARDS:Record<string,MaterialNaivigationData> = 
 {
     // these were added much later
     take_control: { shared: true, frame: 5, label: "Take Control", desc: "This round, each player decides how to execute <b>their own card</b> (instead of start player deciding for all)." },
@@ -181,7 +181,7 @@ const ACTION_CARDS:Record<string,MaterialNaivigationData> =
 
 type MaterialData = Record<string, MaterialNaivigationData>;
 
-const MATERIAL:Record<CardType, MaterialData> =
+export const MATERIAL:Record<CardType, MaterialData> =
 {
     [CardType.VEHICLE]: VEHICLE_CARDS,
     [CardType.HEALTH]: HEALTH_CARDS,
@@ -212,7 +212,7 @@ interface TemplateData
     iconOffset?: Point, // offset for the MAIN icon
 }
 
-const TEMPLATES:Record<string, TemplateData> =
+export const TEMPLATES:Record<string, TemplateData> =
 {
     [CardType.VEHICLE]: { frameTemplate: 0, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Vehicle Card", smallIconOffset: new Point(0.33, 0), textureKey: "vehicle_cards" },
     [CardType.HEALTH]: { frameTemplate: 2, frameIcon: 5, bgColor: "#F9C98C", label: null, subText: "Health", smallIconOffset: new Point(0.35, -0.05), extraNumberOffset: new Point(0.46, 0), textureKey: "misc_shared" },
@@ -228,15 +228,5 @@ const TEMPLATES:Record<string, TemplateData> =
     [TileType.PAWN]: { textureKey: "map_tiles" },
 }
 
-const NUM_BG_BLOBS = 4
-const MISC = MISC_SHARED
-
-export 
-{
-    MATERIAL,
-    MISC,
-    TEMPLATES,
-    NUM_BG_BLOBS,
-    GPS_REWARDS,
-    GPS_PENALTIES
-}
+export const NUM_BG_BLOBS = 4
+export const MISC = MISC_SHARED

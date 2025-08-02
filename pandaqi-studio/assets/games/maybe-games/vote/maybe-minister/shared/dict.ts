@@ -1,27 +1,27 @@
 
-enum CardType
+export enum CardType
 {
     VOTE = "vote",
     DECREE = "decree"
 }
 
-enum DecreeType
+export enum DecreeType
 {
     LAW = "law",
     SUPPORT = "support",
     RESOURCE = "resource"
 }
 
-enum VoteType
+export enum VoteType
 {
     YES = "yes",
     NO = "no",
     ABSTAIN = "abstain"
 }
 
-type CardSubType = VoteType | DecreeType
+export type CardSubType = VoteType | DecreeType
 
-interface SideDetails
+export interface SideDetails
 {
     goodIcons?: string[],
     badIcons?: string[],
@@ -29,14 +29,14 @@ interface SideDetails
     badText?: string
 }
 
-// @NOTE: these keys must match CardType_CardSubType enums exactly
-interface IconData
+// @NOTE: these keys must match CardType_CardSubType export enums exactly
+export interface IconData
 {
     frame: number,
     set?: string
 }
 
-const CARD_TEMPLATES:Record<string, IconData> =
+export const CARD_TEMPLATES:Record<string, IconData> =
 {
     decree_law: { frame: 0 },
     decree_support: { frame: 1 },
@@ -46,7 +46,7 @@ const CARD_TEMPLATES:Record<string, IconData> =
     vote_abstain: { frame: 5 }
 }
 
-const MISC:Record<string, IconData> =
+export const MISC:Record<string, IconData> =
 {
     vote_storage: { frame: 0 },
     support: { frame: 1 },
@@ -55,7 +55,7 @@ const MISC:Record<string, IconData> =
     vote_abstain: { frame: 12 }
 }
 
-const ICONS:Record<string, IconData> =
+export const ICONS:Record<string, IconData> =
 {
     money: { frame: 2, set: "base" },
     homes: { frame: 3, set: "base" },
@@ -68,7 +68,7 @@ const ICONS:Record<string, IconData> =
     wildcard: { frame: 13, set: "never" }
 }
 
-enum LawType
+export enum LawType
 {
     SCORING = "scoring", // changes which things score and how much
     VOTING = "voting", // changes how much vote you get, how you can use them, and the gameplay element of voting
@@ -77,20 +77,19 @@ enum LawType
     MISC = "misc", // anything else
 }
 
-enum LawVibe
+export enum LawVibe
 {
     GOOD = "good",
     BAD = "bad"
 }
 
-interface LawDataRaw
+export interface LawDataRaw
 {
     key: string,
     replacements: Record<string, any[]>
 }
 
-
-interface LawData
+export interface LawData
 {
     desc: string,
     type: LawType|LawType[],
@@ -99,7 +98,7 @@ interface LawData
     prob?: number, // 1.0 default
 }
 
-const LAWS:Record<string, LawData> = 
+export const LAWS:Record<string, LawData> = 
 {
     // things that that change scoring
     resource_points_bonus: { desc: "%resource% is worth <b>+2 points</b>.", type: LawType.SCORING, vibe: LawVibe.GOOD, prob: 3.0 },
@@ -203,7 +202,7 @@ const LAWS:Record<string, LawData> =
 };
 
 
-enum ResourceVibe
+export enum ResourceVibe
 {
     GOOD = "good",
     BAD = "bad"
@@ -217,7 +216,7 @@ interface ResourceData
 
 // These are unique, special _texts_ that display on resource cards instead of default icons
 // They are only in the "Advanced Politics" expansion and provide interesting variety to what a card can do/represent.
-const SPECIAL_RESOURCES:Record<string, ResourceData> =
+export const SPECIAL_RESOURCES:Record<string, ResourceData> =
 {
     // generally good things
     duplicate_least_resource: { desc: "Worth <b>2 resources</b> of the type you have the <b>least</b>.", vibe: ResourceVibe.GOOD },
@@ -258,7 +257,7 @@ const SPECIAL_RESOURCES:Record<string, ResourceData> =
     remove_wildcard_conditional: { desc: "<b>Removes 4 resources</b> of any kind, unless you own all possible resources.", vibe: ResourceVibe.BAD },
 }
 
-const DYNAMIC_OPTIONS = 
+export const DYNAMIC_OPTIONS = 
 {
     "%resource%": [], // these two are filled in when generation starts, based on config settings
     "%resourceImageStrings%": [],
@@ -271,10 +270,5 @@ const DYNAMIC_OPTIONS =
     "%vote%": ["YES", "NO"], // abstain is an expansion and thus handled on its own
     "%decree%": ["Law", "Support", "Resource"],
     "%extreme%": ["lowest", "highest"]
-}
-
-
-export {
-    CARD_TEMPLATES, CardSubType, CardType, DYNAMIC_OPTIONS, DecreeType, ICONS, IconData, LAWS, LawData, LawType, LawDataRaw, LawVibe, MISC, ResourceVibe, SPECIAL_RESOURCES, SideDetails, VoteType
 }
 

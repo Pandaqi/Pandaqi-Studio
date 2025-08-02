@@ -1,18 +1,18 @@
 
-enum Type
+export enum Type
 {
     LIFE = "LIFE",
     NUMBER = "NUMBER"
 }
 
-enum PClass
+export enum PClass
 {
     LOW = "low",
     MED = "medium",
     HIGH = "high"
 }
 
-interface PowerData
+export interface PowerData
 {
     class?: PClass,
     lives?: number[],
@@ -26,7 +26,7 @@ type PowerSet = Record<string, PowerData>;
 
 // @NOTE: There is only one "Round Start" power, because if there'd be multiple then we get an issue with _order_.
 // @NOTE: Otherwise, powers can be "Round Start/Over" or "Turn Start/Over"
-const POWERS:PowerSet = 
+export const POWERS:PowerSet = 
 {
     // generally HIGH powers
     no_match: { desc: "You're not allowed to match suit with a neighbor card.", class: PClass.HIGH },
@@ -125,7 +125,7 @@ const POWERS:PowerSet =
     others_low_draw: { desc: "Everybody else only draws 1 card for matching suits.", lives: [2,3] }
 }
 
-const SUITS = 
+export const SUITS = 
 {
     circle: { frame: 0, color: "#1B7900", cardsPerNumber: 3, numbers: [1,4,7] }, // the frame after (0 + 1) is always the simplified version of the suit symbol
     square: { frame: 2, color: "#1E41AA", cardsPerNumber: 3, numbers: [2,5,8] },
@@ -133,7 +133,7 @@ const SUITS =
     star: { frame: 6, color: "#212121", cardsPerNumber: 1, numbers: [1,2,3,4,5,6,7,8,9] },
 }
 
-const CATS =
+export const CATS =
 {
     siamese: { frame: 0, label: "Siamese Swordfighter", color: "#454545" },
     munchkin: { frame: 1, label: "Munching Munchkin", color: "#AD5810" },
@@ -143,21 +143,10 @@ const CATS =
     himalayan: { frame: 5, label: "Himalayan Hunter", color: "#7F9821" }
 }
 
-const MISC =
+export const MISC =
 {
     heart: { frame: 0 },
     bg_cat: { frame: 1 },
     hand: { frame: 2 },
     rulesReminder: { frame: 3 }
-}
-
-export 
-{
-    Type,
-    PClass,
-    PowerData,
-    SUITS,
-    CATS,
-    POWERS,
-    MISC
 }

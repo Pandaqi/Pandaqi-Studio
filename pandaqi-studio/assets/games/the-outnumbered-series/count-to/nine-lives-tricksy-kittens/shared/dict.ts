@@ -1,5 +1,5 @@
 
-interface PowerData
+export interface PowerData
 {
     desc?: string,
     prob?: number, // all have a default of 1.0
@@ -9,7 +9,7 @@ interface PowerData
 }
 
 type PowerSet = Record<string, PowerData>;
-const POWERS:PowerSet = 
+export const POWERS:PowerSet = 
 {
     new_lead: { desc: "The card you play becomes the new leading suit." },
     no_lead: { desc: "Nobody needs to follow suit.", max: 3 },
@@ -69,7 +69,7 @@ interface CatData
     colorDarken?: number,
 }
 
-const CATS: Record<string, CatData> = 
+export const CATS: Record<string, CatData> = 
 {
     hearts: { frame: 0, color: "#B12B45", colorLighten: 50 },
     spades: { frame: 1, color: "#183C6A", colorLighten: 69 },
@@ -83,16 +83,8 @@ const CATS: Record<string, CatData> =
 }
 
 
-const MISC =
+export const MISC =
 {
     bg_cat: { frame: 0 },
     bg_cat_outline: { frame: 1 },
-}
-
-export 
-{
-    PowerData,
-    CATS,
-    POWERS,
-    MISC
 }

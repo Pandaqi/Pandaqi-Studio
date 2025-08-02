@@ -1,17 +1,17 @@
-enum TerrainType
+export enum TerrainType
 {
 	LAND = "land",
 	WATER = "water"
 }
 
-enum PathType
+export enum PathType
 {
 	BOAT = "boat",
 	ROAD = "road",
 	RAIL = "rail",
 }
 
-const CITY_NAMES = 
+export const CITY_NAMES = 
 	[
 		"Al Riz", "Bisto", "Camor", "Dimba", "El Doso",
 		"Fehrty", "Gigli", "Haimo", "Incar", "Jublo", 
@@ -21,7 +21,7 @@ const CITY_NAMES =
 		"Zompo" 
 	];
 
-const PLAYERCOUNT_TO_CITYCOUNT = 
+export const PLAYERCOUNT_TO_CITYCOUNT = 
 	[
 		-1,
 		6,
@@ -34,7 +34,8 @@ const PLAYERCOUNT_TO_CITYCOUNT =
 		20,
 	];
 
-const VEHICLE_MAP = {
+export const VEHICLE_MAP = 
+{
 	jeep: 
 		{
 			frame: 0,
@@ -92,7 +93,7 @@ const VEHICLE_MAP = {
 		} 
 }
 
-const PLAYER_COLORS = 
+export const PLAYER_COLORS = 
 	[
 		'#FF0000',
 		'#0000FF',
@@ -104,7 +105,7 @@ const PLAYER_COLORS =
 		'#2B5400',
 	];
 
-const DIFFICULTY_LEVELS = 
+export const DIFFICULTY_LEVELS = 
 {
 	"trainingWheels": 0,
 	"goodLuck": 1,
@@ -114,7 +115,7 @@ const DIFFICULTY_LEVELS =
 	"crazyCargo": 5
 };
 
-const GOODS = 
+export const GOODS = 
 	{
 		// Regular Goods
 		Fruit: 
@@ -188,7 +189,7 @@ const GOODS =
 	};
 
 // each event has a description (flavour text + what it does), probability of appearing (relative to total), and perhaps a maximum length (to make some events shorter/longer)
-const EVENTS = {
+export const EVENTS = {
 
 	// these change good VALUES
 	'Value Increased': 
@@ -290,7 +291,7 @@ const EVENTS = {
 		}
 }
 
-const JUNGLE_NAME_TEMPLATES = 
+export const JUNGLE_NAME_TEMPLATES = 
 [
 	"X Forest", 
 	"X Rainforest",
@@ -306,7 +307,7 @@ const JUNGLE_NAME_TEMPLATES =
 	"Park of X"
 ]
 
-const COOL_WORD_TEMPLATES = 
+export const COOL_WORD_TEMPLATES = 
 [
 	"Nimi", 
 	"Takuto",
@@ -336,18 +337,3 @@ const COOL_WORD_TEMPLATES =
 	"Water",
 	"Flow"
 ]
-
-
-export {
-	CITY_NAMES,
-	PLAYERCOUNT_TO_CITYCOUNT,
-	VEHICLE_MAP,
-	PLAYER_COLORS,
-	GOODS,
-	EVENTS,
-	DIFFICULTY_LEVELS,
-	JUNGLE_NAME_TEMPLATES,
-	COOL_WORD_TEMPLATES,
-	TerrainType,
-	PathType
-}

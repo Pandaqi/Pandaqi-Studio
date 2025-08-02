@@ -1,12 +1,12 @@
 import { CardType, EventType, GameNaivigationData, MaterialNaivigationData, TileType } from "games/naivigation/shared/dictShared";
 
 
-const GAME_DATA:GameNaivigationData = { bgColor: "#40cfe3", tintColor: "#e7fcff", textColor: "#03262b", mapTileColor: "#FFFFFF" };
+export const GAME_DATA:GameNaivigationData = { bgColor: "#40cfe3", tintColor: "#e7fcff", textColor: "#03262b", mapTileColor: "#FFFFFF" };
 
 //
 // Vehicle Cards (thing #1 that'll be unique for each game)
 //
-const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
+export const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
 {
     sail: { frame: 0, label: "Sail", desc: "<b>Move</b> as many tiles as your <b>Wind</b>, in the <b>North</b> direction (of the Compass).", freq: 10 },
     wind: { frame: 1, label: "Wind", desc: "<b>Change</b> the <b>Wind</b> deck by 1 (up or down).", freq: 10 },
@@ -18,7 +18,7 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
     cannon: { frame: 7, label: "Cannon", desc: "<b>Destroy adjacent Enemies</b>. (Directly to your left or right.)", freq: 8, sets: ["piratesCannons"] },
 };
 
-const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
+export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 {
     fog: { label: "Fog", desc: "Turn one Compass deck <b>facedown</b>.", num: 3 },
     fragile_plane: { label: "Fragile Ship", desc: "Sailing into land does <b>2 damage</b> (instead of 1).", num: 2 },
@@ -32,12 +32,12 @@ const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
     danger_stream: { label: "Danger Stream", desc: "The strength of all <b>water currents</b> is <b>doubled</b>.", num: 3 },
 }
 
-/*const ACTION_CARDS:Record<string,MaterialNaivigationData> =
+/*export const ACTION_CARDS:Record<string,MaterialNaivigationData> =
 {
     
 }*/
 
-const TIME_CARDS:Record<string,MaterialNaivigationData> =
+export const TIME_CARDS:Record<string,MaterialNaivigationData> =
 {
     stormy_seas: { label: "Stormy Seas", desc: "<b>Randomize the Compass.</b> (Spin it, see where it stops.)", type: EventType.EVENT },
     explorers_return: { label: "Explorer's Return", desc: "<b>Add 4 tiles</b> to the map, wherever you want.", type: EventType.EVENT },
@@ -63,7 +63,7 @@ const TIME_CARDS:Record<string,MaterialNaivigationData> =
 //
 // The map tiles (thing #2 that'll be unique each game---there are no "shared" map tiles)
 //
-const MAP_TILES:Record<string,MaterialNaivigationData> =
+export const MAP_TILES:Record<string,MaterialNaivigationData> =
 {
     empty: { frame: -1, label: "Regular", freq: 26 },
     harbor_0: { frame: 0, label: "Harbor", collectible: true, freq: 3 },
@@ -81,21 +81,21 @@ const MAP_TILES:Record<string,MaterialNaivigationData> =
     whirlpool: { frame: 15, label: "Whirlpool", desc: "Randomize your Wind deck and Ship orientation.", sets: ["islandsTreasures"], freq: 3 },
 }
 
-const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
+export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
 {
     vehicle_0: { frame: 5, label: "Vehicle" },
     vehicle_1: { frame: 6, label: "Vehicle" },
     vehicle_2: { frame: 7, label: "Vehicle" },
 }
 
-const PAWN_TILES:Record<string,MaterialNaivigationData> =
+export const PAWN_TILES:Record<string,MaterialNaivigationData> =
 {
     pawn_pirateship: { frame: 7, label: "Pirates", textureKey: "misc", sets: ["piratesCannons"], freq: 3 },
     pawn_seamonster: { frame: 8, label: "Sea Monster", textureKey: "misc", sets: ["piratesCannons"], freq: 3 },
     pawn_giantwave: { frame: 9, label: "Giant Wave", textureKey: "misc", sets: ["piratesCannons"], freq: 3 },
 }
 
-const MISC =
+export const MISC =
 {
     game_icon: { frame: 0 },
     game_pattern: { frame: 1 },
@@ -106,7 +106,7 @@ const MISC =
     water_direction: { frame: 6 },
 }
 
-const WEATHER_CARDS:Record<string,MaterialNaivigationData> =
+export const WEATHER_CARDS:Record<string,MaterialNaivigationData> =
 {
     thunder: { frame: 0, label: "Thunder", num: -3, desc: "<b>Spin the Compass</b> to randomize it. Do the same at the start of each round." },
     storm: { frame: 1, label: "Storm", num: -2, desc: "All instructions are <b>doubled</b>. <b>Rotating</b> incurs 1 damage." },
@@ -117,7 +117,7 @@ const WEATHER_CARDS:Record<string,MaterialNaivigationData> =
     scorching_heat: { frame: 6, label: "Scorching Heat", num: 3, desc: "The Wind value is <b>halved</b> (rounded down). If you <b>end a round</b> with this Weather, <b>take 1 damage</b>." },
 }
 
-const TREASURE_CONDITIONS = 
+export const TREASURE_CONDITIONS = 
 {
     island_size_small: { desc: "The island has <b>at least 3 tiles</b>." },
     island_size_regular: { desc: "The island has <b>at least 5 tiles</b>." },
@@ -139,7 +139,7 @@ const TREASURE_CONDITIONS =
     special_tiles_big: { desc: "<b>At least 3 special tiles</b> are adjacent to this island." },
 }
 
-const TREASURE_BONUSES =
+export const TREASURE_BONUSES =
 {
     health: { desc: "<b>Repair</b> 1 health." },
     health_double: { desc: "<b>Repair</b> 2 health." },
@@ -157,7 +157,7 @@ const TREASURE_BONUSES =
     explore: { desc: "Discuss and <b>replace up to 5 map tiles</b> with ones from Compass decks." },
 }
 
-const MATERIAL =
+export const MATERIAL =
 {
     [CardType.VEHICLE]: VEHICLE_CARDS,
     [CardType.HEALTH]: HEALTH_CARDS,
@@ -165,14 +165,4 @@ const MATERIAL =
     [TileType.MAP]: MAP_TILES,
     [TileType.VEHICLE]: VEHICLE_TILES,
     [TileType.PAWN]: PAWN_TILES,
-}
-
-export 
-{
-    GAME_DATA,
-    MATERIAL,
-    WEATHER_CARDS,
-    TREASURE_CONDITIONS,
-    TREASURE_BONUSES,
-    MISC,
 }

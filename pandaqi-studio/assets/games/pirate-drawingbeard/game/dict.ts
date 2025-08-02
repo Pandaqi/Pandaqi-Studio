@@ -1,4 +1,5 @@
-const TILE_DICT = {
+export const TILE_DICT = 
+{
 	"empty tile": { frame: 0, prob: 3, material: 10, symbolSlots: [true,true,true], fixedSymbols: ['circle', 'square', 'plus'] },
 	water: { frame: 1, 'custom': true, material: 6, symbolSlots: [false,false,false], fixedSymbols: [null,null,null] },
 	palmtree: { frame: 2, prob: 2, material: 6, symbolSlots: [true,true,true], fixedSymbols: ['circle',null,'circle'] },
@@ -9,27 +10,31 @@ const TILE_DICT = {
 	lighthouse: { frame: 7, material: 3, symbolSlots: [true,true,true], fixedSymbols: [null,'square','square'] }
 }
 
-const BEARINGS = {
+export const BEARINGS = 
+{
 	'North-East': { frame: 0 },
 	'South-East': { frame: 1 },
 	'South-West': { frame: 2 },
 	'North-West': { frame: 3 }
 }
 
-const QUADRANTS = {
+export const QUADRANTS = 
+{
 	'top left': { frame: 0 },
 	'top right': { frame: 1 },
 	'bottom left': { frame: 2 },
 	'bottom right': { frame: 3 }
 }
 
-const SYMBOLS = {
+export const SYMBOLS = 
+{
 	circle: { frame: 0 },
 	square: { frame: 1 },
 	plus: { frame: 2 }
 }
 
-const DISCRETE_LISTS = {
+export const DISCRETE_LISTS = 
+{
 	type: Object.keys(TILE_DICT), // the main one; see TILE_DICT
 	neighborCount: [2,3,4], // when hints count how many neighbors (at least) have something; hence 0,1 are missing
 	networkCount: [1,2,3,4,5], // with how many other tiles it is connected in the network
@@ -41,17 +46,19 @@ const DISCRETE_LISTS = {
 	symbol: Object.keys(SYMBOLS)
 }
 
-const BEARING_CONDITIONS = [
+export const BEARING_CONDITIONS = 
+[
 	[{ property: 'x', check: 'morethan' }, { property: 'y', check: 'morethan' }],
 	[{ property: 'x', check: 'lessthan' }, { property: 'y', check: 'morethan' }],
 	[{ property: 'x', check: 'lessthan' }, { property: 'y', check: 'lessthan' }],
 	[{ property: 'x', check: 'morethan' }, { property: 'y', check: 'lessthan' }],
 ]
 
-const FIXED_MAP_TILES = ['A1', 'A2', 'B1', 'B4', 'C4', 'D2', 'E2', 'E3', 'F1', 'F3', 'G2', 'H4'];
+export const FIXED_MAP_TILES = ['A1', 'A2', 'B1', 'B4', 'C4', 'D2', 'E2', 'E3', 'F1', 'F3', 'G2', 'H4'];
 
-const HINT_CATEGORIES = ['type', 'rotation', 'general', 'arrows', 'special', 'symbols', 'network'];
-const HINT_DICT = [
+export const HINT_CATEGORIES = ['type', 'rotation', 'general', 'arrows', 'special', 'symbols', 'network'];
+export const HINT_DICT = 
+[
 	/* TYPE */
 	{
 		id: "type_self",
@@ -657,15 +664,3 @@ const HINT_DICT = [
 		notCrossData: { y: 0.825 }
 	},
 ];
-
-export {
-	TILE_DICT,
-	BEARINGS,
-	QUADRANTS,
-	SYMBOLS,
-	DISCRETE_LISTS,
-	BEARING_CONDITIONS,
-	FIXED_MAP_TILES,
-	HINT_CATEGORIES,
-	HINT_DICT
-}

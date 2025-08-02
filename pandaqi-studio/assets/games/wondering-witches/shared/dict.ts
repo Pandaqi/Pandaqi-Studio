@@ -1,8 +1,9 @@
 /*
     Ingredients
 */
-const FIRST_HINT_TYPES = ['Group', 'Negative', 'Effects'];
-const INGREDIENTS = {
+export const FIRST_HINT_TYPES = ['Group', 'Negative', 'Effects'];
+export const INGREDIENTS = 
+{
     Parsley: 0, Sage: 1, Chives: 2, Rosemary: 3, Oregano: 4, 
     Mint: 5, Dill: 6, Basil: 7, Thyme: 8, "Black Pepper": 9
 };
@@ -11,12 +12,13 @@ const INGREDIENTS = {
 // 0 = IGNORE; this ingredient will be skipped and not interacted with, although effects execute
 // 1 = OVERACHIEVER; this ingredient is always undergrown (0) or overgrown (n+1)
 // 2 = IMPOSTER; this ingredient behaves like a regular ingredient, but it has the "imposter" effect
-const DECOY_NAMES = ['Ignore', 'Overachiever', 'Imposter'];
+export const DECOY_NAMES = ['Ignore', 'Overachiever', 'Imposter'];
 
 /*
     Events
 */
-class Event {
+class Event 
+{
     title: string;
     type: string;
     desc: string;
@@ -31,7 +33,8 @@ class Event {
     }
 }
 
-const EVENTS = {
+export const EVENTS = 
+{
     "Silence Spell": new Event("Silence Spell", "One of the witches accidentally casts a silence spell! You <strong>can't</strong> communicate anymore about your turns.", "bad", 1.0),
 
     "Surprise Soup": new Event("Surprise Soup", "On your turn, you may only say an ingredient you don't have yet. If none exists, test a potion or skip your turn.", "bad", 1.0),
@@ -76,12 +79,15 @@ const EVENTS = {
 /*
     Special cells
 */
-class SpecialCell {
+class SpecialCell 
+{
     frame: any;
     category: any;
     name: any;
     explanation: any;
-    constructor(frame: number, category: number, name: string, explanation: string) {
+
+    constructor(frame: number, category: number, name: string, explanation: string) 
+    {
         this.frame = frame;
         this.category = category;
         this.name = name;
@@ -89,7 +95,8 @@ class SpecialCell {
     }
 }
 
-const SPECIAL_CELLS = {
+export const SPECIAL_CELLS = 
+{
     // the good ones
     "Efficiency": new SpecialCell(0, 0, 'Efficiency', 'This cell can hold two separate ingredients.'),
     "Versatility": new SpecialCell(1, 0, 'Versatility', 'Use this cell as a single-cell garden. Test the content as often as you want.'),
@@ -108,13 +115,15 @@ const SPECIAL_CELLS = {
     Effects
 */
 // categories: 
-class Effect {
+class Effect 
+{
     category: any;
     name: any;
     explanation: any;
     feedback: string;
     directEffect: boolean;
     singular: boolean;
+
     constructor(category: number, name: string, explanation: string, fb = "", de = false, s = true) {
         this.category = category;
         this.name = name;
@@ -131,11 +140,12 @@ class Effect {
 
 // because I am STUPID, the old structure (when I made v1 of this game) doesn't have a nice structure
 // that's why we also create EFFECT_DICT where we can access effects by key directly
-const EFFECTS = {}; 
-const EFFECT_DICT = {};
+export const EFFECTS = {}; 
+export const EFFECT_DICT = {};
 
 // CHANGE potion (these can be a great obstacle, or you can use these to your advantage)
-EFFECTS['ChangeCauldron'] = [
+EFFECTS['ChangeCauldron'] = 
+[
     new Effect(0, "Cutoff", "When this ingredient is encountered, all ingredients after it aren't considered anymore.", "The ingredient was cut off", true),
     new Effect(0, "Spicy", "Raises the number of the ingredient AFTER it by one. (Only during potion evaluation, not permanently.)", "A spicy ingredient was encountered"),
     new Effect(0, "Refreshing", "Lowers the number of the ingredient AFTER it by one. (Only during potion evaluation, not permanently.)", "A refreshing ingredient was encountered"),
@@ -145,7 +155,8 @@ EFFECTS['ChangeCauldron'] = [
 ];
 
 // INVESTIGATIVE
-EFFECTS['Investigative'] = [
+EFFECTS['Investigative'] = 
+[
     new Effect(1, "Detective", "Returns the number of a random ingredient in the same potion"),
     new Effect(1, "Liar", "Returns a random number that is NOT within this potion"),
     new Effect(1, "Inspector", "Returns the number of ingredients that have one or multiple effects"),
@@ -167,8 +178,8 @@ EFFECTS['Investigative'] = [
 ];
 
 // CHANGE PLAYERS (handicap or special power)
-EFFECTS['ChangePlayers'] = [
-    
+EFFECTS['ChangePlayers'] = 
+[
     new Effect(2, "Poison", "You immediately become <em>poisoned</em>. You lose if all players are poisoned.", "You are now <em>Poisoned</em> (player ability)!"),
     
     new Effect(2, "Green Fingers", "You get the <em>green fingers</em> ability. When you grow a garden, grow it 2 steps at once. When you say an ingredient (on your turn), others may choose to do the same.", "You get the ability <em>Green Fingers</em> (player ability)!"),
@@ -191,7 +202,8 @@ EFFECTS['ChangePlayers'] = [
 
 // these effects are REALLY hard and difficult to decipher/use properly, which means they're only used on the highest difficulty
 // (at that difficulty, they are mixed in with the rest)
-EFFECTS['Complex'] = [
+EFFECTS['Complex'] = 
+[
     new Effect(4, "Resetter", "Resets evaluation. The computer forgets everything and starts again from the NEXT ingredient.", "A reset occurred!", true),
     new Effect(4, "Equalizer", "The secret number of the ingredient AFTER it becomes EQUAL to the number of effects that it has", 'An equalizer was encountered'),
 
@@ -224,13 +236,3 @@ EFFECTS['Complex'] = [
 //
 // Would be a nightmare to code, and is probably too powerful:
 //  => One that turns a single "bad/decoy" ingredient into a good one
-
-export {
-    FIRST_HINT_TYPES,
-    INGREDIENTS,
-    DECOY_NAMES,
-    EVENTS,
-    SPECIAL_CELLS,
-    EFFECTS,
-    EFFECT_DICT
-}

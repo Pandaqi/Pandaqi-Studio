@@ -1,13 +1,13 @@
 import Point from "js/pq_games/tools/geometry/point"
 
-enum CardType
+export enum CardType
 {
     VOTE,
     THRONE,
     SEAT
 }
 
-enum ActionType
+export enum ActionType
 {
     HANDLE,
     REVEAL,
@@ -16,13 +16,13 @@ enum ActionType
     HIRE
 }
 
-interface DarkAction
+export interface DarkAction
 {
     text: string,
     type: ActionType
 }
 
-interface PackData
+export interface PackData
 {
     frame: number,
     clarification?: string,
@@ -117,7 +117,7 @@ interface PackData
     }
 }
 
-const PACK_DEFAULT:PackData = 
+export const PACK_DEFAULT:PackData = 
 {
     frame: 0,
     name: 
@@ -205,7 +205,7 @@ const PACK_DEFAULT:PackData =
     }
 }
 
-const PACK_COLORS = 
+export const PACK_COLORS = 
 {
     yellow: 
     {
@@ -410,14 +410,4 @@ const PACK_COLORS =
             multicolor: true
         },
     }
-}
-
-export
-{
-    PACK_DEFAULT,
-    PACK_COLORS,
-    PackData,
-    ActionType,
-    DarkAction,
-    CardType
 }

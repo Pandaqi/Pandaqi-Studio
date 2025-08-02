@@ -1,30 +1,30 @@
 import toTextDrawerImageStrings from "js/pq_games/tools/text/toTextDrawerImageStrings"
 
-interface CardResource
+export interface CardResource
 {
     type: string,
     cross?: boolean
 }
 
-interface CardResourceData
+export interface CardResourceData
 {
     good: CardResource[],
     bad: CardResource[]
 }
 
-interface CardGadgetData
+export interface CardGadgetData
 {
     green: { cost: string[], reward: string, label: string },
     red: { cost: string[], reward: string, label: string }
 }
 
-interface CardPowerData
+export interface CardPowerData
 {
     good: string,
     bad: string
 }
 
-enum CardType
+export enum CardType
 {
     MISSION,
     IDENTITY,
@@ -32,38 +32,38 @@ enum CardType
     SHOP
 }
 
-type CardSubType = VoteType | IdentityCardType | MissionType | ShopType
+export type CardSubType = VoteType | IdentityCardType | MissionType | ShopType
 
-enum ShopType
+export enum ShopType
 {
     SHOP = "shop"
 }
 
-enum MissionType
+export enum MissionType
 {
     MISSION = "mission",
     MASTER = "master"
 }
 
-enum VoteType
+export enum VoteType
 {
     YES = "yes",
     NO = "no"
 }
 
-enum IdentityCardType
+export enum IdentityCardType
 {
     PUBLIC = "public",
     PRIVATE = "private" 
 }
 
-enum IdentityType
+export enum IdentityType
 {
     GOOD = "good",
     BAD = "bad"
 }
 
-interface IdentityCardData
+export interface IdentityCardData
 {
     desc: string,
     type: IdentityType
@@ -71,7 +71,7 @@ interface IdentityCardData
 
 // each identity card combines a GOOD and a BAD power for balance
 // (remember all these options are dynamically filled in, so there are actually hundreds of unique ones below)
-const PUBLIC_IDENTITIES:Record<string,IdentityCardData> =
+export const PUBLIC_IDENTITIES:Record<string,IdentityCardData> =
 {
     forced_vote_resource: { desc: "You must <b>vote %vote%</b> if the mission contains %num% %resource% (or more).", type: IdentityType.BAD },
     forced_vote_num: { desc: "You must <b>vote %vote%</b> if the mission has %comparison% %num% cards", type: IdentityType.BAD },
@@ -91,7 +91,7 @@ const PUBLIC_IDENTITIES:Record<string,IdentityCardData> =
 
 }
 
-const SECRET_IDENTITIES:Record<string, IdentityCardData> =
+export const SECRET_IDENTITIES:Record<string, IdentityCardData> =
 {
     resource_improve: { desc: "All %resource% are worth <b>2 points</b>.", type: IdentityType.GOOD },
     resource_degrade: { desc: "All %resource% are worth <b>-1 points</b>.", type: IdentityType.BAD },
@@ -106,12 +106,12 @@ const SECRET_IDENTITIES:Record<string, IdentityCardData> =
 }
 
 
-interface MasterCardData
+export interface MasterCardData
 {
     desc: string,
 }
 
-const MASTER_CARDS:Record<string,MasterCardData> =
+export const MASTER_CARDS:Record<string,MasterCardData> =
 {
     number_cutoff_high: { desc: "Votes <b>above 15</b> don't count." },
     number_cutoff_low: { desc: "Votes <b>below 15</b> don't count." },
@@ -149,7 +149,7 @@ const MASTER_CARDS:Record<string,MasterCardData> =
     swap_card: { desc: "<b>After Voting</b>: the highest voter <em>swaps</em> 1 collected card with one from another player." }
 }
 
-const RESOURCES =
+export const RESOURCES =
 {
     gold: { frame: 0 },
     reputation: { frame: 1 },
@@ -157,12 +157,12 @@ const RESOURCES =
     intelligence: { frame: 3 }
 }
 
-const MISC =
+export const MISC =
 {
     cross: { frame: 4 }
 }
 
-const RANDOM_TEXTS = [
+export const RANDOM_TEXTS = [
     "Break into vault", "Distract the guard", "Shatter the glass", "Hack the system",
     "Sound the alarm", "Load the gadgets", "Place the bomb", "Start the timer",
     "Pick the lock", "Kick in the door", "Call in support", "Dig a tunnel",
@@ -178,13 +178,13 @@ const RANDOM_TEXTS = [
     "Stay in shadows", "Make our escape", "Draw a map", "Unlock their safe"
 ];
 
-enum ShopVibe
+export enum ShopVibe
 {
     GREEN = "green", // these appear on the GREEN side of the shop card
     RED = "red" // these appear on the RED side of the shop card (they're not bad, they're just slightly less good)
 }
 
-const SHOP_REWARDS =
+export const SHOP_REWARDS =
 {
     free_mission_card: { desc: "<b>Draw any Mission Card</b> from market. You win it, green side up.", vibe: ShopVibe.GREEN },
     give_mission_card: { desc: "<b>Draw a random Mission Card</b> for yourself and another player. You win it, green side up.", vibe: ShopVibe.RED },
@@ -229,10 +229,10 @@ const SHOP_REWARDS =
     buy_vote_all: { desc: "When buying next round, <b>hold a Vote</b>. If SUCCESS, everyone gets the reward.", vibe: ShopVibe.RED },
 }
 
-const GADGET_NAMES = ["Sneaky Spectacles", "Snoopinator 3000", "Cufflink Comms", "Giggling Glasses", "Stealthy Stickers", "Bicycle Bugs", "Lipstick Listener", "Spy Pen", "Jocular Jetpack", "Bisexual Briefcase", "Weather Wig", "Disguise Drone", "Hidden Hat", "Gadget Gloves", "Code Crackilator", "Invisibility Cloak", "Signal Sender", "Eavesdropper X100", "Flying Umbrella", "GPS Giraffe", "Magnetic Monocle", "Laser Lipstick", "Lie Detector", "Walkie-Walkie", "Mini Microphone", "Crow Camera", "Holographic Hat", "Whisper Watch", "Spy Socks", "Super Scanner", "Fake Vault", "Luminous Locket", "Super Suit", "Bubble Blanket", "Gaming Goggles", "Camera Cane", "Wireless Shoes", "Jukebox Jammers", "Fingertip Recorder", "Charming Chameleon", "Hyper Holster", "Gravity Gun", "Nuke Necklace", "Pencil Phone", "Gun Guitar", "Racing Robot"]
+export const GADGET_NAMES = ["Sneaky Spectacles", "Snoopinator 3000", "Cufflink Comms", "Giggling Glasses", "Stealthy Stickers", "Bicycle Bugs", "Lipstick Listener", "Spy Pen", "Jocular Jetpack", "Bisexual Briefcase", "Weather Wig", "Disguise Drone", "Hidden Hat", "Gadget Gloves", "Code Crackilator", "Invisibility Cloak", "Signal Sender", "Eavesdropper X100", "Flying Umbrella", "GPS Giraffe", "Magnetic Monocle", "Laser Lipstick", "Lie Detector", "Walkie-Walkie", "Mini Microphone", "Crow Camera", "Holographic Hat", "Whisper Watch", "Spy Socks", "Super Scanner", "Fake Vault", "Luminous Locket", "Super Suit", "Bubble Blanket", "Gaming Goggles", "Camera Cane", "Wireless Shoes", "Jukebox Jammers", "Fingertip Recorder", "Charming Chameleon", "Hyper Holster", "Gravity Gun", "Nuke Necklace", "Pencil Phone", "Gun Guitar", "Racing Robot"]
 
 
-const CARD_TEMPLATES =
+export const CARD_TEMPLATES =
 {
     mission: { frame: 0 },
     master: { frame: 1 },
@@ -244,7 +244,7 @@ const CARD_TEMPLATES =
 }
 
 // this is used when doing the dynamic replacements
-const DYNAMIC_OPTIONS =
+export const DYNAMIC_OPTIONS =
 {
     "%vote%": ["YES", "NO"],
     "%num%": [1,2,3],
@@ -252,32 +252,4 @@ const DYNAMIC_OPTIONS =
     "%comparison%": ["at least", "at most"],
     "%status%": ["SUCCES", "FAIL"],
 }
-
-export 
-{
-    CardResource,
-    CardResourceData,
-    CardPowerData,
-    CardType,
-    CardSubType,
-    MissionType,
-    VoteType,
-    MasterCardData,
-    MASTER_CARDS,
-    IdentityType,
-    IdentityCardType,
-    IdentityCardData,
-    PUBLIC_IDENTITIES,
-    SECRET_IDENTITIES,
-    DYNAMIC_OPTIONS,
-    RESOURCES,
-    RANDOM_TEXTS,
-    MISC,
-    CARD_TEMPLATES,
-    ShopVibe,
-    ShopType,
-    SHOP_REWARDS,
-    GADGET_NAMES,
-    CardGadgetData
-};
 

@@ -1,5 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point";
-import { PACKS, PackData } from "./dict"
+import { PACKS, PackData } from "../shared/dict"
 import createContext from "js/pq_games/layout/canvas/createContext";
 import { CONFIG } from "./config";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";

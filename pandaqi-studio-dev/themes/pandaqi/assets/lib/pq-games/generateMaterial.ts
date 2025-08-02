@@ -61,6 +61,7 @@ const generateItems = async (config:GameConfig, feedbackNode:HTMLElement, genera
             await generator.generate()
             value = generator.get();
         }
+	    if(!Array.isArray(value)) { value = [value]; }
         items[id] = value;
     }
 
@@ -143,8 +144,17 @@ const drawItems = async (config: GameConfig, feedbackNode:HTMLElement, drawCalls
         {
             // cards handle drawing themselves (override by default if set)
             if(!("draw" in drawCall.item)) { console.error(`Item in DrawCall has no draw function`, drawCall); continue; }
-            promisesFront.push(drawCall.frontDefault ?? drawCall.item.draw(drawCall.visualizer));
-            promisesBack.push(drawCall.backDefault ?? (("drawBack" in drawCall.item) ? drawCall.item.drawBack(drawCall.visualizer) : null));
+            
+            // the array stuff allows the draw call to return _multiple_ things -> not recommended almost ever, but at least handles it now
+            let resultsFront = drawCall.frontDefault ?? drawCall.item.draw(drawCall.visualizer);
+            if(!Array.isArray(resultsFront)) { resultsFront = [resultsFront]; }
+
+            let resultsBack = drawCall.backDefault ?? (("drawBack" in drawCall.item) ? drawCall.item.drawBack(drawCall.visualizer) : null);
+            if(!Array.isArray(resultsBack)) { resultsBack = [resultsBack]; }
+            for(let i = 0; i < (resultsFront.length - resultsBack.length); i++) { resultsBack.push(null); } // pad to ensure equal length
+
+            promisesFront.push(...resultsFront);
+            promisesBack.push(...resultsBack);
         }
 
         const canvasesFront = await Promise.all(promisesFront);

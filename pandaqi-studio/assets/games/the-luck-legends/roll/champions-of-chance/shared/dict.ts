@@ -7,7 +7,7 @@ interface GeneralData
     label?: string
 }
 
-const SPECIAL_CARDS:Record<string,GeneralData> =
+export const SPECIAL_CARDS:Record<string,GeneralData> =
 {
     invert: { frame: 0, desc: "<b>Inverts</b> the challenge. (Lowest <> Highest.)" },
     tiebreak: { frame: 1, desc: "If it's a <b>tie</b>, <i>you win</i> and <i>your opponent loses</i>." },
@@ -16,7 +16,7 @@ const SPECIAL_CARDS:Record<string,GeneralData> =
     numberless: { frame: 4, desc: "<b>Nothing happens</b> after the battle, but this card is <i>discarded</i>." },
 }
 
-const MISC:Record<string, GeneralData> =
+export const MISC:Record<string, GeneralData> =
 {
     1: { frame: 0, label: "One", tint: "#ff0000" },
     2: { frame: 1, label: "Two", tint: "#d0b900" },
@@ -28,17 +28,10 @@ const MISC:Record<string, GeneralData> =
     cup_icon: { frame: 7 },
 }
 
-const TEMPLATES:Record<string, GeneralData> =
+export const TEMPLATES:Record<string, GeneralData> =
 {
     bg_regular: { frame: 0 },
     tint_regular: { frame: 1 },
     bg_special: { frame: 2 },
     tint_special: { frame: 3 }
-}
-
-export 
-{
-    MISC,
-    SPECIAL_CARDS,
-    TEMPLATES
 }

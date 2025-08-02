@@ -1,6 +1,6 @@
 import Cell from "./cell"
 import Point from "js/pq_games/tools/geometry/point"
-import { CONFIG } from "./config"
+import { CONFIG } from "../shared/config"
 
 export default class BoardState
 {

@@ -8,11 +8,12 @@ import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
-import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
 import Rectangle from "js/pq_games/tools/geometry/rectangle"
 import shuffle from "js/pq_games/tools/random/shuffle"
+import { CONFIG } from "../shared/config"
 
 interface CityData
 {
@@ -90,11 +91,11 @@ export default class BoardGeneration
 	goodsDict: Record<string, any>
 
 	// user-input settings should be passed through config
-	async draw(vis:MaterialVisualizer) : Promise<ResourceGroup[]>
+	async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
 	{
 		this.setup(vis);
 		this.generateBoard();
-		return this.visualizeGame(vis);
+		return await this.visualizeGame(vis);
 	}
 
 	setup(vis:MaterialVisualizer)
@@ -104,17 +105,16 @@ export default class BoardGeneration
 		const canvasWidth = vis.size.x;
 		const scaleFactorDPI = (canvasWidth/1160.0);
 
-		const userConfig = vis.config;
-		userConfig.numPlayers = parseInt(userConfig.playerCount);
-		userConfig.splitDims = userConfig.splitBoard ? new Point(2,2) : null; // @TODO: is this the way??
+		const userConfig = CONFIG;
+		userConfig.numPlayers = parseInt(userConfig._settings.playerCount.value);
 
 		this.cfg = 
 		{
 			seed: jungleName,
 			jungleName: jungleName,
 
-			w: userConfig.size.x,
-			h: userConfig.size.y,
+			w: vis.size.x,
+			h: vis.size.y,
 
 			numCities: PLAYERCOUNT_TO_CITYCOUNT[userConfig.numPlayers] ?? 10,
 			cellSize: 20,
@@ -135,11 +135,10 @@ export default class BoardGeneration
 			landCityProbability: 0.35,
 
 			numPlayers: userConfig.numPlayers,
-			difficulty: userConfig.difficulty ?? "trainingWheels",
-			inkFriendly: userConfig.inkFriendly ?? false,
-			splitBoard: userConfig.splitBoard ?? false,
-			cityBonus: userConfig.cityBonus ?? false,
-			rulesReminder: userConfig.rulesReminder ?? false,
+			difficulty: userConfig._settings.difficulty.value ?? "trainingWheels",
+			inkFriendly: userConfig._settings.defaults.inkFriendly.value ?? false,
+			cityBonus: userConfig._settings.cityBonus.value ?? false,
+			rulesReminder: userConfig._settings.rulesReminder.value ?? false,
 
 			minPathsRequiredOfEachType: 2
 		}
@@ -918,10 +917,9 @@ export default class BoardGeneration
 		return true;
 	}
 
-	visualizeGame(vis:MaterialVisualizer) 
+	async visualizeGame(vis:MaterialVisualizer) 
 	{
-		// @ts-ignore
-		const group = new ResourceGroup();
+		const group = vis.prepareDraw();
 
 		const oX = this.cfg.oX;
 		const oY = this.cfg.oY;
@@ -1364,7 +1362,7 @@ export default class BoardGeneration
 			group.add(res, op);
 		}
 
-		return [group];
+		return await vis.finishDraw(group);
 	}
 
 	getRandomJungleName() 

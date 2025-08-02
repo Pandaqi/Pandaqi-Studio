@@ -6,7 +6,7 @@ import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import ProgressBar from "js/pq_games/website/progressBar"
 
-import { CONFIG } from "./config"
+import { CONFIG } from "../shared/config"
 import takeBitesOutOfPath from "js/pq_games/tools/geometry/paths/takeBitesOutOfPath"
 import Point from "js/pq_games/tools/geometry/point"
 import LayoutOperation from "js/pq_games/layout/layoutOperation"

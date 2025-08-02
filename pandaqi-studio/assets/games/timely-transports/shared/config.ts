@@ -1,7 +1,13 @@
 import Point from "js/pq_games/tools/geometry/point"
+import { boardPicker } from "../board/boardPicker"
 
 export const CONFIG = 
 {
+    _game:
+    {
+        fileName: "Timely Transports"
+    },
+
     // @NOTE: these are used by the GAME. They are completely overridden if generating the BOARD.
     _settings:
     {
@@ -10,14 +16,14 @@ export const CONFIG =
             type: SettingType.NUMBER,
             min: 1,
             max: 8,
-            default: 4
+            value: 4
         },
 
         difficulty:
         {
             type: SettingType.ENUM,
             values: ["trainingWheels", "goodLuck", "fancyVehicles", "anotherUpgrade", "extraordinaryEvents", "crazyCargo"],
-            default: "trainingWheels",
+            value: "trainingWheels",
             label: "Scenario"
         },
 
@@ -25,6 +31,7 @@ export const CONFIG =
         {
             type: SettingType.ENUM,
             values: [0,1,2,3,4,5,6,7,8],
+            value: 0,
             label: "Which Player Are You?",
             remark: "If used, each player must input a unique rank. (Order does not matter.) By knowing which player you are, the game can space out events and sound effects more fairly and evenly."
         },
@@ -33,12 +40,13 @@ export const CONFIG =
         {
             type: SettingType.CHECK,
             values: [0,5,10],
+            value: 0,
             label: "Add Timeouts (minutes between)",
             remark: "If some of your players find the game too stressful, include regular timeouts. This gives them some time to breathe and make new plans once in a while."
         }
     },
 
-        assetsBase: "/timely-transports/assets/",
+    assetsBase: "/timely-transports/assets/",
     assets:
     {
         rowdies:
@@ -122,6 +130,15 @@ export const CONFIG =
         {
             path: "railroutes.png",
             frames: new Point(4,1)
+        }
+    },
+
+    _material:
+    {
+        board:
+        {
+            picker: boardPicker,
+            mapper: MapperPreset.FULL_PAGE
         }
     }
 }

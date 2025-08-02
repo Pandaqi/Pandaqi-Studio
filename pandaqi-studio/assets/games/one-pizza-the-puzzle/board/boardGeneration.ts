@@ -80,7 +80,7 @@ export default class BoardGeneration
 	fontFamily = "leckerli"
 
 	// user-input settings should be passed through config
-	async draw(vis:MaterialVisualizer)
+	async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
 	{
 		this.cfg = CONFIG;
 
@@ -161,10 +161,10 @@ export default class BoardGeneration
 
 		//this.cfg.numPizzaPolice = 1 + Math.floor(this.cfg.resX / 6.0)
 
-		return this.generateBoard(vis);
+		return await this.generateBoard(vis);
 	}
 
-	generateBoard(vis:MaterialVisualizer) 
+	async generateBoard(vis:MaterialVisualizer) 
 	{
 		// create empty lists and grid (we'll need later on)
 		this.prepareLists();
@@ -225,7 +225,7 @@ export default class BoardGeneration
 		}
 
 		// visualize the whole thing
-		return this.visualizeGame(vis);
+		return await this.visualizeGame(vis);
 	}
 
 	createGrid() 
@@ -1950,7 +1950,7 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizeGame(vis:MaterialVisualizer) 
+	async visualizeGame(vis:MaterialVisualizer) 
 	{
 		// prepare all layers/containers
 		const group = vis.prepareDraw();
@@ -2263,7 +2263,7 @@ export default class BoardGeneration
 		});
 		group.add(resHint, opHint);
 
-		return vis.finishDraw(group);
+		return await vis.finishDraw(group);
 	}
 
 	visualizeEntrance(group:ResourceGroup, obj:Cell, roadGroup:ResourceGroup) 

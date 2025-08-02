@@ -1,12 +1,12 @@
 
-enum CardType
+export enum CardType
 {
     ZOO,
     ANIMAL
 }
 
 // the actual background/decorations on cards is a dark green/brown vibe
-enum AnimalType
+export enum AnimalType
 {
     LION = "Lion", // yellow
     FOX = "Fox", // orange-brown-red
@@ -24,7 +24,7 @@ interface GeneralData
     forbidPeople?: boolean,
 }
 
-const ZOO_CARDS:Record<string, GeneralData> = 
+export const ZOO_CARDS:Record<string, GeneralData> = 
 {
     autowin: { desc: "<b>%animal% always wins</b>. Everything else is a tie.", hideCycle: true },
     autolose: { desc: "<b>%animal% always loses</b>. Everything else is a tie.", hideCycle: true },
@@ -34,7 +34,7 @@ const ZOO_CARDS:Record<string, GeneralData> =
     double_roll: { desc: "All battlers roll <b>twice</b> and pick <i>one of the results</i> as final." }
 }
 
-const ANIMALS:Record<AnimalType, GeneralData> =
+export const ANIMALS:Record<AnimalType, GeneralData> =
 {
     [AnimalType.LION]: { frame: 0, desc: "In case of a <b>tie</b>, I always <i>win</i>." },
     [AnimalType.FOX]: { frame: 1, desc: "You may <b>reroll</b>.\n(Foxes can be used only <i>once</i> per battle.)" },
@@ -43,7 +43,7 @@ const ANIMALS:Record<AnimalType, GeneralData> =
     [AnimalType.DOLPHIN]: { frame: 4, desc: "<b>Nobody wins nor loses</b>.\n<i>Discard</i> me; <i>Draw</i> a new card." },
 }
 
-const MISC:Record<string, GeneralData> = 
+export const MISC:Record<string, GeneralData> = 
 {
     cycle_2: { frame: 0 },
     cycle_3: { frame: 1 },
@@ -54,19 +54,9 @@ const MISC:Record<string, GeneralData> =
     textbox_animal: { frame: 6 },
 }
 
-const TEMPLATES:Record<string, GeneralData> = 
+export const TEMPLATES:Record<string, GeneralData> = 
 {
     zoo: { frame: 0 },
     animal: { frame: 1 },
     texture: { frame: 2 },
-}
-
-export 
-{
-    MISC,
-    ANIMALS,
-    ZOO_CARDS,
-    TEMPLATES,
-    CardType,
-    AnimalType
 }

@@ -29,7 +29,7 @@ CONFIG._rulebook =
                     sheetWidth: 8,
                     base: CONFIG.assetsBase,
                 },
-            }
+            },
             data: parseForRulebookTable(SETS.base)
         },
 

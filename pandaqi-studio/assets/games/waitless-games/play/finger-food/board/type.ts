@@ -1,4 +1,4 @@
-import { MAIN_TYPES } from "./dictionary"
+import { MAIN_TYPES } from "../shared/dict"
 
 export default class Type
 {

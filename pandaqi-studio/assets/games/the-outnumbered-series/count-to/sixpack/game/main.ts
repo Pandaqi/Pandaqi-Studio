@@ -1,5 +1,5 @@
 import Pack from "./pack"
-import { PACKS } from "./dict"
+import { PACKS } from "../shared/dict"
 import GridMapper from "js/pq_games/layout/gridMapper"
 import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
 import { PageOrientation } from "js/pq_games/pdf/pdfEnums";

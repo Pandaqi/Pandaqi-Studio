@@ -1,4 +1,4 @@
-enum CardType
+export enum CardType
 {
     VEHICLE = "vehicle",
     HEALTH = "health",
@@ -12,7 +12,7 @@ enum CardType
     CUSTOM = "custom",
 }
 
-enum TileType
+export enum TileType
 {
     MAP = "map",
     VEHICLE = "vehicle-tile",
@@ -20,7 +20,7 @@ enum TileType
     CUSTOM = "custom-tile"
 }
 
-enum EventType
+export enum EventType
 {
     NONE = "none",
     EVENT = "event",
@@ -28,7 +28,7 @@ enum EventType
     RULE = "rule"
 }
 
-enum TerrainType
+export enum TerrainType
 {
     NONE = "none",
     SEA = "sea",
@@ -41,13 +41,13 @@ enum TerrainType
     MOUNTAIN = "mountain"
 }
 
-interface TerrainData 
+export interface TerrainData 
 {
     frame: number,
     elevation: number
 }
 
-const TERRAINS:Record<TerrainType, TerrainData> = 
+export const TERRAINS:Record<TerrainType, TerrainData> = 
 {
     [TerrainType.NONE]: { frame: -1, elevation: -1 },
     [TerrainType.SEA]: { frame: 0, elevation: 0 },
@@ -60,7 +60,7 @@ const TERRAINS:Record<TerrainType, TerrainData> =
     [TerrainType.MOUNTAIN]: { frame: 7, elevation: 4 },
 }
 
-enum NetworkType
+export enum NetworkType
 {
     NONE = "none",
     DEADEND = "deadend",
@@ -70,13 +70,13 @@ enum NetworkType
     ALL = "crossroads"
 }
 
-interface NetworkData
+export interface NetworkData
 {
     frameOffset: number,
     sides: boolean[], // at which sides there is a road/connection -> as usual, goes (right, down, left, up)
 }
 
-const NETWORKS:Record<NetworkType, NetworkData> =
+export const NETWORKS:Record<NetworkType, NetworkData> =
 {
     [NetworkType.NONE]: { frameOffset: -1, sides: [true, true, true, true] },
     [NetworkType.DEADEND]: { frameOffset: 0, sides: [true, false, false, false] },
@@ -86,14 +86,14 @@ const NETWORKS:Record<NetworkType, NetworkData> =
     [NetworkType.ALL]: { frameOffset: 4, sides: [true, true, true, true] },
 }
 
-const GPS_ICONS = 
+export const GPS_ICONS = 
 {
     reward: { frame: 9 },
     penalty: { frame: 10 },
     arrow: { frame: 11 }
 }
 
-const PASSENGERS:Record<string,MaterialNaivigationData> =
+export const PASSENGERS:Record<string,MaterialNaivigationData> =
 {
     girl: { frame: 0, label: "Tiara Train" }, // Daisy Green
     boy: { frame: 1, label: "Timmy Taxi" }, // Jim Red
@@ -105,7 +105,7 @@ const PASSENGERS:Record<string,MaterialNaivigationData> =
     man_young: { frame: 7, label: "Peter Plane" }
 }
 
-const MISC_SHARED =
+export const MISC_SHARED =
 {
     game_icon: { frame: 0 },
     game_pattern: { frame: 1 },
@@ -114,9 +114,9 @@ const MISC_SHARED =
     starting_icon: { frame: 4 },
 }
 
-type MaterialNaivigationType = CardType | TileType
+export type MaterialNaivigationType = CardType | TileType
 
-interface MaterialNaivigationData
+export interface MaterialNaivigationData
 {
     frame?: number,
     label?: string,
@@ -135,27 +135,10 @@ interface MaterialNaivigationData
     textureKey?: string, // a custom texture to use, instead of the template default one
 }
 
-interface GameNaivigationData
+export interface GameNaivigationData
 {
     bgColor?: string,
     tintColor?: string,
     textColor?: string,
     mapTileColor?: string,
-}
-
-export
-{
-    CardType,
-    TileType,
-    EventType,
-    MaterialNaivigationType,
-    MaterialNaivigationData,
-    GameNaivigationData,
-    TERRAINS,
-    TerrainType,
-    NETWORKS,
-    NetworkType,
-    PASSENGERS,
-    MISC_SHARED,
-    GPS_ICONS
 }
