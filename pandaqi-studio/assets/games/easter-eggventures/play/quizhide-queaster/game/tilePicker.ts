@@ -1,49 +1,39 @@
-import { OBSTACLES } from "../../egghunt-esports/shared/dict";
 import { CONFIG } from "../shared/config";
 import { ROOMS, TileType } from "../shared/dict";
 import Tile from "./tile";
 
-export default class TilePicker
+export const tilePicker = () : Tile[] =>
 {
-    tiles: Tile[]
+    const tiles = [];
 
-    get() { return this.tiles.slice(); }
-    generate()
+    generatePawns(tiles);
+    generateRoomTiles(tiles);
+
+    return tiles;
+}
+
+const generatePawns = (tiles) =>
+{
+    if(!CONFIG.sets.base) { return; }
+
+    const maxNumPlayers = CONFIG.generation.maxNumPlayers;
+    for(let i = 0; i < maxNumPlayers; i++)
     {
-        this.tiles = [];
-
-        this.generatePawns();
-        this.generateRoomTiles();
-
-        console.log(this.tiles);
+        tiles.push(new Tile(TileType.PAWN, "", { playerNum: i }));
     }
+}
 
-    generatePawns()
+const generateRoomTiles = (tiles) =>
+{
+    for(const [key,data] of Object.entries(ROOMS))
     {
-        if(!CONFIG.sets.base) { return; }
+        const set = data.set ?? "base";
+        if(!CONFIG.sets[set]) { continue; }
 
-        const maxNumPlayers = CONFIG.generation.maxNumPlayers;
-        for(let i = 0; i < maxNumPlayers; i++)
+        const freq = data.freq ?? CONFIG.generation.defaultFrequencies.roomTile;
+        for(let i = 0; i < freq; i++)
         {
-            this.tiles.push(new Tile(TileType.PAWN, "", { playerNum: i }));
+            tiles.push(new Tile(TileType.ROOM, key));
         }
     }
-
-    generateRoomTiles()
-    {
-        for(const [key,data] of Object.entries(ROOMS))
-        {
-            const set = data.set ?? "base";
-            if(!CONFIG.sets[set]) { continue; }
-
-            const freq = data.freq ?? CONFIG.generation.defaultFrequencies.roomTile;
-            for(let i = 0; i < freq; i++)
-            {
-                this.tiles.push(new Tile(TileType.ROOM, key));
-            }
-        }
-    }
-
-
-
 }

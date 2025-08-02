@@ -1,13 +1,13 @@
 import Point from "js/pq_games/tools/geometry/point"
 
-enum CardType
+export enum CardType
 {
     REGULAR = "regular",
     ACTION = "action",
     SINT = "sint",
 }
 
-enum ColorType
+export enum ColorType
 {
     PURPLE = "purple",
     BLUE = "blue",
@@ -25,7 +25,7 @@ interface GeneralData
     label?: string,
 }
 
-const MISC:Record<string, GeneralData> =
+export const MISC:Record<string, GeneralData> =
 {
     [ColorType.PURPLE]: { frame: 0, dark: "#500063", light: "#F793FF", label: "Cirkel" },   
     [ColorType.BLUE]: { frame: 1, dark: "#004589", light: "#ABDEFF", label: "Vierkant" },   
@@ -37,7 +37,7 @@ const MISC:Record<string, GeneralData> =
     bieden: { frame: 7 }, // geld/chip
 }
 
-const ACTIEPIETEN:Record<string, GeneralData> =
+export const ACTIEPIETEN:Record<string, GeneralData> =
 {
     stafpiet: { frame: 0, label: "Stafpiet", desc: "Jij wordt direct <b>de Sint</b>." },
     acteerpiet: { frame: 1, label: "Acteerpiet", desc: "Deze kaart is <b>elke kleur</b> en <b>elk getal</b> dat je wilt.", freq: 3 },
@@ -63,13 +63,13 @@ const ACTIEPIETEN:Record<string, GeneralData> =
     chihuahuapiet: { frame: 17, label: "Chihuahuapiet", desc: "Een combinatie van <b>4 exact dezelfde kaarten</b> overtreft alles.", freq: 2 }
 }
 
-const CARD_TEMPLATES:Record<string, GeneralData> =
+export const CARD_TEMPLATES:Record<string, GeneralData> =
 {
     bg: { frame: 0 },
     action_overlay: { frame: 1 },
 }
 
-const POSITION_INDICES:number[][] = [
+export const POSITION_INDICES:number[][] = [
     [],
     [4], // 1; sanity check
     [2,6], // 2
@@ -79,18 +79,8 @@ const POSITION_INDICES:number[][] = [
     [0,2,3,5,6,8], // 6
 ]
 
-const ICON_POSITIONS:Point[] = [
+export const ICON_POSITIONS:Point[] = [
     new Point(-1, -0.7), new Point(0, -0.85), new Point(1, -1), // top row
     new Point(-1, 0.15), new Point(0, 0), new Point(1, -0.15), // middle row
     new Point(-1, 1.0), new Point(0, 0.85), new Point(1, 0.7), // bottom row
 ]
-
-export {
-    CardType,
-    ColorType,
-    MISC,
-    ACTIEPIETEN,
-    CARD_TEMPLATES,
-    POSITION_INDICES,
-    ICON_POSITIONS,
-};

@@ -5,7 +5,7 @@ import { ResourceGroup } from "../layout/resources/resourceGroup";
 import { ResourceLoader } from "../layout/resources/resourceLoader";
 import { Vector2 } from "../geometry/vector2";
 import { Configurator } from "../settings/configurator";
-import { GameConfig } from "../settings/configuration";
+import { ensureConfigProperties, GameConfig } from "../settings/configuration";
 import { translate } from "../layout/text/translation";
 
 export class MaterialVisualizer
@@ -30,6 +30,8 @@ export class MaterialVisualizer
 
     constructor(config:GameConfig, customItemSize:Vector2 = null)
     {
+        ensureConfigProperties(config);
+        
         this.renderer = config._game.renderer ?? new RendererPandaqi();
         this.resLoader = config._game.resLoader;
 

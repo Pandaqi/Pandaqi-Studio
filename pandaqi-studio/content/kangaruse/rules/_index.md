@@ -55,8 +55,7 @@ Finally, check the special action of your new square. That's it!
 
 Below is a list of all types in the game and their explanation. It's recommended to simply enable "include rules" when generating a board, so you never need to read any of this!
 
-<div id="kangaruse-type-table">
-</div>
+<div data-rulebook-table="types"></div>
 
 Extra clarifications.
 

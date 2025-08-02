@@ -4,13 +4,13 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig from "js/pq_games/layout/text/textConfig";
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
 import Path from "js/pq_games/tools/geometry/paths/path";
 import roundPath from "js/pq_games/tools/geometry/paths/roundPath";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import Random from "js/pq_games/tools/random/main";
-import { CELLS, COLOR_GROUPS, CORNER_OFFSETS, GENERAL } from "../shared/dictionary";
+import { CELLS, COLOR_GROUPS, CORNER_OFFSETS, GENERAL } from "../shared/dict";
 import BoardDisplay from "./boardDisplay";
 import Cell from "./cell";
 import { CONFIG } from "./config";
@@ -37,7 +37,7 @@ export default class CellDisplay
         return this.boardDisplay.convertToRealUnits(pos);
     }
 
-    createNumText(vis: BoardVisualizer, group:ResourceGroup, corner: string)
+    createNumText(vis: MaterialVisualizer, group:ResourceGroup, corner: string)
     {
         if(!this.showNum()) { return null; }
 
@@ -67,7 +67,7 @@ export default class CellDisplay
         group.add(resText, opText);
     }
 
-    createWritingSpace(vis: BoardVisualizer, group:ResourceGroup, size:Point, corner:string)
+    createWritingSpace(vis: MaterialVisualizer, group:ResourceGroup, size:Point, corner:string)
     {
         const res = vis.getResource("general_spritesheet");
         const alpha = this.showWritingSpace() ? 1.0 : 0.0;
@@ -83,7 +83,7 @@ export default class CellDisplay
         group.add(res, op);
     }
 
-    createTypeIcon(vis: BoardVisualizer, group:ResourceGroup, size:Point, corner:string)
+    createTypeIcon(vis: MaterialVisualizer, group:ResourceGroup, size:Point, corner:string)
     {
         if(!this.showType()) { return null; }
 
@@ -129,7 +129,7 @@ export default class CellDisplay
         return new Color( COLOR_GROUPS[this.getColorGroup()] );
     }
 
-    draw(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
+    draw(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
     {
         this.boardDisplay = boardDisplay;
 
@@ -137,7 +137,7 @@ export default class CellDisplay
         this.drawInnerConfiguration(vis, group);
     }
 
-    drawSquare(vis: BoardVisualizer, group:ResourceGroup)
+    drawSquare(vis: MaterialVisualizer, group:ResourceGroup)
     {
         const size = this.boardDisplay.cellSize
         const rect = new Rectangle({ center: this.getRealPosition(), extents: size });
@@ -182,7 +182,7 @@ export default class CellDisplay
         }
     }
 
-    drawInnerConfiguration(vis: BoardVisualizer, group:ResourceGroup)
+    drawInnerConfiguration(vis: MaterialVisualizer, group:ResourceGroup)
     {
         const data = CONFIG.board.cellDisplay;
         const csu = this.boardDisplay.cellSizeUnit;

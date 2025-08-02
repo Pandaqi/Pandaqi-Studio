@@ -1,7 +1,3 @@
-import startAmorpheGenerator from "../shared/main";
+import { CONFIG } from "../shared/config";
 
-startAmorpheGenerator({
-    config: "thatsAmorpheConfig",
-    debugging: false, // @DEBUGGING (should be false)
-    what: "words" // @DEBUGGING (should be words)
-})
+loadGame(CONFIG);

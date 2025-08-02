@@ -21,35 +21,44 @@ CONFIG._rulebook =
     {
         base:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.base.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
-            },
-            icons: parseForRulebookTable(SETS.base)
+                config:
+                {
+                    sheetURL: CONFIG.assets.base.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                },
+            }
+            data: parseForRulebookTable(SETS.base)
         },
 
         advanced:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.advanced.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.advanced.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                },
             },
-            icons: parseForRulebookTable(SETS.advanced)
+            data: parseForRulebookTable(SETS.advanced)
         },
 
         expert:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.expert.path
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.expert.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                },
             },
-            icons: parseForRulebookTable(SETS.expert)
+            data: parseForRulebookTable(SETS.expert)
         },
     }
 }

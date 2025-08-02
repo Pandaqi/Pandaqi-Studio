@@ -1,7 +1,6 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import { CONFIG } from "../shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Visualizer from "./visualizer";
 import { ACTIONS, CardMainType, CardType, MISC, PACKS, SCORING_RULES } from "../shared/dict";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
@@ -22,6 +21,20 @@ import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPosi
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import clamp from "js/pq_games/tools/numbers/clamp";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+
+const getPointyRect = (anchor:Point, size:Point, offset = 0.9) =>
+{
+    const points = [
+        new Point(anchor.x - 0.5*size.x, anchor.y),
+        new Point(anchor.x - 0.5*offset*size.x, anchor.y - 0.5*size.y),
+        new Point(anchor.x + 0.5*offset*size.x, anchor.y - 0.5*size.y),
+        new Point(anchor.x + 0.5*size.x, anchor.y),
+        new Point(anchor.x + 0.5*offset*size.x, anchor.y + 0.5*size.y),
+        new Point(anchor.x - 0.5*offset*size.x, anchor.y + 0.5*size.y)
+    ]
+    return new Path({ points: points });
+}
 
 export default class Card
 {
@@ -91,7 +104,7 @@ export default class Card
         return this.type + " " + this.num;
     }
 
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
@@ -115,13 +128,13 @@ export default class Card
     //
     // Scoreworks cards
     //
-    drawBackgroundScore(vis:Visualizer, ctx)
+    drawBackgroundScore(vis:MaterialVisualizer, ctx)
     {
         fillCanvas(ctx, "#FFFFFF");
         // @TODO: some default image to surround the text and make it less plain?
     }
 
-    drawScoreRule(vis:Visualizer, group)
+    drawScoreRule(vis:MaterialVisualizer, group)
     {
         const data = SCORING_RULES[this.action];
         const titleFontSize = CONFIG.cards.scoreRule.titleFontSize * vis.sizeUnit;
@@ -146,7 +159,7 @@ export default class Card
 
         // the action title + pointy rect behind it
         const titleRectDims = CONFIG.cards.title.rectDims.clone().scale(titleDims);
-        const pointyRect = vis.getPointyRect(titlePos, titleRectDims);
+        const pointyRect = getPointyRect(titlePos, titleRectDims);
         const pointyRectOp = new LayoutOperation({ fill: "#212121" })
 
         group.add(new ResourceShape(pointyRect), pointyRectOp);
@@ -178,7 +191,7 @@ export default class Card
     //
     // Play cards
     //
-    drawBackground(vis:Visualizer, ctx)
+    drawBackground(vis:MaterialVisualizer, ctx)
     {
         let colorDark = this.getTypeData().colorDark;
         if(vis.inkFriendly)
@@ -189,7 +202,7 @@ export default class Card
         fillCanvas(ctx, colorDark);
     }
 
-    drawCost(vis:Visualizer, group)
+    drawCost(vis:MaterialVisualizer, group)
     {
         // draw rectangle behind it
         const yPos = CONFIG.cards.coins.yPos;
@@ -197,7 +210,7 @@ export default class Card
         const rectDimsRaw = this.hasAction() ? CONFIG.cards.coins.rectDimsAction : CONFIG.cards.coins.rectDims;
         const rectDims = rectDimsRaw.clone().scale(vis.size);
         const pointyOffset = this.hasAction() ? CONFIG.cards.coins.rectDimsOffsetAction : CONFIG.cards.coins.rectDimsOffset;
-        const pointyRect = vis.getPointyRect(anchorPos, rectDims, pointyOffset);
+        const pointyRect = getPointyRect(anchorPos, rectDims, pointyOffset);
         const typeData = this.getTypeData();
         const color = vis.inkFriendly ? CONFIG.cards.shared.colorMidInkFriendly : typeData.colorMid;
 
@@ -211,7 +224,7 @@ export default class Card
         const fontSize = CONFIG.cards.coins.fontSize * vis.sizeUnit;
         const anchorPosCost = new Point(anchorPos.x, anchorPos.y - 0.5*rectDims.y);
         const rectDimsCost = new Point(7*fontSize, 1.2*fontSize);
-        const pointyRect2 = vis.getPointyRect(anchorPosCost, rectDimsCost);
+        const pointyRect2 = getPointyRect(anchorPosCost, rectDimsCost);
 
         const rectOp2 = new LayoutOperation({
             fill: new Color(color).darken(CONFIG.cards.coins.textRectDarken),
@@ -259,8 +272,12 @@ export default class Card
         }
     }
 
-    drawCorners(vis:Visualizer, group)
+    drawCorners(vis:MaterialVisualizer, group)
     {
+        const glowRadius = CONFIG.cards.shared.glowRadius * vis.sizeUnit;
+        const glowColor = CONFIG.cards.shared.glowColor;
+        const visEffects = [new DropShadowEffect({ blurRadius: glowRadius, color: glowColor })];
+
         const typeData = this.getTypeData();
         const isAction = this.hasAction();
 
@@ -312,7 +329,7 @@ export default class Card
 
             const op = new LayoutOperation({
                 fill: starColor,
-                effects: vis.effects
+                effects: visEffects
             })
             group.add(resStar, op);
 
@@ -326,7 +343,7 @@ export default class Card
 
             // @EXCEPTION: as usual, the number 1 needs to be offset slightly to look centered
             let posOffset = (this.num == 1) ? new Point(-0.1*fontSize, 0) : new Point();
-            const effects = isBig ? vis.effects : [];
+            const effects = isBig ? visEffects : [];
 
             const opText = new LayoutOperation({
                 pos: pos.clone().move(posOffset),
@@ -343,7 +360,7 @@ export default class Card
         }
     }
 
-    drawMainIllustration(vis:Visualizer, group)
+    drawMainIllustration(vis:MaterialVisualizer, group)
     {
         const pos = new Point(vis.center.x, CONFIG.cards.illustration.yPos * vis.size.y);
         let size = new Point(CONFIG.cards.illustration.scale * vis.sizeUnit);
@@ -376,18 +393,17 @@ export default class Card
 
         // actual front picture
         const res = vis.resLoader.getResource("types");
-        const effects = vis.inkFriendly ? vis.effectsGrayscaleOnly : [];
         const op = new LayoutOperation({
             frame: frame,
             pos: pos,
             size: size,
             pivot: Point.CENTER,
-            effects: effects,
+            effects: vis.inkFriendlyEffect,
         })
         group.add(res, op);
     }
 
-    drawAction(vis:Visualizer, group)
+    drawAction(vis:MaterialVisualizer, group)
     {
         if(!this.hasAction()) { return; }
 
@@ -442,7 +458,7 @@ export default class Card
 
         // the action title + pointy rect behind it
         const titleRectDims = CONFIG.cards.title.rectDims.clone().scale(titleDims);
-        const pointyRect = vis.getPointyRect(titlePos, titleRectDims);
+        const pointyRect = getPointyRect(titlePos, titleRectDims);
         const pointyRectOp = new LayoutOperation({
             fill: colorDark
         })
@@ -474,7 +490,7 @@ export default class Card
     }
 
 
-    drawOutline(vis:Visualizer, ctx)
+    drawOutline(vis:MaterialVisualizer, ctx)
     {
         const outlineSize = CONFIG.cards.outline.size * vis.sizeUnit;
         strokeCanvas(ctx, CONFIG.cards.outline.color, outlineSize);

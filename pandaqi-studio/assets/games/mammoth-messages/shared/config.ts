@@ -1,6 +1,9 @@
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import { MESSAGES } from "./dict"
+import { cardPicker } from "../game/cardPicker"
+import { drawingPicker } from "../game/drawingPicker"
+import { tokenPicker } from "../game/tokenPicker"
 
 export const CONFIG = 
 {
@@ -13,7 +16,7 @@ export const CONFIG =
             includeCards:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Include Word Cards",
             },
 
@@ -21,14 +24,14 @@ export const CONFIG =
             {
                 type: SettingType.CHECK,
                 label: "Include Cave Drawings",
-                default: true
+                value: true
             },
 
             includeTokens:
             {
                 type: SettingType.CHECK,
                 label: "Include Choice Tokens",
-                default: true,
+                value: true,
                 remark: "If you already have these, or plan on using something else, you can disable this."
             },
         },
@@ -40,50 +43,38 @@ export const CONFIG =
             includeGeography:
             {
                 type: SettingType.CHECK,
+                value: false
             },
 
             includeNames:
             {
                 type: SettingType.CHECK,
-                remark: "Includes names of popular people, brands, etcetera"
+                remark: "Includes names of popular people, brands, etcetera",
+                value: false,
             },
 
             includeDifficultWords:
             {
                 type: SettingType.CHECK,
-                remark: "Raises the max difficulty of words that can appear."
+                remark: "Raises the max difficulty of words that can appear.",
+                value: false,
             },
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "mammothMessagesConfig",
-    fileName: "Mammoth Messages",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    packs: {},
-
-    includeCards: true,
-    includeDrawings: true,
-    includeTokens: true,
-
-    includeDifficultWords: false,
-    includeNames: false,
-    includeGeography: false,
-
-    fonts:
+    _game:
     {
-        heading: "boblox",
-        body: "caveman"
+        fileName: "Mammoth Messages",
     },
+
+    packs: {},
 
     // assets
     assetsBase: "/mammoth-messages/assets/",
@@ -123,115 +114,133 @@ export const CONFIG =
         }
     },
 
-    // how generation/balancing happens
-    generation:
+    _material:
     {
-        
-    },
-
-    // how to draw/layout cards (mostly visually)
-    // word cards
-    cards:
-    {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true, // automatically adds thick outline around cards, which is customary and useful for imprecise cutters
-            sizeElement: new Point(1, 1.5),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            },
-        }, 
-
-        generation:
-        {
-            num: 45,
-            wordsPerCard: 10,
-            
-            pqWordsParams: 
+            picker: cardPicker,
+            mapper:
             {
-                method: "json",
-                maxWordLength: 12, // longer simply doesn't fit in reasonable font size
-                types: ["nouns"],
-                levels: ["core", "easy"],
-                useAllCategories: true,
-                wordExceptions: [],
-            }
+                autoStroke: true, // automatically adds thick outline around cards, which is customary and useful for imprecise cutters
+                sizeElement: new Point(1, 1.5),
+                size: 
+                { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                },
+            }, 
         },
 
-        secretMessages:
+        drawings:
         {
-            num: new Bounds(0,2),
-            options: MESSAGES,
-            fontSize: 0.078, // ~sizeUnit
-            alpha: 0.65,
-            textColor: "#FF5E00"
+            picker: drawingPicker,
+            mapper:
+            {
+                autoStroke: true,
+                sizeElement: new Point(1,1),
+                size: 
+                {
+                    small: new Point(8,10),
+                    regular: new Point(6,8),
+                    large: new Point(4,5)
+                }
+            },
         },
 
-        words:
+        tokens:
         {
-            yPos: 0.17, // ~sizeY
-            fontSize: 0.066, // ~sizeUnit
-            fontSizeNumber: 0.066, // ~sizeUnit; should be close to fontSize above
+            picker: tokenPicker,
+            mapper:
+            {
+                autoStroke: true,
+                sizeElement: new Point(1,1),
+                size: 
+                {
+                    small: new Point(8,10),
+                    regular: new Point(6,8),
+                    large: new Point(4,5)
+                }
+            },
 
-            iconDims: 0.125, // ~sizeUnit
-            iconSymbolDims: 0.9, // ~iconDims
-            gapIconToText: 0.1, // ~sizeUnit; should be close to iconDims above
-
-            edgeMargin: 0.1, // ~sizeUnit; should be higher than iconDims to have space
-            strokeWidth: 0.125, // ~fontSize
-            dividerDims: 0.9, // ~sizeUnit; should be near 1.0 in any case
-            dividerAlpha: 0.875,
-            dividerAlphaInkFriendly: 0.33,
         }
     },
 
-    // cave drawings
-    // (same sizes as tokens for now, not sure if that will stay that way)
-    drawings:
+    _drawing:
     {
-        drawerConfig:
+        fonts:
         {
-            autoStroke: true,
-            sizeElement: new Point(1,1),
-            size: 
+            heading: "boblox",
+            body: "caveman"
+        },
+
+        // word cards
+        cards:
+        {
+            generation:
             {
-                small: new Point(8,10),
-                regular: new Point(6,8),
-                large: new Point(4,5)
+                num: 45,
+                wordsPerCard: 10,
+                
+                pqWordsParams: 
+                {
+                    method: "json",
+                    maxWordLength: 12, // longer simply doesn't fit in reasonable font size
+                    types: ["nouns"],
+                    levels: ["core", "easy"],
+                    useAllCategories: true,
+                    wordExceptions: [],
+                }
+            },
+
+            secretMessages:
+            {
+                num: new Bounds(0,2),
+                options: MESSAGES,
+                fontSize: 0.078, // ~sizeUnit
+                alpha: 0.65,
+                textColor: "#FF5E00"
+            },
+
+            words:
+            {
+                yPos: 0.17, // ~sizeY
+                fontSize: 0.066, // ~sizeUnit
+                fontSizeNumber: 0.066, // ~sizeUnit; should be close to fontSize above
+
+                iconDims: 0.125, // ~sizeUnit
+                iconSymbolDims: 0.9, // ~iconDims
+                gapIconToText: 0.1, // ~sizeUnit; should be close to iconDims above
+
+                edgeMargin: 0.1, // ~sizeUnit; should be higher than iconDims to have space
+                strokeWidth: 0.125, // ~fontSize
+                dividerDims: 0.9, // ~sizeUnit; should be near 1.0 in any case
+                dividerAlpha: 0.875,
+                dividerAlphaInkFriendly: 0.33,
             }
         },
 
-        iconSize: 0.9, // ~sizeUnit
-    },
-
-    // choice tokens
-    tokens:
-    {
-        drawerConfig:
+        // cave drawings
+        // (same sizes as tokens for now, not sure if that will stay that way)
+        drawings:
         {
-            autoStroke: true,
-            sizeElement: new Point(1,1),
-            size: 
+            iconSize: 0.9, // ~sizeUnit
+        },
+
+        // choice tokens
+        tokens:
+        {
+            generation:
             {
-                small: new Point(8,10),
-                regular: new Point(6,8),
-                large: new Point(4,5)
-            }
-        },
+                numberSkip: 2, // it only adds every X number per category
+                hardCap: 48
+            },
 
-        generation:
-        {
-            numberSkip: 2, // it only adds every X number per category
-            hardCap: 48
-        },
-
-        fontSize: 0.55, // ~sizeUnit
-        textColor: "#FFFFFF",
-        strokeColor: "#000000",
-        iconDims: 0.9,
-        strokeWidth: 0.025, // ~sizeUnit
+            fontSize: 0.55, // ~sizeUnit
+            textColor: "#FFFFFF",
+            strokeColor: "#000000",
+            iconDims: 0.9,
+            strokeWidth: 0.025, // ~sizeUnit
+        }
     }
 }

@@ -3,6 +3,9 @@ import Point from "js/pq_games/tools/geometry/point";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import CVal from "js/pq_games/tools/generation/cval";
+import { tilePicker } from "../game/tilePicker";
+import { cardPicker } from "../game/cardPicker";
+import { eggPicker } from "../game/eggPicker";
 
 export const CONFIG:Record<string,any> =
 {
@@ -16,36 +19,29 @@ export const CONFIG:Record<string,any> =
             {
                 type: SettingType.CHECK,
                 label: "Base Game",
-                default: true
+                value: true
             },
 
             cluesRooms:
             {
                 type: SettingType.CHECK,
                 label: "Clues & Rooms",
-                remark: "Simply adds more clue cards and possible room tiles."
+                remark: "Simply adds more clue cards and possible room tiles.",
+                value: false
             },
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "quizhideQueasterConfig",
-    fileName: "Quizhide Queaster",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-
-    sets:
+    _game:
     {
-        base: true,
-        cluesRooms: false,
+        fileName: "Quizhide Queaster",
     },
 
     // assets
@@ -90,49 +86,67 @@ export const CONFIG:Record<string,any> =
         }
     },
 
-
-    tiles:
+    _material:
     {
-        customDrawerConfig:
+        tiles:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1),
-            size: 
-            { 
-                small: new Point(4,6),
-                regular: new Point(2,4),
-                large: new Point(1,2)
-            },
-        }, 
-
-        objects:
-        {
-            size: new CVal(new Point(1.0), "sizeUnit")
+            picker: tilePicker,
+            mapper: 
+            {
+                autoStroke: true,
+                sizeElement: new Point(1, 1),
+                size: 
+                { 
+                    small: new Point(4,6),
+                    regular: new Point(2,4),
+                    large: new Point(1,2)
+                },
+            }
         },
 
-        rooms:
+        cards:
         {
-            hidingSlotDims: new CVal(new Point(0.1825), "sizeUnit"),
-            hidingSlotsFrame: 0
+            picker: cardPicker,
+            mapper: 
+            {
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: { 
+                    small: new Point(5,5),
+                    regular: new Point(4,4),
+                    large: new Point(3,3)
+                }, 
+            }, 
+        },
+
+        eggs:
+        {
+            picker: eggPicker
         }
     },
 
-    cards:
+    _drawing:
     {
-        drawerConfig:
+        tiles:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: { 
-                small: new Point(5,5),
-                regular: new Point(4,4),
-                large: new Point(3,3)
-            }, 
-        }, 
+            objects:
+            {
+                size: new CVal(new Point(1.0), "sizeUnit")
+            },
 
-        score:
+            rooms:
+            {
+                hidingSlotDims: new CVal(new Point(0.1825), "sizeUnit"),
+                hidingSlotsFrame: 0
+            }
+        },
+
+        cards:
         {
-            fontSize: new CVal(0.1, "sizeUnit")
+            score:
+            {
+                fontSize: new CVal(0.1, "sizeUnit")
+            }
         }
     }
 }

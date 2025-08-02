@@ -8,16 +8,16 @@ const CONFIG =
         {
             "almost-actions":
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "almost_actions.webp",
                         sheetWidth: 8,
-                        icons: ALMOST_ACTIONS,
                         base: "/photomone-games/draw/photomone-antsassins/assets/"
                     }
                 },
+
                 data: ALMOST_ACTIONS
             },
         }

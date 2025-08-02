@@ -1,12 +1,12 @@
 
-enum CardType
+export enum CardType
 {
     BOOK,
     SHELF
 }
 
 // DISCARDED "genres": Historical Fiction, Literature, Classics
-const GENRES =
+export const GENRES =
 {
     // the RED genres
     horror: { frame: 0, color: "red", action: "loss_game", label: "Horror" },
@@ -45,7 +45,7 @@ const GENRES =
     picture_book: { frame: 23, color: "black", action: "chaos_shift", label: "Picture Book" },
 }
 
-const ACTIONS =
+export const ACTIONS =
 {
     loss_game: { frame: 0, label: "Instant Loss", desc: "You <b>lose</b> the game." },
     loss_shelf: { frame: 1, label: "Remove Shelf", desc: "<b>Remove</b> 1 <b>Shelf</b>. (Discard all its cards.)" },
@@ -87,7 +87,7 @@ interface BookTitle
     initial?: string
 }
 
-const BOOK_TITLES:Record<string, BookTitle> =
+export const BOOK_TITLES:Record<string, BookTitle> =
 {
 
     // @SOURCE: first 4 pages of https://thegreatestbooks.org/
@@ -425,7 +425,7 @@ const BOOK_TITLES:Record<string, BookTitle> =
 // all possible authors
 //
 
-const AUTHORS =
+export const AUTHORS =
 {
     shakespeare: { label: "Shakepear", fixed: true },
     orwell: { label: "Doorwell", fixed: true },
@@ -502,7 +502,7 @@ const AUTHORS =
 //
 // possible age ranges to pick from (and their probabilities + display values)
 //
-const AGE_RANGES =
+export const AGE_RANGES =
 {
     none: { frame: 0, label: "Any", prob: 1.5 },
     kids: { frame: 1, label: "Kids" },
@@ -521,7 +521,7 @@ interface ShelfPowerData
     prob?: number
 }
 
-const SHELF_POWERS:Record<string, ShelfPowerData> =
+export const SHELF_POWERS:Record<string, ShelfPowerData> =
 {
     no_stack: { desc: "<b>Stacking</b> cards is <b>forbidden</b>." },
     forbidden_letters: { desc: "Letters <b>%letters%</b> are <b>forbidden</b>." },
@@ -543,7 +543,7 @@ interface ActionThrillData
     freq?: number
 }
 
-const ACTIONS_THRILL:Record<string,ActionThrillData> =
+export const ACTIONS_THRILL:Record<string,ActionThrillData> =
 {
     skip: { label: "Skip!", desc: "The next player must <b>skip</b> their turn." },
     stop: { label: "Stop!", desc: "<b>End</b> your turn immediately." },
@@ -573,7 +573,7 @@ interface ColorTypeData
     authorsOptions: string[], // the authors from which it will randomly pick (no duplicates) to fill up remaining space
 }
 
-const COLORS:Record<string, ColorTypeData> =
+export const COLORS:Record<string, ColorTypeData> =
 {
     red: { frame: 0, main: "#E61948", light: "#FFCDD9", dark: "#220000", letters: ["A", "F", "L", "Q", "U", "D"], authorsFixed: ["shakespeare", "rowling", "rowling", "rowling", "hemingway", "dickens", "sanderson", "tolstoy"], authorsOptions: ["tolkien", "andersen", "carroll", "verne", "kafka", "eliot", "fitzgerald", "milton", "james", "riley"] },
     green: { frame: 1, main: "#3CB44B", light: "#CCFFD3", dark: "#002200", letters: ["B", "E", "M", "R", "V", "G"], authorsFixed: ["orwell", "orwell", "orwell", "austen", "sanderson", "christie"], authorsOptions: ["clancy", "seuss", "king", "coelho", "wallace", "stine", "cartland", "roth", "meyer", "pullman"] },
@@ -584,7 +584,7 @@ const COLORS:Record<string, ColorTypeData> =
     default: { frame: -1, main: "#FFFFFF00", light: "#FFFFFF", dark: "#000000", letters: [], authorsFixed: [], authorsOptions: [] },
 }
 
-const MISC =
+export const MISC =
 {
     author_icon: { frame: 0 },
     age_icon: { frame: 1 },
@@ -592,8 +592,3 @@ const MISC =
     rect_rounded: { frame: 3 },
     
 }
-
-export {
-    ACTIONS, ACTIONS_THRILL, AGE_RANGES, AUTHORS, BOOK_TITLES, COLORS, CardType, GENRES, MISC, SHELF_POWERS
-}
-

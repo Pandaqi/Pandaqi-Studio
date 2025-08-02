@@ -1,18 +1,18 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { ANIMALS, AnimalData, COLORS } from "../shared/dict";
-import { CONFIG } from "../shared/config";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Point from "js/pq_games/tools/geometry/point";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
+import ColorLike from "js/pq_games/layout/color/colorLike";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
-import ColorLike from "js/pq_games/layout/color/colorLike";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import Point from "js/pq_games/tools/geometry/point";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import { CONFIG } from "../shared/config";
+import { ANIMALS, AnimalData, COLORS } from "../shared/dict";
 
 export default class Card
 {
@@ -32,8 +32,10 @@ export default class Card
     }
 
     getCanvas() { return this.ctx.canvas; }
-    async draw()
+    async draw(vis:MaterialVisualizer)
     {
+        const group = vis.prepareDraw();
+
         const size = CONFIG.cards.sizeResult;
         const ctx = createContext({ size: size });
         this.ctx = ctx;
@@ -41,44 +43,39 @@ export default class Card
         this.sizeUnit = Math.min(size.x, size.y);
         this.colorMain = COLORS[this.data.color];
 
-        await this.drawBackground();
-        await this.drawMainIllustration();
-        await this.drawCornerIcons();
-        await this.drawBearIcons();
-        await this.drawSpecialPower();
-        
-        const outlineSize = CONFIG.cards.outline.size * this.sizeUnit;
-        strokeCanvas(ctx, CONFIG.cards.outline.color, outlineSize);
+        this.drawBackground(vis, group);
+        this.drawMainIllustration(vis, group);
+        this.drawCornerIcons(vis, group);
+        this.drawBearIcons(vis, group);
+        this.drawSpecialPower(vis, group);
 
-        return this.getCanvas();
+        return await vis.finishDraw(group);
     }
 
-    async drawBackground()
+    drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : this.colorMain;
-        fillCanvas(this.ctx, bgColor);
+        fillResourceGroup(vis.size, group, bgColor);
 
-        const res = CONFIG.resLoader.getResource("bg");
+        if(CONFIG.inkFriendly) { return; }
+
+        const res = vis.getResource("bg");
         const op = new LayoutOperation({
             pos: this.size.clone().scale(0.5),
             size: this.size,
             pivot: new Point(0.5)
         })
-
-        if(!CONFIG.inkFriendly)
-        {
-            await res.toCanvas(this.ctx, op);
-        }
+        group.add(res, op);
     }
 
-    async drawMainIllustration()
+    drawMainIllustration(vis:MaterialVisualizer, group:ResourceGroup)
     {
         let key = "animals";
         if(this.data.expansion) { key += "_expansion"; }
 
         // draw some random (very light) splats to make it pop
         const numSplats = CONFIG.cards.illustration.splatNum.randomInteger();
-        const resSplat = CONFIG.resLoader.getResource("decoration");
+        const resSplat = vis.getResource("decoration");
         
         let angleJumps = 2 * Math.PI / numSplats;
         let startAngle = Math.random() * 2 * Math.PI;
@@ -104,30 +101,25 @@ export default class Card
                 rot: randRotation,
                 frame: frame
             })
-            await resSplat.toCanvas(this.ctx, op);
+            group.add(resSplat, op);
         }
 
         // draw the actual image
-        const res : ResourceImage = CONFIG.resLoader.getResource(key);
+        const res : ResourceImage = vis.getResource(key);
         const spriteSize = CONFIG.cards.illustration.sizeFactor * this.sizeUnit;
         const frame = this.data.frame;
-        const effects = [];
-        if(CONFIG.inkFriendly)
-        {
-            effects.push(new GrayScaleEffect());
-        }
 
         const op = new LayoutOperation({
             frame: frame,
             pos: this.size.clone().scaleFactor(0.5),
             size: new Point(spriteSize),
             pivot: new Point(0.5),
-            effects: effects
+            effects: vis.inkFriendlyEffect
         })
-        await res.toCanvas(this.ctx, op);
+        group.add(res, op);
     }
 
-    async drawCornerIcons()
+    drawCornerIcons(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const baseOffset = CONFIG.cards.icons.offset.clone();
         const offset = baseOffset.scaleFactor(this.sizeUnit);
@@ -154,20 +146,12 @@ export default class Card
         const textConfig = new TextConfig({
             font: CONFIG.fonts.heading,
             size: fontSize,
-            alignHorizontal: TextAlign.MIDDLE,
-            alignVertical: TextAlign.MIDDLE,
-            lineHeight: 1.0,
         })
 
         const iconSize = CONFIG.cards.icons.scaleFactor * this.sizeUnit;
         const bgSize = CONFIG.cards.icons.bgScaleFactor * iconSize;
 
-        const effects = [];
-        if(CONFIG.inkFriendly)
-        {
-            effects.push(new GrayScaleEffect());
-        }
-
+        const bgRes = vis.getResource("decoration");
         for(let i = 0; i < positions.length; i++)
         {
             const pos = positions[i];
@@ -178,7 +162,7 @@ export default class Card
                 pivot: new Point(0.5),
                 pos: pos,
                 size: new Point(iconSize),
-                effects: effects,
+                effects: vis.inkFriendlyEffect,
                 frame: this.data.frame,
                 flipX: i >= 2,
                 flipY: i >= 2
@@ -193,8 +177,7 @@ export default class Card
                 flipX: (i == 1 || i == 2),
                 flipY: i >= 2
             })
-            const bgRes = CONFIG.resLoader.getResource("decoration");
-            await bgRes.toCanvas(this.ctx, bgOp);
+            group.add(bgRes, bgOp);
 
             let res
             if(displayNumber)
@@ -210,17 +193,12 @@ export default class Card
                 }
                 op.effects = effects;
             }
-
-            if(displayIcon)
-            {
-                res = CONFIG.resLoader.getResource(spriteKey);
-            }
-
-            await res.toCanvas(this.ctx, op);
+            if(displayIcon) { res = vis.getResource(spriteKey); }
+            group.add(res, op);
         }
     }
 
-    async drawBearIcons()
+    drawBearIcons(vis:MaterialVisualizer, group:ResourceGroup)
     {
         if(this.type != "bear") { return; }
         if(!CONFIG.addBearIcons) { return; }
@@ -230,7 +208,7 @@ export default class Card
         const pos = new Point(xPos, yPos);
         const size = new Point(CONFIG.cards.bearIcons.size * this.sizeUnit);
         const positions = getPositionsCenteredAround({ pos: pos, num: 4, dir: Point.RIGHT, size: size });
-        const res = CONFIG.resLoader.getResource("bear_icons");
+        const res = vis.getResource("bear_icons");
         const sizeWithPadding = size.clone().scale(1.0 - CONFIG.cards.bearIcons.padding);
         for(let i = 0; i < 4; i++)
         {
@@ -240,11 +218,11 @@ export default class Card
                 size: sizeWithPadding,
                 pivot: Point.CENTER
             })
-            await res.toCanvas(this.ctx, op);
+            group.add(res, op);
         }
     }
 
-    async drawSpecialPower()
+    drawSpecialPower(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const desc = this.data.desc;
         if(!desc) { return; }
@@ -260,14 +238,14 @@ export default class Card
         const size = new Point(width, width * ratio);
 
         // the background for legibility
-        const res = CONFIG.resLoader.getResource("bg_power");
+        const res = vis.getResource("bg_power");
         const op = new LayoutOperation({
             pos: pos,
             size: size,
             pivot: new Point(0.5)
         })
 
-        await res.toCanvas(this.ctx, op);
+        res.toCanvas(this.ctx, op);
 
         // the actual text
         const fontSize = CONFIG.cards.power.fontSize * this.sizeUnit;
@@ -289,6 +267,6 @@ export default class Card
         const text = new ResourceText({ text: textToDisplay, textConfig: textConfig });
         op.fill = new ColorLike("#FFFFFF");
         op.size.x *= CONFIG.cards.power.textBoxSidePadding; // a little padding around the text
-        await text.toCanvas(this.ctx, op);
+        group.add(text, op);
     }
 }

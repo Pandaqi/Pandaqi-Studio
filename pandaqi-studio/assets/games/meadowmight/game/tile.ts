@@ -1,13 +1,12 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import Visualizer from "./visualizer";
 import { CONFIG } from "../shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import { ASSETS, TILE_TYPES } from "../shared/dict";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 
 export default class Tile
 {
@@ -24,15 +23,7 @@ export default class Tile
         this.special = null;
     }
 
-    async drawForRules(vis:Visualizer)
-    {
-        const ctx = createContext({ size: vis.size });
-        // @TODO;
-        
-        return ctx.canvas;
-    }
-
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
         await this.drawBackground(vis, ctx);
@@ -42,7 +33,7 @@ export default class Tile
         return ctx.canvas;
     }
 
-    async drawBackground(vis:Visualizer, ctx:CanvasRenderingContext2D)
+    async drawBackground(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D)
     {
         if(vis.inkFriendly) { fillCanvas(ctx, "#FFFFFF"); return; }
 
@@ -57,20 +48,20 @@ export default class Tile
         await res.toCanvas(ctx, op);
     }
 
-    async drawFences(vis:Visualizer, ctx:CanvasRenderingContext2D)
+    async drawFences(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D)
     {
         const fenceData = TILE_TYPES[this.type].fences.slice();
 
         const res = vis.resLoader.getResource("assets");
         const frameVariation = this.useUniqueFences() ? 0 : rangeInteger(1,2);
         const frame = this.getFrame("fence", frameVariation);
-        const size = vis.size.clone().scale(CONFIG.tiles.fences.scale[frameVariation]);
-        const edgeOffset = CONFIG.tiles.fences.edgeOffset[frameVariation] * vis.sizeUnit;
+        const size = vis.size.clone().scale(CONFIG._drawing.tiles.fences.scale[frameVariation]);
+        const edgeOffset = CONFIG._drawing.tiles.fences.edgeOffset[frameVariation] * vis.sizeUnit;
         const op = new LayoutOperation({
             size: size,
             frame: frame,
             pivot: Point.CENTER,
-            effects: vis.effects,
+            effects: vis.inkFriendlyEffect,
         })
 
         const positions = [
@@ -94,7 +85,7 @@ export default class Tile
         }
     }
 
-    async drawIllustration(vis:Visualizer, ctx:CanvasRenderingContext2D)
+    async drawIllustration(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D)
     {
         let numIllustrations = this.sheep;
         if(this.isSpecial()) { numIllustrations = 1; }
@@ -113,7 +104,7 @@ export default class Tile
         }
 
         let positions = [vis.center];
-        let size = new Point(CONFIG.tiles.sheep.scale * vis.sizeUnit);
+        let size = new Point(CONFIG._drawing.tiles.sheep.scale * vis.sizeUnit);
         if(numIllustrations == 2) {
             size.scale(0.5);
             positions = [
@@ -138,17 +129,17 @@ export default class Tile
                 size: size,
                 rot: rot,
                 pivot: Point.CENTER,
-                effects: vis.effects
+                effects: vis.inkFriendlyEffect
             })
     
             await res.toCanvas(ctx, op);
         }
     }
 
-    drawOutline(vis:Visualizer, ctx:CanvasRenderingContext2D)
+    drawOutline(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D)
     {
-        const outlineSize = CONFIG.tiles.outline.size * vis.sizeUnit;
-        strokeCanvas(ctx, CONFIG.tiles.outline.color, outlineSize);
+        const outlineSize = CONFIG._drawing.tiles.outline.size * vis.sizeUnit;
+        strokeCanvas(ctx, CONFIG._drawing.tiles.outline.color, outlineSize);
     }
 
     getFrame(type:string, variation = 0)

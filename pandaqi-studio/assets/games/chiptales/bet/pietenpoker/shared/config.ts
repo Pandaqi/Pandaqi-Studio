@@ -4,6 +4,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import { ColorType } from "./dict";
 import CVal from "js/pq_games/tools/generation/cval";
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG:any = 
 {
@@ -17,44 +18,35 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Basisspel",
-                default: true
+                value: true
             },
 
             pietjePrecies:
             {
                 type: SettingType.CHECK,
-                label: "Pietje Precies"
+                label: "Pietje Precies",
+                value: false,
             },
 
             actiePiet:
             {
                 type: SettingType.CHECK,
-                label: "Actiepiet"
+                label: "Actiepiet",
+                value: false,
             }
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "pietenpokerConfig",
-    fileName: "Pietenpoker",
-
-    fonts:
+    _game:
     {
-        heading: "howdylemon",
-        body: "kiwimaru",
-    },
-
-    sets:
-    {
-        base: true,
-        pietjePrecies: false,
-        actiepiet: false
+        fileName: "Pietenpoker",
     },
 
     // assets
@@ -107,7 +99,6 @@ export const CONFIG:any =
         numPlayerBounds: new Bounds(3,5),
         numCardsPerPlayer: 6,
         numCardsRevealed: 3,
-        itemSize: new Point(375, 575),
         stopProbability: 0.25,
         raiseProbability: 0.75,
 
@@ -156,84 +147,98 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            preset: GridSizePreset.CARD,
-        },
-
-        corners:
-        {
-            numberOffset: new CVal(new Point(0.125, 0.125), "sizeUnit"),
-            iconSize: new CVal(new Point(0.15), "sizeUnit"),
-            fontSize: new CVal(0.1875, "sizeUnit")
-        },
-
-        text:
-        {
-            rotAbove: -0.22689, // radians = ~13 degrees
-            rotBelow: 2.906, // radisn = ~-166,5 degrees
-
-            colorLabel:
-            {
-                offset: new CVal(new Point(0.2, 0.108), "size"),
-                fontSize: new CVal(0.065, "sizeUnit")
-            },
-
-            sintLabel:
-            {
-                offset: new CVal(new Point(0.5, 0.09), "size")
-            }
-        },
-
-        icons:
-        {
-            sintSize: new CVal(new Point(0.8), "sizeUnit"),
-
-            rowDisplay:
-            {
-                offset: new CVal(new Point(0.18, 0.04), "size"),
-                size: new CVal(new Point(0.08), "sizeUnit")
-            },
-
-            templateScaleFactor: new CVal(new Point(0.28, 0.33), "size"),  
-            size: new CVal(new Point(0.22), "sizeUnit"),
-
-            special:
-            {
-                randomVariation: new CVal(new Point(0, 0.35), "size"),
-                surprise: new CVal(new Point(0.08, 0.5), "size"),
-                bid: new CVal(new Point(0.92, 0.5), "size"),
-                circleRadius: new CVal(0.06, "sizeUnit"),
-                size: new CVal(new Point(0.08), "sizeUnit")
-            }
-        },
-
-        action:
-        {
-            label:
-            {
-                pos: new CVal(new Point(0.5, 0.525), "size"),
-                rot: -0.2007, // radians = ~11,5 degrees
-                fontSize: new CVal(0.1, "sizeUnit"),
-                strokeWidth: new CVal(0.01, "sizeUnit")
-            },
-
-            illu:
-            {
-                pos: new CVal(new Point(0.5, 0.313), "size"),
-                rot: -0.2007,
-                size: new CVal(new Point(0.425), "sizeUnit")
-            },
-
-            desc:
-            {
-                pos: new CVal(new Point(0.525, 0.71), "size"),
-                rot: -0.22689,
-                fontSize: new CVal(0.07, "sizeUnit"),
-                textBoxSize: new CVal(new Point(0.7, 0.33), "size")
-            }
+            itemSize: new Point(375, 575),
+            picker: cardPicker,
+            mapper: GridSizePreset.CARD
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "howdylemon",
+            body: "kiwimaru",
+        },
+
+        cards:
+        {
+            corners:
+            {
+                numberOffset: new CVal(new Point(0.125, 0.125), "sizeUnit"),
+                iconSize: new CVal(new Point(0.15), "sizeUnit"),
+                fontSize: new CVal(0.1875, "sizeUnit")
+            },
+
+            text:
+            {
+                rotAbove: -0.22689, // radians = ~13 degrees
+                rotBelow: 2.906, // radisn = ~-166,5 degrees
+
+                colorLabel:
+                {
+                    offset: new CVal(new Point(0.2, 0.108), "size"),
+                    fontSize: new CVal(0.065, "sizeUnit")
+                },
+
+                sintLabel:
+                {
+                    offset: new CVal(new Point(0.5, 0.09), "size")
+                }
+            },
+
+            icons:
+            {
+                sintSize: new CVal(new Point(0.8), "sizeUnit"),
+
+                rowDisplay:
+                {
+                    offset: new CVal(new Point(0.18, 0.04), "size"),
+                    size: new CVal(new Point(0.08), "sizeUnit")
+                },
+
+                templateScaleFactor: new CVal(new Point(0.28, 0.33), "size"),  
+                size: new CVal(new Point(0.22), "sizeUnit"),
+
+                special:
+                {
+                    randomVariation: new CVal(new Point(0, 0.35), "size"),
+                    surprise: new CVal(new Point(0.08, 0.5), "size"),
+                    bid: new CVal(new Point(0.92, 0.5), "size"),
+                    circleRadius: new CVal(0.06, "sizeUnit"),
+                    size: new CVal(new Point(0.08), "sizeUnit")
+                }
+            },
+
+            action:
+            {
+                label:
+                {
+                    pos: new CVal(new Point(0.5, 0.525), "size"),
+                    rot: -0.2007, // radians = ~11,5 degrees
+                    fontSize: new CVal(0.1, "sizeUnit"),
+                    strokeWidth: new CVal(0.01, "sizeUnit")
+                },
+
+                illu:
+                {
+                    pos: new CVal(new Point(0.5, 0.313), "size"),
+                    rot: -0.2007,
+                    size: new CVal(new Point(0.425), "sizeUnit")
+                },
+
+                desc:
+                {
+                    pos: new CVal(new Point(0.525, 0.71), "size"),
+                    rot: -0.22689,
+                    fontSize: new CVal(0.07, "sizeUnit"),
+                    textBoxSize: new CVal(new Point(0.7, 0.33), "size")
+                }
+            }
+        },
+    }
 }

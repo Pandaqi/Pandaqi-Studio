@@ -36,12 +36,12 @@ class Hand
     count() { return this.cards.length; }
     getFirstCard() { return this.cards[0]; }
 
-    async draw()
+    async draw(sim:InteractiveExampleSimulator)
     {
         const promises = [];
         for(const card of this.cards)
         {
-            promises.push(card.drawForRules(visualizer));
+            promises.push(card.drawForRules(sim.getVisualizer()));
         }
         const canvases = await Promise.all(promises);
 
@@ -180,24 +180,27 @@ const drawMatchingSuitsWithProb = (options:Card[], suits:string[], num:number, p
     return arr;
 }
 
-async function generate()
+const generate = async (sim:InteractiveExampleSimulator) =>
 {
-    await resLoader.loadPlannedResources(); // should only do something on first load
+    CONFIG.includePowers = false;
+    CONFIG.suits = { hearts: true, spades: true, diamonds: true, clubs: true };
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
 
-    const possibleCards = shuffle(cardPicker.get().slice());
+    const possibleCards : Card[] = shuffle(sim.getPicker("cards").slice());
     const possibleSuits = Object.keys(CONFIG.suits);
     const includeTrumpAndBid = Math.random() <= 0.25;
 
     const numTableCards = rangeInteger(2,4);
     const tableCards = drawMatchingSuitsWithProb(possibleCards, possibleSuits, numTableCards, 0.4);
     const table = new Hand().fromCards(tableCards);
+    const o = sim.getOutputBuilder();
     o.addParagraph("These cards are on the table.");
-    o.addFlexList(await table.draw());
+    o.addFlexList(await table.draw(sim));
 
     const numHandCards = rangeInteger(2,5);
     const hand = new Hand().fromNum(numHandCards, possibleCards);
     o.addParagraph("Your hand looks like this.");
-    o.addFlexList(await hand.draw());
+    o.addFlexList(await hand.draw(sim));
 
     let trumpSuit = null; 
     let bidSuit = null;
@@ -244,21 +247,16 @@ async function generate()
     o.addParagraphList(reasons);
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
+CONFIG._rulebook =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example turn!",
+            callback: generate
+        }
+    }
+}
 
-const o = e.getOutputBuilder();
-
-CONFIG.includePowers = false;
-CONFIG.suits = { hearts: true, spades: true, diamonds: true, clubs: true };
-
-const cardPicker = new CardPicker();
-cardPicker.generate();
-
-const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-resLoader.planLoad("cats", CONFIG.assets.cats);
-resLoader.planLoad("suits", CONFIG.assets.suits);
-
-const visualizer = new Visualizer(resLoader, new Point(480, 600), false);
-
+loadRulebook(CONFIG._rulebook);

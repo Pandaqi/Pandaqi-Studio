@@ -1,6 +1,8 @@
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi"
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { boardPicker } from "../board/boardPicker"
 
 export const CONFIG = 
 {
@@ -9,7 +11,7 @@ export const CONFIG =
         includeRules:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             remark: "Only disable if you've printed the rulebook or know them by heart."
         },
 
@@ -17,7 +19,7 @@ export const CONFIG =
         {
             type: SettingType.ENUM,
             values: ["small", "regular", "big", "huge"],
-            default: "regular",
+            value: "regular",
             remark: "Increases or decreases the number of icons on the board; not page size."
         },
 
@@ -28,7 +30,7 @@ export const CONFIG =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Set",
             },
 
@@ -36,44 +38,26 @@ export const CONFIG =
             {
                 type: SettingType.CHECK,
                 label: "Advanced Set",
+                value: false,
             },
 
             expert:
             {
                 type: SettingType.CHECK,
                 label: "Expert Set",
+                value: false,
             },
         }
     },
 
-    configKey: "magnetmenConfig",
-    fileName: "Magnetmen",
-    resLoader: null,
-    allTypes: {},
-    beginnerMode: true,
-
-    // all debugging toggles
-    debug:
+    _game:
     {
-
-    },
-
-    // set through user config on page
-    inkFriendly: false,
-    includeRules: true,
-    boardSize: "regular", // small, regular, big, huge
-    sets:
-    {
-        base: true,
-        advanced: false,
-        expert: false
+        fileName: "Magnetmen",
+        renderer: new RendererPixi()
     },
     
-    fonts:
-    {
-        heading: "vina",
-        body: "urbanist"
-    },
+    allTypes: {},
+    beginnerMode: true,
 
     // assets
     assetsBase: "/magnetmen/assets/",
@@ -165,9 +149,10 @@ export const CONFIG =
     },
 
     // how generation/balancing happens
-    gen:
+    generation:
     {
-        size: {
+        size: 
+        {
             small: new Point(6,6),
             regular: new Point(8,8),
             big: new Point(10,9),
@@ -179,15 +164,31 @@ export const CONFIG =
         // two requirements for this
         // => it should FIT in the sidebar
         // => the number of slots (in player inventory) should be low enough to FORCE many types to be used twice or thrice during the game.
-        numUniqueTypes: { 
+        numUniqueTypes: 
+        { 
             beginner: new Bounds(5,6),
             other: new Bounds(6,7)
         }
     },
 
-    // how to draw stuff
-    draw:
+    _material:
     {
+        board:
+        {
+            picker: boardPicker,
+            mapper: MapperPreset.FULL_PAGE
+        }
+    },
+
+    // how to draw stuff
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "vina",
+            body: "urbanist"
+        },
+
         edgeMargin: new Point(0.05), // ~pageSizeUnit
         bgColor: "#020823",
         

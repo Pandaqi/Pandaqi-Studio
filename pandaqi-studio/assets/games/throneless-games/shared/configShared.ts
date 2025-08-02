@@ -154,9 +154,9 @@ export const CONFIG_SHARED =
         }
     },
 
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
+    
+    
+    
     set: "starter", // (used to be called premadePacks on Kingseat v1)
     packs: [],
     highLegibility: true,

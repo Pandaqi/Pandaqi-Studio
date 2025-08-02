@@ -1,5 +1,5 @@
 
-interface TileData
+export interface TileData
 {
     frame: number,
     color?: string,
@@ -11,7 +11,7 @@ interface TileData
     set?: string, // to which set they belong; default is base
 }
 
-const TILES:Record<string,TileData> =
+export const TILES:Record<string,TileData> =
 {
     // base gemstones
     // (their frequences are determined by point value, set in config)
@@ -54,7 +54,7 @@ const TILES:Record<string,TileData> =
     // @TODO/IDEA: Something that DISABLES actions temporarily? So you can prevent others from using an action tile in certain situations?
 }
 
-const MISC =
+export const MISC =
 {
     arrow: { frame: 0 }, // need 2 of these in the material
     bg_1: { frame: 1 },
@@ -63,7 +63,7 @@ const MISC =
     bg_4: { frame: 4 }
 }
 
-const COLORS = 
+export const COLORS = 
 {
     white: "#FFFFFF",
     gray: "#BBBBBB",
@@ -75,12 +75,4 @@ const COLORS =
     pink: "#FF00FF",
     purple: "#A020F0",
     brown: "#993300",
-}
-
-export 
-{
-    TILES,
-    TileData,
-    MISC,
-    COLORS
 }

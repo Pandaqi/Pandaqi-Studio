@@ -67,19 +67,19 @@ export const CONFIG:any =
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "zooParqueConfig",
-    fileName: "Zoo Parque",
+    _game:
+    {
+        fileName: "Zoo Parque",
+    },
 
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
+    
     addText: true,
 
     fonts:

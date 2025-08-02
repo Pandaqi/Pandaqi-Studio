@@ -50,8 +50,7 @@ export const CONFIG =
         }
     },
 
-    configKey: "unstableUniverseConfig",
-    assetsBase: "/unstable-universe/assets/",
+        assetsBase: "/unstable-universe/assets/",
     assets:
     {
         scifly:

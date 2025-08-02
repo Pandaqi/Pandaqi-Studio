@@ -28,8 +28,54 @@ export interface RulebookTableParams
     data?: Record<string,RulebookEntryData>
 }
 
+export const foldAllTables = (node:HTMLElement) =>
+{
+    const elems = Array.from(node.getElementsByClassName("rulebook-table-entry")) as HTMLElement[];
+    for(const elem of elems)
+    {
+        if(elem.dataset.folded == "true") { continue; }
+        toggleTableEntry(elem);
+    }
+}
+
+export const unfoldAllTables = (node:HTMLElement) =>
+{
+    const elems = Array.from(node.getElementsByClassName("rulebook-table-entry")) as HTMLElement[];
+    for(const elem of elems)
+    {
+        if(elem.dataset.folded == "false") { continue; }
+        toggleTableEntry(elem);
+    }
+}
+
+export const toggleTableEntry = (entry:HTMLElement) =>
+{
+    const isFolded = entry.dataset.folded == "true";
+    if(isFolded) {
+        entry.dataset.folded = "false";
+        entry.classList.remove("rulebook-table-entry-folded");
+        entry.classList.add("rulebook-table-entry-unfolded");
+    } else {
+        entry.dataset.folded = "true";
+        entry.classList.add("rulebook-table-entry-folded");
+        entry.classList.remove("rulebook-table-entry-unfolded");
+    }
+}
+
+export const makeTablesInteractive = (node:HTMLElement) =>
+{
+    const elems = Array.from(node.getElementsByClassName("rulebook-table-entry")) as HTMLElement[];
+    for(const elem of elems)
+    {
+        const needsInit = !elem.dataset.folded;
+        if(needsInit) { elem.dataset.folded = "true"; elem.classList.add("rulebook-table-entry-folded"); }
+        elem.addEventListener("click", () => toggleTableEntry(elem));
+    }
+}
+
 export const convertRulesTableDictToHTML = (params:RulebookTableParams = {}) =>
 {
+    params.config = params.config ?? {};
     const cont = document.createElement("div"); 
 
     const table = document.createElement("section");
@@ -38,7 +84,7 @@ export const convertRulesTableDictToHTML = (params:RulebookTableParams = {}) =>
     if(params.config.class) { table.classList.add(params.config.class); }
 
     const uiHint = document.createElement("div");
-    uiHint.classList.add("ui-hint");
+    uiHint.classList.add("rulebook-table-ui-hint");
     uiHint.innerHTML = `Click an item to inspect.`;
     cont.appendChild(uiHint);
 
@@ -54,7 +100,9 @@ export const convertRulesTableDictToHTML = (params:RulebookTableParams = {}) =>
         iconCont.classList.add("icon-container");
         entry.appendChild(iconCont);
 
-        iconCont.appendChild( getRulebookIconNode(data, params.icons) );
+        const iconNode = getRulebookIconNode(data, params.icons);
+        iconNode.classList.add("rulebook-table-icon");
+        iconCont.appendChild(iconNode);
 
         const heading = data.heading ?? data.label ?? key;
         const headingCont = document.createElement("div");
@@ -74,81 +122,13 @@ export const convertRulesTableDictToHTML = (params:RulebookTableParams = {}) =>
     return cont;
 }
 
-export class RulebookTable
-{
-    id: string
-    node: HTMLElement;
-    entries: RulebookEntry[];
-
-    constructor(params:RulebookTableParams)
-    {
-        this.id = params.id;
-        this.node = params.node;
-
-        if(!params.useExistingHTML) 
-        {
-            const cont = convertRulesTableDictToHTML(params);
-            this.node.parentElement.replaceChild(cont, this.node);
-            this.node = cont;
-        }
-
-        const entryNodes = Array.from(this.node.getElementsByClassName("rulebook-table-entry"));
-        for(const entryNode of entryNodes)
-        {
-            this.entries.push(new RulebookEntry(entryNode));
-        }
-        
-        return this;
-    }
-}
-
-export class RulebookEntry 
-{
-    node: HTMLElement;
-    heading: HTMLElement;
-    desc: HTMLElement;
-    icon: HTMLElement;
-    
-    constructor(node: any)
-    {   
-        this.node = node;
-
-        this.heading = this.node.getElementsByClassName("heading-container")[0] as HTMLElement;
-        this.desc = this.node.getElementsByClassName("desc-container")[0] as HTMLElement;
-        this.icon = this.node.getElementsByClassName("icon-container")[0] as HTMLElement;
-        this.icon.addEventListener("click", this.toggle.bind(this));
-
-        this.toggle(); // to fold it at start
-    }
-
-    isFolded() { return this.node.dataset.folded == "true" }
-    toggle()
-    {
-        if(this.isFolded()) {
-            this.node.dataset.folded = "false";
-            this.node.classList.add("rulebook-table-entry-clicked");
-        } else {
-            this.node.dataset.folded = "true";
-            this.node.classList.remove("rulebook-table-entry-clicked");
-        }
-    } 
-}
-
 const DEFAULT_TABLE_CLASS = "rulebook-table";
 
-export const createRulebookTables = (params:RulebookParams, node:HTMLElement) =>
+export const createRulebookTableHTML = (params:RulebookParams, node:HTMLElement) : HTMLElement[] =>
 {
     const tables = [];
     const tablesData = params.tables ?? {};
-    
-    // first check for existing nodes with existing HTML to register
-    const className = params.tableClass ?? DEFAULT_TABLE_CLASS;
-    const existingNodes = Array.from(node.getElementsByClassName(className)) as HTMLElement[];
-    for(const node of existingNodes)
-    {
-        if(node.innerHTML.trim().length <= 0) { continue; }
-        tables.push(new RulebookTable({ node: node, useExistingHTML: true }));
-    }
+    params.tableClass = params.tableClass ?? DEFAULT_TABLE_CLASS;
 
     // then look for custom IDs that need to build the table from JS
     for(const [id,tableData] of Object.entries(tablesData))
@@ -156,11 +136,9 @@ export const createRulebookTables = (params:RulebookParams, node:HTMLElement) =>
         const nodesMatching = Array.from(node.querySelectorAll(`[data-rulebook-table="${id}"]`)) as HTMLElement[];
         for(const nodeMatch of nodesMatching)
         {
-            tableData.node = nodeMatch;
-            tableData.id = id;
-            tables.push(new RulebookTable(tableData));
+            nodeMatch.appendChild(convertRulesTableDictToHTML(tableData));
+            tables.push(nodeMatch);
         }
     }
-
     return tables;
 }

@@ -1,11 +1,11 @@
-enum CardType
+export enum CardType
 {
     MOVEMENT = "movement",
     MAP = "map",
     PAWN = "pawn",
 }
 
-enum FishType
+export enum FishType
 {
     FISH1 = "fish1",
     FISH2 = "fish2",
@@ -13,14 +13,14 @@ enum FishType
     FISH4 = "fish4",
 }
 
-enum TileAction
+export enum TileAction
 {
     REVEAL = "reveal",
     SWAP = "swap",
     STUDY = "study"
 }
 
-enum CardMovement
+export enum CardMovement
 {
     LEFT = "left",
     RIGHT = "right",
@@ -39,6 +39,7 @@ interface GeneralData
     frame?: number,
     desc?: string,
     maxNum?: number,
+    rot?: number,
     canHaveSpecial?: boolean,
 
     label?: string,
@@ -46,14 +47,14 @@ interface GeneralData
     rotation?: number,
 }
 
-const TILE_ACTIONS:Record<TileAction, GeneralData> =
+export const TILE_ACTIONS:Record<TileAction, GeneralData> =
 {
     [TileAction.REVEAL]: { frame: 0, label: "Reveal", desc: "Reveal a card at position indicated.", maxNum: 8 }, // it modulates the action number to be between 0-(maxNum-1)
     [TileAction.SWAP]: { frame: 1, label: "Swap", desc: "Swap the movement card at the position indicated with another.", maxNum: 8 },
     [TileAction.STUDY]: { frame: 3, label: "Study", desc: "Secretly look at the number of movement cards indicated.", maxNum: 3 }
 }
 
-const MOVEMENT_CARDS:Record<CardMovement, GeneralData> =
+export const MOVEMENT_CARDS:Record<CardMovement, GeneralData> =
 {
     [CardMovement.LEFT]: { frame: 0, label: "Left", desc: "Move one tile to the <b>left</b>.", angled: true, rot: Math.PI, canHaveSpecial: true },
     [CardMovement.RIGHT]: { frame: 2, label: "Right", desc: "Move one tile to the <b>right</b>.", angled: true, rot: 0, canHaveSpecial: true },
@@ -67,7 +68,7 @@ const MOVEMENT_CARDS:Record<CardMovement, GeneralData> =
     [CardMovement.INVERT]: { frame: 18, label: "Invert", desc: "All directions after this one are <b>inverted</b>. (Ex: RIGHT becomes LEFT.)" },
 }
 
-const MOVEMENT_SPECIAL:Record<string, GeneralData> =
+export const MOVEMENT_SPECIAL:Record<string, GeneralData> =
 {
     score_self_fishlack: { frame: 0, label: "Fishless", desc: "If your destination tile has <b>no fish</b>, <b>score</b> this card (worth +1 point)." },
     score_self_fish: { frame: 1, label: "Fishful", desc: "If your destination tile <b>has fishes</b>, <b>score</b> this card instead (worth +1 point)." },
@@ -79,7 +80,7 @@ const MOVEMENT_SPECIAL:Record<string, GeneralData> =
     change_start: { frame: 7, label: "Change Start", desc: "<b>Move</b> your pawn to <b>any adjacent tile</b>." },
 }
 
-const MAP_SPECIAL:Record<string, GeneralData> =
+export const MAP_SPECIAL:Record<string, GeneralData> =
 {
     island: { frame: 0, label: "Island", desc: "<b>On Visit</b>: go back to where you came from." },
     tunnel: { frame: 1, label: "Tunnel", desc: "<b>On Visit</b>: instantly move your pawn to a different Tunnel (if possible)." },
@@ -93,7 +94,7 @@ const MAP_SPECIAL:Record<string, GeneralData> =
     combo: { frame: 9, label: "Combo", desc: "<b>On Score</b>: if you score at least one fish of every type, I am worth +6 points." },
 }
 
-const MISC:Record<string, GeneralData> =
+export const MISC:Record<string, GeneralData> =
 {
     action_reveal: { frame: 0 },
     action_swap: { frame: 1 },
@@ -108,15 +109,3 @@ const MISC:Record<string, GeneralData> =
     [FishType.FISH3]: { frame: 10 },
     [FishType.FISH4]: { frame: 11 },
 }
-
-export {
-    CardMovement,
-    CardType,
-    FishType,
-    TileAction,
-    MISC,
-    MOVEMENT_CARDS,
-    MOVEMENT_SPECIAL,
-    MAP_SPECIAL,
-    TILE_ACTIONS
-};

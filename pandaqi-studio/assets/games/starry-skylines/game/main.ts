@@ -3,7 +3,7 @@ import Events from "./events"
 import Options from "./options"
 import { PLANET_MAP, PLANET_SETS } from "../shared/dict"
 import { CONFIG } from "./config"
-import configurator from "../board/configurator"
+import { initializeDictionaries } from "../board/configurator"
 
 export default class Game 
 {
@@ -116,7 +116,7 @@ export default class Game
 
     load()
     {
-        configurator.initializeDictionaries(this.config);
+        initializeDictionaries(this.config);
         console.log(this.config);
     }
 

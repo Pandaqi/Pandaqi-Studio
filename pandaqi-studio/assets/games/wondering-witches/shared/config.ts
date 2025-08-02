@@ -50,8 +50,7 @@ export const CONFIG =
         }
     },
 
-    configKey: "wonderingWitchesConfig",
-    assetsBase: "/wondering-witches/assets/",
+        assetsBase: "/wondering-witches/assets/",
     assets:
     {
         mali:

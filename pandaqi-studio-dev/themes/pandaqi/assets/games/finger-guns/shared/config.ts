@@ -1,6 +1,6 @@
 import { SettingType, Vector2 } from "lib/pq-games";
 
-export default 
+export const CONFIG =
 {
     _generation:
     {

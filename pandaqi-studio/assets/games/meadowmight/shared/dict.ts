@@ -8,7 +8,7 @@ interface TileConfig
     allowedSpecial?: string, // which special types (wolf, tree, pond, house) are allowed
 }
 
-const TILE_TYPES:Record<string,TileConfig> =
+export const TILE_TYPES:Record<string,TileConfig> =
 {
     open: { fences: [false, false, false, false] },
     single: { fences: [true, false, false, false] },
@@ -24,7 +24,7 @@ interface PlayerSheepConfig
     color?: string,
 }
 
-const PLAYER_SHEEP:Record<string,PlayerSheepConfig> =
+export const PLAYER_SHEEP:Record<string,PlayerSheepConfig> =
 {
     player0: { frame: 0 },
     player1: { frame: 1 },
@@ -33,7 +33,7 @@ const PLAYER_SHEEP:Record<string,PlayerSheepConfig> =
     player4: { frame: 4 }
 }
 
-const ASSETS =
+export const ASSETS =
 {
     grass: { frame: 0 }, // 0, 4, 8, 12
     sheep: { frame: 1 }, // 1, 5, 9, 13 => neutral sheep; player sheeps are separate spritesheet
@@ -42,11 +42,4 @@ const ASSETS =
     tree: { frame: 7 },
     pond: { frame: 11 },
     house: { frame: 15 }
-}
-
-export 
-{
-    ASSETS,
-    PLAYER_SHEEP,
-    TILE_TYPES
 }

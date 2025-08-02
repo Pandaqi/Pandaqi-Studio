@@ -1,4 +1,4 @@
-enum Category
+export enum Category
 {
     EVENT = "event",
     ITEM = "item",
@@ -11,7 +11,7 @@ enum Category
     HEALTH = "health"
 }
 
-enum Pack
+export enum Pack
 {
     BASE = "base",
     ADVANCED = "advanced",
@@ -26,7 +26,7 @@ enum Pack
 }
 
 // @NOTE: I assign these pretty much based on what I feel in the moment; this obviously is subjective
-enum Feeling
+export enum Feeling
 {
     HAPPY = "happy",
     UNHAPPY = "unhappy",
@@ -42,7 +42,7 @@ interface CategoryMetaData
     colorMid: string,
 }
 
-const CATEGORIES:Record<Category, CategoryMetaData> = 
+export const CATEGORIES:Record<Category, CategoryMetaData> = 
 {
     [Category.EVENT]: { frame: 0, colorBG: "#FFFFA5", colorMid: "#797900", colorText: "#353500" },
     [Category.ITEM]: { frame: 1, colorBG: "#FFDDAA", colorMid: "#864400", colorText: "#362100" },
@@ -71,7 +71,7 @@ const CATEGORIES:Record<Category, CategoryMetaData> =
 */
 
 
-interface CategoryData
+export interface CategoryData
 {
     desc: string,
     category?: Category,
@@ -820,7 +820,7 @@ const HEALTH_CARDS:CategoryDataList = [
     
 ]
 
-const CARDS:Record<Category, CategoryDataList> = 
+export const CARDS:Record<Category, CategoryDataList> = 
 {
     [Category.EVENT]: EVENT_CARDS,
     [Category.ITEM]: ITEM_CARDS,
@@ -831,14 +831,4 @@ const CARDS:Record<Category, CategoryDataList> =
     [Category.PERSONAL]: PERSONAL_CARDS,
     [Category.JOB]: JOB_CARDS,
     [Category.HEALTH]: HEALTH_CARDS
-}
-
-export 
-{
-    Pack,
-    Category,
-    CategoryData,
-    Feeling,
-    CARDS,
-    CATEGORIES
 }

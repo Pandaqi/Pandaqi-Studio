@@ -1,5 +1,5 @@
-import { SPECIAL_BUILDINGS, SPECIAL_INGREDIENTS, TRAFFIC_SIGNS } from "./dictionary";
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import { SPECIAL_BUILDINGS, SPECIAL_INGREDIENTS, TRAFFIC_SIGNS } from "../shared/dict";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Color from "js/pq_games/layout/color/color";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
@@ -16,6 +16,7 @@ import Obstacle from "./obstacle";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import { CONFIG } from "../shared/config";
 
 type RandomizerFunction = () => number;
 type TrafficSign = { pos: Point, type: string, side: number, ind: number };
@@ -79,10 +80,9 @@ export default class BoardGeneration
 	fontFamily = "leckerli"
 
 	// user-input settings should be passed through config
-	async draw(vis:BoardVisualizer)
+	async draw(vis:MaterialVisualizer)
 	{
-		this.cfg = {}
-		Object.assign(this.cfg, vis.config);
+		this.cfg = CONFIG;
 
 		this.cfg.visualizer = vis;
 		this.cfg.numPlayers = parseInt(this.cfg.playerCount);
@@ -161,10 +161,10 @@ export default class BoardGeneration
 
 		//this.cfg.numPizzaPolice = 1 + Math.floor(this.cfg.resX / 6.0)
 
-		return this.generateBoard();
+		return this.generateBoard(vis);
 	}
 
-	generateBoard() 
+	generateBoard(vis:MaterialVisualizer) 
 	{
 		// create empty lists and grid (we'll need later on)
 		this.prepareLists();
@@ -225,8 +225,7 @@ export default class BoardGeneration
 		}
 
 		// visualize the whole thing
-		const group = this.visualizeGame();
-		return [group];
+		return this.visualizeGame(vis);
 	}
 
 	createGrid() 
@@ -1951,10 +1950,10 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizeGame() 
+	visualizeGame(vis:MaterialVisualizer) 
 	{
 		// prepare all layers/containers
-		const group = new ResourceGroup();
+		const group = vis.prepareDraw();
 		const roadGroup = new ResourceGroup();
 		group.add(roadGroup);
 		const gridGroup = new ResourceGroup();
@@ -2264,7 +2263,7 @@ export default class BoardGeneration
 		});
 		group.add(resHint, opHint);
 
-		return group;
+		return vis.finishDraw(group);
 	}
 
 	visualizeEntrance(group:ResourceGroup, obj:Cell, roadGroup:ResourceGroup) 

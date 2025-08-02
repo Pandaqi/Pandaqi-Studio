@@ -2,7 +2,7 @@ import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
@@ -66,7 +66,7 @@ class Recipe
     setScore(n:number) { this.value = n; }
     count() { return this.elements.length; }
 
-    display(vis:BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, pos:Point, size:number)
+    display(vis:MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, pos:Point, size:number)
     {
         // sort elements alphabetically so the same types are shown as groups next to each other
         this.elements.sort((a,b) => {
@@ -208,7 +208,7 @@ export default class RecipeBook
         }
     }
 
-    display(vis: BoardVisualizer, group: ResourceGroup, boardDisplay : BoardDisplay)
+    display(vis: MaterialVisualizer, group: ResourceGroup, boardDisplay : BoardDisplay)
     {
         const sizeTotal = this.getAvailableDimensions(boardDisplay);
 

@@ -1,7 +1,4 @@
-import BoardGeneration from "games/keebble-games/shared/boardGeneration";
 import { CONFIG } from "games/keebble-games/shared/config";
-import RendererPixi from "js/pq_games/layout/renderers/rendererPixi";
-import BoardGenerator from "js/pq_games/tools/generation/boardGenerator";
 
 const SETTINGS = 
 {
@@ -10,27 +7,30 @@ const SETTINGS =
         type: SettingType.NUMBER,
         min: 2,
         max: 6,
-        default: 4
+        value: 4
     },
 
     forPrinting:
     {
         type: SettingType.CHECK,
-        remark: "If you want to print this PDF and directly play on that."
+        remark: "If you want to print this PDF and directly play on that.",
+        value: false
     },
 
     boardSize:
     {
         type: SettingType.ENUM,
         values: ["small", "medium", "large"],
-        default: "medium"
+        default: "medium",
+        value: false
     },
 
     addWalls:
     {
         type: SettingType.CHECK,
         default: true,
-        remark: "Walls are useful on small boards to allow more words."
+        remark: "Walls are useful on small boards to allow more words.",
+        value: false
     },
 
     expansions:
@@ -41,30 +41,32 @@ const SETTINGS =
         {
             type: SettingType.CHECK,
             label: "Supercells",
+            value: false
         },
 
         cellDance:
         {
             type: SettingType.CHECK,
             label: "Celldance",
+            value: false
         },
 
         scrabbleScoring:
         {
             type: SettingType.CHECK,
             label: "Scrabble Scoring",
+            value: false
         },
 
         tinyBackpacks:
         {
             type: SettingType.CHECK,
             label: "Tiny Backpacks",
+            value: false
         },
     }
 };
 
 CONFIG._settings = SETTINGS;
 
-const gen = new BoardGenerator(CONFIG, new RendererPixi());
-gen.drawerClass = BoardGeneration;
-gen.start();
+loadGame(CONFIG);

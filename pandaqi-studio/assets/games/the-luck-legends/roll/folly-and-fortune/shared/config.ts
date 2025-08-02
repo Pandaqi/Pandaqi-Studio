@@ -27,19 +27,19 @@ export const CONFIG:any =
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "follyAndFortuneConfig",
-    fileName: "Folly & Fortune",
+    _game:
+    {
+        fileName: "Folly & Fortune",
+    },
 
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
+    
 
     fonts:
     {

@@ -1,14 +1,14 @@
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
 // Global card type
-enum Type
+export enum Type
 {
     CHARACTER,
     ACTION
 }
 
 // Specific action type
-enum AType
+export enum AType
 {
     MURDER, // related to (avoiding) killing a suspect
     PILES, // related to changing a pile or review
@@ -17,7 +17,7 @@ enum AType
 
 // Even more specific action (sub) type
 // (didn't know I'd need this, otherwise I would've probably done something smarter)
-enum SType
+export enum SType
 {
     MURDER,
     PROTECT,
@@ -29,21 +29,21 @@ enum SType
 }
 
 // Special suspect power type
-enum PType
+export enum PType
 {
     DEATH = "death",
     PLAY = "play"
 }
 
 // For the loupe and Suspect requirements
-enum ReqType
+export enum ReqType
 {
     REVIEW = "review", // can't be played there
     ALWAYS = "always", // doesn't care
     PLAY = "play" // must be played there
 }
 
-interface ActionData
+export interface ActionData
 {
     frame?: number,
     type: AType,
@@ -59,11 +59,11 @@ interface ActionData
 
 }
 
-type ActionSet = Record<string, ActionData>;
+export type ActionSet = Record<string, ActionData>;
 
-const loupeIcon = "<img id=\"suspects\" frame=\"0\">";
+export const loupeIcon = "<img id=\"suspects\" frame=\"0\">";
 
-const BASE_SET:ActionSet = 
+export const BASE_SET:ActionSet = 
 {
     murder: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Murder", desc: "<b>Kills</b> the suspect.", triggers: ReqType.REVIEW, murderQuotient: 1.0, freq: new Bounds(5, 8) },
     threat: { frame: 1, type: AType.MURDER, subType: SType.MURDER, label: "Threat", desc: "<b>Kills</b> the suspect if this is the 2nd threat.", triggers: ReqType.REVIEW, murderQuotient: 0.5, freq: new Bounds(4, 12) },
@@ -81,7 +81,7 @@ const BASE_SET:ActionSet =
     switcheroo: { frame: 11, type: AType.ACTION, subType: SType.ORDER, label: "Switcheroo", desc: "Make two suspects <b>switch places</b> OR switch the <b>top and bottom card</b> of a pile.", protectQuotient: 0.33 },
 }
 
-const ADVANCED_SET:ActionSet = 
+export const ADVANCED_SET:ActionSet = 
 {
     poison: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Poison", desc: "<b>Kills</b> the suspect if this is the <b>3rd poison</b>. <col hex=\"#777777\">Stays after a survived review!</col>", freq: new Bounds(5, 9), murderQuotient: 0.33 },
     armor: { frame: 1, type: AType.MURDER, subType: SType.PROTECT, label: "Armor", desc: "<b>Saves</b> the suspect from dying once if this is the <b>3rd armor</b>. <col hex=\"#777777\">Stays after a survived review!</col>", protectQuotient: 0.33, freq: new Bounds(5, 9) },
@@ -99,7 +99,7 @@ const ADVANCED_SET:ActionSet =
     hasty: { frame: 11, type: AType.ACTION, subType: SType.MISC, label: "Hasty", desc: "<b>Draw</b> your hand back up to the hand limit OR force the next player to <b>skip</b> their turn." }
 }
 
-const EXPERT_SET:ActionSet =
+export const EXPERT_SET:ActionSet =
 {
     sniper: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Sniper", desc: "<b>Review</b> an adjacent suspect. If no card in their pile saves them, they are <b>killed</b>.", triggers: ReqType.REVIEW, murderQuotient: 1.0 },
     lone_murder: { frame: 1, type: AType.MURDER, subType: SType.MURDER, label: "When nobody's around", desc: "<b>Kills</b> the suspect if all adjacent piles have fewer than 3 cards. Otherwise, it <b>saves</b> them once.", murderQuotient: 0.5, protectQuotient: 0.5 },
@@ -117,14 +117,14 @@ const EXPERT_SET:ActionSet =
     clock: { frame: 11, type: AType.ACTION, subType: SType.REVIEW, label: "On the clock", desc: "<b>At most 2 cards</b> may be evaluated during this <b>review</b>. After that, immediately stop.", triggers: ReqType.REVIEW, protectQuotient: 0.33 }
 }
 
-const SETS:Record<string, ActionSet> = 
+export const SETS:Record<string, ActionSet> = 
 {
     base: BASE_SET,
     advanced: ADVANCED_SET,
     expert: EXPERT_SET
 }
 
-interface SuspectData
+export interface SuspectData
 {
     frame: number,
     label?: string,
@@ -134,7 +134,7 @@ interface SuspectData
     power?: string,
 }
 
-const SUSPECTS:Record<string, SuspectData> = 
+export const SUSPECTS:Record<string, SuspectData> = 
 {
     loupe: { frame: 0, freq: 1 },
     scarlett: { label: "Ms. Scarlett", frame: 1, color: "#6E0C0D", type: PType.PLAY, power: "Rotate her suspect card 180 degrees. While she is in play and rotated, the hand limit is 1 card." }, // Miss Scarlett = red / Power = red hand with 1
@@ -151,7 +151,7 @@ const SUSPECTS:Record<string, SuspectData> =
 
 //  
 
-const MISC =
+export const MISC =
 {
     loupe: { frame: 0 },
     loupe_cant: { frame: 1 },
@@ -162,12 +162,12 @@ const MISC =
     power_card: { frame: 6 }, // special power when you play to this suspect
 }
 
-interface SubTypeData
+export interface SubTypeData
 {
     color: string
 }
 
-const SUB_TYPES:Record<SType, SubTypeData> = 
+export const SUB_TYPES:Record<SType, SubTypeData> = 
 {
     [SType.MURDER]: { color: "#830000" }, // red
     [SType.PROTECT]: { color: "#145400" }, // green
@@ -178,20 +178,3 @@ const SUB_TYPES:Record<SType, SubTypeData> =
     [SType.MISC]: { color: "#800146" } // pink
 }
 
-export 
-{
-    Type,
-    AType,
-    PType,
-    ReqType,
-    ActionData,
-    ActionSet,
-    SuspectData,
-    SETS,
-    BASE_SET,
-    ADVANCED_SET,
-    EXPERT_SET,
-    MISC,
-    SUB_TYPES,
-    SUSPECTS
-}

@@ -4,25 +4,16 @@ import Point from "js/pq_games/tools/geometry/point"
 
 export const CONFIG:any = 
 {
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "deathByDigitsConfig",
-    fileName: "Death by Digits",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
-
-    fonts:
+    _game:
     {
-        heading: "requiem",
-        body: "ancient",
+        fileName: "Death by Digits",
     },
 
     // assets
@@ -65,11 +56,6 @@ export const CONFIG:any =
         },
     },
 
-    rulebook:
-    {
-        
-    },
-
     generation:
     {
         minNumber: 1,
@@ -77,53 +63,69 @@ export const CONFIG:any =
         numCardsPerNumber: 3
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
-        },
-
-        colors:
-        {
-            darkenFactor: 50,
-        },
-
-        numbers:
-        {
-            offset: new CVal(new Point(0.133, 0.133), "sizeUnit"),
-            fontSize: new CVal(0.165, "sizeUnit"),
-            minusSignScaleFactor: 0.775,
-        },
-
-        numberCenter:
-        {
-            textPos: new CVal(new Point(0.5), "size"),
-            textPosSpecial: new CVal(new Point(0.5, 0.375), "size"),
-            fontSize: new CVal(0.4, "sizeUnit"),
-            fontSizeSpecial: new CVal(0.275, "sizeUnit")
-        },
-
-        icons:
-        {
-            offsetFromNumber: new CVal(new Point(-0.0115, 0.2), "sizeUnit"),
-            size: new CVal(new Point(0.125), "sizeUnit"),
-        },
-
-        special:
-        {
-            iconOffset: new CVal(new Point(0.275), "sizeUnit"),
-            iconDims: new CVal(new Point(0.2), "sizeUnit"),
-            textPos: new CVal(new Point(0.5, 0.6), "size"),
-            textDims: new CVal(new Point(0.55, 0.35), "size"),
-            fontSize: new CVal(0.06, "sizeUnit"),
+            picker: cardPicker,
+            mapper:
+            {
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: 
+                { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                }, 
+            },
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "requiem",
+            body: "ancient",
+        },
+
+        cards:
+        {
+            colors:
+            {
+                darkenFactor: 50,
+            },
+
+            numbers:
+            {
+                offset: new CVal(new Point(0.133, 0.133), "sizeUnit"),
+                fontSize: new CVal(0.165, "sizeUnit"),
+                minusSignScaleFactor: 0.775,
+            },
+
+            numberCenter:
+            {
+                textPos: new CVal(new Point(0.5), "size"),
+                textPosSpecial: new CVal(new Point(0.5, 0.375), "size"),
+                fontSize: new CVal(0.4, "sizeUnit"),
+                fontSizeSpecial: new CVal(0.275, "sizeUnit")
+            },
+
+            icons:
+            {
+                offsetFromNumber: new CVal(new Point(-0.0115, 0.2), "sizeUnit"),
+                size: new CVal(new Point(0.125), "sizeUnit"),
+            },
+
+            special:
+            {
+                iconOffset: new CVal(new Point(0.275), "sizeUnit"),
+                iconDims: new CVal(new Point(0.2), "sizeUnit"),
+                textPos: new CVal(new Point(0.5, 0.6), "size"),
+                textDims: new CVal(new Point(0.55, 0.35), "size"),
+                fontSize: new CVal(0.06, "sizeUnit"),
+            }
+        },
+    }
 }

@@ -3,13 +3,14 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import Circle from "js/pq_games/tools/geometry/circle"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
 import Rectangle from "js/pq_games/tools/geometry/rectangle"
 import { PLANET_MAP } from "../shared/dict"
-import configurator from "./configurator"
+import { initializeDictionaries } from "./configurator"
+import { CONFIG } from "../shared/config"
 
 interface Cell
 {
@@ -25,16 +26,15 @@ export default class BoardGeneration
 	obstacles: Cell[]
 	cfg:Record<string,any>
 
-	async draw(vis:BoardVisualizer) 
+	async draw(vis:MaterialVisualizer) 
 	{
 		this.setupConfig(vis);
-		configurator.initializeDictionaries(this.cfg);
+		initializeDictionaries(this.cfg);
 		return this.generateBoard(vis);
 	}
 
-	setupConfig(vis:BoardVisualizer)
+	setupConfig(vis:MaterialVisualizer)
 	{
-		const userConfig = vis.config;
 		const minSize = vis.sizeUnit;
 
 		this.cfg = 
@@ -42,7 +42,7 @@ export default class BoardGeneration
 			minSize: minSize,
 			gridWidth: 8,
 			gridHeight: 8,
-			playerCount: parseInt(userConfig.playerCount ?? 3),
+			playerCount: parseInt(CONFIG.playerCount ?? 3),
 			lists: {},
 			totalProbabilities: {},
 			spriteScale: 0.9,
@@ -98,15 +98,15 @@ export default class BoardGeneration
 		this.cfg.cellHeight = (vis.size.y / this.cfg.gridHeight);
 		this.cfg.minSizeCell = Math.min(this.cfg.cellWidth, this.cfg.cellHeight)*this.cfg.spriteScale;
 		
-		userConfig.playerCount = parseInt(userConfig.playerCount ?? 4);
-		userConfig.numPlayers = userConfig.playerCount;
-		Object.assign(this.cfg, userConfig);
+		CONFIG.playerCount = parseInt(CONFIG.playerCount ?? 4);
+		CONFIG.numPlayers = CONFIG.playerCount;
+		Object.assign(this.cfg, CONFIG);
 
 		this.cfg.soloMode = (this.cfg.playerCount == 1);
 		this.cfg.difficulty = PLANET_MAP[this.cfg.planet];
 	}
 
-	generateBoard(vis:BoardVisualizer) 
+	generateBoard(vis:MaterialVisualizer) 
 	{
 		this.createGrid();
 		this.determineStartingPositions();
@@ -196,7 +196,7 @@ export default class BoardGeneration
 	}
 
 	// draw background rectangles (for nicer grid coloring)
-	visualizeBackground(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeBackground(vis:MaterialVisualizer, group:ResourceGroup)
 	{		
 		const inkFriendly = this.cfg.inkFriendly;
 		for(let i = 0; i < this.cfg.gridWidth; i++) 
@@ -240,7 +240,7 @@ export default class BoardGeneration
 
 	// @IMPROV: draw random decorations (flowers, grass, etc.)
 	// draw player starting positions (skipped anything green-like, as the board is already green on the background)
-	visualizeStartingPositions(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeStartingPositions(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		const inkFriendly = this.cfg.inkFriendly;
 		const res = vis.getResource("StartingPositionIcon");
@@ -267,7 +267,7 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizeCellContents(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeCellContents(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		const inkFriendly = this.cfg.inkFriendly;
 		const lineGroup = new ResourceGroup();
@@ -380,7 +380,7 @@ export default class BoardGeneration
 
 	// draw the GRID lines (both vertical and horizontal)
 	// Also add coordinates: LETTERS is HORIZONTAL, NUMBERS is VERTICAL
-	visualizeGrid(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeGrid(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		const textConfig = new TextConfig({
 			font: this.cfg.fontFamily,
@@ -439,7 +439,7 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizePlanets(vis:BoardVisualizer, group:ResourceGroup)
+	visualizePlanets(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		const spriteSize = 0.33*this.cfg.minSizeCell;
 		const margin = 0.33*spriteSize;
@@ -462,16 +462,16 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizeBoard(vis:BoardVisualizer) 
+	visualizeBoard(vis:MaterialVisualizer) 
 	{
-		const group = new ResourceGroup();
+		const group = vis.prepareDraw();
 
 		this.visualizeBackground(vis, group);
 		this.visualizeStartingPositions(vis, group);
 		this.visualizeCellContents(vis, group);
 		this.visualizeGrid(vis, group);
 		this.visualizePlanets(vis, group);
-		return [group];
+		return vis.finishDraw(group);
 	}
 
 	capitalize(str:string)

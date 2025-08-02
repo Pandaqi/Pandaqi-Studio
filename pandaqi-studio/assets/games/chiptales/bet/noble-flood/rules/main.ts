@@ -1,14 +1,12 @@
+import clamp from "js/pq_games/tools/numbers/clamp";
+import lerp from "js/pq_games/tools/numbers/lerp";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExampleGenerator";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
-import CardPicker from "../game/cardPicker";
 import { CONFIG } from "../shared/config";
 import { CardType } from "../shared/dict";
 import Board from "./board";
 import Player from "./player";
-import lerp from "js/pq_games/tools/numbers/lerp";
-import clamp from "js/pq_games/tools/numbers/clamp";
 
 const callbackInitStats = () =>
 {
@@ -72,12 +70,14 @@ const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
 
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
+
     const numPlayers = CONFIG.rulebook.numPlayerBounds.randomInteger() ?? 4;
     const numContractCardsPerRound = Math.round(numPlayers * (CONFIG.rulebook.surplusContractCardsMultiplier ?? 2));
     const startingRowSize = CONFIG.rulebook.startingRowSize ?? 4;
     const numCardsPerPlayer = CONFIG.rulebook.numCardsPerPlayer ?? 4;
 
-    const allCards = shuffle(sim.getPicker("card").get().slice());
+    const allCards = shuffle(sim.getPicker("cards")());
     const cardsRegular = [];
     const cardsContract = [];
     for(const card of allCards)
@@ -266,21 +266,26 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 }
 
 const SIMULATION_ENABLED = false;
-const SIMULATION_ITERATIONS = 100;
+const SIMULATION_ITERATIONS = 1000;
 const SHOW_FULL_GAME = false;
 
-const gen = new InteractiveExampleGenerator({
-    id: "turn",
-    buttonText: "Give me an example round!",
-    callback: generate,
-    config: CONFIG,
-    itemSize: CONFIG.rulebook.itemSize,
-    pickers: { card: CardPicker },
-    simulateConfig: {
-        enabled: SIMULATION_ENABLED,
-        iterations: SIMULATION_ITERATIONS,
-        showFullGame: SHOW_FULL_GAME,
-        callbackInitStats,
-        callbackFinishStats,
+const CONFIG_RULEBOOK =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example round!",
+            callback: generate,
+            simulator: {
+                enabled: SIMULATION_ENABLED,
+                iterations: SIMULATION_ITERATIONS,
+                showFullGame: SHOW_FULL_GAME,
+                callbackInitStats,
+                callbackFinishStats,
+            }
+        }
     }
-})
+}
+
+loadRulebook(CONFIG_RULEBOOK);

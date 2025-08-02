@@ -1,12 +1,12 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import { DRAWINGS } from "../shared/dict";
-import Visualizer from "./visualizer";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import Point from "js/pq_games/tools/geometry/point";
 import { CONFIG } from "../shared/config";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+
 export default class Drawing
 {
     type:string
@@ -17,7 +17,7 @@ export default class Drawing
     }
 
     getTypeData() { return DRAWINGS[this.type]; }
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
@@ -29,14 +29,14 @@ export default class Drawing
     }
 
     
-    drawBackground(vis:Visualizer, group: ResourceGroup, ctx)
+    drawBackground(vis:MaterialVisualizer, group: ResourceGroup, ctx)
     {
         // solid color
         let col = vis.inkFriendly ? "#FFFFFF" : "#FFFFFF";
         fillCanvas(ctx, col);
     }
 
-    drawContent(vis:Visualizer, group:ResourceGroup)
+    drawContent(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const data = this.getTypeData();
         const res = vis.resLoader.getResource("cave_drawings");

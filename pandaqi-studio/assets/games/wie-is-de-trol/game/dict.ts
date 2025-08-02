@@ -1,4 +1,4 @@
-class Task
+export class Task
 {
 	name: string;
 	story: string;
@@ -41,7 +41,7 @@ class Task
 	}
 }
 
-class Q 
+export class Q 
 {
 	question: string;
 	answers: string[];
@@ -55,7 +55,7 @@ class Q
 	}
 }
 
-const ROLVOORDELEN = 
+export const ROLVOORDELEN = 
 [
 	'De leider mag direct één extra kaart trekken',
 	'De leider mag gratis een inspanningskaart trekken',
@@ -90,7 +90,7 @@ const ROLVOORDELEN =
 	// @IMPROV: a few more entries? (Also different types, because being the "trol" is also a sort of "role"?)
 ];
 
-const ADDERTJES = 
+export const ADDERTJES = 
 [
 	'Je mag helemaal niks tegen elkaar zeggen of overleggen.',
 	'Iedereen speelt zijn kaarten <em>gedekt</em>',
@@ -142,7 +142,7 @@ const ADDERTJES =
 	'De leider is deze opdracht beschermd: er mogen geen leiderkaarten worden gespeeld.',
 ]
 
-const TASKS = 
+export const TASKS = 
 [
 	new Task(
 		"Rennen door Regenwoud", 
@@ -1829,16 +1829,6 @@ const TASKS =
 		}
 	),
 ]
-
-export
-{
-	TASKS,
-	ROLVOORDELEN,
-	ADDERTJES,
-	Q,
-	Task
-}
-
 
 // @IMPROV: Dat idee van "je moet ofwel de kaartsoorten ofwel de getallen reproduceren, maar je weet nog niet welke" is sterk, moet ik ergens gebruiken (en dan moeten mensen véél kaarten onthouden!)
 // @IMPROV: Nog één opdracht met inspanningskaarten, misschien ietsje minder zwaar deze keer

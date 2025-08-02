@@ -47,20 +47,23 @@ export const CONFIG =
         }
     },
 
-    configKey: "theMistConfig",
-    fileName: "[Board] The Mist",
-    resLoader: null,
+    _game:
+    {
+        fileName: "The Mist",
+    },
+
+    
     allTypes: {},
     inSimpleMode: false,
 
     // all debugging toggles
-    debug:
+    _debug:
     {
 
     },
 
     // set through user config on page
-    inkFriendly: false,
+    
     includeRules: true,
     boardSize: "regular", // tiny, small, regular, big, huge
     sets:

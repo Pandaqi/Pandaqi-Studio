@@ -1,6 +1,8 @@
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
 import { TokenType } from "./dict"
+import { tokenPicker } from "../game/tokenPicker"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
 {
@@ -10,14 +12,14 @@ export const CONFIG =
         {
             type: SettingType.CHECK,
             label: "Include Cards",
-            default: true
+            value: true
         },
 
         includeTokens:
         {
             type: SettingType.CHECK,
             label: "Include Tokens",
-            default: true,
+            value: true,
             remark: "If you already have these, or plan on using something else, you can disable this."
         },
 
@@ -25,34 +27,24 @@ export const CONFIG =
         {
             type: SettingType.MULTI,
             values: ["base", "advanced", "expert", "extraordinary"],
-            default: ["base"],
+            value: ["base"],
             label: "Packs"
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "theGameOfDilemmasConfig",
-    fileName: "The Game of Dilemmas",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    packs: {},
-
-    includeCards: true,
-    includeTokens: true,
-
-    fonts:
+    _game:
     {
-        heading: "sunny",
-        body: "minya"
+        fileName: "The Game of Dilemmas",
     },
+
+    packs: {},
 
     // assets
     assetsBase: "/the-game-of-dilemmas/assets/",
@@ -103,64 +95,83 @@ export const CONFIG =
         numPerTypeVariant: 1
     },
 
-    // how to draw/layout cards (mostly visually)
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(5,5),
-                regular: new Point(4,4),
-                large: new Point(3,3)
-            },
-        }, 
-
-        tokenConfig:
-        {
-            sizeElement: new Point(1,1),
-            size: 
+            picker: cardPicker,
+            mapper:
             {
-                small: new Point(8,10),
-                regular: new Point(6,8),
-                large: new Point(4,5)
+                sizeElement: new Point(1, 1.4),
+                size: 
+                { 
+                    small: new Point(5,5),
+                    regular: new Point(4,4),
+                    large: new Point(3,3)
+                },
+            },
+        },
+
+        tokens:
+        {
+            picker: tokenPicker,
+            mapper:
+            {
+                sizeElement: new Point(1,1),
+                size: 
+                {
+                    small: new Point(8,10),
+                    regular: new Point(6,8),
+                    large: new Point(4,5)
+                }
             }
-        },
-        
-        shared:
+        }
+    },
+
+    _drawing:
+    {
+        fonts:
         {
-           
+            heading: "sunny",
+            body: "minya"
         },
 
-        category:
+        cards:
         {
-            iconSize: 0.15, // ~sizeUnit
-            iconOffset: 0.125, // ~sizeUnit
-            textYPos: 0.925, // ~sizeY
-            textFontSize: 0.15, // ~sizeUnit
-            textStrokeWidth: 0.1 // ~textFontSize
-        },
+            shared:
+            {
+            
+            },
 
-        text:
-        {
-            fontSize: { large: 0.125, medium: 0.105, small: 0.09 }, // ~sizeUnit
-            fontSizeCutoffs: { large: 65, medium: 105, small: 145 },
-            yPos: 0.433, // ~sizeY
-            size: new Point(0.91, 0.8), // ~size
-            negativeCardPrefix: "... but "
-        },
+            category:
+            {
+                iconSize: 0.15, // ~sizeUnit
+                iconOffset: 0.125, // ~sizeUnit
+                textYPos: 0.925, // ~sizeY
+                textFontSize: 0.15, // ~sizeUnit
+                textStrokeWidth: 0.1 // ~textFontSize
+            },
 
-        token:
-        {
-            iconSize: 0.75, // ~sizeUnit
-            fontSize: 0.75, // ~sizeUnit
-        },
+            text:
+            {
+                fontSize: { large: 0.125, medium: 0.105, small: 0.09 }, // ~sizeUnit
+                fontSizeCutoffs: { large: 65, medium: 105, small: 145 },
+                yPos: 0.433, // ~sizeY
+                size: new Point(0.91, 0.8), // ~size
+                negativeCardPrefix: "... but "
+            },
 
-        outline:
-        {
-            size: 0.025, // relative to sizeUnit
-            color: "#000000"
-        },
+            token:
+            {
+                iconSize: 0.75, // ~sizeUnit
+                fontSize: 0.75, // ~sizeUnit
+            },
+
+            outline:
+            {
+                size: 0.025, // relative to sizeUnit
+                color: "#000000"
+            },
+        }
     }
 }

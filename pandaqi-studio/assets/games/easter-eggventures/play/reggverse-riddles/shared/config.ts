@@ -3,6 +3,8 @@ import Point from "js/pq_games/tools/geometry/point";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import CVal from "js/pq_games/tools/generation/cval";
+import { tilePicker } from "../game/tilePicker";
+import { eggPicker } from "../game/eggPicker";
 
 export const CONFIG:Record<string,any> =
 {
@@ -16,42 +18,35 @@ export const CONFIG:Record<string,any> =
             {
                 type: SettingType.CHECK,
                 label: "Base Game",
-                default: true
+                value: true
             },
 
             actionTiles:
             {
                 type: SettingType.CHECK,
                 label: "Action Tiles",
+                value: false
             },
 
             secretObjectives:
             {
                 type: SettingType.CHECK,
                 label: "Secret Objectives",
+                value: false
             },
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "reggverseRiddlesConfig",
-    fileName: "Reggverse Riddles",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-
-    sets:
+    _game:
     {
-        base: true,
-        actionTiles: false,
-        secretObjectives: false
+        fileName: "Reggverse Riddles",
     },
 
     // assets
@@ -106,52 +101,68 @@ export const CONFIG:Record<string,any> =
             row: ["horizontal row", "vertical column"]
         }
     },
-    
-    tiles:
+
+    _material:
     {
-        shared:
+        tiles:
         {
-            effectBlurRadius: new CVal(0.01, "sizeUnit")
+            picker: tilePicker
         },
 
-        action:
+        eggs:
         {
-            iconPos: new CVal(new Point(0.5, 0.25), "size"),
-            iconDims: new CVal(new Point(0.4), "size"),
-        },
-        
-        objective:
-        {
-            fontSize: new CVal(0.07, "sizeUnit"),
-            iconPos: new CVal(new Point(0.5, 0.275), "size"),
-            iconDims: new CVal(new Point(0.5), "size"),
-            textBoxPos: new CVal(new Point(0.5, 0.72), "size")
-        },
+            picker: eggPicker
+        }
+    },
 
-        movementGrid:
+    _drawing:
+    {
+        tiles:
         {
-            pos: new CVal(new Point(0.5, 0.22), "size"),
-            size: new CVal(new Point(0.38), "size"),
-            strokeWidth: new CVal(0.005, "sizeUnit"),
-            strokeDarkenValue: -66
-        },
+            shared:
+            {
+                effectBlurRadius: new CVal(0.01, "sizeUnit")
+            },
 
-        powerText:
-        {
-            fontSize: new CVal(0.085, "sizeUnit"),
-            textBoxPos: new CVal(new Point(0.5, 0.78), "size"),
-            textBoxDims: new CVal(new Point(0.9, 0.5), "size")
-        },
+            action:
+            {
+                iconPos: new CVal(new Point(0.5, 0.25), "size"),
+                iconDims: new CVal(new Point(0.4), "size"),
+            },
+            
+            objective:
+            {
+                fontSize: new CVal(0.07, "sizeUnit"),
+                iconPos: new CVal(new Point(0.5, 0.275), "size"),
+                iconDims: new CVal(new Point(0.5), "size"),
+                textBoxPos: new CVal(new Point(0.5, 0.72), "size")
+            },
 
-        helperText:
-        {
-            fontSize: new CVal(0.044, "sizeUnit"),
-            yOffset: new CVal(0.05, "sizeUnit")
-        },
+            movementGrid:
+            {
+                pos: new CVal(new Point(0.5, 0.22), "size"),
+                size: new CVal(new Point(0.38), "size"),
+                strokeWidth: new CVal(0.005, "sizeUnit"),
+                strokeDarkenValue: -66
+            },
 
-        map:
-        {
-            iconDims: new CVal(new Point(0.8), "size")
+            powerText:
+            {
+                fontSize: new CVal(0.085, "sizeUnit"),
+                textBoxPos: new CVal(new Point(0.5, 0.78), "size"),
+                textBoxDims: new CVal(new Point(0.9, 0.5), "size")
+            },
+
+            helperText:
+            {
+                fontSize: new CVal(0.044, "sizeUnit"),
+                yOffset: new CVal(0.05, "sizeUnit")
+            },
+
+            map:
+            {
+                iconDims: new CVal(new Point(0.8), "size")
+            }
         }
     }
 }

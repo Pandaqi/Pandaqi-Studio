@@ -1,6 +1,6 @@
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import BoardDisplay from "./boardDisplay";
 import { CONFIG } from "./config";
@@ -14,7 +14,7 @@ export default class FixedFingers
         this.fixedFingers = f;
     }
 
-    display(vis:BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, pos:Point, height:number = 128)
+    display(vis:MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, pos:Point, height:number = 128)
     {
         const size = CONFIG.fixedFingers.handScale * height;
 

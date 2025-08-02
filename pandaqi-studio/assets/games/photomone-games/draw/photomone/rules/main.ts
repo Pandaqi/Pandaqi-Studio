@@ -8,16 +8,17 @@ const CONFIG =
         {
             "sneaky-spots":
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "point_types.webp",
                         sheetWidth: 8,
-                        icons: POINT_TYPES,
                         base: "/photomone-games/draw/photomone/assets/"
                     }
+
                 },
+
                 data: 
                 {
                     numLines: POINT_TYPES.numLines,
@@ -31,16 +32,16 @@ const CONFIG =
 
             "precise-painters":
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "point_types.webp",
                         sheetWidth: 8,
-                        icons: POINT_TYPES,
                         base: "/photomone-games/draw/photomone/assets/"
                     }
                 },
+
                 data: 
                 {
                     add: POINT_TYPES.add,
@@ -54,16 +55,16 @@ const CONFIG =
 
             "action-ants":
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "point_types.webp",
                         sheetWidth: 8,
-                        icons: POINT_TYPES,
                         base: "/photomone-games/draw/photomone/assets/"
                     }
                 },
+
                 data: 
                 {
                     trap: POINT_TYPES.trap,
@@ -75,16 +76,16 @@ const CONFIG =
 
             "coop-colony":
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "point_types.webp",
                         sheetWidth: 8,
-                        icons: POINT_TYPES,
                         base: "/photomone-games/draw/photomone/assets/"
                     }
                 },
+
                 data: 
                 {
                     leader: POINT_TYPES.leader,

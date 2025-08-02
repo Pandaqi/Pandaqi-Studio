@@ -9,6 +9,7 @@ export enum SettingType
     GROUP = "group",
     ENUM = "enum",
     CHECK = "checkbox",
+    MULTI = "multi",
     NUMBER = "number",
     TEXT = "text",
     INPUT = "input",
@@ -157,6 +158,29 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
         elem.checked = defaultValue ?? false;
     }
 
+    if(type == SettingType.MULTI)
+    {
+        elem = document.createElement("div");
+        elem.classList.add("settings-input-multi");
+
+        const defaultValues = data.default ?? [];
+        for(const value of values)
+        {
+            const cont = document.createElement("div");
+            elem.appendChild(cont);
+
+            const label = document.createElement("label");
+            cont.appendChild(label);
+            label.innerHTML = value;
+
+            const inp = document.createElement("input");
+            cont.appendChild(inp);
+            inp.type = "checkbox";
+            inp.checked = defaultValues.includes(value);
+            inp.dataset.value = value;
+        }
+    }
+
     if(type == SettingType.NUMBER)
     {
         elem = document.createElement("input");
@@ -215,7 +239,16 @@ export const readSettingsFromHTML = (node:HTMLElement) =>
             else { value = elem.value }
         } else if(elem instanceof HTMLSelectElement) {
             value = elem.options[elem.selectedIndex].value;
-        } 
+        } else if(elem.classList.contains("settings-input-multi")) {
+            const subInputs = Array.from(elem.querySelectorAll("input")) as HTMLInputElement[];
+            const list = [];
+            for(const input of subInputs)
+            {
+		if(!input.checked) { continue; }
+                list.push(input.dataset.value);
+            }
+            value = list;
+        }
 
         // all values are strings now; turn numbers back into numbers
         // (integers don't exist in JS; so parseFloat for all is fine)

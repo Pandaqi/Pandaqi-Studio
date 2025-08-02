@@ -1,148 +1,132 @@
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import shuffle from "js/pq_games/tools/random/shuffle";
 import { CONFIG } from "../shared/config";
 import { CardMainType, CardType, PACKS, SCORING_RULES } from "../shared/dict";
 import Card from "./card";
-import shuffle from "js/pq_games/tools/random/shuffle";
 
-export default class CardPicker
+export const cardPicker = () =>
 {
-    cards: Card[]
-    packs: CardType[]
-
-    constructor() {}
-    get() { return this.cards; }
-    generate()
+    const cards = [];
+    const packs = [];
+    for(const [key,included] of Object.entries(CONFIG._settings.packs.value))
     {
-        this.cards = [];
+        if(!included) { continue; }
+        packs.push(key);
+    }
 
-        if(!this.packs) { this.readPacksFromConfig(); }
-
-        // playing cards (per pack)
-        for(const pack of this.packs)
+    // playing cards (per pack)
+    for(const pack of packs)
+    {
+        const data = PACKS[pack];
+        const numbers:Record<number, number> = data.numbers ?? CONFIG.generation.defNumberDistribution;
+        const actionsPossible : string[] = shuffle(data.actions ?? []);
+        const actionPercentages = data.actionPercentages ?? CONFIG.generation.defActionPercentages;
+        let actionIndexCounter = 0;
+        for(const [num,freq] of Object.entries(numbers))
         {
-            const data = PACKS[pack];
-            const numbers:Record<number, number> = data.numbers ?? CONFIG.generation.defNumberDistribution;
-            const actionsPossible = shuffle(data.actions ?? []);
-            const actionPercentages = data.actionPercentages ?? CONFIG.generation.defActionPercentages;
-            let actionIndexCounter = 0;
-            for(const [num,freq] of Object.entries(numbers))
-            {
-                const numInt = parseInt(num);
-                const numActions = Math.ceil(actionPercentages[numInt] * freq);
-                const actionList = this.drawAlternate(actionsPossible, numActions, actionIndexCounter);
-                actionIndexCounter += numActions;
+            const numInt = parseInt(num);
+            const numActions = Math.ceil(actionPercentages[numInt] * freq);
+            const actionList = drawAlternate(actionsPossible, numActions, actionIndexCounter);
+            actionIndexCounter += numActions;
 
-                for(let i = 0; i < freq; i++)
-                {
-                    const action = i < actionList.length ? actionList[i] : null;
-                    const card = new Card(CardMainType.PLAY, pack, numInt, action);
-                    this.cards.push(card);
-                }
-            }
-        }
-
-        // scoreworks cards (if enabled)
-        if(CONFIG.expansions.scoreCards)
-        {
-            for(const [key,data] of Object.entries(SCORING_RULES))
+            for(let i = 0; i < freq; i++)
             {
-                const card = new Card(CardMainType.SCORE, CardType.BLACK, 0, key);
-                this.cards.push(card);
+                const action = i < actionList.length ? actionList[i] : null;
+                const card = new Card(CardMainType.PLAY, pack, numInt, action);
+                cards.push(card);
             }
         }
     }
 
-    // this is for the simulation, not material generation
-    getStarterDecks(numPlayers:number)
+    // scoreworks cards (if enabled)
+    if(CONFIG._settings.scoreCards.value)
     {
-        const highPlayerCount = (numPlayers >= CONFIG.generation.starterDeck.highPlayerCountThreshold);
-
-        let numStartColors = CONFIG.generation.starterDeck.numColors;
-        if(highPlayerCount) { numStartColors = CONFIG.generation.starterDeck.numColorsHighPlayerCount; }
-
-        const startColors = this.packs.slice(0, numStartColors);
-        const sets = [];
-        const allCards = shuffle(this.cards.slice());
-        const validCards = [];
-
-        for(const card of allCards)
+        for(const [key,data] of Object.entries(SCORING_RULES))
         {
-            const coloredActionCard = card.hasAction() && card.type != CardType.BLACK;
-            if(coloredActionCard && !highPlayerCount) { continue; }
-            validCards.push(card);
+            const card = new Card(CardMainType.SCORE, CardType.BLACK, 0, key);
+            cards.push(card);
         }
+    }
+}
 
-        const startColFreq = CONFIG.generation.starterDeck.colorFreq;
-        let blackFreq = CONFIG.generation.starterDeck.numBlack;
-        if(highPlayerCount) { blackFreq = CONFIG.generation.starterDeck.numBlackHighPlayerCount; }
+// this is for the simulation, not material generation
+export const getStarterDecks = (cards:Card[], numPlayers:number) : Card[][] =>
+{
+    const highPlayerCount = (numPlayers >= CONFIG.generation.starterDeck.highPlayerCountThreshold);
 
-        for(let i = 0; i < numPlayers; i++)
+    let numStartColors = CONFIG.generation.starterDeck.numColors;
+    if(highPlayerCount) { numStartColors = CONFIG.generation.starterDeck.numColorsHighPlayerCount; }
+
+    const startColors = Object.keys(PACKS).slice(0, numStartColors) as CardType[];
+    const sets = [];
+    const allCards = shuffle(cards.slice());
+    const validCards = [];
+
+    for(const card of allCards)
+    {
+        const coloredActionCard = card.hasAction() && card.type != CardType.BLACK;
+        if(coloredActionCard && !highPlayerCount) { continue; }
+        validCards.push(card);
+    }
+
+    const startColFreq = CONFIG.generation.starterDeck.colorFreq;
+    let blackFreq = CONFIG.generation.starterDeck.numBlack;
+    if(highPlayerCount) { blackFreq = CONFIG.generation.starterDeck.numBlackHighPlayerCount; }
+
+    for(let i = 0; i < numPlayers; i++)
+    {
+        const set = [];
+        for(const col of startColors)
         {
-            const set = [];
-            for(const col of startColors)
+            for(let a = 0; a < startColFreq; a++)
             {
-                for(let a = 0; a < startColFreq; a++)
-                {
-                    const card = this.getFirstOfType(validCards, col);
-                    set.push(card);
-                }
+                const card = getFirstOfType(validCards, col);
+                set.push(card);
             }
-
-            for(let a = 0; a < blackFreq; a++)
-            {
-                const blackCard = this.getFirstOfType(validCards, CardType.BLACK);
-                set.push(blackCard);
-            }
-
-            sets.push(set);
         }
-        return sets;
-    }
 
-    getFirstOfType(options:Card[], type:CardType)
-    {
-        for(let i = 0; i < options.length; i++)
+        for(let a = 0; a < blackFreq; a++)
         {
-            const card = options[i];
-            if(card.type != type) { continue; }
-            options.splice(i, 1);
-            return card;
+            const blackCard = getFirstOfType(validCards, CardType.BLACK);
+            set.push(blackCard);
         }
-        return null;
-    }
 
-    readPacksFromConfig()
+        sets.push(set);
+    }
+    return sets;
+}
+
+const getFirstOfType = (options:Card[], type:CardType) =>
+{
+    for(let i = 0; i < options.length; i++)
     {
-        const packs = [];
-        for(const [key,included] of Object.entries(CONFIG.packs))
-        {
-            if(!included) { continue; }
-            packs.push(key);
-        }
-        this.packs = packs;
+        const card = options[i];
+        if(card.type != type) { continue; }
+        options.splice(i, 1);
+        return card;
     }
+    return null;
+}
 
-    setNumPacks(num:number)
+export const setNumPacks = (cards:Card[], num:number) =>
+{
+    const allPacks = Object.keys(PACKS);
+    allPacks.splice(allPacks.indexOf("black"), 1);
+    const finalPacks = shuffle(allPacks).slice(0,num);
+    finalPacks.push("black");
+
+    return cards.filter((x) => finalPacks.includes(x.type));
+}
+
+const drawAlternate = (options:string[], num:number, startIndex:number) =>
+{
+    const numOptions = options.length;
+    const arr = [];
+    if(numOptions <= 0) { return arr; }
+    let counter = startIndex % numOptions;
+    while(arr.length < num)
     {
-        const allPacks = Object.keys(PACKS);
-        allPacks.splice(allPacks.indexOf("black"), 1);
-        const finalPacks = shuffle(allPacks).slice(0,num);
-        finalPacks.push("black");
-        this.packs = finalPacks;
+        arr.push(options[counter]);
+        counter = (counter + 1) % numOptions;
     }
-
-    drawAlternate(options:string[], num:number, startIndex:number)
-    {
-        const numOptions = options.length;
-        const arr = [];
-        if(numOptions <= 0) { return arr; }
-        let counter = startIndex % numOptions;
-        while(arr.length < num)
-        {
-            arr.push(options[counter]);
-            counter = (counter + 1) % numOptions;
-        }
-        return arr;
-    }
-
+    return arr;
 }

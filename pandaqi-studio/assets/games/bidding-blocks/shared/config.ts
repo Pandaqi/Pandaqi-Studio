@@ -1,6 +1,7 @@
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG:any = 
 {
@@ -13,70 +14,57 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true
+                value: true
             }
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "biddingBlocksConfig",
-    fileName: "Bidding Blocks",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
-
-    fonts:
+    _game:
     {
-        heading: "vadamecum",
-        body: "josefin",
+        fileName: "Bidding Blocks",
     },
 
-    sets:
+    _resources:
     {
-        base: true
-    },
-
-    // assets
-    assetsBase: "/bidding-blocks/assets/",
-    assets:
-    {
-        josefin:
+        base: "/bidding-blocks/assets/",
+        files:
         {
-            path: "fonts/JosefinSlab-Regular.woff2",
-        },
+            josefin:
+            {
+                path: "fonts/JosefinSlab-Regular.woff2",
+            },
 
-        vadamecum:
-        {
-            path: "fonts/Vademecum-Regular.woff2",
-        },
+            vadamecum:
+            {
+                path: "fonts/Vademecum-Regular.woff2",
+            },
 
-        card_templates:
-        {
-            path: "card_templates.webp",
-            frames: new Point(4,1)
-        },
+            card_templates:
+            {
+                path: "card_templates.webp",
+                frames: new Point(4,1)
+            },
 
-        misc:
-        {
-            path: "misc.webp",
-            frames: new Point(4,4)
-        },
+            misc:
+            {
+                path: "misc.webp",
+                frames: new Point(4,4)
+            },
+        }
     },
 
     rulebook:
     {
         numPlayerBounds: new Bounds(3,5),
         numCardsPerPlayer: 8,
-        itemSize: new Point(375, 525),
-
+        
         bidNumWinsBounds: new Bounds(1,4),
         bidHandSizeBounds: new Bounds(3,8),
 
@@ -91,43 +79,60 @@ export const CONFIG:any =
         numberBounds: new Bounds(1,10),
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
-        },
-
-        main:
-        {
-            pos: new CVal(new Point(0.5), "size"),
-            size: new CVal(new Point(0.92), "sizeUnit"),
-        },
-
-        fitsOnTop:
-        {
-            pos: new CVal(new Point(0.5, 0.115), "size"),
-            size: new CVal(new Point(0.235), "sizeUnit")
-        },
-
-        numbers:
-        {
-            fontSize: new CVal(0.175, "sizeUnit"),
-            offset: new CVal(new Point(0.1, 0.135), "sizeUnit"),
-            doubleDigitsScaleDown: 0.775,
-        },
-
-        suitIcons:
-        {
-            offset: new CVal(new Point(0.27, 0.17), "sizeUnit"), // should fit perfectly in this background circles
-            size: new CVal(new Point(0.0775), "sizeUnit")
+            itemSize: new Point(375, 525),
+            picker: cardPicker,
+            mapper: 
+            {
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: 
+                { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                }, 
+            },
         }
     },
+
+    _drawing:
+    {     
+        fonts:
+        {
+            heading: "vadamecum",
+            body: "josefin",
+        },
+
+        cards:
+        {
+            main:
+            {
+                pos: new CVal(new Point(0.5), "size"),
+                size: new CVal(new Point(0.92), "sizeUnit"),
+            },
+
+            fitsOnTop:
+            {
+                pos: new CVal(new Point(0.5, 0.115), "size"),
+                size: new CVal(new Point(0.235), "sizeUnit")
+            },
+
+            numbers:
+            {
+                fontSize: new CVal(0.175, "sizeUnit"),
+                offset: new CVal(new Point(0.1, 0.135), "sizeUnit"),
+                doubleDigitsScaleDown: 0.775,
+            },
+
+            suitIcons:
+            {
+                offset: new CVal(new Point(0.27, 0.17), "sizeUnit"), // should fit perfectly in this background circles
+                size: new CVal(new Point(0.0775), "sizeUnit")
+            }
+        },
+    }
 }

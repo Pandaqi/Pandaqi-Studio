@@ -19,20 +19,25 @@ export const CONFIG =
         },
     },
 
-    debugWithoutFile: false, // @DEBUGGING (should be false)
-    debugSingleCard: false, // @DEBUGGING (should be false)
-    debugOnlyGenerate: false, // @DEBUGGING (should be false)
+    _debug:
+    {
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+    },
 
-    configKey: "nineLivesMathMeowsConfig",
-    fileName: "Nine Lives: Math Meows",
-    resLoader: null,
+    _game:
+    {
+        fileName: "Nine Lives: Math Meows",
+    },
+    
 
     // set through user config on page
-    inkFriendly: false,
+    
     includeLifeCards: true,
     includeNumberCards: true,
-    itemSize: "regular",
-    pageSize: "a4",
+    
+    
     
     fonts:
     {
@@ -92,14 +97,11 @@ export const CONFIG =
         }
     },
 
-    rulebook:
-    {
-        itemSize: new Point(480, 672)
-    },
-
     // how to draw/layout cards (mostly visually)
     cards:
     {
+        itemSize: new Point(480, 672), // @TODO: add to _material for rulebook
+
         size: { 
             small: new Point(4,4),
             regular: new Point(3,3),

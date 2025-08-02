@@ -1,18 +1,16 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { CARD_TEMPLATES, CardType, MEDICINE, PATIENTS } from "../shared/dict";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import Point from "js/pq_games/tools/geometry/point";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import Circle from "js/pq_games/tools/geometry/circle";
-import fromArray from "js/pq_games/tools/random/fromArray";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import Point from "js/pq_games/tools/geometry/point";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import { CARD_TEMPLATES, CardType, MEDICINE, PATIENTS } from "../shared/dict";
 
 export default class Card
 {
@@ -48,7 +46,6 @@ export default class Card
             const reqsSorted = this.requirements.slice().sort((a,b) => a.localeCompare(b));
             return "PATIENT (" + this.num + " / " + reqsSorted.join(", ") + ")"; 
         }
-
     }
 
     async drawForRules(vis:MaterialVisualizer)

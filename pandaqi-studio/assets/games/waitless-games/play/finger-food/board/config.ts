@@ -46,8 +46,7 @@ export const CONFIG =
     },
 
     visualizer: null,
-    configKey: "fingerFoodConfig",
-    assetsBase: "/waitless-games/play/finger-food/assets/",
+        assetsBase: "/waitless-games/play/finger-food/assets/",
     assets:
     {
         cherrybomb:
@@ -98,7 +97,7 @@ export const CONFIG =
         },
     },
 
-    inkFriendly: false,
+    
     includeRules: true,
     expansions: 
     {

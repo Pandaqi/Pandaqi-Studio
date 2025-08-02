@@ -1,40 +1,34 @@
 import { CONFIG } from "../shared/config";
 import Token from "./token";
 
-export default class TokenPicker
+export const tokenPicker = () : Token[] =>
 {
-    tokens: Token[]
-
-    constructor() {}
-    get() { return this.tokens; }
-    generate()
+    if(!CONFIG._settings.includeTokens.value) { return []; }
+    
+    // regular tokens (yes / no)
+    const tokens = [];
+    const types = CONFIG.generation.tokenTypes;
+    const numPerType = CONFIG.generation.numPerType * CONFIG.generation.maxNumPlayers;
+    for(const type of types)
     {
-        this.tokens = [];
-        if(!CONFIG.includeTokens) { return; }
-        
-        // regular tokens (yes / no)
-        const types = CONFIG.generation.tokenTypes;
-        const numPerType = CONFIG.generation.numPerType * CONFIG.generation.maxNumPlayers;
-        for(const type of types)
+        for(let i = 0; i < numPerType; i++)
         {
-            for(let i = 0; i < numPerType; i++)
-            {
-                const newToken = new Token(type);
-                this.tokens.push(newToken);
-            }
+            const newToken = new Token(type);
+            tokens.push(newToken);
         }
-
-        // variant tokens (superyes / superno)
-        const typesVariant = CONFIG.generation.tokenTypesVariant;
-        const numPerTypeVariant = CONFIG.generation.numPerTypeVariant * CONFIG.generation.maxNumPlayers;
-        for(const type of typesVariant)
-        {
-            for(let i = 0; i < numPerTypeVariant; i++)
-            {
-                const newToken = new Token(type);
-                this.tokens.push(newToken);
-            }
-        }
-
     }
+
+    // variant tokens (superyes / superno)
+    const typesVariant = CONFIG.generation.tokenTypesVariant;
+    const numPerTypeVariant = CONFIG.generation.numPerTypeVariant * CONFIG.generation.maxNumPlayers;
+    for(const type of typesVariant)
+    {
+        for(let i = 0; i < numPerTypeVariant; i++)
+        {
+            const newToken = new Token(type);
+            tokens.push(newToken);
+        }
+    }
+
+    return tokens;
 }

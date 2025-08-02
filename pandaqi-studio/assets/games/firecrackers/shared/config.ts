@@ -1,5 +1,6 @@
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
 {
@@ -8,7 +9,7 @@ export const CONFIG =
         scoreCards:
         {
             type: SettingType.CHECK,
-            default: false,
+            value: false,
             label: "Add Scoreworks",
             remark: "An expansion that adds cards to randomize how scoring works at the end of the game."
         },
@@ -18,34 +19,20 @@ export const CONFIG =
             type: SettingType.MULTI,
             label: "Packs",
             values: ["black", "red", "orange", "yellow", "green", "turquoise", "blue", "purple", "pink", "brown", "white"],
-            default: ["black", "red", "yellow", "green", "blue", "brown"]
+            value: ["black", "red", "yellow", "green", "blue", "brown"],
         },
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "firecrackersConfig",
-    fileName: "Firecrackers",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    packs: {},
-
-    expansions:
+    _game:
     {
-        scoreCards: false
-    },
-
-    fonts:
-    {
-        heading: "fourth",
-        body: "neuton"
+        fileName: "Firecrackers",
     },
 
     // assets
@@ -105,10 +92,10 @@ export const CONFIG =
         }
     },
 
-    // how to draw/layout cards (mostly visually)
-    cards:
+    _material:
     {
-        drawerConfig:
+        picker: cardPicker,
+        mapper:
         {
             sizeElement: new Point(1, 1.4),
             size: { 
@@ -118,92 +105,104 @@ export const CONFIG =
             },
             
         }, 
-        
-        shared:
+    },
+
+    _drawing:
+    {
+        fonts:
         {
-            glowRadius: 0.015,
-            glowColor: "#FFFFFFCC",
-            colorDarkInkFriendly: "#FFFFFF",
-            colorLightInkFriendly: "#111111",
-            colorMidInkFriendly: "#BCBCBC"
+            heading: "fourth",
+            body: "neuton"
         },
 
-        illustration:
-        {
-            yPos: 0.5, // ~sizeY
-            yPosAction: 0.33,
-            scale: 0.775, // ~sizeUnit
-            actionScaleDown: 0.75,
-            bgAlpha: 0.1,
-            bgScale: 1.66,
-            bgComposite: "luminosity",
-            blackFrames: [0,11,12,13,14,15,16,17]
-        },
+        cards:
+        {            
+            shared:
+            {
+                glowRadius: 0.015,
+                glowColor: "#FFFFFFCC",
+                colorDarkInkFriendly: "#FFFFFF",
+                colorLightInkFriendly: "#111111",
+                colorMidInkFriendly: "#BCBCBC"
+            },
 
-        coins:
-        {
-            yPos: 0.925,
-            scale: 0.125, // ~sizeUnit
-            displayDownScale: 0.875,
-            rectDims: new Point(0.46, 0.1),
-            rectDimsOffset: 0.8,
-            rectDimsAction: new Point(0.7, 0.1), // ~size, X should match innerRectDownScale too
-            rectDimsOffsetAction: 0.9,
+            illustration:
+            {
+                yPos: 0.5, // ~sizeY
+                yPosAction: 0.33,
+                scale: 0.775, // ~sizeUnit
+                actionScaleDown: 0.75,
+                bgAlpha: 0.1,
+                bgScale: 1.66,
+                bgComposite: "luminosity",
+                blackFrames: [0,11,12,13,14,15,16,17]
+            },
 
-            shadowBlur: 0.01, // ~coinSize
-            shadowOffset: new Point(0.0), // ~coinSize
-            shadowColor: "#000000FF",
+            coins:
+            {
+                yPos: 0.925,
+                scale: 0.125, // ~sizeUnit
+                displayDownScale: 0.875,
+                rectDims: new Point(0.46, 0.1),
+                rectDimsOffset: 0.8,
+                rectDimsAction: new Point(0.7, 0.1), // ~size, X should match innerRectDownScale too
+                rectDimsOffsetAction: 0.9,
 
-            fontSize: 0.0395, // ~sizeUnit
-            textColor: "#FDFDFD",
-            textAlpha: 1.0,
-            textRectDarken: 30,
-        },
+                shadowBlur: 0.01, // ~coinSize
+                shadowOffset: new Point(0.0), // ~coinSize
+                shadowColor: "#000000FF",
 
-        title:
-        {
-            yPos: 0.575, // ~sizeY
-            fontSize: 0.06, // ~sizeUnit
-            rectDims: new Point(0.925, 1.16), // X should generally match innerRectDownScale right?
-        },
+                fontSize: 0.0395, // ~sizeUnit
+                textColor: "#FDFDFD",
+                textAlpha: 1.0,
+                textRectDarken: 30,
+            },
 
-        action:
-        {
-            yPos: 0.74, // ~sizeY
-            fontSize: 0.0735, // ~sizeUnit
-            textDims: new Point(0.8, 0.35), // ~size
-            innerRectDownScale: 0.925, 
-            strokeWidth: 0.02, // ~fontSize
+            title:
+            {
+                yPos: 0.575, // ~sizeY
+                fontSize: 0.06, // ~sizeUnit
+                rectDims: new Point(0.925, 1.16), // X should generally match innerRectDownScale right?
+            },
 
-            titleGlowRadius: 0.1, // ~fontSize
-            titleGlowColor: "#FFFFFF88"
-        },
+            action:
+            {
+                yPos: 0.74, // ~sizeY
+                fontSize: 0.0735, // ~sizeUnit
+                textDims: new Point(0.8, 0.35), // ~size
+                innerRectDownScale: 0.925, 
+                strokeWidth: 0.02, // ~fontSize
 
-        corners:
-        {
-            edgeOffsetBig: new Point(0.15), // ~sizeUnit
-            edgeOffsetSmall: new Point(0.08), // ~sizeUnit
-            starScaleBig: 0.125, // ~sizeUnit
-            starScaleSmall: 0.06, // ~sizeUnit
-            fontSizeBig: 0.15, // ~sizeUnit
-            fontSizeSmall: 0.055, // ~sizeUnit
-            strokeWidth: 0.075, // ~fontSize
-            moveSmallStarsToTitle: false
-        },
+                titleGlowRadius: 0.1, // ~fontSize
+                titleGlowColor: "#FFFFFF88"
+            },
 
-        scoreRule:
-        {
-            yPosTitle: 0.15, // ~sizeY
-            yPosRule: 0.5, // ~sizeY
-            titleFontSize: 0.0735, // ~sizeUnit
-            ruleFontSize: 0.06, // ~sizeUnit
-            textDims: new Point(0.8, 0.6), // ~size
-        },
+            corners:
+            {
+                edgeOffsetBig: new Point(0.15), // ~sizeUnit
+                edgeOffsetSmall: new Point(0.08), // ~sizeUnit
+                starScaleBig: 0.125, // ~sizeUnit
+                starScaleSmall: 0.06, // ~sizeUnit
+                fontSizeBig: 0.15, // ~sizeUnit
+                fontSizeSmall: 0.055, // ~sizeUnit
+                strokeWidth: 0.075, // ~fontSize
+                moveSmallStarsToTitle: false
+            },
 
-        outline:
-        {
-            size: 0.025, // relative to sizeUnit
-            color: "#000000"
-        },
+            scoreRule:
+            {
+                yPosTitle: 0.15, // ~sizeY
+                yPosRule: 0.5, // ~sizeY
+                titleFontSize: 0.0735, // ~sizeUnit
+                ruleFontSize: 0.06, // ~sizeUnit
+                textDims: new Point(0.8, 0.6), // ~size
+            },
+
+            outline:
+            {
+                size: 0.025, // relative to sizeUnit
+                color: "#000000"
+            },
+        }
     }
 }

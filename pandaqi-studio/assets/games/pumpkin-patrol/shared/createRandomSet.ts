@@ -2,7 +2,7 @@ import { CONFIG } from "./config";
 import { CardData, SETS, Type } from "./dict";
 import shuffle from "js/pq_games/tools/random/shuffle";
 
-export default (type:Type) => 
+export const createRandomSet = (type:Type) => 
 {
     const numCards = CONFIG.generation.randomSetSizes[type];
 

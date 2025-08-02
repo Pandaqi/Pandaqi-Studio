@@ -10,12 +10,17 @@ import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
 import Rectangle from "js/pq_games/tools/geometry/rectangle"
 import getWeighted from "js/pq_games/tools/random/getWeighted"
 import shuffle from "js/pq_games/tools/random/shuffle"
+
+export const boardPicker = () : BoardGeneration =>
+{
+	return new BoardGeneration();
+}
 
 interface GenerationData
 {
@@ -24,57 +29,25 @@ interface GenerationData
 	cells?: Cell[][]
 }
 
-export default class BoardGeneration
+export class BoardGeneration
 {
 	cfg: Record<string,any>
 	gen: GenerationData
 	playerColors: Color[]
 	baseCellBackgroundHue: number
 
-	async draw(vis:BoardVisualizer) : Promise<ResourceGroup[]>
+	constructor()
 	{
-		this.setup(vis)
-		this.generate()
-		return this.visualize(vis);
+		this.setup()
+		this.generate();
 	}
 
-	setup(vis:BoardVisualizer)
+	async draw(vis:MaterialVisualizer)
 	{
-		const userConfig = vis.config;
-		userConfig.numPlayers = parseInt(userConfig.playerCount);
-		Object.assign(CONFIG, userConfig);
-
-		console.log(CONFIG);
+		const group = vis.prepareDraw();
 
 		const cfg = CONFIG;
-		if(cfg.expansions.scrabbleScoring)
-		{
-			cfg.showLetterValues = true;
-		}
-
-		if(cfg.gameTitle == "Keebble: Knickknack") { 
-			cfg.createStartingHands = false; 
-			cfg.addStartingCell = false;
-			cfg.showLetterValues = true;
-		}
-
-		cfg.spriteAlpha = 1.0;
-		if(cfg.forPrinting) { cfg.spriteAlpha = 0.3; }
-
-		// @NOTE: My setting-enum shortcode automatically lowercases the values; nice, but should not forget this
-		if(cfg.boardSize == "small") { 
-			cfg.numCellsY = 4;
-			cfg.backpackGridSize.x -= 1;
-		}
-
-		if(cfg.boardSize == "large") {
-			cfg.numCellsX = 16;
-			cfg.backpackGridSize.x += 1;
-			cfg.backpackGridSize.y += 1;
-		}
-
-		cfg.totalNumCells = cfg.numCellsX * cfg.numCellsY;
-
+		this.baseCellBackgroundHue = Math.random() * 360;
 		cfg.cellSizeX = vis.size.x / cfg.numCellsX;
 		cfg.cellSizeY = vis.size.y / cfg.numCellsY;
 		cfg.cellSize = new Point(cfg.cellSizeX, cfg.cellSizeY);
@@ -89,12 +62,53 @@ export default class BoardGeneration
 		cfg.letterTextConfig = new TextConfig({
 			font: cfg.fontFamily,
 			size: cfg.letterFontSize
-		}).alignCenter();
+		})
 
 		cfg.handTextConfig = new TextConfig({
 			font: cfg.fontFamily,
 			size: cfg.handFontSize
-		}).alignCenter();
+		})
+
+		this.visualizeBackground(vis, group);
+		this.visualizeGrid(vis, group);
+		this.visualizeCells(vis, group);
+		this.visualizeWalls(vis, group);
+		return await vis.finishDraw(group);
+	}
+
+	setup()
+	{
+		const cfg = CONFIG;
+		if(cfg.expansions.scrabbleScoring)
+		{
+			cfg.showLetterValues = true;
+		}
+
+		if(cfg._game.fileName == "Keebble: Knickknack") 
+		{ 
+			cfg.createStartingHands = false; 
+			cfg.addStartingCell = false;
+			cfg.showLetterValues = true;
+		}
+
+		cfg.spriteAlpha = 1.0;
+		if(cfg.forPrinting) { cfg.spriteAlpha = 0.3; }
+
+		// @NOTE: My setting-enum shortcode automatically lowercases the values; nice, but should not forget this
+		if(cfg.boardSize == "small") 
+		{ 
+			cfg.numCellsY = 4;
+			cfg.backpackGridSize.x -= 1;
+		}
+
+		if(cfg.boardSize == "large") 
+		{
+			cfg.numCellsX = 16;
+			cfg.backpackGridSize.x += 1;
+			cfg.backpackGridSize.y += 1;
+		}
+
+		cfg.totalNumCells = cfg.numCellsX * cfg.numCellsY;
 
 		this.createFullLetterDictionary(cfg);
 		this.determinePlayerColors(cfg);
@@ -400,19 +414,6 @@ export default class BoardGeneration
 		}
 	}
 
-	visualize(vis:BoardVisualizer)
-	{
-		const group = new ResourceGroup();
-
-		this.baseCellBackgroundHue = Math.random() * 360;
-
-		this.visualizeBackground(vis, group);
-		this.visualizeGrid(vis, group);
-		this.visualizeCells(vis, group);
-		this.visualizeWalls(vis, group);
-		return [group];
-	}
-
 	cellToRect(c:Cell, randomness = 0) : Rectangle
 	{
 		const pixelPos = this.toPixelPos(c.getPos());
@@ -443,7 +444,7 @@ export default class BoardGeneration
 		return new Color(hue, 30, 80);
 	}
 
-	visualizeBackground(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeBackground(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		if(CONFIG.inkFriendly) { return; }
 
@@ -468,7 +469,7 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizeGrid(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeGrid(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		// vertical lines
 		const lw = CONFIG.lineWidth;
@@ -514,7 +515,7 @@ export default class BoardGeneration
 		);
 	}
 
-	visualizeCells(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeCells(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		const cells = this.gen.cellsFlat.slice();
 
@@ -544,7 +545,7 @@ export default class BoardGeneration
 		);
 	}
 
-	visualizeLetter(vis:BoardVisualizer, group:ResourceGroup, c:Cell)
+	visualizeLetter(vis:MaterialVisualizer, group:ResourceGroup, c:Cell)
 	{
 		if(!c.getLetter()) { return; }
 		const pixelPos = this.toCenteredPixelPos(c.getPos());
@@ -579,7 +580,7 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizeHand(vis:BoardVisualizer, group:ResourceGroup, c:Cell)
+	visualizeHand(vis:MaterialVisualizer, group:ResourceGroup, c:Cell)
 	{
 		if(!c.hasHand()) { return; }
 
@@ -660,7 +661,7 @@ export default class BoardGeneration
 		group.add(resText, op);
 	}
 
-	visualizeType(vis:BoardVisualizer, group:ResourceGroup, c:Cell)
+	visualizeType(vis:MaterialVisualizer, group:ResourceGroup, c:Cell)
 	{
 		if(!c.getType()) { return; }
 		
@@ -676,7 +677,7 @@ export default class BoardGeneration
 		group.add(resSpecial, op);
 	}
 
-	visualizeWalls(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeWalls(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		const resSpecial = vis.getResource("special_cells");
 

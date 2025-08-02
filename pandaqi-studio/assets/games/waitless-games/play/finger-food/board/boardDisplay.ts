@@ -6,7 +6,7 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
 import Path from "js/pq_games/tools/geometry/paths/path"
 import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath"
 import Point from "js/pq_games/tools/geometry/point"
@@ -49,7 +49,7 @@ export default class BoardDisplay
         this.boardDimensions = new Point(this.paperDimensions.x - 2*this.outerMargin.x, this.paperDimensions.y - 2*this.outerMargin.y);
 	}
 
-    draw(vis:BoardVisualizer, board:BoardState) : ResourceGroup[]
+    draw(vis:MaterialVisualizer, board:BoardState) : ResourceGroup[]
     {        
         const group = new ResourceGroup();
 
@@ -214,7 +214,7 @@ export default class BoardDisplay
         return newLines;
     }
 
-    strokeLines(vis:BoardVisualizer, group:ResourceGroup, lines:Lines)
+    strokeLines(vis:MaterialVisualizer, group:ResourceGroup, lines:Lines)
     {
         const data = CONFIG.inkFriendly ? CONFIG.board.grid.linesInkfriendly : CONFIG.board.grid.lines;
 
@@ -237,7 +237,7 @@ export default class BoardDisplay
         }
     }
 
-    fillInCells(vis:BoardVisualizer, group:ResourceGroup, lines:Lines)
+    fillInCells(vis:MaterialVisualizer, group:ResourceGroup, lines:Lines)
     {
         let smoothingResolution = CONFIG.board.smoothingResolution;
         if(!CONFIG.board.useWobblyLines) { smoothingResolution = 1; }
@@ -268,7 +268,7 @@ export default class BoardDisplay
         }
     }
 
-    displayCells(vis:BoardVisualizer, group:ResourceGroup,)
+    displayCells(vis:MaterialVisualizer, group:ResourceGroup,)
     {
         for(let x = 0; x < this.size.x; x++)
         {
@@ -279,7 +279,7 @@ export default class BoardDisplay
         }
     }
 
-    displayCell(vis:BoardVisualizer, group:ResourceGroup, point:Point)
+    displayCell(vis:MaterialVisualizer, group:ResourceGroup, point:Point)
     {
         const cell = this.board.getCellAt(point);
         const data = cell.getTypeData();
@@ -501,13 +501,13 @@ export default class BoardDisplay
         return chunk;
     }
 
-    displayRecipeBook(vis:BoardVisualizer, group:ResourceGroup, rb:RecipeBook)
+    displayRecipeBook(vis:MaterialVisualizer, group:ResourceGroup, rb:RecipeBook)
     {
         if(!rb) { return; }
         rb.display(vis, group, this);
     }
 
-    drawBoardEdge(vis:BoardVisualizer, group:ResourceGroup)
+    drawBoardEdge(vis:MaterialVisualizer, group:ResourceGroup)
     {
         if(!this.hasOuterMargin()) { return; }
 

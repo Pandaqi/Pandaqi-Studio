@@ -1,5 +1,7 @@
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { boardPicker } from "./boardPicker";
 
 export const CONFIG = 
 {
@@ -9,7 +11,7 @@ export const CONFIG =
         {
             type: SettingType.ENUM,
             values: ["no", "rules", "score"],
-            default: "no",
+            value: "no",
             label: "Side Bar",
             remark: "Add the rules or a score tracker on the paper itself?"
         },
@@ -18,6 +20,7 @@ export const CONFIG =
         {
             type: SettingType.CHECK,
             label: "Include Starting Positions",
+            value: false,
             remark: "Marks a few squares as possible starting positions."
         },
 
@@ -25,7 +28,7 @@ export const CONFIG =
         {
             type: SettingType.ENUM,
             values: ["tiny", "small", "regular", "large", "huge"],
-            default: "regular",
+            value: "regular",
             label: "Board Size",
             remark: "For a really short or really long game. Changes #elements on page, not page size."
         },
@@ -34,11 +37,27 @@ export const CONFIG =
         {
             type: SettingType.CHECK,
             label: "Simplified Icons",
+            value: false,
             remark: "Uses simple icons for all types, instead of realistic illustrations."
         }
     },
 
-    configKey: "kangaruseConfig",
+    _debug:
+    {
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+    },
+
+    _material:
+    {
+        board:
+        {
+            picker: boardPicker,
+            mapper: MapperPreset.FULL_PAGE,
+        }
+    },
+
     assetsBase: "/kangaruse/assets/",
     assets:
     {
@@ -76,15 +95,19 @@ export const CONFIG =
         }
     },
 
+    _game:
+    {
+        fileName: "Kangaruse",
+        renderer: RendererPixi()
+    },
+
     mainFont: "mailray",
     bodyFont: "poppins",
     maxNumPlayers: 5,
-    visualizer: null,
 
     minScoreTypes: 2,
     maxScoreTypes: 3,
-
-    inkFriendly: false,
+    
     startingPositions: false,
     sideBarType: "rules", // "no", "rules" or "score"
     boardSize: "regular", // tiny, small, regular, large, huge

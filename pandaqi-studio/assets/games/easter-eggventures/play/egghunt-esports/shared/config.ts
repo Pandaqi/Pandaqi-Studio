@@ -2,6 +2,7 @@ import { CONFIG_SHARED } from "games/easter-eggventures/shared/configShared";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
+import { tilePicker } from "../game/tilePicker";
 
 export const CONFIG:Record<string,any> =
 {
@@ -10,7 +11,7 @@ export const CONFIG:Record<string,any> =
         addTextOnObstacles:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             remark: "Obstacle tiles explain their own power, instead of having to remember."
         },
 
@@ -22,43 +23,35 @@ export const CONFIG:Record<string,any> =
             {
                 type: SettingType.CHECK,
                 label: "Base Game",
-                default: true
+                value: true
             },
 
             specialEggs:
             {
                 type: SettingType.CHECK,
                 label: "Special Eggs",
+                value: false
             },
 
             eggstraObstacles:
             {
                 type: SettingType.CHECK,
-                label: "Eggstra Obstacles"
+                label: "Eggstra Obstacles",
+                value: false
             }
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "egghuntEsportsConfig",
-    fileName: "Egghunt Esports",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-
-    addTextOnObstacles: true,
-    sets:
+    _game:
     {
-        base: true,
-        specialEggs: false,
-        eggstraObstacles: false,
+        fileName: "Egghunt Esports",
     },
 
     // assets
@@ -91,18 +84,29 @@ export const CONFIG:Record<string,any> =
             obstacle: 3
         }
     },
-    
-    tiles:
+
+    _material:
     {
-        eggNumber:
+        tiles:
         {
-            position: new CVal(new Point(0.5, 0.64), "size"),
-            fontSize: new CVal(0.4, "sizeUnit"),
-            fillColor: "#212121",
-            strokeColor: "#EFEFEF",
-            strokeWidth: new CVal(0.01, "sizeUnit"),
-            alpha: 1.0,
-            composite: "source-over"
+            picker: tilePicker
+        }
+    },
+    
+    _drawing:
+    {
+        tiles:
+        {
+            eggNumber:
+            {
+                position: new CVal(new Point(0.5, 0.64), "size"),
+                fontSize: new CVal(0.4, "sizeUnit"),
+                fillColor: "#212121",
+                strokeColor: "#EFEFEF",
+                strokeWidth: new CVal(0.01, "sizeUnit"),
+                alpha: 1.0,
+                composite: "source-over"
+            }
         }
     }
 }

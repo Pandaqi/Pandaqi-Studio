@@ -1,13 +1,9 @@
-import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
 import { CONFIG } from "../shared/config";
 import { OBJECTS, WISHES } from "../shared/dict";
 
-const rtConversion = { heading: "label", desc: "desc" };
-const rtParamsWishes = { sheetURL: CONFIG.assets.wishes.path, base: CONFIG.assetsBase, sheetWidth: 4, class: null };
-const rtParamsObjects = { sheetURL: CONFIG.assets.objects.path, base: CONFIG.assetsBase, sheetWidth: 4, class: null };
-
 const getTablesForSet = (idKey:string) =>
 {
+    // WISHES
     const wishesDict = {};
     for(const [key,data] of Object.entries(WISHES))
     {
@@ -19,18 +15,19 @@ const getTablesForSet = (idKey:string) =>
 
     const tableWishes = 
     {
-        config:
+        icons:
         {
-            sheetURL: CONFIG.assets.wishes.path,
-            sheetWidth: 4,
-            base: CONFIG.assetsBase
+            config:
+            {
+                sheetURL: CONFIG.assets.wishes.path,
+                sheetWidth: 4,
+                base: CONFIG.assetsBase
+            },
         },
-        icons: wishesDict
+        data: wishesDict
     }
 
-    const nodeWishes = convertDictToRulesTableHTML(wishesDict, rtConversion, rtParamsWishes);
-    document.getElementById(idKey + "-wishes").appendChild(nodeWishes);
-
+    // OBJECTS
     const objectsDict = {};
     for(const [key,data] of Object.entries(OBJECTS))
     {
@@ -43,13 +40,16 @@ const getTablesForSet = (idKey:string) =>
 
     const tableObjects =
     {
-        config: 
+        icons: 
         {
-            sheetURL: CONFIG.assets.objects.path,
-            sheetWidth: 4,
-            base: CONFIG.assetsBase
+            config: 
+            {
+                sheetURL: CONFIG.assets.objects.path,
+                sheetWidth: 4,
+                base: CONFIG.assetsBase
+            }
         },
-        icons: objectsDict
+        data: objectsDict
     }
 
     return {
@@ -58,10 +58,10 @@ const getTablesForSet = (idKey:string) =>
     }
 }
 
-const cfg = { tables: {} };
-Object.assign(cfg.tables, getTablesForSet("roomService"));
-Object.assign(cfg.tables, getTablesForSet("walletWatchers"));
-Object.assign(cfg.tables, getTablesForSet("usefulUtilities"));
-Object.assign(cfg.tables, getTablesForSet("happyHousing"));
+const CONFIG_RULEBOOK = { tables: {} };
+Object.assign(CONFIG_RULEBOOK.tables, getTablesForSet("roomService"));
+Object.assign(CONFIG_RULEBOOK.tables, getTablesForSet("walletWatchers"));
+Object.assign(CONFIG_RULEBOOK.tables, getTablesForSet("usefulUtilities"));
+Object.assign(CONFIG_RULEBOOK.tables, getTablesForSet("happyHousing"));
 
-loadRulebook(cfg);
+loadRulebook(CONFIG_RULEBOOK);

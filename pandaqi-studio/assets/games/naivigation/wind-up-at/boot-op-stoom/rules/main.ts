@@ -16,24 +16,30 @@ CONFIG._rulebook =
     {
         "pepernoot-plekken":
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.map_tiles.path,
-                sheetWidth: 6,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.map_tiles.path,
+                    sheetWidth: 6,
+                    base: CONFIG.assetsBase,
+                }
             },
-            icons: mapTilesClean
+            data: mapTilesClean
         },
 
         "stoom-icoontjes":
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.stoom_cards.path,
-                sheetWidth: 4,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.stoom_cards.path,
+                    sheetWidth: 4,
+                    base: CONFIG.assetsBase,
+                },
             },
-            icons: STOOM_CARDS
+            data: STOOM_CARDS
         },
     }
 }

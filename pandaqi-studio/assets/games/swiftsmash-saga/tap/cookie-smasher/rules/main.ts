@@ -1,10 +1,8 @@
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExampleGenerator";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 import RulesSettings, { SettingsType } from "js/pq_rulebook/examples/rulesSettings";
 import Card from "../game/card";
-import CardPicker from "../game/cardPicker";
 import { CONFIG } from "../shared/config";
 import Round from "./round";
 
@@ -59,8 +57,10 @@ const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
 
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
+
     // > get all generated cards
-    const cardPicker = sim.getPicker("card");
+    const cardPicker = sim.getPicker("cards");
     CONFIG.cardSet = settings.get("set") as string;
     cardPicker.generate();
 
@@ -102,26 +102,39 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     sim.stats.cardPoisoned[dictKey] = (sim.stats.cardPoisoned[dictKey] ?? 0) + 1;
 }
 
-const SIMULATION_ENABLED = false;
-const SIMULATION_ITERATIONS = 100;
-const SHOW_FULL_GAME = false;
-
 const settings = new RulesSettings();
 settings.add({ id: "set", type: SettingsType.ENUM, values: ["starter", "beginner", "amateur", "advanced", "expert", "random"], label: "Card Set?" });
 
-const gen = new InteractiveExampleGenerator({
-    id: "turn",
-    buttonText: "Give me an example round!",
-    callback: generate,
-    config: CONFIG,
-    itemSize: CONFIG.rulebook.itemSize,
-    pickers: { card: CardPicker },
-    settings: settings,
-    simulateConfig: {
-        enabled: SIMULATION_ENABLED,
-        iterations: SIMULATION_ITERATIONS,
-        showFullGame: SHOW_FULL_GAME,
-        callbackInitStats,
-        callbackFinishStats,
+const SIMULATION_ENABLED = false;
+const SIMULATION_ITERATIONS = 1000;
+const SHOW_FULL_GAME = false;
+
+const CONFIG_RULEBOOK =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example round!",
+            callback: generate,
+            settings: {
+                set:
+                {
+                    type: SettingType.ENUM, // @TODO: make sure it's rulebook settingtype
+                    values: ["starter", "beginner", "amateur", "advanced", "expert", "random"],
+                    label: "Card Set?"
+                }
+                
+            },
+            simulator: {
+                enabled: SIMULATION_ENABLED,
+                iterations: SIMULATION_ITERATIONS,
+                showFullGame: SHOW_FULL_GAME,
+                callbackInitStats,
+                callbackFinishStats,
+            }
+        }
     }
-})
+}
+
+loadRulebook(CONFIG_RULEBOOK);

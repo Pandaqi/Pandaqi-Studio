@@ -1,4 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point"
+import { tilePicker } from "../game/tilePicker"
 
 export const CONFIG = 
 {
@@ -7,30 +8,23 @@ export const CONFIG =
         wolf:
         {
             type: SettingType.CHECK,
-            default: false,
+            value: false,
             label: "Wool Wolves (Expansion",
             remark: "Adds four special tiles with unique actions!"
         }
     },
 
-    debugWithoutFile: false, // @DEBUGGING (should be false)
-    debugSingleCard: false, // @DEBUGGING (should be false)
-    debugOnlyGenerate: false, // @DEBUGGING (should be false)
-
-    configKey: "meadowMightConfig",
-    fileName: "Meadowmight",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
-    
-    expansions:
+    _debug:
     {
-        wolf: false
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    // @NOTE: That's right, no fonts in this one.
+    _game:
+    {
+        fileName: "Meadowmight",
+    },
 
     // assets
     assetsBase: "/meadowmight/assets/",
@@ -66,36 +60,44 @@ export const CONFIG =
         }
     },
 
-    // how to draw/layout cards (mostly visually)
-    tiles:
+    _material:
     {
-        size: { 
-            small: new Point(5,6),
-            regular: new Point(4,5),
-            large: new Point(3,4)
-        },
-        sizeElement: new Point(1, 1),
-        
-        shared:
+        tiles:
         {
-            
-        },
+            picker: tilePicker,
+            mapper:
+            {
+                size: { 
+                    small: new Point(5,6),
+                    regular: new Point(4,5),
+                    large: new Point(3,4)
+                },
+                sizeElement: new Point(1, 1),
+            }
+        }
+    },
 
-        fences:
+    _drawing:
+    {
+        // @NOTE: That's right, no fonts in this one.
+        tiles:
         {
-            scale: [0.775, 0.75, 0.705],
-            edgeOffset: [0.08, 0.11, 0.115], // ~sizeUnit
-        },
+            fences:
+            {
+                scale: [0.775, 0.75, 0.705],
+                edgeOffset: [0.08, 0.11, 0.115], // ~sizeUnit
+            },
 
-        sheep:
-        {
-            scale: 0.6, // ~sizeUnit, cut in half further for multiple sheep on a tile
-        },
+            sheep:
+            {
+                scale: 0.6, // ~sizeUnit, cut in half further for multiple sheep on a tile
+            },
 
-        outline:
-        {
-            size: 0.025, // ~sizeUnit
-            color: "#000000"
+            outline:
+            {
+                size: 0.025, // ~sizeUnit
+                color: "#000000"
+            }
         }
     }
 }

@@ -26,32 +26,41 @@ CONFIG._rulebook =
     {
         base:
         {
-            config:
+            icons:
             {
-                sheetWidth: 4,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetWidth: 4,
+                    base: CONFIG.assetsBase,
+                }
             },
-            icons: parseForRulebookTable(globalDict, "base")
+            data: parseForRulebookTable(globalDict, "base")
         },
 
         wishneyland:
         {
-            config:
+            icons:
             {
-                sheetWidth: 4,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetWidth: 4,
+                    base: CONFIG.assetsBase,
+                }
             },
-            icons: parseForRulebookTable(globalDict, "wishneyland")
+            data: parseForRulebookTable(globalDict, "wishneyland")
         },
 
         unibearsal:
         {
-            config:
+            icons:
             {
-                sheetWidth: 4,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetWidth: 4,
+                    base: CONFIG.assetsBase,
+                }
             },
-            icons: parseForRulebookTable(globalDict, "unibearsal")
+            data: parseForRulebookTable(globalDict, "unibearsal")
         },
     }
 }

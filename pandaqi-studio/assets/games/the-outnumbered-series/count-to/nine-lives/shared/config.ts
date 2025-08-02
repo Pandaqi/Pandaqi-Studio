@@ -27,19 +27,24 @@ export const CONFIG =
         },
     },
 
-    debugWithoutFile: false, // @DEBUGGING (should be false)
-    debugSingleCard: false, // @DEBUGGING (should be false)
-    debugOnlyGenerate: false, // @DEBUGGING (should be false)
+    _debug:
+    {
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+    },
 
-    configKey: "nineLivesConfig",
-    fileName: "Nine Lives",
+    _game:
+    {
+        fileName: "Nine Lives",
+    },
 
     // set through user config on page
-    inkFriendly: false,
+    
     includeLifeCards: true,
     includeCatCards: true,
-    itemSize: "regular",
-    pageSize: "a4",
+    
+    
     limitedPowers: true,
     
     fonts:
@@ -102,6 +107,8 @@ export const CONFIG =
     // how to draw/layout cards (mostly visually)
     cards:
     {
+        itemSize: new Point(600, 840), // @TODO: add to _material for rulebook
+
         size: { 
             small: new Point(4,4),
             regular: new Point(3,3),

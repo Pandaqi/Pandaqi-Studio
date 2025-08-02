@@ -4,12 +4,12 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
 import Path from "js/pq_games/tools/geometry/paths/path";
 import roundPath from "js/pq_games/tools/geometry/paths/roundPath";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import { CELLS, COLOR_GROUPS, GENERAL } from "../shared/dictionary";
+import { CELLS, COLOR_GROUPS, GENERAL } from "../shared/dict";
 import BoardDisplay from "./boardDisplay";
 import BoardState from "./boardState";
 import { CONFIG } from "./config";
@@ -35,14 +35,14 @@ export default class SideBar
         this.padding = CONFIG.sideBar.padding * this.dimensions.x;
     }
 
-    draw(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, boardState:BoardState)
+    draw(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, boardState:BoardState)
     {
         this.drawBackground(vis, group, boardDisplay);
         this.drawTutorials(vis, group, boardDisplay, boardState);
         this.drawScoreSheets(vis, group, boardDisplay);
     }
 
-    drawBackground(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
+    drawBackground(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
     {
         const borderRadius = CONFIG.sideBar.borderRadius * this.dimensions.x;
         const col = CONFIG.inkFriendly ? "#EDEDED" : CONFIG.sideBar.backgroundColor;
@@ -53,7 +53,7 @@ export default class SideBar
         group.add(new ResourceShape(pathRounded), op);
     }
 
-    drawTutorials(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, boardState:BoardState)
+    drawTutorials(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, boardState:BoardState)
     {
         if(CONFIG.sideBarType != "rules") { return; }
 
@@ -80,7 +80,7 @@ export default class SideBar
         }
     }
 
-    drawTutorial(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, tutorialHeight:number, type:string)
+    drawTutorial(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, tutorialHeight:number, type:string)
     {
         const pos = new Point().setXY(
             this.anchorPos.x + 0.5*tutorialHeight, 
@@ -135,7 +135,7 @@ export default class SideBar
         this.anchorPos.y += tutorialHeight;
     }
 
-    drawScoreSheets(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
+    drawScoreSheets(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
     {
         if(CONFIG.sideBarType != "score") { return; }
 
@@ -146,7 +146,7 @@ export default class SideBar
         }
     }
 
-    drawScoreSheet(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
+    drawScoreSheet(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
     {
         this.anchorPos.y += this.padding;
 

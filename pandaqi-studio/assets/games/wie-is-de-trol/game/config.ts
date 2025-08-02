@@ -9,7 +9,6 @@ export const CONFIG =
             type: SettingType.NUMBER,
             min: 3,
             max: 10,
-            default: 4,
             value: 4,
             label: "Hoeveel spelers?"
         },
@@ -26,8 +25,7 @@ export const CONFIG =
         {
             type: SettingType.ENUM,
             values: ["automatisch", 2, 3, 4, 5, 6, 7, 8],
-            default: "automatisch",
-            value: "",
+            value: "automatisch",
             label: "Hoeveel rondes?"
         },
 
@@ -36,8 +34,7 @@ export const CONFIG =
             type: SettingType.ENUM,
             values: [4, 7, 10],
             label: "Hoeveel vragen per test?",
-            default: 10,
-            value: 0,
+            value: 10,
             remark: "Verlaag het aantal rondes/vragen voor een korter spel. Eén ronde is doorgaans een half uur."
         },
 

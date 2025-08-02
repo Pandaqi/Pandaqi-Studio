@@ -1,5 +1,5 @@
 
-const SETS = 
+export const SETS = 
 {
     baseGame: {},
     secondSleigh: {},
@@ -14,7 +14,7 @@ interface TileData
     custom?: boolean, // whether they need custom logic for drawing
 }
 
-const TILES: Record<string, TileData> = 
+export const TILES: Record<string, TileData> = 
 {
     sleigh: { frame: 0, color: "#3D04A5" },
     reindeer: { frame: 1, color: "#410800" },
@@ -31,7 +31,7 @@ interface MiscData
     frame: number,
 }
 
-const MISC:Record<string, MiscData> =
+export const MISC:Record<string, MiscData> =
 {
     bg_hole: { frame: 0 }, // better for LIGHT backgrounds (e.g. present white)
     bg_hole_inverse: { frame: 1 }, // better for DARK backgrounds (basically everything else)
@@ -45,7 +45,7 @@ interface ActionData
     desc: string
 }
 
-const SPECIAL_ACTIONS:Record<string, ActionData> = 
+export const SPECIAL_ACTIONS:Record<string, ActionData> = 
 {
     destroy: { label: "Destroy", desc: "Remove one tile from the board." },
     add: { label: "Add", desc: "Add one tile to the board, ignoring placement rules." },
@@ -56,12 +56,4 @@ const SPECIAL_ACTIONS:Record<string, ActionData> =
     satisfied: { label: "Satisfied", desc: "All adjacent houses are also satisfied if you deliver one wrong present." },
     replace: { label: "Replace", desc: "This is a wildcard. You must place it ON TOP of an existing tile." },
     swap_hand: { label: "Swap Hand", desc: "Shuffle your hand tiles back into the deck, then draw a new hand." },
-}
-
-export 
-{
-    TILES,
-    MISC,
-    SETS,
-    SPECIAL_ACTIONS
 }

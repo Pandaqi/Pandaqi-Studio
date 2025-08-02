@@ -4,35 +4,29 @@ import { TileType } from "../shared/dict";
 import Tile from "./tile";
 import shuffle from "js/pq_games/tools/random/shuffle";
 
-export default class EggPicker
+export const eggPicker = () : Tile[] =>
 {
-    tiles: Tile[]
+    const tiles = [];
+    if(!CONFIG.sets.base) { return; }
 
-    get() { return this.tiles.slice(); }
-    generate()
+    const eggTypes = Object.keys(EGGS_SHARED);
+    const maxNumEggs = CONFIG.generation.maxNumEggs;
+    shuffle(eggTypes);
+    while(eggTypes.length > maxNumEggs)
     {
-        this.tiles = [];
-        if(!CONFIG.sets.base) { return; }
-
-        const eggTypes = Object.keys(EGGS_SHARED);
-        const maxNumEggs = CONFIG.generation.maxNumEggs;
-        shuffle(eggTypes);
-        while(eggTypes.length > maxNumEggs)
-        {
-            eggTypes.pop();
-        }
-
-        for(const key of eggTypes)
-        {
-            const data = EGGS_SHARED[key];
-            const freq = data.freq ?? CONFIG.generation.defaultFrequencies.eggToken;
-
-            for(let i = 0; i < freq; i++)
-            {
-                this.tiles.push(new Tile(TileType.EGG, key))
-            }
-        }
-
-        console.log(this.tiles);
+        eggTypes.pop();
     }
+
+    for(const key of eggTypes)
+    {
+        const data = EGGS_SHARED[key];
+        const freq = data.freq ?? CONFIG.generation.defaultFrequencies.eggToken;
+
+        for(let i = 0; i < freq; i++)
+        {
+            tiles.push(new Tile(TileType.EGG, key))
+        }
+    }
+
+    return tiles;
 }

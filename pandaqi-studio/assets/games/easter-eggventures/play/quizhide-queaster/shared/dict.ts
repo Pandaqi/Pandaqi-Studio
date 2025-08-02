@@ -2,7 +2,7 @@ import { EGGS_SHARED, TileDataDict } from "games/easter-eggventures/shared/dictS
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-enum TileType
+export enum TileType
 {
     EGG = "egg",
     PAWN = "pawn",
@@ -10,7 +10,7 @@ enum TileType
     OBSTACLE = "obstacle"
 }
 
-enum CardType
+export enum CardType
 {
     CLUE = "clue",
     SCORE = "score",
@@ -19,7 +19,7 @@ enum CardType
 type MaterialType = TileType|CardType;
 
 // Do we need this dictionary? YES. To assign the possible _slots_ of the room.
-const ROOMS:TileDataDict =
+export const ROOMS:TileDataDict =
 {
     bedroom: { frame: 0, areas: [{ pos: new Point(445, 346) }] },
     bathroom: { frame: 1, areas: [{ pos: new Point(761, 745) }] },
@@ -74,7 +74,7 @@ const ROOMS:TileDataDict =
     garden_4: { frame: 45, areas: [{ pos: new Point(298, 697) }, { pos: new Point(677, 170) }], set: "cluesRooms" },
 }
 
-const OBSTACLES:TileDataDict =
+export const OBSTACLES:TileDataDict =
 {
     // @NOTE: frame 0 skip because it holds the egg_slot graphic
     pillow: { frame: 1 },
@@ -86,7 +86,7 @@ const OBSTACLES:TileDataDict =
     bowl: { frame: 7 }
 }
 
-const MATERIAL:Record<MaterialType, TileDataDict> = 
+export const MATERIAL:Record<MaterialType, TileDataDict> = 
 {
     [TileType.EGG]: EGGS_SHARED,
     [TileType.ROOM]: ROOMS,
@@ -105,7 +105,7 @@ interface TileTypeData
     backgroundRandom?: Bounds // selects one of its frames from the background spritesheet at random 
 }
 
-const TYPE_DATA:Record<MaterialType, TileTypeData> =
+export const TYPE_DATA:Record<MaterialType, TileTypeData> =
 {
     [TileType.EGG]: { textureKey: "eggs", backgroundKey: "eggs_backgrounds", label: "Egg Token" },
     [TileType.ROOM]: { textureKey: "rooms", backgroundKey: "", label: "Room Tile" },
@@ -113,14 +113,4 @@ const TYPE_DATA:Record<MaterialType, TileTypeData> =
     [TileType.OBSTACLE]: { textureKey: "objects", backgroundKey: "", label: "Object" },
     [CardType.CLUE]: { textureKey: "clue_cards", backgroundKey: "", label: "Clue Card" },
     [CardType.SCORE]: { textureKey: "", backgroundKey: "", label: "Score Card" },
-}
-
-export 
-{
-    ROOMS,
-    OBSTACLES,
-    TileType,
-    CardType,
-    MATERIAL,
-    TYPE_DATA
 }

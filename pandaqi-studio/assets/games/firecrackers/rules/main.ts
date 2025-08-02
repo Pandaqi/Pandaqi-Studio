@@ -1,5 +1,5 @@
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import CardPicker from "../game/cardPicker";
+import CardPicker, { getStarterDecks, setNumPacks } from "../game/cardPicker";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import Card from "../game/card";
@@ -212,17 +212,21 @@ class Deck
     }
 }
 
-async function generate()
+const generate = async (sim:InteractiveExampleSimulator) =>
 {
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
+
     // determine decks
+    const o = sim.getOutputBuilder();
     const numPlayers = SIMULATE ? SIMULATE_PLAYER_BOUNDS.randomInteger() : PLAY_PLAYER_BOUNDS.randomInteger();
 
     const cardPicker = new CardPicker();
-    cardPicker.setNumPacks(Math.max(numPlayers, CONFIG.generation.starterDeck.numColors));
+    cardPicker.setNumPacks();
     cardPicker.generate();
 
-    const allCards = shuffle(cardPicker.get().slice());
-    const starterDecks = shuffle(cardPicker.getStarterDecks(numPlayers).slice());
+    let allCards : Card[] = shuffle(sim.getPicker("cards")());
+    allCards = setNumPacks(allCards, Math.max(numPlayers, CONFIG.generation.starterDeck.numColors));
+    const starterDecks : Card[][] = shuffle(getStarterDecks(allCards, numPlayers).slice());
     const decks = [];
     for(let i = 0; i < numPlayers; i++)
     {
@@ -311,34 +315,38 @@ async function generate()
     return stats;
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example round!");
-e.setGenerationCallback(generate);
-
-const o = e.getOutputBuilder();
-
-const performSimulation = async () =>
+const callbackInitStats = () =>
 {
-    if(!SIMULATE) { return; }
-
-    const stats:SimulationStats = { cardsUntilExplosion: 0, totalCardsPlayed: 0, playerCount: 0, explodedAfterSingleCard: 0, didntExplode: 0 };
-    for(let i = 0; i < NUM_SIMULATIONS; i++)
-    {
-        const results = await generate();
-
-        for(const [key,data] of Object.entries(results))
-        {
-            stats[key] += data;
-        }
-    }
-
-    console.log("=== Simulation Results ===");
-    console.log("Games Played: " + NUM_SIMULATIONS);
-    console.log("Average player count: " + stats.playerCount / NUM_SIMULATIONS);
-    console.log("Average cards revealed per round: " + stats.totalCardsPlayed / NUM_SIMULATIONS);
-    console.log("Average cards revealed until explosion: " + stats.cardsUntilExplosion / NUM_SIMULATIONS);
-    console.log("Average % of players who revealed their whole deck (without exploding): " + stats.didntExplode / NUM_SIMULATIONS);
-    console.log("Average % of players who exploded on their first card: " + stats.explodedAfterSingleCard / NUM_SIMULATIONS);
+    return { cardsUntilExplosion: 0, totalCardsPlayed: 0, playerCount: 0, explodedAfterSingleCard: 0, didntExplode: 0 }
 }
 
-performSimulation();
+const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
+{
+    console.log("=== Simulation Results ===");
+    console.log("Games Played: " + NUM_SIMULATIONS);
+    console.log("Average player count: " + sim.stats.playerCount / NUM_SIMULATIONS);
+    console.log("Average cards revealed per round: " + sim.stats.totalCardsPlayed / NUM_SIMULATIONS);
+    console.log("Average cards revealed until explosion: " + sim.stats.cardsUntilExplosion / NUM_SIMULATIONS);
+    console.log("Average % of players who revealed their whole deck (without exploding): " + sim.stats.didntExplode / NUM_SIMULATIONS);
+    console.log("Average % of players who exploded on their first card: " + sim.stats.explodedAfterSingleCard / NUM_SIMULATIONS);
+}
+
+const CONFIG_RULEBOOK =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example round!",
+            callback: generate,
+            simulator:
+            {
+                enabled: SIMULATE,
+                callbackInitStats: callbackInitStats,
+                callbackFinishStats: callbackFinishStats
+            }
+        }
+    }
+}
+
+loadRulebook(CONFIG_RULEBOOK);

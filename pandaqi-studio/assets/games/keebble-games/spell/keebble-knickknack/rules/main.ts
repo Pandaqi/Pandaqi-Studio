@@ -1,5 +1,4 @@
 import { KEEBBLE_TYPES } from "games/keebble-games/shared/dict";
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
 import { OPTIONS } from "../game/dict";
 
 const KEEBBLE_LETTER_VALUES = 
@@ -32,20 +31,18 @@ const KEEBBLE_LETTER_VALUES =
     Z: 10
 }
 
-const tools = {
-    getWordScoreText(word)
+const getWordScoreText = (word:string) =>
+{
+    let scores : number[] = [];
+    let sum = 0;
+    for(let i = 0; i < word.length; i++)
     {
-        let scores : number[] = [];
-        let sum = 0;
-        for(let i = 0; i < word.length; i++)
-        {
-            const score = KEEBBLE_LETTER_VALUES[word.at(i)];
-            scores.push(score);
-            sum += score;
-        }
-
-        return scores.join(" + ") + " = " + sum;
+        const score = KEEBBLE_LETTER_VALUES[word.at(i)];
+        scores.push(score);
+        sum += score;
     }
+
+    return scores.join(" + ") + " = " + sum;
 }
 
 interface OptionData
@@ -55,7 +52,11 @@ interface OptionData
     letters: string[]
 }
 
-async function generate() {
+const generate = async (sim:InteractiveExampleSimulator) =>
+{
+    const e = sim.getExample();
+    const o = sim.getOutputBuilder();
+
     const numPlayers = e.getNumPlayers(2,4)
     const names = e.getNames(numPlayers);
     const allOptions = ["Start Player", "Letter", "Wall", "Points"];
@@ -164,7 +165,7 @@ async function generate() {
 
         if(wordPlaced.length > 0) {
             o.addParagraph("You were able to form a new word: " + wordPlaced + ".");
-            o.addParagraph("You score " + tools.getWordScoreText(wordPlaced) + " points. (Tap your name in the interface to add points.)");
+            o.addParagraph("You score " + getWordScoreText(wordPlaced) + " points. (Tap your name in the interface to add points.)");
 
             const numOthers = Math.floor(Math.random() * (wordPlaced.length - 1));
             if(numOthers == 0) { o.addParagraph("All letters used were yours, so no other players get points."); }
@@ -204,15 +205,15 @@ const CONFIG =
         {
             supercells:
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "special_cells.webp",
                         sheetWidth: 8,
-                        icons: KEEBBLE_TYPES,
                         base: "/keebble-games/spell/keebble/assets/"
                     }
+
                 },
 
                 data:
@@ -228,12 +229,16 @@ const CONFIG =
             {
                 config:
                 {
-                    icons:
+                    
+                },
+
+                icons:
+                {
+                    config:
                     {
                         sheetURL: "option_icons.webp",
                         base: "/keebble-games/spell/keebble-knickknack/assets/",
                         sheetWidth: 14,
-                        icons: OPTIONS
                     }
                 },
 
@@ -249,14 +254,13 @@ const CONFIG =
 
             "ominous-options":
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "option_icons.webp",
                         base: "/keebble-games/spell/keebble-knickknack/assets/",
                         sheetWidth: 14,
-                        icons: OPTIONS
                     }
                 },
 
@@ -269,14 +273,13 @@ const CONFIG =
 
             "beefy-backpacks":
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "option_icons.webp",
                         base: "/keebble-games/spell/keebble-knickknack/assets/",
                         sheetWidth: 14,
-                        icons: OPTIONS
                     }
                 },
 

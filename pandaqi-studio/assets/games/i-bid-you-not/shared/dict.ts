@@ -21,7 +21,7 @@ interface TileTypeData
     color: string, // background color, must be key from COLORS dict
 }
 
-const TYPES:Record<string, TileTypeData> =
+export const TYPES:Record<string, TileTypeData> =
 {
     //
     // base game
@@ -88,7 +88,7 @@ interface ColorTypeData
     dark?: string
 }
 
-const COLORS:Record<string, ColorTypeData> =
+export const COLORS:Record<string, ColorTypeData> =
 {
     red: { frame: 0, main: "#E61948", light: "#FFCDD9" },
     green: { frame: 1, main: "#3CB44B", light: "#CCFFD3" },
@@ -104,7 +104,7 @@ const COLORS:Record<string, ColorTypeData> =
 
 }
 
-const MISC =
+export const MISC =
 {
     price_tag: { frame: 0 },
     spotlight: { frame: 1 },
@@ -112,11 +112,4 @@ const MISC =
     podium: { frame: 3 },
     audience: { frame: 4 },
 
-}
-
-export 
-{
-    TYPES,
-    COLORS,
-    MISC,
 }

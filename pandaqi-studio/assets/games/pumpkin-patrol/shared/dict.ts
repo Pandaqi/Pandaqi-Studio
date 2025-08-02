@@ -1,6 +1,4 @@
-import Bounds from "js/pq_games/tools/numbers/bounds";
-
-enum Type
+export enum Type
 {
     PERSON = "PERSON",
     HAND = "HAND", // group of both decoration and treat
@@ -8,14 +6,14 @@ enum Type
     TREAT = "TREAT"
 }
 
-enum ReqType
+export enum ReqType
 {
     TYPE = "TYPE",
     SET = "SET",
     CARD = "CARD",
 }
 
-interface CardData
+export interface CardData
 {
     frame: number,
     type: Type,
@@ -39,7 +37,7 @@ type CardSet = Record<string, CardData>;
 
 // When it's a tagline, it's written in third person.
 // When it's an active power, it's written in first person.
-const setStarter:CardSet = 
+export const setStarter:CardSet = 
 {
     spook: { frame: 0, type: Type.PERSON, desc: '"Why is there a hole in my blanket?" -Mum', forbidFlip: true },
     skeleton: { frame: 1, type: Type.PERSON, desc: "Has even more skeletons in their closet.", forbidFlip: true },
@@ -51,7 +49,7 @@ const setStarter:CardSet =
     witch: { frame: 7, type: Type.PERSON, desc: "Can make candy magically disappear into her mouth.", forbidFlip: true }, 
 }
 
-const setDecorationsStarter:CardSet =
+export const setDecorationsStarter:CardSet =
 {
     pumpkin: { frame: 0, type: Type.DECORATION, value: 1, color: "orange" },
     tombstone: { frame: 1, type: Type.DECORATION, value: 1.5, color: "blue" },
@@ -59,7 +57,7 @@ const setDecorationsStarter:CardSet =
     plant: { frame: 3, type: Type.DECORATION, value: 2.5, color: "green" },
 }
 
-const setTreatsStarter:CardSet =
+export const setTreatsStarter:CardSet =
 {
     chocolate: { frame: 0, type: Type.TREAT, value: 1, color: "brown" },
     cookie: { frame: 1, type: Type.TREAT, value: 1.5, color: "purple" },
@@ -67,7 +65,7 @@ const setTreatsStarter:CardSet =
     pretzel: { frame: 3, type: Type.TREAT, value: 2.5, color: "turquoise" }
 }
 
-const setBeginner:CardSet = 
+export const setBeginner:CardSet = 
 {
     devil: { frame: 0, type: Type.PERSON, desc: "On visit: destroy 1 decoration of yours.", power: true },
     mummy: { frame: 1, type: Type.PERSON, desc: "I only walk two steps (at most).", maxDeco: 2, power: true },
@@ -79,7 +77,7 @@ const setBeginner:CardSet =
     joker: { frame: 7, type: Type.PERSON, desc: "I walk in the other direction.", power: true }, 
 }
 
-const setDecorationsBeginner =
+export const setDecorationsBeginner =
 {
     skeleton: { frame: 0, type: Type.DECORATION, value: 0.75, color: "gray" },
     candle: { frame: 1, type: Type.DECORATION, value: 1.25, color: "pink" },
@@ -87,7 +85,7 @@ const setDecorationsBeginner =
     spider: { frame: 3, type: Type.DECORATION, value: 2.75, color: "blue" },
 }
 
-const setTreatsBeginner =
+export const setTreatsBeginner =
 {
     peanuts: { frame: 0, type: Type.TREAT, value: 0.75, color: "red" },
     lollipop: { frame: 1, type: Type.TREAT, value: 1.25, color: "purple" },
@@ -95,7 +93,7 @@ const setTreatsBeginner =
     gummies: { frame: 3, type: Type.TREAT, value: 2.75, color: "turquoise" }
 }
 
-const setAdvanced:CardSet = 
+export const setAdvanced:CardSet = 
 {
     alien: { frame: 0, type: Type.PERSON, desc: "Any pair of the same type is a wildcard for you (this round).", power: true }, // @NOTE: allows no special types, as that defeats its power
     cyclops: { frame: 1, type: Type.PERSON, desc: "I spy with my little eye ... CHOCOLATE!", allowSpecial: [ReqType.SET] },
@@ -107,7 +105,7 @@ const setAdvanced:CardSet =
     cyborg: { frame: 7, type: Type.PERSON, desc: "Input: infinite candy. Output: ?", allowSpecial: [ReqType.SET, ReqType.CARD] }, 
 }
 
-const setExpert:CardSet =
+export const setExpert:CardSet =
 {
     powerfrog: { frame: 0, type: Type.PERSON, desc: "On visit: rotate on or more decorations (to use the other side).", power: true, allowSpecial: [ReqType.SET, ReqType.CARD] }, // yoda, duh
     batkid: { frame: 1, type: Type.PERSON, desc: "While on the street, all wildcards are worth nothing", power: true, allowSpecial: [ReqType.CARD] },
@@ -120,7 +118,7 @@ const setExpert:CardSet =
 }
 
 // @TODO: Unused atm
-const setDecorationsAdvanced:CardSet =
+export const setDecorationsAdvanced:CardSet =
 {
     bat: { frame: 0, type: Type.DECORATION, value: 1, color: "gray" },
     hand: { frame: 1, type: Type.DECORATION, value: 1, color: "green" },
@@ -129,7 +127,7 @@ const setDecorationsAdvanced:CardSet =
 }
 
 // @TODO: Unused atm
-const setTreatsAdvanced:CardSet =
+export const setTreatsAdvanced:CardSet =
 {
     corn: { frame: 0, type: Type.TREAT, value: 0.5, color: "yellow" },
     cane: { frame: 1, type: Type.TREAT, value: 1, color: "red" },
@@ -139,8 +137,8 @@ const setTreatsAdvanced:CardSet =
 
 
 
-const SET_ORDER = ["starter", "beginner", "advanced", "expert"];
-const SETS:Record<string, CardSet> = 
+export const SET_ORDER = ["starter", "beginner", "advanced", "expert"];
+export const SETS:Record<string, CardSet> = 
 {
     people_starter: setStarter,
     people_beginner: setBeginner,
@@ -154,7 +152,7 @@ const SETS:Record<string, CardSet> =
     treats_beginner: setTreatsBeginner,
 }
 
-const MISC =
+export const MISC =
 {
     decorations: { frame: 0 },
     treats: { frame: 1 },
@@ -169,7 +167,7 @@ const MISC =
 
 // The dark ones are for the types
 // Everything else is quite bright/light and for food backgrounds
-const COLORS = {
+export const COLORS = {
     brown: "#664228",
     blue: "#60928C",
     turquoise: "#23988A",
@@ -180,15 +178,4 @@ const COLORS = {
     red: "#CC6564",
     yellow: "#CBB042",
     gray: "#616161",
-}
-
-export 
-{
-    Type,
-    ReqType,
-    CardData,
-    SETS,
-    SET_ORDER,
-    COLORS,
-    MISC
 }

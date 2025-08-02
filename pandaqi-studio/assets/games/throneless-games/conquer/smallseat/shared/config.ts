@@ -30,15 +30,17 @@ export const CONFIG:Record<string,any> =
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "smallseatConfig",
-    fileName: "Smallseat (Throneless Games)",
+    _game:
+    {
+        fileName: "Smallseat",
+    },
 
     assetsBase: "/throneless-games/conquer/smallseat/assets/",
 

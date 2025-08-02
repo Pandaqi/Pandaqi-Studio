@@ -1,7 +1,7 @@
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import shuffle from "js/pq_games/tools/random/shuffle"
 import Point from "js/pq_games/tools/geometry/point"
+import shuffle from "js/pq_games/tools/random/shuffle"
 import { CONFIG } from "../game/config"
+import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator"
 
 const LETTER_DICTIONARY = 
 {
@@ -794,7 +794,7 @@ class Board
     }
 }
 
-export const generateRulebookExample = async (sim) =>
+export const generateRulebookExample = async (sim:InteractiveExampleSimulator) =>
 {
     const o = sim.getOutputBuilder();
     const wordOptions = ["CAT", "DOG", "EAT", "ALE", "HUT", "CAR", "OPEN", "OKAY", "INN", "MINT", "HAT", "ACE", "PEAR", "HAND", "DUST", "SIN", "SAP", "OLD", "SAY", "MET", "BIN", "EYE", "LOT", "LUCK", "COW", "BIKE", "BUY", "SING"];

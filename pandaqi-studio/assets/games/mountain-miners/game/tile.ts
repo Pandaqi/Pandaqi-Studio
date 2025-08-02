@@ -36,16 +36,9 @@ export default class Tile
         this.customData = {};
     }
 
-    async drawForRules(vis:MaterialVisualizer)
-    {
-        return this.draw(vis);
-    }
-
     async draw(vis:MaterialVisualizer)
     {
-        const ctx = createContext({ size: vis.size });
-        fillCanvas(ctx, "#FFFFFF");
-        const group = new ResourceGroup();
+        const group = vis.prepareDraw();
 
         if(this.isArrowTile()) {
             this.drawArrowTile(vis, group);
@@ -53,9 +46,7 @@ export default class Tile
             this.drawBackgroundTexture(vis, group);
             this.drawIcons(vis, group);
         }
-
-        group.toCanvas(ctx);
-        return ctx.canvas;
+        return vis.finishDraw(group);
     }
 
     isArrowTile() { return this.keys.includes("arrow"); }

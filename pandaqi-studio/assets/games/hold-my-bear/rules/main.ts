@@ -1,14 +1,12 @@
-import createCanvas from "js/pq_games/layout/canvas/createCanvas";
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import { ANIMALS, COLORS } from "../shared/dict"
-import Bounds from "js/pq_games/tools/numbers/bounds";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import createContext from "js/pq_games/layout/canvas/createContext";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
-import fromArray from "js/pq_games/tools/random/fromArray";
+import createContext from "js/pq_games/layout/canvas/createContext";
 import anyMatch from "js/pq_games/tools/collections/anyMatch";
-import Point from "js/pq_games/tools/geometry/point";
 import arraysAreDuplicates from "js/pq_games/tools/collections/arraysAreDuplicates";
+import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import { ANIMALS, COLORS } from "../shared/dict";
 
 const CONFIG =
 {
@@ -295,7 +293,7 @@ class Match
     }
 }
 
-async function generate()
+const generate = async (sim:InteractiveExampleSimulator) =>
 {
     // > prepare animal types for this game (always include bear first!)
     const numAnimals = CONFIG.numAnimalTypes.randomInteger();
@@ -314,6 +312,7 @@ async function generate()
     CONFIG.chosenAnimals = chosenAnimals
 
     // > current match
+    const o = sim.getOutputBuilder();
     o.addParagraph("The current match on the table looks like this.");
     const matchSize = CONFIG.matchSizeBounds.random();
     const match = new Match().generate(matchSize);
@@ -384,8 +383,16 @@ async function generate()
     }
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
+CONFIG._rulebook =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example turn!",
+            callback: generate,
+        }
+    }
+}
 
-const o = e.getOutputBuilder();
+loadRulebook(CONFIG._rulebook);

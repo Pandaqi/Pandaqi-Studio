@@ -13,7 +13,7 @@ const SETTINGS =
         min: 5,
         max: 25,
         step: 5,
-        default: 10,
+        value: 10,
         label: "How Many Rounds?"
     },
 
@@ -25,7 +25,7 @@ const SETTINGS =
         {
             type: SettingType.ENUM,
             values: ["core", "easy", "medium"],
-            default: "core",
+            value: "core",
             label: "Word Complexity",
             remark: "How hard should the words be?"
         },
@@ -34,6 +34,7 @@ const SETTINGS =
         {
             type: SettingType.CHECK,
             label: "Include Names",
+            value: false,
             remark: "Adds geography and proper names of people, brands, ..."
         }
     },
@@ -53,7 +54,7 @@ class Game
     
     async start()
     {
-        this.readConfig();
+        this.prepareConfig();
         this.createContainer();
 
         const sm = new SignalManager();
@@ -80,13 +81,9 @@ class Game
         this.gotoState(GameState.GAMEPRE);
     }
 
-    readConfig()
+    prepareConfig()
     {
-        const userConfig = JSON.parse(window.localStorage[CONFIG.configKeyDigital] ?? "{}");
-        console.log(userConfig);
-        Object.assign(CONFIG, userConfig);
-
-        CONFIG.game.maxTurns = parseInt(userConfig.maxTurns ?? "10");
+        CONFIG.game.maxTurns = parseInt(CONFIG.maxTurns ?? "10");
         this.score = 0;
     }
 

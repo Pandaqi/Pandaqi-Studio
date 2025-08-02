@@ -1,5 +1,5 @@
 // mapping planet to order/difficulty
-const PLANET_MAP = 
+export const PLANET_MAP = 
 {
 	learnth: 0,
 	uronus: 1,
@@ -12,7 +12,7 @@ const PLANET_MAP =
 }
 
 // combos/sets of planets that work well together, following a similar theme
-const PLANET_SETS = {
+export const PLANET_SETS = {
 	nature: ["marsh", "pluto"],
 	leadership: ["uronus", "intervenus"],
 	resources: ["yumpiter", "meercury"],
@@ -21,7 +21,7 @@ const PLANET_SETS = {
 }
 
 // all component types (plus their probability of appearing and first planet)
-const COMPONENTS = 
+export const COMPONENTS = 
 {
 	path: { prob: 5.5 },
 	buildings: { prob: 8 },
@@ -31,7 +31,7 @@ const COMPONENTS =
 }
 
 // all people types
-const PEOPLE =
+export const PEOPLE =
 {
 	people: { prob: 0.5 },
 	criminal: { prob: 1, planet: "intervenus", planetLocked: true },
@@ -41,7 +41,7 @@ const PEOPLE =
 }
 
 // all resource types; only those that can have their resource grid extended have a probability > 0
-const RESOURCES = 
+export const RESOURCES = 
 {
 	water: { prob: 5, planet: "marsh" },
 	electricity: { prob: 5, planet: "meercury" },
@@ -51,7 +51,7 @@ const RESOURCES =
 }
 
 // list of numbers - why? because different numbers have different probabilities of appearing
-const NUMBERS = 
+export const NUMBERS = 
 {
 	1: { prob: 3 },
 	2: { prob: 3 },
@@ -71,7 +71,7 @@ const NUMBERS =
 };
 
 // list of events ( + description + probability + first planet to appear)
-const EVENTS = 
+export const EVENTS = 
 {
 	//
 	// learnth
@@ -570,7 +570,7 @@ const EVENTS =
 }
 
 // list of effects, plus their description and probability
-const EFFECTS =
+export const EFFECTS =
 {
 	//
 	// learnth
@@ -915,7 +915,7 @@ const EFFECTS =
 }
 
 // list of buildings, plus their description and probability of appearing
-const BUILDINGS = 
+export const BUILDINGS = 
 {
 	//
 	// learnth
@@ -1547,15 +1547,3 @@ const BUILDINGS =
 			planet: "naptune"
 		},
 };
-
-export {
-	PLANET_MAP,
-	PLANET_SETS,
-	COMPONENTS,
-	PEOPLE,
-	RESOURCES,
-	NUMBERS,
-	EVENTS,
-	EFFECTS,
-	BUILDINGS
-}

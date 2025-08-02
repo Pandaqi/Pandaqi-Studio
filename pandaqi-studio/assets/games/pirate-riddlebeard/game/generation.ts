@@ -6,7 +6,7 @@ import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
 import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
 import Line from "js/pq_games/tools/geometry/line";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
@@ -19,7 +19,7 @@ type Hint = { final_text?: string, html_text?: string }
 
 export default class BoardGeneration
 {
-	visualizer: BoardVisualizer
+	visualizer: MaterialVisualizer
 	cfg: Record<string,any>
 	AVAILABLE_HINTS: any
 	hintsGenerationFail: boolean
@@ -44,7 +44,7 @@ export default class BoardGeneration
 	fixedData: { terrain: string; nature: string; stones: number|string; landmark: string; road: string }
 	fontFamily = "chelsea"
 
-    async start(vis:BoardVisualizer) 
+    async start(vis:MaterialVisualizer) 
 	{
 		await vis.resLoader.loadPlannedResources();
 

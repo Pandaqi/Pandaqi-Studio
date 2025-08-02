@@ -150,11 +150,15 @@ const CONFIG =
             {
                 config:
                 {
-                    icons:
+                    
+                },
+
+                icons:
+                {
+                    config:
                     {
                         sheetURL: "special_cells.webp",
                         sheetWidth: 8,
-                        icons: KEEBBLE_TYPES,
                         base: "/keebble-games/spell/keebble/assets/"
                     }
                 },
@@ -170,15 +174,15 @@ const CONFIG =
 
             celldance:
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "special_cells.webp",
                         sheetWidth: 8,
-                        icons: KEEBBLE_TYPES,
                         base: "/keebble-games/spell/keebble/assets/"
                     }
+
                 },
 
                 data:

@@ -5,20 +5,19 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig from "js/pq_games/layout/text/textConfig";
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
 import Path from "js/pq_games/tools/geometry/paths/path";
 import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath";
 import Point from "js/pq_games/tools/geometry/point";
-import { GENERAL } from "../shared/dictionary";
+import { GENERAL } from "../shared/dict";
 import BoardState from "./boardState";
 import CellDisplay from "./cellDisplay";
 import { CONFIG } from "./config";
 import SideBar from "./sideBar";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 
 export default class BoardDisplay
 {
-    game:any
     originalPaperDimensions:Point
     paperDimensions:Point
     gapToSidebar:number
@@ -32,11 +31,24 @@ export default class BoardDisplay
     graphics: any;
     boardPadding: Point;
 
-	constructor(game:any)
+	constructor(bs:BoardState)
 	{
-		this.game = game;
+        this.board = bs;
+    }
 
-        this.originalPaperDimensions = game.visualizer.size;
+    needSideBar()
+    {
+        return CONFIG.sideBarType != "no";
+    }
+
+    convertToRealUnits(pos:Point)
+    {
+        return pos.clone().scale(this.cellSize).move(this.getAnchorPos());
+    }
+
+    async draw(vis: MaterialVisualizer)
+    {        
+        this.originalPaperDimensions = vis.size;
         this.paperDimensions = this.originalPaperDimensions.clone();
 
         if(this.needSideBar())
@@ -58,40 +70,30 @@ export default class BoardDisplay
             this.paperDimensions.x - 2*this.outerMargin.x - 2*this.boardPadding.x, 
             this.paperDimensions.y - 2*this.outerMargin.y - 2*this.boardPadding.y
         );
-    }
 
-    needSideBar()
-    {
-        return CONFIG.sideBarType != "no";
-    }
-
-    convertToRealUnits(pos:Point)
-    {
-        return pos.clone().scale(this.cellSize).move(this.getAnchorPos());
-    }
-
-    draw(vis: BoardVisualizer, group: ResourceGroup, board:BoardState)
-    {        
-        this.board = board;
-        this.size = board.getDimensions();
+        this.size = this.board.getDimensions();
         this.cellSize = new Point(
             this.boardDimensions.x / this.size.x, 
             this.boardDimensions.y / this.size.y 
         );
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
+        const group = vis.prepareDraw();
+
         const colBG = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.board.backgroundColor;
         fillResourceGroup(vis.size, group, colBG);
 
-        this.drawRivers(vis, group, board);
-        this.drawCells(vis, group, board);
-        this.drawRowColumnCommands(vis, group, board);
-        this.drawSidebar(vis, group, board);
+        this.drawRivers(vis, group);
+        this.drawCells(vis, group);
+        this.drawRowColumnCommands(vis, group);
+        this.drawSidebar(vis, group);
+
+        return await vis.finishDraw(group);
     }
     
-    drawRivers(vis: BoardVisualizer, group: ResourceGroup, board:BoardState)
+    drawRivers(vis: MaterialVisualizer, group: ResourceGroup)
     {
-        const rivers = board.rivers;
+        const rivers = this.board.rivers;
         const cfg = CONFIG.board.rivers;
         const lw = cfg.lineWidth * this.cellSizeUnit;
         const col = CONFIG.inkFriendly ? cfg.colorInkfriendly : cfg.color;
@@ -114,9 +116,9 @@ export default class BoardDisplay
         }
     }
 
-    drawCells(vis: BoardVisualizer, group: ResourceGroup, board:BoardState)
+    drawCells(vis: MaterialVisualizer, group: ResourceGroup)
     {
-        const cells = board.getGridFlat();
+        const cells = this.board.getGridFlat();
         const cellsDisplayed = [];
         for(const cell of cells)
         {
@@ -126,11 +128,11 @@ export default class BoardDisplay
         }
     }
 
-    drawRowColumnCommands(vis: BoardVisualizer, group: ResourceGroup, board:BoardState)
+    drawRowColumnCommands(vis: MaterialVisualizer, group: ResourceGroup)
     {
-        const size = board.getDimensions();
+        const size = this.board.getDimensions();
         const colOffset = CONFIG.board.numbers.offsetFromGrid * this.cellSizeUnit;
-        const colData = board.columnData;
+        const colData = this.board.columnData;
         const anchorPos = this.getAnchorPos();
         for(let i = 0; i < size.x; i++)
         {
@@ -144,7 +146,7 @@ export default class BoardDisplay
 
         // ROWS = Directions
         const rowOffset = CONFIG.board.dirs.offsetFromGrid * this.cellSizeUnit;
-        const rowData = board.rowData;
+        const rowData = this.board.rowData;
         for(let i = 0; i < size.y; i++)
         {
             const y = anchorPos.y + (i + 0.5) * this.cellSize.y;
@@ -161,7 +163,7 @@ export default class BoardDisplay
         return this.outerMargin.clone().add(this.boardPadding);
     }
 
-    drawGridCommandsAt(vis: BoardVisualizer, group: ResourceGroup, val:number|string, positions:Point[])
+    drawGridCommandsAt(vis: MaterialVisualizer, group: ResourceGroup, val:number|string, positions:Point[])
     {
         let counter = 0;
         for(const pos of positions)
@@ -171,14 +173,14 @@ export default class BoardDisplay
         }
     }
 
-    drawGridCommandAt(vis: BoardVisualizer, group: ResourceGroup, val:number|string, pos:Point, side:number)
+    drawGridCommandAt(vis: MaterialVisualizer, group: ResourceGroup, val:number|string, pos:Point, side:number)
     {
         // @ts-ignore
         if(!isNaN(parseInt(val))) { return this.drawNumberAt(vis, group, val as number, pos, side); }
         this.drawDirAt(vis, group, val as string, pos);
     }
 
-    drawNumberAt(vis: BoardVisualizer, group: ResourceGroup, num:number, pos:Point, side:number)
+    drawNumberAt(vis: MaterialVisualizer, group: ResourceGroup, num:number, pos:Point, side:number)
     {
         const txtCfg = CONFIG.board.numbers.textConfig;
         const fontSize = (CONFIG.board.numbers.scaleFactor * this.cellSizeUnit);
@@ -204,7 +206,7 @@ export default class BoardDisplay
         group.add(resText, opText);
     }
 
-    drawDirAt(vis: BoardVisualizer, group: ResourceGroup, dir:string, pos:Point)
+    drawDirAt(vis: MaterialVisualizer, group: ResourceGroup, dir:string, pos:Point)
     {
         const dirInt = CONFIG.board.dirs.options.indexOf(dir);
         const rot = dirInt * 0.5 * Math.PI;
@@ -221,11 +223,11 @@ export default class BoardDisplay
         group.add(res, op);
     }
 
-    drawSidebar(vis: BoardVisualizer, group: ResourceGroup, board:BoardState)
+    drawSidebar(vis: MaterialVisualizer, group: ResourceGroup)
     {
         if(!this.needSideBar()) { return; }
-        const s = new SideBar(this, board);
-        s.draw(vis, group, this, board);
+        const s = new SideBar(this, this.board);
+        s.draw(vis, group, this, this.board);
     }
 
 }

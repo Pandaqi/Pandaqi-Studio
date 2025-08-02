@@ -33,19 +33,19 @@ export const CONFIG:Record<string,any> =
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "maybeMoviesConfig",
-    fileName: "Maybe Movies",
+    _game:
+    {
+        fileName: "Maybe Movies",
+    },
 
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
+    
 
     sets:
     {

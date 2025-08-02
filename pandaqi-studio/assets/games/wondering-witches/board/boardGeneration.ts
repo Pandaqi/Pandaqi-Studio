@@ -6,7 +6,7 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
 import Circle from "js/pq_games/tools/geometry/circle"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
@@ -30,7 +30,7 @@ export default class BoardGeneration
 	cfg:Record<string,any>
 	gen:GenData
 	
-	async draw(vis:BoardVisualizer) : Promise<ResourceGroup[]>
+	async draw(vis:MaterialVisualizer) : Promise<ResourceGroup[]>
 	{
 		this.createConfig(vis);
 		
@@ -48,7 +48,7 @@ export default class BoardGeneration
 		return groups;
 	}
 
-	createConfig(vis:BoardVisualizer)
+	createConfig(vis:MaterialVisualizer)
 	{
 		const userConfig = vis.config;
 		const cfg : Record<string,any> = {};
@@ -263,7 +263,7 @@ export default class BoardGeneration
 		}
 	}
 
-	visualize(vis:BoardVisualizer) : ResourceGroup
+	visualize(vis:MaterialVisualizer) : ResourceGroup
 	{
 		const group = new ResourceGroup();
 		this.visualizeGardens(vis, group);
@@ -274,7 +274,7 @@ export default class BoardGeneration
 		return group;
 	}
 
-	paintGarden(vis:BoardVisualizer, group:ResourceGroup, garden:Garden, idx: number)
+	paintGarden(vis:MaterialVisualizer, group:ResourceGroup, garden:Garden, idx: number)
 	{
 		for(const cell of garden) 
 		{
@@ -316,7 +316,7 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizeGardens(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeGardens(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		let idx = -1;
 		for(const garden of this.gen.gardens)
@@ -326,7 +326,7 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizeGardenBorders(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeGardenBorders(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		
 		const borders : Line[] = [];
@@ -346,7 +346,7 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizeIngredients(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeIngredients(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		const spriteSize = this.cfg.spriteSize;
 
@@ -375,7 +375,7 @@ export default class BoardGeneration
 		}
 	}
 
-	visualizeSpecialCells(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeSpecialCells(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		let typesUsed : Set<string> = new Set();
 		const spriteSize = this.cfg.spriteSize;
@@ -417,7 +417,7 @@ export default class BoardGeneration
 	//  - https://graphicdesign.stackexchange.com/questions/3682/where-can-i-find-a-large-palette-set-of-contrasting-colors-for-coloring-many-d
 	//  - https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
 	//
-	visualizeGrid(vis:BoardVisualizer, group:ResourceGroup)
+	visualizeGrid(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		const color = new Color(this.cfg.gridColor);
 		color.a = this.cfg.gridAlpha;

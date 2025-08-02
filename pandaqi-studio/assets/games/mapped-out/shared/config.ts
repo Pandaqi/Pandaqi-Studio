@@ -1,9 +1,10 @@
-import Point from "js/pq_games/tools/geometry/point"
-import { CardMovement, TileAction } from "./dict"
-import CVal from "js/pq_games/tools/generation/cval"
-import Bounds from "js/pq_games/tools/numbers/bounds"
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
-import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
+import CVal from "js/pq_games/tools/generation/cval"
+import Point from "js/pq_games/tools/geometry/point"
+import Bounds from "js/pq_games/tools/numbers/bounds"
+import { cardPicker } from "../game/cardPicker"
+import { tilePicker } from "../game/tilePicker"
+import { CardMovement, TileAction } from "./dict"
 
 export const CONFIG:any = 
 {
@@ -16,7 +17,7 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Set",
             },
 
@@ -24,42 +25,28 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Lands Unknown",
+                value: false,
             },
 
             unclearInstructions:
             {
                 type: SettingType.CHECK,
                 label: "Unclear Instructions",
+                value: false,
             },
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "mappedOutConfig",
-    fileName: "Mapped Out",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
-
-    fonts:
+    _game:
     {
-        heading: "vanillawhale",
-        body: "sourceserif",
-    },
-
-    sets:
-    {
-        base: true,
-        landsUnknown: false,
-        unclearInstructions: false,
+        fileName: "Mapped Out",
     },
 
     // assets
@@ -114,11 +101,6 @@ export const CONFIG:any =
             frames: new Point(4,5)
         },
 
-    },
-
-    rulebook:
-    {
-        
     },
 
     generation:
@@ -184,92 +166,106 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            preset: GridSizePreset.CARD
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
         },
 
-        sonar:
+        tiles:
         {
-            templatePos: new CVal(new Point(0.5, 0.35), "size"),
-            templateDims: new CVal(new Point(0.725), "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.35), "size"), // equal or close to templatePos
-            size: new CVal(new Point(0.725), "sizeUnit"), // equal or close to templateDims
-        },
-
-        heading:
-        {
-            pos: new CVal(new Point(0.5, 0.695), "size"),
-            fontSize: new CVal(0.1, "sizeUnit"),
-        },
-
-        icons:
-        {
-            offset: new CVal(new Point(0.08, 0), "sizeUnit"),
-            size: new CVal(new Point(0.1), "sizeUnit")
-        },
-
-        headingAction:
-        {
-            offset: new CVal(new Point(0, 0.055), "size"),
-            fontSize: new CVal(0.055, "sizeUnit")
-        },
-
-        matchAction:
-        {
-            pos: new CVal(new Point(0.755, 0.35), "size"),
-            size: new CVal(new Point(0.165), "sizeUnit")
-        },
-
-        text:
-        {
-            fontSize: new CVal(0.065, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.83), "size"),
-            size: new CVal(new Point(0.8, 0.3), "size")
+            picker: tilePicker,
+            mapper: MapperPreset.TILE
         }
     },
 
-    tiles:
+    _drawing:
     {
-        drawerConfig:
+        fonts:
         {
-            preset: GridSizePreset.TILE
-        }, 
-
-        fishes:
-        {
-            angleSubdivisions: 8,
-            size: new CVal(new Point(0.25), "sizeUnit"),
-            sizeSpecial: new CVal(new Point(0.15), "sizeUnit"),
-            radiusBounds: new Bounds(0.25, 0.35),
-            radiusBoundsSpecial: new Bounds(0.325, 0.425)
+            heading: "vanillawhale",
+            body: "sourceserif",
         },
 
-        actions:
+        cards:
         {
-            fontSize: new CVal(0.07, "sizeUnit"),
-            boxDims: new CVal(new Point(0.36), "sizeUnit"),
-            iconDims: new CVal(new Point(0.135), "sizeUnit"),
-            textStrokeWidth: new CVal(0.075, "tiles.actions.fontSize"),
+            sonar:
+            {
+                templatePos: new CVal(new Point(0.5, 0.35), "size"),
+                templateDims: new CVal(new Point(0.725), "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.35), "size"), // equal or close to templatePos
+                size: new CVal(new Point(0.725), "sizeUnit"), // equal or close to templateDims
+            },
 
-            offset: new CVal(new Point(0.2), "sizeUnit"),
-            offsetIcons: new CVal(new Point(0.11), "sizeUnit")
+            heading:
+            {
+                pos: new CVal(new Point(0.5, 0.695), "size"),
+                fontSize: new CVal(0.1, "sizeUnit"),
+            },
+
+            icons:
+            {
+                offset: new CVal(new Point(0.08, 0), "sizeUnit"),
+                size: new CVal(new Point(0.1), "sizeUnit")
+            },
+
+            headingAction:
+            {
+                offset: new CVal(new Point(0, 0.055), "size"),
+                fontSize: new CVal(0.055, "sizeUnit")
+            },
+
+            matchAction:
+            {
+                pos: new CVal(new Point(0.755, 0.35), "size"),
+                size: new CVal(new Point(0.165), "sizeUnit")
+            },
+
+            text:
+            {
+                fontSize: new CVal(0.065, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.83), "size"),
+                size: new CVal(new Point(0.8, 0.3), "size")
+            }
         },
 
-        heading:
+        tiles:
         {
-            fontSize: new CVal(0.08, "sizeUnit"),
-            offsetRegular: new CVal(new Point(0, 0.0475), "sizeUnit"),
-            offsetSpecial: new CVal(new Point(0, 0.225), "sizeUnit"),
-        },
+            fishes:
+            {
+                angleSubdivisions: 8,
+                size: new CVal(new Point(0.25), "sizeUnit"),
+                sizeSpecial: new CVal(new Point(0.15), "sizeUnit"),
+                radiusBounds: new Bounds(0.25, 0.35),
+                radiusBoundsSpecial: new Bounds(0.325, 0.425)
+            },
 
-        text:
-        {
-            fontSize: new CVal(0.055, "sizeUnit"),
-            pos: new CVal(new Point(0.5), "size"),
-            size: new CVal(new Point(0.45, 0.35), "size")
+            actions:
+            {
+                fontSize: new CVal(0.07, "sizeUnit"),
+                boxDims: new CVal(new Point(0.36), "sizeUnit"),
+                iconDims: new CVal(new Point(0.135), "sizeUnit"),
+                textStrokeWidth: new CVal(0.075, "tiles.actions.fontSize"),
+
+                offset: new CVal(new Point(0.2), "sizeUnit"),
+                offsetIcons: new CVal(new Point(0.11), "sizeUnit")
+            },
+
+            heading:
+            {
+                fontSize: new CVal(0.08, "sizeUnit"),
+                offsetRegular: new CVal(new Point(0, 0.0475), "sizeUnit"),
+                offsetSpecial: new CVal(new Point(0, 0.225), "sizeUnit"),
+            },
+
+            text:
+            {
+                fontSize: new CVal(0.055, "sizeUnit"),
+                pos: new CVal(new Point(0.5), "size"),
+                size: new CVal(new Point(0.45, 0.35), "size")
+            }
         }
     }
 }

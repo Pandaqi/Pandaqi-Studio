@@ -2,21 +2,14 @@ import { CONFIG } from "../shared/config";
 import { BEASTS, MaterialType } from "../shared/dict";
 import Card from "./card";
 
-export default class TilePicker
+export const tilePicker = () : Card[] =>
 {
-    cards: Card[]
-
-    constructor() {}
-    get() { return this.cards.slice(); }
-    async generate()
+    const tiles = [];
+    for(const [key,data] of Object.entries(BEASTS))
     {
-        this.cards = [];
-        for(const [key,data] of Object.entries(BEASTS))
-        {
-            const set = data.set ?? "baseBeasts";
-            if(!CONFIG.sets[set]) { continue; }
-            this.cards.push(new Card(MaterialType.BEAST, key));
-        }
-        console.log(this.cards);
+        const set = data.set ?? "baseBeasts";
+        if(!CONFIG.sets[set]) { continue; }
+        tiles.push(new Card(MaterialType.BEAST, key));
     }
+    return tiles;
 }

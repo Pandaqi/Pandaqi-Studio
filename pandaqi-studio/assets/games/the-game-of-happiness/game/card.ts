@@ -1,7 +1,6 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import { CONFIG } from "../shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Visualizer from "./visualizer";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import Point from "js/pq_games/tools/geometry/point";
 import { CATEGORIES, Category } from "../shared/dict";
@@ -11,6 +10,7 @@ import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import TextConfig, { TextAlign, TextWeight } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 
 export default class Card
 {
@@ -29,7 +29,7 @@ export default class Card
 
     getCategoryData() { return CATEGORIES[this.category]; }
     
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
@@ -45,7 +45,7 @@ export default class Card
         return ctx.canvas;
     }
 
-    drawBackground(vis:Visualizer, group: ResourceGroup, ctx)
+    drawBackground(vis:MaterialVisualizer, group: ResourceGroup, ctx)
     {
         // complete fill with dark color
         const data = this.getCategoryData();
@@ -69,14 +69,14 @@ export default class Card
         group.add(res, resOp.clone());
     }
 
-    drawCategory(vis:Visualizer, group:ResourceGroup)
+    drawCategory(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // category icons in 4 corners
         const res = vis.resLoader.getResource("categories");
-        const cornerOffset = CONFIG.cards.category.iconOffset.clone().scale(vis.sizeUnit);
+        const cornerOffset = CONFIG._drawing.cards.category.iconOffset.clone().scale(vis.sizeUnit);
         const corners = getRectangleCornersWithOffset(vis.size, cornerOffset);
         const data = this.getCategoryData();
-        const iconDims = new Point(CONFIG.cards.category.iconSize * vis.sizeUnit);
+        const iconDims = new Point(CONFIG._drawing.cards.category.iconSize * vis.sizeUnit);
 
         for(let i = 0; i < corners.length; i++)
         {
@@ -85,15 +85,15 @@ export default class Card
                 pos: corners[i],
                 flipY: (i <= 1),
                 size: iconDims,
-                effects: vis.effects,
+                effects: vis.inkFriendlyEffect,
                 pivot: Point.CENTER
             });
             group.add(res, resOp);
         }
 
         // much bigger (but faded) icons above and below text
-        const bigIconDims = new Point(CONFIG.cards.category.iconSizeBig * vis.sizeUnit);
-        const bigYPos = CONFIG.cards.category.bigIconYPos * vis.size.y;
+        const bigIconDims = new Point(CONFIG._drawing.cards.category.iconSizeBig * vis.sizeUnit);
+        const bigYPos = CONFIG._drawing.cards.category.bigIconYPos * vis.size.y;
         const positions = [
             new Point(vis.center.x, bigYPos),
             new Point(vis.center.x, vis.size.y - bigYPos)
@@ -106,7 +106,7 @@ export default class Card
                 pos: positions[i],
                 flipY: (i <= 0),
                 size: bigIconDims,
-                effects: vis.effects,
+                effects: vis.inkFriendlyEffect,
                 pivot: Point.CENTER
             })
             if(vis.inkFriendly) { 
@@ -119,27 +119,27 @@ export default class Card
         
     }
 
-    drawText(vis:Visualizer, group:ResourceGroup)
+    drawText(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const text = this.text;
         const textLength = text.length;
-        let fontSizeRaw = CONFIG.cards.text.fontSize.large;
-        if(textLength >= CONFIG.cards.text.fontSizeCutoffs.large) { fontSizeRaw = CONFIG.cards.text.fontSize.medium; }
-        if(textLength >= CONFIG.cards.text.fontSizeCutoffs.medium) { fontSizeRaw = CONFIG.cards.text.fontSize.small; }
-        if(textLength >= CONFIG.cards.text.fontSizeCutoffs.small)
+        let fontSizeRaw = CONFIG._drawing.cards.text.fontSize.large;
+        if(textLength >= CONFIG._drawing.cards.text.fontSizeCutoffs.large) { fontSizeRaw = CONFIG._drawing.cards.text.fontSize.medium; }
+        if(textLength >= CONFIG._drawing.cards.text.fontSizeCutoffs.medium) { fontSizeRaw = CONFIG._drawing.cards.text.fontSize.small; }
+        if(textLength >= CONFIG._drawing.cards.text.fontSizeCutoffs.small)
         {
             console.error("A card has text that's too long for any font size (" + textLength + " characters): ", text);
         }
 
         const fontSize = fontSizeRaw * vis.sizeUnit;
         const textConfig = new TextConfig({
-            font: CONFIG.fonts.body,
+            font: CONFIG._drawing.fonts.body,
             size: fontSize,
             weight: TextWeight.BOLD
         }).alignCenter();
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
-        const textDims = CONFIG.cards.text.size.clone().scale(vis.size);
+        const textDims = CONFIG._drawing.cards.text.size.clone().scale(vis.size);
         const categoryData = this.getCategoryData();
         const colorText = vis.inkFriendly ? "#000000" : (categoryData.colorText ?? "#000000");
 
@@ -152,19 +152,19 @@ export default class Card
         group.add(resText, textOp);
     }
 
-    drawMetaText(vis:Visualizer, group: ResourceGroup)
+    drawMetaText(vis:MaterialVisualizer, group: ResourceGroup)
     {
         const texts = ["Category: " + this.category, "Pack: " + this.pack];
-        const fontSize = CONFIG.cards.textMeta.fontSize * vis.sizeUnit;
-        const yPos = CONFIG.cards.textMeta.yPos * vis.size.y;
-        const size = new Point(CONFIG.cards.textMeta.textBlockWidth * vis.size.x, 1.5*fontSize);
+        const fontSize = CONFIG._drawing.cards.textMeta.fontSize * vis.sizeUnit;
+        const yPos = CONFIG._drawing.cards.textMeta.yPos * vis.size.y;
+        const size = new Point(CONFIG._drawing.cards.textMeta.textBlockWidth * vis.size.x, 1.5*fontSize);
         const positions = [
             new Point(vis.center.x, yPos),
             new Point(vis.center.x, vis.size.y-yPos)
         ]
 
         const textConfig = new TextConfig({
-            font: CONFIG.fonts.heading,
+            font: CONFIG._drawing.fonts.heading,
             size: fontSize,
         }).alignCenter();
 
@@ -201,9 +201,9 @@ export default class Card
         group.add(subGroup, subGroupOp.clone());
     }
 
-    drawOutline(vis:Visualizer, ctx)
+    drawOutline(vis:MaterialVisualizer, ctx)
     {
-        const outlineSize = CONFIG.cards.outline.size * vis.sizeUnit;
-        strokeCanvas(ctx, CONFIG.cards.outline.color, outlineSize);
+        const outlineSize = CONFIG._drawing.cards.outline.size * vis.sizeUnit;
+        strokeCanvas(ctx, CONFIG._drawing.cards.outline.color, outlineSize);
     }
 }

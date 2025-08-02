@@ -3,49 +3,42 @@ import { CONFIG } from "../shared/config";
 import { CardMovement, CardType, MOVEMENT_CARDS, MOVEMENT_SPECIAL } from "../shared/dict";
 import Card from "./card";
 
-export default class CardPicker
+export const cardPicker = () : Card[] =>
 {
-    cards: Card[]
+    const cards = [];
+    
+    generateBaseCards(cards);
+    generateUnclearInstructions(cards);
 
-    get() { return this.cards.slice(); }
-    async generate()
+    return cards;
+}
+
+const generateBaseCards = (cards) =>
+{
+    if(!CONFIG.sets.base) { return; }
+    generateMovementCards(cards, CONFIG.generation.movementCardNumBase, CONFIG.generation.movementCardDistBase);
+}
+
+const generateUnclearInstructions = (cards) =>
+{
+    if(!CONFIG.sets.unclearInstructions) { return; }
+    generateMovementCards(cards, CONFIG.generation.movementCardNumUnclear, CONFIG.generation.movementCardDistUnclear, true);
+}
+
+const generateMovementCards = (cards:Card[], targetNum:number, dist:Record<CardMovement, number>, addSpecial:boolean = false) =>
+{
+    const possibleActions = Object.keys(MOVEMENT_SPECIAL);
+    for(const [key,freqRaw] of Object.entries(dist))
     {
-        this.cards = [];
-        
-        this.generateBaseCards();
-        this.generateUnclearInstructions();
-
-        console.log(this.cards);
-    }
-
-    generateBaseCards()
-    {
-        if(!CONFIG.sets.base) { return; }
-
-        this.generateMovementCards(CONFIG.generation.movementCardNumBase, CONFIG.generation.movementCardDistBase);
-    }
-
-    generateUnclearInstructions()
-    {
-        if(!CONFIG.sets.unclearInstructions) { return; }
-
-        this.generateMovementCards(CONFIG.generation.movementCardNumUnclear, CONFIG.generation.movementCardDistUnclear, true);
-    }
-
-    generateMovementCards(targetNum:number, dist:Record<CardMovement, number>, addSpecial:boolean = false)
-    {
-        const possibleActions = Object.keys(MOVEMENT_SPECIAL);
-        for(const [key,freqRaw] of Object.entries(dist))
+        const freq = Math.ceil(freqRaw * targetNum);
+        const data = MOVEMENT_CARDS[key];
+        for(let i = 0; i < freq; i++)
         {
-            const freq = Math.ceil(freqRaw * targetNum);
-            const data = MOVEMENT_CARDS[key];
-            for(let i = 0; i < freq; i++)
-            {
-                const newCard = new Card(CardType.MOVEMENT);
-                newCard.typeMovement = key as CardMovement;
-                newCard.specialAction = (addSpecial && data.canHaveSpecial) ? fromArray(possibleActions) : "";
-                this.cards.push(newCard);
-            }
+            const newCard = new Card(CardType.MOVEMENT);
+            newCard.typeMovement = key as CardMovement;
+            newCard.specialAction = (addSpecial && data.canHaveSpecial) ? fromArray(possibleActions) : "";
+            cards.push(newCard);
         }
     }
+    return cards;
 }

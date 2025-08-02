@@ -74,25 +74,31 @@ export const findSections = (node:HTMLElement, parentSection:RulebookSection) =>
 
         const isHeadingSameLevel = child.tagName == `H${curLevel}`;
         const isHeadingLowerLevel = child.tagName == `H${curLevel+1}`;
+        const isHeadingHigherLevel = !isHeadingSameLevel && !isHeadingLowerLevel;
 
         const newSection = new RulebookSection(child as HTMLHeadingElement);
 
         // on same level? start a new section as child of current parent
-        if(isHeadingSameLevel) {
+        if(isHeadingSameLevel) 
+        {
             sectionHierarchy.pop();
             const parentSection = sectionHierarchy[sectionHierarchy.length-1];
             parentSection.addContent(newSection);
             sectionHierarchy.push(newSection);
+        } 
         
         // on lower level? recurse into it and save whatever child sections we get back
-        } else if(isHeadingLowerLevel) {
+        if(isHeadingLowerLevel) 
+        {
             curSection.addContent(newSection);
             sectionHierarchy.push(newSection);
+        }
 
         // on higher level (which can be MULTIPLE jumps? just remove what we're doing now to go back to parent as "current/last section"
-        } else {
+        if(isHeadingHigherLevel)
+        {
             const newLevel = parseInt(child.tagName.slice(-1));
-            while(sectionHierarchy.length > newLevel)
+            while(sectionHierarchy.length >= newLevel)
             {
                 sectionHierarchy.pop();
             }
@@ -132,7 +138,7 @@ export const makeSectionHeader = (section:RulebookSection, indices = [], params:
     const possibleIcons = params.headerIcons ?? ICONS;
     const iconID = section.headingNode.id;
     const addDefaultIcon = !params.hideHeaderIcons && possibleIcons.includes(iconID);
-    const allCustomIconKeys = getAllRulebookIconKeys(params.icons);
+    const allCustomIconKeys = getAllRulebookIconKeys(params);
     const addCustomIcon = !params.hideHeaderIconsCustom && allCustomIconKeys.includes(iconID);
     const addIcon = addDefaultIcon || addCustomIcon;
     if(addIcon) 
@@ -145,6 +151,8 @@ export const makeSectionHeader = (section:RulebookSection, indices = [], params:
             icon = document.createElement("span");
         } else {
             icon = getRulebookIconNode(iconID, findSheetForRulebookIcon(iconID, params));
+            icon.style.width = "36px";
+            icon.style.height = "36px";
         }
 
         icon.classList.add(`rules-icon`,`rules-icon-${iconID}`);

@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point";
 
-enum EggType
+export enum EggType
 {
     RED = "red",
     GREEN = "green",
@@ -12,15 +12,15 @@ enum EggType
     PINK = "pink"
 }
 
-interface Area
+export interface Area
 {
     pos: Point,
     type?: string
 }
 
-type AreaList = Area[];
+export type AreaList = Area[];
 
-interface TileData
+export interface TileData
 {
     frame?: number,
     label?: string,
@@ -35,9 +35,9 @@ interface TileData
     areas?: AreaList,
 }
 
-type TileDataDict = Record<string,TileData>;
+export type TileDataDict = Record<string,TileData>;
 
-const EGGS_SHARED:Record<EggType, TileData> =
+export const EGGS_SHARED:Record<EggType, TileData> =
 {
     [EggType.RED]: { frame: 0, color: "#E61948", invertContrast: true },
     [EggType.GREEN]: { frame: 1, color: "#3CB44B", invertContrast: true },
@@ -50,7 +50,7 @@ const EGGS_SHARED:Record<EggType, TileData> =
 }
 
 
-const MISC_SHARED = 
+export const MISC_SHARED = 
 {
     bg_pattern_0: { frame: 0 },
     bg_pattern_1: { frame: 1 },
@@ -60,15 +60,4 @@ const MISC_SHARED =
     lightrays: { frame: 5 },
     number_bg: { frame: 6 },
     text_bg: { frame: 7 }
-}
-
-export
-{
-    EGGS_SHARED,
-    MISC_SHARED,
-    TileData,
-    TileDataDict,
-    Area,
-    AreaList,
-    EggType
 }

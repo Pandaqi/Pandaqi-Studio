@@ -1,5 +1,5 @@
 import { CONFIG } from "../shared/config";
-import { ReqType, Type } from "../shared/dict";
+import { ReqType } from "../shared/dict";
 
 export default class RequirementData
 {

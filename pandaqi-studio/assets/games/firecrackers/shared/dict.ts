@@ -1,11 +1,11 @@
 // yeah, should've been CardType and CardSubType, but don't feel like renaming EVERYTHING
-enum CardMainType
+export enum CardMainType
 {
     PLAY,
     SCORE
 }
 
-enum CardType
+export enum CardType
 {
     BLACK = "black",
     BLUE = "blue",
@@ -32,7 +32,7 @@ interface PackData
     colorMid?: string,
 }
 
-const PACKS:Record<CardType, PackData> =
+export const PACKS:Record<CardType, PackData> =
 {
     [CardType.BLACK]: { frame: 0, type: "Multi-Break Shell", actions: ["score_color", "score_diversity", "wildcard_up", "wildcard_down", "cleanup", "strong_force", "strong_destroy", "risky_rocket", "pity_purchase", "explosion_self", "explosion_neighbor", "steal", "safety_suit", "same_color_bonus", "more_score", "less_score"], numbers: { 2: 10, 4: 10 }, actionPercentages: { 2: 1.0, 4: 1.0 }, colorDark: "#0F0F0F", colorMid: "#A9A9A9", colorLight: "#E2E2E2" },
     [CardType.RED]: { frame: 1, type: "Firecracker", actions: ["remove", "remove_other"], colorDark: "#2A0300", colorMid: "#EE9092", colorLight: "#FFE4E7" },
@@ -55,8 +55,7 @@ interface ActionData
 }
 
 const cIcon = '<img id="misc" frame="0">'; // coin icon
-
-const ACTIONS:Record<string,ActionData> =
+export const ACTIONS:Record<string,ActionData> =
 {
     // those related to a specific set, in sensible pairs
     remove: { label: "Destroy Discard", desc: "You may <b>destroy</b> a card from your discard pile or deck (then shuffle)." },
@@ -118,7 +117,7 @@ interface ScoringRule
     desc: string,
 }
 
-const SCORING_RULES:Record<string, ScoringRule> = 
+export const SCORING_RULES:Record<string, ScoringRule> = 
 {
     default: { label: "Default", desc: "Nothing special. Use the default scoring rule (sum all numbers in your deck)." },
     shifted: { label: "Shifted", desc: "Each card scores its number <b>minus 3</b>. So 1 scores -2, all the way to 5 scores 2." },
@@ -138,17 +137,7 @@ const SCORING_RULES:Record<string, ScoringRule> =
     black_magic: { label: "Black Magic", desc: "You get a <b>+5 bonus</b> if you have the most <b>Black cards</b>, and a <b>-5 penalty</b> if you have the least. (Ties allowed.)" }
 }
 
-const MISC =
+export const MISC =
 {
     coin: { frame: 0 }
-}
-
-export 
-{
-    CardMainType,
-    CardType,
-    MISC,
-    PACKS,
-    ACTIONS,
-    SCORING_RULES
 }

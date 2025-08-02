@@ -1,7 +1,6 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import { CONFIG } from "../shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Visualizer from "./visualizer";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import Point from "js/pq_games/tools/geometry/point";
 import { CATEGORIES, Category } from "../shared/dict";
@@ -11,6 +10,7 @@ import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 
 export default class Card
 {
@@ -29,7 +29,7 @@ export default class Card
 
     getCategoryData() { return CATEGORIES[this.category]; }
     
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
@@ -43,7 +43,7 @@ export default class Card
         return ctx.canvas;
     }
 
-    drawBackground(vis:Visualizer, group, ctx)
+    drawBackground(vis:MaterialVisualizer, group, ctx)
     {
         // entire background fill
         const data = this.getCategoryData();
@@ -65,7 +65,7 @@ export default class Card
         group.add(res, resOp);
     }
 
-    drawCategory(vis:Visualizer, group:ResourceGroup)
+    drawCategory(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const res = vis.resLoader.getResource("categories");
         const data = this.getCategoryData();
@@ -117,13 +117,13 @@ export default class Card
                 pos: corner,
                 size: iconDims,
                 pivot: Point.CENTER,
-                effects: vis.effects
+                effects: vis.inkFriendlyEffect
             });
             group.add(res, resOp);
         }
     }
 
-    drawText(vis:Visualizer, group:ResourceGroup)
+    drawText(vis:MaterialVisualizer, group:ResourceGroup)
     {
         let text = this.data;
         if(this.category == Category.NEGATIVE) { 
@@ -141,7 +141,7 @@ export default class Card
 
         const fontSize = fontSizeRaw * vis.sizeUnit;
         const textConfig = new TextConfig({
-            font: CONFIG.fonts.body,
+            font: CONFIG._drawing.fonts.body,
             size: fontSize,
             weight: TextWeight.BOLD
         }).alignCenter();
@@ -166,7 +166,7 @@ export default class Card
         return text.charAt(0).toLowerCase() + text.slice(1);
     }
 
-    drawOutline(vis:Visualizer, ctx)
+    drawOutline(vis:MaterialVisualizer, ctx)
     {
         const outlineSize = CONFIG.cards.outline.size * vis.sizeUnit;
         strokeCanvas(ctx, CONFIG.cards.outline.color, outlineSize);

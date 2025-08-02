@@ -1,24 +1,23 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { MISC, PType, ReqType, SETS, SUB_TYPES, SUSPECTS, Type } from "../shared/dict";
-import { CONFIG } from "../shared/config";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Point from "js/pq_games/tools/geometry/point";
-import Visualizer from "./visualizer";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Color from "js/pq_games/layout/color/color";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import BlurEffect from "js/pq_games/layout/effects/blurEffect";
+import ColorOverlayEffect from "js/pq_games/layout/effects/colorOverlayEffect";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import range from "js/pq_games/tools/random/range";
-import ColorOverlayEffect from "js/pq_games/layout/effects/colorOverlayEffect";
-import BlurEffect from "js/pq_games/layout/effects/blurEffect";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import shuffle from "js/pq_games/tools/random/shuffle";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import lerp from "js/pq_games/tools/numbers/lerp";
-import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import { CONFIG } from "../shared/config";
+import { MISC, PType, ReqType, SETS, SUB_TYPES, SUSPECTS, Type } from "../shared/dict";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 
 export default class Card
 {
@@ -31,19 +30,7 @@ export default class Card
         this.key = key;
     }
 
-    async drawForRules(vis:Visualizer)
-    {
-        const ctx = createContext({ size: vis.size });
-
-        let color = "#FFFFFF";
-        fillCanvas(ctx, color);
-
-        // @TODO => not even sure if an interactive example is possible here
-        this.drawOutline(vis, ctx);
-        return ctx.canvas;
-    }
-
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
@@ -66,7 +53,7 @@ export default class Card
     // 
     // SUSPECTS
     //
-    async drawBackgroundSuspect(vis:Visualizer, ctx, group:ResourceGroup)
+    async drawBackgroundSuspect(vis:MaterialVisualizer, ctx, group:ResourceGroup)
     {
         // first solid color
         let color = vis.inkFriendly ? "#FFFFFF" : this.getDataSuspect().color;
@@ -84,7 +71,7 @@ export default class Card
         group.add(res, op);
     }
 
-    async drawSuspect(vis:Visualizer, group:ResourceGroup)
+    async drawSuspect(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const dataSuspect = this.getDataSuspect();
 
@@ -190,7 +177,7 @@ export default class Card
     // 
     // PLAYING CARDS
     //
-    drawBackground(vis:Visualizer, ctx, group:ResourceGroup)
+    drawBackground(vis:MaterialVisualizer, ctx, group:ResourceGroup)
     {
         // first solid color
         let color = vis.inkFriendly ? "#FFFFFF" : CONFIG.cards.shared.bgColor;
@@ -210,7 +197,7 @@ export default class Card
     getDataSuspect() { return SUSPECTS[this.key]; }
     getMainColor() { return new Color(SUB_TYPES[this.getDataPlay().subType].color); }
 
-    async drawPhotographs(vis:Visualizer, group:ResourceGroup)
+    async drawPhotographs(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const numPhotographs = CONFIG.cards.photographs.numPerCard.randomInteger();
         const photographCenter = new Point(vis.center.x, CONFIG.cards.photographs.yPos * vis.size.y);
@@ -392,7 +379,7 @@ export default class Card
         return arr;
     }
 
-    async drawText(vis:Visualizer, group:ResourceGroup)
+    async drawText(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // the faded background rect for more legibility/contrast
         const pos = new Point(vis.center.x, CONFIG.cards.text.yPos * vis.size.y);
@@ -432,7 +419,7 @@ export default class Card
         group.add(textRes, op);
     }
 
-    drawOutline(vis:Visualizer, ctx:CanvasRenderingContext2D)
+    drawOutline(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D)
     {
         const outlineSize = CONFIG.cards.outline.size * vis.sizeUnit;
         strokeCanvas(ctx, CONFIG.cards.outline.color, outlineSize);

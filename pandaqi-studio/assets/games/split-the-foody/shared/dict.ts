@@ -1,5 +1,5 @@
 
-interface PowerData
+export interface PowerData
 {
     frame?: number,
     label?: string,
@@ -59,7 +59,7 @@ const POWERS_COINS:PowerSet =
 }
 
 
-const SETS:Record<string,PowerSet> = 
+export const SETS:Record<string,PowerSet> = 
 {
     base: POWERS_BASE,
     appetite: POWERS_APPETITE,
@@ -67,17 +67,10 @@ const SETS:Record<string,PowerSet> =
 }
 
 // This is for any decorations, backgrounds, textures needed for general card layout
-const MISC =
+export const MISC =
 {
     coin: { frame: 0 },
     scroll: { frame: 1 },
     rope: { frame: 2 },
     coin_score: { frame: 3 }
-}
-
-export 
-{
-    PowerData,
-    SETS,
-    MISC
 }

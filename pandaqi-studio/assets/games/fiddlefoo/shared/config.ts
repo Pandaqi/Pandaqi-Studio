@@ -2,6 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG:any = 
 {
@@ -15,42 +16,28 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Base Game",
-                default: true
+                value: true
             },
 
             expansion:
             {
                 type: SettingType.CHECK,
                 label: "Expansion",
+                value: false
             },
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "fiddlefooConfig",
-    fileName: "Fiddlefoo",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
-
-    sets:
+    _game:
     {
-        base: true,
-        expansion: false,
-    },
-
-    fonts:
-    {
-        heading: "casanova",
-        body: "andada",
+        fileName: "Fiddlefoo",
     },
 
     // assets
@@ -104,7 +91,6 @@ export const CONFIG:any =
     {
         numPlayerBounds: new Bounds(2,4),
         numCardsPerPlayer: 8,
-        itemSize: new Point(375, 525),
         maxBoardSize: new Point(8,8),
         preMoveNumBounds: new Bounds(5,12),
         boardCanvasSize: new Point(1024, 1024),
@@ -125,58 +111,75 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
-        },
-
-        numbers:
-        {
-            offset: new CVal(new Point(0.125, 0.125), "sizeUnit"),
-            textColor: "#030303",
-            fontSize: new CVal(0.185, "sizeUnit")
-        },
-
-        numberCenter:
-        {
-            textPos: new CVal(new Point(0.5), "size"),
-            fontSize: new CVal(0.5, "sizeUnit"),
-            strokeColor: "#FDFDFD",
-            strokeWidth: new CVal(0.02, "sizeUnit"),
-        },
-
-        typeWritten:
-        {
-            offset: new CVal(new Point(0, 0.1), "size"),
-            fontSize: new CVal(0.055, "sizeUnit"),
-        },
-
-        special:
-        {
-            iconPos: new CVal(new Point(0.5, 0.225), "size"),
-            iconDims: new CVal(new Point(0.43), "sizeUnit"),
-            iconBGDims: new CVal(new Point(0.485), "sizeUnit"),
-
-            fontSize: new CVal(0.05, "sizeUnit"),
-            textPos: new CVal(new Point(0.5, 0.765), "size"),
-            textDims: new CVal(new Point(0.645, 0.4), "sizeUnit"),
-            textColor: "#030303"
-        },
-
-        notes:
-        {
-            noteSize: new CVal(new Point(0.1), "sizeUnit"),
-            lineOffset: new CVal(0.025, "sizeUnit"),
-            offsetGroup: new CVal(new Point(0.16, 0), "size"),
+            itemSize: new Point(375, 525),
+            picker: cardPicker,
+            mapper:
+            {
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: 
+                { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                }, 
+            },
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "casanova",
+            body: "andada",
+        },
+
+        cards:
+        {
+            numbers:
+            {
+                offset: new CVal(new Point(0.125, 0.125), "sizeUnit"),
+                textColor: "#030303",
+                fontSize: new CVal(0.185, "sizeUnit")
+            },
+
+            numberCenter:
+            {
+                textPos: new CVal(new Point(0.5), "size"),
+                fontSize: new CVal(0.5, "sizeUnit"),
+                strokeColor: "#FDFDFD",
+                strokeWidth: new CVal(0.02, "sizeUnit"),
+            },
+
+            typeWritten:
+            {
+                offset: new CVal(new Point(0, 0.1), "size"),
+                fontSize: new CVal(0.055, "sizeUnit"),
+            },
+
+            special:
+            {
+                iconPos: new CVal(new Point(0.5, 0.225), "size"),
+                iconDims: new CVal(new Point(0.43), "sizeUnit"),
+                iconBGDims: new CVal(new Point(0.485), "sizeUnit"),
+
+                fontSize: new CVal(0.05, "sizeUnit"),
+                textPos: new CVal(new Point(0.5, 0.765), "size"),
+                textDims: new CVal(new Point(0.645, 0.4), "sizeUnit"),
+                textColor: "#030303"
+            },
+
+            notes:
+            {
+                noteSize: new CVal(new Point(0.1), "sizeUnit"),
+                lineOffset: new CVal(0.025, "sizeUnit"),
+                offsetGroup: new CVal(new Point(0.16, 0), "size"),
+            }
+        },
+    }
 }

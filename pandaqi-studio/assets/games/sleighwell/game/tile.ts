@@ -1,20 +1,26 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { MISC, SPECIAL_ACTIONS, TILES } from "../shared/dict";
-import { CONFIG } from "../shared/config";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Point from "js/pq_games/tools/geometry/point";
-import Visualizer from "./visualizer";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
+import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import ColorLike from "js/pq_games/layout/color/colorLike";
-import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
-import clamp from "js/pq_games/tools/numbers/clamp";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
-import Color from "js/pq_games/layout/color/color";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
+import Point from "js/pq_games/tools/geometry/point";
+import clamp from "js/pq_games/tools/numbers/clamp";
+import { CONFIG } from "../shared/config";
+import { MISC, SPECIAL_ACTIONS, TILES } from "../shared/dict";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+
+const getVisualizerEffects = (vis:MaterialVisualizer) =>
+{
+    const glowRadius = CONFIG.tiles.shared.glowRadius * vis.sizeUnit;
+    const glowColor = CONFIG.tiles.shared.glowColor;
+    return [new DropShadowEffect({ blurRadius: glowRadius, color: glowColor }), vis.inkFriendlyEffect].flat();
+}
 
 export default class Tile
 {
@@ -38,12 +44,7 @@ export default class Tile
     getFirstType() { return this.type[0]; }
     getFirstNumber() { return this.num[0]; }
 
-    async drawForRules(vis:Visualizer) : Promise<HTMLCanvasElement>
-    {
-        return this.draw(vis); // @TODO; optionally add a paramter to "simplify" the draw, removing effects and stuff
-    }
-
-    async draw(vis:Visualizer) : Promise<HTMLCanvasElement>
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
@@ -63,7 +64,7 @@ export default class Tile
         return ctx.canvas;
     }
 
-    drawBackground(vis:Visualizer, ctx:CanvasRenderingContext2D, group)
+    drawBackground(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D, group)
     {
         // first solid color
         const tileData = TILES[this.getFirstType()];
@@ -72,7 +73,7 @@ export default class Tile
         fillCanvas(ctx, color);
 
         // then the knitted BG pattern (the right one for the color)
-        const res = vis.resourceLoader.getResource("misc");
+        const res = vis.getResource("misc");
         const frame = (tileData.bgLight || vis.inkFriendly) ? MISC.bg_hole.frame : MISC.bg_hole_inverse.frame;
         const op = new LayoutOperation({
             frame: frame,
@@ -83,7 +84,7 @@ export default class Tile
         group.add(res, op);
     }
 
-    drawNumbers(vis:Visualizer, group)
+    drawNumbers(vis:MaterialVisualizer, group)
     {
         const tileData = TILES[this.getFirstType()]
         const isWildcard = this.isWildcardNumber();
@@ -110,7 +111,7 @@ export default class Tile
         textConfigSmall.size = fontSizeSmall;
         textConfigSmall.font = CONFIG.fonts.body;
 
-        const resTiles = vis.resourceLoader.getResource("tiles");
+        const resTiles = vis.getResource("tiles");
 
         const isLightBG = (tileData.bgLight || vis.inkFriendly);
 
@@ -158,7 +159,7 @@ export default class Tile
         }
     }
 
-    drawMainIllustration(vis:Visualizer, group)
+    drawMainIllustration(vis:MaterialVisualizer, group)
     {
         const type = this.getFirstType();
         const tileData = TILES[type]
@@ -184,7 +185,7 @@ export default class Tile
         {            
             for(let i = 0; i < numSprites; i++)
             {
-                const res = vis.resourceLoader.getResource("tiles");
+                const res = vis.getResource("tiles");
                 const frame = tileData.frame;
                 
                 const op = new LayoutOperation({
@@ -192,7 +193,7 @@ export default class Tile
                     pos: positions[numSprites - 1][i],
                     size: sizes[numSprites - 1][i],
                     pivot: Point.CENTER,
-                    effects: vis.effects
+                    effects: getVisualizerEffects(vis)
                 })
     
                 group.add(res, op);
@@ -200,7 +201,7 @@ export default class Tile
         }
     }
 
-    drawSpecialAction(vis:Visualizer, group)
+    drawSpecialAction(vis:MaterialVisualizer, group)
     {
         const fontSize = CONFIG.tiles.specialAction.fontSize * vis.sizeUnit;
         const textConfig = new TextConfig({
@@ -224,10 +225,10 @@ export default class Tile
         group.add(resText, textOp);
     }
 
-    drawHouse(vis:Visualizer, group)
+    drawHouse(vis:MaterialVisualizer, group)
     {
         // draw the big house on the left
-        const res = vis.resourceLoader.getResource("tiles");
+        const res = vis.getResource("tiles");
         const frame = TILES.house.frame;
         const xPosLeft = CONFIG.tiles.main.house.xPosLeft * vis.size.x;
         const size = new Point(CONFIG.tiles.main.iconSize * CONFIG.tiles.main.house.iconSizeFactor * vis.sizeUnit);
@@ -236,7 +237,7 @@ export default class Tile
             pos: new Point(xPosLeft, vis.center.y),
             size: size,
             pivot: Point.CENTER,
-            effects: vis.effects
+            effects: getVisualizerEffects(vis)
         })
         group.add(res, op);
 
@@ -265,7 +266,7 @@ export default class Tile
                 pos: pos,
                 size: sizePresent,
                 pivot: Point.CENTER,
-                effects: vis.effects
+                effects: getVisualizerEffects(vis)
             });
             group.add(resPresent, op);
         }
@@ -282,7 +283,7 @@ export default class Tile
             dir: Point.RIGHT
         })
 
-        const resMisc = vis.resourceLoader.getResource("misc");
+        const resMisc = vis.getResource("misc");
         const frameStar = MISC.points_star.frame;
         for(let i = 0; i < score; i++)
         {
@@ -292,13 +293,12 @@ export default class Tile
                 pos: pos,
                 size: sizeStar,
                 pivot: Point.CENTER,
-                //effects: vis.effects
             });
             group.add(resMisc, op);
         }
     }
 
-    drawOutline(vis:Visualizer, ctx)
+    drawOutline(vis:MaterialVisualizer, ctx)
     {
         const outlineSize = CONFIG.tiles.outline.size * vis.sizeUnit;
         strokeCanvas(ctx, CONFIG.tiles.outline.color, outlineSize);

@@ -1,14 +1,14 @@
 // @SOURCE: https://morethanamom.nl/50-onmogelijke-would-you-rather-vragen/
 // @SOURCE: Many are lifted from my own Game of Happiness entries (which contains a LOT)
 
-enum Category
+export enum Category
 {
     POSITIVE = "positive",
     NEUTRAL = "neutral",
     NEGATIVE = "negative"
 }
 
-enum TokenType
+export enum TokenType
 {
     YES = "yes",
     NO = "no",
@@ -22,7 +22,7 @@ interface TokenMetaData
     colorBG: string
 }
 
-const TOKEN_TYPES:Record<TokenType, TokenMetaData> =
+export const TOKEN_TYPES:Record<TokenType, TokenMetaData> =
 {
     [TokenType.YES]: { frame: 0, colorBG: "#BDFFAA" }, // colorText: "#0C2705"
     [TokenType.NO]: { frame: 1, colorBG: "#FEB9B9" }, // colorText: "#330000"
@@ -38,7 +38,7 @@ interface CategoryMetaData
     colorText: string
 }
 
-const CATEGORIES:Record<Category, CategoryMetaData> = 
+export const CATEGORIES:Record<Category, CategoryMetaData> = 
 {
     [Category.POSITIVE]: { frame: 0, colorBG: "#BDFFAA", colorMid: "#146200", colorText: "#0C2705" },
     [Category.NEUTRAL]: { frame: 1, colorBG: "#E1E1E1", colorMid: "#747474", colorText: "#202020" },
@@ -46,7 +46,7 @@ const CATEGORIES:Record<Category, CategoryMetaData> =
     // If a 4th category ever arrives => colorBG: "#FFFFA5", colorMid: "#757511", colorText: "#353500"
 }
 
-enum Pack
+export enum Pack
 {
     BASE = "base",
     ADVANCED = "advanced",
@@ -54,11 +54,11 @@ enum Pack
     EXTRAORDINARY = "extraordinary"
 }
 
-type CategoryData = string;
+export type CategoryData = string;
 type CategoryDataList = Record<Pack, CategoryData[]>;
 
 
-const POSITIVE_CARDS:CategoryDataList = 
+export const POSITIVE_CARDS:CategoryDataList = 
 {
     [Pack.BASE]: [
         "You stay true to your personal values (whatever happens)",
@@ -235,7 +235,7 @@ const POSITIVE_CARDS:CategoryDataList =
 };
 
 // @NOTE: The code automatically adds "... but" before it (and a period after it?)
-const NEGATIVE_CARDS:CategoryDataList = 
+export const NEGATIVE_CARDS:CategoryDataList = 
 {
     [Pack.BASE]: [
         "You find everyone ugly and disgusting",
@@ -334,7 +334,7 @@ const NEGATIVE_CARDS:CategoryDataList =
     ],
 
     [Pack.EXPERT]: [
-        "Everyone constantly crosses your personal boundaries.",
+        "Everyone export constantly crosses your personal boundaries.",
         "You can't help but take over the emotion of whomever is closest to you",
         "Every negative thought somebody has about you arrives in your mail",
         "You have no control over your body, as if you're a puppet for a master",
@@ -412,7 +412,7 @@ const NEGATIVE_CARDS:CategoryDataList =
 }
 
 
-const NEUTRAL_CARDS:CategoryDataList =
+export const NEUTRAL_CARDS:CategoryDataList =
 {
     [Pack.BASE]: [
         "While wearing a clown suit and makeup",
@@ -469,20 +469,9 @@ const NEUTRAL_CARDS:CategoryDataList =
     ]
 }
 
-const CARDS:Record<Category, CategoryDataList> = 
+export const CARDS:Record<Category, CategoryDataList> = 
 {
     [Category.POSITIVE]: POSITIVE_CARDS,
     [Category.NEUTRAL]: NEUTRAL_CARDS,
     [Category.NEGATIVE]: NEGATIVE_CARDS,
-}
-
-export 
-{
-    Pack,
-    Category,
-    CategoryData,
-    TokenType,
-    CARDS,
-    CATEGORIES,
-    TOKEN_TYPES
 }

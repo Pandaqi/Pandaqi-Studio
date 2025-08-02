@@ -182,11 +182,11 @@ export const CONFIG =
 
     debugWithoutPDF: false, // @DEBUGGING (should be false)
     
-    itemSize: "regular",
-    pageSize: "a4",
-    inkFriendly: false,
+    
+    
+    
 
-    resLoader: null,
+    
     gridMapper: null,
     pdfBuilder: null,
     progressBar: null,
@@ -196,7 +196,10 @@ export const CONFIG =
 
     numbers: { min: 1, max: 6 },
     numberList: [1,2,3,4,5,6],
-    fileName: "[Sixpack] Material",
+    _game:
+    {
+        fileName: "Sixpack",
+    },
     numHandsPerPack: 2,
 
     assetsBase: "/the-outnumbered-series/count-to/sixpack/assets/",

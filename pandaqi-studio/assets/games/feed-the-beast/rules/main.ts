@@ -1,16 +1,11 @@
-import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExampleGenerator";
-import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
-import CardPicker from "../game/cardPicker";
-import { CONFIG } from "../shared/config";
-import TilePicker from "../game/tilePicker";
-import TokenPicker from "../game/tokenPicker";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import { FOOD } from "../shared/dict";
-import Card from "../game/card";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
+import Card from "../game/card";
+import { CONFIG } from "../shared/config";
 import Hand from "./hand";
 import Rewarder, { GameState } from "./rewarder";
-import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const callbackInitStats = () =>
 {
@@ -60,11 +55,13 @@ const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
 
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
+
     const numPlayers = CONFIG.rulebook.numPlayers.randomInteger();
     const numStartTokens = CONFIG.rulebook.numStartingTokens;
 
     // prepare food tokens
-    const foodTokens : Card[] = sim.getPicker("token").get().slice();
+    const foodTokens : Card[] = sim.getPicker("tokens")();
     for(let i = foodTokens.length - 1; i >= 0; i--)
     {
         if(foodTokens[i].key != "beastState") { continue; }
@@ -82,10 +79,10 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     shuffle(validStartingTokens);
 
     // prepare beast + menu cards
-    const beastCard = fromArray(sim.getPicker("tile").get());
+    const beastCard = fromArray(sim.getPicker("tiles").get());
     const beastHand = new Hand();
 
-    const menuCards = shuffle(sim.getPicker("card").get());
+    const menuCards = shuffle(sim.getPicker("cards").get());
     const menuCardsDiscard = [];
 
     const rewarder = new Rewarder();
@@ -286,22 +283,26 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 }
 
 const SIMULATION_ENABLED = false;
-const SIMULATION_ITERATIONS = 500;
+const SIMULATION_ITERATIONS = 1000;
 const SHOW_FULL_GAME = false;
 
-const gen = new InteractiveExampleGenerator({
-    id: "turn",
-    buttonText: "Give me an example turn!",
-    callback: generate,
-    config: CONFIG,
-    itemSize: CONFIG.rulebook.itemSize,
-    pickers: { card: CardPicker, tile: TilePicker, token: TokenPicker },
-    simulateConfig: {
-        enabled: SIMULATION_ENABLED,
-        iterations: SIMULATION_ITERATIONS,
-        showFullGame: SHOW_FULL_GAME,
-        runParallel: false,
-        callbackInitStats,
-        callbackFinishStats,
+const CONFIG_RULEBOOK =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example turn!",
+            callback: generate,
+            simulator: {
+                enabled: SIMULATION_ENABLED,
+                iterations: SIMULATION_ITERATIONS,
+                showFullGame: SHOW_FULL_GAME,
+                callbackInitStats,
+                callbackFinishStats,
+            }
+        }
     }
-})
+}
+
+loadRulebook(CONFIG_RULEBOOK);

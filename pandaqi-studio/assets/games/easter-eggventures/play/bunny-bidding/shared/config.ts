@@ -2,6 +2,7 @@ import { CONFIG_SHARED } from "games/easter-eggventures/shared/configShared";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
+import { tilePicker } from "../game/tilePicker";
 
 export const CONFIG:Record<string,any> = 
 {
@@ -15,42 +16,35 @@ export const CONFIG:Record<string,any> =
             {
                 type: SettingType.CHECK,
                 label: "Base Game",
-                default: true
+                value: true
             },
 
             special:
             {
                 type: SettingType.CHECK,
-                label: "Special Eggs"
+                label: "Special Eggs",
+                value: false
             },
 
             powers:
             {
                 type: SettingType.CHECK,
-                label: "Powers & Handiceggs"
+                label: "Powers & Handiceggs",
+                value: false
             }
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "bunnyBiddingConfig",
-    fileName: "Bunny Bidding",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-
-    sets:
+    _game:
     {
-        base: true,
-        special: false,
-        powers: false
+        fileName: "Bunny Bidding",
     },
 
     // assets
@@ -84,17 +78,27 @@ export const CONFIG:Record<string,any> =
             goalEgg: 2
         }
     },
-    
-    tiles:
-    {
-        eggNumber:
-        {
-            fontSize: new CVal(0.125, "sizeUnit"),
-            edgeOffset: new CVal(new Point(0.1), "sizeUnit"),
-            spriteDims: new CVal(new Point(0.35), "sizeUnit"),
-            spriteOffset: new CVal(new Point(-0.01, 0.015), "size") // @TODO?
-        },
 
+    _material:
+    {
+        tiles:
+        {
+            picker: tilePicker
+        }
+    },
+    
+    _drawing:
+    {
+        tiles:
+        {
+            eggNumber:
+            {
+                fontSize: new CVal(0.125, "sizeUnit"),
+                edgeOffset: new CVal(new Point(0.1), "sizeUnit"),
+                spriteDims: new CVal(new Point(0.35), "sizeUnit"),
+                spriteOffset: new CVal(new Point(-0.01, 0.015), "size") // @TODO?
+            },
+        }
     }
 }
 

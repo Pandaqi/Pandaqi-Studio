@@ -3,7 +3,7 @@ import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import HintVisualizer from "./hintVisualizer";
 import Hints from "./hints";
 import JSZip from "./jszip.min.js";
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
 
 /* EXTRACT ALL hints AS ZIP (for me, for rulebook editing) */
 const onZipImagesReady = () =>
@@ -28,7 +28,7 @@ const onZipImagesReady = () =>
 	});
 }
 
-const downloadHintsZip = async (vis:BoardVisualizer) =>
+const downloadHintsZip = async (vis:MaterialVisualizer) =>
 {
 	HintVisualizer.download = true;
 	await HintVisualizer.visualizeAll(Hints.createFullListForDownload(), vis);

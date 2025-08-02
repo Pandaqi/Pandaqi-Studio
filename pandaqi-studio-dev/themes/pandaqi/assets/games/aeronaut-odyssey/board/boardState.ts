@@ -1,4 +1,4 @@
-import CONFIG, { GenerationMethod } from "./config"
+import { CONFIG, GenerationMethod } from "./config"
 import GeneratorDelaunay from "./generators/generatorDelaunay";
 import GeneratorRope from "./generators/generatorRope";
 import Trajectories from "./trajectories";

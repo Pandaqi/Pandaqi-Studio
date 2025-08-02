@@ -63,16 +63,16 @@ export const CONFIG =
         {
             red:
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "quellector_actions_with_bg.webp",
                         sheetWidth: 8,
-                        icons: ELEMENTS,
                         base: "/waitless-games/play/creature-quellector/assets/"
                     }
                 },
+
                 data: 
                 {
                     fire: ELEMENTS.fire,
@@ -84,16 +84,16 @@ export const CONFIG =
 
             blue:
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "quellector_actions_with_bg.webp",
                         sheetWidth: 8,
-                        icons: ELEMENTS,
                         base: "/waitless-games/play/creature-quellector/assets/"
                     }
                 },
+
                 data: 
                 {
                     water: ELEMENTS.water,
@@ -105,16 +105,16 @@ export const CONFIG =
 
             green:
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "quellector_actions_with_bg.webp",
                         sheetWidth: 8,
-                        icons: ELEMENTS,
                         base: "/waitless-games/play/creature-quellector/assets/"
                     }
                 },
+
                 data: 
                 {
                     earth: ELEMENTS.earth,
@@ -126,16 +126,16 @@ export const CONFIG =
 
             purple:
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "quellector_actions_with_bg.webp",
                         sheetWidth: 8,
-                        icons: ELEMENTS,
                         base: "/waitless-games/play/creature-quellector/assets/"
                     }
                 },
+                
                 data: 
                 {
                     air: ELEMENTS.air,
@@ -151,9 +151,11 @@ export const CONFIG =
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugRandomizeTypes: false, // @DEBUGGING (should be false)
     
-    fileName: "[Creature Quellector] Material",
-    configKey: "creatureQuellectorConfig",
-
+    _game:
+    {
+        fileName: "Creature Quellector",
+    },
+    
     multiType: false,
     multiTypeImageResource: null,
 

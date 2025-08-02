@@ -1,7 +1,7 @@
 import { EGGS_SHARED, TileDataDict } from "games/easter-eggventures/shared/dictShared";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-enum TileType
+export enum TileType
 {
     EGG = "egg",
     SPECIAL = "special",
@@ -9,7 +9,7 @@ enum TileType
     OBSTACLE = "obstacle",
 }
 
-const OBSTACLES:TileDataDict =
+export const OBSTACLES:TileDataDict =
 {
     empty: { frame: 0, freq: 10, color: "#A9F983" },
     log: { frame: 1, desc: "If collected, also collect an <b>adjacent</b> egg.", set: "eggstraObstacles", color: "#F9CD83", freq: 2 },
@@ -39,7 +39,7 @@ enum SEggType
     ACTION = "action"
 }
 
-const SPECIAL_EGGS:TileDataDict =
+export const SPECIAL_EGGS:TileDataDict =
 {
     // scoring rules should be balanced between good/bad, so you actually have to think about it or work for it
     majority: { frame: 0, type: SEggType.SCORE, desc: "Scores +10 if you <b>collected the most eggs</b>, otherwise -5.", freq: 2 },
@@ -64,7 +64,7 @@ const SPECIAL_EGGS:TileDataDict =
     area_search: { frame: 15, type: SEggType.ACTION, desc: "Search <b>all tiles</b> that a pawn of yours can see.", freq: 2 }
 }
 
-const MATERIAL:Record<TileType, TileDataDict> = 
+export const MATERIAL:Record<TileType, TileDataDict> = 
 {
     [TileType.EGG]: EGGS_SHARED,
     [TileType.SPECIAL]: SPECIAL_EGGS,
@@ -81,19 +81,10 @@ interface TileTypeData
     backgroundRandom?: Bounds // selects one of its frames from the background spritesheet at random 
 }
 
-const TYPE_DATA:Record<TileType, TileTypeData> =
+export const TYPE_DATA:Record<TileType, TileTypeData> =
 {
     [TileType.EGG]: { textureKey: "eggs", backgroundKey: "eggs_backgrounds", label: "Points Egg" },
     [TileType.SPECIAL]: { textureKey: "special_eggs", backgroundKey: "misc", label: "Special Egg", backgroundRandom: new Bounds(0,3), color: "#469990" },
     [TileType.OBSTACLE]: { textureKey: "obstacles", backgroundKey: "misc", label: "Obstacle", backgroundRandom: new Bounds(0,3) },
     [TileType.PAWN]: { textureKey: "", backgroundKey: "", label: "Player Pawn" }
-}
-
-export 
-{
-    SPECIAL_EGGS,
-    OBSTACLES,
-    TileType,
-    MATERIAL,
-    TYPE_DATA
 }

@@ -1,4 +1,4 @@
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
 import Board from "./board";
 import BoardState from "./boardState";
 import { CONFIG } from "./config"
@@ -283,7 +283,7 @@ export default class Evaluator
         return score;
     }
 
-    draw(vis:BoardVisualizer, group:ResourceGroup, board:Board)
+    draw(vis:MaterialVisualizer, group:ResourceGroup, board:Board)
     {
         const fontCfg = CONFIG.evaluator.font;
         const cs = board.cellSizeSquare;

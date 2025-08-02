@@ -30,15 +30,17 @@ export const CONFIG:Record<string,any> =
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "queenseatConfig",
-    fileName: "Queenseat (Throneless Games)",
+    _game:
+    {
+        fileName: "Queenseat",
+    },
 
     assetsBase: "/throneless-games/conquer/queenseat/assets/",
 

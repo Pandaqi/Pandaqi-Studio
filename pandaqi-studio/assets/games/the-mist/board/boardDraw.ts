@@ -17,7 +17,7 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
 import { CONFIG } from "../shared/config";
 import { COLORS, MISC } from "../shared/dict";
 import BoardState from "./boardState";
@@ -44,7 +44,7 @@ export default class BoardDraw
     showTypeMetadata: boolean;
     defaultEffects: LayoutEffect[];
 
-    async draw(vis:BoardVisualizer, bs:BoardState)
+    async draw(vis:MaterialVisualizer, bs:BoardState)
     {
         const group = this.prepare(vis, bs);
         this.drawBackground(vis, group);
@@ -53,7 +53,7 @@ export default class BoardDraw
         return [group];
     }
 
-    prepare(vis:BoardVisualizer, bs:BoardState)
+    prepare(vis:MaterialVisualizer, bs:BoardState)
     {
         const fullSize = vis.size;
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
@@ -96,7 +96,7 @@ export default class BoardDraw
         return drawGroup
     }
 
-    async drawBackground(vis:BoardVisualizer, group:ResourceGroup)
+    async drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.draw.bgColor;
         fillResourceGroup(this.fullSize, group, bgColor);
@@ -120,7 +120,7 @@ export default class BoardDraw
         return this.originBoard.clone().add( pos.clone().scale(this.cellSize) );
     }
 
-    async drawBoard(vis:BoardVisualizer, group:ResourceGroup, bs:BoardState)
+    async drawBoard(vis:MaterialVisualizer, group:ResourceGroup, bs:BoardState)
     {
         const bgColorLightness = CONFIG.draw.cells.bgColorLightness;
         const bgColorDarken = CONFIG.draw.cells.bgColorDarken;
@@ -273,7 +273,7 @@ export default class BoardDraw
         return fromArray(possibleSides);
     }
 
-    async drawSidebar(vis:BoardVisualizer, group:ResourceGroup, bs:BoardState)
+    async drawSidebar(vis:MaterialVisualizer, group:ResourceGroup, bs:BoardState)
     {
         if(!CONFIG.includeRules) { return; }
 

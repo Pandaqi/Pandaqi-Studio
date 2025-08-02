@@ -63,19 +63,19 @@ export const CONFIG:any =
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "themeParqueConfig",
-    fileName: "Theme Parque",
+    _game:
+    {
+        fileName: "Theme Parque",
+    },
 
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
+    
     addText: true,
 
     fonts:

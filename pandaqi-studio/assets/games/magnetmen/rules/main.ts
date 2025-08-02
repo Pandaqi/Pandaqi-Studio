@@ -1,6 +1,5 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import Line from "js/pq_games/tools/geometry/line";
 import Point from "js/pq_games/tools/geometry/point";
@@ -43,13 +42,13 @@ class Collection
         return sum;
     }
 
-    async draw()
+    async draw(sim:InteractiveExampleSimulator)
     {
         const images = [];
         for(const icon of this.icons)
         {
             const frame = SETS.base[icon].frame;
-            const img = resLoader.getResource("base").getImageFrameAsResource(frame);
+            const img = sim.getVisualizer().getResource("base").getImageFrameAsResource(frame);
             images.push(img.toHTMLElement());
         }
         return images;
@@ -92,14 +91,12 @@ class Board
         this.grid = arr;
     }
 
-    async draw(collection:Collection)
+    async draw(sim: InteractiveExampleSimulator, collection:Collection)
     {
         const canvSize = new Point(720, 720);
         const ctx = createContext({ size: canvSize, alpha: false });
         const cellSize = canvSize.clone().div(this.size);
-        const res = resLoader.getResource("base");
-
-        console.log(this.grid);
+        const res = sim.getVisualizer().getResource("base");
 
         for(let x = 0; x < this.size.x; x++)
         {
@@ -122,7 +119,7 @@ class Board
                     fill: bgColor
                 })
 
-                await new ResourceShape(rect).toCanvas(ctx, rectOp);
+                new ResourceShape(rect).toCanvas(ctx, rectOp);
 
                 const iconAlpha = isValidMove ? 1.0 : 0.66;
                 const op = new LayoutOperation({
@@ -133,7 +130,7 @@ class Board
                     alpha: iconAlpha
                 })
 
-                await res.toCanvas(ctx, op);
+                res.toCanvas(ctx, op);
 
                 if(cell.crossedOut)
                 {
@@ -187,12 +184,10 @@ class Board
 const NUM_UNIQUE_ICONS = new Bounds(4,6);
 const COLLECTION_BOUNDS = new Bounds(2,3);
 const GRID_SIZE = new Bounds(3,4);
-const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-resLoader.planLoad("base", CONFIG.assets.base);
 
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
-    await resLoader.loadPlannedResources();
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
 
     const allIcons = Object.keys(SETS.base);
     const allowedIcons = shuffle(allIcons).slice(0, NUM_UNIQUE_ICONS.randomInteger());
@@ -201,12 +196,12 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     const o = sim.getOutputBuilder();
     console.log(collection.icons.slice());
     o.addParagraph("Your collection looks like this:");
-    const collNode = o.addFlexList(await collection.draw());
+    const collNode = o.addFlexList(await collection.draw(sim));
     collNode.style.height = "100px";
 
     const board = new Board(GRID_SIZE.randomInteger(), allowedIcons);
     o.addParagraph("This allows you to pick all <strong>green</strong> squares in the image below. (Crossed out squares were already picked on previous turns.)");
-    o.addNode(await board.draw(collection));
+    o.addNode(await board.draw(sim, collection));
 }
 
 const parseRulebookTableData = (dict:ActionSet) =>
@@ -236,35 +231,44 @@ CONFIG._rulebook =
     {
         base:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.base.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.base.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                }
             },
-            icons: parseRulebookTableData(SETS.base)
+            data: parseRulebookTableData(SETS.base)
         },
 
         advanced:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.advanced.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.advanced.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                }
             },
-            icons: parseRulebookTableData(SETS.advanced)
+            data: parseRulebookTableData(SETS.advanced)
         },
 
         expert:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.expert.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.expert.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                },
             },
-            icons: parseRulebookTableData(SETS.expert)
+            data: parseRulebookTableData(SETS.expert)
         },
     }
 }

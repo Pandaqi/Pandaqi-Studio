@@ -85,29 +85,36 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
     const div = document.createElement("header");
     div.classList.add("rulebook-toolbar");
 
-    const buttonPrint = document.createElement("button");
-    div.appendChild(buttonPrint);
-    buttonPrint.innerHTML = "Print"
-    buttonPrint.addEventListener("click", async () => 
+    const buttonPrintBrowser = document.createElement("button");
+    div.appendChild(buttonPrintBrowser);
+    buttonPrintBrowser.innerHTML = "Print (Browser)";
+    buttonPrintBrowser.title = "Less advanced features (e.g. no page numbers), also less likely to make mistakes/crash."
+    buttonPrintBrowser.addEventListener("click", () => 
     {
+        unfoldAll(node);
+        print();
+    });
+
+    const buttonPrintPaged = document.createElement("button");
+    div.appendChild(buttonPrintPaged);
+    buttonPrintPaged.innerHTML = "Print (Advanced)";
+    buttonPrintPaged.title = "More correct and pretty, but can completely crash on specific devices/browsers/sizes.";
+    buttonPrintPaged.addEventListener("click", async () => 
+    {
+        // @ts-ignore
+        const pagedJS = window.PagedPolyfill;
+        if(!pagedJS) { buttonPrintPaged.disabled = true; return console.error("[Rulebook] Paged.js could not be found! Can't print advanced."); }
+
         window.onafterprint = () =>
         {
             resetRulebook(params, node);
         }
 
-        // @ts-ignore
-        const pagedJS = window.PagedPolyfill;
-        if(pagedJS)
-        {
-            const div = getSectionAsFlatHTML(params._sectionRoot, params);
-            node.parentElement.removeChild(node);
-            document.body.appendChild(div);
-            await pagedJS.preview();
-            print();
-            return;
-        }
-
-        unfoldAll(node);
+        const div = getSectionAsFlatHTML(params._sectionRoot, params);
+        console.log(div);
+        node.parentElement.removeChild(node);
+        document.body.appendChild(div);
+        await pagedJS.preview();
         print();
     });
 

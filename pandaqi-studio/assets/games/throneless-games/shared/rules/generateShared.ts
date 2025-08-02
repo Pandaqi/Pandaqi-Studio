@@ -6,7 +6,7 @@ import CardThroneless from "../cardThroneless";
 
 export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
 {
-    await sim.loadMaterial(planLoadMaterialFromGameConfig(CONFIG));
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
 
     // because the number of types to include depends on player count
     // we have to re-generate and re-draw it every time we simulate
@@ -18,7 +18,7 @@ export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
     for(const type of Object.keys(CONFIG.packs)) { CONFIG.packs[type] = false; }
     for(const type of packTypes) { CONFIG.packs[type] = true; }
 
-    const cardPicker = sim.getPicker("card");
+    const cardPicker = sim.getPicker("cards");
     await cardPicker.generate()
     const allCards : CardThroneless[] = shuffle(cardPicker.get());
 

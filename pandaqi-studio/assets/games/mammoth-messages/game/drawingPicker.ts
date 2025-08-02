@@ -2,23 +2,17 @@ import { CONFIG } from "../shared/config";
 import { DRAWINGS } from "../shared/dict";
 import Drawing from "./drawing";
 
-export default class DrawingPicker
+export const drawingPicker = () : Drawing[] =>
 {
-    drawings: Drawing[]
+    const drawings = [];
+    if(!CONFIG._settings.sets.includeDrawings.value) { return; }
 
-    constructor() {}
-    get() { return this.drawings; }
-    generate()
+    // @TODO: split out in case I ever want to add "advanced" drawings or another optional set or something
+    const drawingsToInclude = Object.keys(DRAWINGS);
+    for(const key of drawingsToInclude)
     {
-        this.drawings = [];
-        if(!CONFIG.includeDrawings) { return; }
-
-        // @TODO: split out in case I ever want to add "advanced" drawings or another optional set or something
-        const drawingsToInclude = Object.keys(DRAWINGS);
-        for(const key of drawingsToInclude)
-        {
-            const newDrawing = new Drawing(key);
-            this.drawings.push(newDrawing);
-        }
+        const newDrawing = new Drawing(key);
+        drawings.push(newDrawing);
     }
+    return drawings;
 }

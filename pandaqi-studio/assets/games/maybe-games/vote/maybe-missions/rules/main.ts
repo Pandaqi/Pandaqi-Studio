@@ -1,18 +1,11 @@
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import Point from "js/pq_games/tools/geometry/point";
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
-import CardPicker from "../game/cardPicker";
-import { CONFIG } from "../shared/config";
-import VotePicker from "../game/votePicker";
-import Card from "../game/card";
-import { MissionType, VoteType } from "../shared/dict";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import Bounds from "js/pq_games/tools/numbers/bounds";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
-import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExampleGenerator";
+import Bounds from "js/pq_games/tools/numbers/bounds";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import shuffle from "js/pq_games/tools/random/shuffle";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
+import Card from "../game/card";
+import { CONFIG } from "../shared/config";
+import { MissionType, VoteType } from "../shared/dict";
 
 
 class Hand
@@ -359,9 +352,11 @@ class SimulatorCustom
 
 async function generate(sim:InteractiveExampleSimulator)
 {
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
+
     // prepare all options and settings
     const numPlayers = CONFIG.rulebook.numPlayerBounds.randomInteger();
-    const allCards = sim.getPicker("card").get().slice();
+    const allCards = sim.getPicker("cards")();
     const allMissionCards = [];
     const allMasterCards = [];
     for(const card of allCards)
@@ -372,7 +367,7 @@ async function generate(sim:InteractiveExampleSimulator)
     shuffle(allMissionCards);
     shuffle(allMasterCards);
 
-    const allVotes = sim.getPicker("vote").get().slice();
+    const allVotes = sim.getPicker("votes")();
     const allVotesYes = [];
     const allVotesNo = [];
     for(const vote of allVotes)
@@ -595,19 +590,26 @@ const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
 }
 
 const SIMULATION_ENABLED = false;
-const SIMULATION_ITERATIONS = 500;
+const SIMULATION_ITERATIONS = 1000;
+const SHOW_FULL_GAME = false;
 
-const gen = new InteractiveExampleGenerator({
-    id: "turn",
-    callback: generate,
-    config: CONFIG,
-    itemSize: new Point(CONFIG.rulebook.cardSize),
-    pickers: { card: CardPicker, vote: VotePicker },
-    simulateConfig: {
-        enabled: SIMULATION_ENABLED,
-        iterations: SIMULATION_ITERATIONS,
-        callbackInitStats,
-        callbackFinishStats,
-        custom: new SimulatorCustom()
+const CONFIG_RULEBOOK =
+{
+    examples:
+    {
+        turn:
+        {
+            callback: generate,
+            simulator: {
+                enabled: SIMULATION_ENABLED,
+                iterations: SIMULATION_ITERATIONS,
+                showFullGame: SHOW_FULL_GAME,
+                callbackInitStats,
+                callbackFinishStats,
+                custom: new SimulatorCustom() // @TODO: ??
+            }
+        }
     }
-})
+}
+
+loadRulebook(CONFIG_RULEBOOK);

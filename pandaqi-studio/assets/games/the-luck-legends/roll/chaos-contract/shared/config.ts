@@ -33,19 +33,19 @@ export const CONFIG:any =
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "chaosContractConfig",
-    fileName: "Chaos Contract",
+    _game:
+    {
+        fileName: "Chaos Contract",
+    },
 
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
+    
 
     fonts:
     {

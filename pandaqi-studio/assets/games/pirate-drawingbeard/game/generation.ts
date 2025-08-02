@@ -5,7 +5,7 @@ import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
 import Rectangle from "js/pq_games/tools/geometry/rectangle"
@@ -19,9 +19,9 @@ import Map from "./map"
 
 export default class BoardGeneration
 {
-	visualizer:BoardVisualizer
+	visualizer:MaterialVisualizer
 
-    async start(vis:BoardVisualizer) 
+    async start(vis:MaterialVisualizer) 
 	{
 		this.visualizer = vis;
 		document.getElementById('debugging').innerHTML = '';

@@ -1,5 +1,6 @@
 import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
 {
@@ -33,22 +34,16 @@ export const CONFIG =
         }
     },
 
-    debugWithoutFile: false, // @DEBUGGING (should be false)
-    debugSingleCard: false, // @DEBUGGING (should be false)
-    debugOnlyGenerate: false, // @DEBUGGING (should be false)
-
-    configKey: "splitTheFoodyConfig",
-    fileName: "Split The Foody",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    cardSet: "base", // base, advanced, expert
-    
-    fonts:
+    _debug:
     {
-        heading: "primitive",
-        body: "rosarivo"
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+    },
+
+    _game:
+    {
+        fileName: "Split The Foody",
     },
 
     // assets
@@ -106,73 +101,85 @@ export const CONFIG =
         },
     },
 
-    // how generation/balancing happens
-    generation:
+    _material:
     {
-       
+        cards:
+        {
+            picker: cardPicker,
+            mapper:
+            {
+                size: { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                },
+                sizeElement: new Point(1, 1.4),
+            }
+        }
     },
 
-    // how to draw/layout cards (mostly visually)
-    cards:
+    _drawing:
     {
-        size: { 
-            small: new Point(4,4),
-            regular: new Point(3,3),
-            large: new Point(2,2)
-        },
-        sizeElement: new Point(1, 1.4),
-        
-        shared:
+         fonts:
         {
-            shadowRadius: 0.033, // ~sizeUnit
-            shadowColor: "#00000099", // semi-transparent black
+            heading: "primitive",
+            body: "rosarivo",
         },
 
-        heading:
-        {
-            yPos: 0.925,
-            fontSize: 0.075, // ~sizeUnit
-            fillColor: "#FFFFFF",
-            strokeColor: "#240C00",
-            strokeWidth: 0.1, // ~fontSize
-            shadowOffset: 0.1, // ~fontSize
-        },
+        cards:
+        {            
+            shared:
+            {
+                shadowRadius: 0.033, // ~sizeUnit
+                shadowColor: "#00000099", // semi-transparent black
+            },
 
-        corners:
-        {
-            edgeOffsetBig: new Point(0.15, 0.15), // ~sizeUnit
-            coinScaleBig: 0.235, // ~sizeUnit
-            coinScoreScale: 0.5, // ~coinDims
-            fontSizeBig: 0.15, // ~sizeUnit
+            heading:
+            {
+                yPos: 0.925,
+                fontSize: 0.075, // ~sizeUnit
+                fillColor: "#FFFFFF",
+                strokeColor: "#240C00",
+                strokeWidth: 0.1, // ~fontSize
+                shadowOffset: 0.1, // ~fontSize
+            },
 
-            edgeOffsetSmall: new Point(0.1, 0.1), // ~sizeUnit
-            coinScaleSmall: 0.15, // ~sizeUnit
-            fontSizeSmall: 0.075, // ~sizeUnit
+            corners:
+            {
+                edgeOffsetBig: new Point(0.15, 0.15), // ~sizeUnit
+                coinScaleBig: 0.235, // ~sizeUnit
+                coinScoreScale: 0.5, // ~coinDims
+                fontSizeBig: 0.15, // ~sizeUnit
 
-            fillColor: "#FFFFFF",
-            strokeColor: "#240C00",
-            strokeWidth: 0.1, // ~fontSize
-        },
+                edgeOffsetSmall: new Point(0.1, 0.1), // ~sizeUnit
+                coinScaleSmall: 0.15, // ~sizeUnit
+                fontSizeSmall: 0.075, // ~sizeUnit
 
-        illustration:
-        {
-            yPos: 0.33, // ~sizeY
-            scale: 0.66 // ~sizeUnit
-        },
+                fillColor: "#FFFFFF",
+                strokeColor: "#240C00",
+                strokeWidth: 0.1, // ~fontSize
+            },
 
-        power:
-        {
-            yPos: 0.725, // ~sizeY
-            scrollScale: new Point(0.95, 0.95/2.13), // ~size => the image is about 2.13:1
-            textBoxWidth: 0.844, // ~scrollWidth
-            fontSize: 0.066, // ~sizeUnit
-            shadowOffset: 0.033, // ~fontSize
-        },
-        
-        outline:
-        {
-            size: 0.025, // ~sizeUnit
-            color: "#000000"
+            illustration:
+            {
+                yPos: 0.33, // ~sizeY
+                scale: 0.66 // ~sizeUnit
+            },
+
+            power:
+            {
+                yPos: 0.725, // ~sizeY
+                scrollScale: new Point(0.95, 0.95/2.13), // ~size => the image is about 2.13:1
+                textBoxWidth: 0.844, // ~scrollWidth
+                fontSize: 0.066, // ~sizeUnit
+                shadowOffset: 0.033, // ~fontSize
+            },
+            
+            outline:
+            {
+                size: 0.025, // ~sizeUnit
+                color: "#000000"
+            }
         }
     }
 }

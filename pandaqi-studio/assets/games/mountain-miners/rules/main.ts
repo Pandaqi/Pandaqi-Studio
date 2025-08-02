@@ -1,16 +1,12 @@
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import createContext from "js/pq_games/layout/canvas/createContext";
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
 import Tile from "../game/tile";
-import TilePicker from "../game/tilePicker";
 import { CONFIG } from "../shared/config";
-import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
 import { TILES, TileData } from "../shared/dict";
+import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 
 class Board
 {
@@ -123,7 +119,7 @@ class Board
         return this.getCellsUsed().length;
     }
 
-    async draw(highlightedTiles:Tile[] = []) : Promise<HTMLImageElement>
+    async draw(sim:InteractiveExampleSimulator, highlightedTiles:Tile[] = []) : Promise<HTMLImageElement>
     {
         const tileSize = CONFIG.rulebook.tileSize;
         const mapSize = this.size.clone().scale(tileSize);
@@ -163,7 +159,7 @@ class Board
         ctx.translate(arrowPos.x * tileSize + 0.5 * tileSize, arrowPos.y * tileSize + 0.5 * tileSize);
         ctx.rotate(this.arrowIndex*0.5*Math.PI);
         ctx.translate(-0.5*tileSize, -0.5*tileSize);
-        ctx.drawImage(await arrowTile.drawForRules(visualizer), 0, 0);
+        ctx.drawImage(await arrowTile.draw(sim.getVisualizer()), 0, 0);
         ctx.restore();
 
         const someCellsAreHighlighted = highlightedTiles.length > 0;
@@ -180,7 +176,7 @@ class Board
             if(tile)
             {
                 if(someCellsAreHighlighted && !isHighlighted) { ctx.globalAlpha = CONFIG.rulebook.nonHighlightAlpha; }
-                const subCanv = await tile.drawForRules(visualizer);
+                const subCanv = await tile.draw(sim.getVisualizer());
                 ctx.drawImage(subCanv, pos.x * tileSize, pos.y * tileSize);
                 ctx.globalAlpha = 1.0;
             }
@@ -198,22 +194,17 @@ class Board
     }
 }
 
-const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-resLoader.planLoadMultiple(CONFIG.assets);
-
-CONFIG.resLoader = resLoader;
-CONFIG.itemSize = new Point(CONFIG.rulebook.tileSize);
-const visualizer = new MaterialVisualizer(CONFIG);
-
-const picker = new TilePicker();
-picker.generate();
-picker.removeArrows();
-
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
-    await resLoader.loadPlannedResources();
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
 
-    const tiles = shuffle(picker.get());
+    const tiles : Tile[] = shuffle(sim.getPicker("tiles")());
+
+    // remove arrows; don't use them in this example
+    for(let i = tiles.length - 1; i >= 0; i--)
+    {
+        if(tiles[i].isArrowTile()) { tiles.splice(i, 1); }
+    }
 
     // fill the board with something believable
     const board = new Board(CONFIG.rulebook.boardDims);
@@ -224,7 +215,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     const topLayerTiles = board.getTopLayerTiles();
     const o = sim.getOutputBuilder();
     o.addParagraph("At the start of your turn, the board looks like this. The highlighted tiles are the ones you're allowed to grab.");
-    o.addNode(await board.draw(topLayerTiles));
+    o.addNode(await board.draw(sim, topLayerTiles));
 
     // execute that
     o.addParagraph("You grab one of the highlighted tiles. The arrow rotates one quarter step clockwise.");
@@ -233,7 +224,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 
     // show end result
     o.addParagraph("At the end of your turn, the board looks like this,");
-    o.addNode(await board.draw());
+    o.addNode(await board.draw(sim));
 }
 
 const parseRulebookTableData = (dict:Record<string,TileData>, setFilter:string = "base") =>
@@ -265,46 +256,58 @@ CONFIG._rulebook =
     {
         base:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.tiles.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.tiles.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                }
             },
-            icons: parseRulebookTableData(TILES, "base")
+            data: parseRulebookTableData(TILES, "base")
         },
 
         darkTunnels:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.tiles.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.tiles.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                }
             },
-            icons: parseRulebookTableData(TILES, "darkTunnels")
+            data: parseRulebookTableData(TILES, "darkTunnels")
         },
 
         gemShards:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.tiles.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.tiles.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                },
             },
-            icons: parseRulebookTableData(TILES, "gemShards")
+            data: parseRulebookTableData(TILES, "gemShards")
         },
 
         goldenActions:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.tiles.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.tiles.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                }
             },
-            icons: parseRulebookTableData(TILES, "goldenActions")
+            data: parseRulebookTableData(TILES, "goldenActions")
         },
     }
 }

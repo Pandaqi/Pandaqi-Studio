@@ -2,6 +2,7 @@ import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG:any = 
 {
@@ -15,49 +16,35 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Base Game",
-                default: true
+                value: true
             },
 
             biddingCards:
             {
                 type: SettingType.CHECK,
-                label: "Bidding Cards"
+                label: "Bidding Cards",
+                value: false
             },
 
             expansion:
             {
                 type: SettingType.CHECK,
-                label: "Expansion"
+                label: "Expansion",
+                value: false
             }
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "sixOfSparrowsConfig",
-    fileName: "Six of Sparrows",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
-
-    fonts:
+    _game:
     {
-        heading: "sancreek",
-        body: "sedan",
-    },
-
-    sets:
-    {
-        base: true,
-        biddingCards: true,
-        expansion: false,
+        fileName: "Six of Sparrows",
     },
 
     // assets
@@ -104,7 +91,6 @@ export const CONFIG:any =
     {
         numPlayerBounds: new Bounds(2,4),
         numCardsPerPlayer: 6,
-        itemSize: new Point(375, 525),
         bidProb: 0.45,
     },
 
@@ -115,75 +101,93 @@ export const CONFIG:any =
         numBidTokensExpansion: 6
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
-        },
-
-        regular:
-        {
-            numberOffset: new CVal(new Point(0.085, 0.125), "sizeUnit"),
-            fontSize: new CVal(0.185, "sizeUnit"),
-            suitIconArrangeScalar: new CVal(new Point(0.21, 0.35), "size"),
-            suitIconDims: new CVal(new Point(0.2), "sizeUnit"),
-            doubleDigitsScaleDown: 0.775
-        },
-
-        overlay:
-        {
-            alpha: 0.5
-        },
-
-        bid:
-        {
-            icon:
+            itemSize: new Point(375, 525),
+            picker: cardPicker,
+            mapper:
             {
-                pos: new CVal(new Point(0.5, 0.415), "size"),
-                size: new CVal(new Point(0.69), "sizeUnit")
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: 
+                { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                }, 
             },
 
-            score: 
-            {
-                fontSize: new CVal(0.08, "sizeUnit"),
-                pos: new CVal(new Point(0.81, 0.115), "size")
-            },
-
-            bonus:
-            {
-                pos: new CVal(new Point(0.22, 0.115), "size"),
-                size: new CVal(new Point(0.2), "sizeUnit")
-            },
-
-            textBox:
-            {
-                pos: new CVal(new Point(0.5, 0.8), "size"),
-                size: new CVal(new Point(0.875, 0.25), "size"),
-                fontSize: new CVal(0.069, "sizeUnit")
-            }
-        },
-
-        token:
-        {
-            pos: new CVal(new Point(0.5), "size"),
-            fontSize: new CVal(0.6, "sizeUnit"),
-            fontColor: "#890e63",
-
-            small:
-            {
-                anchor: new CVal(new Point(0.5, 0.115), "size"),
-                offset: new CVal(new Point(0.35, 0), "sizeUnit"),
-                fontSize: new CVal(0.08, "sizeUnit")
-            }
         }
-
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "sancreek",
+            body: "sedan",
+        },
+
+        cards:
+        {
+            regular:
+            {
+                numberOffset: new CVal(new Point(0.085, 0.125), "sizeUnit"),
+                fontSize: new CVal(0.185, "sizeUnit"),
+                suitIconArrangeScalar: new CVal(new Point(0.21, 0.35), "size"),
+                suitIconDims: new CVal(new Point(0.2), "sizeUnit"),
+                doubleDigitsScaleDown: 0.775
+            },
+
+            overlay:
+            {
+                alpha: 0.5
+            },
+
+            bid:
+            {
+                icon:
+                {
+                    pos: new CVal(new Point(0.5, 0.415), "size"),
+                    size: new CVal(new Point(0.69), "sizeUnit")
+                },
+
+                score: 
+                {
+                    fontSize: new CVal(0.08, "sizeUnit"),
+                    pos: new CVal(new Point(0.81, 0.115), "size")
+                },
+
+                bonus:
+                {
+                    pos: new CVal(new Point(0.22, 0.115), "size"),
+                    size: new CVal(new Point(0.2), "sizeUnit")
+                },
+
+                textBox:
+                {
+                    pos: new CVal(new Point(0.5, 0.8), "size"),
+                    size: new CVal(new Point(0.875, 0.25), "size"),
+                    fontSize: new CVal(0.069, "sizeUnit")
+                }
+            },
+
+            token:
+            {
+                pos: new CVal(new Point(0.5), "size"),
+                fontSize: new CVal(0.6, "sizeUnit"),
+                fontColor: "#890e63",
+
+                small:
+                {
+                    anchor: new CVal(new Point(0.5, 0.115), "size"),
+                    offset: new CVal(new Point(0.35, 0), "sizeUnit"),
+                    fontSize: new CVal(0.08, "sizeUnit")
+                }
+            }
+
+        },
+    }
 }

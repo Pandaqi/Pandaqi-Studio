@@ -1,39 +1,23 @@
-import GridMapper from "js/pq_games/layout/gridMapper";
 import { CONFIG } from "../shared/config";
-import PandaqiWords from "js/pq_words/main";
-import WordData from "js/pq_words/wordData";
-import Point from "js/pq_games/tools/geometry/point";
+import loadPandaqiWords from "../shared/loadPandaqiWords";
 import WordCard from "../shared/wordCard";
 
-export default class WordPicker
+export const wordPicker = async () : Promise<WordCard[]> =>
 {
-    words: WordData[];
-    gridMapper: GridMapper;
-    pqWords: PandaqiWords;
-    itemSize: Point;
-    wordCards: WordCard[];
+    if(!CONFIG._settings.generateWords.value) { return []; }
 
-    get() { return this.wordCards.slice(); }
-    generate()
+    CONFIG.pandaqiWords = await loadPandaqiWords(CONFIG, true);
+
+    const wordsNeeded = CONFIG._drawing.wordCards.num * CONFIG._drawing.wordCards.numPerCard;
+    const allWords = CONFIG.pandaqiWords.getRandomMultiple(wordsNeeded, true);
+
+    const numCards = CONFIG._drawing.wordCards.num;
+    const wordsPerCard = CONFIG._drawing.wordCards.numPerCard ?? 4;
+    const cards = [];
+    for(let i = 0; i < numCards; i++)
     {
-        this.wordCards = [];
-        this.pickWords();
-        console.log(this.wordCards);
+        const words = allWords.splice(0,wordsPerCard);
+        cards.push(new WordCard(words));
     }
-    
-    pickWords()
-    {        
-        if(!CONFIG.generateWords) { return; }
-
-        const wordsNeeded = CONFIG.wordCards.num * CONFIG.wordCards.numPerCard;
-        this.words = CONFIG.pandaqiWords.getRandomMultiple(wordsNeeded, true);
-
-        const numCards = CONFIG.wordCards.num;
-        const wordsPerCard = CONFIG.wordCards.numPerCard ?? 4;
-        for(let i = 0; i < numCards; i++)
-        {
-            const words = this.words.splice(0,wordsPerCard);
-            this.wordCards.push(new WordCard(words));
-        }
-    }
+    return cards;
 }

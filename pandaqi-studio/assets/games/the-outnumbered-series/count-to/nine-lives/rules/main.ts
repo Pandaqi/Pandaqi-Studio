@@ -108,25 +108,12 @@ const findPossibleMoves = (hand:Hand, table:Hand) : Hand =>
     return new Hand().fromCards(validMoves);
 }
 
-const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-resLoader.planLoad("cats", CONFIG.assets.cats)
-
-const visualizer = new Visualizer(resLoader, new Point(600, 840), false);
-
-CONFIG.includeLifeCards = false;
-const cardPicker = new CardPicker();
-
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
-    await resLoader.loadPlannedResources();
+    CONFIG.includeLifeCards = false;
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
 
-    if(cardPicker.isEmpty())
-    {
-        cardPicker.generate();
-        cardPicker.removeCardsBelow(3); // this is just to make sure we have a variety of possible situations with only a few cards in each example
-    }
-
-    const cardOptions = shuffle(cardPicker.get()).slice();
+    const cardOptions : Card[] = shuffle(sim.getPicker("cards")()).slice() as Card[];
     console.log(cardOptions);
 
     const o = sim.getOutputBuilder();
@@ -192,24 +179,30 @@ CONFIG._rulebook =
     {
         "powers-limited":
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.powers.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.powers.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                },
             },
-            icons: powersLimited
+            data: powersLimited
         },
 
         "powers-advanced":
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.powers.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.powers.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                },
             },
-            icons: powersAll
+            data: powersAll
         },
     }
 }

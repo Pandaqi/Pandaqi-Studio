@@ -1,4 +1,13 @@
-const ICONS = { 
+export enum MaterialType
+{
+	WORD = "word",
+	VOTE = "vote",
+	SPECIAL = "SPECIAL",
+	MORPH = "morph",
+}
+
+export const ICONS = 
+{ 
 	name_this: { frame: 0, prob: 4 },
 	reveal: { frame: 1, prob: 4 },
 	rotate: { frame: 2, prob: 4 },
@@ -11,7 +20,8 @@ const ICONS = {
 	glue: { frame: 9, prob: 2 }
 }
 
-const ICONS_SPECIAL = {
+export const ICONS_SPECIAL = 
+{
 	multinumber: { frame: 0, prob: 4 },
 	riser: { frame: 1, prob: 2 },
 	hand_word: { frame: 2, prob: 1 },
@@ -22,7 +32,7 @@ const ICONS_SPECIAL = {
 	face_up: { frame: 7, prob: 2 }
 }
 
-const ICONS_PICTURES = {
+export const ICONS_PICTURES = {
 	add_line: { frame: 0, prob: 4 },
 	add_line_self: { frame: 0, prob: 3 },
 	bonus: { frame: 2, prob: 2 },
@@ -32,10 +42,4 @@ const ICONS_PICTURES = {
 	skip: { frame: 6, prob: 1 },
 	actions_free: { frame: 7, prob: 1.5, resize: 0.7 },
 	blind_morph: { frame: 8, prob: 3 }
-}
-
-export {
-    ICONS,
-    ICONS_SPECIAL,
-    ICONS_PICTURES
 }

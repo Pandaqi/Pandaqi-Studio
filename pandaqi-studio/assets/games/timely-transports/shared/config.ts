@@ -38,8 +38,7 @@ export const CONFIG =
         }
     },
 
-    configKey: "timelyTransportsConfig",
-    assetsBase: "/timely-transports/assets/",
+        assetsBase: "/timely-transports/assets/",
     assets:
     {
         rowdies:

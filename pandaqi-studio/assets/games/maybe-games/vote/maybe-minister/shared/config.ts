@@ -34,19 +34,19 @@ export const CONFIG:Record<string,any> =
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "maybeMinisterConfig",
-    fileName: "Maybe Minister",
+    _game:
+    {
+        fileName: "Maybe Minister",
+    },
 
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
+    
     includeWildcard: false,
 
     sets:

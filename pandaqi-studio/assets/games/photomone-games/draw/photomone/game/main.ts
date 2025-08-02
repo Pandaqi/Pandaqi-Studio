@@ -15,8 +15,8 @@ import PhotomoneGame from "../../../shared/main"
 const CONFIG = 
 {
     wordsPerCard: 4,
-    inkFriendly: false,
-    resLoader: null,
+    
+    
     fontSize: 12,
     cardSize: new Point(),
     margin: new Point(),

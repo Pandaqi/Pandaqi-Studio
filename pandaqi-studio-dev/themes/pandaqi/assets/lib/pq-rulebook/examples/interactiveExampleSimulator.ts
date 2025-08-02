@@ -1,4 +1,3 @@
-import { GameConfig, MaterialVisualizer, ResourceLoader } from "lib/pq-games"
 import type { InteractiveExample } from "./interactiveExample"
 
 export interface InteractiveExampleSimulatorParams
@@ -11,6 +10,12 @@ export interface InteractiveExampleSimulatorParams
     runParallel?: boolean,
     callbackInitStats?: () => any,
     callbackFinishStats?: (s:InteractiveExampleSimulator) => void
+}
+
+export interface InteractiveExampleCustomMaterialParams
+{
+    resourceLoader: any,
+    material: Record<string,{ picker?:Function, visualizer?:any }>
 }
 
 export class InteractiveExampleSimulator
@@ -26,6 +31,7 @@ export class InteractiveExampleSimulator
     showFullGame: boolean;
     runParallel: boolean;
     custom: any; // for any custom functions or variables we want to tack onto this
+    materialCustom: InteractiveExampleCustomMaterialParams;
 
     constructor(params:InteractiveExampleSimulatorParams = {}, e:InteractiveExample)
     {
@@ -42,16 +48,29 @@ export class InteractiveExampleSimulator
         this.openStats();
     }
 
-    async loadMaterial(resLoader:any)
+    async loadMaterialCustom(materialCustom:InteractiveExampleCustomMaterialParams)
     {
+        const alreadyLoaded = (this.materialCustom ?? {}).resourceLoader
+        if(alreadyLoaded) { return; }
+
+        this.materialCustom = materialCustom;
+
+        const resLoader = materialCustom.resourceLoader;
         // @ts-ignore
         if(window.pqRulebookCustomResources) { resLoader.setCustomResources(window.pqRulebookCustomResources); }
         if(this.isHeadless()) { return resLoader; } // shortcut = no need to load resources here
 
         await resLoader.loadPlannedResources();
-        return resLoader;
+        return this.materialCustom;
     }
 
+    getPicker(key:string) { return (this.materialCustom.material[key] ?? {}).picker }
+    getVisualizer(key:string = "") 
+    { 
+        if(!key) { key = Object.keys(this.materialCustom.material)[0]; }
+        return (this.materialCustom.material[key] ?? {}).visualizer;
+    }
+    
     getExample() { return this.example; }
     setCallback(c:Function) { this.callback = c; }
     getOutputBuilder() { return this.example.getOutputBuilder() }

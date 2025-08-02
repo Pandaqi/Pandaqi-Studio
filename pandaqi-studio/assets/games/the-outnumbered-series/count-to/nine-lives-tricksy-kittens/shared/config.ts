@@ -21,18 +21,20 @@ export const CONFIG =
         },
     },
 
-    debugWithoutFile: false, // @DEBUGGING (should be false)
-    debugSingleCard: false, // @DEBUGGING (should be false)
-    debugOnlyGenerate: false, // @DEBUGGING (should be false)
+    _debug:
+    {
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+    },
 
-    configKey: "nineLivesTricksyKittensConfig",
-    fileName: "Nine Lives: Tricksy Kittens",
+    _game:
+    {
+        fileName: "Nine Lives: Tricksy Kittens",
+    },
 
     // set through user config on page
-    inkFriendly: false,
     includePowers: true,
-    itemSize: "regular",
-    pageSize: "a4",
     suits: {},
     
     fonts:
@@ -87,6 +89,8 @@ export const CONFIG =
     // how to draw/layout cards (mostly visually)
     cards:
     {
+        itemSize: new Point(480, 600), // @TODO: add to _material for rulebook
+
         size: { 
             small: new Point(4,4),
             regular: new Point(3,3),

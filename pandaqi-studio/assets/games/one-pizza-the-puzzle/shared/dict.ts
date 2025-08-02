@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point"
 
-const TRAFFIC_SIGNS =
+export const TRAFFIC_SIGNS =
 {
 	'Line Gate':
 	{
@@ -55,7 +55,7 @@ const TRAFFIC_SIGNS =
 	},
 }
 
-const SPECIAL_INGREDIENTS =
+export const SPECIAL_INGREDIENTS =
 {
 	'Paprika':
 	{
@@ -103,7 +103,7 @@ const SPECIAL_INGREDIENTS =
 	},
 }
 
-const SPECIAL_BUILDINGS =
+export const SPECIAL_BUILDINGS =
 {
 	'Market':
 	{
@@ -146,10 +146,4 @@ const SPECIAL_BUILDINGS =
 		iconFrame: 5,
 		color: "#EDEDED"
 	}
-}
-
-export {
-	TRAFFIC_SIGNS,
-	SPECIAL_INGREDIENTS,
-	SPECIAL_BUILDINGS
 }

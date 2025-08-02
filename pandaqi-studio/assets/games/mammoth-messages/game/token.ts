@@ -1,16 +1,14 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { COLORS, MISC } from "../shared/dict";
-import Visualizer from "./visualizer";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import Point from "js/pq_games/tools/geometry/point";
 import { CONFIG } from "../shared/config";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
-import TintEffect from "js/pq_games/layout/effects/tintEffect";
+import { COLORS } from "../shared/dict";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import { cacheVisualizationData } from "./card";
 
 export default class Token
 {
@@ -24,9 +22,9 @@ export default class Token
     }
 
     getColorData() { return COLORS[this.type]; }
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer)
     {
-        await vis.cacheTintedSquares();
+        await cacheVisualizationData(vis);
 
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
@@ -38,22 +36,22 @@ export default class Token
     }
 
     
-    drawBackground(vis:Visualizer, group: ResourceGroup, ctx)
+    drawBackground(vis:MaterialVisualizer, group: ResourceGroup, ctx)
     {
-        const resBlock = vis.tintedSquareResource;
+        const resBlock = vis.custom.tintedSquareResource;
         const resBlockOp = new LayoutOperation({
             frame: this.getColorData().frame,
             size: vis.size,
-            effects: vis.effects
+            effects: vis.inkFriendlyEffect
         })
         group.add(resBlock, resBlockOp);
     }
 
-    drawNumber(vis:Visualizer, group:ResourceGroup)
+    drawNumber(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const fontSize = CONFIG.tokens.fontSize * vis.sizeUnit;
         const textConfig = new TextConfig({
-            font: CONFIG.fonts.heading,
+            font: CONFIG._drawing.fonts.heading,
             size: fontSize,
         }).alignCenter();
 
@@ -69,7 +67,7 @@ export default class Token
             strokeWidth: CONFIG.tokens.strokeWidth * vis.sizeUnit,
             strokeAlign: StrokeAlign.OUTSIDE,
             pivot: Point.CENTER,
-            effects: vis.dropShadowEffects
+            effects: vis.custom.dropShadowEffects
         });
         group.add(resText, textOp);
     }

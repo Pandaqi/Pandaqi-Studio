@@ -4,6 +4,8 @@ import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import { ACTIONS } from "./dict";
+import { wordPicker } from "../game/wordPicker";
+import { sliderPicker } from "../game/sliderPicker";
 
 export const CONFIG =
 {
@@ -12,14 +14,14 @@ export const CONFIG =
         generateSliders:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "Generate Sliders"
         },
 
         generateWords:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "Generate Words"
         },
 
@@ -31,7 +33,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: ["core", "easy", "medium"],
-                default: "core",
+                value: "core",
                 label: "Word Complexity",
                 remark: "How hard should the words be?"
             },
@@ -40,6 +42,7 @@ export const CONFIG =
             {
                 type: SettingType.CHECK,
                 label: "Include Names",
+                value: false,
                 remark: "Adds geography and proper names of people, brands, ..."
             }
         },
@@ -52,6 +55,7 @@ export const CONFIG =
             {
                 type: SettingType.CHECK,
                 label: "Glidy Gifts",
+                value: false,
                 remark: "Adds actions to help make guessing easier."
             },
 
@@ -59,6 +63,7 @@ export const CONFIG =
             {
                 type: SettingType.CHECK,
                 label: "Crashery Cliffs",
+                value: false,
                 remark: "Slight rule changes and more slider types."
             },
         }
@@ -70,38 +75,32 @@ export const CONFIG =
         {
             "glidy-gifts":
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         sheetURL: "actions.webp",
                         sheetWidth: 8,
-                        icons: ACTIONS,
                         base: "/slippery-slopes/assets/"
                     }
                 },
+                
                 data: ACTIONS
             },
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
+        pickAllPossibleSliders: false, // @DEBUGGING (should be false)
     },
 
-    debugAllPossibleProperties: false, // @DEBUGGING (should be false)
-
-    configKey: "slipperySlopesConfig",
-    fileName: "[Slippery Slopes] Material",
-    configKeyDigital: "slipperySlopesTrippyTouchesConfig", // @TODO: properly select this one when using digital
-
-    fonts:
+    _game:
     {
-        heading: "superfuntime",
-        body: "superfuntime",
+        fileName: "Material",
     },
 
     assetsBase: "/slippery-slopes/assets/", // same for both versions, hence only one URL
@@ -194,14 +193,6 @@ export const CONFIG =
 
     pandaqiWords: null,
 
-    generateWords: false,
-    generateSliders: false,
-    expansions:
-    {
-        glidyGifts: true,
-        crasheryCliffs: false,
-    },
-
     actionSpritesheetKey: "actions",
     numSpecialFonts: 10,
     maxWordLength: 11,
@@ -225,75 +216,89 @@ export const CONFIG =
         lightness: 64
     },
 
-    wordCards:
+    _material:
     {
-        drawerConfig:
-        {
-            preset: GridSizePreset.TILE
-        },
-
-        num: 48, // 12 per page on regular settings
-        numPerCard: 4,
-        textScale: 0.5, // relative to block height 
-    },
-
-    sliderCards:
-    {
-        drawerConfig:
-        {
-            preset: GridSizePreset.DOMINO
-        },
-
-        interactiveBaseSize: new Point(450, 900),
-
-        num: 48, // 12 per page on regular settings
-        numColorSteps: 6,
-        meter: 
-        {
-            backgroundColor: new Color().fromRGBA(255,255,255,0.8),
-            extents: new Point(0.275, 0.66),
-            borderRadius: 0.05, // relative to card size x
-            lineWidth: 0.01, // relative to card size x
-        },
-
-        actionIconSize: 0.66, // relative to block height = height of one wavy rectangle step
-        actionBGColor: "rgba(255,255,255,1.0)",
-        numActionBounds: new Bounds(1,3),
-        
         words:
         {
-            useRealWordProb: 0.33,
-            stringLengthBounds: new Bounds(2,6)
+            picker: wordPicker,
+            mapper: MapperPreset.TILE
         },
 
-        shapes:
+        sliders:
         {
-            completelyRandomizeProb: 0.375,
-        },
-
-        textScale: 0.4, // relative to block height
+            picker: sliderPicker,
+            mapper: MapperPreset.DOMINO
+        }
     },
 
-    cards: 
+    _drawing:
     {
-        textDarkenFactor: 55,
-        outline: 
+        fonts:
         {
-            color: "#111111",
-            width: 0.02,
-            radius: 0.1, // relative to card size x 
+            heading: "superfuntime",
+            body: "superfuntime",
         },
 
-        textConfig: new TextConfig({
-            font: "superfuntime",
-            alignHorizontal: TextAlign.MIDDLE,
-            alignVertical: TextAlign.MIDDLE
-        }),
+        cards: 
+        {
+            textDarkenFactor: 55,
+            outline: 
+            {
+                color: "#111111",
+                width: 0.02,
+                radius: 0.1, // relative to card size x 
+            },
 
-        subTextConfig: new TextConfig({
-            font: "superfuntime",
-            alignHorizontal: TextAlign.MIDDLE,
-            alignVertical: TextAlign.MIDDLE
-        })
+            textConfig: new TextConfig({
+                font: "superfuntime",
+                alignHorizontal: TextAlign.MIDDLE,
+                alignVertical: TextAlign.MIDDLE
+            }),
+
+            subTextConfig: new TextConfig({
+                font: "superfuntime",
+                alignHorizontal: TextAlign.MIDDLE,
+                alignVertical: TextAlign.MIDDLE
+            })
+        },
+
+        wordCards:
+        {
+            num: 48, // 12 per page on regular settings
+            numPerCard: 4,
+            textScale: 0.5, // relative to block height 
+        },
+
+        sliderCards:
+        {
+            interactiveBaseSize: new Point(450, 900),
+
+            num: 48, // 12 per page on regular settings
+            numColorSteps: 6,
+            meter: 
+            {
+                backgroundColor: new Color().fromRGBA(255,255,255,0.8),
+                extents: new Point(0.275, 0.66),
+                borderRadius: 0.05, // relative to card size x
+                lineWidth: 0.01, // relative to card size x
+            },
+
+            actionIconSize: 0.66, // relative to block height = height of one wavy rectangle step
+            actionBGColor: "rgba(255,255,255,1.0)",
+            numActionBounds: new Bounds(1,3),
+            
+            words:
+            {
+                useRealWordProb: 0.33,
+                stringLengthBounds: new Bounds(2,6)
+            },
+
+            shapes:
+            {
+                completelyRandomizeProb: 0.375,
+            },
+
+            textScale: 0.4, // relative to block height
+        },
     }
 }

@@ -40,19 +40,19 @@ export const CONFIG:any =
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "tossingTigerRollingDragonConfig",
-    fileName: "Tossing Tiger, Rolling Dragon",
+    _game:
+    {
+        fileName: "Tossing Tiger, Rolling Dragon",
+    },
 
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
+    
 
     fonts:
     {

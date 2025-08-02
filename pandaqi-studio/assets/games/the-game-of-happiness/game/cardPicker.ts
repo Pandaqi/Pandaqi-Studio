@@ -2,60 +2,42 @@ import { CONFIG } from "../shared/config";
 import { CARDS, Category, Pack } from "../shared/dict";
 import Card from "./card";
 
-export default class CardPicker
+export const cardPicker = () : Card[] =>
 {
-    cards: Card[]
-    packs: string[]
+    if(!CONFIG._settings.includeCards.value) { return []; }
+    const cards = [];
+    const packs = CONFIG._settings.packs.value;
 
-    constructor() {}
-    get() { return this.cards; }
-    generate()
+    const cardsPerPack:Record<string,any[]> = {};
+    for(const [category,list] of Object.entries(CARDS))
     {
-        this.cards = [];
+        for(const cardData of list)
+        {
+            const pack = cardData.pack ?? Pack.BASE;
+            if(!(pack in cardsPerPack)) { cardsPerPack[pack] = []; }
+            cardsPerPack[pack].push(cardData);
+            cardData.category = category as Category;
+        }
+    }
+
+    let sum = 0;
+    for(const [pack, list] of Object.entries(cardsPerPack))
+    {
+        console.log("#Cards in pack " + pack + ": " + list.length);
+        //console.log(list);
         
-        if(!CONFIG.includeCards) { return; }
-        if(!this.packs) { this.readPacksFromConfig(); }
+        sum += list.length;
+        const shouldInclude = packs.includes(pack);
+        if(!shouldInclude) { continue; }
 
-        const cardsPerPack:Record<string,any[]> = {};
-        for(const [category,list] of Object.entries(CARDS))
+        for(const cardData of list)
         {
-            for(const cardData of list)
-            {
-                const pack = cardData.pack ?? Pack.BASE;
-                if(!(pack in cardsPerPack)) { cardsPerPack[pack] = []; }
-                cardsPerPack[pack].push(cardData);
-                cardData.category = category as Category;
-            }
+            const newCard = new Card(cardData.category, cardData.desc, pack);
+            cards.push(newCard);
         }
-
-        let sum = 0;
-        for(const [pack, list] of Object.entries(cardsPerPack))
-        {
-            console.log("#Cards in pack " + pack + ": " + list.length);
-            //console.log(list);
-            
-            sum += list.length;
-            const shouldInclude = this.packs.includes(pack);
-            if(!shouldInclude) { continue; }
-
-            for(const cardData of list)
-            {
-                const newCard = new Card(cardData.category, cardData.desc, pack);
-                this.cards.push(newCard);
-            }
-        }
-
-        console.log("Total #cards in entire game: " + sum);
     }
 
-    readPacksFromConfig()
-    {
-        const packs : string[] = [];
-        for(const [key,included] of Object.entries(CONFIG.packs))
-        {
-            if(!included) { continue; }
-            packs.push(key);
-        }
-        this.packs = packs;
-    }
+    console.log("Total #cards in entire game: " + sum);
+
+    return cards;
 }

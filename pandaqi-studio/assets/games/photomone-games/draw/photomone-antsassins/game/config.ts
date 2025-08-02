@@ -77,9 +77,9 @@ export default
     debugWithDragDrop: false, // @DEBUGGING (should be false)
 
     pdfBuilder: null,
-    resLoader: null,
+    
 
-    inkFriendly: false,
+    
     generatorReductionFactor: 1.0,
 
     tileShape: "hexagon",

@@ -1,7 +1,15 @@
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi";
 import Point from "js/pq_games/tools/geometry/point";
+import { boardPicker } from "../board/boardPicker";
 
 export const CONFIG =
 {
+    _game:
+    {
+        fileName: "One Pizza The Puzzle",
+        renderer: new RendererPixi()
+    },
+
     _settings:
     {
         playerCount:
@@ -9,14 +17,14 @@ export const CONFIG =
             type: SettingType.NUMBER,
             min: 2,
             max: 8,
-            default: 4
+            value: 4
         },
 
         boardVariation:
         {
             type: SettingType.ENUM,
             values: ["none", "small", "medium", "large", "extreme"],
-            default: "medium",
+            value: "medium",
             label: "Variation",
             remark: "Higher means more curving streets, irregular building shapes, and distinct areas. Choose whatever you prefer."
         },
@@ -29,29 +37,41 @@ export const CONFIG =
             {
                 type: SettingType.CHECK,
                 label: "Pizza Police",
+                value: false,
             },
 
             treacherousTraffic:
             {
                 type: SettingType.CHECK,
                 label: "Treacherous Traffic",
+                value: false,
             },
 
             ingeniousIngredients:
             {
                 type: SettingType.CHECK,
                 label: "Ingenious Ingredients",
+                value: false,
             },
 
             preposterousPlaces:
             {
                 type: SettingType.CHECK,
                 label: "Preposterous Places",
+                value: false,
             },
         }
     },
 
-    configKey: "onePizzaThePuzzleConfig",
+    _material:
+    {
+        board:
+        {
+            picker: boardPicker,
+            mapper: MapperPreset.FULL_PAGE
+        }
+    },
+
     assetsBase: "/one-pizza-the-puzzle/assets/",
     assets:
     {

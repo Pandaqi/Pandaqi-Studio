@@ -1,21 +1,19 @@
-import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExampleGenerator";
-import CardPicker from "../game/cardPicker";
-import { CONFIG } from "../shared/config";
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
+import createContext from "js/pq_games/layout/canvas/createContext";
+import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceImage from "js/pq_games/layout/resources/resourceImage";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import Bounds from "js/pq_games/tools/numbers/bounds";
+import fromArray from "js/pq_games/tools/random/fromArray";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 import Card from "../game/card";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import Point from "js/pq_games/tools/geometry/point";
+import { CONFIG } from "../shared/config";
 import { CardType } from "../shared/dict";
-import Bounds from "js/pq_games/tools/numbers/bounds";
-import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
-import createContext from "js/pq_games/layout/canvas/createContext";
-import ResourceImage from "js/pq_games/layout/resources/resourceImage";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
 
 type BoardRow = Card[]
 type CardPath = Point[] // might make this an interface with more data attached
@@ -522,9 +520,11 @@ class Player
 
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
+
     const numPlayers = CONFIG.rulebook.numPlayerBounds.randomInteger() ?? 4;
     const maxNumCards = CONFIG.rulebook.numCardsInDeck ?? 36;
-    const allCards = shuffle(sim.getPicker("card").get().slice() as Card[]).splice(0, maxNumCards);
+    const allCards = shuffle(sim.getPicker("cards")() as Card[]).splice(0, maxNumCards);
 
     const startingRowSize = CONFIG.rulebook.startingRowSize ?? 6;
 
@@ -661,21 +661,26 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 }
 
 const SIMULATION_ENABLED = false;
-const SIMULATION_ITERATIONS = 500;
+const SIMULATION_ITERATIONS = 1000;
 const SHOW_FULL_GAME = false;
 
-const gen = new InteractiveExampleGenerator({
-    id: "turn",
-    buttonText: "Give me an example turn!",
-    callback: generate,
-    config: CONFIG,
-    itemSize: CONFIG.rulebook.itemSize,
-    pickers: { card: CardPicker },
-    simulateConfig: {
-        enabled: SIMULATION_ENABLED,
-        iterations: SIMULATION_ITERATIONS,
-        showFullGame: SHOW_FULL_GAME,
-        callbackInitStats,
-        callbackFinishStats,
+const CONFIG_RULEBOOK =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example turn!",
+            callback: generate,
+            simulator: {
+                enabled: SIMULATION_ENABLED,
+                iterations: SIMULATION_ITERATIONS,
+                showFullGame: SHOW_FULL_GAME,
+                callbackInitStats,
+                callbackFinishStats,
+            }
+        }
     }
-})
+}
+
+loadRulebook(CONFIG_RULEBOOK);

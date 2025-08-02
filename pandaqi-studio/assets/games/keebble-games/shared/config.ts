@@ -1,23 +1,12 @@
 import Point from "js/pq_games/tools/geometry/point";
 import { KEEBBLE_TYPES, KEEBBLE_LETTER_VALUES } from "./dict"
+import { boardPicker } from "./boardGeneration";
 
 export const CONFIG =
 {
-    inkFriendly: false,
     playerColors: [],
     letterDictionary: {},
-    numPlayers: 4,
-    addWalls: false,
-    visualizer: null,
 
-    expansions:
-    {
-        specialCells: false,
-        scrabbleScoring: false,
-        tinyBackpacks: false
-    },
-
-    configKey: "keebbleConfig",
     assetsBase: "/keebble-games/spell/keebble/assets/",
     assets:
     {
@@ -34,7 +23,28 @@ export const CONFIG =
         }	
     },
 
-    gameTitle: "Keebble",
+    // @NOTE: this is for the BOARD; Keebble Domino just overwrites with its own custom material
+    _material:
+    {
+        board:
+        {
+            picker: boardPicker,
+            mapper: MapperPreset.FULL_PAGE
+        }
+    },
+
+    _game:
+    {
+        fileName: "Keebble"
+    },
+
+    _debug:
+    {
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+    },
+
     numCellsX: 8,
     numCellsY: 8,
     gridColor: "#000000",

@@ -8,7 +8,7 @@ import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
 import Rectangle from "js/pq_games/tools/geometry/rectangle"
@@ -90,14 +90,14 @@ export default class BoardGeneration
 	goodsDict: Record<string, any>
 
 	// user-input settings should be passed through config
-	async draw(vis:BoardVisualizer) : Promise<ResourceGroup[]>
+	async draw(vis:MaterialVisualizer) : Promise<ResourceGroup[]>
 	{
 		this.setup(vis);
 		this.generateBoard();
 		return this.visualizeGame(vis);
 	}
 
-	setup(vis:BoardVisualizer)
+	setup(vis:MaterialVisualizer)
 	{
 		const jungleName = this.getRandomJungleName();
 
@@ -918,7 +918,7 @@ export default class BoardGeneration
 		return true;
 	}
 
-	visualizeGame(vis:BoardVisualizer) 
+	visualizeGame(vis:MaterialVisualizer) 
 	{
 		// @ts-ignore
 		const group = new ResourceGroup();

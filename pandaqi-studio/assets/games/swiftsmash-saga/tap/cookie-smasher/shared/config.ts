@@ -27,13 +27,12 @@ export const CONFIG =
         omitFile: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "cookieSmasherConfig",
-    fileName: "Cookie Smasher",
+    _game:
+    {
+        fileName: "Cookie Smasher",
+    },
 
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
+    
     cardSet: "starter",
     textPlacement: "bottom",
 

@@ -1,16 +1,16 @@
 import Point from "js/pq_games/tools/geometry/point"
 import { DrawGroup } from "../game/drawDynamicContract";
 
-enum CardType
+export enum CardType
 {
     CONTRACT,
     CARD,
     SPECIAL
 }
 
-const NUMBERS = [1,2,3,4,5,6,7,8,9,10,11,12,13];
-const NUMBERS_AS_STRINGS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-const SUITS =
+export const NUMBERS = [1,2,3,4,5,6,7,8,9,10,11,12,13];
+export const NUMBERS_AS_STRINGS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+export const SUITS =
 {
     hearts: { frame: 0, color: "#A30606" },
     diamonds: { frame: 1, color: "#A30606" },
@@ -19,7 +19,7 @@ const SUITS =
 }
 
 // How to draw a card's icons; all coordinates relative to center
-const ICON_ARRANGEMENTS = 
+export const ICON_ARRANGEMENTS = 
 {
     1: [new Point()],
     2: [new Point(-1,1), new Point(1,-1)],
@@ -51,14 +51,14 @@ const ICON_ARRANGEMENTS =
     ],
 }
 
-const CARD_TEMPLATES =
+export const CARD_TEMPLATES =
 {
     [CardType.CARD]: { frame: 0 },
     [CardType.SPECIAL]: { frame: 1 },
     [CardType.CONTRACT]: { frame: 2 },
 }
 
-const MISC = 
+export const MISC = 
 {
     banner: { frame: 0 },
     union_or: { frame: 1 }, // a "/"
@@ -87,7 +87,7 @@ interface ContractData
 }
 
 // @NOTE: scores were filled in after doing 10,000 games simulation. They should be "perfect" for the cards, so none are manually chosen by me anymore.
-const CONTRACTS:Record<string,ContractData> =
+export const CONTRACTS:Record<string,ContractData> =
 {
     // the base game contracts are very much based on Poker hands
     // just with that extra dimension (playing on 2D map, more cards, adjacency) added
@@ -173,7 +173,7 @@ const CONTRACTS:Record<string,ContractData> =
     contract_switch: { desc: "One player has <b>switched contract</b> this round.", score: 5, set: "straightShake", frame: 15, rule: "You're <b>not allowed</b> to switch contracts." }
 }
 
-const DYNAMIC_OPTIONS =
+export const DYNAMIC_OPTIONS =
 {
     "%number%": [], // filled in dynamically from config, as not necessarily all options are in the generated game
     "%suit%": [],
@@ -188,7 +188,7 @@ const DYNAMIC_OPTIONS =
 */
 
 
-const SPECIAL_CARDS:Record<string,ContractData> = 
+export const SPECIAL_CARDS:Record<string,ContractData> = 
 {
     switch_contract: { frame: 0, label: "Switch", desc: "<b>Switch</b> your contract with another player." },
     ditch_contract: { frame: 1, label: "No Contract", desc: "<b>Discard</b> your contract." },
@@ -202,18 +202,4 @@ const SPECIAL_CARDS:Record<string,ContractData> =
     play_another_top: { frame: 9, label: "Play Over", desc: "Play another card <b>on top of</b> an existing card." },
     wildcard_suit: { frame: 10, label: "Wild Suit", desc: "Pick a suit. It's the <b>new wildcard</b>: it can represent any suit you want." },
     wildcard_number: { frame: 11, label: "Wild Number", desc: "Pick a number. It's the <b>new wildcard</b>: it can represent any number you want." },
-}
-
-export 
-{
-    CardType,
-    SUITS,
-    NUMBERS,
-    NUMBERS_AS_STRINGS,
-    CONTRACTS,
-    SPECIAL_CARDS,
-    DYNAMIC_OPTIONS,
-    CARD_TEMPLATES,
-    MISC,
-    ICON_ARRANGEMENTS
 }

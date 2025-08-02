@@ -12,8 +12,7 @@ const PHOTOMONE_BASE_PARAMS = {
     WORDS: null,
     RESOURCE_LOADER: null,
 
-    configKey: "photomoneConfig",
-    assetsBase: "/photomone-games/assets/",
+        assetsBase: "/photomone-games/assets/",
     assets:
     {
         geldotica:

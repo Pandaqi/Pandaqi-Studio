@@ -31,12 +31,11 @@ export const CONFIG =
     typeDict: {}, // to be filled by type sustem; ugly method, saw no better way when converting to TypeScript
     difficulty: "easy",
     includeRules: true,
-    inkFriendly: false,
+    
     noRotation: false,
-    resLoader: null,
+    
 
-    configKey: "foldigamiConfig",
-    assetsBase: "/waitless-games/play/foldigami/assets/",
+        assetsBase: "/waitless-games/play/foldigami/assets/",
     assets:
     {
         jockey:

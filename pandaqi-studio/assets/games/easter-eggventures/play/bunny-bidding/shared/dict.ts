@@ -1,7 +1,7 @@
 import { EGGS_SHARED, TileDataDict } from "games/easter-eggventures/shared/dictShared";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-enum TileType
+export enum TileType
 {
     REGULAR = "regular",
     GOAL = "goal",
@@ -10,7 +10,7 @@ enum TileType
     HANDICAP = "handicap"
 }
 
-const SPECIAL_EGGS:TileDataDict =
+export const SPECIAL_EGGS:TileDataDict =
 {
     // fixed numbers take up 8 of the special eggs (of max ~25)
     negative_small: { frame: 0, desc: "Always scores <b>-1 point</b>.", freq: 2 },
@@ -39,7 +39,7 @@ const SPECIAL_EGGS:TileDataDict =
     // DISCARDED: "Swap your secret egg with someone else" => just too powerful, especially late in the game.
 }
 
-const POWERS:TileDataDict = 
+export const POWERS:TileDataDict = 
 {
     info_offer: { frame: 0, label: "Offer Study", desc: "Look at a facedown tile in the offer." },
     info_bid: { frame: 1, label: "Bid Study", desc: "Look at a player's bid tile." },
@@ -51,7 +51,7 @@ const POWERS:TileDataDict =
     higher_bids: { frame: 7, label: "Higher Bids", desc: "You permanently get +10 to your bid tile." },
 }
 
-const HANDICAPS:TileDataDict =
+export const HANDICAPS:TileDataDict =
 {
     always_follow: { frame: 8, label: "Always Follow", desc: "You must add the same egg to the offer as one already inside." },
     never_follow: { frame: 9, label: "Never Follow", desc: "You must add an egg to the offer that's not already inside." },
@@ -73,7 +73,7 @@ interface TileTypeData
     rotRandom?: Bounds // will rotate illustration to random value within bounds
 }
 
-const TYPE_DATA:Record<TileType, TileTypeData> = 
+export const TYPE_DATA:Record<TileType, TileTypeData> = 
 {
     [TileType.REGULAR]: { textureKey: "eggs", backgroundKey: "eggs_backgrounds", label: "Regular Egg", rotRandom: new Bounds(-0.066*Math.PI, 0.066*Math.PI) },
     [TileType.SPECIAL]: { textureKey: "actions", backgroundKey: "misc", backgroundRandom: new Bounds(0,3), color: "#469990", label: "Special Egg" }, // color = teal
@@ -82,21 +82,11 @@ const TYPE_DATA:Record<TileType, TileTypeData> =
     [TileType.HANDICAP]: { textureKey: "powers", backgroundKey: "misc", backgroundRandom: new Bounds(0,3), color: "#9A6324", label: "Handicegg" }, // color = brown
 }
 
-const MATERIAL = 
+export const MATERIAL = 
 {
     [TileType.REGULAR]: EGGS_SHARED,
     [TileType.SPECIAL]: SPECIAL_EGGS,
     [TileType.GOAL]: EGGS_SHARED,
     [TileType.POWER]: POWERS,
     [TileType.HANDICAP]: HANDICAPS 
-}
-
-export 
-{
-    SPECIAL_EGGS,
-    POWERS,
-    HANDICAPS,
-    TileType,
-    TYPE_DATA,
-    MATERIAL,
 }

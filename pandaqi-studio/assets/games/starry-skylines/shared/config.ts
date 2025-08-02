@@ -1,8 +1,24 @@
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi";
 import Point from "js/pq_games/tools/geometry/point";
+import { boardPicker } from "../board/boardPicker";
 
 export const CONFIG = 
 {
-    configKey: "starrySkylinesConfig",
+    _game:
+    {
+        fileName: "Starry Skylines",
+        renderer: new RendererPixi()
+    },
+
+    _material:
+    {
+        board:
+        {
+            picker: boardPicker,
+            mapper: MapperPreset.FULL_PAGE
+        }
+    },
+
     assetsBase: "/starry-skylines/assets/",
     assets: 
     {

@@ -3,38 +3,33 @@ import { CONFIG } from "../shared/config";
 import { COLORS } from "../shared/dict";
 import Token from "./token";
 
-export default class TokenPicker
+export const tokenPicker = () : Token[] =>
 {
-    tokens: Token[]
+    const tokens = [];
+    if(!CONFIG._settings.sets.includeTokens.value) { return; }
 
-    constructor() {}
-    get() { return this.tokens; }
-    generate()
+    const colors = Object.keys(COLORS);
+    const numbers = numberRange(1,colors.length);
+    const numberSkip = CONFIG._drawing.tokens.generation.numberSkip;
+    for(let i = 0; i < colors.length; i++)
     {
-        this.tokens = [];
-        if(!CONFIG.includeTokens) { return; }
-
-        const colors = Object.keys(COLORS);
-        const numbers = numberRange(1,colors.length);
-        const numberSkip = CONFIG.tokens.generation.numberSkip;
-        for(let i = 0; i < colors.length; i++)
+        const color = colors[i];
+        let idx = i % numberSkip;
+        while(idx < numbers.length)
         {
-            const color = colors[i];
-            let idx = i % numberSkip;
-            while(idx < numbers.length)
-            {
-                const num = numbers[idx];
-                idx += numberSkip;
-                const newToken = new Token(color, num);
-                this.tokens.push(newToken);
-            }
-        }
-
-        const hardCap = CONFIG.tokens.generation.hardCap;
-        while(this.tokens.length > hardCap)
-        {
-            const idx = Math.floor(Math.random() * this.tokens.length);
-            this.tokens.splice(idx, 1);
+            const num = numbers[idx];
+            idx += numberSkip;
+            const newToken = new Token(color, num);
+            tokens.push(newToken);
         }
     }
+
+    const hardCap = CONFIG._drawing.tokens.generation.hardCap;
+    while(tokens.length > hardCap)
+    {
+        const idx = Math.floor(Math.random() * tokens.length);
+        tokens.splice(idx, 1);
+    }
+
+    return tokens;
 }

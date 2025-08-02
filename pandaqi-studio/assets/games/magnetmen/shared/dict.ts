@@ -6,7 +6,7 @@ enum ActionType
     ACTION
 }
 
-interface ActionData
+export interface ActionData
 {
     frame?: number,
     label?: string,
@@ -18,17 +18,17 @@ interface ActionData
     textureKey?: string, // filled in automatically upon loading (based on set name)
 }
 
-const MISC =
+export const MISC =
 {
     points: { frame: 0 },
     corner_magnet: { frame: 1 }
     // @TODO
 }
 
-const pIcon = '<img id="misc" frame="' + MISC.points.frame + '">';
+export const pIcon = '<img id="misc" frame="' + MISC.points.frame + '">';
 
-type ActionSet = Record<string, ActionData>;
-const BASE_SET:ActionSet = 
+export type ActionSet = Record<string, ActionData>;
+export const BASE_SET:ActionSet = 
 {
     guitarist: { frame: 0, label: "Guitarist", desc: "Worth <b>+1 " + pIcon + "</b>.", type: ActionType.SCORE_PLUS, prob: 2.5 },
     ballerina: { frame: 1, label: "Ballerina", desc: "Worth <b>+4 " + pIcon + "</b> if you <b>have the most</b> (out of all players), otherwise <b>-4</b>.", type: ActionType.SCORE_BOTH, minAbs: 4 },
@@ -40,7 +40,7 @@ const BASE_SET:ActionSet =
     veterinarian: { frame: 7, label: "Veterinarian", desc: "Worth <b>+2 " + pIcon + "</b>.", type: ActionType.SCORE_PLUS, prob: 1.33 }, // make less frequent than guitarist
 }
 
-const ADVANCED_SET:ActionSet = 
+export const ADVANCED_SET:ActionSet = 
 {
     astronaut: { frame: 0, label: "Astronaut", desc: ["Worth <b>+1 " + pIcon + "</b>. Ignore all <b>crossed out</b> icons when applying the Repel rule to this type.", "Worth <b>+1 " + pIcon + "</b>. Ignore all <b>non-crossed out</b> icons when applying the Repel rule to this type."], type: ActionType.SCORE_PLUS },
     doctor: { frame: 1, label: "Doctor", desc: ["Worth <b>+1 " + pIcon + "</b>. The Repel rule does <b>not</b> apply to this type until you have 3 (or more).", "Worth <b>+2 " + pIcon + "</b>. The Repel rule does only applies to this type while you have fewer than 3."], type: ActionType.SCORE_PLUS, maxAbs: 8 },
@@ -52,7 +52,7 @@ const ADVANCED_SET:ActionSet =
     mail: { frame: 7, label: "Mail Carrier", desc: ["Worth <b>+2 " + pIcon + "</b>. You may only pick this if an <b>adjacent square is crossed out.</b>.", "Worth <b>+3 " + pIcon + "</b>. You may only pick this if <b>no adjacent square</b> is crossed out."], type: ActionType.SCORE_PLUS, maxAbs: 8 },
 }
 
-const EXPERT_SET:ActionSet = 
+export const EXPERT_SET:ActionSet = 
 {
     painter: { frame: 0, label: "Painter", desc: "Worth <b>+2 " + pIcon + "</b> for every square of this type that is <b>not</b> crossed out.", type: ActionType.SCORE_PLUS, minAbs: 4, maxAbs: 10 },
     photographer: { frame: 1, label: "Photographer", desc: "Worth <b>+1 " + pIcon + "</b> for every square of this type that is <b>crossed out</b>.", type: ActionType.SCORE_PLUS, minAbs: 2, maxAbs: 7 },
@@ -67,20 +67,9 @@ const EXPERT_SET:ActionSet =
 // The old ballerina action is just a worse Baker, so probably just keep it out => "Worth <b>+3 points</b>, if you have at least 3."
 // Too hard to explain, too meh: "Worth <b>+5 " + pIcon + "</b> if both main diagonals of the board are completely crossed out, otherwise <b>-5</b>"
 
-const SETS:Record<string, ActionSet> = 
+export const SETS:Record<string, ActionSet> = 
 {
     base: BASE_SET,
     advanced: ADVANCED_SET,
     expert: EXPERT_SET
-}
-
-export 
-{
-    ActionData,
-    ActionSet,
-    SETS,
-    BASE_SET,
-    ADVANCED_SET,
-    EXPERT_SET,
-    MISC
 }

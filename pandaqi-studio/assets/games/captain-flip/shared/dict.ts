@@ -1,7 +1,7 @@
 //
 // all possible actions + when they can appear
 //
-interface ActionTypeData
+export interface ActionTypeData
 {
     frame: number,
     types: ActionType[],
@@ -12,20 +12,20 @@ interface ActionTypeData
     max?: number // default = Infinity
 }
 
-interface ActionSpecific
+export interface ActionSpecific
 {
     type: ActionType,
     key: string
 }
 
-enum ActionType
+export enum ActionType
 {
     HEART = "heart",
     SKULL = "skull",
     STAR = "star",
 }
 
-const ACTIONS:Record<string, ActionTypeData> =
+export const ACTIONS:Record<string, ActionTypeData> =
 {
     score_any: { frame: 0, types: [ActionType.HEART, ActionType.SKULL], desc: "<b>Score</b> any tile.", min: 3, prob: 1.25 },
     score_adjacent: { frame: 1, types: [ActionType.HEART, ActionType.SKULL], desc: "<b>Score</b> an adjacent tile.", min: 3, prob: 2.0 },
@@ -78,7 +78,7 @@ interface TileTypeData
     prob?: number
 }
 
-enum TileType
+export enum TileType
 {
     JELLYFISH = "jellyfish",
     CLOWNFISH = "clownfish",
@@ -101,7 +101,7 @@ JERSEY_DEVIL = "devil", // negative points
 SIREN = "siren",
 */
 
-const TYPES:Record<TileType, TileTypeData> =
+export const TYPES:Record<TileType, TileTypeData> =
 {
     [TileType.LEVIATHAN]: { frame: 0, points: -6 },
     [TileType.CTHULHU]: { frame: 1, points: -4 },
@@ -124,7 +124,7 @@ interface ColorTypeData
     color: string
 }
 
-enum ColorType
+export enum ColorType
 {
     RED = "red",
     GREEN = "green",
@@ -134,7 +134,7 @@ enum ColorType
     MAGENTA = "magenta",
 }
 
-const COLORS:Record<ColorType, ColorTypeData> =
+export const COLORS:Record<ColorType, ColorTypeData> =
 {
     [ColorType.RED]: { frame: 0, color: "#E61948" },
     [ColorType.GREEN]: { frame: 1, color: "#3CB44B" },
@@ -145,7 +145,7 @@ const COLORS:Record<ColorType, ColorTypeData> =
 
 }
 
-const MISC =
+export const MISC =
 {
     // @NOTE: these three icons for actions MUST be named the same as their enum (+ "_icon")
     heart_icon: { frame: 0 },
@@ -154,17 +154,4 @@ const MISC =
     wave_bg: { frame: 3 },
     wave_below: { frame: 4 },
     wave_above: { frame: 5 }
-}
-
-export 
-{
-    ACTIONS,
-    TYPES,
-    COLORS,
-    MISC,
-    ActionType,
-    ActionTypeData,
-    ActionSpecific,
-    TileType,
-    ColorType
 }

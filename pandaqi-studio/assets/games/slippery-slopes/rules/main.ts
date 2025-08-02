@@ -1,3 +1,3 @@
 import { CONFIG } from "../shared/config";
 
-loadRulebook(CONFIG);
+loadRulebook(CONFIG._rulebook);

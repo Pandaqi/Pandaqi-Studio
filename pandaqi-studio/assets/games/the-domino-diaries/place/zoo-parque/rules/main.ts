@@ -7,23 +7,29 @@ CONFIG._rulebook =
     {
         objects:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.objects.path,
-                sheetWidth: 4,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.objects.path,
+                    sheetWidth: 4,
+                    base: CONFIG.assetsBase,
+                },
             },
-            icons: OBJECTS
+            data: OBJECTS
         },
 
         stalls:
         {
-            config:
+            icons:
             {
-                sheetWidth: 4,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetWidth: 4,
+                    base: CONFIG.assetsBase,
+                },
             },
-            icons: STALLS
+            data: STALLS
         },
     }
 }

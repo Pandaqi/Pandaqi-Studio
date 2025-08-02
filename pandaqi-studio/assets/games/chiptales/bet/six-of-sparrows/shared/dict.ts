@@ -1,13 +1,13 @@
 import Point from "js/pq_games/tools/geometry/point"
 
-enum CardType
+export enum CardType
 {
     REGULAR,
     BID,
     TOKEN,
 }
 
-enum Suit
+export enum Suit
 {
     SPARROW = "sparrow",
     PARROT = "parrot",
@@ -27,7 +27,7 @@ interface GeneralData
     tint?: string
 }
 
-const BID_CARDS:Record<string, GeneralData> =
+export const BID_CARDS:Record<string, GeneralData> =
 {
     win_all: { frame: 0, score: 200, label: "Win All", desc: "My score this round <i>(without this bid)</i> is <b>higher than anyone</b> else.", bonusBid: true },
     win_none: { frame: 1, score: 200, label: "Win None", desc: "I don't have <b>any</b> of the possible bids this round.", bonusBid: true },
@@ -73,7 +73,7 @@ const BID_CARDS:Record<string, GeneralData> =
     two_quatro: { frame: 31, score: 200, label: "Two Quatro", desc: "<b>2 Quatros.</b> <i>(Quatro means all four cards of the same number.)</i>" },
 }
 
-const MISC:Record<string, GeneralData> =
+export const MISC:Record<string, GeneralData> =
 {
     [Suit.SPARROW]: { frame: 0, tint: "#489347" },
     [Suit.PARROT]: { frame: 1, tint: "#ad0000" },
@@ -82,7 +82,7 @@ const MISC:Record<string, GeneralData> =
     bonus_bid: { frame: 4 }
 }
 
-const TEMPLATES:Record<string, GeneralData> =
+export const TEMPLATES:Record<string, GeneralData> =
 {
     regular: { frame: 0, inkFriendlyHide: true },
     bid: { frame: 1, inkFriendlyHide: false, noOverlay: true },
@@ -90,7 +90,7 @@ const TEMPLATES:Record<string, GeneralData> =
     overlay: { frame: 3 }
 }
 
-const NUMBER_INDICES = 
+export const NUMBER_INDICES = 
 [
     new Point(-1,-1), new Point(0,-1), new Point(1,-1), // 3rd row (0-2)
     new Point(-1,-0.66), new Point(0, -0.66), new Point(1, -0.66), // 2nd row (3-5)
@@ -101,7 +101,7 @@ const NUMBER_INDICES =
     new Point(-1, 1), new Point(0, 1), new Point(1, 1), // 3rd row (18-20)
 ]
 
-const NUMBER_ARRANGEMENTS =
+export const NUMBER_ARRANGEMENTS =
 [
     [],
     [10],
@@ -115,14 +115,3 @@ const NUMBER_ARRANGEMENTS =
     [0, 2, 6, 8, 10, 12, 14, 18, 20],
     [0, 2, 4, 6, 8, 12, 14, 16, 18, 20],
 ]
-
-
-export {
-    Suit,
-    CardType,
-    MISC,
-    TEMPLATES,
-    BID_CARDS,
-    NUMBER_INDICES,
-    NUMBER_ARRANGEMENTS
-};

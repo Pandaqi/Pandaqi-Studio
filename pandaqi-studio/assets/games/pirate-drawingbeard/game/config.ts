@@ -81,8 +81,7 @@ export const CONFIG =
 		}
 	},
 
-	configKey: "pirateDrawingbeardConfig",
-	size: new Point(297*3.8, 210*3.8),
+		size: new Point(297*3.8, 210*3.8),
 
 	assetsBase: "/pirate-drawingbeard/assets/",
 	assets:

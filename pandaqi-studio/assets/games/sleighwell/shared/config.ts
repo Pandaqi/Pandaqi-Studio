@@ -1,4 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point"
+import { tilePicker } from "../game/tilePicker"
 
 export const CONFIG = 
 {
@@ -11,7 +12,6 @@ export const CONFIG =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
                 value: true,
                 label: "Base Game"
             },
@@ -32,21 +32,16 @@ export const CONFIG =
         }
     },
 
-    debugWithoutFile: false, // @DEBUGGING (should be false)
-    debugSingleCard: false, // @DEBUGGING (should be false)
-    debugOnlyGenerate: false, // @DEBUGGING (should be false)
-
-    configKey: "sleighwellConfig",
-    fileName: "Sleighwell",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-
-    fonts:
+    _debug:
     {
-        heading: "grace",
-        body: "roboto"
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+    },
+
+    _game:
+    {
+        fileName: "Sleighwell",
     },
 
     // assets
@@ -104,65 +99,84 @@ export const CONFIG =
         },
     },
 
-    // how to draw/layout cards (mostly visually)
-    tiles:
+    _material:
     {
-        size: { 
-            small: new Point(5,6),
-            regular: new Point(4,5),
-            large: new Point(3,4)
-        },
-        sizeElement: new Point(1, 1),
-        
-        shared:
+        tiles:
         {
-            defaultBGColor: "#FFFFFF",
-            glowColor: "#FFFFFF",
-            glowRadius: 0.0175, // ~sizeUnit
-        },
-
-        main:
-        {
-            iconSize: 0.66, // ~sizeUnit
-
-            house:
+            itemSize: new Vector2(192), // for rulebook
+            picker: tilePicker,
+            mapper:
             {
-                xPosLeft: 0.35, // ~sizeX
-                xPosRight: 0.75, // ~sizeX
-                iconSizeFactor: 0.8125, // ~original iconSize
-                iconSizePresent: 0.175, // ~sizeUnit
-                iconPresentEmptySpace: 0.075, // ~1.0 = total icon size
-
-                iconSizeStar: 0.15, // ~sizeUnit
-                yPosStar: 0.115, // ~sizeY
+                size: { 
+                    small: new Point(5,6),
+                    regular: new Point(4,5),
+                    large: new Point(3,4)
+                },
+                sizeElement: new Point(1, 1),
             }
-        },
-
-        numbers:
-        {
-            fontSize: 0.15, // ~sizeUnit
-            fontSizeTiny: 0.066, // ~sizeUnit
-            fontAlphaTiny: 0.75,
-            offset: new Point(0.12, 0.12), // ~sizeUnit
-            numberIconSizeFactor: 0.975, // ~fontSize; it looks better if images in corners (wildcard numbers) are slightly smaller
-        
-            stroke: "#000000",
-            strokeWidth: 0.05, // ~fontSize
-        },
-
-        specialAction:
-        {
-            fontSize: 0.0775, // ~sizeUnit
-            textDims: new Point(0.8, 0.8), // ~size
-            textColor: "#111111", // should be on light present background (present_circle), so dark text
-        },
-
-        outline:
-        {
-            size: 0.025, // relative to sizeUnit
-            color: "#000000"
         }
     },
+
+    _drawing:
+    { 
+        fonts:
+        {
+            heading: "grace",
+            body: "roboto"
+        },
+
+        tiles:
+        {
+            shared:
+            {
+                defaultBGColor: "#FFFFFF",
+                glowColor: "#FFFFFF",
+                glowRadius: 0.0175, // ~sizeUnit
+            },
+
+            main:
+            {
+                iconSize: 0.66, // ~sizeUnit
+
+                house:
+                {
+                    xPosLeft: 0.35, // ~sizeX
+                    xPosRight: 0.75, // ~sizeX
+                    iconSizeFactor: 0.8125, // ~original iconSize
+                    iconSizePresent: 0.175, // ~sizeUnit
+                    iconPresentEmptySpace: 0.075, // ~1.0 = total icon size
+
+                    iconSizeStar: 0.15, // ~sizeUnit
+                    yPosStar: 0.115, // ~sizeY
+                }
+            },
+
+            numbers:
+            {
+                fontSize: 0.15, // ~sizeUnit
+                fontSizeTiny: 0.066, // ~sizeUnit
+                fontAlphaTiny: 0.75,
+                offset: new Point(0.12, 0.12), // ~sizeUnit
+                numberIconSizeFactor: 0.975, // ~fontSize; it looks better if images in corners (wildcard numbers) are slightly smaller
+            
+                stroke: "#000000",
+                strokeWidth: 0.05, // ~fontSize
+            },
+
+            specialAction:
+            {
+                fontSize: 0.0775, // ~sizeUnit
+                textDims: new Point(0.8, 0.8), // ~size
+                textColor: "#111111", // should be on light present background (present_circle), so dark text
+            },
+
+            outline:
+            {
+                size: 0.025, // relative to sizeUnit
+                color: "#000000"
+            }
+        },
+    }
 
     rulebook:
     {

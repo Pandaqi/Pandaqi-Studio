@@ -2,14 +2,14 @@ import Point from "js/pq_games/tools/geometry/point";
 import { CONFIG } from "../board/config"
 
 // This is an easy reminder/link what every frame stands for in the general spritesheet
-const GENERAL = {
+export const GENERAL = {
     "dir": { frame: 0 },
     "writingSpace": { frame: 1 },
     "tutorialIcon": { frame: 2 },
     "header": { frame: 3 }
 }
 
-const CELLS = {
+export const CELLS = {
     "tree": { frame: 0, desc: "Can't jump on or over it.", unpickable: true, colorGroup: "green" },
     "starting_position": { frame: 1, desc: "A player can start here.", unpickable: true, minAbs: CONFIG.maxNumPlayers, maxAbs: (CONFIG.maxNumPlayers + 1), colorGroup: "brown" },
     "score": { frame: 2, desc: "Scores the number of points shown.", minRel: 0.2, maxRel: 0.33, score: true, colorGroup: "yellow", prob: 1.5 },
@@ -41,18 +41,18 @@ const CELLS = {
     "chests": { frame: 26, desc: "Worth +5 points, but rare.", maxAbs: 5, score: true, colorGroup: "purple" }
 }
 
-const TUTORIALS = {
+export const TUTORIALS = {
 
 }
 
-const NB_OFFSETS = {
+export const NB_OFFSETS = {
     "right": new Point().setXY(1,0),
     "left": new Point().setXY(-1,0),
     "bottom": new Point().setXY(0,1),
     "top": new Point().setXY(0,-1)
 }
 
-const CORNER_OFFSETS = {
+export const CORNER_OFFSETS = {
     "bottom right": new Point().setXY(1,1),
     "bottom center": new Point().setXY(0,1),
     "bottom left": new Point().setXY(-1,1),
@@ -64,7 +64,7 @@ const CORNER_OFFSETS = {
     "top right": new Point().setXY(1,-1),
 };
 
-const COLOR_GROUPS = {
+export const COLOR_GROUPS = {
     "green": "#98BB45",
     "greendark": "#0D440C",
     "yellow": "#FCC038",
@@ -74,13 +74,4 @@ const COLOR_GROUPS = {
     "purple": "#CF0BED", // only used by treasure
     "blue": "#0EB1D2",
     "bluedark": "#7798AB",
-}
-
-export {
-    GENERAL,
-    CELLS,
-    TUTORIALS,
-    NB_OFFSETS,
-    CORNER_OFFSETS,
-    COLOR_GROUPS
 }

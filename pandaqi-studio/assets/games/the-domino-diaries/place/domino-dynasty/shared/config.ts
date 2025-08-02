@@ -58,19 +58,19 @@ export const CONFIG:any =
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "dominoDynastyConfig",
-    fileName: "Domino Dynasty",
+    _game:
+    {
+        fileName: "Domino Dynasty",
+    },
 
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
+    
     addText: true,
 
     fonts:

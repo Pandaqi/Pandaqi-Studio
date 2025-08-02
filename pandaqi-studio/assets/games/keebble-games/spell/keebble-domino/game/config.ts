@@ -1,14 +1,17 @@
 import { generateRulebookExample } from "../rules/main";
 import { CELLS } from "./dict";
+import { dominoPicker } from "./dominoPicker";
 
 export const CONFIG =
 {
+    assetsBase: "/keebble-games/spell/keebble-domino/assets/",
+
     _settings:
     {
         showLetters:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             remark: "Adds a hint on the symbols about what letter they are from each direction."
         },
 
@@ -20,20 +23,32 @@ export const CONFIG =
             {
                 type: SettingType.CHECK,
                 label: "Supercells",
+                value: false
             },
 
             wereWalls:
             {
                 type: SettingType.CHECK,
                 label: "Werewalls",
+                value: false
             },
 
             toughLetters:
             {
                 type: SettingType.CHECK,
                 label: "Tough Letters",
-                remark: "Adds symbols that are harder to read. Allows more unique letter combinations.
+                remark: "Adds symbols that are harder to read. Allows more unique letter combinations.",
+                value: false
             },
+        }
+    },
+
+    _material:
+    {
+        dominoes:
+        {
+            picker: dominoPicker,
+            mapper: MapperPreset.DOMINO
         }
     },
 
@@ -52,25 +67,17 @@ export const CONFIG =
         {
             supercells:
             {
-                config:
+                icons:
                 {
-                    icons:
+                    config:
                     {
                         base: "/keebble-games/spell/keebble-domino/assets/",
                         sheetURL: "special_cells.webp",
                         sheetWidth: 8,
-                        icons: CELLS
                     }
                 },
-
                 data: CELLS
             },
         }
     },
-
-    debugWithoutPDF: false, // @DEBUGGING (should be false)
-    resLoader: null,
-    gridMapper: null,
-    pdfBuilder: null,
-    assetsBase: "/keebble-games/spell/keebble-domino/assets/"
 }

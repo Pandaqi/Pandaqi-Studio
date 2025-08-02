@@ -3,7 +3,7 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
 import Circle from "js/pq_games/tools/geometry/circle"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
@@ -19,7 +19,7 @@ export default class BoardGeneration
     cfg:Record<string,any>
     map:Map
 
-    async draw(vis:BoardVisualizer) : Promise<ResourceGroup[]>
+    async draw(vis:MaterialVisualizer) : Promise<ResourceGroup[]>
     {;
         this.setup(vis);
         await this.generate();
@@ -38,7 +38,7 @@ export default class BoardGeneration
         return newDict;
     }
 
-    setup(vis:BoardVisualizer)
+    setup(vis:MaterialVisualizer)
     {
         const userConfig = vis.config;
         this.cfg = Object.assign({}, PHOTOMONE_BASE_PARAMS);
@@ -71,7 +71,7 @@ export default class BoardGeneration
         this.map.generate();
     }
 
-    visualize(vis:BoardVisualizer)
+    visualize(vis:MaterialVisualizer)
     {
         const group = new ResourceGroup();
 

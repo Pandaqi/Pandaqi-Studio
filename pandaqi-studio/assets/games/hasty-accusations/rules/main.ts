@@ -31,7 +31,6 @@ CONFIG._rulebook =
                     sheetWidth: 8,
                     base: CONFIG.assetsBase,
                 },
-                icons: SETS.base
             },
             data: parseRulebookTableData(SETS.base)
         },

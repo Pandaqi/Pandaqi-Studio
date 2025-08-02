@@ -174,7 +174,7 @@ const hasPileWithSameNumber = (card, piles) =>
 //
 export const generateForRulebook = async (sim:InteractiveExampleSimulator, includeReverse = false) =>
 {
-    await sim.loadMaterial(planLoadMaterialFromConfig(CONFIG));
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
 
     const e = sim.getExample();
     const o = sim.getOutputBuilder();

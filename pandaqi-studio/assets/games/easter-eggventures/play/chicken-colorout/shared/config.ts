@@ -3,6 +3,8 @@ import Point from "js/pq_games/tools/geometry/point";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import CVal from "js/pq_games/tools/generation/cval";
+import { tilePicker } from "../game/tilePicker";
+import { eggPicker } from "../game/eggPicker";
 
 export const CONFIG:Record<string,any> =
 {
@@ -16,43 +18,36 @@ export const CONFIG:Record<string,any> =
             {
                 type: SettingType.CHECK,
                 label: "Base Game",
-                default: true
+                value: true
             },
 
             score:
             {
                 type: SettingType.CHECK,
                 label: "Terrific Tiles",
-                remark: "This is also the material for the Special Scores expansion."
+                remark: "This is also the material for the Special Scores expansion.",
+                value: false
             },
 
             pawns:
             {
                 type: SettingType.CHECK,
-                label: "Peering Pawns"
+                label: "Peering Pawns",
+                value: false
             }
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "chickenColoroutConfig",
-    fileName: "Chicken Colorout",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-
-    sets:
+    _game:
     {
-        base: true,
-        score: false,
-        pawns: false,
+        fileName: "Chicken Colorout",
     },
 
     // assets
@@ -111,50 +106,66 @@ export const CONFIG:Record<string,any> =
         }
     },
 
-    eggs:
+    _material:
     {
-        victory:
+        tiles:
         {
-            textPos: new CVal(new Point(0.5, 0.75), "size"),
-            fontSize: new CVal(0.235, "sizeUnit"),
-            textColor: "#000000"
+            picker: tilePicker
+        },
+
+        eggs:
+        {
+            picker: eggPicker
         }
     },
 
-    tiles:
+    _drawing:
     {
-        starter:
+        eggs:
         {
-            tutorialSize: new CVal(new Point(0.95), "size")
-        },
-
-        background:
-        {
-            randomFrameBounds: new Bounds(0,3),
-            randomPatternFrameBounds: new Bounds(0,3),
-            alpha: 0.2,
-            alphaPattern: 0.08,
-            color: "#79B734"
-        },
-
-        grid:
-        {
-            spriteDimsScaleFactor: 0.9, // relative to the cellSize we end up with
-            gridLines:
+            victory:
             {
-                fillColor: "#000000",
-                alpha: 0.2,
-                width: new CVal(0.0125, "sizeUnit"),
-                composite: "overlay"
+                textPos: new CVal(new Point(0.5, 0.75), "size"),
+                fontSize: new CVal(0.235, "sizeUnit"),
+                textColor: "#000000"
             }
         },
 
-        scoreText:
+        tiles:
         {
-            fontSize: new CVal(0.06, "sizeUnit"),
-            color: "#000000"
-        }
-    },
+            starter:
+            {
+                tutorialSize: new CVal(new Point(0.95), "size")
+            },
+
+            background:
+            {
+                randomFrameBounds: new Bounds(0,3),
+                randomPatternFrameBounds: new Bounds(0,3),
+                alpha: 0.2,
+                alphaPattern: 0.08,
+                color: "#79B734"
+            },
+
+            grid:
+            {
+                spriteDimsScaleFactor: 0.9, // relative to the cellSize we end up with
+                gridLines:
+                {
+                    fillColor: "#000000",
+                    alpha: 0.2,
+                    width: new CVal(0.0125, "sizeUnit"),
+                    composite: "overlay"
+                }
+            },
+
+            scoreText:
+            {
+                fontSize: new CVal(0.06, "sizeUnit"),
+                color: "#000000"
+            }
+        },
+    }
 }
 
 mergeObjects(CONFIG, CONFIG_SHARED);

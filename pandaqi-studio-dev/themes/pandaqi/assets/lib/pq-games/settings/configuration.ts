@@ -3,18 +3,37 @@ import type { MapperPreset, ItemSize } from "../layout/gridMapper";
 import { ResourceLoadParams, ResourceLoader } from "../layout/resources/resourceLoader";
 import { MaterialVisualizer } from "../renderers";
 import type { Renderer } from "../renderers/renderer";
+import { isObject } from "../tools/collections/checkers";
 import { mergeObjects } from "../tools/collections/converters";
 import type { PageOrientation, PageSides, PageSize } from "../tools/pdf/tools";
 import { getRandomSeedString } from "../tools/random/values";
 
 export const PROTECTED_CONFIGURATION_PROPERTIES = ["_game", "_settings", "_generation", "_drawing", "_material", "_resources", "_debug", "_translation"];
 
-export const planLoadMaterialFromGameConfig = async (config:GameConfig) =>
+export const getMaterialDataForRulebook = (config:GameConfig) =>
 {
+    // prepare resource loader with correct resources
+    config._resources = config._resources ?? {};
     const resLoader = new ResourceLoader({ base: config._resources.base });
     resLoader.planLoadMultiple(config._resources.files, config);
+   
+    config._game = config._game ?? {};
     config._game.resLoader = resLoader; // this is required for the MaterialVisualizer to find it later
-    return resLoader;
+
+    // prepare visualizer (right size/class/config) if still needed
+    const newMaterial = {}
+    for(const [key,data] of Object.entries(config._material))
+    {
+        newMaterial[key] = Object.assign({}, data);
+        const visualizerClass = data.visualizer ?? MaterialVisualizer;
+        newMaterial[key].visualizer = new visualizerClass(config, (config._material[key] ?? {}).itemSize ?? config._game.itemSize);
+    }
+
+    // then just send this to the rulebook in the format it expects
+    return {
+        resourceLoader: resLoader,
+        material: newMaterial
+    }
 }
 
 export const getSetting = (path:string, config:GameConfig) =>
@@ -86,7 +105,7 @@ export interface GameConfig
     {
         filter?: Function,
         base?: string,
-        files: Record<string,ResourceLoadParams>
+        files?: Record<string,ResourceLoadParams>
     }
 
     _game?:
@@ -97,6 +116,7 @@ export interface GameConfig
         renderer?: Renderer, // global renderer used for everything
         resLoader?: ResourceLoader, // global resource loader used for everything
         localStorageKey?: string,
+        itemSize?: Vector2, // a fixed item size override/default in case no itemSize is set in some other way
 
         noUploadingCustomResources?: boolean, // if true, you can't execute this framework locally as it creates no input form for uploading trusted assets
         noDefaultSettings?: boolean, // if true, none of the default settings are appended to yours

@@ -1,9 +1,6 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
-import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExampleGenerator";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
-import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
 import Tile from "../game/tile";
-import TilePicker from "../game/tilePicker";
 import { CONFIG } from "../shared/config";
 import { ACTIONS, PAWNS } from "../shared/dict";
 import Board, { GameState } from "./board";
@@ -51,11 +48,13 @@ const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
 
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
+
     const numPlayers = CONFIG.rulebook.numPlayers.randomInteger();
     const numStartTiles = CONFIG.rulebook.numStartingTiles;
 
     // prepare board + deck
-    const allTiles : Tile[] = shuffle(sim.getPicker("tile").get().slice());
+    const allTiles : Tile[] = shuffle(sim.getPicker("tiles")());
     const allTilesDiscard : Tile[] = [];
 
     let startingTile = null;
@@ -212,13 +211,16 @@ CONFIG._rulebook =
     {
         actions:
         {
-            config:
+            icons:
             {
-                sheetURL: CONFIG.assets.actions.path,
-                sheetWidth: 8,
-                base: CONFIG.assetsBase,
+                config:
+                {
+                    sheetURL: CONFIG.assets.actions.path,
+                    sheetWidth: 8,
+                    base: CONFIG.assetsBase,
+                },
             },
-            icons: ACTIONS
+            data: ACTIONS
         }
     }
 }

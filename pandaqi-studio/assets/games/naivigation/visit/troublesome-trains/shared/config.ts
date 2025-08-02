@@ -86,7 +86,7 @@ export const CONFIG:any =
         }
     },
 
-    debug:
+    _debug:
     {
         filterAssets: [], // @DEBUGGING (should be empty)
         omitFile: false, // @DEBUGGING (should be false)
@@ -94,8 +94,10 @@ export const CONFIG:any =
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "naivigationTroublesomeTrainsConfig",
-    fileName: "Naivigation: Troublesome Trains",
+    _game:
+    {
+        fileName: "Naivigation: Troublesome Trains",
+    },
 
     addTextOnTiles: false,
     sets:

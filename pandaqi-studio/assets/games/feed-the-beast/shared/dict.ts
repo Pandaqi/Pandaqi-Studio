@@ -1,5 +1,5 @@
 
-enum MaterialType
+export enum MaterialType
 {
     VICTIM,
     RECIPE,
@@ -7,35 +7,35 @@ enum MaterialType
     BEAST
 }
 
-enum RecipeRewardType
+export enum RecipeRewardType
 {
     TEXT,
     FOOD
 }
 
-type SubRecipe = string[]
-type RecipeList = SubRecipe[]
+export type SubRecipe = string[]
+export type RecipeList = SubRecipe[]
 
-interface RecipeReward
+export interface RecipeReward
 {
     type: RecipeRewardType,
     desc?: string,
     food?: RecipeList
 }
 
-interface Recipe
+export interface Recipe
 {
     cost: RecipeList,
     reward: RecipeReward
 }
 
-interface StateData
+export interface StateData
 {
     labels: { on: string, off: string },
     desc: string
 }
 
-interface GeneralData
+export interface GeneralData
 {
     frame?: number,
     col?: string,
@@ -59,7 +59,7 @@ interface GeneralData
     fail?: string,
 }
 
-const FOOD:Record<string, GeneralData> = 
+export const FOOD:Record<string, GeneralData> = 
 {
     bread: { frame: 0, col: "#9B6803", tier: 0, value: 1 },
     fish: { frame: 1, col: "#3FB488", tier: 0, value: 1 },
@@ -101,7 +101,7 @@ const FOOD:Record<string, GeneralData> =
 // -> Rule and menu can be anything, mostly unique
 // -> They have FURY and/or FAIL
 
-const BEASTS:Record<string, GeneralData> =
+export const BEASTS:Record<string, GeneralData> =
 {
     dragon: 
     { 
@@ -690,7 +690,7 @@ const BEASTS:Record<string, GeneralData> =
     }
 }
 
-const VICTIMS:Record<string, GeneralData> =
+export const VICTIMS:Record<string, GeneralData> =
 {
     princess: { frame: 0, label: "Princess", desc: "Once you also have the Prince, <b>discard 4 tokens</b>.", freq: 2 },
     prince: { frame: 1, label: "Prince", desc: "Once you also have the Princess, <b>discard 4 tokens</b>.", freq: 2 },
@@ -710,7 +710,7 @@ const VICTIMS:Record<string, GeneralData> =
     bard: { frame: 15, label: "Bard", desc: "When <b>acquiring tokens</b>, you may take them from <b>anywhere</b> (supply, beast, or other player).", freq: 1 }
 }
 
-const ACTIONS:Record<string, GeneralData> =
+export const ACTIONS:Record<string, GeneralData> =
 {
     // related to recipes / menus
     recipe_switch: { desc: "<b>Switch</b> the Menu.", value: 1.33, prob: 6.0, min: 8 },
@@ -754,13 +754,13 @@ const ACTIONS:Record<string, GeneralData> =
     change_direction: { desc: "Flip the <b>direction</b> of play (clockwise or not).", value: 1.0, prob: 0.75, max: 2 },
 }
 
-const CARD_TEMPLATES = 
+export const CARD_TEMPLATES = 
 {
     [MaterialType.RECIPE]: { frame: 0 },
     [MaterialType.VICTIM]: { frame: 1 }
 }
 
-const MISC =
+export const MISC =
 {
     food_circle: { frame: 0 },
     arrow: { frame: 1 },
@@ -774,19 +774,4 @@ const MISC =
     beast_state: { frame: 9 }
 }
 
-export {
-    MaterialType,
-    FOOD,
-    BEASTS,
-    VICTIMS,
-    ACTIONS,
-    CARD_TEMPLATES,
-    Recipe,
-    RecipeReward,
-    RecipeRewardType,
-    SubRecipe,
-    RecipeList,
-    MISC,
-    GeneralData
-};
 

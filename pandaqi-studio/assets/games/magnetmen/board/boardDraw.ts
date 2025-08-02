@@ -10,7 +10,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import fromArray from "js/pq_games/tools/random/fromArray";
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import { CONFIG } from "../shared/config";
 import { MISC } from "../shared/dict";
 import BoardState from "./boardState";
@@ -34,32 +34,40 @@ export default class BoardDraw
     cellSizeUnit: number;
     fullSize: Point;
 
-    async draw(vis:BoardVisualizer, bs:BoardState)
+    board:BoardState;
+
+    constructor(board:BoardState)
     {
-        const group = this.prepare(vis, bs);
-        this.drawBackground(group);
-        this.drawBoard(vis, group, bs);
-        this.drawSidebar(vis, group, bs);
-        return [group];
+        this.board = board;
     }
 
-    prepare(vis:BoardVisualizer, bs:BoardState)
+    async draw(vis:MaterialVisualizer)
+    {
+        const group = vis.prepareDraw();
+        this.prepare(vis);
+        this.drawBackground(group);
+        this.drawBoard(vis, group);
+        this.drawSidebar(vis, group);
+        return await vis.finishDraw(group);
+    }
+
+    prepare(vis:MaterialVisualizer)
     {
         const fullSize = vis.size;
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
-        const edgeMargin = CONFIG.draw.edgeMargin.clone().scale(fullSizeUnit);
+        const edgeMargin = CONFIG._drawing.edgeMargin.clone().scale(fullSizeUnit);
 
         const innerSize = fullSize.clone().sub(edgeMargin.clone().scale(2));
 
-        const sidebarSize = new Point(innerSize.x * CONFIG.draw.sidebar.width, innerSize.y);
-        let extraSidebarMargin = CONFIG.draw.sidebar.extraMargin * fullSizeUnit;
-        if(!CONFIG.includeRules) { sidebarSize.x = 0; extraSidebarMargin = 0; }
+        const sidebarSize = new Point(innerSize.x * CONFIG._drawing.sidebar.width, innerSize.y);
+        let extraSidebarMargin = CONFIG._drawing.sidebar.extraMargin * fullSizeUnit;
+        if(!CONFIG._settings.includeRules.value) { sidebarSize.x = 0; extraSidebarMargin = 0; }
 
         const boardSize = new Point(innerSize.x - sidebarSize.x - extraSidebarMargin, innerSize.y);
         const boardSizeUnit = Math.min(boardSize.x, boardSize.y);
 
-        const inventoryHeight = CONFIG.draw.inventories.height*boardSize.y;
-        const extraInventoryMargin = CONFIG.draw.inventories.extraMargin*fullSizeUnit;
+        const inventoryHeight = CONFIG._drawing.inventories.height*boardSize.y;
+        const extraInventoryMargin = CONFIG._drawing.inventories.extraMargin*fullSizeUnit;
         const inventorySize = new Point(boardSizeUnit - 2*inventoryHeight -2*extraInventoryMargin, inventoryHeight); // this is for horizontal variant; verticals are just flipped = rotated
         const inventoryMargin = new Point(inventorySize.y + extraInventoryMargin)
         const gridSize = boardSize.clone().sub(inventoryMargin.clone().scale(2));
@@ -75,16 +83,14 @@ export default class BoardDraw
         this.inventorySize = inventorySize;
         this.sidebarSize = sidebarSize;
 
-        this.cellSize = gridSize.clone().div(bs.size);
+        this.cellSize = gridSize.clone().div(this.board.size);
         this.cellSizeHalf = this.cellSize.clone().scale(0.5);
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
-
-        return new ResourceGroup();
     }
 
     drawBackground(group:ResourceGroup)
     {
-        const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.draw.bgColor;
+        const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG._drawing.bgColor;
         fillResourceGroup(this.fullSize, group, bgColor);
     }
 
@@ -93,10 +99,10 @@ export default class BoardDraw
         return this.originGrid.clone().add( pos.clone().scale(this.cellSize) );
     }
 
-    drawBoard(vis:BoardVisualizer, group:ResourceGroup, bs:BoardState)
+    drawBoard(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // draw the inventories
-        const invStrokeWidth = CONFIG.draw.inventories.strokeWidth * this.cellSizeUnit;
+        const invStrokeWidth = CONFIG._drawing.inventories.strokeWidth * this.cellSizeUnit;
         const inventoryCenters = [
             new Point(this.originBoard.x + 0.5*this.boardSize.x, this.originBoard.y + 0.5*this.inventorySize.y),
             new Point(this.originBoard.x + this.boardSize.x - 0.5*this.inventorySize.y, this.originBoard.y + 0.5 * this.boardSize.y),
@@ -104,7 +110,7 @@ export default class BoardDraw
             new Point(this.originBoard.x + 0.5 * this.inventorySize.y, this.originBoard.y + 0.5*this.boardSize.y),
         ];
 
-        const numInventorySlots = CONFIG.draw.inventories.numSlots[CONFIG.boardSize];
+        const numInventorySlots = CONFIG._drawing.inventories.numSlots[CONFIG._settings.boardSize.value];
         const slotDims = new Point(this.inventorySize.x / numInventorySlots, this.inventorySize.y);
         for(let i = 0; i < 4; i++)
         {
@@ -130,14 +136,14 @@ export default class BoardDraw
             }
         }
 
-        const bgColorLightness = CONFIG.draw.cells.bgColorLightness;
-        const bgColorDarken = CONFIG.draw.cells.bgColorDarken;
-        const bgColorSaturation = CONFIG.inkFriendly ? 0 : 100;
+        const bgColorLightness = CONFIG._drawing.cells.bgColorLightness;
+        const bgColorDarken = CONFIG._drawing.cells.bgColorDarken;
+        const bgColorSaturation = CONFIG._settings.defaults.inkFriendly.value ? 0 : 100;
         const bgColor = new Color(Math.random()*360, bgColorSaturation, bgColorLightness);
 
         // for each cell, simply draw its rectangle (boundaries/cell) and its icon
-        const cellStrokeWidth = CONFIG.draw.cells.strokeWidth * this.cellSizeUnit;
-        for(const cell of bs.cells)
+        const cellStrokeWidth = CONFIG._drawing.cells.strokeWidth * this.cellSizeUnit;
+        for(const cell of this.board.cells)
         {
             const pos = this.convertGridPosToRealPos(cell.pos);
             const posCenter = pos.clone().add(this.cellSizeHalf);
@@ -157,7 +163,7 @@ export default class BoardDraw
 
             const iconData = CONFIG.allTypes[cell.type];
             const icon = vis.getResource(iconData.textureKey);
-            const iconDims = new Point(CONFIG.draw.cells.iconSize * this.cellSizeUnit);
+            const iconDims = new Point(CONFIG._drawing.cells.iconSize * this.cellSizeUnit);
             const iconOp = new LayoutOperation({
                 frame: iconData.frame,
                 pos: posCenter,
@@ -195,14 +201,14 @@ export default class BoardDraw
         }
     }
 
-    drawSidebar(vis:BoardVisualizer, group:ResourceGroup, bs:BoardState)
+    drawSidebar(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        if(!CONFIG.includeRules) { return; }
+        if(!CONFIG._settings.includeRules.value) { return; }
 
         // tutorial image at the top
         const tut = vis.getResource("sidebar");
         const tutWidth = this.sidebarSize.x;
-        const tutDims = new Point(tutWidth, CONFIG.draw.sidebar.tutImageRatio * tutWidth);
+        const tutDims = new Point(tutWidth, CONFIG._drawing.sidebar.tutImageRatio * tutWidth);
         const frame = CONFIG.beginnerMode ? 0 : 1;
         const tutOp = new LayoutOperation({
             frame: frame,
@@ -212,25 +218,25 @@ export default class BoardDraw
         group.add(tut, tutOp);
 
         // specific types explained below that
-        const uniqueTypes = bs.uniqueTypes; // @TODO: calculate automatically
+        const uniqueTypes = this.board.uniqueTypes; // @TODO: calculate automatically
         const ySpaceLeft = this.sidebarSize.y - tutDims.y;
         const maxYSpacePerItem = ySpaceLeft / uniqueTypes.length;
-        const yPadding = CONFIG.draw.sidebar.iconYPadding * maxYSpacePerItem;
+        const yPadding = CONFIG._drawing.sidebar.iconYPadding * maxYSpacePerItem;
 
         const iconDims = new Point(maxYSpacePerItem - yPadding);
-        const iconDimsWithPadding = iconDims.clone().scale(CONFIG.draw.sidebar.iconScale);
-        const xPadding = CONFIG.draw.sidebar.iconPadding * this.sidebarSize.x;
-        const iconSimpleDims = iconDims.clone().scale(CONFIG.draw.sidebar.iconSimpleScale);
+        const iconDimsWithPadding = iconDims.clone().scale(CONFIG._drawing.sidebar.iconScale);
+        const xPadding = CONFIG._drawing.sidebar.iconPadding * this.sidebarSize.x;
+        const iconSimpleDims = iconDims.clone().scale(CONFIG._drawing.sidebar.iconSimpleScale);
         const entryDims = new Point(this.sidebarSize.x, iconDims.y);
         const textDims = entryDims.clone().sub(new Point(iconDims.x + 2*xPadding, 0));
 
         let pos = this.originSidebar.clone().move(new Point(0, tutDims.y));
 
-        const fontSize = Math.min(CONFIG.draw.sidebar.fontSize * textDims.y, CONFIG.draw.sidebar.maxFontSize);
+        const fontSize = Math.min(CONFIG._drawing.sidebar.fontSize * textDims.y, CONFIG._drawing.sidebar.maxFontSize);
         const textConfig = new TextConfig({
-            font: CONFIG.fonts.body,
+            font: CONFIG._drawing.fonts.body,
             size: fontSize,
-            lineHeight: CONFIG.draw.sidebar.lineHeight,
+            lineHeight: CONFIG._drawing.sidebar.lineHeight,
             alignHorizontal: TextAlign.START,
             alignVertical: TextAlign.MIDDLE,
             resLoader: vis.resLoader

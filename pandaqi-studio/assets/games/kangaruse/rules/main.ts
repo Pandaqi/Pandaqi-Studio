@@ -1,7 +1,6 @@
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import { CELLS } from "../shared/dictionary"
 import Point from "js/pq_games/tools/geometry/point"
 import rangeInteger from "js/pq_games/tools/random/rangeInteger"
+import { CELLS } from "../shared/dict"
 
 class Cell
 {
@@ -17,12 +16,12 @@ class Cell
     }
 }
 
-function outOfBounds(pos:Point, size:Point)
+const outOfBounds = (pos:Point, size:Point) =>
 {
     return pos.x < 0 || pos.y < 0  || pos.x >= size.x || pos.y >= size.y;
 }
 
-async function generate()
+const generate = async (sim:InteractiveExampleSimulator) =>
 {
     // create initial grid
     const CELL_SIZE = 64;
@@ -131,52 +130,38 @@ async function generate()
     container.style.textAlign = "center";
     container.appendChild(canv);
 
+    const o = sim.getOutputBuilder();
     o.addParagraph("You are at the red square. The green squares show all valid jumps.");
     o.addNode(container);
-    o.addParagraph("Either you follow the direction command (" + ARROW_SYMBOLS[curDirection] + ") and go as far as you like, or you follow the distance command (" + numbers[randPos.x] + ") but go in any direction.");
+    o.addParagraph(`Either you follow the direction command (${ARROW_SYMBOLS[curDirection]}) and go as far as you like, or you follow the distance command (${numbers[randPos.x]}) but go in any direction.`);
     o.addParagraph("Once done, execute whatever action is on your new square. (And cross out your previous square.)");
 
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
-
-const o = e.getOutputBuilder();
-
-// Print all the cell types into the rulebook automatically
-const container = document.getElementById("kangaruse-type-table");
-if(container)
+const CONFIG_RULEBOOK =
 {
-    const table = document.createElement("table");
-    container.appendChild(table);
-    
-    for(const [cellType,cellData] of Object.entries(CELLS))
+    examples:
     {
-        const row = document.createElement("tr");
-        const iconCell = document.createElement("td");
-        const icon = document.createElement("div");
-        iconCell.appendChild(icon);
-        icon.classList.add("icon");
-    
-        // @ts-ignore
-        const frame = cellData.frame;
-        const frameVec = { x: frame % 8, y: Math.floor(frame / 8) }
-        const offsetPerFrame = 64;
-    
-        icon.style.width = offsetPerFrame + "px";
-        icon.style.height = offsetPerFrame + "px";
-    
-        icon.style.backgroundPositionX = (-frameVec.x * offsetPerFrame) + "px";
-        icon.style.backgroundPositionY = (-frameVec.y * offsetPerFrame) + "px";
-    
-        const descCell = document.createElement("td");
-        // @ts-ignore
-        descCell.innerHTML = cellData.desc;
-    
-        row.appendChild(iconCell);
-        row.appendChild(descCell);
-    
-        table.appendChild(row);
+        turn:
+        {
+            buttonText: "Give me an example turn!",
+            callback: generate
+        }
+    },
+
+    tables:
+    {
+        types:
+        {
+            icons:
+            {
+                sheetURL: "cell_types",
+                sheetWidth: 8,
+                base: "/games/kangaruse/assets/"
+            },
+            data: CELLS
+        }
     }
 }
+
+loadRulebook(CONFIG_RULEBOOK);

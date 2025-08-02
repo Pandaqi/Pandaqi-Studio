@@ -1,14 +1,9 @@
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExampleGenerator";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 import Card from "../game/card";
-import CardPicker from "../game/cardPicker";
-import VotePicker from "../game/votePicker";
 import { CONFIG } from "../shared/config";
 import { VoteType } from "../shared/dict";
 
@@ -396,11 +391,13 @@ class SimulatorCustom
 
 async function generate(sim:InteractiveExampleSimulator)
 {
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
+
     // prepare all options and settings (random cards, 5/5 vote split YES/NO)
     const numPlayers = CONFIG.rulebook.numPlayerBounds.randomInteger();
-    const allCards = shuffle(sim.getPicker("card").get().slice());
+    const allCards = shuffle(sim.getPicker("cards")());
     
-    const allVotes = shuffle(sim.getPicker("vote").get().slice());
+    const allVotes = shuffle(sim.getPicker("votes")());
     const playerHands : Hand[] = [];
     
     // the votes in hand + the collected votes ("score") of the player
@@ -656,18 +653,23 @@ const SIMULATION_ENABLED = false;
 const SIMULATION_ITERATIONS = 1000;
 const SHOW_FULL_GAME = false;
 
-const gen = new InteractiveExampleGenerator({
-    id: "turn",
-    callback: generate,
-    config: CONFIG,
-    itemSize: new Point(CONFIG.rulebook.cardSize),
-    pickers: { card: CardPicker, vote: VotePicker },
-    simulateConfig: {
-        enabled: SIMULATION_ENABLED,
-        iterations: SIMULATION_ITERATIONS,
-        showFullGame: SHOW_FULL_GAME, // interactive examples show only 1 turn/round by default
-        callbackInitStats,
-        callbackFinishStats,
-        custom: new SimulatorCustom()
+const CONFIG_RULEBOOK =
+{
+    examples:
+    {
+        turn:
+        {
+            callback: generate,
+            simulator: {
+                enabled: SIMULATION_ENABLED,
+                iterations: SIMULATION_ITERATIONS,
+                showFullGame: SHOW_FULL_GAME,
+                callbackInitStats,
+                callbackFinishStats,
+                custom: new SimulatorCustom(), // @TODO: ???
+            }
+        }
     }
-})
+}
+
+loadRulebook(CONFIG_RULEBOOK);

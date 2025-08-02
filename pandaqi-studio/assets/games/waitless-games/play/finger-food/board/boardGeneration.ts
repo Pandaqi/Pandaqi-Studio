@@ -1,5 +1,5 @@
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
 import BoardDisplay from "./boardDisplay"
 import BoardState from "./boardState"
 import { CONFIG } from "./config"
@@ -11,9 +11,9 @@ export default class BoardGeneration
     board: BoardState
     typeManager: TypeManager
     evaluator: Evaluator
-    visualizer: BoardVisualizer
+    visualizer: MaterialVisualizer
 
-    async draw(vis:BoardVisualizer) : Promise<ResourceGroup[]>
+    async draw(vis:MaterialVisualizer) : Promise<ResourceGroup[]>
     {
         this.visualizer = vis;
         Object.assign(CONFIG, vis.config);
@@ -37,7 +37,7 @@ export default class BoardGeneration
         } while(!this.evaluator.isValid(this.board));
     }
 
-    visualize(vis:BoardVisualizer)
+    visualize(vis:MaterialVisualizer)
     {
         const visualizer = new BoardDisplay(this);
         return visualizer.draw(vis, this.board);

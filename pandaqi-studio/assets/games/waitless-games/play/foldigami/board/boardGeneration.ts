@@ -1,4 +1,4 @@
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
 import Board from "./board"
 import { CONFIG } from "./config"
 import Evaluator from "./evaluator"
@@ -11,7 +11,7 @@ export default class BoardGeneration
     evaluator: Evaluator
     types:Types
 
-    async draw(vis:BoardVisualizer) 
+    async draw(vis:MaterialVisualizer) 
     {
         Object.assign(CONFIG, vis.config);
         this.setup(vis);
@@ -22,7 +22,7 @@ export default class BoardGeneration
         return [group];
     }
 
-    setup(vis:BoardVisualizer)
+    setup(vis:MaterialVisualizer)
     {
         this.types = new Types(this);
         this.board = new Board(vis, this);

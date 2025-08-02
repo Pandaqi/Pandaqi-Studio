@@ -79,7 +79,7 @@ export const CONFIG:any =
         }
     },
 
-    debug:
+    _debug:
     {
         filterAssets: [], // @DEBUGGING (should be empty)
         omitFile: false, // @DEBUGGING (should be false)
@@ -87,8 +87,10 @@ export const CONFIG:any =
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "naivigationSwervingSpaceshipsConfig",
-    fileName: "Naivigation: Swerving Spaceships",
+    _game:
+    {
+        fileName: "Naivigation: Swerving Spaceships",
+    },
 
     addTextOnTiles: false,
     sets:

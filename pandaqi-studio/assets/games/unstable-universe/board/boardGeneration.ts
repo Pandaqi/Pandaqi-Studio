@@ -5,7 +5,7 @@ import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
 import Circle from "js/pq_games/tools/geometry/circle"
 import Line from "js/pq_games/tools/geometry/line"
 import Path from "js/pq_games/tools/geometry/paths/path"
@@ -83,14 +83,14 @@ export default class BoardGeneration
 	iteratingTimer: any
 
 	// user-input settings should be passed through config
-	async draw(vis:BoardVisualizer) : Promise<ResourceGroup[]>
+	async draw(vis:MaterialVisualizer) : Promise<ResourceGroup[]>
 	{
 		this.setup(vis)
 		this.generateBoard();
 		return this.finishGeneration(vis);
 	}
 
-	setup(vis:BoardVisualizer)
+	setup(vis:MaterialVisualizer)
 	{
 		this.cfg = {}		
 		Object.assign(this.cfg, vis.config);
@@ -810,7 +810,7 @@ export default class BoardGeneration
 		}
 	}
 
-	finishGeneration(vis:BoardVisualizer) 
+	finishGeneration(vis:MaterialVisualizer) 
 	{
 		const group = new ResourceGroup();
 		console.log("FINISHING GENERATION");
@@ -1738,7 +1738,7 @@ export default class BoardGeneration
 
 	// This USED TO BE a partial visualization (only core features, no details) for speed and snapshots while relaxing
 	// Now there are no snapshots and this is just a one-time draw of the whole thing
-	visualizeGame(vis:BoardVisualizer, group:ResourceGroup) 
+	visualizeGame(vis:MaterialVisualizer, group:ResourceGroup) 
 	{
 		const RNG = seedRandom(this.cfg.seed + '-visualization')
 

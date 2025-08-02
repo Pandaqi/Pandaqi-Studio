@@ -1,6 +1,6 @@
 import { CONFIG } from "./config"
 import Map from "./map"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 
 class HintVisualizer
@@ -9,7 +9,7 @@ class HintVisualizer
 	images = []
 	download = false
 
-	async visualizeAll(list, vis:BoardVisualizer)
+	async visualizeAll(list, vis:MaterialVisualizer)
 	{
 		this.images = [];
 		for(let i = 0; i < list.length; i++)
@@ -18,7 +18,7 @@ class HintVisualizer
 		}
 	}
 
-	async visualize(hint, vis:BoardVisualizer)
+	async visualize(hint, vis:MaterialVisualizer)
 	{
 		const canvas = this.createCanvas();
 		this.paintCanvas(hint, canvas, vis);
@@ -41,7 +41,7 @@ class HintVisualizer
 	}
 
 	// @TODO: currently assumes all source spritesheets are also 8 wide + 256x256 pixels => just roll with that?
-	paintCanvas(hint, canvas, vis:BoardVisualizer)
+	paintCanvas(hint, canvas, vis:MaterialVisualizer)
 	{
 		if(!("layers" in hint)) { return; }
 

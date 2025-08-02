@@ -1,4 +1,4 @@
-interface AnimalData
+export interface AnimalData
 {
     frame: number,
     color: string,
@@ -14,7 +14,7 @@ enum Action
     GIVEN = "WHEN GIVEN", // the action triggers when this card is given away
 }
 
-const ANIMALS:Record<string, AnimalData> = {
+export const ANIMALS:Record<string, AnimalData> = {
     // base set
     bear: { frame: 0, color: "brown" },
     ferret: { frame: 1, color: "blue" },
@@ -42,7 +42,7 @@ const ANIMALS:Record<string, AnimalData> = {
     sheep: { frame: 13, color: "turquoise", expansion: true, type: Action.ALWAYS, desc: "If used for a move, it's also valid to TIE the current match." },
 }
 
-const COLORS = {
+export const COLORS = {
     brown: "#5E2C04",
     blue: "#385D97",
     turquoise: "#49A078",
@@ -52,11 +52,4 @@ const COLORS = {
     orange: "#DD6E42",
     yellow: "#C49F1D",
     gray: "#ECECEC"
-}
-
-export 
-{
-    ANIMALS,
-    AnimalData,
-    COLORS
 }

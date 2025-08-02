@@ -92,7 +92,7 @@ export const CONFIG:any =
         }
     },
 
-    debug:
+    _debug:
     {
         filterAssets: [], // @DEBUGGING (should be empty)
         omitFile: false, // @DEBUGGING (should be false)
@@ -100,8 +100,10 @@ export const CONFIG:any =
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "naivigationFrighteningFlightsConfig",
-    fileName: "Naivigation: Frightening Flights",
+    _game:
+    {
+        fileName: "Naivigation: Frightening Flights",
+    },
 
     addTextOnTiles: false,
     sets:

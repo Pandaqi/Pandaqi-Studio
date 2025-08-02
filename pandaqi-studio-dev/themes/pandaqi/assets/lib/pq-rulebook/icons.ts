@@ -39,7 +39,7 @@ export const findSheetForRulebookIcon = (key:string, params:RulebookParams) =>
 export const getRulebookIconNode = (key:string|IconData, sheetData:IconSheetParams) : HTMLElement =>
 {
     const iconData = (typeof key == "string") ? sheetData.icons[key] : key;
-    const icon = document.createElement("div");
+    const icon = document.createElement("span");
     icon.classList.add(sheetData.class ?? DEFAULT_ICON_CLASS);
 
     const base = sheetData.config.base ?? "";
@@ -48,6 +48,7 @@ export const getRulebookIconNode = (key:string|IconData, sheetData:IconSheetPara
 
     if(sheetURL) { icon.style.backgroundImage = `url(${base}${sheetURL})`; }
     icon.style.backgroundSize = (sheetWidth*100) + "%";
+    icon.style.display = "inline-block";
 
     const xPos = iconData.frame % sheetWidth;
     const yPos = Math.floor(iconData.frame / sheetWidth); 
@@ -58,7 +59,7 @@ export const getRulebookIconNode = (key:string|IconData, sheetData:IconSheetPara
     return icon;
 }
 
-export const createRulebookIcons = (params:RulebookParams, node:HTMLElement) =>
+export const createRulebookIconHTML = (params:RulebookParams, node:HTMLElement) =>
 {
     const iconsData = params.icons ?? {};
     const icons = [];

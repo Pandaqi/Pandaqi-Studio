@@ -43,12 +43,12 @@ class Hand
     getFirstCard() { return this.cards[0]; }
     getLastCard() { return this.cards[this.cards.length-1]; }
 
-    async draw()
+    async draw(sim:InteractiveExampleSimulator)
     {
         const promises = [];
         for(const card of this.cards)
         {
-            promises.push(card.drawForRules(visualizer));
+            promises.push(card.drawForRules(sim.getVisualizer()));
         }
         return await Promise.all(promises);
     }
@@ -177,17 +177,20 @@ const findPossibleMoves = (hand:Hand, table:Hand) =>
     return validMoves;
 }
 
-async function generate()
+const generate = async (sim:InteractiveExampleSimulator) =>
 {
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
+
+    const o = sim.getOutputBuilder();
     o.addParagraph("These cards are on the table.");
     const numTableCards = rangeInteger(1,4);
     const tableCards = new Hand(numTableCards, true)
-    o.addFlexList(await tableCards.draw());
+    o.addFlexList(await tableCards.draw(sim));
 
     o.addParagraph("These cards are in your hand");
     const numHandCards = rangeInteger(1,3);
     const handCards = new Hand(numHandCards, true);
-    o.addFlexList(await handCards.draw());
+    o.addFlexList(await handCards.draw(sim));
 
     const possibleMoves = findPossibleMoves(handCards, tableCards);
     let finalMove = null;
@@ -235,11 +238,16 @@ async function generate()
     }
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
+CONFIG._rulebook =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example turn!",
+            callback: generate
+        }
+    }
+}
 
-const o = e.getOutputBuilder();
-
-const resLoader = new ResourceLoader();
-const visualizer = new Visualizer(resLoader, CONFIG.rulebook.itemSize, false);
+loadRulebook(CONFIG._rulebook);

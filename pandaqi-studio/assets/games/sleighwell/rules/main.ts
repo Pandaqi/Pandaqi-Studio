@@ -1,15 +1,12 @@
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import TilePicker from "../game/tilePicker";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import fromArray from "js/pq_games/tools/random/fromArray";
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+import createContext from "js/pq_games/layout/canvas/createContext";
 import Point from "js/pq_games/tools/geometry/point";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import range from "js/pq_games/tools/random/range";
+import shuffle from "js/pq_games/tools/random/shuffle";
 import Tile from "../game/tile";
 import { CONFIG } from "../shared/config";
-import range from "js/pq_games/tools/random/range";
-import createContext from "js/pq_games/layout/canvas/createContext";
-import Visualizer from "../game/visualizer";
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 
 class Board
 {
@@ -368,7 +365,7 @@ class Board
         return allWishesFulfilled;
     }
 
-    async draw(highlightedTiles:Point[] = []) : Promise<HTMLImageElement>
+    async draw(sim:InteractiveExampleSimulator, highlightedTiles:Point[] = []) : Promise<HTMLImageElement>
     {
         const tileSize = CONFIG.rulebook.tileSize;
         const fullSize = this.size.clone().scale(tileSize);
@@ -394,7 +391,7 @@ class Board
                 if(tileHere)
                 {
                     ctx.globalAlpha = filledCellsAreHighlighted ? (isHighlighted ? 1.0 : 0.45) : 1.0;
-                    const subCanv = await tileHere.drawForRules(visualizer);
+                    const subCanv = await tileHere.draw(sim.getVisualizer());
                     ctx.drawImage(subCanv, x * tileSize, y * tileSize);
                     ctx.globalAlpha = 1.0;
                 }
@@ -414,12 +411,11 @@ class Board
     }
 }
 
-
-async function generate()
+const generate = async (sim:InteractiveExampleSimulator) =>
 {
-    await resLoader.loadPlannedResources();
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
 
-    const tiles = shuffle(picker.get().slice());
+    const tiles : Tile[] = shuffle(sim.getPicker("tiles")());
 
     // extract sleigh tile, remove them all from options for random draw
     let sleighTile = null;
@@ -454,10 +450,11 @@ async function generate()
     const validPlacements = board.getValidPlacements(tileToPlace);
     const validSleighMoves = board.getValidSleighMoves();
     const moveSleigh = (validPlacements.length <= 0 || Math.random() <= CONFIG.rulebook.moveSleighProb) && validSleighMoves.length > 0;
+    const o = sim.getOutputBuilder();
 
     if(moveSleigh) {
         o.addParagraph("You want to <strong>move the sleigh</strong>. Below are all valid locations. (Remember you can't split the board.)");
-        o.addNode(await board.draw(validSleighMoves));
+        o.addNode(await board.draw(sim, validSleighMoves));
 
         const houseMoves = [];
         for(const move of validSleighMoves)
@@ -476,7 +473,7 @@ async function generate()
             const { from, tilePositions, tiles } = board.moveSleigh(move);
             const allWishesFulfilled = board.checkWishesFulfilled(tiles);
 
-            o.addNode(await board.draw());
+            o.addNode(await board.draw(sim));
 
             if(allWishesFulfilled) {
                 o.addParagraph("You collected all the right presents along the way! <strong>Score the house.</strong> Next turn!");
@@ -488,13 +485,13 @@ async function generate()
             const move = fromArray(validSleighMoves);
             o.addParagraph("You decide to move to " + board.stringifyPosition(move) + ". The final board looks like this:");
             board.moveSleigh(move);
-            o.addNode(await board.draw());     
+            o.addNode(await board.draw(sim));     
         }
     } else {
         let str = tileToPlace.isWildcardNumber() ? "with <strong>a wildcard number</strong>" :  "with number <strong>" + tileToPlace.getFirstNumber() + "</strong>";
 
         o.addParagraph("You want to <strong>place</strong> a tile " + str + ". Below are all valid locations.");
-        o.addNode(await board.draw(validPlacements));
+        o.addNode(await board.draw(sim, validPlacements));
 
         if(validPlacements.length <= 0) {
             o.addParagraph("You can't place anywhere, nor can you move the sleigh. So you can't do anything: draw a tile and skip your turn.");
@@ -504,16 +501,16 @@ async function generate()
     }
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
+CONFIG._rulebook =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example turn!",
+            callback: generate
+        }
+    }
+}
 
-const o = e.getOutputBuilder();
-
-const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-resLoader.planLoadMultiple(CONFIG.assets);
-
-const visualizer = new Visualizer(resLoader, new Point(CONFIG.rulebook.tileSize), false);
-
-const picker = new TilePicker();
-picker.generate();
+loadRulebook(CONFIG._rulebook);

@@ -4,7 +4,7 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
 import Rectangle from "js/pq_games/tools/geometry/rectangle"
@@ -27,14 +27,14 @@ export default class Board
     generationSuccess: boolean
     state: BoardState
 
-    constructor(vis:BoardVisualizer, game:any)
+    constructor(vis:MaterialVisualizer, game:any)
     {
         this.game = game;
         this.setupOuterRectangle(vis);
     }
 
     getOuterRectangle() { return this.outerRect; }
-    setupOuterRectangle(vis:BoardVisualizer)
+    setupOuterRectangle(vis:MaterialVisualizer)
     {
         const size = vis.size;
         const minSize = Math.min(size.x, size.y);
@@ -294,7 +294,7 @@ export default class Board
         this.generationSuccess = true;
     }
 
-    draw(vis:BoardVisualizer, group:ResourceGroup)
+    draw(vis:MaterialVisualizer, group:ResourceGroup)
     {
         this.drawGrid(vis, group);
         this.drawIcons(vis, group);
@@ -368,7 +368,7 @@ export default class Board
         return new Rectangle().fromTopLeft(pos, size);
     }
 
-    drawGrid(vis:BoardVisualizer, group:ResourceGroup)
+    drawGrid(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const cells = this.state.getGridFlat();
         const inkFriendly = CONFIG.inkFriendly;
@@ -497,7 +497,7 @@ export default class Board
         }
     }
 
-    drawIcons(vis:BoardVisualizer, group:ResourceGroup)
+    drawIcons(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const cells = this.state.getGridFlat();
         const inkFriendly = CONFIG.inkFriendly;
@@ -601,7 +601,7 @@ export default class Board
         }
     }
 
-    drawOutline(vis:BoardVisualizer, group:ResourceGroup)
+    drawOutline(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const lineWidth = CONFIG.board.outline.width * this.cellSizeSquare;
         const lineColor = CONFIG.board.outline.color ?? "#000000";

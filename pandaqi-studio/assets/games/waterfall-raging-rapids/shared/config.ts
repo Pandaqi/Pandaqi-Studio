@@ -48,20 +48,19 @@ export const CONFIG:any =
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "waterfallRagingRapidsConfig",
-    fileName: "Waterfall: Raging Rapids",
+    _game:
+    {
+        fileName: "Waterfall: Raging Rapids",
+    },
 
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
+    
 
     useIconsForDefaultActions: false,
     useConditionalActions: false,

@@ -1,6 +1,6 @@
 import { CARDS, CategoryData } from "games/the-game-of-happiness/shared/dict";
-import CardPicker from "../cardPicker";
 import shuffle from "js/pq_games/tools/random/shuffle";
+import { cardPicker } from "../cardPicker";
 
 enum GameState
 {
@@ -19,7 +19,6 @@ export default class Game
     heading: HTMLHeadingElement;
     content: HTMLDivElement;
     cards: CategoryData[];
-    cardPicker: CardPicker;
     rankings: any[];
     score: number;
     round: number;
@@ -38,9 +37,6 @@ export default class Game
         this.score = 0;
         this.totalRounds = this.config.digital.totalRounds ?? 10;
         this.numCardsPerRound = this.config.digital.numCards ?? 5;
-
-        this.cardPicker = new CardPicker();
-        this.cardPicker.generate();
 
         this.createHTML();
         this.gotoState(GameState.INTRO);
@@ -207,8 +203,7 @@ export default class Game
 
     pickRandomCards()
     {
-        const allCards = shuffle(this.cardPicker.get());
-        if(allCards.length < this.numCardsPerRound) { this.cardPicker.generate(); }
+        const allCards = shuffle(cardPicker());
         let cards;
 
         const pickOnePerCategory = this.config.digital.pickOneCardPerCategory;
@@ -218,9 +213,6 @@ export default class Game
             let counter = 0;
             while(cards.length < this.numCardsPerRound)
             {
-                // if out of cards, regenerate and continue
-                if(counter >= allCards.length) { this.cardPicker.generate(); counter = 0; }
-                
                 const card = allCards[counter];
                 counter++;
                 if(!allCategories.includes(card.category)) { continue; }

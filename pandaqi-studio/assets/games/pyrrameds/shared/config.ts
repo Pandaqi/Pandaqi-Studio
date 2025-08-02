@@ -2,6 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG:any = 
 {
@@ -14,50 +15,36 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             operations:
             {
                 type: SettingType.CHECK,
-                label: "Operations"
+                label: "Operations",
+                value: false
             },
 
             intensiveCare:
             {
                 type: SettingType.CHECK,
-                label: "Intensive Care"
+                label: "Intensive Care",
+                value: false
             },
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "pyrramedsConfig",
-    fileName: "Pyrrameds",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
-
-    sets:
+    _game:
     {
-        base: true,
-        operations: false,
-        intensiveCare: false
-    },
-
-    fonts:
-    {
-        heading: "library",
-        body: "bellota",
+        fileName: "Pyrrameds",
     },
 
     // assets
@@ -152,57 +139,74 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            },  
-        },
-
-        shared:
-        {
-            shadowColor: "#000000BB",
-            shadowBlur: new CVal(0.01, "sizeUnit"),
-            shadowOffset: new CVal(new Point(0, 0.0275), "sizeUnit"),
-        },
-
-        number:
-        {
-            defColor: "#000000",
-            fontSize: new CVal(0.585, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.37), "size"),
-        },
-
-        medicine:
-        {
-            pos: new CVal(new Point(0.5, 0.715), "size"),
-            iconDims: new CVal(new Point(0.4), "sizeUnit"),
-        },
-
-        patient:
-        {
-            iconDims: new CVal(new Point(0.25), "sizeUnit"),
-            posAnchor: new CVal(new Point(0.5, 0.75), "size"), // should be close to medicine.pos, but lower
-            illustration:
+            itemSize: new Point(750, 1050),
+            picker: cardPicker,
+            mapper:            
             {
-                pos: new CVal(new Point(0.17, 0.37), "size"), // should match number.pos on Y-axis
-                sizeCircle: new CVal(new Point(0.275), "sizeUnit"),
-                sizeIcon: new CVal(new Point(0.21), "sizeUnit")
-            }
-        },
-
-        special:
-        {
-            fontSize: new CVal(0.0725, "sizeUnit"),
-            textBoxPos: new CVal(new Point(0.5, 0.73), "size"),
-            textBoxDims: new CVal(new Point(0.75, 0.66), "size"),
-            textColor: "#000000"
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                },  
+            },
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "library",
+            body: "bellota",
+        },
+
+        cards:
+        {
+            shared:
+            {
+                shadowColor: "#000000BB",
+                shadowBlur: new CVal(0.01, "sizeUnit"),
+                shadowOffset: new CVal(new Point(0, 0.0275), "sizeUnit"),
+            },
+
+            number:
+            {
+                defColor: "#000000",
+                fontSize: new CVal(0.585, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.37), "size"),
+            },
+
+            medicine:
+            {
+                pos: new CVal(new Point(0.5, 0.715), "size"),
+                iconDims: new CVal(new Point(0.4), "sizeUnit"),
+            },
+
+            patient:
+            {
+                iconDims: new CVal(new Point(0.25), "sizeUnit"),
+                posAnchor: new CVal(new Point(0.5, 0.75), "size"), // should be close to medicine.pos, but lower
+                illustration:
+                {
+                    pos: new CVal(new Point(0.17, 0.37), "size"), // should match number.pos on Y-axis
+                    sizeCircle: new CVal(new Point(0.275), "sizeUnit"),
+                    sizeIcon: new CVal(new Point(0.21), "sizeUnit")
+                }
+            },
+
+            special:
+            {
+                fontSize: new CVal(0.0725, "sizeUnit"),
+                textBoxPos: new CVal(new Point(0.5, 0.73), "size"),
+                textBoxDims: new CVal(new Point(0.75, 0.66), "size"),
+                textColor: "#000000"
+            }
+        },
+    }
 }

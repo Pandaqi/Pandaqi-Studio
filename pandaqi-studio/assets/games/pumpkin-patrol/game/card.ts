@@ -19,8 +19,49 @@ import { CONFIG } from "../shared/config";
 import { COLORS, MISC, Type } from "../shared/dict";
 import RequirementData from "./requirementData";
 import SideData from "./sideData";
-import Visualizer from "./visualizer";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+import ResourceImage from "js/pq_games/layout/resources/resourceImage";
+
+const createSidePattern = async (vis:MaterialVisualizer, subType:Type) =>
+{
+    const patternSize = CONFIG.cards.bgHand.patternExtraMargin * vis.size.x;
+    const num = CONFIG.cards.bgHand.patternNumIcons;
+    const distBetweenIcons = patternSize / num;
+    const iconSize = CONFIG.cards.bgHand.patternIconSize * distBetweenIcons;
+
+    const ctx = createContext({ size: new Point(patternSize) });
+    for(let x = 0; x < num; x++)
+    {
+        for(let y = 0; y < num; y++)
+        {
+            const res = CONFIG.resLoader.getResource("misc");
+            const pos = new Point(x,y).scaleFactor(distBetweenIcons);
+            const frame = subType == Type.TREAT ? MISC.treats.frame : MISC.decorations.frame;
+            const op = new LayoutOperation({
+                frame: frame,
+                pos: pos,
+                size: new Point(iconSize),
+                pivot: new Point(0.5)
+            })
+            await res.toCanvas(ctx, op);
+        }
+    }
+
+    const img = await convertCanvasToImage(ctx.canvas);
+    const res = new ResourceImage(img);
+    vis.custom.patterns[subType] = res;
+}
+
+const cacheVisualizerData = async (vis:MaterialVisualizer) =>
+{
+    if(vis.custom && Object.keys(vis.custom).length > 0) { return; }
+
+    vis.custom = { patterns: {} };
+    await createSidePattern(vis, Type.DECORATION);
+    await createSidePattern(vis, Type.TREAT);
+}
 
 export default class Card
 {
@@ -68,8 +109,10 @@ export default class Card
         return CONFIG.allCards[sd.type]
     }
 
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer)
     {
+        await cacheVisualizerData(vis);
+
         const ctx = createContext({ size: vis.size });
 
         if(this.type == Type.PERSON) {
@@ -86,14 +129,14 @@ export default class Card
     //
     // > PERSON CARDS
     //
-    drawPerson(vis:Visualizer, ctx)
+    drawPerson(vis:MaterialVisualizer, ctx)
     {
         this.drawPersonBackground(vis, ctx);
         this.drawPersonIllustration(vis, ctx);
         this.drawPersonDetails(vis, ctx);
     }
 
-    drawPersonBackground(vis:Visualizer, ctx)
+    drawPersonBackground(vis:MaterialVisualizer, ctx)
     {
         // purple background (whole card)
         const bgColor = vis.inkFriendly ? "#FFFFFF" : CONFIG.cards.bgPerson.color;
@@ -131,12 +174,12 @@ export default class Card
             size: beamSize,
             pivot: new Point(0.5),
             frame: frame,
-            effects: vis.effects
+            effects: vis.inkFriendlyEffect
         })
         beam.toCanvas(ctx, beamOp);
     }
 
-    drawPersonIllustration(vis:Visualizer, ctx)
+    drawPersonIllustration(vis:MaterialVisualizer, ctx)
     {
         // draw main illustration (on top of light beam)
         const data = this.getData();
@@ -151,7 +194,7 @@ export default class Card
             pos: anchor.clone().move(new Point(0, iconOffsetY)),
             size: new Point(iconSize),
             pivot: new Point(0.5, 1),
-            effects: vis.effects,
+            effects: vis.inkFriendlyEffect,
         })
         res.toCanvas(ctx, op);
 
@@ -161,7 +204,7 @@ export default class Card
         const starOffset = new Point(0.5*vis.size.x, CONFIG.cards.score.offset * vis.size.y);
         const starDims = CONFIG.cards.score.size * vis.sizeUnit;
         const shadowBlur = CONFIG.cards.score.shadowSize * starDims;
-        const starEffects = [ new DropShadowEffect({ blurRadius: shadowBlur }), vis.effects ].flat();
+        const starEffects = [ new DropShadowEffect({ blurRadius: shadowBlur }), vis.inkFriendlyEffect ].flat();
         const starOp = new LayoutOperation({ 
             frame: starFrame,
             pos: starOffset,
@@ -228,7 +271,7 @@ export default class Card
         this.drawSetID(vis, ctx);
     }
 
-    drawPersonDetails(vis:Visualizer, ctx)
+    drawPersonDetails(vis:MaterialVisualizer, ctx)
     {
         // draw purple background (underneath main illustration, all the way to bottom)
         const cardBGColor = vis.inkFriendly ? "#FFFFFF" : CONFIG.cards.details.bgs.power;
@@ -292,7 +335,7 @@ export default class Card
         resText.toCanvas(ctx, op);
     }
 
-    drawDetailsRectangle(vis:Visualizer, ctx, anchorY: number, sizeRect:Point, effs, side:string, prop:string)
+    drawDetailsRectangle(vis:MaterialVisualizer, ctx, anchorY: number, sizeRect:Point, effs, side:string, prop:string)
     {
         // background rect shape
         const rect = this.getWonkyRectangle(vis, sizeRect, side);
@@ -375,7 +418,7 @@ export default class Card
         }
     }
 
-    drawDetailsIcon(vis:Visualizer, ctx, y:number, iconSize:number, side:string, prop:string)
+    drawDetailsIcon(vis:MaterialVisualizer, ctx, y:number, iconSize:number, side:string, prop:string)
     {
         // type icon
         const icon = vis.resLoader.getResource("misc");
@@ -395,7 +438,7 @@ export default class Card
         icon.toCanvas(ctx, iconOp);
     }
 
-    getWonkyRectangle(vis:Visualizer, size:Point, side:string)
+    getWonkyRectangle(vis:MaterialVisualizer, size:Point, side:string)
     {
         // just create a rectangle
         const path = [
@@ -422,7 +465,7 @@ export default class Card
     //
     // > HAND cards 
     //
-    drawHandCard(vis:Visualizer, ctx)
+    drawHandCard(vis:MaterialVisualizer, ctx)
     {
         // draw the two sides independently, one simply rotated by PI
         this.drawHandSide(vis, ctx, "top");
@@ -431,7 +474,7 @@ export default class Card
         this.drawSetID(vis, ctx);
     }
 
-    drawHandSide(vis:Visualizer, ctx, side:string)
+    drawHandSide(vis:MaterialVisualizer, ctx, side:string)
     {
         const sideData = this.sides[side == "top" ? 0 : 1];
         const rot = (side == "top") ? 0 : Math.PI;
@@ -567,7 +610,7 @@ export default class Card
     }
 
     // shared functions for both card types below
-    drawSetID(vis:Visualizer, ctx)
+    drawSetID(vis:MaterialVisualizer, ctx)
     {
         // @TODO: this seems to break when I set alignHorizontal to anything else???
         const fontSizeID = CONFIG.cards.setID.size * vis.sizeUnit;
@@ -594,7 +637,7 @@ export default class Card
         resID.toCanvas(ctx, op);
     }
 
-    drawOutline(vis:Visualizer, ctx)
+    drawOutline(vis:MaterialVisualizer, ctx)
     {
         const outlineSize = CONFIG.cards.outline.size * vis.sizeUnit;
         strokeCanvas(ctx, CONFIG.cards.outline.color, outlineSize);

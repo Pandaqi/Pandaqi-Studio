@@ -2,6 +2,9 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { cardPicker } from "../game/cardPicker"
+import { tilePicker } from "../game/tilePicker"
+import { tokenPicker } from "../game/tokenPicker"
 
 export const CONFIG:any = 
 {
@@ -11,7 +14,7 @@ export const CONFIG:any =
         {
             label: "Add multi food menus",
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             remark: "Makes the game slightly harder but also faster and more strategic (usually)."
         },
 
@@ -23,67 +26,49 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Food Tokens",
-                default: true
+                value: true
             },
 
             recipeCards:
             {
                 type: SettingType.CHECK,
                 label: "Recipe Cards",
-                default: true
+                value: true
             },
 
             baseBeasts:
             {
                 type: SettingType.CHECK,
                 label: "Beasts (Base)",
-                default: true
+                value: true
             },
 
             advancedBeasts:
             {
                 type: SettingType.CHECK,
                 label: "Beasts (Advanced)",
+                value: false
             },
 
             saveThePrincess:
             {
                 type: SettingType.CHECK,
                 label: "Save The Princess",
+                value: false
             }
         }
     },
         
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "feedTheBeastConfig",
-    fileName: "Feed the Beast",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
-
-    fonts:
+    _game:
     {
-        heading: "getronde",
-        body: "ibmplex",
-        special: "trollhunter"
-    },
-
-    allowMultiFoodRecipes: true,
-
-    sets:
-    {
-        foodTokens: true,
-        recipeCards: true,
-        baseBeasts: true,
-        saveThePrincess: false,
+        fileName: "Feed the Beast",
     },
 
     // assets
@@ -204,108 +189,132 @@ export const CONFIG:any =
         defaultVictimFrequency: 1,
     },
 
-    foodTokens:
+    _material:
     {
-        drawerConfig:
+        tokens:
         {
-            sizeElement: new Point(1, 1),
-            size: { 
-                small: new Point(10,15),
-                regular: new Point(8,12),
-                large: new Point(6,9)
-            },  
+            picker: tokenPicker,
+            mapper:
+            {
+                sizeElement: new Point(1, 1),
+                size: { 
+                    small: new Point(10,15),
+                    regular: new Point(8,12),
+                    large: new Point(6,9)
+                },  
+            },
         },
 
-        iconDims: new CVal(new Point(0.975), "sizeUnit"),
-        //circleRadius: new CVal(new Point(0.45), "sizeUnit"),
-        //tierDotRadius: new CVal(new Point(0.05), "sizeUnit")
-    },
-
-    beasts:
-    {
-        drawerConfig:
+        beasts:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1),
-            size: { 
-                small: new Point(2,3),
-                regular: new Point(1,2),
-                large: new Point(1,1)
-            },  
+            picker: tilePicker,
+            mapper:
+            {
+                autoStroke: true,
+                sizeElement: new Point(1, 1),
+                size: { 
+                    small: new Point(2,3),
+                    regular: new Point(1,2),
+                    large: new Point(1,1)
+                },  
+            },
         },
 
-        name:
+        cards:
         {
-            sizePlaque: new CVal(new Point(0.35), "sizeUnit"),
-            posPlaque: new CVal(new Point(0.5, 0.1), "size"),
-            fontSize: new CVal(0.08, "sizeUnit"),
-            fontSizeLevel: new CVal(0.03, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.065), "size"),
-            posLevel: new CVal(new Point(0.5, 0.12), "size"),
-            strokeWidth: new CVal(0.0066, "sizeUnit"),
-            strokeWidthLevel: new CVal(0.004, "sizeUnit")
-        },
-        
-        modal:
-        {
-            fontSize: new CVal(0.0175, "sizeUnit"),
-            size: new CVal(new Point(0.35), "sizeUnit"),
-            sizeForPositioning: new CVal(new Point(0.33), "sizeUnit"),
-            textBoxDims: new CVal(new Point(0.225, 0.33), "sizeUnit"),
-            textPosOffset: 0.075,
-            stateTextOffsetFromCenter: 0.265, // Y-direction
-            stateTextAlpha: 1.0,
-            stateTextStrokeWidth: new CVal(0.0025, "sizeUnit"),
-            anchorPos: new CVal(new Point(0.5, 0.805), "size"),
-            textColor: "#FFFFFF",
-            menuIconOffsetY: 0.066,
-            menuTextOffsetY: 0.133,
-            menuIconDims: new CVal(new Point(0.06), "sizeUnit")
-        },
-
-        modalOptional:
-        {
-            size: new CVal(new Point(0.29, 0.11), "size"),
-            blurRadius: new CVal(0.015, "sizeUnit"),
-            offsetFromEdge: new CVal(new Point(0.175, 0.075), "size"),
-            highlightColor: "#FF7777"
+            picker: cardPicker,
+            mapper: {
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                },  
+            },
         }
     },
 
-    cards:
+    _drawing:
     {
-        drawerConfig:
+        fonts:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            },  
+            heading: "getronde",
+            body: "ibmplex",
+            special: "trollhunter"
         },
 
-        victims:
+        foodTokens:
         {
-            illuPos: new CVal(new Point(0.5, 0.35), "size"),
-            illuDims: new CVal(new Point(0.775), "sizeUnit"),
-
-            fontSizeName: new CVal(0.133, "sizeUnit"),
-            posName: new CVal(new Point(0.5, 0.635), "size"),
-            strokeWidthName: new CVal(0.0075, "sizeUnit"), // @TODO: not sure if this needs stroke actually
-
-            fontSize: new CVal(0.0675, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.866), "size"),
-            textBoxDims: new CVal(new Point(0.9, 0.4), "size"),
+            iconDims: new CVal(new Point(0.975), "sizeUnit"),
+            //circleRadius: new CVal(new Point(0.45), "sizeUnit"),
+            //tierDotRadius: new CVal(new Point(0.05), "sizeUnit")
         },
 
-        menu:
+        beasts:
         {
-            recipeListTop: new CVal(new Point(0.5, 0.175), "size"),
-            recipeListBottom: new CVal(new Point(0.5, 0.975), "size"),
-            spaceXPerRecipe: 0.95,
-            spaceYPerRecipe: 0.725, // percentages of total space that may be filled in with icons/text
-            fontSize: new CVal(0.0545, "sizeUnit")
-        }
-    },
+            name:
+            {
+                sizePlaque: new CVal(new Point(0.35), "sizeUnit"),
+                posPlaque: new CVal(new Point(0.5, 0.1), "size"),
+                fontSize: new CVal(0.08, "sizeUnit"),
+                fontSizeLevel: new CVal(0.03, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.065), "size"),
+                posLevel: new CVal(new Point(0.5, 0.12), "size"),
+                strokeWidth: new CVal(0.0066, "sizeUnit"),
+                strokeWidthLevel: new CVal(0.004, "sizeUnit")
+            },
+            
+            modal:
+            {
+                fontSize: new CVal(0.0175, "sizeUnit"),
+                size: new CVal(new Point(0.35), "sizeUnit"),
+                sizeForPositioning: new CVal(new Point(0.33), "sizeUnit"),
+                textBoxDims: new CVal(new Point(0.225, 0.33), "sizeUnit"),
+                textPosOffset: 0.075,
+                stateTextOffsetFromCenter: 0.265, // Y-direction
+                stateTextAlpha: 1.0,
+                stateTextStrokeWidth: new CVal(0.0025, "sizeUnit"),
+                anchorPos: new CVal(new Point(0.5, 0.805), "size"),
+                textColor: "#FFFFFF",
+                menuIconOffsetY: 0.066,
+                menuTextOffsetY: 0.133,
+                menuIconDims: new CVal(new Point(0.06), "sizeUnit")
+            },
+
+            modalOptional:
+            {
+                size: new CVal(new Point(0.29, 0.11), "size"),
+                blurRadius: new CVal(0.015, "sizeUnit"),
+                offsetFromEdge: new CVal(new Point(0.175, 0.075), "size"),
+                highlightColor: "#FF7777"
+            }
+        },
+
+        cards:
+        {
+            victims:
+            {
+                illuPos: new CVal(new Point(0.5, 0.35), "size"),
+                illuDims: new CVal(new Point(0.775), "sizeUnit"),
+
+                fontSizeName: new CVal(0.133, "sizeUnit"),
+                posName: new CVal(new Point(0.5, 0.635), "size"),
+                strokeWidthName: new CVal(0.0075, "sizeUnit"), // @TODO: not sure if this needs stroke actually
+
+                fontSize: new CVal(0.0675, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.866), "size"),
+                textBoxDims: new CVal(new Point(0.9, 0.4), "size"),
+            },
+
+            menu:
+            {
+                recipeListTop: new CVal(new Point(0.5, 0.175), "size"),
+                recipeListBottom: new CVal(new Point(0.5, 0.975), "size"),
+                spaceXPerRecipe: 0.95,
+                spaceYPerRecipe: 0.725, // percentages of total space that may be filled in with icons/text
+                fontSize: new CVal(0.0545, "sizeUnit")
+            }
+        },
+    }
 }

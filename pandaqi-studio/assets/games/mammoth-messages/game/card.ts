@@ -1,19 +1,63 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { CONFIG } from "../shared/config";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Visualizer from "./visualizer";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import { COLORS, MISC } from "../shared/dict";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import fromArray from "js/pq_games/tools/random/fromArray";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
-import Point from "js/pq_games/tools/geometry/point";
-import range from "js/pq_games/tools/random/range";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import Point from "js/pq_games/tools/geometry/point";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import range from "js/pq_games/tools/random/range";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import { CONFIG } from "../shared/config";
+import { COLORS, MISC } from "../shared/dict";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+
+export const cacheVisualizationData = async (vis:MaterialVisualizer) =>
+{
+    if(vis.custom && Object.keys(vis.custom).length > 0) { return; }
+
+    const shadowOffset = new Point(0, 0.015).scale(vis.sizeUnit);
+    const dropShadowEffects = [new DropShadowEffect({ offset: shadowOffset, color: "#00000077" })];
+
+    const res = new ResourceImage();
+
+    const resMisc = vis.getResource("misc") as ResourceImage;
+    const resIcon = vis.getResource("colors") as ResourceImage;
+    const newCanvases = [];
+
+    // for each color ...
+    for(const [colorKey,colorData] of Object.entries(COLORS))
+    {
+        // create a tinted clay background
+        const img1 = resMisc.getImageFrameAsResource(MISC.clay_square.frame);
+        const ctx = createContext({ size: img1.size });
+        const op1 = new LayoutOperation({
+            effects: [new TintEffect(colorData.color)]
+        })
+        img1.toCanvas(ctx, op1);
+
+        // place the corresponding pattern centered on it (slightly scaled down to push off edges)
+        const center = img1.size.clone().scale(0.5);
+        const img2 = resIcon.getImageFrameAsResource(colorData.frame);
+        const op2 = new LayoutOperation({
+            pos: center,
+            size: img1.size.clone().scale(0.85),
+            pivot: Point.CENTER
+        })
+
+        // save resulting canvas
+        const canv = img2.toCanvas(ctx, op2);
+        newCanvases.push(canv);
+    }
+
+    // save these new frames on the resource
+    const newFrames = await convertCanvasToImageMultiple(newCanvases, true);
+    await res.addFrames(newFrames);
+
+    vis.custom = { dropShadowEffects: dropShadowEffects, tintedSquareResource: res }
+}
 
 export default class Card
 {
@@ -25,9 +69,9 @@ export default class Card
         this.words = w;
     }
 
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer)
     {
-        await vis.cacheTintedSquares();
+        await cacheVisualizationData(vis);
 
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
@@ -42,7 +86,7 @@ export default class Card
         return ctx.canvas;
     }
 
-    drawBackground(vis:Visualizer, group, ctx)
+    drawBackground(vis:MaterialVisualizer, group, ctx)
     {
         if(vis.inkFriendly)
         {
@@ -54,7 +98,7 @@ export default class Card
         const res = vis.resLoader.getResource("word_card_template");
         const resOp = new LayoutOperation({
             size: vis.size,
-            effects: vis.effects
+            effects: vis.inkFriendlyEffect
         });
         group.add(res, resOp);
 
@@ -62,13 +106,13 @@ export default class Card
         const numMessages = CONFIG.cards.secretMessages.num.randomInteger();
         const fontSize = CONFIG.cards.secretMessages.fontSize * vis.sizeUnit;
         const textConfig = new TextConfig({
-            font: CONFIG.fonts.body,
+            font: CONFIG._drawing.fonts.body,
             size: fontSize
         }).alignCenter();
 
         for(let i = 0; i < numMessages; i++)
         {
-            const text = fromArray(CONFIG.cards.secretMessages.options);
+            const text = fromArray(CONFIG.cards.secretMessages.options) as string;
             const resText = new ResourceText({ text: text, textConfig: textConfig });
             const randRot = rangeInteger(0,8) * 0.25 * Math.PI;
             const randPos = new Point(range(0, vis.size.x), range(0, vis.size.y));
@@ -85,7 +129,7 @@ export default class Card
         }
     }
 
-    drawWords(vis:Visualizer, group:ResourceGroup)
+    drawWords(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const fontSize = CONFIG.cards.words.fontSize * vis.sizeUnit;
 
@@ -116,7 +160,7 @@ export default class Card
         const xPositions = [margin, vis.size.x - margin];
 
         const resMisc = vis.resLoader.getResource("misc");
-        const resBlock = vis.tintedSquareResource;
+        const resBlock = vis.custom.tintedSquareResource;
         const resColor = vis.resLoader.getResource("colors");
 
         const iconDims = new Point(CONFIG.cards.words.iconDims * vis.sizeUnit);
@@ -141,7 +185,7 @@ export default class Card
                 pos: new Point(xPos, yPos),
                 size: iconDims,
                 pivot: Point.CENTER,
-                effects: vis.dropShadowEffects
+                effects: vis.custom.dropShadowEffects
             })
             group.add(resBlock, resBlockOp);
             
@@ -152,7 +196,7 @@ export default class Card
                 frame: colorData.frame,
                 alpha: 0.75,
                 composite: "color-burn",
-                effects: vis.effects,
+                effects: vis.inkFriendlyEffect,
                 pivot: Point.CENTER
             })
             group.add(resColor, colorShapeMirrorOp);
@@ -164,7 +208,7 @@ export default class Card
                 pos: new Point(xPos, yPos),
                 size: iconDims,
                 pivot: Point.CENTER,
-                effects: vis.dropShadowEffects
+                effects: vis.custom.dropShadowEffects
             });
             group.add(numberText, numberTextOp);
 
@@ -182,7 +226,7 @@ export default class Card
                 strokeWidth: strokeWidth,
                 strokeAlign: StrokeAlign.OUTSIDE,
                 pivot: new Point(0, 0.5),
-                effects: vis.dropShadowEffects
+                effects: vis.custom.dropShadowEffects
             });
 
             group.add(resText, textOp);

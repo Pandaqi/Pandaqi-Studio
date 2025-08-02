@@ -2,6 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG:any = 
 {
@@ -10,14 +11,14 @@ export const CONFIG:any =
         generatePlayingCards:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             remark: "If turned off, you can use your own standard card deck to play the game."
         },
 
         generateContracts:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             remark: "Required to play the game."
         },
 
@@ -28,54 +29,36 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             fullFlood:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Full Flood"
             },
 
             straightShake:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Straight Shake"
             }
         }
     },
 
-    debug:
+    _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "nobleFloodConfig",
-    fileName: "Noble Flood",
-
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-    pageSize: "a4",
-
-    fonts:
+    _game:
     {
-        heading: "romespalace",
-        body: "cardo",
-        special: "rechtman" // @TODO: not sure if I want/need to load this one in the end
-    },
-
-    generatePlayingCards: true,
-    generateContracts: true,
-
-    sets:
-    {
-        base: true,
-        fullFlood: false,
-        straightShake: false
+        fileName: "Noble Flood",
     },
 
     // assets
@@ -143,7 +126,6 @@ export const CONFIG:any =
         boardCanvasSize: new Point(1440, 1000),
         numCardsPerPlayer: 3,
         surplusContractCardsMultiplier: 2,
-        itemSize: new Point(750, 1050),
 
         maxMapSize: new Point(5,5),
         drawContractProb: 0.8,
@@ -174,122 +156,140 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            },  
-        },
-
-        shared:
-        {
-            bannerDims: new CVal(new Point(0.475), "sizeUnit"),
-            bannerFontSize: new CVal(0.065, "sizeUnit"),
-        },
-
-        suitNumber:
-        {
-            offsetFromEdge: new CVal(new Point(0.085, 0.0925), "sizeUnit"),
-            fontSize: new CVal(0.125, "sizeUnit"),
-            iconDims: new CVal(new Point(0.125), "sizeUnit"),
-
-            iconDimsCenter: new CVal(new Point(0.25), "sizeUnit"),
-            iconDimsCenterSingle: new CVal(new Point(0.66), "sizeUnit"),
-            iconArrangeScalar: new CVal(new Point(0.185,0.275), "size"),
-
-            iconShadow:
+            itemSize: new Point(750, 1050),
+            picker: cardPicker,
+            mapper: 
             {
-                enabled: false,
-                offset: new CVal(new Point(0, 0.025), "sizeUnit"),
-                color: "#00000099",
-                blur: new CVal(0.005, "sizeUnit")
-            },
-        },
-
-        action:
-        {
-            textBoxPos: new CVal(new Point(0.5), "size"),
-            textBoxDims: new CVal(new Point(0.8, 0.375), "size"),
-            fontSize: new CVal(0.0745, "sizeUnit")
-        },
-
-        contract:
-        {
-            rectBlur: new CVal(0.01, "sizeUnit"),
-            rectAlpha: 0.75,
-            fontSize: new CVal(0.071, "sizeUnit"),
-            textBoxPos: new CVal(new Point(0.5, 0.8), "size"),
-            textBoxDims: new CVal(new Point(0.9, 0.3), "size"),
-            textBoxPosAlt: new CVal(new Point(0.5, 0.66), "size"),
-            textBoxDimsAlt: new CVal(new Point(0.9, 0.25), "size"),
-
-            illustration:
-            {
-                pos: new CVal(new Point(0.5, 0.38), "size"),
-                size: new CVal(new Point(0.875), "sizeUnit"),
-            },
-
-            rule:
-            {
-                scaleFactor: 0.675,
-                textBoxPos: new CVal(new Point(0.5, 0.885), "size"),
-                textBoxDims: new CVal(new Point(0.875, 0.15), "size")
-            },
-
-            score:
-            {
-                offset: new CVal(new Point(0.165, 0.18), "sizeUnit"),
-                fontSize: new CVal(0.125, "sizeUnit"),
-                textColor:
-                {
-                    good: "#F4FFDB",
-                    bad: "#FCBFBF"
-                }
-            }
-        },
-
-        contractDraw:
-        {
-            itemSize: new Point(1024),
-            itemSizeUnit: 1024,
-            card: 
-            {
-                itemSizeUnit: 750,
-                itemSize: new Point(750, 1050),
-                strokeWidth: new CVal(0.066, "cards.contractDraw.card.itemSizeUnit"),
-
-                suitPos: new CVal(new Point(0.5, 0.725), "cards.contractDraw.card.itemSize"),
-                suitDims: new CVal(new Point(0.45), "cards.contractDraw.card.itemSizeUnit"),
-
-                fontSize: new CVal(0.5, "cards.contractDraw.card.itemSizeUnit"),
-                numberPos: new CVal(new Point(0.5, 0.275), "cards.contractDraw.card.itemSize"),
-                numberDims: new CVal(new Point(0.5), "cards.contractDraw.card.itemSizeUnit"),
-
-                iconDims:
-                {
-                    betweenCard: 0.45,
-                    overSet: 0.7,
-                }
-            },
-
-            iconDims:
-            {
-                union: new CVal(new Point(0.166), "cards.contractDraw.itemSize"),
-            },
-
-            shadow:
-            {
-                enabled: true,
-                offset: new CVal(new Point(0, 0.025), "cards.contractDraw.itemSizeUnit"),
-                color: "#00000099",
-                blur: new CVal(0.005, "cards.contractDraw.itemSizeUnit")
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                },  
             },
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "romespalace",
+            body: "cardo",
+            special: "rechtman" // @TODO: not sure if I want/need to load this one in the end
+        },
+
+        cards:
+        {
+            shared:
+            {
+                bannerDims: new CVal(new Point(0.475), "sizeUnit"),
+                bannerFontSize: new CVal(0.065, "sizeUnit"),
+            },
+
+            suitNumber:
+            {
+                offsetFromEdge: new CVal(new Point(0.085, 0.0925), "sizeUnit"),
+                fontSize: new CVal(0.125, "sizeUnit"),
+                iconDims: new CVal(new Point(0.125), "sizeUnit"),
+
+                iconDimsCenter: new CVal(new Point(0.25), "sizeUnit"),
+                iconDimsCenterSingle: new CVal(new Point(0.66), "sizeUnit"),
+                iconArrangeScalar: new CVal(new Point(0.185,0.275), "size"),
+
+                iconShadow:
+                {
+                    enabled: false,
+                    offset: new CVal(new Point(0, 0.025), "sizeUnit"),
+                    color: "#00000099",
+                    blur: new CVal(0.005, "sizeUnit")
+                },
+            },
+
+            action:
+            {
+                textBoxPos: new CVal(new Point(0.5), "size"),
+                textBoxDims: new CVal(new Point(0.8, 0.375), "size"),
+                fontSize: new CVal(0.0745, "sizeUnit")
+            },
+
+            contract:
+            {
+                rectBlur: new CVal(0.01, "sizeUnit"),
+                rectAlpha: 0.75,
+                fontSize: new CVal(0.071, "sizeUnit"),
+                textBoxPos: new CVal(new Point(0.5, 0.8), "size"),
+                textBoxDims: new CVal(new Point(0.9, 0.3), "size"),
+                textBoxPosAlt: new CVal(new Point(0.5, 0.66), "size"),
+                textBoxDimsAlt: new CVal(new Point(0.9, 0.25), "size"),
+
+                illustration:
+                {
+                    pos: new CVal(new Point(0.5, 0.38), "size"),
+                    size: new CVal(new Point(0.875), "sizeUnit"),
+                },
+
+                rule:
+                {
+                    scaleFactor: 0.675,
+                    textBoxPos: new CVal(new Point(0.5, 0.885), "size"),
+                    textBoxDims: new CVal(new Point(0.875, 0.15), "size")
+                },
+
+                score:
+                {
+                    offset: new CVal(new Point(0.165, 0.18), "sizeUnit"),
+                    fontSize: new CVal(0.125, "sizeUnit"),
+                    textColor:
+                    {
+                        good: "#F4FFDB",
+                        bad: "#FCBFBF"
+                    }
+                }
+            },
+
+            contractDraw:
+            {
+                itemSize: new Point(1024),
+                itemSizeUnit: 1024,
+                card: 
+                {
+                    itemSizeUnit: 750,
+                    itemSize: new Point(750, 1050),
+                    strokeWidth: new CVal(0.066, "cards.contractDraw.card.itemSizeUnit"),
+
+                    suitPos: new CVal(new Point(0.5, 0.725), "cards.contractDraw.card.itemSize"),
+                    suitDims: new CVal(new Point(0.45), "cards.contractDraw.card.itemSizeUnit"),
+
+                    fontSize: new CVal(0.5, "cards.contractDraw.card.itemSizeUnit"),
+                    numberPos: new CVal(new Point(0.5, 0.275), "cards.contractDraw.card.itemSize"),
+                    numberDims: new CVal(new Point(0.5), "cards.contractDraw.card.itemSizeUnit"),
+
+                    iconDims:
+                    {
+                        betweenCard: 0.45,
+                        overSet: 0.7,
+                    }
+                },
+
+                iconDims:
+                {
+                    union: new CVal(new Point(0.166), "cards.contractDraw.itemSize"),
+                },
+
+                shadow:
+                {
+                    enabled: true,
+                    offset: new CVal(new Point(0, 0.025), "cards.contractDraw.itemSizeUnit"),
+                    color: "#00000099",
+                    blur: new CVal(0.005, "cards.contractDraw.itemSizeUnit")
+                },
+            }
+        },
+    }
 }

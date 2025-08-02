@@ -1,8 +1,4 @@
-import startAmorpheGenerator from "games/thats-amorphe/shared/main";
+import { CONFIG } from "games/thats-amorphe/shared/config";
 
-startAmorpheGenerator({
-    config: "thatsAmorphePicturesConfig",
-    debugging: false, // @DEBUGGING (should be false)
-    what: "words", // @DEBUGGING (should be words)
-    expansion: "pictures"
-})
+CONFIG.expansion = "pictures";
+loadGame(CONFIG);

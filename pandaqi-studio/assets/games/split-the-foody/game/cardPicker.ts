@@ -2,34 +2,27 @@ import { CONFIG } from "../shared/config";
 import { SETS } from "../shared/dict";
 import Card from "./card";
 
-export default class CardPicker
+export const cardPicker = () : Card[] =>
 {
-    cards: Card[]
+    const cards = [];
 
-    constructor() {}
-    get() { return this.cards; }
+    if(CONFIG._settings.sets.base.value) { generateSet(cards, "base"); }
+    if(CONFIG._settings.sets.appetite.value) { generateSet(cards, "appetite"); }
+    if(CONFIG._settings.sets.coins.value) { generateSet(cards, "coins"); }
 
-    generate()
+    return cards;
+}
+
+const generateSet = (cards, key:string) =>
+{
+    const set = SETS[key];
+    for(const [key,data] of Object.entries(set))
     {
-        this.cards = [];
-
-        if(CONFIG._settings.sets.base.value) { this.generateSet("base"); }
-        if(CONFIG._settings.sets.appetite.value) { this.generateSet("appetite"); }
-        if(CONFIG._settings.sets.coins.value) { this.generateSet("coins"); }
-    }
-
-    generateSet(key:string)
-    {
-        const set = SETS[key];
-        for(const [key,data] of Object.entries(set))
+        const freq = data.freq ?? 1;
+        for(let i = 0; i < freq; i++)
         {
-            const freq = data.freq ?? 1;
-            for(let i = 0; i < freq; i++)
-            {
-                const newCard = new Card(key, data);
-                this.cards.push(newCard);
-            }
+            const newCard = new Card(key, data);
+            cards.push(newCard);
         }
     }
-
 }

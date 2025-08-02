@@ -1,14 +1,10 @@
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import Point from "js/pq_games/tools/geometry/point";
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
-import TilePicker from "../game/tilePicker";
-import { CONFIG } from "../shared/config";
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import fromArray from "js/pq_games/tools/random/fromArray";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import Tile from "../game/tile";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
+import { CONFIG } from "../shared/config";
+import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 
 class Hand
 {
@@ -76,30 +72,30 @@ class Hand
         return list;
     }
 
-    async drawNode(o)
+    async drawNode(sim:InteractiveExampleSimulator, o)
     {
-        const node = o.addFlexList(await this.draw());
+        const node = o.addFlexList(await this.draw(sim));
         node.style.flexWrap = "wrap";
     }
 
-    async draw()
+    async draw(sim:InteractiveExampleSimulator)
     {
         const canvases = [];
         for(const tile of this.tiles)
         {
-            canvases.push(await tile.drawForRules(visualizer));
+            canvases.push(await tile.drawForRules(sim.getVisualizer()));
         }
         const images = convertCanvasToImageMultiple(canvases);
         return images;
     }
 }
 
-async function generate()
+const generate = async (sim:InteractiveExampleSimulator) =>
 {
-    await resLoader.loadPlannedResources();
+    await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
 
     // prepare all cards, offers, player hands
-    const tiles : Tile[] = shuffle(picker.get().slice());
+    const tiles : Tile[] = shuffle(sim.getPicker("tiles")());
     const offer : Hand = new Hand().fill([tiles.pop()]);
 
     const numTiles = tiles.length;
@@ -116,8 +112,9 @@ async function generate()
     const AUCTION_PROBABILITY = 0.33;
     const MAX_OFFER_SIZE = 8;
 
+    const o = sim.getOutputBuilder();
     o.addParagraph("The table looks like this.");
-    await offer.drawNode(o);
+    await offer.drawNode(sim, o);
 
     // actually play the meat of the round (adding to offer)
     let keepPlaying = true;
@@ -160,7 +157,7 @@ async function generate()
     }
 
     o.addParagraph("Below are all the <strong>bids</strong> by the players (in player order).");
-    await bids.drawNode(o);
+    await bids.drawNode(sim, o);
 
     const invertAuction = (bidsOutOfRange <= 0);
     if(invertAuction) {
@@ -189,7 +186,7 @@ async function generate()
             playerData.removeTile(randTile);
         } else {
             o.addParagraph("Player " + playerNumStr + " decides to <strong>accept</strong>. They score all the tiles in the offer, which looked as follows in the end.");
-            await offer.drawNode(o);
+            await offer.drawNode(sim, o);
             break;
         }
     }
@@ -197,18 +194,16 @@ async function generate()
     o.addParagraph("The worst bid becomes the start of next offer. Discard the other bids. Next round!");
 }
 
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
+CONFIG._rulebook =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example turn!",
+            callback: generate,
+        }
+    }
+}
 
-const o = e.getOutputBuilder();
-
-const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-resLoader.planLoadMultiple(CONFIG.assets);
-
-CONFIG.resLoader = resLoader;
-CONFIG.itemSize = new Point(CONFIG.rulebook.tileSize);
-const visualizer = new MaterialVisualizer(CONFIG);
-
-const picker = new TilePicker();
-picker.generate();
+loadRulebook(CONFIG._rulebook);

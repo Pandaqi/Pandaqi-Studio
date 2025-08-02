@@ -8,7 +8,7 @@ interface ColorData
 }
 
 // @NOTE: the frame is needed to display the right PATTERN image as well
-const COLORS:Record<string, ColorData> =
+export const COLORS:Record<string, ColorData> =
 {
     "red": { frame: 0, color: "#FF2127", colorText: "#FFCBCD" },
     "orange": { frame: 1, color: "#964200", colorText: "#FFCEA8" },
@@ -27,7 +27,7 @@ interface CaveDrawingData
     frame: number
 }
 
-const DRAWINGS:Record<string, CaveDrawingData> = 
+export const DRAWINGS:Record<string, CaveDrawingData> = 
 {
     // Almost all symbols are just all the common NATURE elements (that cavemen would've illustrated)
     // that I could think of at the moment
@@ -178,13 +178,13 @@ witch
 
 */
 
-const MISC =
+export const MISC =
 {
     clay_square: { frame: 0 },
     divider: { frame: 1 }
 }
 
-const MESSAGES = [
+export const MESSAGES = [
     "Oh no, a mammoth!",
     "Tiger: 0; Caveman: 1",
     "Just discovered fire, it's lit!",
@@ -222,11 +222,3 @@ const MESSAGES = [
     "Went fishing, fish smarter than Ug, they stay in water",
     "Ug learn to count: one, two, many",
 ]
-
-export 
-{
-    COLORS,
-    DRAWINGS,
-    MESSAGES,
-    MISC
-}

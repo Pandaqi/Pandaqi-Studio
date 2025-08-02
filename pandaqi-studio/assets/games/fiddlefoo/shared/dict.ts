@@ -1,5 +1,5 @@
 
-const SPECIAL_CARDS =
+export const SPECIAL_CARDS =
 {
     discard: { frame: 0, freq: 1, desc: "<b>When Paired</b>: Discard 1 card." },
     draw: { frame: 1, freq: 1, desc: "<b>When Thrown</b>: Draw 1 card." },
@@ -27,7 +27,7 @@ const SPECIAL_CARDS =
     distance_limit: { frame: 20, freq: 1, desc: "<b>When Paired</b>: You can't create a Distance larger than 2." },
 }
 
-const TEMPLATES = 
+export const TEMPLATES = 
 {
     yellow: { frame: 0, written: "Yellow" },
     red: { frame: 1, written: "Red" },
@@ -36,9 +36,3 @@ const TEMPLATES =
     note: { frame: 4 },
     special_bg: { frame: 5 }
 }
-
-export {
-    SPECIAL_CARDS,
-    TEMPLATES
-};
-
