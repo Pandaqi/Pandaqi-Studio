@@ -2,10 +2,13 @@ import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
 
 export const CONFIG:any = 
 {
-    fonts:
+    _drawing:
     {
-        heading: "klarissa",
-        body: "cooper",
+        fonts:
+        {
+            heading: "klarissa",
+            body: "cooper",
+        },
     },
 
     // assets

@@ -42,7 +42,7 @@ export class BoardGeneration
 		this.generate();
 	}
 
-	async draw(vis:MaterialVisualizer)
+	async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
 	{
 		const group = vis.prepareDraw();
 

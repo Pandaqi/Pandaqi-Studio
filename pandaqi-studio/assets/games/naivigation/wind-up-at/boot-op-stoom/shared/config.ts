@@ -1,9 +1,8 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig";
 import CVal from "js/pq_games/tools/generation/cval";
-import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point"
 import { cardPicker } from "../game/cardPicker";
-import tilePicker from "../game/tilePicker";
+import { tilePicker } from "../game/tilePicker";
 
 export const CONFIG:any = 
 {

@@ -36,22 +36,12 @@ export default class GeneralPickerNaivigation
     constructor(config, elemClass) 
     {
         this.config = config;
-        //this.setupConfig();
         this.elementClass = elemClass;
         this.data = [];
     }
 
-    // @TODO: is this even needed?? Turned off and seems fine => .generate() is called by MaterialGenerator _after_ it does .setupConfig itself, so it's fine!
-    setupConfig()
-    {
-        const userConfig = JSON.parse(window.localStorage[this.config.configKey] ?? "{}");
-        Object.assign(this.config, userConfig);
-    }
-
-    asFunction()
-    {
-        return () => { this.generate() };
-    }
+    // easy bridge to the new Pandaqi system where all pickers are just plain functions
+    asFunction() { return () => { this.generate() }; }
 
     get() { return this.elements; }
     generate()

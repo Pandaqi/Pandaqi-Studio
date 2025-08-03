@@ -1,7 +1,14 @@
+import createContext from "js/pq_games/layout/canvas/createContext";
+import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
+import TintEffect from "js/pq_games/layout/effects/tintEffect";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import DominoPart from "./dominoPart"
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import { CONFIG } from "./config";
 import { CELLS, DOMINO_COLORS, LETTERS } from "./dict";
+import DominoPart from "./dominoPart";
+import Point from "js/pq_games/tools/geometry/point";
+import Color from "js/pq_games/layout/color/color";
 
 export default class Domino 
 {
@@ -51,11 +58,12 @@ export default class Domino
         return false;
     }
 
-    async draw(vis:MaterialVisualizer)
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
+        const cardSize = vis.size;
         const visualParams = 
         {
-            inkFriendly: userConfig.inkFriendly,
+            inkFriendly: CONFIG._settings.defaults.inkFriendly.value,
     
             background: 
             { 
@@ -67,7 +75,7 @@ export default class Domino
     
             walls: 
             {
-                include: userConfig.expansions.wereWalls,
+                include: CONFIG._settings.expansions.wereWalls.value,
                 scale: 0.825, // looks best if the same as positionFactor, and near textPositionFactor (see below)
                 max: 2,
                 prob: 0.35,
@@ -81,7 +89,7 @@ export default class Domino
                 fontSize: 0.075*cardSize.y,
                 width: 0.2*0.5*cardSize.x,
                 textPositionFactor: 0.85,
-                printLetterText: userConfig.showLetters
+                printLetterText: CONFIG._settings.showLetters.value
             },
     
             ramps: 
@@ -114,15 +122,20 @@ export default class Domino
                 color: "#FF0000",
                 width: 0.01*cardSize.x,
                 pickProb: 0.25
-            }
+            },
+
+            ctx: null
         }
 
-        const group = vis.prepareDraw();
-        this.drawDomino(vis, group, visualParams);
-        return await vis.finishDraw(group);
+        // @NOTE: This uses a weird params object passed into everything because it's my translation of very old code to fit the new system
+        // It doesn't actually use ResourceGroups or any of the new functionalities -> it just draws immediately onto a single canvas
+        const ctx = createContext({ size: vis.size });
+        visualParams.ctx = ctx;
+        this.drawDomino(vis, visualParams);
+        return ctx.canvas;
     }
 
-    async drawDomino(vis:MaterialVisualizer, group:ResourceGroup, params)
+    async drawDomino(vis:MaterialVisualizer, params)
     {
         // the basics
         params.background.colorIndex = Math.floor(Math.random() * DOMINO_COLORS.length);
@@ -142,7 +155,7 @@ export default class Domino
             params.side = i;
             params.center = centers[i];
             params.dominoPart = params.domino.getSide(i);
-            await this.drawDominoPart(vis, group, params);
+            await this.drawDominoPart(vis, params);
         }
 
         // the separator line between parts
@@ -162,7 +175,7 @@ export default class Domino
         strokeCanvas(ctx, params.outlineColor, params.outlineWidth);
     }
 
-    async drawDominoPart(vis:MaterialVisualizer, group:ResourceGroup, params)
+    async drawDominoPart(vis:MaterialVisualizer, params)
     {
         const ctx = params.ctx;
         const part = params.dominoPart;
@@ -201,7 +214,7 @@ export default class Domino
                     size: new Point(partSize),
                     alpha: 0.66,
                 });
-                group.add(blockResource, canvOp);
+                blockResource.toCanvas(ctx, canvOp);
             }
         }
 
@@ -218,7 +231,7 @@ export default class Domino
                 alpha: params.background.alpha,
                 composite: params.background.composite,
             })
-            group.add(bgResource, canvOp);
+            bgResource.toCanvas(ctx, canvOp);
         }
 
         let innerSquareColor = params.background.color.lighten(-10);
@@ -247,7 +260,7 @@ export default class Domino
                 ],
                 size: new Point(squareSize),
             })
-            group.add(decorationResource, canvOp);
+            decorationResource.toCanvas(ctx, canvOp);
         }
 
         let letterValueColor = params.background.color.lighten(12.5).toString();
@@ -308,7 +321,7 @@ export default class Domino
                     size: new Point(squareSize),
                 })
 
-                group.add(wallResource, canvOp);
+                wallResource.toCanvas(ctx, canvOp);
                 wallAdded = true;
             }
 
@@ -355,7 +368,7 @@ export default class Domino
                 ],
                 size: new Point(sizeMax)
             });
-            group.add(symbolResource, canvOp);
+            symbolResource.toCanvas(ctx, canvOp);
         }
 
 
