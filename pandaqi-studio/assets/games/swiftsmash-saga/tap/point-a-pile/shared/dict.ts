@@ -1,4 +1,4 @@
-enum CardType
+export enum CardType
 {
     REGULAR = "regular",
     MISSION = "mission",
@@ -7,7 +7,7 @@ enum CardType
     SHY = "shy",
 }
 
-enum ColorType
+export enum ColorType
 {
     RED = "red",
     BLUE = "blue",
@@ -24,7 +24,7 @@ interface GeneralData
 }
 type GeneralDict = Record<string, GeneralData>
 
-const DYNAMIC_STRINGS:Record<string,any[]> =
+export const DYNAMIC_STRINGS:Record<string,any[]> =
 {
     "%sign%": ["+1", "-1"],
     "%signweighted%": ["+1", "+1", "+1", "-1"],
@@ -34,7 +34,7 @@ const DYNAMIC_STRINGS:Record<string,any[]> =
     "%color%": Object.values(ColorType)
 }
 
-const REGULAR_CARDS:GeneralDict =
+export const REGULAR_CARDS:GeneralDict =
 {
     empty: { frame: 0, desc: "", label: "Color", prob: 7 }, // just an empty card with nothing special
     score_raw: { frame: 1, desc: "I am <b>%sign% point</b>.", label: "Score" },
@@ -48,7 +48,7 @@ const REGULAR_CARDS:GeneralDict =
     score_headpointer: { frame: 9, desc: "I am <b>%sign% point</b> while you are Headpointer.", label: "Head Reward", prob: 0.5 }
 }
 
-const MISSION_CARDS:GeneralDict =
+export const MISSION_CARDS:GeneralDict =
 {
     color_same: { frame: 0, desc: "You need <b>5 cards</b> of the <i>same color</i>." },
     color_diff: { frame: 1, desc: "You need at least <b>2 cards</b> of <i>every color</i> in the game." },
@@ -62,7 +62,7 @@ const MISSION_CARDS:GeneralDict =
     color_specific: { frame: 9, desc: "You need <b>%numhigh% %color% cards</b> and <b>%numlow% %color% cards</b>." },
 }
 
-const ACTION_CARDS:GeneralDict =
+export const ACTION_CARDS:GeneralDict =
 {
     swap: { frame: 0, desc: "<b>Swap</b> 2 piles.", label: "Swap" },
     steal: { frame: 1, desc: "<b>Steal</b> 1 card from a pile you didn't win this round.", label: "Steal" },
@@ -82,7 +82,7 @@ const ACTION_CARDS:GeneralDict =
     trade: { frame: 15, desc: "<b>Multiple players</b> want a pile? Give all others a scored card to win it alone.", label: "Trade", prob: 0.75 }
 }
 
-const RULE_CARDS:GeneralDict =
+export const RULE_CARDS:GeneralDict =
 {
     color_diff: { frame: 0, desc: "You <b>can't</b> pick a pile that shows the <b>same color</b> as your last card scored.", label: "Not Last", prob: 10 },
     color_same: { frame: 1, desc: "You <b>must</b> pick a pile that shows the <b>same color</b> as your last card scored.", label: "Force Last", prob: 4 },
@@ -94,7 +94,7 @@ const RULE_CARDS:GeneralDict =
     text_same: { frame: 7, desc: "If your last card scored is <b>textless</b>, you can't point at a pile with a <b>textless</b> card.", label: "Not Textless" }
 }
 
-const SHY_CARDS:GeneralDict =
+export const SHY_CARDS:GeneralDict =
 {
     active_only: { frame: 0, desc: "Only the <b>Headpointer</b> can pick me.", label: "Head Only" },
     active_forbidden: { frame: 1, desc: "Only players who are <b>not the Headpointer</b> can pick me.", label: "Head Veto" },
@@ -106,7 +106,7 @@ const SHY_CARDS:GeneralDict =
     shy_new: { frame: 7, desc: "Only player(s) <b>without shy cards</b> (scored) can pick me.", label: "Not Shy" },
 }
 
-const MATERIAL:Record<CardType, GeneralDict> =
+export const MATERIAL:Record<CardType, GeneralDict> =
 {
     [CardType.REGULAR]: REGULAR_CARDS,
     [CardType.MISSION]: MISSION_CARDS,
@@ -115,7 +115,7 @@ const MATERIAL:Record<CardType, GeneralDict> =
     [CardType.SHY]: SHY_CARDS,
 }
 
-const TYPES =
+export const TYPES =
 {
     [CardType.REGULAR]: { frame: 0 },
     [CardType.MISSION]: { frame: 1 },
@@ -124,7 +124,7 @@ const TYPES =
     [CardType.SHY]: { frame: 4 }
 }
 
-const CARD_TEMPLATES =
+export const CARD_TEMPLATES =
 {
     [ColorType.RED]: { frame: 0, hex: "#fa3f3f" },
     [ColorType.BLUE]: { frame: 1, hex: "#3faffa" },
@@ -132,12 +132,3 @@ const CARD_TEMPLATES =
     [ColorType.PURPLE]: { frame: 3, hex: "#a459e1" },
     [CardType.MISSION]: { frame: 4, hex: "#dbd616" }
 }
-
-export {
-    CardType,
-    ColorType,
-    MATERIAL,
-    DYNAMIC_STRINGS,
-    TYPES,
-    CARD_TEMPLATES
-};

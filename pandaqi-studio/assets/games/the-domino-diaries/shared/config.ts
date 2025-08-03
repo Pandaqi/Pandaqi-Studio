@@ -4,13 +4,6 @@ import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 export const CONFIG:any = 
 {
     assetsBase: "/the-domino-diaries/assets/",
-
-    fonts:
-    {
-        heading: "domino",
-        body: "spacegrotesk"
-    },
-
     assets:
     {
         spacegrotesk:
@@ -28,6 +21,15 @@ export const CONFIG:any =
         domino:
         {
             path: "fonts/Domino-Regular.woff2",
+        },
+    },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "domino",
+            body: "spacegrotesk"
         },
     }
 }

@@ -6,14 +6,16 @@ import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
 import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
-import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Line from "js/pq_games/tools/geometry/line";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import seedRandom from "js/pq_games/tools/random/seedrandom";
 import Cell from "./cell";
-import { HINTS, HINT_ICONS, LANDMARKS, LISTS, NATURE, QUADRANTS, ROADS, STONES, TERRAINS, TERRAIN_DATA, alphabet } from "./dictionary";
+import { HINTS, HINT_ICONS, LANDMARKS, LISTS, NATURE, QUADRANTS, ROADS, STONES, TERRAINS, TERRAIN_DATA, alphabet } from "../shared/dict";
 import Interface from "./interface";
+import { CONFIG } from "../shared/config";
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 
 type Hint = { final_text?: string, html_text?: string }
 
@@ -49,7 +51,7 @@ export default class BoardGeneration
 		await vis.resLoader.loadPlannedResources();
 
 		this.visualizer = vis;
-    	this.generateConfiguration(vis.config);
+    	this.generateConfiguration(CONFIG);
 
 		const div = document.createElement("div");
 		div.id = "game-canvases-container";
@@ -185,7 +187,7 @@ export default class BoardGeneration
 		const pdfBuilder = new PdfBuilder({ orientation: PageOrientation.LANDSCAPE });
 		for(const img of pdfImages)
 		{
-			pdfBuilder.addImage(img);
+			pdfBuilder.addImage(await convertCanvasToImage(img));
 		}
 
 		const pdfParams = { customFileName: "[Pirate Riddlebeard] Premade Game" };

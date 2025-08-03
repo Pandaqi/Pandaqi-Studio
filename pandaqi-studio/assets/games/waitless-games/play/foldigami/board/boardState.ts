@@ -21,7 +21,7 @@ export default class BoardState
     createGrid()
     {
         const grid = [];
-        const size = CONFIG.board.size;
+        const size = CONFIG._drawing.board.size;
         this.size = size;
         for(let x = 0; x < size.x; x++)
         {

@@ -2,6 +2,7 @@ import CVal from "js/pq_games/tools/generation/cval";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG:any = 
 {
@@ -14,7 +15,7 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
@@ -22,6 +23,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Colorcracks",
+                value: false,
                 remark: "An expansion that adds some special actions and fun twists."
             },
         }
@@ -37,20 +39,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Smackshapes",
-    },
-
-    
-
-    fonts:
-    {
-        heading: "mousememoirs",
-        body: "manuscript",
-    },
-
-    sets:
-    {
-        base: true,
-        colorCracks: false,
     },
 
     // assets
@@ -93,44 +81,58 @@ export const CONFIG:any =
         numberSpecial: [5,7,9]
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            preset: GridSizePreset.CARD
-        },
-
-        ranking:
-        {
-            rectPos: new CVal(new Point(0.5, 0.0875), "size"),
-            rectSize: new CVal(new Point(0.775, 0.08), "size"),
-            iconSize: new CVal(new Point(0.1), "sizeUnit"),
-            bgColorNormal: "#ffd98f",
-            bgColorAction: "#c6d0ff"
-        },
-
-        shapes:
-        {
-            iconSize: new CVal(new Point(0.175), "sizeUnit"),
-            topLeft: new CVal(new Point(0.2, 0.225), "size"),
-            boxSize: new CVal(new Point(0.6, 0.675), "size")
-        },
-
-        action:
-        {
-            positionCutoffIndex: 11,
-            icon:
-            {
-                pos: new CVal(new Point(0.165, 0.812), "size"),
-                size: new CVal(new Point(0.33), "sizeUnit")
-            },
-
-            text:
-            {
-                fontSize: new CVal(0.08, "sizeUnit"),
-                pos: new CVal(new Point(0.575, 0.812), "size"),
-                boxSize: new CVal(new Point(0.65, 0.33), "size")
-            }
+            itemSize: new Point(375, 575),
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "mousememoirs",
+            body: "manuscript",
+        },
+
+        cards:
+        {
+            ranking:
+            {
+                rectPos: new CVal(new Point(0.5, 0.0875), "size"),
+                rectSize: new CVal(new Point(0.775, 0.08), "size"),
+                iconSize: new CVal(new Point(0.1), "sizeUnit"),
+                bgColorNormal: "#ffd98f",
+                bgColorAction: "#c6d0ff"
+            },
+
+            shapes:
+            {
+                iconSize: new CVal(new Point(0.175), "sizeUnit"),
+                topLeft: new CVal(new Point(0.2, 0.225), "size"),
+                boxSize: new CVal(new Point(0.6, 0.675), "size")
+            },
+
+            action:
+            {
+                positionCutoffIndex: 11,
+                icon:
+                {
+                    pos: new CVal(new Point(0.165, 0.812), "size"),
+                    size: new CVal(new Point(0.33), "sizeUnit")
+                },
+
+                text:
+                {
+                    fontSize: new CVal(0.08, "sizeUnit"),
+                    pos: new CVal(new Point(0.575, 0.812), "size"),
+                    boxSize: new CVal(new Point(0.65, 0.33), "size")
+                }
+            }
+        },
+    }
 }

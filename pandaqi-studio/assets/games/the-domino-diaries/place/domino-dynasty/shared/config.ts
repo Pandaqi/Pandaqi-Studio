@@ -2,6 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import Point from "js/pq_games/tools/geometry/point"
+import { dominoPicker } from "../game/dominoPicker"
 
 export const CONFIG:any = 
 {
@@ -11,6 +12,7 @@ export const CONFIG:any =
         {
             type: SettingType.CHECK,
             label: "Add Text",
+            value: false,
             remark: "Adds text that explains what a tile does on the tile itself."
         },
 
@@ -21,14 +23,14 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             roles:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Role Tiles"
             },
 
@@ -36,24 +38,28 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Goblin Grandma",
+                value: false,
             },
 
             proximity:
             {
                 type: SettingType.CHECK,
                 label: "Proximity Papa",
+                value: false,
             },
 
             direction:
             {
                 type: SettingType.CHECK,
                 label: "Direction Daddy",
+                value: false,
             },
 
             machine:
             {
                 type: SettingType.CHECK,
                 label: "Machine Mama",
+                value: false,
             },
         }
     },
@@ -68,25 +74,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Domino Dynasty",
-    },
-
-    
-    addText: true,
-
-    fonts:
-    {
-        heading: "dumbledor",
-        body: "caslon",
-    },
-
-    sets:
-    {
-        roles: true,
-        base: true,
-        proximity: false,
-        direction: false,
-        machine: false,
-        goblin: false
     },
 
     // assets
@@ -195,75 +182,88 @@ export const CONFIG:any =
         }
     },
 
-    dominoes:
+    _material:
     {
-        drawerConfig:
+        dominoes:
         {
-            preset: GridSizePreset.DOMINO
-        },
-
-        missionTemplateFrame: 5, // 0-4 are for the 5 player roles
-        eventTemplateFrame: 6,
-
-        main:
-        {
-            size: new CVal(new Point(0.65), "sizeUnit"),
-            sizeCapital: new CVal(new Point(0.975), "sizeUnit")
-        },
-
-        mission:
-        {
-            fontSize: new CVal(0.062, "sizeUnit"),
-            posFlavorText: new CVal(new Point(0.075, 0.175), "size"),
-            sizeFlavorText: new CVal(new Point(0.835, 0.5), "size"),
-
-            requirements:
-            {
-                pos: new CVal(new Point(0.5, 0.48), "size"),
-                size: new CVal(new Point(0.195), "sizeUnit"), // this is PER icon/requirement
-
-                posIcon: new CVal(new Point(-0.38, 0), "size"), // this is RELATIVE to (0,0) in center of requirement row
-                posText: new CVal(new Point(0.45, 0), "size"),
-                fontSize: new CVal(0.07, "sizeUnit")
-            },
-
-            consequence:
-            {
-                posHeader: new CVal(new Point(0.5, 0.8), "size"),
-                posText: new CVal(new Point(0.5, 0.885), "size"),
-                sizeText: new CVal(new Point(0.835, 0.185), "size"),
-                sizeHeader: new CVal(new Point(0.35), "sizeUnit"),
-            },
-
-            shushIcon:
-            {
-                pos: new CVal(new Point(0.9, 0.14), "size"),
-                size: new CVal(new Point(0.175), "sizeUnit")
-            }
-        },
-
-        events:
-        {
-            fontSizeHeader: new CVal(0.135, "sizeUnit"),
-            posHeader: new CVal(new Point(0.5, 0.33), "size"),
-            fontSizeBody: new CVal(0.075, "sizeUnit"),
-            posBody: new CVal(new Point(0.5, 0.6), "size")
-        },
-
-        setText:
-        {
-            size: new CVal(0.075, "sizeUnit"),
-            color: "#121212",
-            alpha: 0.75
-        },
-
-        powerText:
-        {
-            fontSize: new CVal(0.0645, "sizeUnit"),
-            color: "#FEFEFE",
-            rectColor: "#121212",
-            rectAlpha: 0.7   
+            picker: dominoPicker,
+            mapper: MapperPreset.DOMINO
         }
-
     },
+
+    _drawing:
+    {    
+        fonts:
+        {
+            heading: "dumbledor",
+            body: "caslon",
+        },
+
+        dominoes:
+        {
+            missionTemplateFrame: 5, // 0-4 are for the 5 player roles
+            eventTemplateFrame: 6,
+
+            main:
+            {
+                size: new CVal(new Point(0.65), "sizeUnit"),
+                sizeCapital: new CVal(new Point(0.975), "sizeUnit")
+            },
+
+            mission:
+            {
+                fontSize: new CVal(0.062, "sizeUnit"),
+                posFlavorText: new CVal(new Point(0.075, 0.175), "size"),
+                sizeFlavorText: new CVal(new Point(0.835, 0.5), "size"),
+
+                requirements:
+                {
+                    pos: new CVal(new Point(0.5, 0.48), "size"),
+                    size: new CVal(new Point(0.195), "sizeUnit"), // this is PER icon/requirement
+
+                    posIcon: new CVal(new Point(-0.38, 0), "size"), // this is RELATIVE to (0,0) in center of requirement row
+                    posText: new CVal(new Point(0.45, 0), "size"),
+                    fontSize: new CVal(0.07, "sizeUnit")
+                },
+
+                consequence:
+                {
+                    posHeader: new CVal(new Point(0.5, 0.8), "size"),
+                    posText: new CVal(new Point(0.5, 0.885), "size"),
+                    sizeText: new CVal(new Point(0.835, 0.185), "size"),
+                    sizeHeader: new CVal(new Point(0.35), "sizeUnit"),
+                },
+
+                shushIcon:
+                {
+                    pos: new CVal(new Point(0.9, 0.14), "size"),
+                    size: new CVal(new Point(0.175), "sizeUnit")
+                }
+            },
+
+            events:
+            {
+                fontSizeHeader: new CVal(0.135, "sizeUnit"),
+                posHeader: new CVal(new Point(0.5, 0.33), "size"),
+                fontSizeBody: new CVal(0.075, "sizeUnit"),
+                posBody: new CVal(new Point(0.5, 0.6), "size")
+            },
+
+            setText:
+            {
+                size: new CVal(0.075, "sizeUnit"),
+                color: "#121212",
+                alpha: 0.75
+            },
+
+            powerText:
+            {
+                fontSize: new CVal(0.0645, "sizeUnit"),
+                color: "#FEFEFE",
+                rectColor: "#121212",
+                rectAlpha: 0.7   
+            }
+
+        },
+    }
 }

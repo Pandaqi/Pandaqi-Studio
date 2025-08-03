@@ -2,6 +2,7 @@ import { CONFIG_SHARED } from "games/throneless-games/shared/configShared";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG:Record<string,any> = 
 {
@@ -11,21 +12,21 @@ export const CONFIG:Record<string,any> =
         {
             type: SettingType.CHECK,
             label: "High Legibility",
-            default: true,
+            value: true,
             remark: "Picks a more neutral font for maximum legibility.",
         },
 
         generateThroneCards:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "Generate Thronecards",
         },
 
         generateSeatCards:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "Generate Seatcards",
         },
 
@@ -33,7 +34,7 @@ export const CONFIG:Record<string,any> =
         {
             type: SettingType.ENUM,
             values: ["none", "starter", "medium", "advanced", "complete", "random"],
-            default: "starter",
+            value: "starter",
             remark: "Pick a predetermined set, or use none and pick your specific card packs below!"
         },
 
@@ -41,7 +42,7 @@ export const CONFIG:Record<string,any> =
         {
             type: SettingType.MULTI,
             values: ["solongNecks", "boardomThieves", "longswordFins", "atheneyes", "gallopeers", "candlesticks", "taredtula", "sonarAndSons", "sirensOfSeatongue", "cracktapus", "ravenletters", "twistertoots"],
-            default: ["solongNecks", "atheneyes", "candlesticks", "sonarAndSons"],
+            value: ["solongNecks", "atheneyes", "candlesticks", "sonarAndSons"],
             label: "Seekers"
         }
     },
@@ -57,12 +58,8 @@ export const CONFIG:Record<string,any> =
     {
         fileName: "Kaizerseat",
     },
-
+    
     assetsBase: "/throneless-games/conquer/kaizerseat/assets/",
-
-    generateThroneCards: true,
-    generateSeatCards: true,
-
     assets:
     {
         card_templates:
@@ -88,21 +85,32 @@ export const CONFIG:Record<string,any> =
         drawThroneCard: true,
     },
 
-    cards:
+     _material:
     {
-        displayActionTypes: true,
-
-        actionType:
+        cards:
         {
-            fontSize: new CVal(0.075, "sizeUnit"),
-            alpha: 0.8
-        },
+            picker: cardPicker
+        }
+    },
 
-        specialText:
+    _drawing:
+    {
+        cards:
         {
-            pos: new CVal(new Point(0.5, 0.6), "size"),
-            fontSize: new CVal(0.063, "sizeUnit"),
-            textBoxDims: new CVal(new Point(0.8, 0.66), "size"),
+            displayActionTypes: true,
+
+            actionType:
+            {
+                fontSize: new CVal(0.075, "sizeUnit"),
+                alpha: 0.8
+            },
+
+            specialText:
+            {
+                pos: new CVal(new Point(0.5, 0.6), "size"),
+                fontSize: new CVal(0.063, "sizeUnit"),
+                textBoxDims: new CVal(new Point(0.8, 0.66), "size"),
+            }
         }
     }
 }

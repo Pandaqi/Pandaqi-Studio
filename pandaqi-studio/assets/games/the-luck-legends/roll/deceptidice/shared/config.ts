@@ -3,6 +3,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import { SUITS } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG:any = 
 {
@@ -15,7 +16,7 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
@@ -23,6 +24,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Wildcards",
+                value: false,
                 remark: "A tiny expansion that adds wildcards (that can be anything you want)."
             },
 
@@ -30,6 +32,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Power Cards",
+                value: false,
                 remark: "An expansion that adds special powers, for more bluffing and wild reveals."
             },
         }
@@ -45,21 +48,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Deceptidice",
-    },
-
-    
-
-    fonts:
-    {
-        heading: "brasspounder",
-        body: "caslon"
-    },
-
-    sets:
-    {
-        base: true,
-        wildCards: false,
-        powerCards: false
     },
 
     // assets
@@ -143,65 +131,84 @@ export const CONFIG:any =
         wildCardsNum: 7,
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
-        },
-
-        bg:
-        {
-            outlineAlpha: 0.4,
-        },
-
-        wildcard:
-        {
-            tint: "#787878",
-            drawAllSuits: true,
-        },
-
-        numbers:
-        {
-            offset: new CVal(new Point(0.13, 0.14), "sizeUnit"),
-            boxDims: new CVal(new Point(0.2), "sizeUnit"),
-            suitDims: new CVal(new Point(0.15), "sizeUnit"),
-            fontSize: new CVal(0.15, "sizeUnit")
-        },
-
-        mainNumber:
-        {
-            circleDims: new CVal(new Point(0.5), "sizeUnit"), // this is only the inner circle, not the numbers
-            circleRadius: new CVal(0.341, "sizeUnit"), // this is the numbers
-            fontSize: new CVal(0.275, "sizeUnit"),
-            shadowOffset: new CVal(new Point(0, 0.033), "cards.mainNumber.fontSize")
-        },
-
-        bids:
-        {
-            bgColor: "#787878",
-            tintColor: "#ffffff",
-
-            headingOffset: new CVal(new Point(0.575, 0.1), "size"),
-            fontSizeHeading: new CVal(0.1, "sizeUnit"),
-            headingDims: new CVal(new Point(1.0, 0.1), "size"),
-            iconPos: new CVal(new Point(0.5, 0.375), "size"),
-            iconDims: new CVal(new Point(0.475), "sizeUnit"),
-            fontSize: new CVal(0.0785, "sizeUnit"),
-            textPos: new CVal(new Point(0.5, 0.7), "size"),
-            textDims: new CVal(new Point(0.8, 0.4), "size")
-        },
-
-        overlay:
-        {
-            alpha: 0.2
+            itemSize: new Point(375, 525), // for rulebook
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
         }
+    },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "brasspounder",
+            body: "caslon"
+        },
+
+        cards:
+        {
+            drawerConfig:
+            {
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: 
+                { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                }, 
+            },
+
+            bg:
+            {
+                outlineAlpha: 0.4,
+            },
+
+            wildcard:
+            {
+                tint: "#787878",
+                drawAllSuits: true,
+            },
+
+            numbers:
+            {
+                offset: new CVal(new Point(0.13, 0.14), "sizeUnit"),
+                boxDims: new CVal(new Point(0.2), "sizeUnit"),
+                suitDims: new CVal(new Point(0.15), "sizeUnit"),
+                fontSize: new CVal(0.15, "sizeUnit")
+            },
+
+            mainNumber:
+            {
+                circleDims: new CVal(new Point(0.5), "sizeUnit"), // this is only the inner circle, not the numbers
+                circleRadius: new CVal(0.341, "sizeUnit"), // this is the numbers
+                fontSize: new CVal(0.275, "sizeUnit"),
+                shadowOffset: new CVal(new Point(0, 0.033), "cards.mainNumber.fontSize")
+            },
+
+            bids:
+            {
+                bgColor: "#787878",
+                tintColor: "#ffffff",
+
+                headingOffset: new CVal(new Point(0.575, 0.1), "size"),
+                fontSizeHeading: new CVal(0.1, "sizeUnit"),
+                headingDims: new CVal(new Point(1.0, 0.1), "size"),
+                iconPos: new CVal(new Point(0.5, 0.375), "size"),
+                iconDims: new CVal(new Point(0.475), "sizeUnit"),
+                fontSize: new CVal(0.0785, "sizeUnit"),
+                textPos: new CVal(new Point(0.5, 0.7), "size"),
+                textDims: new CVal(new Point(0.8, 0.4), "size")
+            },
+
+            overlay:
+            {
+                alpha: 0.2
+            }
+        },
     },
 }

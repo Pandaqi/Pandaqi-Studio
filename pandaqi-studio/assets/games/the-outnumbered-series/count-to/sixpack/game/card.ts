@@ -1,11 +1,12 @@
 import Point from "js/pq_games/tools/geometry/point";
 import { PACKS, PackData } from "../shared/dict"
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { CONFIG } from "./config";
+import { CONFIG } from "../shared/config";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import ColorLike from "js/pq_games/layout/color/colorLike";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 
 export default class Card 
 {
@@ -26,29 +27,27 @@ export default class Card
         this.hand = params.hand ?? false;
     }
 
-    async visualize() : Promise<HTMLCanvasElement>
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
-        const ctx = this.setupCanvas();
-        this.visualizeBackground(ctx);
-        this.visualizeType(ctx);
+        const ctx = this.setupCanvas(vis);
+        this.visualizeBackground(vis, ctx);
+        this.visualizeType(vis, ctx);
         this.visualizeNumbers(ctx);
-        this.visualizeHands(ctx);
+        this.visualizeHands(vis, ctx);
         this.visualizeOutline(ctx);
         return ctx.canvas;
     }
 
-    setupCanvas()
+    setupCanvas(vis:MaterialVisualizer)
     {
-        const size = CONFIG.cards.sizeResult;
+        const size = vis.size;
         this.size = size.clone();
         this.minSize = Math.min(this.size.x, this.size.y);
         this.centerPos = new Point(0.5*size.x, 0.5*size.y);
-
         return createContext({ size: size });
-
     }
 
-    visualizeBackground(ctx)
+    visualizeBackground(vis:MaterialVisualizer, ctx)
     {
         ctx.fillStyle = "#FFFFFF";
         ctx.fillRect(0, 0, this.size.x, this.size.y);
@@ -56,7 +55,7 @@ export default class Card
         if(CONFIG.inkFriendly) { return; }
 
         const scaleFactor = CONFIG.cards.bgScale ?? 0.99;
-        const bgResource = CONFIG.resLoader.getResource("card_backgrounds");
+        const bgResource = vis.getResource("card_backgrounds");
         const canvOp = new LayoutOperation({
             frame: this.typeData.frame,
             pos: this.centerPos,
@@ -66,7 +65,7 @@ export default class Card
         bgResource.toCanvas(ctx, canvOp);
     }
 
-    visualizeType(ctx)
+    visualizeType(vis:MaterialVisualizer, ctx)
     {
         if(this.type == "blank") { return; }
 
@@ -75,7 +74,7 @@ export default class Card
         const typeSize = CONFIG.cards.type.size;
         const size = new Point(typeSize*this.minSize, typeSize*this.minSize);
 
-        const typeResource = CONFIG.resLoader.getResource("card_types");
+        const typeResource = vis.getResource("card_types");
         const canvOp = new LayoutOperation({
             frame: this.typeData.frame,
             pos: pos,
@@ -210,7 +209,7 @@ export default class Card
         }
     }
 
-    visualizeHands(ctx)
+    visualizeHands(vis:MaterialVisualizer, ctx)
     {
         if(!this.hand) { return; }
 
@@ -218,7 +217,7 @@ export default class Card
         const pos = new Point(handPos.x*this.size.x, handPos.y*this.size.y);
         const handSize = CONFIG.cards.hand.size;
         const size = new Point(handSize*this.minSize, handSize*this.minSize);
-        const handResource = CONFIG.resLoader.getResource("hand_icon");
+        const handResource = vis.getResource("hand_icon");
         const canvOp = new LayoutOperation({
             pos: pos,
             size: size,

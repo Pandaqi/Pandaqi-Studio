@@ -40,7 +40,7 @@ class Recipe
         {
             sum += ((sortedTypes.indexOf(elem)+1) / numTypes);
         }
-        sum *= CONFIG.recipes.maxScoreMostValuableIngredient;
+        sum *= CONFIG._drawing.recipes.maxScoreMostValuableIngredient;
         this.value = Math.ceil(sum);
     }
 
@@ -77,7 +77,7 @@ class Recipe
         if(this.forbidden) { score *= -1; }
 
         const spriteSize = size;
-        const padding = CONFIG.recipes.paddingWithinRecipe * boardDisplay.cellSizeUnit;
+        const padding = CONFIG._drawing.recipes.paddingWithinRecipe * boardDisplay.cellSizeUnit;
         const anchorPos = pos.clone();
         for(const elem of this.elements)
         {
@@ -92,7 +92,7 @@ class Recipe
             group.add(res, op);
         }
 
-        const txcfg = CONFIG.recipes.textConfig;
+        const txcfg = CONFIG._drawing.recipes.textConfig;
         const textConfig = new TextConfig({
             font: txcfg.fontFamily,
             size: size,
@@ -128,10 +128,10 @@ export default class RecipeBook
 
     createRecipes(typeManager:TypeManager)
     {
-        const numRecipes = rangeInteger(CONFIG.recipes.bounds.min, CONFIG.recipes.bounds.max);
+        const numRecipes = rangeInteger(CONFIG._drawing.recipes.bounds.min, CONFIG._drawing.recipes.bounds.max);
         const types = typeManager.getTypesPossible();
         const recipeLengths = [];
-        const lengthBounds = CONFIG.recipes.recipeLength;
+        const lengthBounds = CONFIG._drawing.recipes.recipeLength;
         let curLength = rangeInteger(0, lengthBounds.max-lengthBounds.min);
         for(let i = 0; i < numRecipes; i++)
         {
@@ -167,7 +167,7 @@ export default class RecipeBook
             if(this.recipeIsDuplicate(r)) { continue; }
             r.score(types);
             this.recipes.push(r);
-            if(this.recipes.length > 1 && Math.random() <= CONFIG.recipes.forbiddenRecipeProb)
+            if(this.recipes.length > 1 && Math.random() <= CONFIG._drawing.recipes.forbiddenRecipeProb)
             {
                 r.forbidden = true;
             }
@@ -231,8 +231,8 @@ export default class RecipeBook
 
         longestRecipe += 3 // assume the score text takes up 2 more spaces
 
-        const margin = CONFIG.recipes.marginAroundRecipeBook*boardDisplay.cellSizeUnit;
-        const padding = CONFIG.recipes.paddingBetweenRecipes*boardDisplay.cellSizeUnit;
+        const margin = CONFIG._drawing.recipes.marginAroundRecipeBook*boardDisplay.cellSizeUnit;
+        const padding = CONFIG._drawing.recipes.paddingBetweenRecipes*boardDisplay.cellSizeUnit;
         const maxRecipeHeight = ((sizeTotal.size.y-2*margin) / this.recipes.length) - padding;
         const maxRecipeWidth = ((sizeTotal.size.x-2*margin) / longestRecipe) - padding;
         const size = Math.min(maxRecipeWidth, maxRecipeHeight); 

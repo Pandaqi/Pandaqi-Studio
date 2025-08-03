@@ -1,14 +1,9 @@
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import Visualizer from "../game/visualizer";
-import Point from "js/pq_games/tools/geometry/point";
-import { CONFIG } from "../shared/config";
-import Card from "../game/card";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
-import CardPicker from "../game/cardPicker";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import shuffle from "js/pq_games/tools/random/shuffle";
+import Card from "../game/card";
+import { CONFIG } from "../shared/config";
 
 class Hand
 {
@@ -182,12 +177,11 @@ const drawMatchingSuitsWithProb = (options:Card[], suits:string[], num:number, p
 
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
-    CONFIG.includePowers = false;
-    CONFIG.suits = { hearts: true, spades: true, diamonds: true, clubs: true };
+    CONFIG._settings.includePowers.value = false;
     await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
 
     const possibleCards : Card[] = shuffle(sim.getPicker("cards").slice());
-    const possibleSuits = Object.keys(CONFIG.suits);
+    const possibleSuits = Object.keys(CONFIG._settings.suits.value);
     const includeTrumpAndBid = Math.random() <= 0.25;
 
     const numTableCards = rangeInteger(2,4);

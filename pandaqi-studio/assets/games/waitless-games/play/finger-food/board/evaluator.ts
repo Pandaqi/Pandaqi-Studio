@@ -38,7 +38,7 @@ export default class Evaluator
 
         const hasTimer = board.getCellsOfType("timer").length > 0;
         const timerRelevantCells = board.getCellsWithProperty("timerRelevant").length;
-        if(hasTimer && timerRelevantCells < CONFIG.evaluator.timerRelevantCellsMinimum) { return false; }
+        if(hasTimer && timerRelevantCells < CONFIG._drawing.evaluator.timerRelevantCellsMinimum) { return false; }
 
         return true; 
     }

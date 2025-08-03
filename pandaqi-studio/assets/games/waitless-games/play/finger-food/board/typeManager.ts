@@ -1,12 +1,12 @@
-import Type from "./type";
-import { MAIN_TYPES, INGREDIENTS, MACHINES, MONEY, TUTORIAL } from "../shared/dict";
-import Random from "js/pq_games/tools/random/main";
-import { CONFIG } from "../shared/config"
-import Cell from "./cell";
-import range from "js/pq_games/tools/random/range";
 import distributeDiscrete from "js/pq_games/tools/generation/distributeDiscrete";
+import Random from "js/pq_games/tools/random/main";
+import range from "js/pq_games/tools/random/range";
+import { CONFIG } from "../shared/config";
+import { INGREDIENTS, MACHINES, MAIN_TYPES } from "../shared/dict";
+import Type from "./type";
 
-interface Counters {
+interface Counters
+{
     mainType: Record<string,number>,
     subType: Record<string,number>,
     moneyToPay: number,
@@ -17,17 +17,14 @@ interface Counters {
 
 export default class TypeManager
 {
-
-    game:any
     counters:Counters
     moneyTargetFraction:number
     fixedFingerFraction:number
     types: Type[]
     globalMaxPerType: number
 
-    constructor(game:any) 
+    constructor() 
     {
-        this.game = game;
         this.counters = {
             mainType: {},
             subType: {},
@@ -64,7 +61,7 @@ export default class TypeManager
 
         // NOTE: tutorial and money are handled separately (not part of type list)
         // get ingredients
-        const ingredientBounds = CONFIG.expansions.machines ? CONFIG.types.ingredientBoundsWithMachines : CONFIG.types.ingredientBoundsBaseGame;
+        const ingredientBounds = CONFIG.expansions.machines ? CONFIG._drawing.types.ingredientBoundsWithMachines : CONFIG._drawing.types.ingredientBoundsBaseGame;
         const numIngredients = Random.rangeInteger(ingredientBounds.min, ingredientBounds.max);
         while(this.types.length < numIngredients)
         {
@@ -87,7 +84,7 @@ export default class TypeManager
         // get machines (if applicable)
         if(CONFIG.expansions.machines)
         {
-            const machineBounds = CONFIG.types.machineBounds;
+            const machineBounds = CONFIG._drawing.types.machineBounds;
             const numMachines = Random.rangeInteger(machineBounds.min, machineBounds.max);
             const targetNumTypes = this.types.length + numMachines;
             while(this.types.length < targetNumTypes)
@@ -211,11 +208,11 @@ export default class TypeManager
             return b.getPower() - a.getPower();
         })
 
-        const numTypesWithMoney = CONFIG.expansions.money ? Math.floor(range(CONFIG.types.moneyTypeBounds) * this.types.length) : 0;
-        const numTypesWithFixedFingers = CONFIG.expansions.fixedFingers ? Math.floor(range(CONFIG.types.fixedFingerBounds) * this.types.length) : 0;
+        const numTypesWithMoney = CONFIG.expansions.money ? Math.floor(range(CONFIG._drawing.types.moneyTypeBounds) * this.types.length) : 0;
+        const numTypesWithFixedFingers = CONFIG.expansions.fixedFingers ? Math.floor(range(CONFIG._drawing.types.fixedFingerBounds) * this.types.length) : 0;
 
-        const maxPower = CONFIG.types.maxPower;
-        const maxMoney = CONFIG.types.maxMoney;
+        const maxPower = CONFIG._drawing.types.maxPower;
+        const maxMoney = CONFIG._drawing.types.maxMoney;
 
         // the highest X types get a (semi-random) money value permanently attached
         const totalTypesToAssign = Math.min(numTypesWithMoney + numTypesWithFixedFingers, this.types.length);
@@ -253,8 +250,8 @@ export default class TypeManager
         }
 
         // calculate exactly how much cells we want to devote to each type
-        const numMachines = CONFIG.expansions.machines ? Math.round(range(CONFIG.types.numPlaced.machine) * numCellsToFill) : 0;
-        const numMoney = CONFIG.expansions.money ? Math.round(range(CONFIG.types.numPlaced.money) * numCellsToFill) : 0;
+        const numMachines = CONFIG.expansions.machines ? Math.round(range(CONFIG._drawing.types.numPlaced.machine) * numCellsToFill) : 0;
+        const numMoney = CONFIG.expansions.money ? Math.round(range(CONFIG._drawing.types.numPlaced.money) * numCellsToFill) : 0;
         const numIngredients = numCellsToFill - numMachines - numMoney;
 
         console.log("== Num Ingredients, Machines and Money ===");
@@ -286,8 +283,8 @@ export default class TypeManager
         {
             // for money, we calculate the distribution of values beforehand
             // (which we can do now, as machines+ingredients have all been placed)
-            const moneyTarget = Math.round(this.counters.moneyToPay * range(CONFIG.types.moneyPercentagePayable));
-            const moneyDistribution = distributeDiscrete(moneyTarget, numMoney, 1, CONFIG.types.maxValueForMoneyCell);
+            const moneyTarget = Math.round(this.counters.moneyToPay * range(CONFIG._drawing.types.moneyPercentagePayable));
+            const moneyDistribution = distributeDiscrete(moneyTarget, numMoney, 1, CONFIG._drawing.types.maxValueForMoneyCell);
             for(let i = 0; i < numMoney; i++)
             {
                 const typeObject = new Type("money", "money");

@@ -61,7 +61,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 
     // > get all generated cards
     const cardPicker = sim.getPicker("cards");
-    CONFIG.cardSet = settings.get("set") as string;
+    CONFIG._settings.cardSet.value = sim.getSettings().get("set") as string;
     cardPicker.generate();
 
     // > cards on the table
@@ -102,9 +102,6 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     sim.stats.cardPoisoned[dictKey] = (sim.stats.cardPoisoned[dictKey] ?? 0) + 1;
 }
 
-const settings = new RulesSettings();
-settings.add({ id: "set", type: SettingsType.ENUM, values: ["starter", "beginner", "amateur", "advanced", "expert", "random"], label: "Card Set?" });
-
 const SIMULATION_ENABLED = false;
 const SIMULATION_ITERATIONS = 1000;
 const SHOW_FULL_GAME = false;
@@ -117,11 +114,13 @@ const CONFIG_RULEBOOK =
         {
             buttonText: "Give me an example round!",
             callback: generate,
-            settings: {
+            settings: 
+            {
                 set:
                 {
                     type: SettingType.ENUM, // @TODO: make sure it's rulebook settingtype
                     values: ["starter", "beginner", "amateur", "advanced", "expert", "random"],
+                    value: "starter",
                     label: "Card Set?"
                 }
                 

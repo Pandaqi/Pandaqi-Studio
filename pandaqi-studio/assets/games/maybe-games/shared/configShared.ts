@@ -4,11 +4,6 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 
 export const CONFIG_SHARED =
 {
-    fonts:
-    {
-        body: "dejavu"
-    },
-
     assets:
     {
         dejavu:
@@ -49,31 +44,42 @@ export const CONFIG_SHARED =
         numPlayerBounds: new Bounds(3,5)
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            },  
+            mapper: 
+            {
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                },  
+            },
         },
+
+        votes:
+        {
+            mapper:
+            {
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: { 
+                    small: new Point(6,6),
+                    regular: new Point(5,5),
+                    large: new Point(4,4)
+                },  
+            },
+        }
     },
 
-    votes:
+    _drawing:
     {
-        drawerConfig:
+        fonts:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: { 
-                small: new Point(6,6),
-                regular: new Point(5,5),
-                large: new Point(4,4)
-            },  
+            body: "dejavu"
         },
-    },
+    }
 }

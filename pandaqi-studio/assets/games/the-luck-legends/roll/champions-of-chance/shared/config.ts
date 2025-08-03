@@ -2,6 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG:any = 
 {
@@ -14,7 +15,7 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
@@ -22,6 +23,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Wacky Numbers",
+                value: false,
                 remark: "Introduces cards with special actions."
             },
         }
@@ -37,20 +39,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Champions of Chance",
-    },
-
-    
-
-    fonts:
-    {
-        heading: "luckiest",
-        body: "nunito"
-    },
-
-    sets:
-    {
-        base: true,
-        wackyNumbers : false,
     },
 
     // assets
@@ -124,47 +112,54 @@ export const CONFIG:any =
         numCardsWacky: 18,
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
-        },
-
-        bg:
-        {
-            alpha: 0.15,
-        },
-
-        numbers:
-        {
-            offset: new CVal(new Point(0.1, 0.13), "sizeUnit"),
-            fontSize: new CVal(0.225, "sizeUnit"),
-            centerPos: new CVal(new Point(0.5), "size"),
-            centerDims: new CVal(new Point(0.4), "sizeUnit"),
-            writtenPos: new CVal(new Point(0.5, 0.68), "size"),
-            writtenFontSize: new CVal(0.12, "sizeUnit"),
-        },
-
-        power:
-        {
-            fontSize: new CVal(0.05075, "sizeUnit"),
-            textPos: new CVal(new Point(0.5, 0.815), "size"),
-            textBoxDims: new CVal(new Point(0.475, 0.175), "size"),
-            textColor: "#101010"
-        },
-
-        icons:
-        {
-            offset: new CVal(new Point(0.1, 0.195), "size"),
-            size: new CVal(new Point(0.1), "sizeUnit")
+            itemSize: new Point(750, 1050),
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "luckiest",
+            body: "nunito"
+        },
+
+        cards:
+        {
+            bg:
+            {
+                alpha: 0.15,
+            },
+
+            numbers:
+            {
+                offset: new CVal(new Point(0.1, 0.13), "sizeUnit"),
+                fontSize: new CVal(0.225, "sizeUnit"),
+                centerPos: new CVal(new Point(0.5), "size"),
+                centerDims: new CVal(new Point(0.4), "sizeUnit"),
+                writtenPos: new CVal(new Point(0.5, 0.68), "size"),
+                writtenFontSize: new CVal(0.12, "sizeUnit"),
+            },
+
+            power:
+            {
+                fontSize: new CVal(0.05075, "sizeUnit"),
+                textPos: new CVal(new Point(0.5, 0.815), "size"),
+                textBoxDims: new CVal(new Point(0.475, 0.175), "size"),
+                textColor: "#101010"
+            },
+
+            icons:
+            {
+                offset: new CVal(new Point(0.1, 0.195), "size"),
+                size: new CVal(new Point(0.1), "sizeUnit")
+            }
+        },
+    }
 }

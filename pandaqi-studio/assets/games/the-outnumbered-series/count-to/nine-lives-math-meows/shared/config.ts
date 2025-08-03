@@ -1,4 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
 {
@@ -8,14 +9,14 @@ export const CONFIG =
         {
             type: SettingType.CHECK,
             label: "Generate Life Cards",
-            default: true
+            value: true
         },
 
         includeNumberCards:
         {
             type: SettingType.CHECK,
             label: "Generate Number Cards",
-            default: true
+            value: true
         },
     },
 
@@ -29,20 +30,6 @@ export const CONFIG =
     _game:
     {
         fileName: "Nine Lives: Math Meows",
-    },
-    
-
-    // set through user config on page
-    
-    includeLifeCards: true,
-    includeNumberCards: true,
-    
-    
-    
-    fonts:
-    {
-        heading: "puss",
-        body: "catcafe"
     },
 
     // assets
@@ -97,87 +84,103 @@ export const CONFIG =
         }
     },
 
-    // how to draw/layout cards (mostly visually)
-    cards:
+    _material:
     {
-        itemSize: new Point(480, 672), // @TODO: add to _material for rulebook
-
-        size: { 
-            small: new Point(4,4),
-            regular: new Point(3,3),
-            large: new Point(2,2)
-        },
-        sizeElement: new Point(1, 1.4),
-        sizeResult: new Point(),
-        
-        sharedStrokeWidth: 0.01, // relative to sizeUnit
-        sharedShadowColor: "#00000055", // black but low opacity
-        sharedShadowOffset: 0.025, // relative to sizeUnit
-
-        bgCats:
+        cards:
         {
-            patternExtraMargin: 0.2, // relative to card Y, extra margin at edge to make sure no empty space when rotated   
-            patternNumIcons: 12, // again, Y-axis
-            patternIconSize: 0.8, // relative to full space reserved for icon (1.0)
-            patternRotation: -0.166*Math.PI, // = 30 degrees tilt
-            patternAlpha: 0.175
-        },
+            itemSize: new Point(480, 672), // for rulebook
+            picker: cardPicker,
+            mapper: 
+            {
+                size: { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                },
+                sizeElement: new Point(1, 1.4),
+            }
+        }
+    },
 
-        suits:
+    _drawing:
+    {
+        fonts:
         {
-            iconSize: 0.175, // relative to sizeUnit
-            offset: new Point(0.125, 0.125), // relative to sizeUnit
-            bigSuitSize: 0.55, // relative to SizeUnit
-            bigSuitAlpha: 0.55
+            heading: "puss",
+            body: "catcafe"
         },
 
-        numbers:
-        {
-            fontSize: 0.2, // relative to sizeUnit
-            fontSizeBig: 1.165, // relative to sizeUnit => the big number in the center
-            offsetFromEdge: 0.5, // relative to fontSize
+        cards:
+        { 
+            sharedStrokeWidth: 0.01, // relative to sizeUnit
+            sharedShadowColor: "#00000055", // black but low opacity
+            sharedShadowOffset: 0.025, // relative to sizeUnit
 
-            clarityLineBevel: 0.4, // ~lineSizeUnit => this is the line underneath 6 and 9 to differentiate
-            clarityLineOffsetY: 0.36, // ~fontSize
-            clarityLineSize: new Point(0.4, 0.0375), // ~fontSize
-        },
+            bgCats:
+            {
+                patternExtraMargin: 0.2, // relative to card Y, extra margin at edge to make sure no empty space when rotated   
+                patternNumIcons: 12, // again, Y-axis
+                patternIconSize: 0.8, // relative to full space reserved for icon (1.0)
+                patternRotation: -0.166*Math.PI, // = 30 degrees tilt
+                patternAlpha: 0.175
+            },
 
-        cat:
-        {
-            offset: new Point(0, -0.075),
-            sizeFactor: 1.0, // relative to card X-axis ( = width)
-            extraRectHeight: 0.0525,
-            extraRectAlpha: 0.33,
-            fontSize: 0.066, // relative to sizeUnit
-            textOffset: 0.8, // relative to fontSize
-            strokeWidthFactor: 0.5,
+            suits:
+            {
+                iconSize: 0.175, // relative to sizeUnit
+                offset: new Point(0.125, 0.125), // relative to sizeUnit
+                bigSuitSize: 0.55, // relative to SizeUnit
+                bigSuitAlpha: 0.55
+            },
 
-            rulesReminderScale: 0.8, // relative to full cat illustration scale
-            rulesReminderCatAlpha: 0.45,
-        },
+            numbers:
+            {
+                fontSize: 0.2, // relative to sizeUnit
+                fontSizeBig: 1.165, // relative to sizeUnit => the big number in the center
+                offsetFromEdge: 0.5, // relative to fontSize
 
-        power:
-        {
-            yPos: 0.845, // relative to Y-axis, placement of box on card
-            rectSize: new Point(0.9, 0.225), // simply relative to exact card dimensions
-            rectCutSize: 0.15, // relative to rectSizeUnit
-            fontSize: 0.066,
-        },
+                clarityLineBevel: 0.4, // ~lineSizeUnit => this is the line underneath 6 and 9 to differentiate
+                clarityLineOffsetY: 0.36, // ~fontSize
+                clarityLineSize: new Point(0.4, 0.0375), // ~fontSize
+            },
 
-        lives:
-        {
-            yPos: 0.665, // should be slightly lower than the power.yPos
-            iconSize: 0.315, // 0.5, // relative to sizeUnit
-            handIconSize: 0.15, // some fraction of iconSize
-            fontSize: 0.2, //0.25,
-            handIconFontSize: 0.12,
-            handIconSideOffset: 0.125, // relative to sizeX
-        },
+            cat:
+            {
+                offset: new Point(0, -0.075),
+                sizeFactor: 1.0, // relative to card X-axis ( = width)
+                extraRectHeight: 0.0525,
+                extraRectAlpha: 0.33,
+                fontSize: 0.066, // relative to sizeUnit
+                textOffset: 0.8, // relative to fontSize
+                strokeWidthFactor: 0.5,
 
-        outline:
-        {
-            size: 0.025, // relative to sizeUnit
-            color: "#000000"
+                rulesReminderScale: 0.8, // relative to full cat illustration scale
+                rulesReminderCatAlpha: 0.45,
+            },
+
+            power:
+            {
+                yPos: 0.845, // relative to Y-axis, placement of box on card
+                rectSize: new Point(0.9, 0.225), // simply relative to exact card dimensions
+                rectCutSize: 0.15, // relative to rectSizeUnit
+                fontSize: 0.066,
+            },
+
+            lives:
+            {
+                yPos: 0.665, // should be slightly lower than the power.yPos
+                iconSize: 0.315, // 0.5, // relative to sizeUnit
+                handIconSize: 0.15, // some fraction of iconSize
+                fontSize: 0.2, //0.25,
+                handIconFontSize: 0.12,
+                handIconSideOffset: 0.125, // relative to sizeX
+            },
+
+            outline:
+            {
+                size: 0.025, // relative to sizeUnit
+                color: "#000000"
+            }
         }
     }
 }

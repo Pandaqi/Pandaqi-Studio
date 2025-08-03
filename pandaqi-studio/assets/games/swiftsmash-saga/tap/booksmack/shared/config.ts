@@ -3,6 +3,7 @@ import CVal from "js/pq_games/tools/generation/cval";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG:any = 
 {
@@ -15,32 +16,36 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             powerPunctuation:
             {
                 type: SettingType.CHECK,
-                label: "Power Punctuation"
+                label: "Power Punctuation",
+                value: false,
             },
 
             niftyNumbers:
             {
                 type: SettingType.CHECK,
-                label: "Nifty Numbers"
+                label: "Nifty Numbers",
+                value: false,
             },
 
             gigglingGlyphs:
             {
                 type: SettingType.CHECK,
-                label: "Giggling Glyphs"
+                label: "Giggling Glyphs",
+                value: false,
             },
 
             cursedCritics:
             {
                 type: SettingType.CHECK,
-                label: "Cursed Critics"
+                label: "Cursed Critics",
+                value: false,
             },
         }
     },
@@ -55,23 +60,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Booksmack",
-    },
-
-    
-
-    fonts:
-    {
-        heading: "abril",
-        body: "andika",
-    },
-
-    sets:
-    {
-        base: true,
-        powerPunctuation: false,
-        niftyNumbers: false,
-        gigglingGlyphs: false,
-        cursedCritics: false
     },
 
     // assets
@@ -136,41 +124,55 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            preset: GridSizePreset.CARD
-        },
-
-        corners:
-        {
-            offset: new CVal(new Point(0.15, 0.125), "sizeUnit"),
-            fontSize: new CVal(0.125, "sizeUnit"),
-        },
-
-        main:
-        {
-            pos: new CVal(new Point(0.5), "size"),
-            posWithAction: new CVal(new Point(0.5, 0.35), "size"),
-            fontSize: new CVal(0.735, "sizeUnit"),
-            shadowBlur: new CVal(0.05, "cards.main.fontSize")
-        },
-
-        action:
-        {
-            textColor: "#221500",
-            title:
-            {
-                pos: new CVal(new Point(0.5, 0.635), "size"),
-                fontSize: new CVal(0.0475, "sizeUnit"),
-            },
-            text:
-            {
-                pos: new CVal(new Point(0.5, 0.8), "size"),
-                fontSize: new CVal(0.06, "sizeUnit"),
-                boxSize: new CVal(new Point(0.7, 0.25), "size")
-            }
+            itemSize: new Point(375, 575),
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "abril",
+            body: "andika",
+        },
+
+        cards:
+        {
+            corners:
+            {
+                offset: new CVal(new Point(0.15, 0.125), "sizeUnit"),
+                fontSize: new CVal(0.125, "sizeUnit"),
+            },
+
+            main:
+            {
+                pos: new CVal(new Point(0.5), "size"),
+                posWithAction: new CVal(new Point(0.5, 0.35), "size"),
+                fontSize: new CVal(0.735, "sizeUnit"),
+                shadowBlur: new CVal(0.05, "cards.main.fontSize")
+            },
+
+            action:
+            {
+                textColor: "#221500",
+                title:
+                {
+                    pos: new CVal(new Point(0.5, 0.635), "size"),
+                    fontSize: new CVal(0.0475, "sizeUnit"),
+                },
+                text:
+                {
+                    pos: new CVal(new Point(0.5, 0.8), "size"),
+                    fontSize: new CVal(0.06, "sizeUnit"),
+                    boxSize: new CVal(new Point(0.7, 0.25), "size")
+                }
+            }
+        },
+    }
 }

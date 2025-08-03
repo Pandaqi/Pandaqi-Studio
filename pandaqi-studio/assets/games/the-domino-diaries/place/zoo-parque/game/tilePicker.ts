@@ -2,23 +2,16 @@ import { CONFIG } from "../shared/config";
 import { ANIMALS, AnimalType } from "../shared/dict";
 import Tile from "./tile";
 
-export default class TilePicker
+export const tilePicker = () : Tile[] =>
 {
-    tiles: Tile[] = [];
+    if(!CONFIG.sets.passports) { return; }
 
-    constructor() {}
-    get() { return this.tiles.slice(); }
-    async generate()
+    const tiles = [];
+    
+    for(const [key,data] of Object.entries(ANIMALS))
     {
-        if(!CONFIG.sets.passports) { return; }
-
-        this.tiles = [];
-        
-        for(const [key,data] of Object.entries(ANIMALS))
-        {
-            this.tiles.push( new Tile(key as AnimalType) );
-        }
-
-        console.log(this.tiles);
+        tiles.push( new Tile(key as AnimalType) );
     }
+
+    return tiles;
 }

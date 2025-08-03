@@ -3,6 +3,8 @@ import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { cardPicker } from "../game/cardPicker";
+import votePicker from "../game/votePicker";
 
 export const CONFIG:Record<string,any> = 
 {
@@ -15,7 +17,7 @@ export const CONFIG:Record<string,any> =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Set",
             },
 
@@ -23,12 +25,14 @@ export const CONFIG:Record<string,any> =
             {
                 type: SettingType.CHECK,
                 label: "Breaking Changes",
+                value: false,
             },
 
             blockbusterBudgets:
             {
                 type: SettingType.CHECK,
                 label: "Blockbuster Budgets",
+                value: false,
             },
         }
     },
@@ -43,20 +47,6 @@ export const CONFIG:Record<string,any> =
     _game:
     {
         fileName: "Maybe Movies",
-    },
-
-    
-
-    sets:
-    {
-        base: true,
-        breakingChanges: false,
-        blockbusterBudgets: false
-    },
-
-    fonts:
-    {
-        heading: "rialto"
     },
 
     // assets
@@ -114,55 +104,78 @@ export const CONFIG:Record<string,any> =
         useWildcardSetsRule: true,
         numIconsNeededForWildcard: 2,
     },
-    
-    cards:
+
+    _material:
     {
-        shared:
+        cards:
         {
-            dropShadowRadius: new CVal(0.02, "sizeUnit")
+            itemSize: new Point(375, 525),
+            picker: cardPicker
         },
 
-        movie:
+        votes:
         {
-            cost:
-            {
-                iconOffset: new CVal(new Point(0.0575), "sizeUnit"),
-                iconDims: new CVal(new Point(0.2), "sizeUnit"),
-                textBoxDims: new CVal(new Point(0.95, 0.4), "size"),
-                fontSize: new CVal(0.07, "sizeUnit"),
-                textColor: "#332211"
-            },
-
-            profit:
-            {
-                fontSize: new CVal(0.2, "sizeUnit"),
-                textColor: "#143D00"
-            },
-
-            text:
-            {
-                fontSizeSub: new CVal(0.045, "sizeUnit"),
-                fontSize: new CVal(0.1, "sizeUnit"),
-                textPosSub: new CVal(new Point(0.5, 0.375), "size"),
-                textPos: new CVal(new Point(0.5, 0.5), "size")
-            }
+            itemSize: new Point(375, 525),
+            picker: votePicker
         }
     },
 
-    votes:
+    _drawing:
     {
-        details:
+        fonts:
         {
-            fontSize: new CVal(0.4, "sizeUnit"),
-            iconDims: new CVal(new Point(0.375), "sizeUnit"),
-            textColors:
+            heading: "rialto"
+        },
+
+        cards:
+        {
+            shared:
             {
-                yes: "#143D00",
-                no: "#540000",
-                change: "#563300"
+                dropShadowRadius: new CVal(0.02, "sizeUnit")
             },
-            textPos: new CVal(new Point(0.325, 0.5), "size"), 
-            iconPos: new CVal(new Point(0.675, 0.5), "size"),
+
+            movie:
+            {
+                cost:
+                {
+                    iconOffset: new CVal(new Point(0.0575), "sizeUnit"),
+                    iconDims: new CVal(new Point(0.2), "sizeUnit"),
+                    textBoxDims: new CVal(new Point(0.95, 0.4), "size"),
+                    fontSize: new CVal(0.07, "sizeUnit"),
+                    textColor: "#332211"
+                },
+
+                profit:
+                {
+                    fontSize: new CVal(0.2, "sizeUnit"),
+                    textColor: "#143D00"
+                },
+
+                text:
+                {
+                    fontSizeSub: new CVal(0.045, "sizeUnit"),
+                    fontSize: new CVal(0.1, "sizeUnit"),
+                    textPosSub: new CVal(new Point(0.5, 0.375), "size"),
+                    textPos: new CVal(new Point(0.5, 0.5), "size")
+                }
+            }
+        },
+
+        votes:
+        {
+            details:
+            {
+                fontSize: new CVal(0.4, "sizeUnit"),
+                iconDims: new CVal(new Point(0.375), "sizeUnit"),
+                textColors:
+                {
+                    yes: "#143D00",
+                    no: "#540000",
+                    change: "#563300"
+                },
+                textPos: new CVal(new Point(0.325, 0.5), "size"), 
+                iconPos: new CVal(new Point(0.675, 0.5), "size"),
+            }
         }
     }
 }

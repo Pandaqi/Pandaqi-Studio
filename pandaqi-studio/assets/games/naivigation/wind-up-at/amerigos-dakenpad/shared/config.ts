@@ -1,7 +1,7 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig";
 import CVal from "js/pq_games/tools/generation/cval";
-import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
-import Point from "js/pq_games/tools/geometry/point"
+import Point from "js/pq_games/tools/geometry/point";
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG:any = 
 {
@@ -14,19 +14,21 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Basisspel",
             },
 
             gladdeDaken:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Uitbreiding: Gladde Daken",
             },
 
             paardenSprongen:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Uitbreiding: Paardensprongen",
             },
         }
@@ -42,21 +44,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Amerigo's Dakenpad",
-    },
-
-    
-
-    fonts:
-    {
-        heading: "freebie",
-        body: "crimson",
-    },
-
-    sets:
-    {
-        base: true,
-        gladdeDaken: false,
-        paardenSprongen: false
     },
 
     // assets
@@ -121,11 +108,6 @@ export const CONFIG:any =
         },
     },
 
-    rulebook:
-    {
-        
-    },
-
     generation:
     {
         base:
@@ -175,67 +157,78 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            preset: GridSizePreset.CARD,
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
+        }
+    },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "freebie",
+            body: "crimson",
         },
 
-        route:
+        cards:
         {
-            homePos: new CVal(new Point(0.5, 0.66), "size"),
-            homeSize: new CVal(new Point(0.75), "sizeUnit"),
-            giftPos: new CVal(new Point(0.5, 0.15), "size"),
-            giftSize: new CVal(new Point(0.2), "sizeUnit"),
-
-            text:
+            route:
             {
-                fontSize: new CVal(0.07, "sizeUnit"),
-                boxSize: new CVal(new Point(0.85, 0.25), "size")
-            }
-        },
+                homePos: new CVal(new Point(0.5, 0.66), "size"),
+                homeSize: new CVal(new Point(0.75), "sizeUnit"),
+                giftPos: new CVal(new Point(0.5, 0.15), "size"),
+                giftSize: new CVal(new Point(0.2), "sizeUnit"),
 
-        varen:
-        {
-            pos: new CVal(new Point(0.5, 0.275), "size"),
-            size: new CVal(new Point(0.75), "sizeUnit"),
-            text:
-            {
-                pos: new CVal(new Point(0.5, 0.7225), "size"),
-                size: new CVal(new Point(0.85, 0.3), "size"),
-                fontSize: new CVal(0.1, "sizeUnit")
+                text:
+                {
+                    fontSize: new CVal(0.07, "sizeUnit"),
+                    boxSize: new CVal(new Point(0.85, 0.25), "size")
+                }
             },
 
-            icons:
+            varen:
             {
-                anchor: new CVal(new Point(0.15, 0.915), "size"),
-                maxDist: new CVal(0.725, "sizeUnit"),
-                numRepeats: 4,
-                alpha: 0.75
-            }
-        },
+                pos: new CVal(new Point(0.5, 0.275), "size"),
+                size: new CVal(new Point(0.75), "sizeUnit"),
+                text:
+                {
+                    pos: new CVal(new Point(0.5, 0.7225), "size"),
+                    size: new CVal(new Point(0.85, 0.3), "size"),
+                    fontSize: new CVal(0.1, "sizeUnit")
+                },
 
-        pakje:
-        {
-            pos: new CVal(new Point(0.5, 0.475), "size"),
-            size: new CVal(new Point(0.775), "sizeUnit")
-        },
+                icons:
+                {
+                    anchor: new CVal(new Point(0.15, 0.915), "size"),
+                    maxDist: new CVal(0.725, "sizeUnit"),
+                    numRepeats: 4,
+                    alpha: 0.75
+                }
+            },
 
-        numbers:
-        {
-            offset: new CVal(new Point(0.134, 0.1215), "sizeUnit"),
-            fontSize: new CVal(0.12, "sizeUnit"),
-
-            dots:
+            pakje:
             {
-                interval: 5,
-                offset: new CVal(new Point(0, 0.1), "sizeUnit"),
-                size: new CVal(new Point(0.0325), "sizeUnit"),
-                sizePadded: new CVal(new Point(0.036), "sizeUnit"),
-            }
+                pos: new CVal(new Point(0.5, 0.475), "size"),
+                size: new CVal(new Point(0.775), "sizeUnit")
+            },
+
+            numbers:
+            {
+                offset: new CVal(new Point(0.134, 0.1215), "sizeUnit"),
+                fontSize: new CVal(0.12, "sizeUnit"),
+
+                dots:
+                {
+                    interval: 5,
+                    offset: new CVal(new Point(0, 0.1), "sizeUnit"),
+                    size: new CVal(new Point(0.0325), "sizeUnit"),
+                    sizePadded: new CVal(new Point(0.036), "sizeUnit"),
+                }
+            },
         },
-
-
-    },
+    }
 }

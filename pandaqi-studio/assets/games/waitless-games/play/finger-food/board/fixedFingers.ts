@@ -16,7 +16,7 @@ export default class FixedFingers
 
     display(vis:MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, pos:Point, height:number = 128)
     {
-        const size = CONFIG.fixedFingers.handScale * height;
+        const size = CONFIG._drawing.fixedFingers.handScale * height;
 
         // hand background
         const res = vis.getResource("fixed_fingers_spritesheet");

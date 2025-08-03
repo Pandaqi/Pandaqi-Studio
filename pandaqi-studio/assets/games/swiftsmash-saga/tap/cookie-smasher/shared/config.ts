@@ -1,6 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import { TYPES } from "./dict"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
 {
@@ -10,7 +11,7 @@ export const CONFIG =
         {
             type: SettingType.ENUM,
             values: ["starter", "beginner", "amateur", "advanced", "expert", "random"],
-            default: "starter",
+            value: "starter",
             label: "Card Set",
         },
 
@@ -18,13 +19,16 @@ export const CONFIG =
         {
             type: SettingType.ENUM,
             values: ["bottom", "top"],
-            default: "bottom",
+            value: "bottom",
             remark: "Text is always mirrored, this just determines which side is the regular one (top/bottom)."
         }
     },
 
-    debug: {
+    _debug:
+    {
         omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     _game:
@@ -32,19 +36,9 @@ export const CONFIG =
         fileName: "Cookie Smasher",
     },
 
-    
-    cardSet: "starter",
-    textPlacement: "bottom",
-
     possibleNumbers: [1,2,3,4,5,6,7,8,9],
     possibleTypes: Object.keys(TYPES),
     possibleCards: [], // automatically filled with allowed cards during generation
-
-    fonts:
-    {
-        heading: "palette",
-        body: "pettingill"
-    },
 
     // assets
     assetsBase: "/swiftsmash-saga/tap/cookie-smasher/assets/",
@@ -112,7 +106,6 @@ export const CONFIG =
             frames: new Point(5,2),
             cardSet: true,
         }
-
     },
 
     // how generation/balancing happens
@@ -127,67 +120,83 @@ export const CONFIG =
         itemSize: new Point(480, 672)
     },
 
-    // how to draw/layout cards (mostly visually)
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
+            itemSize: new Point(480, 672),
+            picker: cardPicker,
+            mapper:
+            {
+                autoStroke: true,
+                sizeElement: new Point(1, 1.4),
+                size: 
+                { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                }, 
+            },
+        }
+    },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "palette",
+            body: "pettingill"
         },
 
-        wonkyRect:
+        cards:
         {
-            pointOffset: new Bounds(0.1, 0.15), // relative to box Y height
-            triangleGap: 0.02, // relative to sizeUnit of box
-            triangleSize: new Bounds(0.06, 0.1), // roughly x3 to x5 of triangleGap?
-        },
+            wonkyRect:
+            {
+                pointOffset: new Bounds(0.1, 0.15), // relative to box Y height
+                triangleGap: 0.02, // relative to sizeUnit of box
+                triangleSize: new Bounds(0.06, 0.1), // roughly x3 to x5 of triangleGap?
+            },
 
-        icons:
-        {
-            fontSizeNumber: 0.13, // relative to sizeUnit
-            fontSizeName: 0.065, // relative to sizeUnit
-            trapeziumShortSideShrinkFactor: 0.75,
-            gapToIllustration: 0.05, // relative to sizeUnit
+            icons:
+            {
+                fontSizeNumber: 0.13, // relative to sizeUnit
+                fontSizeName: 0.065, // relative to sizeUnit
+                trapeziumShortSideShrinkFactor: 0.75,
+                gapToIllustration: 0.05, // relative to sizeUnit
 
-            trapeziumHeight: 0.625, // preferably roughly as large as bgSize.y of illustration
-        },
+                trapeziumHeight: 0.625, // preferably roughly as large as bgSize.y of illustration
+            },
 
-        illustration:
-        {
-            sizeFactor: 0.55, // relative to sizeUnit
-            bgSize: new Point(0.65, 0.6), // should always be bigger than sizeFactor above
+            illustration:
+            {
+                sizeFactor: 0.55, // relative to sizeUnit
+                bgSize: new Point(0.65, 0.6), // should always be bigger than sizeFactor above
 
-            addShadow: true,
-            shadowRadius: 0.01, // relative to spriteSize
-            shadowOffset: new Point(0.02), // relative to spriteSize
-        },
+                addShadow: true,
+                shadowRadius: 0.01, // relative to spriteSize
+                shadowOffset: new Point(0.02), // relative to spriteSize
+            },
 
-        power:
-        {
-           gapIconAndText: 0.05, // relative to sizeUnit
-           padding: 0.08, // relative to sizeUnit
-           fontSize: 0.075, // relative to sizeUnit
-           lineHeight: 0.9,
-           iconHeight: 0.55, // relative to text+image container for power
-           inlineIconHeight: 0.9, // icon within text, relative to font size = capital letter height
-        },
+            power:
+            {
+            gapIconAndText: 0.05, // relative to sizeUnit
+            padding: 0.08, // relative to sizeUnit
+            fontSize: 0.075, // relative to sizeUnit
+            lineHeight: 0.9,
+            iconHeight: 0.55, // relative to text+image container for power
+            inlineIconHeight: 0.9, // icon within text, relative to font size = capital letter height
+            },
 
-        bg:
-        {
-            color: "#FEFEFE"
-        },
+            bg:
+            {
+                color: "#FEFEFE"
+            },
 
-        outline:
-        {
-            size: 0.036, // relative to sizeUnit
-            color: "#000000"
+            outline:
+            {
+                size: 0.036, // relative to sizeUnit
+                color: "#000000"
+            }
         }
     }
 }

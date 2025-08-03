@@ -2,6 +2,8 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point"
+import { cardPicker } from "../game/cardPicker";
+import tilePicker from "../game/tilePicker";
 
 export const CONFIG:any = 
 {
@@ -14,31 +16,35 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Basisspel",
             },
 
             krappeKalender:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Uitbreiding: Krappe Kalender",
             },
 
             prachtigePakjes:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Uitbreiding: Prachtige Pakjes",
             },
 
             pepernootPlekken:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Uitbreiding: Pepernootplekken",
             },
 
             rebelsePietjes:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Uitbreiding: Rebelse Pietjes",
             },
         }
@@ -54,23 +60,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Boot op Stoom",
-    },
-
-    
-
-    fonts:
-    {
-        heading: "freebie",
-        body: "crimson",
-    },
-
-    sets:
-    {
-        base: true,
-        krappeKalender: false,
-        prachtigePakjes: false,
-        pepernootPlekken: false,
-        rebelsePietjes: false
     },
 
     // assets
@@ -146,11 +135,6 @@ export const CONFIG:any =
         },
     },
 
-    rulebook:
-    {
-        
-    },
-
     generation:
     {
         pakjes:
@@ -180,71 +164,85 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            preset: GridSizePreset.CARD
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
         },
 
-        shared:
+        tiles:
         {
-            icon:
-            {
-                pos: new CVal(new Point(0.5, 0.3), "size"),
-                size: new CVal(new Point(0.7), "sizeUnit")
-            },
-
-            text:
-            {
-                fontSize: new CVal(0.08, "sizeUnit"),
-                pos: new CVal(new Point(0.5, 0.825), "size"),
-                boxSize: new CVal(new Point(0.85, 0.275), "size")
-            }
-        },
-
-        stoom:
-        {
-            iconPos: new CVal(new Point(0.135, 0.365), "size"),
-            iconSize: new CVal(new Point(0.225), "sizeUnit"),
-            composite: "source-over", // might be "luminosity" too?
-        },
-
-        kalender:
-        {
-            icon:
-            {
-                pos: new CVal(new Point(0.5, 0.225), "size"),
-                size: new CVal(new Point(0.5), "sizeUnit")
-            },
-
-            label:
-            {
-                fontSize: new CVal(0.085, "sizeUnit"),
-                pos: new CVal(new Point(0.5, 0.505), "size"),
-                boxSize: new CVal(new Point(0.75, 0.225), "size")
-            },
-
-            text:
-            {
-                fontSize: new CVal(0.085, "sizeUnit"),
-                pos: new CVal(new Point(0.5, 0.7875), "size"),
-                boxSize: new CVal(new Point(0.85, 0.45), "size")
-            }
+            picker: tilePicker,
+            mapper: MapperPreset.TILE
         }
     },
 
-    tiles:
+    _drawing:
     {
-        drawerConfig:
+        fonts:
         {
-            preset: GridSizePreset.TILE
+            heading: "freebie",
+            body: "crimson",
         },
 
-        giftsWanted:
+        cards:
         {
-            pos: new CVal(new Point(0.5, 0.66), "size"),
-            size: new CVal(new Point(0.285), "sizeUnit")
-        }
-    },
+            shared:
+            {
+                icon:
+                {
+                    pos: new CVal(new Point(0.5, 0.3), "size"),
+                    size: new CVal(new Point(0.7), "sizeUnit")
+                },
+
+                text:
+                {
+                    fontSize: new CVal(0.08, "sizeUnit"),
+                    pos: new CVal(new Point(0.5, 0.825), "size"),
+                    boxSize: new CVal(new Point(0.85, 0.275), "size")
+                }
+            },
+
+            stoom:
+            {
+                iconPos: new CVal(new Point(0.135, 0.365), "size"),
+                iconSize: new CVal(new Point(0.225), "sizeUnit"),
+                composite: "source-over", // might be "luminosity" too?
+            },
+
+            kalender:
+            {
+                icon:
+                {
+                    pos: new CVal(new Point(0.5, 0.225), "size"),
+                    size: new CVal(new Point(0.5), "sizeUnit")
+                },
+
+                label:
+                {
+                    fontSize: new CVal(0.085, "sizeUnit"),
+                    pos: new CVal(new Point(0.5, 0.505), "size"),
+                    boxSize: new CVal(new Point(0.75, 0.225), "size")
+                },
+
+                text:
+                {
+                    fontSize: new CVal(0.085, "sizeUnit"),
+                    pos: new CVal(new Point(0.5, 0.7875), "size"),
+                    boxSize: new CVal(new Point(0.85, 0.45), "size")
+                }
+            }
+        },
+
+        tiles:
+        {
+            giftsWanted:
+            {
+                pos: new CVal(new Point(0.5, 0.66), "size"),
+                size: new CVal(new Point(0.285), "sizeUnit")
+            }
+        },
+    }
 }

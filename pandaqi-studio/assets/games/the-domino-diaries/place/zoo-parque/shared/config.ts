@@ -2,6 +2,8 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import Point from "js/pq_games/tools/geometry/point"
+import { dominoPicker } from "../game/dominoPicker"
+import { tilePicker } from "../game/tilePicker"
 
 export const CONFIG:any = 
 {
@@ -11,7 +13,7 @@ export const CONFIG:any =
         {
             type: SettingType.CHECK,
             label: "Add Text",
-            default: true,
+            value: true,
             remark: "Adds text that explains what a tile does on the tile itself."
         },
 
@@ -22,21 +24,21 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             pawns:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Pawns"
             },
 
             passports:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Animal Passports",
             },
 
@@ -44,25 +46,29 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Zooperative",
-                remark: "Allows playing the game cooperatively."
+                remark: "Allows playing the game cooperatively.",
+                value: false,
             },
 
             strong:
             {
                 type: SettingType.CHECK,
                 label: "Strong Species",
+                value: false,
             },
 
             wildlife:
             {
                 type: SettingType.CHECK,
                 label: "Wildlife Wishes",
+                value: false,
             },
 
             utilities:
             {
                 type: SettingType.CHECK,
                 label: "Unnatural Utilities",
+                value: false,
             },
         }
     },
@@ -77,26 +83,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Zoo Parque",
-    },
-
-    
-    addText: true,
-
-    fonts:
-    {
-        heading: "ceviche",
-        body: "noticia",
-    },
-
-    sets:
-    {
-        pawns: true,
-        base: true,
-        passports: true,
-        zooperative: false,
-        strong: false,
-        wildlife: false,
-        utilities: false,
     },
 
     // assets
@@ -186,11 +172,6 @@ export const CONFIG:any =
 
     },
 
-    rulebook:
-    {
-
-    },
-
     generation:
     {
         numUniquePawns: 6,
@@ -239,130 +220,154 @@ export const CONFIG:any =
         }
     },
 
-    dominoes:
+    _material:
     {
-        drawerConfig:
+        dominoes:
         {
-            preset: GridSizePreset.DOMINO
+            picker: dominoPicker,
+            mapper: MapperPreset.DOMINO
         },
 
-        bg:
+        tiles:
         {
-            color: "#FFEFCF",
-            sizeTerrain: new CVal(new Point(0.9), "sizeUnit"),
-            terrainShadowSize: new CVal(0.01, "sizeUnit"),
-        },
-
-        main:
-        {
-            size: new CVal(new Point(0.66), "sizeUnit"),
-            shadowSize: new CVal(0.02, "sizeUnit"),
-        },
-
-        fences:
-        {
-            size: new CVal(new Point(0.88), "sizeUnit")
-        },
-
-        entrance:
-        {
-            size: new CVal(new Point(0.8), "sizeUnit")
-        },
-
-        text:
-        {
-            fontSize: new CVal(0.05825, "sizeUnit")
-        },
-
-        setText:
-        {
-            fontSize: new CVal(0.065, "sizeUnit")
-        },
-
-        campaign:
-        {
-            textBoxSize: new CVal(new Point(0.9, 0.4), "size"),
-            fontSize: new CVal(0.07, "sizeUnit"),
-            posMission: new CVal(new Point(0.5, 0.5), "size"),
-            posRule: new CVal(new Point(0.5, 0.86), "size"),
-
-            score:
+            picker: tilePicker, 
+            mapper:
             {
-                pos: new CVal(new Point(0.48, 0.09), "size"),
-                fontSize: new CVal(0.3, "sizeUnit"),
+                sizeElement: new Point(2, 1),
+                size: { 
+                    small: new Point(2,5),
+                    regular: new Point(1,4),
+                    large: new Point(1,2)
+                },  
+                autoStroke: true
             },
 
-            expansions:
-            {
-                pos: new CVal(new Point(0.8, 0.0915), "size"),
-                fontSize: new CVal(0.045, "sizeUnit"),
-                alpha: 0.75
-            }
         }
     },
 
-    tiles:
+    _drawing:
     {
-        drawerConfig:
+        fonts:
         {
-            sizeElement: new Point(2, 1),
-            size: { 
-                small: new Point(2,5),
-                regular: new Point(1,4),
-                large: new Point(1,2)
-            },  
-            autoStroke: true
+            heading: "ceviche",
+            body: "noticia",
         },
 
-        animal:
+        dominoes:
         {
-            pos: new CVal(new Point(0.22, 0.5), "size"),
-            size: new CVal(new Point(0.435), "sizeUnit")
+            drawerConfig:
+            {
+                preset: GridSizePreset.DOMINO
+            },
+
+            bg:
+            {
+                color: "#FFEFCF",
+                sizeTerrain: new CVal(new Point(0.9), "sizeUnit"),
+                terrainShadowSize: new CVal(0.01, "sizeUnit"),
+            },
+
+            main:
+            {
+                size: new CVal(new Point(0.66), "sizeUnit"),
+                shadowSize: new CVal(0.02, "sizeUnit"),
+            },
+
+            fences:
+            {
+                size: new CVal(new Point(0.88), "sizeUnit")
+            },
+
+            entrance:
+            {
+                size: new CVal(new Point(0.8), "sizeUnit")
+            },
+
+            text:
+            {
+                fontSize: new CVal(0.05825, "sizeUnit")
+            },
+
+            setText:
+            {
+                fontSize: new CVal(0.065, "sizeUnit")
+            },
+
+            campaign:
+            {
+                textBoxSize: new CVal(new Point(0.9, 0.4), "size"),
+                fontSize: new CVal(0.07, "sizeUnit"),
+                posMission: new CVal(new Point(0.5, 0.5), "size"),
+                posRule: new CVal(new Point(0.5, 0.86), "size"),
+
+                score:
+                {
+                    pos: new CVal(new Point(0.48, 0.09), "size"),
+                    fontSize: new CVal(0.3, "sizeUnit"),
+                },
+
+                expansions:
+                {
+                    pos: new CVal(new Point(0.8, 0.0915), "size"),
+                    fontSize: new CVal(0.045, "sizeUnit"),
+                    alpha: 0.75
+                }
+            }
         },
 
-        extinct:
+        tiles:
         {
-            pos: new CVal(new Point(0.275, 0.325), "size"),
-            size: new CVal(new Point(0.2), "sizeUnit")
+            animal:
+            {
+                pos: new CVal(new Point(0.22, 0.5), "size"),
+                size: new CVal(new Point(0.435), "sizeUnit")
+            },
+
+            extinct:
+            {
+                pos: new CVal(new Point(0.275, 0.325), "size"),
+                size: new CVal(new Point(0.2), "sizeUnit")
+            },
+
+            funFact:
+            {
+                pos: new CVal(new Point(0.225, 0.815), "size"),
+                size: new CVal(new Point(0.225, 0.45), "size"),
+                fontSize: new CVal(0.033, "sizeUnit")
+            },
+
+            terrains:
+            {
+                posAnchor: new CVal(new Point(0.615, 0.38), "size"),
+                size: new CVal(new Point(0.1225), "sizeUnit"),
+                shadowBlur: new CVal(0.005, "sizeUnit")
+            },
+
+            food:
+            {
+                pos: new CVal(new Point(0.815, 0.2875), "size"),
+                size: new CVal(new Point(0.4, 0.2), "sizeUnit"),
+                fontSize: new CVal(0.0475, "sizeUnit")
+            },
+
+            power:
+            {
+                pos: new CVal(new Point(0.51, 0.735), "size"),
+                size: new CVal(new Point(0.285, 0.3), "size"),
+                fontSize: new CVal(0.033, "sizeUnit")
+            },
+
+            // these are all the specific positions of the checkmarks, hardcoded for speed and simplicity
+            checkmarks:
+            {
+                size: new CVal(new Point(0.075), "sizeUnit"),
+                strong: new CVal(new Point(0.4415, 0.2875 - 0.025), "size"),
+                herbivore: new CVal(new Point(0.4415, 0.51), "size"),
+                carnivore: new CVal(new Point(0.65, 0.51), "size"),
+                social: new CVal(new Point(0.4415, 0.615), "size"),
+                solitary: new CVal(new Point(0.65, 0.615), "size"),
+            }
         },
 
-        funFact:
-        {
-            pos: new CVal(new Point(0.225, 0.815), "size"),
-            size: new CVal(new Point(0.225, 0.45), "size"),
-            fontSize: new CVal(0.033, "sizeUnit")
-        },
-
-        terrains:
-        {
-            posAnchor: new CVal(new Point(0.615, 0.38), "size"),
-            size: new CVal(new Point(0.1225), "sizeUnit"),
-            shadowBlur: new CVal(0.005, "sizeUnit")
-        },
-
-        food:
-        {
-            pos: new CVal(new Point(0.815, 0.2875), "size"),
-            size: new CVal(new Point(0.4, 0.2), "sizeUnit"),
-            fontSize: new CVal(0.0475, "sizeUnit")
-        },
-
-        power:
-        {
-            pos: new CVal(new Point(0.51, 0.735), "size"),
-            size: new CVal(new Point(0.285, 0.3), "size"),
-            fontSize: new CVal(0.033, "sizeUnit")
-        },
-
-        // these are all the specific positions of the checkmarks, hardcoded for speed and simplicity
-        checkmarks:
-        {
-            size: new CVal(new Point(0.075), "sizeUnit"),
-            strong: new CVal(new Point(0.4415, 0.2875 - 0.025), "size"),
-            herbivore: new CVal(new Point(0.4415, 0.51), "size"),
-            carnivore: new CVal(new Point(0.65, 0.51), "size"),
-            social: new CVal(new Point(0.4415, 0.615), "size"),
-            solitary: new CVal(new Point(0.65, 0.615), "size"),
-        }
-    },
+    }
 }

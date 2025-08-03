@@ -9,14 +9,12 @@ import Type from "./type";
 
 export default class BoardState
 {
-    game: any
     grid: Cell[][]
     recipeBook: RecipeBook
     fail: boolean
 
-    constructor(game:any)
+    constructor()
     {
-        this.game = game;
         this.createGrid();
     }
 
@@ -31,7 +29,7 @@ export default class BoardState
     createGrid()
     {
         this.grid = [];
-        const size = CONFIG.board.size;
+        const size = CONFIG._drawing.board.size;
         for(let x = 0; x < size.x; x++)
         {
             this.grid[x] = [];
@@ -45,7 +43,7 @@ export default class BoardState
     assignTypes(typeManager:TypeManager)
     {
         const numCells = this.countCells();
-        typeManager.globalMaxPerType = Math.round(CONFIG.types.globalMaxPerType * numCells);
+        typeManager.globalMaxPerType = Math.round(CONFIG._drawing.types.globalMaxPerType * numCells);
 
         let cellsLeft = Random.shuffle(this.getGridFlat());
         this.reserveSpaceForRecipeBook(cellsLeft);

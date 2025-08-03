@@ -107,3 +107,10 @@ export const CATEGORIES:Record<string, CategoryData> =
     green: { color: "#23AC00", colorDark: "#0C3A00", colorBG: "#E8FFDF", names: ["green", "earth", "grass", "flower", "bloom", "life", "sun", "petal", "stalk", "twig", "leaf"], counters: "blue" },
     purple: { color: "#BB56E9", colorDark: "#390053", colorBG: "#F2E3FF", names: ["purple", "air", "magic", "witch", "wizard", "wiz", "faerie", "glow", "gust", "wind", "force"], counters: "green" }
 }
+
+export type TypeStats = Record<string,TypeStat>
+export interface TypeStat {
+    regular: number,
+    action: number,
+    total: number
+}

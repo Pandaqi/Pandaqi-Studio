@@ -3,7 +3,6 @@ import { CATS, MISC, Type } from "../shared/dict";
 import { CONFIG } from "../shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Point from "js/pq_games/tools/geometry/point";
-import Visualizer from "./visualizer";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import Color from "js/pq_games/layout/color/color";
@@ -19,6 +18,42 @@ import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
 import ColorLike from "js/pq_games/layout/color/colorLike";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import patternizeGrid from "js/pq_games/layout/patterns/patternizeGrid";
+
+const cacheVisualizerData = async (vis:MaterialVisualizer) =>
+{  
+    const alreadyCached = vis.custom && Object.keys(vis.custom).length > 0;
+    if(alreadyCached) { return; }
+
+    const shadowOffset = CONFIG.cards.shared.shadowOffset.clone().scale(vis.sizeUnit);
+    const shadowColor = CONFIG.cards.shared.shadowColor;
+
+    const params = 
+    {
+        size: (1.0 + CONFIG.cards.bgCats.patternExtraMargin) * vis.size.y,
+        sizeIcon: CONFIG.cards.bgCats.patternIconSize,
+        num: CONFIG.cards.bgCats.patternNumIcons,
+        resource: vis.getResource("misc"),
+        frame: MISC.bg_cat.frame
+    }
+
+    const patternCat = await patternizeGrid(params);
+
+    params.frame = MISC.heart_simple.frame;
+    const patternHeart = await patternizeGrid(params);
+
+    params.frame = MISC.heart_outline.frame;
+    const patternHeartOutline = await patternizeGrid(params); // @TODO: this seems unused?
+
+    vis.custom =
+    {
+        effects: [new DropShadowEffect({ offset: shadowOffset, color: shadowColor }), vis.inkFriendlyEffect].flat(),
+        patternCat: patternCat,
+        patternHeart: patternHeart,
+        patternHeartOutline: patternHeartOutline
+    }
+}
 
 export default class Card
 {
@@ -32,8 +67,10 @@ export default class Card
         this.type = type;
     }
 
-    async drawForRules(vis:Visualizer)
+    async drawForRules(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
+        await cacheVisualizerData(vis);
+
         const ctx = createContext({ size: vis.size });
         this.sort();
 
@@ -53,8 +90,10 @@ export default class Card
         })
     }
 
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
+        await cacheVisualizerData(vis);
+
         const ctx = createContext({ size: vis.size });
         this.sort();
 
@@ -73,7 +112,7 @@ export default class Card
     //
     // > LIFE CARDS
     //
-    async drawLifeCard(vis:Visualizer, ctx)
+    async drawLifeCard(vis:MaterialVisualizer, ctx)
     {
         await this.drawLifeBackground(vis, ctx);
         await this.drawCornerHearts(vis, ctx);
@@ -82,7 +121,7 @@ export default class Card
         await this.drawLifeText(vis, ctx);
     }
 
-    async drawLifeBackground(vis:Visualizer, ctx)
+    async drawLifeBackground(vis:MaterialVisualizer, ctx)
     {
         const res = vis.resLoader.getResource("misc");
         const frame = MISC.heart_life.frame;
@@ -100,7 +139,7 @@ export default class Card
         await res.toCanvas(ctx, op);
     }
 
-    async drawCornerHearts(vis:Visualizer, ctx)
+    async drawCornerHearts(vis:MaterialVisualizer, ctx)
     {
         const size = new Point(CONFIG.cards.life.heartCornerSize * vis.sizeUnit);
         const offset = size.clone().scaleFactor(0.5).scaleFactor(CONFIG.cards.life.heartCornerOffset);
@@ -117,13 +156,13 @@ export default class Card
                 size: size,
                 rot: rot,
                 pivot: Point.CENTER,
-                effects: vis.effects,
+                effects: vis.custom.effects,
             })
             await res.toCanvas(ctx, op);
         }
     }
 
-    async drawCardLimit(vis:Visualizer, ctx)
+    async drawCardLimit(vis:MaterialVisualizer, ctx)
     {
         // background rect (with beveled corners)
         const center = new Point(0.5*vis.size.x, CONFIG.cards.life.cardRectY * vis.size.y);
@@ -139,7 +178,7 @@ export default class Card
             fill: "#00353D",
             stroke: "#FFFFFF",
             strokeWidth: strokeWidth,
-            effects: vis.effects,
+            effects: vis.custom.effects,
         })
         await res.toCanvas(ctx, op);
 
@@ -163,12 +202,12 @@ export default class Card
         }
     }
 
-    async drawPower(vis:Visualizer, ctx)
+    async drawPower(vis:MaterialVisualizer, ctx)
     {
         const isCustomPower = this.data.reqs && this.data.reqs.length > 0;
         const center = vis.size.clone().scale(0.5);
         const size = new Point(CONFIG.cards.powers.iconSize * vis.sizeUnit);
-        const powerEffects = vis.effects.slice();
+        const powerEffects = vis.custom.effects.slice();
 
         const glowBlur = CONFIG.cards.powers.glowAroundIcons.blur * size.x;
         const glowColor = CONFIG.cards.powers.glowAroundIcons.color;
@@ -194,7 +233,7 @@ export default class Card
         }
     }
 
-    async drawCustomPower(vis:Visualizer, ctx:CanvasRenderingContext2D, center:Point, size:Point, powerEffects:LayoutEffect[])
+    async drawCustomPower(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D, center:Point, size:Point, powerEffects:LayoutEffect[])
     {
         const res = vis.resLoader.getResource("cats");
         const resMisc = vis.resLoader.getResource("misc");
@@ -299,7 +338,7 @@ export default class Card
         }
     }
 
-    async drawLifeText(vis:Visualizer, ctx)
+    async drawLifeText(vis:MaterialVisualizer, ctx)
     {
         const fontSize = CONFIG.cards.life.fontSize * vis.sizeUnit;
         const textConfig = new TextConfig({
@@ -334,13 +373,13 @@ export default class Card
     //
     // > CAT cards 
     //
-    async drawCatCard(vis:Visualizer, ctx)
+    async drawCatCard(vis:MaterialVisualizer, ctx)
     {
         await this.drawCats(vis, ctx);
         await this.drawCatsSimplified(vis, ctx);
     }
 
-    async drawCats(vis:Visualizer, ctx)
+    async drawCats(vis:MaterialVisualizer, ctx)
     {
         const numIcons = this.cats.length;
         const positions = CONFIG.cards.cats.positions[numIcons];
@@ -361,14 +400,14 @@ export default class Card
                 size: size,
                 frame: frame,
                 pivot: Point.CENTER,
-                effects: vis.effects,
+                effects: vis.custom.effects,
             })
 
             await res.toCanvas(ctx, op);
         }
     }
 
-    async drawCatsSimplified(vis:Visualizer, ctx)
+    async drawCatsSimplified(vis:MaterialVisualizer, ctx)
     {
         if(vis.inkFriendly) { return; }
 
@@ -404,7 +443,7 @@ export default class Card
                     size: new Point(iconSize),
                     pivot: new Point(0.5),
                     rot: rot,
-                    effects: vis.effects,
+                    effects: vis.custom.effects,
                 })
                 await res.toCanvas(ctx, op);
             }
@@ -432,7 +471,7 @@ export default class Card
         return color;
     }
 
-    async drawBackground(vis:Visualizer, ctx)
+    async drawBackground(vis:MaterialVisualizer, ctx)
     {
         // first solid color
         let color = this.getBackgroundColor(vis);
@@ -442,7 +481,7 @@ export default class Card
         let alpha = CONFIG.cards.bgCats.patternAlpha;
         if(vis.inkFriendly) { alpha = CONFIG.cards.bgCats.patternAlphaInkFriendly; }
 
-        const pattern = (this.type == Type.CAT) ? vis.patternCat : vis.patternHeart;
+        const pattern = (this.type == Type.CAT) ? vis.custom.patternCat : vis.custom.patternHeart;
         const rot = (this.type == Type.CAT) ? CONFIG.cards.bgCats.patternRotation : CONFIG.cards.bgHearts.patternRotation;
         const center = vis.size.clone().scaleFactor(0.5);
         const op = new LayoutOperation({
@@ -454,7 +493,7 @@ export default class Card
         await pattern.toCanvas(ctx, op);
     }
 
-    drawOutline(vis:Visualizer, ctx)
+    drawOutline(vis:MaterialVisualizer, ctx)
     {
         const outlineSize = CONFIG.cards.outline.size * vis.sizeUnit;
         strokeCanvas(ctx, CONFIG.cards.outline.color, outlineSize);

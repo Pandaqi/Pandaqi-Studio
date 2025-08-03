@@ -3,6 +3,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import { FloorType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
+import { dominoPicker } from "../game/dominoPicker"
 
 export const CONFIG:any = 
 {
@@ -12,7 +13,7 @@ export const CONFIG:any =
         {
             type: SettingType.CHECK,
             label: "Add Text",
-            default: true,
+            value: true,
             remark: "Adds text that explains what a tile does on the tile itself."
         },
 
@@ -23,39 +24,44 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             roomService:
             {
                 type: SettingType.CHECK,
-                label: "Room Service"
+                label: "Room Service",
+                value: false,
             },
 
             walletWatchers:
             {
                 type: SettingType.CHECK,
                 label: "Wallet Watchers",
+                value: false,
             },
 
             usefulUtilities:
             {
                 type: SettingType.CHECK,
                 label: "Useful Utilities",
+                value: false,
             },
 
             happyHousing:
             {
                 type: SettingType.CHECK,
                 label: "Happy Housing",
+                value: false,
             },
 
             livingTogether:
             {
                 type: SettingType.CHECK,
                 label: "Living Together",
-                remark: "Extra material that makes the game more fun and engaging when played purely cooperatively"
+                remark: "Extra material that makes the game more fun and engaging when played purely cooperatively",
+                value: false,
             },
         }
     },
@@ -70,25 +76,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Highrise Homino",
-    },
-
-    
-    addText: true,
-
-    fonts:
-    {
-        heading: "grolear",
-        body: "kanit",
-    },
-
-    sets:
-    {
-        base: true,
-        roomService: false,
-        walletWatchers: false,
-        usefulUtilities: false,
-        happyHousing: false,
-        livingTogether: false,
     },
 
     // assets
@@ -159,11 +146,6 @@ export const CONFIG:any =
         },
     },
 
-    rulebook:
-    {
-
-    },
-
     generation:
     {
         numDominoes:
@@ -226,89 +208,102 @@ export const CONFIG:any =
         },
     },
 
-    dominoes:
+    _material:
     {
-        drawerConfig:
+        dominoes:
         {
-            preset: GridSizePreset.DOMINO
-        },
-
-        setText:
-        {
-            size: new CVal(0.0575, "sizeUnit"),
-            color: "#111111",
-            strokeColor: "#EEEEEE",
-            strokeWidth: new CVal(0.2, "dominoes.setText.size"),
-            alpha: 0.85
-        },
-
-        walls:
-        {
-            size: new CVal(new Point(1.0), "sizeUnit")
-        },
-
-        text:
-        {
-            fontSize: new CVal(0.05825, "sizeUnit")
-        },
-
-        object:
-        {
-            main:
-            {
-                size: new CVal(new Point(0.7), "sizeUnit")
-            }
-        },
-
-        tenant:
-        {
-            main:
-            {
-                size: new CVal(new Point(0.625), "sizeUnit")
-            },
-
-            score:
-            {
-                size: new CVal(new Point(0.4), "sizeUnit"),
-                fontSize: new CVal(0.16, "sizeUnit"),
-                textColor: "#111111"
-            },
-
-            detailsYHeight: new CVal(0.3, "sizeUnit"), // remember this is all relative to origin (0,0) in center of domino side
-
-            props:
-            {
-                size: new CVal(new Point(0.3), "sizeUnit"),
-                xPositions:
-                {
-                    1: [0.175],
-                    2: [0.175, 0.825],
-                }
-            },
-
-            wishes:
-            {
-                size: new CVal(new Point(0.3), "sizeUnit"),
-                number:
-                {
-                    fontSize: new CVal(0.165, "sizeUnit"),
-                    pos: new CVal(new Point(0, -0.4), "dominoes.tenant.wishes.size"),
-                    textColor: "#FFFFFF",
-                    strokeColor: "#111111",
-                    strokeWidth: new CVal(0.1, "dominoes.tenant.wishes.number.fontSize")
-                }
-            },
+            picker: dominoPicker,
+            mapper: MapperPreset.DOMINO
         }
     },
 
-    missions:
+    _drawing:
     {
-        fontSize: new CVal(0.0775, "sizeUnit"),
-        textBoxDims: new CVal(new Point(0.85, 0.3), "size"),
-        taskTextPos: new CVal(new Point(0.0725, 0.3), "size"),
-        rewardTextPos: new CVal(new Point(0.0725, 0.685), "size"),
-        fontSizeSet: new CVal(0.0585, "sizeUnit"),
-        setTextPos: new CVal(new Point(0.5, 0.95), "size"),
-        setTextAlpha: 0.5,
+        fonts:
+        {
+            heading: "grolear",
+            body: "kanit",
+        },
+
+        dominoes:
+        {
+            setText:
+            {
+                size: new CVal(0.0575, "sizeUnit"),
+                color: "#111111",
+                strokeColor: "#EEEEEE",
+                strokeWidth: new CVal(0.2, "dominoes.setText.size"),
+                alpha: 0.85
+            },
+
+            walls:
+            {
+                size: new CVal(new Point(1.0), "sizeUnit")
+            },
+
+            text:
+            {
+                fontSize: new CVal(0.05825, "sizeUnit")
+            },
+
+            object:
+            {
+                main:
+                {
+                    size: new CVal(new Point(0.7), "sizeUnit")
+                }
+            },
+
+            tenant:
+            {
+                main:
+                {
+                    size: new CVal(new Point(0.625), "sizeUnit")
+                },
+
+                score:
+                {
+                    size: new CVal(new Point(0.4), "sizeUnit"),
+                    fontSize: new CVal(0.16, "sizeUnit"),
+                    textColor: "#111111"
+                },
+
+                detailsYHeight: new CVal(0.3, "sizeUnit"), // remember this is all relative to origin (0,0) in center of domino side
+
+                props:
+                {
+                    size: new CVal(new Point(0.3), "sizeUnit"),
+                    xPositions:
+                    {
+                        1: [0.175],
+                        2: [0.175, 0.825],
+                    }
+                },
+
+                wishes:
+                {
+                    size: new CVal(new Point(0.3), "sizeUnit"),
+                    number:
+                    {
+                        fontSize: new CVal(0.165, "sizeUnit"),
+                        pos: new CVal(new Point(0, -0.4), "dominoes.tenant.wishes.size"),
+                        textColor: "#FFFFFF",
+                        strokeColor: "#111111",
+                        strokeWidth: new CVal(0.1, "dominoes.tenant.wishes.number.fontSize")
+                    }
+                },
+            }
+        },
+
+        missions:
+        {
+            fontSize: new CVal(0.0775, "sizeUnit"),
+            textBoxDims: new CVal(new Point(0.85, 0.3), "size"),
+            taskTextPos: new CVal(new Point(0.0725, 0.3), "size"),
+            rewardTextPos: new CVal(new Point(0.0725, 0.685), "size"),
+            fontSizeSet: new CVal(0.0585, "sizeUnit"),
+            setTextPos: new CVal(new Point(0.5, 0.95), "size"),
+            setTextAlpha: 0.5,
+        }
     }
 }

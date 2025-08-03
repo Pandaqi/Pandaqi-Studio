@@ -2,6 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG:any = 
 {
@@ -14,7 +15,7 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
@@ -22,6 +23,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Superpowers",
+                value: false,
                 remark: "An expansion with more number cards with varied or complex powers."
             },
         }
@@ -37,20 +39,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Folly & Fortune",
-    },
-
-    
-
-    fonts:
-    {
-        heading: "antique",
-        body: "goodfish"
-    },
-
-    sets:
-    {
-        base: true,
-        superPowers: false,
     },
 
     // assets
@@ -100,11 +88,6 @@ export const CONFIG:any =
         },
     },
 
-    rulebook:
-    {
-
-    },
-
     generation:
     {
         baseCardsNum: 50,
@@ -132,75 +115,81 @@ export const CONFIG:any =
         numHealthMax: 6,
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
-        },
-
-        shared:
-        {
-            shadowOffset: new CVal(new Point(0, 0.01), "sizeUnit")
-        },
-
-        bg:
-        {
-            alpha: 0.1
-        },
-
-        numbers:
-        {
-            boxOffset: new CVal(new Point(0.16, 0.1725), "sizeUnit"),
-            boxDims: new CVal(new Point(0.325), "sizeUnit"),
-            fontSize: new CVal(0.175, "sizeUnit"),
-            strokeWidth: new CVal(0.05, "cards.numbers.fontSize"),
-            textInBoxOffset: new CVal(new Point(0.03), "sizeUnit")
-        },
-
-        mainNumber:
-        {
-            fontSize: new CVal(0.6, "sizeUnit"),
-            strokeWidth: new CVal(0.04, "cards.mainNumber.fontSize"),
-            pos: new CVal(new Point(0.5, 0.35), "size"),
-            addWrittenVersion: true,
-            written:
-            {
-                linePos: new CVal(new Point(0.5, 0.125), "size"),
-                lineDims: new CVal(new Point(0.2), "sizeUnit"),
-                lineAlpha: 0.5,
-                fontSize: new CVal(0.058, "sizeUnit"),
-                pos: new CVal(new Point(0.5, 0.09), "size")
-            }
-        },
-
-        power:
-        {
-            textPos: new CVal(new Point(0.5, 0.77), "size"),
-            fontSize: new CVal(0.0575, "sizeUnit"),
-            textDims: new CVal(new Point(0.7, 0.33), "size"),
-            textBoxDims: new CVal(new Point(1.0), "sizeUnit"),
-
-            iconOffset: new CVal(new Point(0.1, 0.2975), "size"),
-            iconDims: new CVal(new Point(0.125), "sizeUnit"),
-            iconAlpha: 0.825,
-
-            shieldPos: new CVal(new Point(0.9, 0.5), "size"),
-            unseenPos: new CVal(new Point(0.1, 0.5), "size")
-        },
-
-        arrow:
-        {
-            size: new CVal(new Point(0.1), "sizeUnit"), // probably just the same as power.iconDims
-            composite: "overlay",
-            alpha: 0.5
+            picker: cardPicker,
+            mapper: MapperPreset.CARD,
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "antique",
+            body: "goodfish"
+        },
+
+        cards:
+        {
+            shared:
+            {
+                shadowOffset: new CVal(new Point(0, 0.01), "sizeUnit")
+            },
+
+            bg:
+            {
+                alpha: 0.1
+            },
+
+            numbers:
+            {
+                boxOffset: new CVal(new Point(0.16, 0.1725), "sizeUnit"),
+                boxDims: new CVal(new Point(0.325), "sizeUnit"),
+                fontSize: new CVal(0.175, "sizeUnit"),
+                strokeWidth: new CVal(0.05, "cards.numbers.fontSize"),
+                textInBoxOffset: new CVal(new Point(0.03), "sizeUnit")
+            },
+
+            mainNumber:
+            {
+                fontSize: new CVal(0.6, "sizeUnit"),
+                strokeWidth: new CVal(0.04, "cards.mainNumber.fontSize"),
+                pos: new CVal(new Point(0.5, 0.35), "size"),
+                addWrittenVersion: true,
+                written:
+                {
+                    linePos: new CVal(new Point(0.5, 0.125), "size"),
+                    lineDims: new CVal(new Point(0.2), "sizeUnit"),
+                    lineAlpha: 0.5,
+                    fontSize: new CVal(0.058, "sizeUnit"),
+                    pos: new CVal(new Point(0.5, 0.09), "size")
+                }
+            },
+
+            power:
+            {
+                textPos: new CVal(new Point(0.5, 0.77), "size"),
+                fontSize: new CVal(0.0575, "sizeUnit"),
+                textDims: new CVal(new Point(0.7, 0.33), "size"),
+                textBoxDims: new CVal(new Point(1.0), "sizeUnit"),
+
+                iconOffset: new CVal(new Point(0.1, 0.2975), "size"),
+                iconDims: new CVal(new Point(0.125), "sizeUnit"),
+                iconAlpha: 0.825,
+
+                shieldPos: new CVal(new Point(0.9, 0.5), "size"),
+                unseenPos: new CVal(new Point(0.1, 0.5), "size")
+            },
+
+            arrow:
+            {
+                size: new CVal(new Point(0.1), "sizeUnit"), // probably just the same as power.iconDims
+                composite: "overlay",
+                alpha: 0.5
+            }
+        },
+    }
 }

@@ -4,6 +4,8 @@ import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import { DecreeType, LawType } from "./dict";
+import { votePicker } from "../game/votePicker";
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG:Record<string,any> = 
 {
@@ -16,7 +18,7 @@ export const CONFIG:Record<string,any> =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Set",
             },
 
@@ -24,12 +26,14 @@ export const CONFIG:Record<string,any> =
             {
                 type: SettingType.CHECK,
                 label: "Abstain Attacks",
+                value: false,
             },
 
             advanced:
             {
                 type: SettingType.CHECK,
                 label: "Advanced Politics",
+                value: false,
             },
         }
     },
@@ -44,22 +48,6 @@ export const CONFIG:Record<string,any> =
     _game:
     {
         fileName: "Maybe Minister",
-    },
-
-    
-    includeWildcard: false,
-
-    sets:
-    {
-        base: true,
-        abstain: false,
-        undecided: false,
-        advanced: false
-    },
-
-    fonts:
-    {
-        heading: "blackwood"
     },
 
     // assets
@@ -147,61 +135,84 @@ export const CONFIG:Record<string,any> =
         equalityWinsProposal: true,
         winningPointsTarget: 25,
     },
-    
-    cards:
+
+    _material:
     {
-        shared:
+        cards:
         {
-            dropShadowRadius: new CVal(0.02, "sizeUnit"),
+            itemSize: new Point(375, 525),
+            picker: cardPicker
         },
 
-        laws:
+        votes:
         {
-            fontSize: new CVal(0.085, "sizeUnit"),
-            textColor: "#221100",
-            pos: new CVal(new Point(0.5, 0.525), "size"),
-            textBoxDims: new CVal(new Point(0.825, 0.7), "size"),
-        },
-
-        voteStorage:
-        {
-            offset: new CVal(new Point(0.2, 0), "size"),
-            textColor: "#000000",
-            fontSize: new CVal(0.095, "sizeUnit"),
-            iconDims: new CVal(new Point(0.24), "sizeUnit"),
-        },
-
-        sides:
-        {
-            offset: new CVal(new Point(0, 0.35), "size"),
-            textBoxDims: new CVal(new Point(0.83, 0.5), "size"),
-            fontSize: new CVal(0.07, "sizeUnit"),
-            iconDims: new CVal(new Point(0.2), "sizeUnit"),
-            textColors:
-            {
-                good: "#002800",
-                bad: "#280000",
-                abstain: "#280028"
-            }
+            itemSize: new Point(375, 525),
+            picker: votePicker
         }
     },
 
-    votes:
+    _drawing:
     {
-        number:
+        fonts:
         {
-            pos: new CVal(new Point(0.5, 0.575), "size"),
-            fontSize: new CVal(0.375, "sizeUnit"),
-            colorStroke: "#FFFFFF",
-            strokeWidth: new CVal(0.025, "sizeUnit"),
-            textColors:
+            heading: "blackwood"
+        },
+
+        cards:
+        {
+            shared:
             {
-                yes: "#124A00",
-                no: "#4A1200",
-                abstain: "#4A124A"
+                dropShadowRadius: new CVal(0.02, "sizeUnit"),
+            },
+
+            laws:
+            {
+                fontSize: new CVal(0.085, "sizeUnit"),
+                textColor: "#221100",
+                pos: new CVal(new Point(0.5, 0.525), "size"),
+                textBoxDims: new CVal(new Point(0.825, 0.7), "size"),
+            },
+
+            voteStorage:
+            {
+                offset: new CVal(new Point(0.2, 0), "size"),
+                textColor: "#000000",
+                fontSize: new CVal(0.095, "sizeUnit"),
+                iconDims: new CVal(new Point(0.24), "sizeUnit"),
+            },
+
+            sides:
+            {
+                offset: new CVal(new Point(0, 0.35), "size"),
+                textBoxDims: new CVal(new Point(0.83, 0.5), "size"),
+                fontSize: new CVal(0.07, "sizeUnit"),
+                iconDims: new CVal(new Point(0.2), "sizeUnit"),
+                textColors:
+                {
+                    good: "#002800",
+                    bad: "#280000",
+                    abstain: "#280028"
+                }
+            }
+        },
+
+        votes:
+        {
+            number:
+            {
+                pos: new CVal(new Point(0.5, 0.575), "size"),
+                fontSize: new CVal(0.375, "sizeUnit"),
+                colorStroke: "#FFFFFF",
+                strokeWidth: new CVal(0.025, "sizeUnit"),
+                textColors:
+                {
+                    yes: "#124A00",
+                    no: "#4A1200",
+                    abstain: "#4A124A"
+                }
             }
         }
-    }
+    },
 }
 
 mergeObjects(CONFIG, CONFIG_SHARED);

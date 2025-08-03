@@ -1,6 +1,7 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG:any = 
 {
@@ -13,7 +14,7 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
@@ -21,6 +22,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Zoo of Moves",
+                value: false,
                 remark: "A big expansion adding more animals."
             },
 
@@ -28,6 +30,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Fight Together",
+                value: false,
                 remark: "A tiny expansion that allows playing in teams with simultaneous wars."
             },
 
@@ -35,6 +38,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Dawndojo",
+                value: false,
                 remark: "An expansion with risky Rooster cards that can upset an entire war before it even started."
             },
         }
@@ -50,22 +54,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Tossing Tiger, Rolling Dragon",
-    },
-
-    
-
-    fonts:
-    {
-        heading: "chineserocks",
-        body: "koho"
-    },
-
-    sets:
-    {
-        base: true,
-        zooOfMoves: false,
-        fightTogether: false,
-        dawnDojo: false,
     },
 
     // assets
@@ -121,11 +109,6 @@ export const CONFIG:any =
         },
     },
 
-    rulebook:
-    {
-
-    },
-
     generation:
     {
         numCardsDefault: 30,
@@ -165,69 +148,75 @@ export const CONFIG:any =
         numCommunicationCards: 9,
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
-        },
-
-        bg:
-        {
-            bambooAlpha: 0.5,
-            patternsAlpha: 1.0,
-            textureAlpha: 0.5,
-            outlineAlpha: 1.0,
-            spiralAlpha: 0.14,
-            blossomAlpha: 0.1
-        },
-
-        main:
-        {
-            useSimplified: false,
-            pos: new CVal(new Point(0.5, 0.285), "size"),
-            size: new CVal(new Point(0.65), "sizeUnit"),
-            shadowBlur: new CVal(0.01, "sizeUnit"),
-        },
-
-        strengths:
-        {
-            useSimplified: true,
-            iconDims: new CVal(new Point(0.17), "sizeUnit"),
-            iconAnimalDims: new CVal(new Point(0.08), "sizeUnit"),
-            anchorPos: new CVal(new Point(0.5, 0.1), "size"),
-            placeAtBottom: true,
-            shadowBlur: new CVal(0.0075, "sizeUnit"),
-
-            fontSize: new CVal(0.038, "sizeUnit"),
-            textPos: new CVal(new Point(0.5, 0.02), "size")
-        },
-
-        action:
-        {
-            heading:
-            {
-                fontSize: new CVal(0.08, "sizeUnit"),
-                pos: new CVal(new Point(0.5, 0.6), "size"),
-                size: new CVal(new Point(0.85), "sizeUnit"),
-                posRooster: new CVal(new Point(0.5, 0.92), "size"),
-            },
-
-            fontSize: new CVal(0.0615, "sizeUnit"),
-            fontSizeRooster: new CVal(0.05, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.73), "size"),
-            posText: new CVal(new Point(0.5, 0.75), "size"),
-            posRooster: new CVal(new Point(0.5, 0.52), "size"), // for the EXTRA box on rooster cards
-            textPosRooster: new CVal(new Point(0.5, 0.532), "size"),
-            size: new CVal(new Point(0.9), "sizeUnit"),
-            textDims: new CVal(new Point(0.775), "sizeUnit")
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "chineserocks",
+            body: "koho"
+        },
+
+        cards:
+        {
+            bg:
+            {
+                bambooAlpha: 0.5,
+                patternsAlpha: 1.0,
+                textureAlpha: 0.5,
+                outlineAlpha: 1.0,
+                spiralAlpha: 0.14,
+                blossomAlpha: 0.1
+            },
+
+            main:
+            {
+                useSimplified: false,
+                pos: new CVal(new Point(0.5, 0.285), "size"),
+                size: new CVal(new Point(0.65), "sizeUnit"),
+                shadowBlur: new CVal(0.01, "sizeUnit"),
+            },
+
+            strengths:
+            {
+                useSimplified: true,
+                iconDims: new CVal(new Point(0.17), "sizeUnit"),
+                iconAnimalDims: new CVal(new Point(0.08), "sizeUnit"),
+                anchorPos: new CVal(new Point(0.5, 0.1), "size"),
+                placeAtBottom: true,
+                shadowBlur: new CVal(0.0075, "sizeUnit"),
+
+                fontSize: new CVal(0.038, "sizeUnit"),
+                textPos: new CVal(new Point(0.5, 0.02), "size")
+            },
+
+            action:
+            {
+                heading:
+                {
+                    fontSize: new CVal(0.08, "sizeUnit"),
+                    pos: new CVal(new Point(0.5, 0.6), "size"),
+                    size: new CVal(new Point(0.85), "sizeUnit"),
+                    posRooster: new CVal(new Point(0.5, 0.92), "size"),
+                },
+
+                fontSize: new CVal(0.0615, "sizeUnit"),
+                fontSizeRooster: new CVal(0.05, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.73), "size"),
+                posText: new CVal(new Point(0.5, 0.75), "size"),
+                posRooster: new CVal(new Point(0.5, 0.52), "size"), // for the EXTRA box on rooster cards
+                textPosRooster: new CVal(new Point(0.5, 0.532), "size"),
+                size: new CVal(new Point(0.9), "sizeUnit"),
+                textDims: new CVal(new Point(0.775), "sizeUnit")
+            }
+        },
+    }
 }

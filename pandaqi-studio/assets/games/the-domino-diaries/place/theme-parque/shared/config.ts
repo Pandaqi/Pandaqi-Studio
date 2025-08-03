@@ -5,6 +5,7 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 import { PathType } from "./dict"
 import Color from "js/pq_games/layout/color/color"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
+import { dominoPicker } from "../game/dominoPicker"
 
 export const CONFIG:any = 
 {
@@ -14,7 +15,7 @@ export const CONFIG:any =
         {
             type: SettingType.CHECK,
             label: "Add Text",
-            default: true,
+            value: true,
             remark: "Adds text that explains what a tile does on the tile itself."
         },
 
@@ -25,14 +26,14 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             pawns:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Pawns"
             },
 
@@ -40,25 +41,29 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Rollercooper",
-                remark: "Allows playing the game cooperatively."
+                remark: "Allows playing the game cooperatively.",
+                value: false,
             },
 
             wishneyland:
             {
                 type: SettingType.CHECK,
                 label: "Wishneyland Parki",
+                value: false,
             },
 
             unibearsal:
             {
                 type: SettingType.CHECK,
                 label: "Unibearsal Honeyos",
+                value: false,
             },
 
             rollercoasters:
             {
                 type: SettingType.CHECK,
                 label: "Raging Rollercoasters",
+                value: false,
             },
         }
     },
@@ -73,25 +78,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Theme Parque",
-    },
-
-    
-    addText: true,
-
-    fonts:
-    {
-        heading: "wildride",
-        body: "besley",
-    },
-
-    sets:
-    {
-        pawns: true,
-        base: true,
-        rollercooper: false,
-        wishneyland: false,
-        unibearsal: false,
-        rollercoasters: false
     },
 
     // assets
@@ -178,11 +164,6 @@ export const CONFIG:any =
         }
     },
 
-    rulebook:
-    {
-
-    },
-
     generation:
     {
         numUniquePawns: 6,
@@ -219,77 +200,90 @@ export const CONFIG:any =
         }
     },
 
-    dominoes:
+    _material:
     {
-        drawerConfig:
+        dominoes:
         {
-            preset: GridSizePreset.DOMINO
+            picker: dominoPicker,
+            mapper: MapperPreset.DOMINO
+        }
+    },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "wildride",
+            body: "besley",
         },
 
-        bg:
+        dominoes:
         {
-            baseColor: new Color("#4FD34B"), // #2FB32B
-            randomizationBounds: new Bounds(-8, 8),
-            dotTextureAlpha: 0.15,
-            dotTextureComposite: "overlay",
-            gradientAlpha: 0.4,
-            gradientComposite: "source-over"
-        },
+            bg:
+            {
+                baseColor: new Color("#4FD34B"), // #2FB32B
+                randomizationBounds: new Bounds(-8, 8),
+                dotTextureAlpha: 0.15,
+                dotTextureComposite: "overlay",
+                gradientAlpha: 0.4,
+                gradientComposite: "source-over"
+            },
 
-        text:
-        {
-            fontSize: new CVal(0.065, "sizeUnit")
-        },
-
-        score:
-        {
-            size: new CVal(new Point(0.3), "sizeUnit"),
-            fontSize: new CVal(0.2, "sizeUnit"),
-            textColor: "#000000",
-            strokeColor: "#FFFFFF",
-            strokeWidth: new CVal(0.045, "dominoes.score.fontSize")
-        },
-
-        entrance:
-        {
-            size: new CVal(new Point(0.75), "sizeUnit")
-        },
-
-        main:
-        {
-            size: new CVal(new Point(0.8), "sizeUnit")
-        },
-
-        paths:
-        {
-            tunnelDims: new CVal(new Point(0.66), "sizeUnit")
-        },
-
-        setText:
-        {
-            fontSize: new CVal(0.065, "sizeUnit")
-        },
-
-        events:
-        {
-            textBoxSize: new CVal(new Point(0.9, 0.4), "size"),
-            fontSize: new CVal(0.08, "sizeUnit"),
-            posEvent: new CVal(new Point(0.5, 0.3), "size"),
-            posChallenge: new CVal(new Point(0.5, 0.78), "size"),
+            text:
+            {
+                fontSize: new CVal(0.065, "sizeUnit")
+            },
 
             score:
             {
-                offset: new CVal(new Point(0.14), "sizeUnit"),
-                fontSize: new CVal(0.22, "sizeUnit"),
-                strokeWidth: new CVal(0.08, "dominoes.events.score.fontSize")
+                size: new CVal(new Point(0.3), "sizeUnit"),
+                fontSize: new CVal(0.2, "sizeUnit"),
+                textColor: "#000000",
+                strokeColor: "#FFFFFF",
+                strokeWidth: new CVal(0.045, "dominoes.score.fontSize")
             },
 
-            expansions:
+            entrance:
             {
-                pos: new CVal(new Point(0.66, 0.957), "size"),
-                fontSize: new CVal(0.05, "sizeUnit"),
-                alpha: 0.8
+                size: new CVal(new Point(0.75), "sizeUnit")
+            },
+
+            main:
+            {
+                size: new CVal(new Point(0.8), "sizeUnit")
+            },
+
+            paths:
+            {
+                tunnelDims: new CVal(new Point(0.66), "sizeUnit")
+            },
+
+            setText:
+            {
+                fontSize: new CVal(0.065, "sizeUnit")
+            },
+
+            events:
+            {
+                textBoxSize: new CVal(new Point(0.9, 0.4), "size"),
+                fontSize: new CVal(0.08, "sizeUnit"),
+                posEvent: new CVal(new Point(0.5, 0.3), "size"),
+                posChallenge: new CVal(new Point(0.5, 0.78), "size"),
+
+                score:
+                {
+                    offset: new CVal(new Point(0.14), "sizeUnit"),
+                    fontSize: new CVal(0.22, "sizeUnit"),
+                    strokeWidth: new CVal(0.08, "dominoes.events.score.fontSize")
+                },
+
+                expansions:
+                {
+                    pos: new CVal(new Point(0.66, 0.957), "size"),
+                    fontSize: new CVal(0.05, "sizeUnit"),
+                    alpha: 0.8
+                }
             }
-        }
-    },
+        },
+    }
 }

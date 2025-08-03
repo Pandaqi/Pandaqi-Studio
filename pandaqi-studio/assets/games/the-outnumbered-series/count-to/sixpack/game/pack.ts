@@ -1,5 +1,5 @@
 import Card from "./card"
-import { CONFIG } from "./config";
+import { CONFIG } from "../shared/config";
 
 export default class Pack 
 {
@@ -7,10 +7,10 @@ export default class Pack
     hands: number[];
     cards: Card[];
 
-    constructor(type: string)
+    constructor(type: string, handsPerNumber)
     {
         this.type = type;
-        this.setupHands();
+        this.setupHands(handsPerNumber);
         this.setupCards();
     }
 
@@ -44,7 +44,7 @@ export default class Pack
         return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    setupHands()
+    setupHands(handsPerNumber)
     {
         const hands = [];
         this.hands = hands;
@@ -71,15 +71,5 @@ export default class Pack
             const c = new Card(cardParams);
             cards.push(c);
         }
-    }
-
-    async visualize()
-    {
-        const promises = [];
-        for(const card of this.cards)
-        {
-            promises.push(card.visualize());
-        }
-        return await Promise.all(promises);
     }
 }

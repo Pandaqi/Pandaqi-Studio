@@ -6,7 +6,7 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
-import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import Path from "js/pq_games/tools/geometry/paths/path"
 import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath"
 import Point from "js/pq_games/tools/geometry/point"
@@ -26,7 +26,6 @@ interface Lines {
 
 export default class BoardDisplay
 {
-    game:any
     resolutionPerCell:number
     paperDimensions: Point
     outerMargin: Point
@@ -37,24 +36,24 @@ export default class BoardDisplay
     cellSizeUnit:number
     size:Point
 
-	constructor(game:any)
+	constructor(board:BoardState)
 	{
-		this.game = game;
-        this.resolutionPerCell = CONFIG.board.resolutionPerCell;
-
-        this.paperDimensions = game.visualizer.size;
-
-        const outerMarginFactor = CONFIG.board.outerMarginFactor;
-        this.outerMargin = new Point(this.paperDimensions.x * outerMarginFactor.x, this.paperDimensions.y * outerMarginFactor.y);
-        this.boardDimensions = new Point(this.paperDimensions.x - 2*this.outerMargin.x, this.paperDimensions.y - 2*this.outerMargin.y);
+        this.board = board;
 	}
 
-    draw(vis:MaterialVisualizer, board:BoardState) : ResourceGroup[]
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {        
-        const group = new ResourceGroup();
+        const group = vis.prepareDraw();
 
-        this.board = board;
-        this.size = board.getDimensions();
+        this.resolutionPerCell = CONFIG._drawing.board.resolutionPerCell;
+
+        this.paperDimensions = vis.size;
+
+        const outerMarginFactor = CONFIG._drawing.board.outerMarginFactor;
+        this.outerMargin = new Point(this.paperDimensions.x * outerMarginFactor.x, this.paperDimensions.y * outerMarginFactor.y);
+        this.boardDimensions = new Point(this.paperDimensions.x - 2*this.outerMargin.x, this.paperDimensions.y - 2*this.outerMargin.y);
+
+        this.size = this.board.getDimensions();
         this.cellSize = new Point(
             this.boardDimensions.x / this.size.x, 
             this.boardDimensions.y / this.size.y 
@@ -70,12 +69,12 @@ export default class BoardDisplay
 
         // draws the custom images or properties of each cell
         this.displayCells(vis, group);
-        this.displayRecipeBook(vis, group, board.recipeBook);
+        this.displayRecipeBook(vis, group, this.board.recipeBook);
 
         // finishing touches
         this.drawBoardEdge(vis, group);
 
-        return [group];
+        return await vis.finishDraw(group);
     }
 
     createGridLines()
@@ -138,9 +137,9 @@ export default class BoardDisplay
 
     randomizeGridLines(lines:Lines)
     {
-        if(!CONFIG.board.useWobblyLines) { return lines; }
+        if(!CONFIG._drawing.board.useWobblyLines) { return lines; }
 
-        const maxVariation = CONFIG.board.maxGridLineVariation * this.cellSizeUnit;
+        const maxVariation = CONFIG._drawing.board.maxGridLineVariation * this.cellSizeUnit;
         for(const [axis,linesAxis] of Object.entries(lines))
         {
             for(const line of linesAxis)
@@ -196,9 +195,9 @@ export default class BoardDisplay
 
     smoothLines(lines:Lines)
     {
-        if(!CONFIG.board.useWobblyLines) { return lines; }
+        if(!CONFIG._drawing.board.useWobblyLines) { return lines; }
 
-        const smoothingResolution = CONFIG.board.smoothingResolution;
+        const smoothingResolution = CONFIG._drawing.board.smoothingResolution;
         const newLines:Lines = { x: [], y: [] };
         for(const key of Object.keys(lines))
         {
@@ -216,7 +215,7 @@ export default class BoardDisplay
 
     strokeLines(vis:MaterialVisualizer, group:ResourceGroup, lines:Lines)
     {
-        const data = CONFIG.inkFriendly ? CONFIG.board.grid.linesInkfriendly : CONFIG.board.grid.lines;
+        const data = CONFIG.inkFriendly ? CONFIG._drawing.board.grid.linesInkfriendly : CONFIG._drawing.board.grid.lines;
 
         const lineWidth = data.width * this.cellSizeUnit;
         const lineColor = data.color;
@@ -239,8 +238,8 @@ export default class BoardDisplay
 
     fillInCells(vis:MaterialVisualizer, group:ResourceGroup, lines:Lines)
     {
-        let smoothingResolution = CONFIG.board.smoothingResolution;
-        if(!CONFIG.board.useWobblyLines) { smoothingResolution = 1; }
+        let smoothingResolution = CONFIG._drawing.board.smoothingResolution;
+        if(!CONFIG._drawing.board.useWobblyLines) { smoothingResolution = 1; }
 
         const distBetweenAnchors = smoothingResolution * this.resolutionPerCell;
 
@@ -325,7 +324,7 @@ export default class BoardDisplay
                 // (would normally do this by hand in Affinity, but my laptop just can't handle it anymore)
                 const offsetFromCenter = 0.38*w;
                 const offsetFromTop = 0.1*h;
-                const tutIconSize = CONFIG.tutorials.cornerIconSize * w;
+                const tutIconSize = CONFIG._drawing.tutorials.cornerIconSize * w;
                 const positions = [
                     new Point(centerPos.x - offsetFromCenter, realPos.y + offsetFromTop),
                     new Point(centerPos.x + offsetFromCenter, realPos.y + offsetFromTop)
@@ -366,7 +365,7 @@ export default class BoardDisplay
                 group.add(resCustom, opBG);
             }
 
-            const iconScale = CONFIG.board.iconScale;
+            const iconScale = CONFIG._drawing.board.iconScale;
             const spriteSize = new Point(iconScale * w, iconScale * h);
             const opSprite = new LayoutOperation({
                 pos: centerPos,
@@ -386,7 +385,7 @@ export default class BoardDisplay
                 const displayFixedFingers = cell.hasFixedFingers() && CONFIG.expansions.fixedFingers;
                 const contentPos = realPos.clone().move(new Point(0.35*w, 0.75*h));
 
-                const extraFrameScale = CONFIG.board.extraFrameScale;
+                const extraFrameScale = CONFIG._drawing.board.extraFrameScale;
                 const frameNum = displayMoney ? CUSTOM.moneyFrame.frame : CUSTOM.fingerFrame.frame;
                 const opFrame = new LayoutOperation({
                     pos: new Point(centerPos.x, realPos.y + 0.75*h),
@@ -401,7 +400,7 @@ export default class BoardDisplay
                 // display what's on top
                 if(displayMoney)
                 {
-                    const txcfg:any = CONFIG.board.moneyTextConfigTiny;
+                    const txcfg:any = CONFIG._drawing.board.moneyTextConfigTiny;
                     const fontSize = (txcfg.fontScaleFactor * this.cellSizeUnit);
 
                     const textConfig = new TextConfig({
@@ -449,7 +448,7 @@ export default class BoardDisplay
             })
             group.add(resCustom, opBG);
 
-            const moneySpriteScale = CONFIG.board.moneySpriteScale;
+            const moneySpriteScale = CONFIG._drawing.board.moneySpriteScale;
             const opMoney = new LayoutOperation({
                 pos: new Point(centerPos.x, realPos.y + 0.5 * h),
                 size: new Point(moneySpriteScale * w, moneySpriteScale * h),
@@ -458,7 +457,7 @@ export default class BoardDisplay
             })
             group.add(resCustom, opMoney);
 
-            const txcfg:any = CONFIG.board.moneyTextConfig;
+            const txcfg:any = CONFIG._drawing.board.moneyTextConfig;
             const fontSize = (txcfg.fontScaleFactor * this.cellSizeUnit);
             const textConfig = new TextConfig({
                 font: txcfg.fontFamily,
@@ -511,9 +510,9 @@ export default class BoardDisplay
     {
         if(!this.hasOuterMargin()) { return; }
 
-        const lineWidth = CONFIG.board.outerEdge.lineWidth * this.cellSizeUnit;
-        const lineColor = CONFIG.board.outerEdge.lineColor;
-        const lineAlpha = CONFIG.board.outerEdge.lineAlpha;
+        const lineWidth = CONFIG._drawing.board.outerEdge.lineWidth * this.cellSizeUnit;
+        const lineColor = CONFIG._drawing.board.outerEdge.lineColor;
+        const lineAlpha = CONFIG._drawing.board.outerEdge.lineAlpha;
 
         const opRect = new LayoutOperation({
             stroke: lineColor,

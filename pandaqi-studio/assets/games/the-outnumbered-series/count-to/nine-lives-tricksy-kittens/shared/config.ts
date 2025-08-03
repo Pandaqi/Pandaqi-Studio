@@ -1,4 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
 {
@@ -8,7 +9,7 @@ export const CONFIG =
         {
             type: SettingType.CHECK,
             label: "Include Powers",
-            default: true,
+            value: true,
             remark: "Remove them if you're sure you never want to play with them."
         },
 
@@ -16,7 +17,7 @@ export const CONFIG =
         {
             type: SettingType.MULTI,
             values: ["hearts", "spades", "diamonds", "clubs", "hourglasses", "cups", "stars", "cats", "crowns"],
-            default: ["hearts", "spades", "diamonds", "clubs"],
+            value: ["hearts", "spades", "diamonds", "clubs"],
             label: "Suits",
         },
     },
@@ -31,16 +32,6 @@ export const CONFIG =
     _game:
     {
         fileName: "Nine Lives: Tricksy Kittens",
-    },
-
-    // set through user config on page
-    includePowers: true,
-    suits: {},
-    
-    fonts:
-    {
-        heading: "puss",
-        body: "catcafe"
     },
 
     // assets
@@ -86,69 +77,85 @@ export const CONFIG =
         numbersWithoutPower: [9]
     },
 
-    // how to draw/layout cards (mostly visually)
-    cards:
+    _material:
     {
-        itemSize: new Point(480, 600), // @TODO: add to _material for rulebook
-
-        size: { 
-            small: new Point(4,4),
-            regular: new Point(3,3),
-            large: new Point(2,2)
-        },
-        sizeElement: new Point(1, 1.4),
-        sizeResult: new Point(),
-        
-        shared:
+        cards:
         {
-            defaultBGColor: "#FEFEFE",
-            shadowColor: "#00000099",
-            shadowOffset: 0.01, // ~sizeUnit
-            colorLighten: 62.5,
-            colorDarken: 10,
-        },
+            itemSize: new Point(480, 600), // for rulebook
+            picker: cardPicker,
+            mapper:
+            {
+                size: { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                },
+                sizeElement: new Point(1, 1.4),
+            }
+        }
+    },
 
-        corners:
+    _drawing:
+    {
+            fonts:
         {
-            fontSize: 0.21, // ~sizeUnit
-            offsetText: 1.2, // ~0.5 fontSize
-            strokeWidth: 0.075, // ~fontSize
-
-            iconSize: 0.575, // ~fontSize
-            offsetIcon: 1.0, //~default distance => (0.5 fontSize + 0.5 iconSize)
-
+            heading: "puss",
+            body: "catcafe"
         },
 
-        bgCats:
+        cards:
         {
-            patternExtraMargin: 0.2, // relative to card Y, extra margin at edge to make sure no empty space when rotated   
-            patternNumIcons: 12, // again, Y-axis
-            patternIconSize: 0.8, // relative to full space reserved for icon (1.0)
+            shared:
+            {
+                defaultBGColor: "#FEFEFE",
+                shadowColor: "#00000099",
+                shadowOffset: 0.01, // ~sizeUnit
+                colorLighten: 62.5,
+                colorDarken: 10,
+            },
 
-            patternAlpha: 0.125,
-            patternRotation: -0.166*Math.PI, // = 30 degrees tilt
-            patternAlphaInkFriendly: 0.1
-        },
+            corners:
+            {
+                fontSize: 0.21, // ~sizeUnit
+                offsetText: 1.2, // ~0.5 fontSize
+                strokeWidth: 0.075, // ~fontSize
 
-        illustration:
-        {
-            offset: 0.7, // ~rectSizeUnit (from powers, see below)
-            size: 0.5, // ~sizeUnit (note that this is placed twice, top and bottom (rotated), so higher than 0.5 will surely clip it on Y-axis)
-        },
+                iconSize: 0.575, // ~fontSize
+                offsetIcon: 1.0, //~default distance => (0.5 fontSize + 0.5 iconSize)
 
-        powers:
-        {
-            rectSize: new Point(0.8, 0.25), // ~sizeUnit
-            rectBevel: 0.1, // ~rectSizeUnit
-            rectStrokeWidth: 0.01, // ~sizeUnit
-            fontSize: 0.065, // ~sizeUnit
-            textPadding: new Point(0.05, 0.05) // ~rectSizeUnit
-        },
+            },
 
-        outline:
-        {
-            size: 0.025, // relative to sizeUnit
-            color: "#000000"
+            bgCats:
+            {
+                patternExtraMargin: 0.2, // relative to card Y, extra margin at edge to make sure no empty space when rotated   
+                patternNumIcons: 12, // again, Y-axis
+                patternIconSize: 0.8, // relative to full space reserved for icon (1.0)
+
+                patternAlpha: 0.125,
+                patternRotation: -0.166*Math.PI, // = 30 degrees tilt
+                patternAlphaInkFriendly: 0.1
+            },
+
+            illustration:
+            {
+                offset: 0.7, // ~rectSizeUnit (from powers, see below)
+                size: 0.5, // ~sizeUnit (note that this is placed twice, top and bottom (rotated), so higher than 0.5 will surely clip it on Y-axis)
+            },
+
+            powers:
+            {
+                rectSize: new Point(0.8, 0.25), // ~sizeUnit
+                rectBevel: 0.1, // ~rectSizeUnit
+                rectStrokeWidth: 0.01, // ~sizeUnit
+                fontSize: 0.065, // ~sizeUnit
+                textPadding: new Point(0.05, 0.05) // ~rectSizeUnit
+            },
+
+            outline:
+            {
+                size: 0.025, // relative to sizeUnit
+                color: "#000000"
+            }
         }
     }
 }

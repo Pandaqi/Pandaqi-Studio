@@ -9,7 +9,7 @@ interface GeneralData
 
 // Only symbols that actually have a special unique action are present here
 // Most letters/numbers/glyphs are just themselves and nothing more.
-const SYMBOLS:Record<string, GeneralData> =
+export const SYMBOLS:Record<string, GeneralData> =
 {
     ".": { frame: 0, label: "Period", desc: "I cut the cards into <i>smaller groups</i>. Tap the highest letter <i>within its group</i> to win.", freq: 3 },
     "?": { frame: 1, label: "Question Mark", desc: "I'm <i>any letter you need</i> to spell an existing word. Never tap me otherwise.", freq: 4 },
@@ -24,13 +24,3 @@ const SYMBOLS:Record<string, GeneralData> =
     "~": { frame: 9, label: "Tilde", desc: "Tap <i>any</i> card (except me) to win the round." },
     "#": { frame: 10, label: "Pound Sign", desc: "Tap the <i>lowest ranking card</i> instead to win the round.", freq: 4 },
 }
-
-const MISC:Record<string, GeneralData> =
-{
-
-}
-
-export {
-    MISC,
-    SYMBOLS,
-};

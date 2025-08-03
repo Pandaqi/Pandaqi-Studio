@@ -1,4 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
 {
@@ -8,21 +9,21 @@ export const CONFIG =
         {
             type: SettingType.CHECK,
             label: "Generate Life Cards",
-            default: true
+            value: true
         },
 
         includeCatCards:
         {
             type: SettingType.CHECK,
             label: "Generate Cat Cards",
-            default: true
+            value: true
         },
 
         limitedPowers:
         {
             type: SettingType.CHECK,
             label: "Limited Powers",
-            default: true,
+            value: true,
             remark: "Only includes a handful of unique powers, to make playing your first game even easier."
         },
     },
@@ -37,20 +38,6 @@ export const CONFIG =
     _game:
     {
         fileName: "Nine Lives",
-    },
-
-    // set through user config on page
-    
-    includeLifeCards: true,
-    includeCatCards: true,
-    
-    
-    limitedPowers: true,
-    
-    fonts:
-    {
-        heading: "puss",
-        body: "catcafe"
     },
 
     // assets
@@ -104,107 +91,123 @@ export const CONFIG =
         }
     },
 
-    // how to draw/layout cards (mostly visually)
-    cards:
+    _material:
     {
-        itemSize: new Point(600, 840), // @TODO: add to _material for rulebook
-
-        size: { 
-            small: new Point(4,4),
-            regular: new Point(3,3),
-            large: new Point(2,2)
-        },
-        sizeElement: new Point(1, 1.4),
-        sizeResult: new Point(),
-        
-        shared:
+        cards:
         {
-            shadowOffset: new Point(0.0175, 0.0175),
-            shadowColor: "#00000099"
-        },
-
-        bgCats:
-        {
-            patternExtraMargin: 0.2, // relative to card Y, extra margin at edge to make sure no empty space when rotated   
-            patternNumIcons: 12, // again, Y-axis
-            patternIconSize: 0.8, // relative to full space reserved for icon (1.0)
-
-            patternAlpha: 0.125,
-            patternRotation: -0.166*Math.PI, // = 30 degrees tilt
-            patternAlphaInkFriendly: 0.033
-        },
-
-        bgHearts:
-        {
-            patternRotation: -0.166*Math.PI
-        },
-
-        cats:
-        {
-            positionOffset: 0.5,
-            positions:
-            [
-                [], // 0 icons
-                [Point.ZERO], // 1 icon
-                [new Point(-1, -1), new Point(1, 1)], // 2 icons
-                [new Point(-1, -1), Point.ZERO, new Point(1, 1)], // 3 icons
-                [new Point(-1, -1), new Point(1, -1), new Point(-1, 1), new Point(1, 1)], // 4 icons
-                [new Point(-1, -1), new Point(1, -1), Point.ZERO, new Point(-1, 1), new Point(1, 1)], // 5 icons
-                [new Point(-1, -1), new Point(1, -1), new Point(-1, 0), new Point(1, 0), new Point(-1, 1), new Point(1, 1)], // 6 icons
-                [new Point(-1, -1), new Point(1, -1), new Point(-1, 0), Point.ZERO, new Point(1, 0), new Point(-1, 1), new Point(1, 1)], // 7 icons
-                [new Point(-1, -1), new Point(0, -1), new Point(1, -1), new Point(-1, 0), new Point(1, 0), new Point(-1, 1), new Point(0, 1), new Point(1, 1)],
-                [new Point(-1, -1), new Point(0, -1), new Point(1, -1), new Point(-1, 0), Point.ZERO, new Point(1, 0), new Point(-1, 1), new Point(0, 1), new Point(1, 1)]
-            ],
-            iconSize: 0.25, // ~sizeUnit
-            simplifiedIconSize: 0.08, // ~sizeUnit
-            simplifiedIconOffset: new Point(0.05, 0.05), // ~sizeUnit
-        },
-
-        life:
-        {
-            bgColor: "#7C0600",
-            heartPosY: 0.533, // ~sizeY
-            heartSize: 1.4, // ~sizeUnit, should be above 1.0 by a good amount
-            heartCornerSize: 0.175, // ~sizeUnit
-            heartCornerOffset: 1.4, // ~half size of corner heart
-
-            cardRectY: 0.08, // ~sizeY
-            cardRectSize: new Point(0.315, 0.135), // ~sizeUnit
-            cardRectBevel: 0.15, // ~rectSizeUnit
-            cardRectStrokeWidth: 0.0075, // ~sizeUnit
-            cardRectIconSize: 0.9, // ~rectY
-            cardRectIconXSpacing: 0.675, // ~rectIconX (cards are portrait, so their actual width is smaller than the square frame, compensate for that)
-
-            fontSize: 0.075, // ~sizeUnit
-            textOffsetFromCenter: 0.175, // ~sizeY
-            textStrokeWidth: 0.005, // ~sizeUnit
-            lifeCardTextAlpha: 0.5,
-            lifeCardFontSizeFactor: 0.85,
-        },
-
-        powers:
-        {
-            iconSize: 0.33, // ~sizeUnit
-            textStrokeWidth: 0.01, // ~sizeUnit, only used for ONE power right now (that shows a NUMBER)
-            glowAroundIcons:
+            itemSize: new Point(600, 840), // for rulebook
+            picker: cardPicker,
+            mapper: 
             {
-                blur: 0.05, //~iconSize
-                color: "#FFFFFF"
-            },
-            shapeshift:
-            {
-                iconSize: 0.775, // ~iconSize normal
-            },
-            numbershift:
-            {
-                iconSize: 0.775, // ~iconSize normal
+                size: { 
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                },
+                sizeElement: new Point(1, 1.4),
             }
+        }
+    },
+
+    _drawing:
+    {
+         fonts:
+        {
+            heading: "puss",
+            body: "catcafe"
         },
 
-        outline:
-        {
-            size: 0.025, // relative to sizeUnit
-            color: "#000000"
+        cards:
+        {    
+            shared:
+            {
+                shadowOffset: new Point(0.0175, 0.0175),
+                shadowColor: "#00000099"
+            },
+
+            bgCats:
+            {
+                patternExtraMargin: 0.2, // relative to card Y, extra margin at edge to make sure no empty space when rotated   
+                patternNumIcons: 12, // again, Y-axis
+                patternIconSize: 0.8, // relative to full space reserved for icon (1.0)
+
+                patternAlpha: 0.125,
+                patternRotation: -0.166*Math.PI, // = 30 degrees tilt
+                patternAlphaInkFriendly: 0.033
+            },
+
+            bgHearts:
+            {
+                patternRotation: -0.166*Math.PI
+            },
+
+            cats:
+            {
+                positionOffset: 0.5,
+                positions:
+                [
+                    [], // 0 icons
+                    [Point.ZERO], // 1 icon
+                    [new Point(-1, -1), new Point(1, 1)], // 2 icons
+                    [new Point(-1, -1), Point.ZERO, new Point(1, 1)], // 3 icons
+                    [new Point(-1, -1), new Point(1, -1), new Point(-1, 1), new Point(1, 1)], // 4 icons
+                    [new Point(-1, -1), new Point(1, -1), Point.ZERO, new Point(-1, 1), new Point(1, 1)], // 5 icons
+                    [new Point(-1, -1), new Point(1, -1), new Point(-1, 0), new Point(1, 0), new Point(-1, 1), new Point(1, 1)], // 6 icons
+                    [new Point(-1, -1), new Point(1, -1), new Point(-1, 0), Point.ZERO, new Point(1, 0), new Point(-1, 1), new Point(1, 1)], // 7 icons
+                    [new Point(-1, -1), new Point(0, -1), new Point(1, -1), new Point(-1, 0), new Point(1, 0), new Point(-1, 1), new Point(0, 1), new Point(1, 1)],
+                    [new Point(-1, -1), new Point(0, -1), new Point(1, -1), new Point(-1, 0), Point.ZERO, new Point(1, 0), new Point(-1, 1), new Point(0, 1), new Point(1, 1)]
+                ],
+                iconSize: 0.25, // ~sizeUnit
+                simplifiedIconSize: 0.08, // ~sizeUnit
+                simplifiedIconOffset: new Point(0.05, 0.05), // ~sizeUnit
+            },
+
+            life:
+            {
+                bgColor: "#7C0600",
+                heartPosY: 0.533, // ~sizeY
+                heartSize: 1.4, // ~sizeUnit, should be above 1.0 by a good amount
+                heartCornerSize: 0.175, // ~sizeUnit
+                heartCornerOffset: 1.4, // ~half size of corner heart
+
+                cardRectY: 0.08, // ~sizeY
+                cardRectSize: new Point(0.315, 0.135), // ~sizeUnit
+                cardRectBevel: 0.15, // ~rectSizeUnit
+                cardRectStrokeWidth: 0.0075, // ~sizeUnit
+                cardRectIconSize: 0.9, // ~rectY
+                cardRectIconXSpacing: 0.675, // ~rectIconX (cards are portrait, so their actual width is smaller than the square frame, compensate for that)
+
+                fontSize: 0.075, // ~sizeUnit
+                textOffsetFromCenter: 0.175, // ~sizeY
+                textStrokeWidth: 0.005, // ~sizeUnit
+                lifeCardTextAlpha: 0.5,
+                lifeCardFontSizeFactor: 0.85,
+            },
+
+            powers:
+            {
+                iconSize: 0.33, // ~sizeUnit
+                textStrokeWidth: 0.01, // ~sizeUnit, only used for ONE power right now (that shows a NUMBER)
+                glowAroundIcons:
+                {
+                    blur: 0.05, //~iconSize
+                    color: "#FFFFFF"
+                },
+                shapeshift:
+                {
+                    iconSize: 0.775, // ~iconSize normal
+                },
+                numbershift:
+                {
+                    iconSize: 0.775, // ~iconSize normal
+                }
+            },
+
+            outline:
+            {
+                size: 0.025, // relative to sizeUnit
+                color: "#000000"
+            }
         }
     }
 }

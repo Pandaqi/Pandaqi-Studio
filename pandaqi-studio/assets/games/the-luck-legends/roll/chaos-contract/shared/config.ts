@@ -1,6 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point"
 import { ContractType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG:any = 
 {
@@ -13,7 +14,7 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
@@ -21,6 +22,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Lost Souls",
+                value: false,
                 remark: "An expansion with more special contracts."
             },
 
@@ -28,6 +30,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Devilish Numbers",
+                value: false,
                 remark: "An expansion with more wacky numbers and strong powers."
             },
         }
@@ -43,21 +46,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Chaos Contract",
-    },
-
-    
-
-    fonts:
-    {
-        heading: "celexa",
-        body: "quixotte"
-    },
-
-    sets:
-    {
-        base: true,
-        lostSouls: false,
-        devilishNumbers: false,
     },
 
     // assets
@@ -85,11 +73,6 @@ export const CONFIG:any =
             path: "misc.webp",
             frames: new Point(4,2)
         },
-    },
-
-    rulebook:
-    {
-
     },
 
     generation:
@@ -152,98 +135,104 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
-        },
-
-        bg:
-        {
-            textureAlpha: 1.0
-        },
-
-        wildcard:
-        {
-            bgColor: "#ff8c99",
-            tintColor: "#ffffff"
-        },
-
-        outline:
-        {
-            darken: 45
-        },
-
-        numbers:
-        {
-            fontSize: new CVal(0.15, "sizeUnit"),
-            offset: new CVal(new Point(0.075, 0.1), "sizeUnit")
-        },
-
-        mainNumber:
-        {
-            fontSize: new CVal(0.6, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.33), "size"),
-            glowBlur: new CVal(0.05, "cards.mainNumber.fontSize")
-        },
-
-        action:
-        {
-            fontSize: new CVal(0.0735, "sizeUnit"),
-            textColor: "#FFFFFF",
-            textBoxPos: new CVal(new Point(0.5, 0.75), "size"),
-            textBoxDims: new CVal(new Point(0.8, 0.25), "size"),
-            textDims: new CVal(new Point(0.7, 0.33), "size"),
-            textBoxBlur: new CVal(0.35, "cards.action.fontSize")
-        },
-
-        metadata:
-        {
-            fontSize: new CVal(0.05, "sizeUnit"),
-            numberPos: new CVal(new Point(-0.3, 0), "sizeUnit") ,
-            actionPos: new CVal(new Point(0.3, 0), "sizeUnit"),
-            anchorPos1: new CVal(new Point(0.066, 0.5), "size"),
-            anchorPos2: new CVal(new Point(0.94, 0.5), "size"), // x-pos here must be 1.0-anchorPos1.x
-        },
-
-        contract:
-        {
-            fontSize: new CVal(0.07, "sizeUnit"),
-            textDims: new CVal(new Point(0.725, 0.33), "size"),
-
-            sections:
-            {
-                posDo: new CVal(new Point(0.6, 0.225), "size"),
-                posTest: new CVal(new Point(0.6, 0.575), "size"),
-                posSpecial: new CVal(new Point(0.6, 0.8475), "size"),
-            },
-
-            rewards:
-            {
-                posReward: new CVal(new Point(0.065, 0.25), "size"),
-                posPenalty: new CVal(new Point(0.065, 0.75), "size"),
-                iconDims: new CVal(new Point(0.1), "sizeUnit")
-            },
-
-            stars:
-            {
-                size: new CVal(new Point(0.05), "sizeUnit"),
-                pos: new CVal(new Point(0.2, 0.125), "size"),
-                alpha: 0.66
-            },
-
-            turnoutIconPos: new CVal(new Point(0.2, 0.385), "size"), // x-pos of this must be equal to stars-x
-            battleIconPos: new CVal(new Point(0.2, 0.615), "size"), // x-pos of this must be equal to stars-x
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
         }
+    },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "celexa",
+            body: "quixotte"
+        },
+
+        cards:
+        {
+            bg:
+            {
+                textureAlpha: 1.0
+            },
+
+            wildcard:
+            {
+                bgColor: "#ff8c99",
+                tintColor: "#ffffff"
+            },
+
+            outline:
+            {
+                darken: 45
+            },
+
+            numbers:
+            {
+                fontSize: new CVal(0.15, "sizeUnit"),
+                offset: new CVal(new Point(0.075, 0.1), "sizeUnit")
+            },
+
+            mainNumber:
+            {
+                fontSize: new CVal(0.6, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.33), "size"),
+                glowBlur: new CVal(0.05, "cards.mainNumber.fontSize")
+            },
+
+            action:
+            {
+                fontSize: new CVal(0.0735, "sizeUnit"),
+                textColor: "#FFFFFF",
+                textBoxPos: new CVal(new Point(0.5, 0.75), "size"),
+                textBoxDims: new CVal(new Point(0.8, 0.25), "size"),
+                textDims: new CVal(new Point(0.7, 0.33), "size"),
+                textBoxBlur: new CVal(0.35, "cards.action.fontSize")
+            },
+
+            metadata:
+            {
+                fontSize: new CVal(0.05, "sizeUnit"),
+                numberPos: new CVal(new Point(-0.3, 0), "sizeUnit") ,
+                actionPos: new CVal(new Point(0.3, 0), "sizeUnit"),
+                anchorPos1: new CVal(new Point(0.066, 0.5), "size"),
+                anchorPos2: new CVal(new Point(0.94, 0.5), "size"), // x-pos here must be 1.0-anchorPos1.x
+            },
+
+            contract:
+            {
+                fontSize: new CVal(0.07, "sizeUnit"),
+                textDims: new CVal(new Point(0.725, 0.33), "size"),
+
+                sections:
+                {
+                    posDo: new CVal(new Point(0.6, 0.225), "size"),
+                    posTest: new CVal(new Point(0.6, 0.575), "size"),
+                    posSpecial: new CVal(new Point(0.6, 0.8475), "size"),
+                },
+
+                rewards:
+                {
+                    posReward: new CVal(new Point(0.065, 0.25), "size"),
+                    posPenalty: new CVal(new Point(0.065, 0.75), "size"),
+                    iconDims: new CVal(new Point(0.1), "sizeUnit")
+                },
+
+                stars:
+                {
+                    size: new CVal(new Point(0.05), "sizeUnit"),
+                    pos: new CVal(new Point(0.2, 0.125), "size"),
+                    alpha: 0.66
+                },
+
+                turnoutIconPos: new CVal(new Point(0.2, 0.385), "size"), // x-pos of this must be equal to stars-x
+                battleIconPos: new CVal(new Point(0.2, 0.615), "size"), // x-pos of this must be equal to stars-x
+            }
 
 
+        },
     },
 }

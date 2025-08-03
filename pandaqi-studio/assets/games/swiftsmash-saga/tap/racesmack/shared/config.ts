@@ -4,6 +4,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import { CardDisplayType, ColorType } from "./dict";
 import CVal from "js/pq_games/tools/generation/cval";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG:any = 
 {
@@ -12,7 +13,7 @@ export const CONFIG:any =
         useBiggerFont:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             remark: "Uses the thicker/bigger font on Rule Cards for readability.",
             label: "Use Bold Font"
         },
@@ -24,13 +25,14 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             shiftingGears:
             {
                 type: SettingType.CHECK,
+                value: false,
                 label: "Shifting Gears"
             },
         }
@@ -46,22 +48,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Racesmack",
-    },
-
-    
-
-    useBiggerFont: false,
-
-    fonts:
-    {
-        heading: "amsterdam",
-        body: "whackadoo",
-    },
-
-    sets:
-    {
-        base: true,
-        shiftingGears: false,
     },
 
     // assets
@@ -168,53 +154,67 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            preset: GridSizePreset.CARD
-        },
-
-        shapes:
-        {
-            topLeft: new CVal(new Point(0.175, 0.225), "size"),
-            boxSize: new CVal(new Point(0.65, 0.55), "size"),
-            size: new CVal(new Point(0.275), "sizeUnit"),
-
-            custom:
-            {
-                posLeft: new CVal(new Point(0.3, 0.3), "size"),
-                posRight: new CVal(new Point(0.7, 0.3), "size"),
-                fontSizeNumber: new CVal(0.3, "sizeUnit"),
-                fontSizeRoman: new CVal(0.3, "sizeUnit"),
-                size: new CVal(new Point(0.33), "sizeUnit")
-            }
-        },
-
-        rules:
-        {
-            fontSize: new CVal(0.07, "sizeUnit"),
-            textBoxSize: new CVal(new Point(0.605, 0.35), "size"),
-            iconSize: new CVal(new Point(0.166), "sizeUnit"),
-
-            id:
-            {
-                pos: new CVal(new Point(0.59, 0.06), "size"),
-                fontSize: new CVal(0.115, "sizeUnit")
-            },
-
-            rule:
-            {
-                pos: new CVal(new Point(0.34, 0.25), "size"),
-                posIcon: new CVal(new Point(0.817, 0.247), "size")
-            },
-
-            finish:
-            {
-                pos: new CVal(new Point(0.34, 0.75), "size"),
-                posIcon: new CVal(new Point(0.817, 0.747), "size")
-            }
-
+            itemSize: new Point(375, 575),
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
         }
     },
+
+    _drawing:
+    { 
+        fonts:
+        {
+            heading: "amsterdam",
+            body: "whackadoo",
+        },
+
+        cards:
+        {
+            shapes:
+            {
+                topLeft: new CVal(new Point(0.175, 0.225), "size"),
+                boxSize: new CVal(new Point(0.65, 0.55), "size"),
+                size: new CVal(new Point(0.275), "sizeUnit"),
+
+                custom:
+                {
+                    posLeft: new CVal(new Point(0.3, 0.3), "size"),
+                    posRight: new CVal(new Point(0.7, 0.3), "size"),
+                    fontSizeNumber: new CVal(0.3, "sizeUnit"),
+                    fontSizeRoman: new CVal(0.3, "sizeUnit"),
+                    size: new CVal(new Point(0.33), "sizeUnit")
+                }
+            },
+
+            rules:
+            {
+                fontSize: new CVal(0.07, "sizeUnit"),
+                textBoxSize: new CVal(new Point(0.605, 0.35), "size"),
+                iconSize: new CVal(new Point(0.166), "sizeUnit"),
+
+                id:
+                {
+                    pos: new CVal(new Point(0.59, 0.06), "size"),
+                    fontSize: new CVal(0.115, "sizeUnit")
+                },
+
+                rule:
+                {
+                    pos: new CVal(new Point(0.34, 0.25), "size"),
+                    posIcon: new CVal(new Point(0.817, 0.247), "size")
+                },
+
+                finish:
+                {
+                    pos: new CVal(new Point(0.34, 0.75), "size"),
+                    posIcon: new CVal(new Point(0.817, 0.747), "size")
+                }
+
+            }
+        },
+    }
 }

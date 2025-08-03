@@ -16,7 +16,41 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import movePath from "js/pq_games/tools/geometry/transform/movePath";
 import { CONFIG } from "../shared/config";
 import { CATS, MISC, SUITS, Type } from "../shared/dict";
-import Visualizer from "./visualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+
+const cacheVisualizerData = async (vis:MaterialVisualizer) =>
+{
+    const alreadyCached = vis.custom && Object.keys(vis.custom).length > 0;
+    if(alreadyCached) { return; }
+
+    const patternSize = (1.0 + CONFIG.cards.bgCats.patternExtraMargin) * vis.size.y;
+    const num = CONFIG.cards.bgCats.patternNumIcons;
+    const distBetweenIcons = patternSize / num;
+    const iconSize = CONFIG.cards.bgCats.patternIconSize * distBetweenIcons;
+
+    const ctx = createContext({ size: new Point(patternSize) });
+    for(let x = 0; x < num; x++)
+    {
+        for(let y = 0; y < num; y++)
+        {
+            const res = vis.getResource("misc");
+            const pos = new Point(x,y).scaleFactor(distBetweenIcons);
+            const frame = MISC.bg_cat.frame;
+            const op = new LayoutOperation({
+                frame: frame,
+                pos: pos,
+                size: new Point(iconSize),
+                pivot: new Point(0.5),
+            })
+            await res.toCanvas(ctx, op);
+        }
+    }
+
+    const img = await convertCanvasToImage(ctx.canvas);
+    const res = new ResourceImage(img);
+    vis.custom = { patternCat: res };
+}
+
 
 export default class Card
 {
@@ -34,8 +68,10 @@ export default class Card
         this.num = num;
     }
 
-    async drawForRules(vis:Visualizer)
+    async drawForRules(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
+        await cacheVisualizerData(vis);
+
         const ctx = createContext({ size: vis.size });
 
         // background color
@@ -47,13 +83,13 @@ export default class Card
 
         // finish it off
         this.drawOutline(vis, ctx);
-
-        const img = await convertCanvasToImage(ctx.canvas);
-        return img;
+        return ctx.canvas;
     }
 
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
+        await cacheVisualizerData(vis);
+
         const ctx = createContext({ size: vis.size });
 
         this.drawBackground(vis, ctx);
@@ -71,7 +107,7 @@ export default class Card
     //
     // > LIFE CARDS
     //
-    drawLifeCard(vis:Visualizer, ctx)
+    drawLifeCard(vis:MaterialVisualizer, ctx)
     {
         this.drawCatIllustration(vis, ctx);
         this.drawPowerText(vis, ctx);
@@ -83,7 +119,7 @@ export default class Card
         return CONFIG.generation.numberCards.highestCardIsRuleReminder && this.num >= 9;
     }
 
-    drawCatIllustration(vis:Visualizer, ctx)
+    drawCatIllustration(vis:MaterialVisualizer, ctx)
     {
         // actual illustration
         const res = vis.resLoader.getResource("cats");
@@ -167,7 +203,7 @@ export default class Card
         textRes.toCanvas(ctx, textOp);
     }
 
-    drawLivesHeart(vis:Visualizer, ctx)
+    drawLivesHeart(vis:MaterialVisualizer, ctx)
     {
         // first icon in background
         const resIcon = vis.resLoader.getResource("misc");
@@ -264,7 +300,7 @@ export default class Card
         
     }
 
-    drawPowerText(vis:Visualizer, ctx)
+    drawPowerText(vis:MaterialVisualizer, ctx)
     {
         if(this.isRuleReminder() || !this.power) { return; }
 
@@ -335,14 +371,14 @@ export default class Card
     //
     // > NUMBER cards 
     //
-    drawNumberCard(vis:Visualizer, ctx)
+    drawNumberCard(vis:MaterialVisualizer, ctx)
     {
         this.drawNumbers(vis, ctx);
         this.drawSuits(vis, ctx);
         this.drawMainPart(vis, ctx);
     }
 
-    drawBigNumber(vis:Visualizer, ctx)
+    drawBigNumber(vis:MaterialVisualizer, ctx)
     {
         // the number
         const fontSize = CONFIG.cards.numbers.fontSizeBig * vis.sizeUnit;
@@ -374,7 +410,7 @@ export default class Card
         return op;
     }
 
-    drawMainPart(vis:Visualizer, ctx)
+    drawMainPart(vis:MaterialVisualizer, ctx)
     {
         const center = vis.size.clone().scaleFactor(0.5);
 
@@ -414,7 +450,7 @@ export default class Card
         
     }
 
-    drawNumbers(vis:Visualizer, ctx)
+    drawNumbers(vis:MaterialVisualizer, ctx)
     {
         const edges = [
             new Point(0.5*vis.size.x, 0),
@@ -461,7 +497,7 @@ export default class Card
         }
     }
 
-    drawSuits(vis:Visualizer, ctx)
+    drawSuits(vis:MaterialVisualizer, ctx)
     {
         const corners = [
             new Point(),
@@ -505,7 +541,7 @@ export default class Card
     //
     // > SHARED
     //
-    drawBackground(vis:Visualizer, ctx)
+    drawBackground(vis:MaterialVisualizer, ctx)
     {
         let color = this.data.color;
         if(this.type == Type.LIFE) { color = CATS[this.cat].color; }
@@ -523,7 +559,7 @@ export default class Card
             rot: CONFIG.cards.bgCats.patternRotation,
             pivot: new Point(0.5)
         })
-        vis.patternCat.toCanvas(ctx, op);
+        vis.custom.patternCat.toCanvas(ctx, op);
     }
 
     drawOutline(vis, ctx)

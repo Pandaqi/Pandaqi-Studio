@@ -2,6 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { callbackFinishStats, callbackInitStats } from "./rules/callbackStats";
 
 export const CONFIG_SHARED =
 {
@@ -154,20 +155,7 @@ export const CONFIG_SHARED =
         }
     },
 
-    
-    
-    
-    set: "starter", // (used to be called premadePacks on Kingseat v1)
     packs: [],
-    highLegibility: true,
-
-    fonts: 
-    {
-        heading: "unifraktur",
-        text: "modernefraktur",
-        textLegible: "brygada",
-        slogan: "gothic"
-    },
 
     assets: 
     {
@@ -266,38 +254,58 @@ export const CONFIG_SHARED =
         roundWinTieBreaker: "distToKingseat",
     },
 
-    cards: 
+    _material:
     {
-        addShadowToSigil: true, // @DEBUGGING; should be TRUE (but is very slow, hence turned off if I want to be fast with updates)
-        drawerConfig: 
-        { 
-            autoStroke: true,
-            sizeElement: new Point(1, 1.55),
-            size:
+        cards:
+        {
+            itemSize: new Point(375, 525),
+            picker: null,
+            mapper: 
+            { 
+                autoStroke: true,
+                sizeElement: new Point(1, 1.55),
+                size:
+                {
+                    small: new Point(4,4),
+                    regular: new Point(3,3),
+                    large: new Point(2,2)
+                }
+            },
+        }
+    },
+
+    _drawing:
+    {
+        fonts: 
+        {
+            heading: "unifraktur",
+            text: "modernefraktur",
+            textLegible: "brygada",
+            slogan: "gothic"
+        },
+
+        cards: 
+        {
+            addShadowToSigil: true, // @DEBUGGING; should be TRUE (but is very slow, hence turned off if I want to be fast with updates)
+
+            name:
             {
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }
-        },
+                fontSize: new CVal(0.1285, "sizeUnit"),
+            },
 
-        name:
-        {
-            fontSize: new CVal(0.1285, "sizeUnit"),
-        },
-
-        slogan:
-        {
-            fontSize: new CVal(0.0533, "sizeUnit")
-        },
-
-        actionText:
-        {
-            fontSize:
+            slogan:
             {
-                text: new CVal(0.063, "sizeUnit"),
-                textLegible: new CVal(0.063, "sizeUnit")
+                fontSize: new CVal(0.0533, "sizeUnit")
+            },
+
+            actionText:
+            {
+                fontSize:
+                {
+                    text: new CVal(0.063, "sizeUnit"),
+                    textLegible: new CVal(0.063, "sizeUnit")
+                }
             }
         }
-    }
+    },
 }

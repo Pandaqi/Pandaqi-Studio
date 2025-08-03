@@ -4,6 +4,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import { CardType, ColorType } from "./dict";
 import CVal from "js/pq_games/tools/generation/cval";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG:any = 
 {
@@ -16,32 +17,36 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             pointAPolice:
             {
                 type: SettingType.CHECK,
-                label: "Point-a-Police"
+                label: "Point-a-Police",
+                value: false,
             },
 
             completeAMission:
             {
                 type: SettingType.CHECK,
-                label: "Complete-a-Mission"
+                label: "Complete-a-Mission",
+                value: false,
             },
 
             dontATouchme:
             {
                 type: SettingType.CHECK,
-                label: "Dont-a-Touchme"
+                label: "Dont-a-Touchme",
+                value: false,
             },
 
             waitAMinute:
             {
                 type: SettingType.CHECK,
-                label: "Wait-a-Minute"
+                label: "Wait-a-Minute",
+                value: false,
             },
         }
     },
@@ -56,23 +61,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Point-a-Pile",
-    },
-
-    
-
-    fonts:
-    {
-        heading: "auntbertha",
-        body: "amaranth",
-    },
-
-    sets:
-    {
-        base: true,
-        pointAPolice: false,
-        completeAMission: false,
-        dontATouchme: false,
-        waitAMinute: false
     },
 
     // assets
@@ -183,49 +171,63 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            preset: GridSizePreset.CARD
-        },
-        
-        title:
-        {
-            pos: new CVal(new Point(0.5, 0.55), "size"),
-            textBoxSize: new CVal(new Point(0.9, 0.2), "size"),
-            fontSize: new CVal(0.12, "sizeUnit"),
-            strokeWidth: new CVal(0.15, "cards.title.fontSize")
-        },
-
-        corners:
-        {
-            rectSize: new CVal(new Point(0.15), "sizeUnit"),
-            rectRadius: new CVal(0.025, "sizeUnit"),
-            strokeWidth: new CVal(0.015, "sizeUnit"),
-            iconSize: new CVal(new Point(0.1), "sizeUnit"),
-            offset: new CVal(new Point(0.12), "sizeUnit"),
-            fontSize: new CVal(0.14, "sizeUnit"),
-
-            type:
-            {
-                fontSize: new CVal(0.055, "sizeUnit"),
-                offset: new CVal(new Point(0.06, 0.225), "sizeUnit"),
-                alpha: 0.66
-            }
-        },
-
-        icon:
-        {
-            pos: new CVal(new Point(0.5, 0.275), "size"),
-            size: new CVal(new Point(0.5), "sizeUnit"),
-        },
-
-        action:
-        {
-            fontSize: new CVal(0.08, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.765), "size"),
-            textBoxSize: new CVal(new Point(0.7, 0.4), "size"),
+            itemSize: new Point(375, 575),
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "auntbertha",
+            body: "amaranth",
+        },
+
+        cards:
+        {
+            title:
+            {
+                pos: new CVal(new Point(0.5, 0.55), "size"),
+                textBoxSize: new CVal(new Point(0.9, 0.2), "size"),
+                fontSize: new CVal(0.12, "sizeUnit"),
+                strokeWidth: new CVal(0.15, "cards.title.fontSize")
+            },
+
+            corners:
+            {
+                rectSize: new CVal(new Point(0.15), "sizeUnit"),
+                rectRadius: new CVal(0.025, "sizeUnit"),
+                strokeWidth: new CVal(0.015, "sizeUnit"),
+                iconSize: new CVal(new Point(0.1), "sizeUnit"),
+                offset: new CVal(new Point(0.12), "sizeUnit"),
+                fontSize: new CVal(0.14, "sizeUnit"),
+
+                type:
+                {
+                    fontSize: new CVal(0.055, "sizeUnit"),
+                    offset: new CVal(new Point(0.06, 0.225), "sizeUnit"),
+                    alpha: 0.66
+                }
+            },
+
+            icon:
+            {
+                pos: new CVal(new Point(0.5, 0.275), "size"),
+                size: new CVal(new Point(0.5), "sizeUnit"),
+            },
+
+            action:
+            {
+                fontSize: new CVal(0.08, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.765), "size"),
+                textBoxSize: new CVal(new Point(0.7, 0.4), "size"),
+            }
+        },
+    }
 }

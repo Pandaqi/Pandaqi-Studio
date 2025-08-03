@@ -50,9 +50,9 @@ export default class Interface
 		this.alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		this.actionData = 
 		{
-			"dig": { 'numSquares': 1 },
-			"propose": { 'numSquares': 2, 'randomFact': true, 'allowDuplicates': true },
-			"scan": { "numSquares": 4, "connected": true, "aggregate": true }
+			dig: { numSquares: 1 },
+			propose: { numSquares: 2, randomFact: true, allowDuplicates: true },
+			scan: { numSquares: 4, connected: true, aggregate: true }
 		}
 	}
 
@@ -62,12 +62,14 @@ export default class Interface
 	start()
 	{
 		var useInterface = this.config.useInterface;
-		if(this.config.premadeGame) {
+		if(this.config.premadeGame) 
+		{
 			this.interface.innerHTML = '<p>Done! Print, cut out the cards, enjoy!</p>';
 			return;
 		}
 
-		if(!useInterface) {
+		if(!useInterface) 
+			{
 			this.interfaceContainer.innerHTML = '';
 			this.gameImagesContainer.style.display = 'block';
 			return;

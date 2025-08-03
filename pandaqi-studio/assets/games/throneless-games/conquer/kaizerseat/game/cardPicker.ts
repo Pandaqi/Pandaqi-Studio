@@ -5,42 +5,36 @@ import CardThroneless from "games/throneless-games/shared/cardThroneless";
 import cacheDefaultData from "games/throneless-games/shared/cacheDefaultData";
 import { CardType } from "games/throneless-games/shared/dictShared";
 
-export default class CardPicker
+export const cardPicker = () : CardThroneless[] => 
 {
-    cards: CardThroneless[]
+    const cards = [];
+    cacheDefaultData(PACKS);
+    generatePacks(cards, CONFIG, PACKS, SETS);
+    generateThroneCards(cards);
+    generateSeatCards(cards);
+    return cards;
+}
 
-    get() { return this.cards.slice(); }
-    generate()
+const generateThroneCards = (cards) =>
+{
+    if(!CONFIG.generateThroneCards) { return; }
+
+    for(const data of THRONE_CARDS)
     {
-        this.cards = [];
-        cacheDefaultData(PACKS);
-        generatePacks(this.cards, CONFIG, PACKS, SETS);
-
-        this.generateThroneCards();
-        this.generateSeatCards();
+        const obj = { action: { text: data } }
+        const newCard = new CardThroneless(CardType.THRONE, "throne", obj);
+        cards.push(newCard);
     }
+}
 
-    generateThroneCards()
+const generateSeatCards = (cards) =>
+{
+    if(!CONFIG.generateSeatCards) { return; }
+
+    for(const data of SEAT_CARDS)
     {
-        if(!CONFIG.generateThroneCards) { return; }
-
-        for(const data of THRONE_CARDS)
-        {
-            const obj = { action: { text: data } }
-            const newCard = new CardThroneless(CardType.THRONE, "throne", obj);
-            this.cards.push(newCard);
-        }
-    }
-
-    generateSeatCards()
-    {
-        if(!CONFIG.generateSeatCards) { return; }
-
-        for(const data of SEAT_CARDS)
-        {
-            const obj = { action: { text: data } }
-            const newCard = new CardThroneless(CardType.SEAT, "seat", obj);
-            this.cards.push(newCard);
-        }
+        const obj = { action: { text: data } }
+        const newCard = new CardThroneless(CardType.SEAT, "seat", obj);
+        cards.push(newCard);
     }
 }

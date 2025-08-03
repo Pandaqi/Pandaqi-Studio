@@ -262,7 +262,7 @@ export default class Card
     }
 
     getColor() { return COLORS[ this.data.color ]; }
-    async draw(vis:MaterialVisualizer)
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
         const group = vis.prepareDraw();
         fillResourceGroup(vis.size, group, vis.get("cards.bg.color"));

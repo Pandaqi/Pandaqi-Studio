@@ -11,13 +11,14 @@ export const CONFIG =
 			type: SettingType.NUMBER,
 			min: 1,
 			max: 6,
-			default: 4
+			value: 4
 		},
 
 		useRealMaterial:
 		{
 			type: SettingType.CHECK,
 			label: "Use Real Material",
+			value: false,
 			remark: "Enable if you're reusing the printed out material sheet."
 		},
 
@@ -25,6 +26,7 @@ export const CONFIG =
 		{
 			type: SettingType.CHECK,
 			label: "Create PDF",
+			value: false,
 			remark: "Downloads a PDF with a board and hint cards for offline play."
 		},
 
@@ -32,6 +34,7 @@ export const CONFIG =
 		{
 			type: SettingType.CHECK,
 			label: "Fast Generation",
+			value: false,
 			remark: "Produces a game much faster, but can lead to more unfair or chaotic games"
 		},
 
@@ -42,46 +45,52 @@ export const CONFIG =
 			rotation:
 			{
 				type: SettingType.CHECK,
-				label: "Rotation Hints"
+				label: "Rotation Hints",
+				value: false,
 			},
 
 			special:
 			{
 				type: SettingType.CHECK,
-				label: "Special Hints"
+				label: "Special Hints",
+				value: false,
 			},
 
 			symbols:
 			{
 				type: SettingType.CHECK,
-				label: "Symbol Hints"
+				label: "Symbol Hints",
+				value: false,
 			},
 
 			networks:
 			{
 				type: SettingType.CHECK,
 				label: "Network Hints",
-				remark: "Not playable with real/reused material."
+				remark: "Not playable with real/reused material.",
+				value: false,
 			},
 
 			multiHints:
 			{
 				type: SettingType.CHECK,
 				label: "Multi Hints",
-				remark: "Players receive 1 hint by default. This allows up to 3. Can make generation faster."
+				remark: "Players receive 1 hint by default. This allows up to 3. Can make generation faster.",
+				value: false,
 			},
 
 			advancedHints:
 			{
 				type: SettingType.CHECK,
 				label: "Advanced Hints",
-				remark: "Adds many types of hints that are really hard to figure out."
+				remark: "Adds many types of hints that are really hard to figure out.",
+				value: false,
 			}
 
 		}
 	},
 
-		size: new Point(297*3.8, 210*3.8),
+	size: new Point(297*3.8, 210*3.8),
 
 	assetsBase: "/pirate-drawingbeard/assets/",
 	assets:
@@ -189,9 +198,7 @@ export const CONFIG =
 	debugHintText: true,
 	debugTreasureLocation: true,
 	useInterface: true, // @DEBUGGING (should be true)
-	inkFriendly: true,
-	createPremadeGame: false,
-	fastGeneration: false,
+
 	invertHintGrid: true,
 
 	generateMap: true,
@@ -218,16 +225,8 @@ export const CONFIG =
 
 	typesIncluded: [],
 
-	expansions: {
-		symbols: false,
-		networks: false,
-		rot: false,
-		special: false
-	},
 	alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-	useRealMaterial: true,
 	waterOnlyAtEdges: true,
-	advancedHints: false,
 
 	initialize(game:any, config:Record<string,any> = {})
 	{

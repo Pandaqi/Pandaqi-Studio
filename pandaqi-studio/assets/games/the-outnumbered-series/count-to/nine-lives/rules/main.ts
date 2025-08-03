@@ -1,13 +1,7 @@
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import Point from "js/pq_games/tools/geometry/point";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
-import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
 import Card from "../game/card";
-import CardPicker from "../game/cardPicker";
-import Visualizer from "../game/visualizer";
 import { CONFIG } from "../shared/config";
 import { POWERS } from "../shared/dict";
 
@@ -79,12 +73,12 @@ class Hand
         return dict;
     }
 
-    async draw()
+    async draw(vis:MaterialVisualizer)
     {
         const promises = [];
         for(const card of this.cards)
         {
-            promises.push(card.drawForRules(visualizer));
+            promises.push(card.drawForRules(vis));
         }
         const canvases = await Promise.all(promises);
 
@@ -110,7 +104,7 @@ const findPossibleMoves = (hand:Hand, table:Hand) : Hand =>
 
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
-    CONFIG.includeLifeCards = false;
+    CONFIG._settings.includeLifeCards.value = false;
     await sim.loadMaterialCustom(getMaterialDataForRulebook(CONFIG));
 
     const cardOptions : Card[] = shuffle(sim.getPicker("cards")()).slice() as Card[];
@@ -120,19 +114,19 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     o.addParagraph("These cards are on the table.");
     const numTableCards = rangeInteger(3,5);
     const tableCards = new Hand().fromNum(numTableCards, cardOptions)
-    o.addFlexList(await tableCards.draw());
+    o.addFlexList(await tableCards.draw(sim.getVisualizer()));
 
     o.addParagraph("These cards are in your hand");
     const numHandCards = rangeInteger(2,4);
     const handCards = new Hand().fromNum(numHandCards, cardOptions);
-    o.addFlexList(await handCards.draw());
+    o.addFlexList(await handCards.draw(sim.getVisualizer()));
 
     const possibleMoves = findPossibleMoves(handCards, tableCards);
     if(possibleMoves.count() <= 0) {
         o.addParagraph("You have <strong>no possible moves</strong>. All of these cards make a cat appear more than 9 times. You can give up and lose a life, or wager and hope to be able to play something then.");
     } else {
         o.addParagraph("These are <strong>all</strong> of your possible moves.");
-        o.addFlexList(await possibleMoves.draw());
+        o.addFlexList(await possibleMoves.draw(sim.getVisualizer()));
 
         let bestMove = possibleMoves.getFirstCard();
         let perfectNine = false;

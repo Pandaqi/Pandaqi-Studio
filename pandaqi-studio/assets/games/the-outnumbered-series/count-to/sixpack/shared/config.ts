@@ -1,15 +1,29 @@
 import Point from "js/pq_games/tools/geometry/point";
 import { PACKS } from "./dict";
 import { generateForRulebook } from "../rules/main";
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG = 
 {
+    _game:
+    {
+        fileName: "Sixpack",
+    },
+
+    _debug:
+    {
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+    },
+
     _settings:
     {
         randomizePacks:
         {
             type: SettingType.CHECK,
             label: "Randomize Packs",
+            value: false,
             remark: "Ignores the settings below and just selects random packs."
         },
 
@@ -21,7 +35,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 3,
+                value: 3,
                 label: "Blank",
                 remark: "These are cards with no special ability. See the rules."
             },
@@ -30,7 +44,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 2,
+                value: 2,
                 label: "Reverse",
             },
 
@@ -38,7 +52,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 1,
+                value: 1,
                 label: "Takeback",
             },
 
@@ -46,7 +60,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Seethrough",
             },
 
@@ -54,7 +68,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Late Arrival",
             },
 
@@ -62,7 +76,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Sheriff",
             },
 
@@ -70,7 +84,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Veto",
             },
 
@@ -78,7 +92,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "No Superheroes",
             },
 
@@ -86,7 +100,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Super Numbers",
             },
 
@@ -94,7 +108,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Biting Hand",
             },
 
@@ -102,7 +116,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Sticky",
             },
 
@@ -110,7 +124,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Second Hand",
             },
 
@@ -118,7 +132,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Carousel",
             },
 
@@ -126,7 +140,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Pile Driver",
             },
 
@@ -134,7 +148,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Copycat",
             },
 
@@ -142,7 +156,7 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: [0,1,2,3,4,5,6],
-                default: 0,
+                value: 0,
                 label: "Calculator",
             },
         }
@@ -180,82 +194,101 @@ export const CONFIG =
         }
     },
 
-    debugWithoutPDF: false, // @DEBUGGING (should be false)
-    
-    
-    
-    
-
-    
-    gridMapper: null,
-    pdfBuilder: null,
-    progressBar: null,
-
-    packs: {} as Record<string,number>,
-    handsPerNumber: {} as Record<number,number>,
-
     numbers: { min: 1, max: 6 },
     numberList: [1,2,3,4,5,6],
-    _game:
-    {
-        fileName: "Sixpack",
-    },
     numHandsPerPack: 2,
 
     assetsBase: "/the-outnumbered-series/count-to/sixpack/assets/",
-    font: 
+    assets:
     {
-        key: "londrina",
-        url: "fonts/LondrinaSolid-Black.woff2",
-        size: 0.795,
-        smallSize: 0.1
+        londrina:
+        {
+            path: "fonts/LondrinaSolid-Black.woff2"
+        },
+
+        card_backgrounds:
+        {
+            path: "card_backgrounds.webp", 
+            frames: new Point(8,2)
+        },
+
+        card_types:
+        {
+            path: "card_types.webp", 
+            frames: new Point(8,2)
+        },
+
+        hand_icon:
+        {
+            path: "hand_icon.webp"
+        }
     },
 
-    cards: 
+    _material:
     {
-        size: 
-        { 
-            small: new Point(5, 5),
-            regular: new Point(4, 4),
-            large: new Point(3, 3)
-        },
-        sizeElement: new Point(1, 1.55),
-        sizeResult: new Point(),
-        
-        bgScale: 0.975,
-        mainNumber: 
+        cards: 
         {
-            bgOffset: 0.032,
-            color: "#111111",
-            offsetColor: "#88847E",
-            strokeColor: "#FEFEFE",
-            strokeWidth: 0.01
+            picker: cardPicker,
+            mapper:
+            {
+                size: 
+                { 
+                    small: new Point(5, 5),
+                    regular: new Point(4, 4),
+                    large: new Point(3, 3)
+                },
+                sizeElement: new Point(1, 1.55),            
+            }
+        }
+    },
+
+    _drawing:
+    {
+        fonts: 
+        {
+            body: "londrina",
+            heading: "londrina",
+            size: 0.795,
+            smallSize: 0.1
         },
 
-        edgeNumber: 
+        cards: 
         {
-            pos: new Point(0.1, 0.1),
-            bgOffset: 0.015,
-            strokeWidth: 0.005,
-            offsetColor: ""
-        },
+            bgScale: 0.975,
+            mainNumber: 
+            {
+                bgOffset: 0.032,
+                color: "#111111",
+                offsetColor: "#88847E",
+                strokeColor: "#FEFEFE",
+                strokeWidth: 0.01
+            },
 
-        hand: 
-        {
-            composite: "luminosity",
-            pos: new Point(0.5, 0.135),
-            size: 0.4
-        },
+            edgeNumber: 
+            {
+                pos: new Point(0.1, 0.1),
+                bgOffset: 0.015,
+                strokeWidth: 0.005,
+                offsetColor: ""
+            },
 
-        type: 
-        {
-            composite: "luminosity",
-            pos: new Point(0.5, 0.835),
-            size: 0.33
-        },
-        
-        outlineColor: "#111111",
-        outlineWidth: 0.05,
+            hand: 
+            {
+                composite: "luminosity",
+                pos: new Point(0.5, 0.135),
+                size: 0.4
+            },
 
+            type: 
+            {
+                composite: "luminosity",
+                pos: new Point(0.5, 0.835),
+                size: 0.33
+            },
+            
+            outlineColor: "#111111",
+            outlineWidth: 0.05,
+
+        }
     }
 }

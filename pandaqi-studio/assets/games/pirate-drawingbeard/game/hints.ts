@@ -1,7 +1,7 @@
 import { CONFIG } from "./config"
 import HintBuilder from "./hintBuilder"
 import Map from "./map"
-import { DISCRETE_LISTS, HINT_CATEGORIES, HINT_DICT } from "./dict"
+import { DISCRETE_LISTS, HINT_CATEGORIES, HINT_DICT } from "../shared/dict"
 
 export default {
 

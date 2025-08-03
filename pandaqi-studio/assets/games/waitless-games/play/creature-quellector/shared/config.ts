@@ -11,6 +11,7 @@ export const CONFIG =
         multiType: 
         {
             type: SettingType.CHECK,
+            value: false,
             label: "An expansion: some icons will become two types at once."
         },
 
@@ -22,28 +23,28 @@ export const CONFIG =
             {
                 type: SettingType.ENUM,
                 values: ["fire", "electric", "star", "dragon"],
-                default: ["fire"]
+                value: "fire"
             },
 
             blue:
             {
                 type: SettingType.ENUM,
                 values: ["water", "ice", "poison", "weather"],
-                default: ["water"]
+                value: "water"
             },
 
             green:
             {
                 type: SettingType.ENUM,
                 values: ["earth", "grass", "rock", "bug"],
-                default: ["earth"]
+                value: "earth"
             },
 
             purple:
             {
                 type: SettingType.ENUM,
                 values: ["air", "magic", "ghost", "dark"],
-                default: ["air"]
+                value: "air"
             },
         }
     },
@@ -147,30 +148,26 @@ export const CONFIG =
         }
     },
 
-    debugWithoutPDF: false, // @DEBUGGING (should be false)
-    debugSingleCard: false, // @DEBUGGING (should be false)
-    debugRandomizeTypes: false, // @DEBUGGING (should be false)
+    _debug:
+    {
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+
+        randomizeTypes: false,
+    },
     
     _game:
     {
         fileName: "Creature Quellector",
     },
     
-    multiType: false,
     multiTypeImageResource: null,
-
-    enableOldCounterRules: false, // @DEBUGGING? the old rules included counter icons/cycle on the card; not anymore
 
     elements: {}, // the elements included by user setting on game page
     elementsReverse: {},
 
     alwaysAddMainTypeOnce: false,
-
-    fonts:
-    {
-        heading: "comica",
-        body: "cabin"
-    },
 
     assetsBase: "/waitless-games/play/creature-quellector/assets/",
     assets: 
@@ -270,61 +267,79 @@ export const CONFIG =
         multiTypeProbability: 0.175,
     },
 
-    cards: 
+    _material:
     {
-        size: 
-        { 
-            small: new Point(4, 4),
-            regular: new Point(3, 3),
-            huge: new Point(2, 2)
-        },
-        sizeElement: new Point(1, 1.55),
-        sizeResult: new Point(),
-        
-        numPerElement: 12,
-        iconsPerCard: 4,
-        //backgroundColor: "#FFE4B3",
-        backgroundColors: 
+        cards:
         {
-            red: "#FFD2D2",
-            blue: "#D6FEFA",
-            green: "#E8FFDF",
-            purple: "#F2E3FF"
+            picker: cardPicker,
+            mapper: 
+            {
+                size: 
+                { 
+                    small: new Point(4, 4),
+                    regular: new Point(3, 3),
+                    huge: new Point(2, 2)
+                },
+                sizeElement: new Point(1, 1.55),
+            }
+        }
+    },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "comica",
+            body: "cabin"
         },
 
-        textSize: 0.08, // relative to card size
-        textSizeFineprint: 0.02, // relative to card size
+        cards: 
+        {
+            numPerElement: 12,
+            iconsPerCard: 4,
+            //backgroundColor: "#FFE4B3",
+            backgroundColors: 
+            {
+                red: "#FFD2D2",
+                blue: "#D6FEFA",
+                green: "#E8FFDF",
+                purple: "#F2E3FF"
+            },
 
-        icon: 
-        {
-            backgroundInkFriendly: "#777777",
-            backgroundDarkInkFriendly: "#333333"
-        },
+            textSize: 0.08, // relative to card size
+            textSizeFineprint: 0.02, // relative to card size
 
-        actionIconPatternStrokeWidth: 0.075, // relative to icon size (during bake-stuff-into-type-icons phase)
-        actionIconPatternAlpha: 0.4,
-        dropShadowOffset: 0.08, // relative to (corner) icon size
-        
-        backgroundScale: 2.0,
-        backgroundAlpha: 0.125,
-        generator: 
-        {
-            maxDifferenceBetweenTypes: 5,
-            subTypeExtraProb: 0.2,
+            icon: 
+            {
+                backgroundInkFriendly: "#777777",
+                backgroundDarkInkFriendly: "#333333"
+            },
+
+            actionIconPatternStrokeWidth: 0.075, // relative to icon size (during bake-stuff-into-type-icons phase)
+            actionIconPatternAlpha: 0.4,
+            dropShadowOffset: 0.08, // relative to (corner) icon size
+            
+            backgroundScale: 2.0,
+            backgroundAlpha: 0.125,
+            generator: 
+            {
+                maxDifferenceBetweenTypes: 5,
+                subTypeExtraProb: 0.2,
+            },
+            stroke: 
+            {
+                color: "#614100",
+                colorInkFriendly: "#999999",
+                width: 0.01
+            },
+            outline: 
+            {
+                color: "#332211",
+                colorInkFriendly: "#333333",
+                width: 0.02,
+            },
+            genericNames: ["mon", "snout", "leg", "fur", "paw", "tail", "speed", "critter", "creat", "monster", "god", "child", "baby", "beak", "wing", "dweller", "kid", "roam", "breath", "blast", "jump", "leap"],
         },
-        stroke: 
-        {
-            color: "#614100",
-            colorInkFriendly: "#999999",
-            width: 0.01
-        },
-        outline: 
-        {
-            color: "#332211",
-            colorInkFriendly: "#333333",
-            width: 0.02,
-        },
-        genericNames: ["mon", "snout", "leg", "fur", "paw", "tail", "speed", "critter", "creat", "monster", "god", "child", "baby", "beak", "wing", "dweller", "kid", "roam", "breath", "blast", "jump", "leap"],
     },
 
     types: ["red", "blue", "green", "purple"],

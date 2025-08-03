@@ -1,4 +1,4 @@
-import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Board from "./board";
 import BoardState from "./boardState";
 import { CONFIG } from "../shared/config"
@@ -11,13 +11,11 @@ import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 export default class Evaluator
 {
-    game: any;
     scores: number[];
     state: BoardState;
 
-    constructor(game) 
+    constructor() 
     {
-        this.game = game;
         this.scores = null;
     }
 
@@ -78,7 +76,7 @@ export default class Evaluator
         // Step 2) calculate raw scores
         //
         const scores = [];
-        for(let i = 0; i < CONFIG.teams.num; i++)
+        for(let i = 0; i < CONFIG._drawing.teams.num; i++)
         {
             const score = this.calculateScoreForTeam(state, i);
             scores.push(score);
@@ -103,8 +101,8 @@ export default class Evaluator
 
         this.scores = scores;
 
-        isValid = maxDiffBetweenScores <= CONFIG.teams.maxStartingScoreDifference;
-        if(CONFIG.evaluator.forbidNegativeScores && hasNegativeScore) { isValid = false; }
+        isValid = maxDiffBetweenScores <= CONFIG._drawing.teams.maxStartingScoreDifference;
+        if(CONFIG._drawing.evaluator.forbidNegativeScores && hasNegativeScore) { isValid = false; }
 
         return isValid;
     }
@@ -285,7 +283,7 @@ export default class Evaluator
 
     draw(vis:MaterialVisualizer, group:ResourceGroup, board:Board)
     {
-        const fontCfg = CONFIG.evaluator.font;
+        const fontCfg = CONFIG._drawing.evaluator.font;
         const cs = board.cellSizeSquare;
 
         const txt = "Start dragons: " + this.scores.join(", ");

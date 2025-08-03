@@ -1,12 +1,12 @@
 import Point from "js/pq_games/tools/geometry/point"
 
-enum CardType
+export enum CardType
 {
     REGULAR = "regular",
     RULE = "rule",
 }
 
-enum CardDisplayType
+export enum CardDisplayType
 {
     SYMBOLS = "symbols", // 2 squares = simply displays two square icons
     NUMBER = "number", // displays a NUMBER x SHAPE
@@ -17,7 +17,7 @@ enum CardDisplayType
     ROMAN = "roman", // number is shown by roman numerals
 }
 
-enum ShapeType
+export enum ShapeType
 {
     RECTANGLE = "rectangle",
     TRIANGLE = "triangle",
@@ -25,7 +25,7 @@ enum ShapeType
     STAR = "star"
 }
 
-enum ColorType
+export enum ColorType
 {
     RED = "red",
     GREEN = "green",
@@ -40,7 +40,7 @@ interface GeneralData
     prob?: number,
 }
 
-const DYNAMIC_STRINGS:Record<string,any[]> =
+export const DYNAMIC_STRINGS:Record<string,any[]> =
 {
     "%identifier%": [Object.values(ColorType), Object.values(ShapeType)].flat().map((x) => x.toUpperCase()),
     "%property%": ["color", "shape"],
@@ -66,7 +66,7 @@ EXAMPLE FINISH REQUIREMENT.
 * "Finish = 8 cards, and none shares a shape AND color with a neighbor."
 */
 
-const RULE_CARDS:Record<string, GeneralData> =
+export const RULE_CARDS:Record<string, GeneralData> =
 {
     freq: { frame: 0, desc: "The card has the <b><i>%property%</i></b> that appears <b><i>%freq% often</i></b>.", prob: 2.5 }, // "The card has the color/shape that appears least often"
     variety: { frame: 1, desc: "The card has <b><i>%num% %compare% %properties%.</i></b>" }, // "The card has 2 different colors."
@@ -78,7 +78,7 @@ const RULE_CARDS:Record<string, GeneralData> =
     duplicates: { frame: 7, desc: "The card has <b><i>%invert% double %properties%</i></b>." }, // "The card has no double shapes."
 }
 
-const FINISH_REQUIREMENTS:Record<string, GeneralData> =
+export const FINISH_REQUIREMENTS:Record<string, GeneralData> =
 {
     specific_cards: { frame: 0, desc: "You need <b><i>%numhigh% cards</i></b> showing (at least) <b><i>1 %identifier%</i></b>" }, // "You need 5 cards showing (at least) one Blue."
     specific_individual: { frame: 1, desc: "You need <b><i>%numhigh% %identifier%</i></b>." }, // "You need 5 Blue icons."
@@ -90,7 +90,7 @@ const FINISH_REQUIREMENTS:Record<string, GeneralData> =
     specific_triple: { frame: 7, desc: "You need <b><i>%numlow% %identifier%</i></b>, <b><i>%numlow% %identifier%</i></b> and <b><i>%numlow% %identifier%</i></b>.", prob: 0.33 }
 }
 
-const MISC:Record<string, GeneralData> =
+export const MISC:Record<string, GeneralData> =
 {
     [ShapeType.RECTANGLE]: { frame: 0 },
     [ShapeType.TRIANGLE]: { frame: 1 },
@@ -100,7 +100,7 @@ const MISC:Record<string, GeneralData> =
     dice_display: { frame: 9 }
 }
 
-const COLORS =
+export const COLORS =
 {
     [ColorType.RED]: { hex: "#fa3f3f" },
     [ColorType.GREEN]: { hex: "#63ca2b" },
@@ -108,22 +108,9 @@ const COLORS =
     [ColorType.PURPLE]: { hex: "#a459e1" },
 }
 
-const POSITIONS =
+export const POSITIONS =
 [
     new Point(0, 0), new Point(0.5, 0), new Point(1, 0),
     new Point(0, 0.5), new Point(0.5, 0.5), new Point(1, 0.5),
     new Point(0, 1), new Point(0.5, 1), new Point(1, 1),
 ]
-
-export {
-    CardType,
-    CardDisplayType,
-    ColorType,
-    ShapeType,
-    MISC,
-    RULE_CARDS,
-    FINISH_REQUIREMENTS,
-    DYNAMIC_STRINGS,
-    COLORS,
-    POSITIONS
-};

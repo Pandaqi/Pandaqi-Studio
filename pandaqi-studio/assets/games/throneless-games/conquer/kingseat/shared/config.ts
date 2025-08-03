@@ -1,5 +1,6 @@
 import { CONFIG_SHARED } from "games/throneless-games/shared/configShared";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG:Record<string,any> = 
 {
@@ -9,7 +10,7 @@ export const CONFIG:Record<string,any> =
         {
             type: SettingType.CHECK,
             label: "High Legibility",
-            default: true,
+            value: true,
             remark: "Picks a more neutral font for maximum legibility.",
         },
 
@@ -17,7 +18,7 @@ export const CONFIG:Record<string,any> =
         {
             type: SettingType.ENUM,
             values: ["none", "starter", "medium", "advanced", "complete", "random"],
-            default: "starter",
+            value: "starter",
             remark: "Pick a predetermined set, or use none and pick your specific card packs below!"
         },
 
@@ -25,7 +26,7 @@ export const CONFIG:Record<string,any> =
         {
             type: SettingType.MULTI,
             values: ["lionsyre", "slydefox", "woolfhall", "hornseeker", "brownbeards", "monarchrys", "crassclamps", "gulliballistas", "hardshellHero", "squlofish", "smugwing", "salsaSalamanda"],
-            default: ["lionsyre", "hornseeker", "monarchrys", "gulliballistas"],
+            value: ["lionsyre", "hornseeker", "monarchrys", "gulliballistas"],
             label: "Princes"
         }
     },
@@ -42,7 +43,18 @@ export const CONFIG:Record<string,any> =
         fileName: "Kingseat",
     },
 
-    assetsBase: "/throneless-games/conquer/kingseat/assets/",
+    _material:
+    {
+        cards:
+        {
+            picker: cardPicker
+        }
+    },
+
+    _resources:
+    {
+        base: "/throneless-games/conquer/kingseat/assets/"
+    },
 
     rulebook:
     {

@@ -1,14 +1,22 @@
 import Point from "js/pq_games/tools/geometry/point";
+import { boardPicker } from "../board/boardPicker";
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi";
 
 export const CONFIG =
 {   
+    _game:
+    {
+        fileName: "Foldigami",
+        renderer: new RendererPixi()
+    },
+
     _settings:
     {
         includeRules:
         {
             type: SettingType.CHECK,
             label: "Include Rules",
-            default: true,
+            value: true,
             remark: "Only turn off if you're familiar with all the rules."
         },
 
@@ -16,7 +24,7 @@ export const CONFIG =
         {
             type: SettingType.ENUM,
             values: ["easy", "medium", "hard"],
-            default: "easy",
+            value: "easy",
             remark: "Higher difficulties fill more of the board and use more complicated powerups."
         },
 
@@ -24,18 +32,14 @@ export const CONFIG =
         {
             type: SettingType.CHECK,
             label: "Rotate Icons Identically",
+            value: false,
             remark: "Normally, icons rotate towards the player to whom they belong." 
         }
     },
 
     typeDict: {}, // to be filled by type sustem; ugly method, saw no better way when converting to TypeScript
-    difficulty: "easy",
-    includeRules: true,
-    
-    noRotation: false,
-    
 
-        assetsBase: "/waitless-games/play/foldigami/assets/",
+    assetsBase: "/waitless-games/play/foldigami/assets/",
     assets:
     {
         jockey:
@@ -67,88 +71,111 @@ export const CONFIG =
         }
     },
 
-    teams: 
+    _material:
     {
-        num: 2,
-        maxStartingScoreDifference: 3,
-        textureKey: "teams",
-        iconScale: 0.4, // both relative to iconSize = spriteSize of cell
-        iconOffset: 0.4,
-    },
-
-    evaluator: 
-    {
-        debug: false, // @DEBUGGING (should be false)
-        forbidNegativeScores: true,
-        font: {
-            size: 0.1,
-            color: "#333333",
-            strokeColor: "#999999",
-            strokeThickness: 0.02,
-            margin: 0.05
+        board:
+        {
+            picker: boardPicker,
+            mapper: MapperPreset.FULL_PAGE
         }
     },
 
-    types: 
+    _drawing:
     {
-        debug: [], // @DEBUGGING (should be empty)
-        setTemplate: ["required", "score", "rot"],
-        textureKey: "types",
-        emptyKey: "empty",
-        maxSetSize: { min: 4, max: 5 },
-        generalMaxPerType: 7,
-        generalMaxPerTeam: 7,
-        maxPerDifficulty: {
-            easy: 3,
-            medium: 4,
-            hard: 5
-        }
-    },
+        teams: 
+        {
+            num: 2,
+            maxStartingScoreDifference: 3,
+            textureKey: "teams",
+            iconScale: 0.4, // both relative to iconSize = spriteSize of cell
+            iconOffset: 0.4,
+        },
 
-    board: 
-    {
-        position: "center",
-        modifyEdgeCells: true,
-        addHalfLines: true,
-        size: new Point(7, 5),
-        percentageEmpty: {
-            easy: { min: 0.2, max: 0.3 }, // relative to total number of cells
-            medium: { min: 0.125, max: 0.2 },
-            hard: { min: 0.05, max: 0.125 }
+        evaluator: 
+        {
+            debug: false, // @DEBUGGING (should be false)
+            forbidNegativeScores: true,
+            font: 
+            {
+                size: 0.1,
+                color: "#333333",
+                strokeColor: "#999999",
+                strokeThickness: 0.02,
+                margin: 0.05
+            }
         },
-        outerMargin: { x: 0.05, y: 0.05 }, // relative to total page size
-        iconScale: 0.9,
-        tutScale: 0.9,
-        grid: {
-            colorNeutral: "#CCFFCC",
-            colorModifyPercentage: 10,
-            colorBackgroundAlpha: 1.0,
-            lineWidth: 0.015, // relative to cell size
-            lineColor: "#333333",
-            halfLineWidth: 0.015*0.5, // relative to cell size; just half lineWidth
-            halfLineColor: "#333333",
-            halfLineAlpha: 0.5,
-        },
-        outline: {
-            width: 0.03, // relative to cell size
-            color: "#333333"
-        },
-        font: {
-            family: "jockey",
-            size: 0.3, // relative to cell size
-            color: '#000000',
-            strokeColor: "#FFFFFF",
-            strokeWidth: 0.025, // relative to cell size
-        }
-    },
 
-    tutorial: 
-    {
-        textureKey: "tutorial",
-        insideCells: true,
-        outerMargin: { x: 0.05, y: 0.05 },
-        texts: {
-            heading: "How to Play?"
+        types: 
+        {
+            debug: [], // @DEBUGGING (should be empty)
+            setTemplate: ["required", "score", "rot"],
+            textureKey: "types",
+            emptyKey: "empty",
+            maxSetSize: { min: 4, max: 5 },
+            generalMaxPerType: 7,
+            generalMaxPerTeam: 7,
+            maxPerDifficulty: 
+            {
+                easy: 3,
+                medium: 4,
+                hard: 5
+            }
+        },
+
+        board: 
+        {
+            position: "center",
+            modifyEdgeCells: true,
+            addHalfLines: true,
+            size: new Point(7, 5),
+            percentageEmpty: 
+            {
+                easy: { min: 0.2, max: 0.3 }, // relative to total number of cells
+                medium: { min: 0.125, max: 0.2 },
+                hard: { min: 0.05, max: 0.125 }
+            },
+
+            outerMargin: { x: 0.05, y: 0.05 }, // relative to total page size
+            iconScale: 0.9,
+            tutScale: 0.9,
+
+            grid: 
+            {
+                colorNeutral: "#CCFFCC",
+                colorModifyPercentage: 10,
+                colorBackgroundAlpha: 1.0,
+                lineWidth: 0.015, // relative to cell size
+                lineColor: "#333333",
+                halfLineWidth: 0.015*0.5, // relative to cell size; just half lineWidth
+                halfLineColor: "#333333",
+                halfLineAlpha: 0.5,
+            },
+
+            outline: 
+            {
+                width: 0.03, // relative to cell size
+                color: "#333333"
+            },
+
+            font: 
+            {
+                family: "jockey",
+                size: 0.3, // relative to cell size
+                color: '#000000',
+                strokeColor: "#FFFFFF",
+                strokeWidth: 0.025, // relative to cell size
+            }
+        },
+
+        tutorial: 
+        {
+            textureKey: "tutorial",
+            insideCells: true,
+            outerMargin: { x: 0.05, y: 0.05 },
+            texts: 
+            {
+                heading: "How to Play?"
+            }
         }
     }
 }

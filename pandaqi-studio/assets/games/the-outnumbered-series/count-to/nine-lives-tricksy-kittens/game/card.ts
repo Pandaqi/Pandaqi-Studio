@@ -15,7 +15,32 @@ import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import { CONFIG } from "../shared/config";
 import { CATS, POWERS } from "../shared/dict";
-import Visualizer from "./visualizer";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import patternizeGrid from "js/pq_games/layout/patterns/patternizeGrid";
+
+const cacheVisualizerData = async (vis:MaterialVisualizer) =>
+{  
+    const alreadyCached = vis.custom && Object.keys(vis.custom).length > 0;
+    if(alreadyCached) { return; }
+
+    const shadowOffset = CONFIG.cards.shared.shadowOffset.clone().scale(vis.sizeUnit);
+    const shadowColor = CONFIG.cards.shared.shadowColor;
+
+    const params = 
+    {
+        size: (1.0 + CONFIG.cards.bgCats.patternExtraMargin) * vis.size.y,
+        sizeIcon: CONFIG.cards.bgCats.patternIconSize,
+        num: CONFIG.cards.bgCats.patternNumIcons,
+        resource: vis.getResource("misc"),
+        frame: MISC.bg_cat.frame
+    }
+
+    vis.custom =
+    {
+        effects: [new DropShadowEffect({ offset: shadowOffset, color: shadowColor }), vis.inkFriendlyEffect].flat(),
+        patternCat: await patternizeGrid(params),
+    }
+}
 
 export default class Card
 {
@@ -29,8 +54,10 @@ export default class Card
         this.num = num;
     }
 
-    async drawForRules(vis:Visualizer)
+    async drawForRules(vis:MaterialVisualizer)
     {
+        await cacheVisualizerData(vis);
+
         const ctx = createContext({ size: vis.size });
         fillCanvas(ctx, "#FFFFFF");
 
@@ -42,8 +69,10 @@ export default class Card
     }
 
     getData() { return CATS[this.suit]; }
-    async draw(vis:Visualizer)
+    async draw(vis:MaterialVisualizer)
     {
+        await cacheVisualizerData(vis);
+
         const ctx = createContext({ size: vis.size });
 
         await this.drawBackground(vis, ctx);
@@ -55,7 +84,7 @@ export default class Card
         return ctx.canvas;
     }
 
-    async drawBackground(vis:Visualizer, ctx)
+    async drawBackground(vis:MaterialVisualizer, ctx)
     {
         // first solid color
         let color = CONFIG.cards.shared.defaultBGColor;
@@ -77,13 +106,13 @@ export default class Card
         await pattern.toCanvas(ctx, op);
     }
 
-    async drawCorners(vis:Visualizer, ctx)
+    async drawCorners(vis:MaterialVisualizer, ctx)
     {
         await this.drawCornerNumbers(vis, ctx);
         await this.drawCornerSuits(vis, ctx);
     }
 
-    async drawCornerNumbers(vis:Visualizer, ctx)
+    async drawCornerNumbers(vis:MaterialVisualizer, ctx)
     {
         // first the text (number of the card)
         const fontSize = CONFIG.cards.corners.fontSize * vis.sizeUnit;
@@ -126,7 +155,7 @@ export default class Card
         }
     }
 
-    async drawCornerSuits(vis:Visualizer, ctx)
+    async drawCornerSuits(vis:MaterialVisualizer, ctx)
     {
         const fontSize = CONFIG.cards.corners.fontSize * vis.sizeUnit;
         const offset = new Point(fontSize * 0.5 * CONFIG.cards.corners.offsetText);
@@ -161,7 +190,7 @@ export default class Card
         }
     }
 
-    async drawMainIllustration(vis:Visualizer, ctx)
+    async drawMainIllustration(vis:MaterialVisualizer, ctx)
     {
         const extentsRect = vis.size.clone().scale(CONFIG.cards.powers.rectSize);
         const offsetFactor = CONFIG.includePowers ? CONFIG.cards.illustration.offset : 0.0;
@@ -189,7 +218,7 @@ export default class Card
         }
     }
 
-    async drawPower(vis:Visualizer, ctx)
+    async drawPower(vis:MaterialVisualizer, ctx)
     {
         if(!CONFIG.includePowers) { return; }
 
@@ -239,7 +268,7 @@ export default class Card
         await resText.toCanvas(ctx, opText);
     }
 
-    drawOutline(vis:Visualizer, ctx)
+    drawOutline(vis:MaterialVisualizer, ctx)
     {
         const outlineSize = CONFIG.cards.outline.size * vis.sizeUnit;
         strokeCanvas(ctx, CONFIG.cards.outline.color, outlineSize);

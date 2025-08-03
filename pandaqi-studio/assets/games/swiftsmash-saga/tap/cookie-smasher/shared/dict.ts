@@ -1,6 +1,6 @@
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-enum Type
+export enum Type
 {
     MEAT = "MEAT",
     DRINK = "DRINK",
@@ -9,7 +9,7 @@ enum Type
     SPICE = "SPICE"
 }
 
-interface CardData
+export interface CardData
 {
     frame: number,
     color: string,
@@ -25,7 +25,7 @@ interface CardData
     dependsOn?: string[], // list of things on which it depends (so they must be included too in the same set)
 }
 
-type CardSet = Record<string, CardData>;
+export type CardSet = Record<string, CardData>;
 
 // FALLBACK = Cookie + Mint
 const setStarter:CardSet = {
@@ -97,7 +97,7 @@ const setExpert:CardSet = {
     parsley: { frame: 9, type: Type.SPICE, num: 0, numRange: new Bounds(2,8), desc: "if I match type or number with the king's card", color: "blue", } 
 }
 
-const TYPES = {
+export const TYPES = {
     [Type.MEAT]: { frame: 0, color: "redDark" },
     [Type.DRINK]: { frame: 1, color: "blueDark" },
     [Type.FRUIT]: { frame: 2, color: "greenDark" },
@@ -105,7 +105,7 @@ const TYPES = {
     [Type.SPICE]: { frame: 4, color: "purpleDark" }
 }
 
-const SETS:Record<string, CardSet> = 
+export const SETS:Record<string, CardSet> = 
 {
     starter: setStarter,
     beginner: setBeginner,
@@ -116,7 +116,7 @@ const SETS:Record<string, CardSet> =
 
 // The dark ones are for the types
 // Everything else is quite bright/light and for food backgrounds
-const COLORS = {
+export const COLORS = {
     beige: "#EDB24E",
     blue: "#92C5BF",
     blueDark: "#296A67",
@@ -132,13 +132,4 @@ const COLORS = {
     yellowDark: "#957500",
     grayLight: "#E9E9E9",
     gray: "#C6C6C6"
-}
-
-export 
-{
-    Type,
-    CardData,
-    SETS,
-    COLORS,
-    TYPES
 }

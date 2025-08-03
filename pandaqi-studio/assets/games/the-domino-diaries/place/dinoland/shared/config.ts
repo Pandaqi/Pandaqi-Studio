@@ -3,6 +3,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import { DinoType, TerrainType } from "./dict"
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig"
+import { dominoPicker } from "../game/dominoPicker"
 
 export const CONFIG:any = 
 {
@@ -12,6 +13,7 @@ export const CONFIG:any =
         {
             type: SettingType.CHECK,
             label: "Add Text On Tiles",
+            value: false,
             remark: "Adds the explanation of each dinosaur's action on the dinosaur itself."
         },
 
@@ -22,14 +24,14 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
             pawns:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Pawns"
             },
 
@@ -37,6 +39,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Expansion",
+                value: false,
                 remark: "A general expansion with more terrains and dinosaurs."
             },
 
@@ -44,6 +47,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Impact Tiles",
+                value: false,
                 remark: "Adds tiles that randomize how the asteroid impact works for your game."
             },
 
@@ -51,6 +55,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Special Asteroids",
+                value: false,
                 remark: "Adds special Asteroid Tiles for random events and actions."
             },
         }
@@ -66,24 +71,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Dinoland",
-    },
-
-    
-    addText: false,
-
-    fonts:
-    {
-        heading: "cutedino",
-        body: "tinos"
-    },
-
-    sets:
-    {
-        pawns: true,
-        base: true,
-        expansion: false,
-        impact: false,
-        asteroid: false
     },
 
     // assets
@@ -152,11 +139,6 @@ export const CONFIG:any =
         },
     },
 
-    rulebook:
-    {
-
-    },
-
     generation:
     {
         numUniquePawns: 6,
@@ -218,42 +200,55 @@ export const CONFIG:any =
         }
     },
 
-    dominoes:
+    _material:
     {
-        drawerConfig:
+        dominoes:
         {
-            preset: GridSizePreset.DOMINO
-        },
-
-        bgColor: "#FFEFCF",
-        bgColorAsteroid: "#405E93",
-        bgColorImpact: "#732058",
-
-        dino:
-        {
-            size: new CVal(new Point(0.8), "sizeUnit"),
-            sizeArrow: new CVal(new Point(0.66), "sizeUnit"),
-            shadowColor: "#111111",
-            shadowBlur: new CVal(0.02, "sizeUnit"),
-
-            fontSize: new CVal(0.07, "sizeUnit")
-        },
-
-        setText:
-        {
-            size: new CVal(0.05, "sizeUnit")
-        },
-
-        impact:
-        {
-            size: new CVal(new Point(0.8), "sizeUnit"),
-            fontSize: new CVal(0.12, "sizeUnit")
-        },
-
-        asteroid:
-        {
-            size: new CVal(new Point(0.8), "sizeUnit"),
-            fontSize: new CVal(0.12, "sizeUnit")
+            picker: dominoPicker,
+            mapper: MapperPreset.DOMINO
         }
     },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "cutedino",
+            body: "tinos"
+        },
+
+        dominoes:
+        {
+            bgColor: "#FFEFCF",
+            bgColorAsteroid: "#405E93",
+            bgColorImpact: "#732058",
+
+            dino:
+            {
+                size: new CVal(new Point(0.8), "sizeUnit"),
+                sizeArrow: new CVal(new Point(0.66), "sizeUnit"),
+                shadowColor: "#111111",
+                shadowBlur: new CVal(0.02, "sizeUnit"),
+
+                fontSize: new CVal(0.07, "sizeUnit")
+            },
+
+            setText:
+            {
+                size: new CVal(0.05, "sizeUnit")
+            },
+
+            impact:
+            {
+                size: new CVal(new Point(0.8), "sizeUnit"),
+                fontSize: new CVal(0.12, "sizeUnit")
+            },
+
+            asteroid:
+            {
+                size: new CVal(new Point(0.8), "sizeUnit"),
+                fontSize: new CVal(0.12, "sizeUnit")
+            }
+        },
+    }
 }

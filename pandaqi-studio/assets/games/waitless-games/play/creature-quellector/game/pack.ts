@@ -1,8 +1,8 @@
 import Card from "./card"
 import { CONFIG } from "../shared/config"
 import Random from "js/pq_games/tools/random/main"
-import { TypeStats } from "./main"
 import ElementIcon from "./elementIcon"
+import { TypeStats } from "../shared/dict"
 
 export default class Pack
 {
@@ -16,25 +16,15 @@ export default class Pack
         this.subtype = s;
     }
 
-    async draw()
-    {
-        const promises = [];
-        for(const card of this.cards)
-        {
-            promises.push(card.draw());
-        }
-        return await Promise.all(promises);
-    }
-
     createCards(stats:TypeStats)
     {
-        let num = CONFIG.cards.numPerElement;
-        if(CONFIG.debugSingleCard) { num = 1; }
+        let num = CONFIG._drawing.cards.numPerElement;
+        if(CONFIG._debug.singleDrawPerType) { num = 1; }
 
         const cards = [];
 
         const iconDistribution = [];
-        const maxIcons = CONFIG.cards.iconsPerCard;
+        const maxIcons = CONFIG._drawing.cards.iconsPerCard;
         for(let i = 0; i < Math.ceil(num/maxIcons); i++)
         {
             for(let a = 1; a <= maxIcons; a++)
@@ -56,6 +46,7 @@ export default class Pack
         }
 
         this.cards = cards;
+        return cards;
     }
 
     registerTypePicked(elem:ElementIcon, stats:TypeStats)
@@ -128,7 +119,7 @@ export default class Pack
     getMultiIconType(icon:ElementIcon, stats:TypeStats) : string
     {
         const isAction = icon.action; // action types can't be multitype
-        if(!CONFIG.multiType || isAction) { return ""; }
+        if(!CONFIG._settings.multiType.value || isAction) { return ""; }
         
         let shouldAdd = Math.random() <= CONFIG.gameplay.multiTypeProbability;
         if(!shouldAdd) { return ""; }
@@ -154,11 +145,11 @@ export default class Pack
         let finalType = Random.fromArray(options);
 
         // picking our main type (for this card) again has a higher probability
-        const pickSubType = Math.random() <= CONFIG.cards.generator.subTypeExtraProb;
+        const pickSubType = Math.random() <= CONFIG._drawing.cards.generator.subTypeExtraProb;
         if(pickSubType) { finalType = this.subtype; }
 
         // if one element is used WAAAY too little, always pick that
-        const maxDiff = CONFIG.cards.generator.maxDifferenceBetweenTypes;
+        const maxDiff = CONFIG._drawing.cards.generator.maxDifferenceBetweenTypes;
         const elementTooRare = (stats[mostCommonElement].total - stats[rarestElement].total) >= maxDiff;
         if(elementTooRare) { finalType = rarestElement; }
 

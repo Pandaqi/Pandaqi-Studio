@@ -18,6 +18,8 @@ import rangeInteger from "js/pq_games/tools/random/rangeInteger"
 import { CATEGORIES, ELEMENTS } from "../shared/dict"
 import { CONFIG } from "../shared/config"
 import ElementIcon from "./elementIcon"
+import { cacheVisualizerData } from "./caching"
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 
 export default class Card 
 {
@@ -52,13 +54,15 @@ export default class Card
         this.sort();
     }
 
-    async draw() : Promise<HTMLCanvasElement>
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
-        const ctx = this.setup();
-        this.drawBackground(ctx);
-        this.drawHeader(ctx);
-        this.drawBanner(ctx);
-        this.drawContent(ctx);
+        cacheVisualizerData(vis);
+
+        const ctx = this.setup(vis);
+        this.drawBackground(vis, ctx);
+        this.drawHeader(vis, ctx);
+        this.drawBanner(vis, ctx);
+        this.drawContent(vis, ctx);
         this.drawFooter(ctx);
         return ctx.canvas;
     }
@@ -80,9 +84,9 @@ export default class Card
         })
     }
 
-    setup()
+    setup(vis:MaterialVisualizer)
     {
-        const size = CONFIG.cards.sizeResult;
+        const size = vis.size;
         const ctx = createContext({ size: size });
 
         this.size = size.clone();
@@ -102,7 +106,7 @@ export default class Card
 
         this.creatureFlipX = Math.random() <= 0.5;
         this.iconBorderRadius = new FourSideValue(0.025*this.sizeUnit);
-        this.strokeWidth = CONFIG.cards.stroke.width * this.sizeUnit;
+        this.strokeWidth = CONFIG._drawing.cards.stroke.width * this.sizeUnit;
         this.strokeColor = CONFIG.inkFriendly ? CONFIG.cards.stroke.colorInkFriendly : this.getIconColorDark(this.getMainIcon());
         this.dropShadowOffset = new Point(0, CONFIG.cards.dropShadowOffset * this.cornerIconSize);
 
@@ -144,13 +148,13 @@ export default class Card
         return this.getIconFrame(rand);
     }
 
-    getIconResource(elem:ElementIcon) : ResourceImage
+    getIconResource(vis:MaterialVisualizer, elem:ElementIcon) : ResourceImage
     {
         if(elem.multi) { return CONFIG.multiTypeImageResource; }
 
         let textureKey = this.iconSpritesheet + "";
         if(elem.action) { textureKey += "_actions"; }
-        return CONFIG.resLoader.getResource(textureKey);
+        return vis.getResource(textureKey);
     }
 
     getIconColorDark(elem:ElementIcon) : string
@@ -188,7 +192,7 @@ export default class Card
     }
 
     // @NOTE: drawn manually, as that's easier here
-    drawBackground(ctx)
+    drawBackground(vis: MaterialVisualizer, ctx)
     {
         const color = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.cards.backgroundColors[this.getMainIconElementType()];
         fillCanvas(ctx, color);
@@ -196,7 +200,7 @@ export default class Card
         if(CONFIG.inkFriendly) { return; }
 
         const size = this.sizeUnit * CONFIG.cards.backgroundScale;
-        const res = CONFIG.resLoader.getResource(this.creatureSpritesheet);
+        const res = vis.getResource(this.creatureSpritesheet);
         const canvOp = new LayoutOperation({
             pos: this.size.clone().scale(0.5),
             size: new Point(size),
@@ -209,7 +213,7 @@ export default class Card
         res.toCanvas(ctx, canvOp);
     }
 
-    drawHeader(ctx)
+    drawHeader(vis:MaterialVisualizer, ctx)
     {
         const contHeight = 0.6*this.sizeUnit;
         const clipPath = this.getClipPath(new Point(this.size.x, contHeight), new Point(this.rootPadding));
@@ -217,7 +221,7 @@ export default class Card
 
         // background environment image
         const backgroundImageSize = new Point(contHeight*1.7);
-        const resBG = CONFIG.resLoader.getResource(this.backgroundSpritesheet);
+        const resBG = vis.getResource(this.backgroundSpritesheet);
         const posBG = new Point(0.5*this.size.x, 0.4275*this.size.y); // @TODO: should reposition so the bottom aligns with bottom clip path
         const opBG = new LayoutOperation({
             pos: posBG,
@@ -232,7 +236,7 @@ export default class Card
 
         // actual creature (smaller)
         const creatureImageSize = new Point(contHeight, contHeight).scaleFactor(0.8);
-        const resCreature = CONFIG.resLoader.getResource(this.creatureSpritesheet);
+        const resCreature = vis.getResource(this.creatureSpritesheet);
         const posCreature = new Point(0.5*this.size.x, 0.25*this.size.y);
         const opCreature = new LayoutOperation({
             pos: posCreature,
@@ -254,7 +258,7 @@ export default class Card
         for(let i = 0; i < remPositions.length; i++)
         {
             const type = this.typeList[i];
-            const resIcon = this.getIconResource(type);
+            const resIcon = this.getIconResource(vis, type);
             const opIcon = new LayoutOperation({
                 pos: remPositions[i],
                 size: iconReminderSize,
@@ -283,9 +287,9 @@ export default class Card
         return new ElementIcon(list[idx], false);
     }
 
-    drawBanner(ctx)
+    drawBanner(vis:MaterialVisualizer, ctx)
     {
-        const iconResource = CONFIG.resLoader.getResource(this.iconSpritesheet);
+        const iconResource = vis.getResource(this.iconSpritesheet);
         const counterSize = this.cornerIconSize;
         const mainIconSize = 2.5*counterSize;
 
@@ -306,7 +310,7 @@ export default class Card
     }
 
     // The main body of the card: the icons of this creature
-    drawContent(ctx)
+    drawContent(vis:MaterialVisualizer, ctx)
     {
         const anchor = new Point(0.5*this.size.x, 0.7*this.size.y);
         const iconSize = new Point(0.1725*this.sizeUnit);
@@ -314,7 +318,7 @@ export default class Card
         for(let i = 0; i < positions.length; i++)
         {
             const type = this.typeList[i];
-            const resIcon = this.getIconResource(type);
+            const resIcon = this.getIconResource(vis, type);
             const opIcon = new LayoutOperation({
                 pos: positions[i],
                 size: iconSize,
@@ -331,9 +335,9 @@ export default class Card
         }
     }
 
-    drawCornerIcon(ctx, pos)
+    drawCornerIcon(vis:MaterialVisualizer, ctx, pos)
     {
-        const resIcon = CONFIG.resLoader.getResource(this.iconSpritesheet);
+        const resIcon = vis.getResource(this.iconSpritesheet);
         const opIcon = new LayoutOperation({
             pos: pos,
             size: new Point(this.cornerIconSize),

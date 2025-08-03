@@ -3,6 +3,7 @@ import { AnimalType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG:any = 
 {
@@ -15,7 +16,7 @@ export const CONFIG:any =
             base:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Base Game"
             },
 
@@ -23,6 +24,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Busy Zoo",
+                value: false,
                 remark: "A small expansion that adds special zoo cards."
             },
 
@@ -30,6 +32,7 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Wild Animals",
+                value: false,
                 remark: "An expansion that adds special animal powers."
             },
         }
@@ -45,21 +48,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Lucky Lions",
-    },
-
-    
-
-    fonts:
-    {
-        heading: "bamboo",
-        body: "berylium"
-    },
-
-    sets:
-    {
-        base: true,
-        busyZoo: false,
-        wildAnimals: false,
     },
 
     // assets
@@ -163,55 +151,62 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        drawerConfig:
+        cards:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
-        },
-
-        zooBackgroundColor: "#197714",
-        animalBackgroundColor: "#cc7020",
-        backgroundTextureAlpha: 0.5,
-
-        cycle:
-        {
-            startingAngle: 0,
-            pos: new CVal(new Point(0.5), "size"),
-            size: new CVal(new Point(0.75), "sizeUnit"),
-            animalRadius: new CVal(0.3, "sizeUnit"), // should be slightly smaller than 0.5*size
-            iconDims: new CVal(new Point(0.175), "sizeUnit"),
-            peopleIconDims: new CVal(new Point(0.2), "sizeUnit"),
-            rotateAnimals: false,
-        },
-
-        score:
-        {
-            fontSize: new CVal(0.13, "sizeUnit"),
-            textBoxPos: new CVal(new Point(0.795, 0.1375), "size"),
-            textColor: "#023d00"
-        },
-
-        power:
-        {
-            textBoxPos: new CVal(new Point(0.5, 0.85), "size"),
-            textBoxDims: new CVal(new Point(0.85), "sizeUnit"),
-            textDims: new CVal(new Point(0.75, 0.25), "size"), // should be slightly smaller than textBoxDims
-            fontSize: new CVal(0.05, "sizeUnit"),
-            textColor: "#FFFFFF"
-        },
-
-        animal:
-        {
-            iconPos: new CVal(new Point(0.5), "size"),
-            iconDims: new CVal(new Point(0.5), "sizeUnit")
+            itemSize: new Point(375, 525),
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
         }
+    },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "bamboo",
+            body: "berylium"
+        },
+
+        cards:
+        {
+            zooBackgroundColor: "#197714",
+            animalBackgroundColor: "#cc7020",
+            backgroundTextureAlpha: 0.5,
+
+            cycle:
+            {
+                startingAngle: 0,
+                pos: new CVal(new Point(0.5), "size"),
+                size: new CVal(new Point(0.75), "sizeUnit"),
+                animalRadius: new CVal(0.3, "sizeUnit"), // should be slightly smaller than 0.5*size
+                iconDims: new CVal(new Point(0.175), "sizeUnit"),
+                peopleIconDims: new CVal(new Point(0.2), "sizeUnit"),
+                rotateAnimals: false,
+            },
+
+            score:
+            {
+                fontSize: new CVal(0.13, "sizeUnit"),
+                textBoxPos: new CVal(new Point(0.795, 0.1375), "size"),
+                textColor: "#023d00"
+            },
+
+            power:
+            {
+                textBoxPos: new CVal(new Point(0.5, 0.85), "size"),
+                textBoxDims: new CVal(new Point(0.85), "sizeUnit"),
+                textDims: new CVal(new Point(0.75, 0.25), "size"), // should be slightly smaller than textBoxDims
+                fontSize: new CVal(0.05, "sizeUnit"),
+                textColor: "#FFFFFF"
+            },
+
+            animal:
+            {
+                iconPos: new CVal(new Point(0.5), "size"),
+                iconDims: new CVal(new Point(0.5), "sizeUnit")
+            }
+        },
     },
 }

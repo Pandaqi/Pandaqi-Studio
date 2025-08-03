@@ -15,37 +15,37 @@ export const CONFIG:any =
             instructionTokens:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
             },
 
             vehicleCards:
             {
                 type: SettingType.CHECK,
-                default: true
+                value: true
             },
 
             healthCards:
             {
                 type: SettingType.CHECK,
-                default: true
+                value: true
             },
 
             actionCards:
             {
                 type: SettingType.CHECK,
-                default: false
+                value: false
             },
 
             timeCards:
             {
                 type: SettingType.CHECK,
-                default: false
+                value: false
             },
 
             GPSCards:
             {
                 type: SettingType.CHECK,
-                default: false
+                value: false
             },
         }
     },
@@ -60,18 +60,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Naivigation (Shared)",
-    },
-
-    
-
-    sets:
-    {
-        instructionTokens: true,
-        vehicleCards: true,
-        healthCards: true,
-        actionCards: false,
-        GPSCards: false,
-        timeCards: false,
     },
 
     // assets
@@ -93,27 +81,30 @@ export const CONFIG:any =
         },
     },
 
-    cards:
+    _drawing:
     {
-        generation:
+        cards:
         {
-            numGPSCards: 30,
-            percentageSingleGPS: 0.25, // how many only have a reward OR penalty, not both
-            numFuelCards: 10,
-        },
-    
-        instruction:
-        {
-            fontSize: new CVal(0.235, "sizeUnit"),
-            textPos: new CVal(new Point(0.2275, 0.25), "sizeUnit"),
-            strokeWidth: new CVal(0.025, "sizeUnit"),
-        },
+            generation:
+            {
+                numGPSCards: 30,
+                percentageSingleGPS: 0.25, // how many only have a reward OR penalty, not both
+                numFuelCards: 10,
+            },
+        
+            instruction:
+            {
+                fontSize: new CVal(0.235, "sizeUnit"),
+                textPos: new CVal(new Point(0.2275, 0.25), "sizeUnit"),
+                strokeWidth: new CVal(0.025, "sizeUnit"),
+            },
 
-        compass:
-        {
-            size: new CVal(new Point(0.9), "sizeUnit")
+            compass:
+            {
+                size: new CVal(new Point(0.9), "sizeUnit")
+            },
         },
-    },
+    }
 }
 
 mergeObjects(CONFIG, CONFIG_NAIVIGATION_SHARED);
