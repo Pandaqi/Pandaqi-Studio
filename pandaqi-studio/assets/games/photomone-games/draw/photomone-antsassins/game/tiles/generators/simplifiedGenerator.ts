@@ -49,7 +49,7 @@ export default class SimplifiedGenerator
 
         for(let i = 0; i < numLines; i++)
         {
-            const p1 = Random.fromArray(nonEdgePoints);
+            const p1 = fromArray(nonEdgePoints);
             const p2 = p1.getRandomNeighbour({ orthogonal: true });
 
             const obj = new Line(p1, p2);

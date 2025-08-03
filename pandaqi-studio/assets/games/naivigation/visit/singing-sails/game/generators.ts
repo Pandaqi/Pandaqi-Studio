@@ -8,8 +8,8 @@ import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import fromArray from "js/pq_games/tools/random/fromArray";
 
-const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
-const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist);
+export const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
+export const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist);
 
 // special card types that need some modification
 const cardCustomCallback = (key, data) =>
@@ -103,8 +103,3 @@ tilePicker.generateCallback = () =>
         waterTiles[i].customData.waterCurrent = { dir: randDir, strength: randStrength }
     }
 }
-
-export {
-    cardPicker,
-    tilePicker
-};

@@ -57,7 +57,7 @@ export default class CloudsGenerator
         this.backgroundColor = config.clouds.backgroundColor || "#3388EE";
 
         const cells = this.getGridFlat();
-        Random.shuffle(cells);
+        shuffle(cells);
 
         const cellColor = config.clouds.color;
         for(const cell of cells)
@@ -66,7 +66,7 @@ export default class CloudsGenerator
         }
 
         const cloudBounds = config.clouds.numClouds;
-        const numClouds = Random.rangeInteger(cloudBounds.min, cloudBounds.max);
+        const numClouds = rangeInteger(cloudBounds.min, cloudBounds.max);
         const radiusBounds = config.clouds.radius;
         const strengthBounds = config.clouds.strength;
         const eraseProb = config.clouds.eraseProb;
@@ -81,8 +81,8 @@ export default class CloudsGenerator
             if(percentageFilled >= percentageBounds.max) { shouldErase = true; }
 
             const pos = cells.pop();
-            let radius = Random.range(radiusBounds.min, radiusBounds.max) * this.gridSizeSquare;
-            let strength = Random.range(strengthBounds.min, strengthBounds.max);
+            let radius = range(radiusBounds.min, radiusBounds.max) * this.gridSizeSquare;
+            let strength = range(strengthBounds.min, strengthBounds.max);
 
             // wide, soft erasing looks ugly most of the time
             // so, prefer making them smaller and stronger in general

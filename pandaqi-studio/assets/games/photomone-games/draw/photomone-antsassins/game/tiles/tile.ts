@@ -80,7 +80,7 @@ export default class Tile
         config.ctx = this.ctx;
     }
 
-    async draw() : Promise<HTMLCanvasElement>
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
         const config = this.config;
 

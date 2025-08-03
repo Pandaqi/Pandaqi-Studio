@@ -4,8 +4,8 @@ import Rectangle from "./shapes/rectangle"
 import Triangle from "./shapes/triangle"
 import Hexagon from "./shapes/hexagon"
 import Random from "js/pq_games/tools/random/main"
-import { ALMOST_ACTIONS } from "./dict"
-import { CONFIG } from "./config"
+import { ALMOST_ACTIONS } from "../shared/dict"
+import { CONFIG } from "../shared/config"
 import createContext from "js/pq_games/layout/canvas/createContext"
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
 
@@ -175,7 +175,7 @@ export default class Card
     assignRoles()
     {
         const cells = this.getFlatGrid();
-        Random.shuffle(cells);
+        shuffle(cells);
 
         // assign the secret tiles for each team
         const numTeams = CONFIG.numTeamsOnCodeCard;
@@ -205,7 +205,7 @@ export default class Card
             const teamKey = "team" + i;
             const possibleTiles = this.getAlmostTilesForTeam(i);
             const numAlmostTiles = Math.min(possibleTiles.length, almostTilesPerTeam);
-            Random.shuffle(possibleTiles);
+            shuffle(possibleTiles);
             for(let j = 0; j < numAlmostTiles; j++)
             {
                 const c = possibleTiles.pop();
@@ -275,12 +275,12 @@ export default class Card
     prepareAlmostActions()
     {
         const numBounds = CONFIG.cards.numUniqueAlmostActions;
-        const num = Random.rangeInteger(numBounds.min, numBounds.max);
+        const num = rangeInteger(numBounds.min, numBounds.max);
         const dict = structuredClone(ALMOST_ACTIONS);
         const actions = {};
         for(let i = 0; i < num; i++)
         {
-            const type = Random.getWeighted(dict, "prob");
+            const type = getWeighted(dict, "prob");
             actions[type] = dict[type];
             delete dict[type];
         }
@@ -289,7 +289,7 @@ export default class Card
 
     getRandomAlmostAction()
     {
-        return Random.getWeighted(this.possibleAlmostActions, "prob")
+        return getWeighted(this.possibleAlmostActions, "prob")
     }
 
     getSecretTilesForTeam(teamNum)
@@ -343,7 +343,7 @@ export default class Card
         return Array.from(arr);
     }
 
-    async draw()
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
         await this.visualizeCells();
         this.visualizeStartingTeam();

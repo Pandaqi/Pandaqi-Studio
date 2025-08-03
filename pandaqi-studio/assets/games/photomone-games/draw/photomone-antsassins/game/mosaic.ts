@@ -61,9 +61,9 @@ export default class Mosaic
             const newPoint = p.clone();
             if(!newPoint.isOnEdge())
             {
-                let varX = Random.range(bounds.min * minSize, bounds.max * minSize);
+                let varX = range(bounds.min * minSize, bounds.max * minSize);
                 if(Math.random() <= 0.5) { varX *= -1; }
-                let varY = Random.range(bounds.min * minSize, bounds.max * minSize);
+                let varY = range(bounds.min * minSize, bounds.max * minSize);
                 if(Math.random() <= 0.5) { varY *= -1; }
 
                 newPoint.x += varX;
@@ -231,7 +231,7 @@ export default class Mosaic
             const nbs = this.getNeighborsOfGroup(group, shapes);
             if(nbs.length <= 0) { break; }
 
-            let nb = Random.fromArray(nbs);
+            let nb = fromArray(nbs);
             group.push(nb);
             shapes.splice(shapes.indexOf(nb), 1);
 
@@ -253,7 +253,7 @@ export default class Mosaic
 
         const types = [];
         for(let i = 0; i < config.mosaic.numColors; i++) { types.push(i); }
-        Random.shuffle(types);
+        shuffle(types);
 
         const groups = [];
         let counter = -1;
@@ -273,7 +273,7 @@ export default class Mosaic
     getShapesRegular(config)
     {
         const shapes = this.getShapes(config);
-        Random.shuffle(shapes);
+        shuffle(shapes);
         return shapes;
     }
 
@@ -307,7 +307,7 @@ export default class Mosaic
             shp.setNeighbors(nbs);
         }
 
-        Random.shuffle(list);
+        shuffle(list);
         return list;
     }
 }

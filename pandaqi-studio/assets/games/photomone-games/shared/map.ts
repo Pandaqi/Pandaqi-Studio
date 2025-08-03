@@ -1,8 +1,10 @@
 import WordsPhotomone from "./wordsPhotomone";
 import Point from "./point";
 import Line from "./line";
-import Random from "js/pq_games/tools/random/main"
-import POINT_TYPES from "./gameDictionary";
+import getWeighted from "js/pq_games/tools/random/getWeighted";
+import range from "js/pq_games/tools/random/range";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import shuffle from "js/pq_games/tools/random/shuffle";
 
 export default class Map 
 {
@@ -47,7 +49,7 @@ export default class Map
         this.width = params.width ?? 512;
         this.height = params.height ?? 512;
         this.pointBounds = params.pointBounds ?? { min: 10, max: 100 };
-        this.pointTypes = params.pointTypes ?? POINT_TYPES;
+        this.pointTypes = params.pointTypes;
         this.pointRadiusFactor = params.pointRadiusFactor ?? 0.0075;
         this.pointRadiusSpecialFactor = params.pointRadiusSpecialFactor ?? 0.02;
         this.numSmoothSteps = params.smoothSteps ?? 20;
@@ -93,7 +95,7 @@ export default class Map
         for(let i = 0; i < numEllipseBuckets; i++)
         {
             let offset = 0.05 + Math.random()*0.2;
-            if(Math.random() <= 0.5 ?? curRandomness >= 0.99) { offset *= -1; }
+            if(Math.random() <= 0.5 || curRandomness >= 0.99) { offset *= -1; }
             if(curRandomness <= 0.01 && offset < 0) { offset *= -1; }
 
             curRandomness = Math.max(Math.min(curRandomness + offset, 1), 0);
@@ -167,7 +169,7 @@ export default class Map
     // lines between points
     generateStartingLines()
     {
-        const numStartingLines = Random.rangeInteger(this.linesBounds.min, this.linesBounds.max);
+        const numStartingLines = rangeInteger(this.linesBounds.min, this.linesBounds.max);
         const params = { pointRadius: this.startingLinePointRadius };
         const rangeSquared = Math.pow(this.startingLineMaxDist, 2);
         for(let i = 0; i < numStartingLines; i++)
@@ -221,7 +223,7 @@ export default class Map
     {
         const numRectangles = Math.round(0.33 * this.words.length);
         const points = this.points.slice();
-        Random.shuffle(points);
+        shuffle(points);
         for(let i = 0; i < numRectangles; i++)
         {
             const p = points.pop();
@@ -310,7 +312,7 @@ export default class Map
     {
         const min = this.pointBounds.min;
         const max = this.pointBounds.max;
-        const numPoints = Random.rangeInteger(min, max);
+        const numPoints = rangeInteger(min, max);
 
         const arr = [];
         for(let i = 0; i < numPoints; i++)
@@ -351,7 +353,7 @@ export default class Map
         const numPoints = this.points.length;
         const min = this.typeBounds.min * numPoints;
         const max = this.typeBounds.max * numPoints;
-        let numTypes = Random.rangeInteger(min, max);
+        let numTypes = rangeInteger(min, max);
 
         // add each type at least once
         const arr = [];
@@ -383,8 +385,8 @@ export default class Map
     assignTypesToPoints(list)
     {
         const points = this.points.slice();
-        Random.shuffle(points); 
-        Random.shuffle(list);
+        shuffle(points); 
+        shuffle(list);
         
         while(list.length > 0)
         {
@@ -403,13 +405,13 @@ export default class Map
     getRandomType()
     {
         if(this.getAllTypes().length <= 0) { return null; }
-        return Random.getWeighted(this.pointTypes, "prob");
+        return getWeighted(this.pointTypes, "prob");
     }
 
     getRandomPosition()
     {
-        const x = Random.range(this.mapBounds.min.x, this.mapBounds.max.x);
-        const y = Random.range(this.mapBounds.min.y, this.mapBounds.max.y);
+        const x = range(this.mapBounds.min.x, this.mapBounds.max.x);
+        const y = range(this.mapBounds.min.y, this.mapBounds.max.y);
         return new Point({ x: x, y: y });
     }
 

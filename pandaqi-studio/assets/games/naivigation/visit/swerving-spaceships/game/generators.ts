@@ -6,8 +6,8 @@ import { MATERIAL } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";
 
-const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
-const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL);
+export const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
+export const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL);
 const cardCustomCallback = (key, data) =>
 {
     if(key != "steer") { return; }
@@ -64,8 +64,3 @@ const mapCallback = (key, data) =>
     return arr;
 }
 tilePicker.setCustomCallback(mapCallback);
-
-export {
-    cardPicker,
-    tilePicker
-};

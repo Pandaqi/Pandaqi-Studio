@@ -4,6 +4,7 @@ import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import { MATERIAL } from "./dict";
+import { cardPicker, tilePicker } from "../game/generators";
 
 export const CONFIG:any = 
 {
@@ -13,13 +14,14 @@ export const CONFIG:any =
         {
             type: SettingType.CHECK,
             remark: "Map tiles explain themselves with text on them.",
-            label: "Add text on tiles"
+            label: "Add text on tiles",
+            value: false,
         },
 
         vehiclesAsPawns:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "Create vehicles as pawns",
             remark: "If enabled, you can fold the vehicle to place it on the board standing up." 
         },
@@ -31,28 +33,28 @@ export const CONFIG:any =
             vehicleTiles:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Vehicle Pawns",
             },
 
             mapTiles:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Map Tiles",
             },
 
             vehicleCards:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Vehicle Cards",
             },
 
             specialCards:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Special Cards",
                 remark: "Refers to the (unique) health, time, GPS, or action cards for this game."
             },
@@ -64,24 +66,28 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Leaders & Followers",
+                value: false
             },
 
             animalsCrossings:
             {
                 type: SettingType.CHECK,
                 label: "Animals & Crossings",
+                value: false
             },
 
             railsFails:
             {
                 type: SettingType.CHECK,
                 label: "Rails & Fails",
+                value: false
             },
 
             directionDelay:
             {
                 type: SettingType.CHECK,
                 label: "Direction & Delay",
+                value: false
             },
         }
     },
@@ -97,25 +103,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Naivigation: Troublesome Trains",
-    },
-
-    addTextOnTiles: false,
-    sets:
-    {
-        vehicleTiles: true,
-        vehicleCards: true,
-        specialCards: true,
-        mapTiles: true,
-        leadersFollowers: false,
-        animalsCrossings: false,
-        railsFails: false,
-        traintwistRailsteal: false,
-        directionDelay: false,
-    },
-
-    fonts:
-    {
-        special: "whatever"
     },
 
     // assets
@@ -189,43 +176,59 @@ export const CONFIG:any =
         },
     },
 
-    cards:
+    _material:
     {
-        trainVehicle:
+        cards:
         {
-            distribution:
-            {
-                1: 0.1,
-                2: 0.25,
-                3: 0.35,
-                4: 0.2,
-                5: 0.1
-            },
+            picker: cardPicker.asFunction()
+        },
 
-            options: Object.keys(MATERIAL[TileType.VEHICLE]),
-            iconSize: 0.145, // ~tiles.general.illustration.mainDims
-            iconPlacementBounds: 0.175, // ~mainDims
-            iconPositions:
-            {
-                1: [new Point(0)],
-                2: [new Point(-0.66), new Point(0.66)],
-                3: [new Point(-1), new Point(0), new Point(1)],
-                4: [new Point(-1), new Point(-1, 1), new Point(1, -1), new Point(1)],
-                5: [new Point(-1), new Point(-1, 1), new Point(0), new Point(1, -1), new Point(1)]
-            }
+        tiles: 
+        {
+            picker: tilePicker.asFunction()
         }
     },
 
-    tiles:
+    _drawing:
     {
-        custom:
+        cards:
         {
-            fontSize: new CVal(0.3, "sizeUnit"),
-            strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
-            numSwitchTemplates: 5,
-            trainIconSize: new CVal(new Point(0.385), "sizeUnit")
-        }   
-    },
+            trainVehicle:
+            {
+                distribution:
+                {
+                    1: 0.1,
+                    2: 0.25,
+                    3: 0.35,
+                    4: 0.2,
+                    5: 0.1
+                },
+
+                options: Object.keys(MATERIAL[TileType.VEHICLE]),
+                iconSize: 0.145, // ~tiles.general.illustration.mainDims
+                iconPlacementBounds: 0.175, // ~mainDims
+                iconPositions:
+                {
+                    1: [new Point(0)],
+                    2: [new Point(-0.66), new Point(0.66)],
+                    3: [new Point(-1), new Point(0), new Point(1)],
+                    4: [new Point(-1), new Point(-1, 1), new Point(1, -1), new Point(1)],
+                    5: [new Point(-1), new Point(-1, 1), new Point(0), new Point(1, -1), new Point(1)]
+                }
+            }
+        },
+
+        tiles:
+        {
+            custom:
+            {
+                fontSize: new CVal(0.3, "sizeUnit"),
+                strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
+                numSwitchTemplates: 5,
+                trainIconSize: new CVal(new Point(0.385), "sizeUnit")
+            }   
+        },
+    }
 }
 
 mergeObjects(CONFIG, CONFIG_NAIVIGATION_SHARED, false);

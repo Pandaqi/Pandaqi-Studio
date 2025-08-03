@@ -6,12 +6,7 @@ import Card from "./card";
 export const cardPicker = () =>
 {
     const cards = [];
-    const packs = [];
-    for(const [key,included] of Object.entries(CONFIG._settings.packs.value))
-    {
-        if(!included) { continue; }
-        packs.push(key);
-    }
+    const packs = CONFIG._settings.packs.value;
 
     // playing cards (per pack)
     for(const pack of packs)
@@ -31,7 +26,7 @@ export const cardPicker = () =>
             for(let i = 0; i < freq; i++)
             {
                 const action = i < actionList.length ? actionList[i] : null;
-                const card = new Card(CardMainType.PLAY, pack, numInt, action);
+                const card = new Card(CardMainType.PLAY, pack as CardType, numInt, action);
                 cards.push(card);
             }
         }

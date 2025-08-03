@@ -1,4 +1,4 @@
-import { ALMOST_ACTIONS } from "../game/dict"
+import { ALMOST_ACTIONS } from "../shared/dict"
 
 const CONFIG =
 {

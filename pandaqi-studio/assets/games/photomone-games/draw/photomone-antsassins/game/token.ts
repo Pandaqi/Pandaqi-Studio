@@ -1,7 +1,7 @@
 import Point from "./shapes/point"
 import PointNonPhotomone from "js/pq_games/tools/geometry/point"
-import { PHOTOMONE_TOKENS } from "./dict"
-import { CONFIG } from "./config"
+import { PHOTOMONE_TOKENS } from "../shared/dict"
+import { CONFIG } from "../shared/config"
 import createContext from "js/pq_games/layout/canvas/createContext";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import RandomWalk from "./tools/randomWalk";
@@ -42,7 +42,7 @@ export default class Token {
 		this.ctx.clearRect(0, 0, size.x, size.y);
     }
 
-    async draw()
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
         await this.visualizeSprite();
         this.visualizeGrid();

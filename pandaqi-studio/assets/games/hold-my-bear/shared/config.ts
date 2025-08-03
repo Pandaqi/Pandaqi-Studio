@@ -25,7 +25,7 @@ export const CONFIG =
         animalsExpansion:
         {
             type: SettingType.MULTI,
-            label: "Animals (Expansion",
+            label: "Animals (Expansion)",
             values: ["turtle", "beaver", "badger", "giraffe", "ape", "bat", "walrus", "fish", "bison", "kangaroo", "rabbit", "sheep", "squid", "aardvark"],
             value: []
         },

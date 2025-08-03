@@ -4,6 +4,7 @@ import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { cardPicker, tilePicker } from "../game/generators";
 
 export const CONFIG:any = 
 {
@@ -13,15 +14,16 @@ export const CONFIG:any =
         {
             type: SettingType.CHECK,
             remark: "Map tiles explain themselves with text on them.",
-            label: "Add text on tiles"
+            label: "Add text on tiles",
+            value: false
         },
 
         vehiclesAsPawns:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "Create vehicles as pawns",
-            remark: "If enabled, you can fold the vehicle to place it on the board standing up." 
+            remark: "If enabled, you can fold the vehicle to place it on the board standing up."
         },
 
         sets:
@@ -31,28 +33,28 @@ export const CONFIG:any =
             vehicleTiles:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Vehicle Pawns",
             },
 
             mapTiles:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Map Tiles",
             },
 
             vehicleCards:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Vehicle Cards",
             },
 
             specialCards:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Special Cards",
                 remark: "Refers to the (unique) health, time, GPS, or action cards for this game."
             },
@@ -64,30 +66,35 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Fuel & Falling",
+                value: false,
             },
 
             repairsRacing:
             {
                 type: SettingType.CHECK,
                 label: "Repairs & Racing",
+                value: false,
             },
 
             timezonesTomorrow:
             {
                 type: SettingType.CHECK,
                 label: "Timezones & Tomorrow",
+                value: false,
             },
 
             birdsBumps:
             {
                 type: SettingType.CHECK,
                 label: "Birds & Bumps",
+                value: false,
             },
 
             passengersPlanes:
             {
                 type: SettingType.CHECK,
                 label: "Passengers & Planes",
+                value: false,
             },
         }
     },
@@ -103,25 +110,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Naivigation: Frightening Flights",
-    },
-
-    addTextOnTiles: false,
-    sets:
-    {
-        vehicleTiles: true,
-        vehicleCards: true,
-        specialCards: true,
-        mapTiles: true,
-        fuelFalling: false,
-        repairsRacing: false,
-        timezonesTomorrow: false,
-        birdsBumps: false,
-        passengersPlanes: false
-    },
-
-    fonts:
-    {
-        special: "whatever"
     },
 
     // assets
@@ -176,35 +164,51 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        numFuelCards: 10,
-
-        passengers:
+        cards:
         {
-            numCards: 10,
-            options: Object.keys(PASSENGERS),
-            fontSize: new CVal(0.07, "sizeUnit"),
-            textBoxDims: new CVal(new Point(0.925, 0.33), "size"),
-            bonusPos: new CVal(new Point(0.5, 0.625), "size"),
-            cursePos: new CVal(new Point(0.5, 0.875), "size"),
-            iconOffset: new CVal(new Point(0.1, 0.4), "size"),
-            airportIconSize: new CVal(new Point(0.12), "sizeUnit")
-        }
+            picker: cardPicker.asFunction()
+        },
 
+        tiles: 
+        {
+            picker: tilePicker.asFunction()
+        }
     },
 
-    tiles:
+    _drawing:
     {
-        custom:
+        cards:
         {
-            fontSize: new CVal(0.3, "sizeUnit"),
-            strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
+            numFuelCards: 10,
 
-            elevationBounds: new Bounds(1,5),
-            clockBounds: new Bounds(0,7),
-            clockCardsPerValue: 2,
-        }   
+            passengers:
+            {
+                numCards: 10,
+                options: Object.keys(PASSENGERS),
+                fontSize: new CVal(0.07, "sizeUnit"),
+                textBoxDims: new CVal(new Point(0.925, 0.33), "size"),
+                bonusPos: new CVal(new Point(0.5, 0.625), "size"),
+                cursePos: new CVal(new Point(0.5, 0.875), "size"),
+                iconOffset: new CVal(new Point(0.1, 0.4), "size"),
+                airportIconSize: new CVal(new Point(0.12), "sizeUnit")
+            }
+
+        },
+
+        tiles:
+        {
+            custom:
+            {
+                fontSize: new CVal(0.3, "sizeUnit"),
+                strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
+
+                elevationBounds: new Bounds(1,5),
+                clockBounds: new Bounds(0,7),
+                clockCardsPerValue: 2,
+            }   
+        }
     }
 }
 

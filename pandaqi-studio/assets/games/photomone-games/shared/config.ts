@@ -1,9 +1,8 @@
 import Point from "js/pq_games/tools/geometry/point";
-import dataPhotomone from "./gameDictionary";
-import dataPhotomoneDigital from "./gameDictionaryDigital";
 import Color from "js/pq_games/layout/color/color";
 
-const PHOTOMONE_BASE_PARAMS = {
+export const CONFIG_SHARED = 
+{
     width: 512,
     height: 512 * (1/1.4142), // A4/A5 paper ratio
     resizePolicy: "width", // width, height or full
@@ -12,7 +11,12 @@ const PHOTOMONE_BASE_PARAMS = {
     WORDS: null,
     RESOURCE_LOADER: null,
 
-        assetsBase: "/photomone-games/assets/",
+    _game:
+    {
+        fileName: "Photomone"
+    },
+
+    assetsBase: "/photomone-games/assets/",
     assets:
     {
         geldotica:
@@ -44,7 +48,8 @@ const PHOTOMONE_BASE_PARAMS = {
     },
 
     wordsToGuessForWinning: 7,
-    numberRounding: {
+    numberRounding: 
+    {
         types: 2,
         points: 2,
         lines: 4,
@@ -56,11 +61,7 @@ const PHOTOMONE_BASE_PARAMS = {
     pointRadiusFactor: 0.0075,
     pointRadiusSpecialFactor: 0.02,
     pointTypesDictionary: null,
-    pointTypesDictionaries: {
-        photomone: dataPhotomone.POINT_TYPES,
-        photomoneDigital: dataPhotomoneDigital.POINT_TYPES,
-    },
-    tutorialParams: dataPhotomoneDigital.TUTORIAL_PARAMS,
+    tutorialParams: {},
 
     pointTypes: {},
     colors: [
@@ -109,7 +110,8 @@ const PHOTOMONE_BASE_PARAMS = {
     wordMarginFactor: 0.0075,
     maxWordColumns: 4,
 
-    wordInterface: {
+    wordInterface: 
+    {
         listenToExpansions: true
     }
 }
@@ -118,3 +120,5 @@ const PHOTOMONE_BASE_PARAMS = {
 window.PHOTOMONE_BASE_PARAMS = PHOTOMONE_BASE_PARAMS;
 
 export default PHOTOMONE_BASE_PARAMS;
+
+

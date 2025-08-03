@@ -1,5 +1,6 @@
-import Helpers from "./helpers";
 import Random from "js/pq_games/tools/random/main";
+import { roundToMultiplesOf } from "./helpers";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 
 export default class Point 
 {
@@ -134,8 +135,8 @@ export default class Point
     setNumFromBounds(numBounds: { min: number | { min: number; max: number; }; max: number; }, mult: number)
     {
         if(!numBounds) { return; }
-        let num = Random.rangeInteger(numBounds.min, numBounds.max);
-        num = Helpers.roundToMultiplesOf(num, mult);
+        let num = rangeInteger(numBounds.min, numBounds.max);
+        num = roundToMultiplesOf(num, mult);
         this.setNum(num);
     }
     setNum(n: number) { this.num = n; }

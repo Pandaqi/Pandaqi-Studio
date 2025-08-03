@@ -1,9 +1,7 @@
-import Tile from "./tile"
-import Point from "../shapes/point"
-import GridMapper, { GridMapperLayout } from "js/pq_games/layout/gridMapper"
+import GridMapper from "js/pq_games/layout/gridMapper"
+import { CONFIG } from "../../shared/config"
 import Colorizer from "../tools/colorizer"
-import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
-import { CONFIG } from "../config"
+import Tile from "./tile"
 
 export default class Tiles 
 {
@@ -17,7 +15,7 @@ export default class Tiles
     constructor()
     {
         this.individualCanvases = [];
-        this.setupGridMapper();
+        this.setup();
 
         // last minute update: realized sizes should usually be smaller on hexagons/triangles
         let generatorReductionFactor = 1.0;
@@ -72,31 +70,11 @@ export default class Tiles
         CONFIG.simple.colors = colorizer.generateEquidistant(CONFIG.simple.numColors);
     }
 
-    setupGridMapper()
+    setup()
     {
-        let size = CONFIG.tiles.size;
-        if(CONFIG.tiles.varyDimsPerShape) { 
-            size = CONFIG.tiles.sizePerShape[CONFIG.tileShape]; 
-            if(CONFIG.reducedTileSize) { size = CONFIG.tiles.sizePerShapeReduced[CONFIG.tileShape]; }
-        }
-
-        let layoutShape = GridMapperLayout.RECTANGLE;
-        if(CONFIG.tileShape == "hexagon") { layoutShape = GridMapperLayout.HEXAGON; }
-        else if(CONFIG.tileShape == "triangle") { layoutShape = GridMapperLayout.TRIANGLE; }
-
-        const gridConfig = { debug: CONFIG.tiles.debug, pdfBuilder: CONFIG.pdfBuilder, size: size, layoutShape: layoutShape };
-        this.gridMapper = new GridMapper(gridConfig);
-
         const numPages = CONFIG.tiles.numPages;
         const tilesPerPage = size.x * size.y;
         this.tilesToGenerate = numPages * tilesPerPage;
-
-        let sizeElem = this.gridMapper.getMaxElementSizeAsSquare().x;
-        CONFIG.tiles.tileCenter = new Point(0.5 * sizeElem, 0.5 * sizeElem);
-        CONFIG.tiles.tileSize = new Point(sizeElem, sizeElem);
-        
-        const smallerSize = sizeElem*(1.0 - 2*CONFIG.tiles.outlineWidth); // slightly offset size to push us off the edge
-        CONFIG.tiles.tileSizeOffset = new Point(smallerSize, smallerSize);
     }
 
     generate()
@@ -104,29 +82,8 @@ export default class Tiles
         const arr : Tile[] = []
         for(let i = 0; i < this.tilesToGenerate; i++)
         {
-            const t = new Tile(CONFIG, i);
-            arr.push(t);
+            arr.push(new Tile(CONFIG, i));
         }
         this.tiles = arr;
-    }
-
-    async draw()
-    {
-        if(!this.tiles) { return; }
-
-        const promises = [];
-        for(const tile of this.tiles)
-        {
-            promises.push(tile.draw());
-        }
-        const canvases = await Promise.all(promises);
-        this.gridMapper.addElements(canvases);
-        await this.convertToImages();
-    }
-
-    getImages() { return this.images ?? []; }
-    async convertToImages()
-    {
-        this.images = await convertCanvasToImageMultiple(this.gridMapper.getCanvases());
     }
 }

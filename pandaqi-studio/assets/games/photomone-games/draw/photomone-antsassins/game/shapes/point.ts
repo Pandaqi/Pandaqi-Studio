@@ -48,7 +48,7 @@ export default class Point
             if(Math.abs(dist - targetDist) > epsilon) { continue; }
             validNbs.push(nb);
         }
-        return Random.fromArray(validNbs);
+        return fromArray(validNbs);
     }
 
 

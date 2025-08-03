@@ -1,6 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point";
+import { cardPicker, tilePicker, tokenPicker } from "../game/pickers";
 
-export default
+export const CONFIG =
 {
     _settings:
     {
@@ -8,6 +9,7 @@ export default
         {
             type: SettingType.ENUM,
             values: ["rectangle", "hexagon", "triangle"],
+            value: "rectangle",
             label: "Tile Shape"
         },
 
@@ -15,6 +17,7 @@ export default
         {
             type: SettingType.ENUM,
             values: ["photomone", "mosaic", "clouds", "shapes", "simple", "lines"],
+            value: "photomone",
             label: "Tile Type"
         },
 
@@ -26,21 +29,21 @@ export default
             {
                 type: SettingType.CHECK,
                 label: "Include Tiles",
-                default: true
+                value: true
             },
 
             includeCodeCards:
             {
                 type: SettingType.CHECK,
                 label: "Include Code Cards",
-                default: true
+                value: true
             },
 
             includeTokens:
             {
                 type: SettingType.CHECK,
                 label: "Include Tokens",
-                default: true,
+                value: true,
                 remark: "Optional; you only need one set of these to play forever."
             },
 
@@ -48,7 +51,7 @@ export default
             {
                 type: SettingType.CHECK,
                 label: "Add Actions",
-                default: true,
+                value: true,
                 remark: "Can be left out to make a first game simpler to learn."
             },
 
@@ -57,7 +60,7 @@ export default
                 type: SettingType.NUMBER,
                 min: 1,
                 max: 4,
-                default: 1,
+                value: 1,
                 label: "#Secret Tiles Per Team"
             },
 
@@ -66,35 +69,63 @@ export default
                 type: SettingType.NUMBER,
                 min: 2,
                 max: 4,
-                default: 4,
+                value: 4,
                 label: "#Teams On Code Card"
             }
         }
     },
 
-    assetsBase: "/photomone-games/draw/photomone-antsassins/assets/",
-    debugWithoutPDF: false, // @DEBUGGING (should be false)
-    debugWithDragDrop: false, // @DEBUGGING (should be false)
+    _game:
+    {
+        fileName: "Photomone Antsassins"
+    },
 
-    pdfBuilder: null,
-    
+    _resources:
+    {
+        base: "/photomone-games/draw/photomone-antsassins/assets/",
+        files:
+        {
+            tokens:
+            {
+                path: "tokens_new.webp",
+                frames: new Point(8,1)
+            },
 
-    
+            almostActions:
+            {
+                path: "almost_actions",
+                frames: new Point(8,1)
+            }
+        } 
+    },
+
+    _material:
+    {
+        cards:
+        {
+            picker: cardPicker,
+            mapper: MapperPreset.TILE
+        },
+
+        tiles:
+        {
+            picker: tilePicker,
+            mapper: MapperPreset.TILE
+        },
+
+        tokens:
+        {
+            picker: tokenPicker,
+            mapper: MapperPreset.TOKEN, // @TODO: layoutshape = circle, size = square (like tile) but much smaller
+        }
+    },
+
     generatorReductionFactor: 1.0,
-
-    tileShape: "hexagon",
-    tileType: "mosaic",
     reducedTileSize: true,
-    version: "mosaic", // v1 = simple, v2 = multiline, v3 = mosaic
-    numTeamsOnCodeCard: 4,
-    numSecretTilesPerTeam: 1,
-    addAlmostActions: true,
+    // version: "mosaic", // v1 = simple, v2 = multiline, v3 = mosaic
 
-    includeTokens: false,
-    includeCodeCards: false,
-    includeTiles: false,
-
-    clouds: {
+    clouds: 
+    {
         numClouds: { min: 7, max: 14 },
         strength: { min: 0.4, max: 0.8 },
         radius: { min: 0.125, max: 0.65 },
@@ -103,7 +134,8 @@ export default
         percentageBounds: { min: 0.4, max: 0.85 }
     },
 
-    photomone: {
+    photomone: 
+    {
         colors: [],
         strokeStyle: "#000000",
         fillStyle: "#333333",
@@ -115,14 +147,16 @@ export default
         maxRandomization: { min: 0.03, max: 0.085 }
     },
 
-    simple: {
+    simple: 
+    {
         colors: [],
         numColors: 3,
         gridPointScalar: 0.66,
         lineWidth: 0.04,
     },
 
-    shapes: {
+    shapes: 
+    {
         colors: [],
         possibleShapeTypes: ["triangle", "rectangle", "circle"],
         numShapes: { min: 5, max: 9 },
@@ -132,7 +166,8 @@ export default
         numColors: 3,
     },
 
-    mosaic: {
+    mosaic: 
+    {
         useDelaunay: true, // highly recommended, much more varied and interesting
         delaunayRandomization: { min: 0.05, max: 0.2 },
         numColors: 3,
@@ -153,26 +188,31 @@ export default
         }
     },
 
-    randomWalk: {
+    randomWalk: 
+    {
         numLines: { min: 0.25, max: 0.3 }, // as fraction of maximum possible lines
         length: { min: 2, max: 8 }, // length bounds of one random walk
         lineWidth: 0,
         color: "#333333",
         smooth: true,
         version: "multi",
-        types: {
+        types: 
+        {
             corners: 0,
             middle: 2,
             betweenLeft: 1,
             betweenRight: 3
         },
-        colors: {
+        colors: 
+        {
             corners: "#3F6435",
             middle: "#CB28AD",
             betweenLeft: "#0040FF",
             betweenRight: "#FF8100"
         },
-        colorsInkfriendly: {
+
+        colorsInkfriendly: 
+        {
             corners: "#AAAAAA",
             middle: "#121212",
             betweenLeft: "#454545",
@@ -214,7 +254,8 @@ export default
         }
     },
 
-    tiles: {
+    tiles: 
+    {
         debug: false, // @DEBUGGING (should be false)
         numPages: 2,
         size: new Point(4, 5),
@@ -247,7 +288,8 @@ export default
         groupSize: { min: 6, max: 11 }
     },
 
-    cards: {
+    cards: 
+    {
         debug: false, // @DEBUGGING (should be false)
         numPages: 1,
         size: new Point(4, 5),
@@ -338,7 +380,8 @@ export default
         }
     },
 
-    tokens: {
+    tokens: 
+    {
         debug: false, // @DEBUGGING (should be false)
         numPages: 1,
         size: new Point(8, 8),

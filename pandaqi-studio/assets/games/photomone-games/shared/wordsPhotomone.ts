@@ -1,9 +1,12 @@
-import WordPhotomone from "./wordPhotomone";
-import Random from "js/pq_games/tools/random/main";
 import PandaqiWords from "js/pq_words/main";
+import WordPhotomone from "./wordPhotomone";
+import shuffle from "js/pq_games/tools/random/shuffle";
 
-export default class WordsPhotomone {
-    backupWords: string[];
+const BACKUP_WORDS = ["cat", "dog", "cow", "house", "plane", "car", "bike", "face", "treasure", "mouse", "coffee", "queen", "banana", "bird", "ice cream", "table", "apple", "shirt", "castle", "saw", "kid", "zoo", "giant", "card", "tree", "flower", "giraffe", "chicken", "water", "rabbit", "butterfly", "book", "backpack", "bag", "camel", "snake", "lamb", "sheep", "pig", "elephant", "tomato", "prince", "princess", "king", "pillow", "phone", "kangaroo", "shoe"];
+
+
+export default class WordsPhotomone 
+{
     possibleWords: any[];
     maxWordLength: number;
     config: Record<string,any>;
@@ -13,7 +16,6 @@ export default class WordsPhotomone {
     constructor()
     {
         // @NOTE: these are used when PQ_WORDS, for whatever reason, cannot be accessed or doesn't work
-        this.backupWords = ["cat", "dog", "cow", "house", "plane", "car", "bike", "face", "treasure", "mouse", "coffee", "queen", "banana", "bird", "ice cream", "table", "apple", "shirt", "castle", "saw", "kid", "zoo", "giant", "card", "tree", "flower", "giraffe", "chicken", "water", "rabbit", "butterfly", "book", "backpack", "bag", "camel", "snake", "lamb", "sheep", "pig", "elephant", "tomato", "prince", "princess", "king", "pillow", "phone", "kangaroo", "shoe"];
         this.possibleWords = [];
         this.maxWordLength = 8;
     }
@@ -26,32 +28,8 @@ export default class WordsPhotomone {
 
     async prepareFromConfig(userConfig:Record<string,any> = {})
     {
-        this.useBackup = false;
-
-        /*
-        if(!window.PQ_WORDS)
-        {
-            this.useBackup = true;
-            this.possibleWords = this.backupWords.slice();
-            return;
-        }
-        */
-
-        let categories = [];
-
-        // nasty bit of code, but can't help it
-        // categories can be provided as an object (key: true/false), or an array (include all values)
-        if(Array.isArray(userConfig.categories)) {
-            for(const key of userConfig.categories) { categories.push(key); }
-        } else {
-            for(const key in userConfig.categories)
-            {
-                if(!userConfig.categories[key]) { continue; }
-                categories.push(key);
-            }    
-        }
-  
-        let useAllCategories = userConfig.useAllCategories || false;
+        let categories = userConfig._settings.categories.value;
+        let useAllCategories = userConfig.useAllCategories ?? false;
         if(categories.length <= 0)
         {
             categories = undefined;
@@ -59,14 +37,16 @@ export default class WordsPhotomone {
         }
 
         const types = ["nouns"];
-        if(userConfig.includeNamesAndGeography) {
+        if(userConfig.includeNamesAndGeography) 
+        {
             types.push("geography"); 
             types.push("names");
         }
 
-        const wordComplexity = userConfig.wordComplexity || "core";
+        const wordComplexity = userConfig._settings.wordComplexity.value ?? "core";
 
-        const wordParams = {
+        const wordParams = 
+        {
             method: "json",
             types: types,
             levels: [wordComplexity],
@@ -90,9 +70,9 @@ export default class WordsPhotomone {
         if(this.useBackup) 
         {
             const tooFewWordsLeft = this.possibleWords.length < num
-            if(tooFewWordsLeft) { this.possibleWords = this.backupWords.slice(); }
+            if(tooFewWordsLeft) { this.possibleWords = BACKUP_WORDS.slice(); }
 
-            Random.shuffle(this.possibleWords);
+            shuffle(this.possibleWords);
             arr = this.possibleWords.splice(0, num);
         } else {
             arr = this.PandaqiWords.getRandomMultiple(num, true);

@@ -3,7 +3,7 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig"
-import MaterialVisualizer from "js/pq_games/tools/generation/MaterialVisualizer"
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import Circle from "js/pq_games/tools/geometry/circle"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
@@ -13,70 +13,73 @@ import Map from "../../../shared/map"
 import { MapVisualizer, VisResult } from "../../../shared/mapVisualizer"
 import WordsPhotomone from "../../../shared/wordsPhotomone"
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
+import { POINT_TYPES } from "../shared/dict"
+import { CONFIG } from "./config"
 
-export default class BoardGeneration
+export const boardPicker = () =>
+{
+
+}
+
+
+export class BoardPhotomone
 {
     cfg:Record<string,any>
     map:Map
 
-    async draw(vis:MaterialVisualizer) : Promise<ResourceGroup[]>
-    {;
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
+    {
         this.setup(vis);
         await this.generate();
         return this.visualize(vis);
     }
 
-    preparePointTypes(cfg)
+    setup(vis:MaterialVisualizer)
     {
-        const dict : Record<string,any> = cfg.pointTypesDictionary;
+        CONFIG.pointTypes = this.preparePointTypes();
+        CONFIG.width = vis.size.x;
+        CONFIG.height = vis.size.y;
+
+        CONFIG.debugSmoothing = false; // @DEBUGGING (should be false)
+        if(CONFIG.debugSmoothing) { CONFIG.smoothSteps = 1; }
+
+        const minSize = Math.min(CONFIG.width, CONFIG.height);
+        CONFIG.edgeMargin = 0.05*minSize;
+        CONFIG.minDistBetweenPoints = 0.08*minSize;
+        CONFIG.pointBounds = { min: minSize*0.15, max: minSize*0.175 };
+        CONFIG.startingLineMaxDist = 2.5*CONFIG.minDistBetweenPoints;
+        CONFIG.startingLinePointRadius = (CONFIG.pointRadiusFactor + 0.025)*minSize; // a small margin because it looks better
+
+        CONFIG.createImage = !CONFIG.debugSmoothing;
+    }
+
+    // keeps only types enabled by current expansion settings
+    preparePointTypes()
+    {
         const newDict = {};
-        for(const [key, value] of Object.entries(dict))
+        for(const [key, value] of Object.entries(CONFIG.pointTypesDictionary))
         {
-            if(value.expansion && !cfg.expansions[value.expansion]) { continue; }
+            if(value.expansion && !CONFIG._settings.expansions[value.expansion].value) { continue; }
             newDict[key] = value;
         }
         return newDict;
     }
 
-    setup(vis:MaterialVisualizer)
-    {
-        const userConfig = vis.config;
-        this.cfg = Object.assign({}, PHOTOMONE_BASE_PARAMS);
-        Object.assign(this.cfg, userConfig);
-
-        this.cfg.pointTypesDictionary = this.cfg.pointTypesDictionaries.photomone;
-        this.cfg.pointTypes = this.preparePointTypes(this.cfg);
-        this.cfg.width = vis.size.x;
-        this.cfg.height = vis.size.y;
-
-        this.cfg.debugSmoothing = false; // @DEBUGGING (should be false)
-        if(this.cfg.debugSmoothing) { this.cfg.smoothSteps = 1; }
-
-        const minSize = Math.min(this.cfg.width, this.cfg.height);
-        this.cfg.edgeMargin = 0.05*minSize;
-        this.cfg.minDistBetweenPoints = 0.08*minSize;
-        this.cfg.pointBounds = { min: minSize*0.15, max: minSize*0.175 };
-        this.cfg.startingLineMaxDist = 2.5*this.cfg.minDistBetweenPoints;
-        this.cfg.startingLinePointRadius = (this.cfg.pointRadiusFactor + 0.025)*minSize; // a small margin because it looks better
-
-        this.cfg.createImage = !this.cfg.debugSmoothing;
-    }
-
     async generate()
     {
         const WORDS = new WordsPhotomone();
-        await WORDS.prepare(this.cfg);
-        this.cfg.WORDS = WORDS;
-        this.map = new Map(this.cfg);
+        await WORDS.prepare(CONFIG);
+        CONFIG.WORDS = WORDS;
+        this.map = new Map(CONFIG);
         this.map.generate();
     }
 
     visualize(vis:MaterialVisualizer)
     {
-        const group = new ResourceGroup();
+        const group = vis.prepareDraw();
 
         const visualizerObject = new MapVisualizer(this.map);
-        const visRes : VisResult = visualizerObject.getVisualization(this.cfg);
+        const visRes : VisResult = visualizerObject.getVisualization(CONFIG);
 
         for(const rect of visRes.rects)
         {
@@ -194,6 +197,6 @@ export default class BoardGeneration
         const resText = new ResourceText({ text: textString, textConfig: textConfig });
         group.add(resText, opText);
 
-        return [group];
+        return vis.finishDraw(group);
     }
 }

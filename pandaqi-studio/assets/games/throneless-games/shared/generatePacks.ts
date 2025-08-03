@@ -13,13 +13,9 @@ export default (list:CardThroneless[], config:Record<string,any>, dictPacks:Reco
     if(set in dictSets) { 
         packsIncluded = dictSets[set].slice(); 
     } else if(set == "random") {
-        packsIncluded = shuffle(Object.keys(config._settings.packs.value)).slice(0,5);
+        packsIncluded = shuffle(config._settings.packs.value).slice(0,5);
     } else if(set == "none") { 
-        for(const [packName,enabled] of Object.entries(config._settings.packs.value))
-        {
-            if(!enabled) { continue; }
-            packsIncluded.push(packName);
-        }
+        packsIncluded = config._settings.packs.value;
     }
     
     // for those ones, add the right regular/dark/whatever versions in the right quantities

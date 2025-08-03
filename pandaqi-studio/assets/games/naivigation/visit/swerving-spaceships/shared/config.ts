@@ -3,6 +3,8 @@ import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { cardPicker, tilePicker } from "../game/generators";
+import { planetPropertiesPicker } from "../game/planetPropertiesPicker";
 
 export const CONFIG:any = 
 {
@@ -12,13 +14,14 @@ export const CONFIG:any =
         {
             type: SettingType.CHECK,
             remark: "Map tiles explain themselves with text on them.",
-            label: "Add text on tiles"
+            label: "Add text on tiles",
+            value: false
         },
 
         vehiclesAsPawns:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "Create vehicles as pawns",
             remark: "If enabled, you can fold the vehicle to place it on the board standing up." 
         },
@@ -30,28 +33,28 @@ export const CONFIG:any =
             vehicleTiles:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Vehicle Pawns",
             },
 
             mapTiles:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Map Tiles",
             },
 
             vehicleCards:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Vehicle Cards",
             },
 
             specialCards:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Special Cards",
                 remark: "Refers to the (unique) health, time, GPS, or action cards for this game."
             },
@@ -63,18 +66,21 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Shields & Asteroids",
+                value: false
             },
 
             weapons:
             {
                 type: SettingType.CHECK,
                 label: "Weapons & Aliens",
+                value: false
             },
 
             trade:
             {
                 type: SettingType.CHECK,
                 label: "Trade & Technology",
+                value: false
             },
         }
     },
@@ -90,23 +96,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Naivigation: Swerving Spaceships",
-    },
-
-    addTextOnTiles: false,
-    sets:
-    {
-        vehicleTiles: true,
-        vehicleCards: true,
-        specialCards: true,
-        mapTiles: true,
-        shields: false,
-        weapons: false,
-        trade: false,
-    },
-
-    fonts:
-    {
-        special: "whatever"
     },
 
     // assets
@@ -132,64 +121,86 @@ export const CONFIG:any =
         },
     },
 
-    cards:
+    _material:
     {
-        generation:
+        cards:
         {
-            numSteerCards: 14
+            picker: cardPicker.asFunction()
         },
 
-        steer:
+        tiles: 
         {
-            circleRadius: 0.45, // ~tiles.general.illustration.mainDims
-            strokeWidthCircle: 0.085, // ~mainDims
-            strokeColorCircle: "#FFFFFF",
-            strokeWidthSpoke: 0.04, // ~mainDims
-            strokeColorSpoke: "#CCCCCC",
-            rangeColor: "#AAFFAA",
-            rangeAlpha: 0.75,
-            vehicleDims: 0.45, // ~mainDims
+            picker: tilePicker.asFunction()
         },
 
         planetProperties:
         {
-            stroke: "#000000",
-            strokeWidth: new CVal(0.015, "sizeUnit"), // @NOTE: remember that true height is smaller than sizeUnit because multiple properties are placed on one card
-            fontSize: new CVal(0.075, "sizeUnit"),
-            iconDims: new CVal(0.4, "sizeUnit")
+            picker: planetPropertiesPicker,
+            mapper: MapperPreset.CARD
         }
     },
 
-    tiles:
+    _drawing:
     {
-        map: 
+        cards:
         {
-            maxPosRand: new CVal(0.1, "sizeUnit"),
-            iconDims: new CVal(new Point(0.8), "sizeUnit"),
-            glowRadius: new CVal(0.033, "sizeUnit"),
-
-            // this is for their icon on the PLANETS
-            vehicleIcon:
+            generation:
             {
-                dims: new CVal(new Point(0.5), "sizeUnit"),
-                dimsSmall: new CVal(new Point(0.185), "sizeUnit"),
-                alpha: 1.0,
-                composite: "luminosity",
-                shadowBlur: new CVal(0.05 * 0.5, "sizeUnit"),
+                numSteerCards: 14
             },
 
-            stars:
+            steer:
             {
-                numBounds: new Bounds(1,10),
-                baseDims: new CVal(new Point(0.066), "sizeUnit"),
-                sizeRand: new Bounds(0.65, 1.45),
-                alphaBounds: new Bounds(0.15, 0.4),
+                circleRadius: 0.45, // ~tiles.general.illustration.mainDims
+                strokeWidthCircle: 0.085, // ~mainDims
+                strokeColorCircle: "#FFFFFF",
+                strokeWidthSpoke: 0.04, // ~mainDims
+                strokeColorSpoke: "#CCCCCC",
+                rangeColor: "#AAFFAA",
+                rangeAlpha: 0.75,
+                vehicleDims: 0.45, // ~mainDims
             },
 
-            resources:
+            planetProperties:
             {
-                position: new CVal(new Point(0.75, 0.25), "sizeUnit"),
-                size: new CVal(new Point(0.2), "sizeUnit"),
+                stroke: "#000000",
+                strokeWidth: new CVal(0.015, "sizeUnit"), // @NOTE: remember that true height is smaller than sizeUnit because multiple properties are placed on one card
+                fontSize: new CVal(0.075, "sizeUnit"),
+                iconDims: new CVal(0.4, "sizeUnit")
+            }
+        },
+
+        tiles:
+        {
+            map: 
+            {
+                maxPosRand: new CVal(0.1, "sizeUnit"),
+                iconDims: new CVal(new Point(0.8), "sizeUnit"),
+                glowRadius: new CVal(0.033, "sizeUnit"),
+
+                // this is for their icon on the PLANETS
+                vehicleIcon:
+                {
+                    dims: new CVal(new Point(0.5), "sizeUnit"),
+                    dimsSmall: new CVal(new Point(0.185), "sizeUnit"),
+                    alpha: 1.0,
+                    composite: "luminosity",
+                    shadowBlur: new CVal(0.05 * 0.5, "sizeUnit"),
+                },
+
+                stars:
+                {
+                    numBounds: new Bounds(1,10),
+                    baseDims: new CVal(new Point(0.066), "sizeUnit"),
+                    sizeRand: new Bounds(0.65, 1.45),
+                    alphaBounds: new Bounds(0.15, 0.4),
+                },
+
+                resources:
+                {
+                    position: new CVal(new Point(0.75, 0.25), "sizeUnit"),
+                    size: new CVal(new Point(0.2), "sizeUnit"),
+                }
             }
         }
     }

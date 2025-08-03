@@ -15,7 +15,7 @@ import MaterialNaivigation from "./materialNaivigation";
 import TilePickerNaivigation from "./generalPickerNaivigation";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 
-interface TileData
+export interface TileData
 {
     tile: MaterialNaivigation
     position?: Point,
@@ -24,7 +24,7 @@ interface TileData
     facedown?: boolean
 }
 
-interface NaivigationSetupParams
+export interface NaivigationSetupParams
 {
     size?: Point,
     numVehicles?: number,
@@ -50,7 +50,6 @@ const DEF_START_CALLBACK = (veh,set) => undefined;
 type TilePlacementFunction = (cell:TileData, setup:RandomNaivigationSetupGenerator) => TileData
 type VehicleStartCallback = (vehicle:MaterialNaivigation, setup:RandomNaivigationSetupGenerator) => TileData
 
-export { TileData, NaivigationSetupParams }
 export default class RandomNaivigationSetupGenerator
 {
     grid: TileData[][];
@@ -110,10 +109,11 @@ export default class RandomNaivigationSetupGenerator
 
     attachToRules()
     {
-        const e = new InteractiveExample({ id: "naivigation-setup" });
-        e.setButtonText("Give me a random setup!");
-        e.setGenerationCallback(this.onSetupRequested.bind(this));
-        this.example = e;
+        this.example = new InteractiveExample({ 
+            id: "naivigation-setup",
+            buttonText: "Give me a random setup!",
+            callback: this.onSetupRequested.bind(this)
+        });
     }
 
     getCellAt(pos:Point)

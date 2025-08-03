@@ -48,6 +48,11 @@ export default class GeneralPickerNaivigation
         Object.assign(this.config, userConfig);
     }
 
+    asFunction()
+    {
+        return () => { this.generate() };
+    }
+
     get() { return this.elements; }
     generate()
     {

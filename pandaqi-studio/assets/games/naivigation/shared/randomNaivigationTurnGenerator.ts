@@ -74,10 +74,11 @@ export default class RandomNaivigationTurnGenerator
 
     attachToRules()
     {
-        const e = new InteractiveExample({ id: "naivigation-turn" });
-        e.setButtonText("Give me an example turn!");
-        e.setGenerationCallback(this.generate.bind(this));
-        this.example = e;
+        this.example = new InteractiveExample({ 
+            id: "naivigation-turn", 
+            buttonText: "Give me an example turn!",
+            callback: this.generate.bind(this) 
+        });
     }
 
     getCardIndex(c:MaterialNaivigation)

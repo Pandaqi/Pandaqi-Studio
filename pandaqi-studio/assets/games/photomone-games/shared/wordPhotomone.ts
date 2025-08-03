@@ -1,5 +1,5 @@
-import Helpers from "./helpers";
 import WordData from "js/pq_words/wordData"
+import { roundToMultiplesOf, roundToValueList } from "./helpers";
 
 export default class WordPhotomone 
 {
@@ -74,8 +74,8 @@ export default class WordPhotomone
 
         num += this.getLineBonus();
 
-        num = Helpers.roundToMultiplesOf(num, this.config.numberRounding.lines);
-        if(this.config.printWordsOnPaper) { num = Helpers.roundToValueList(num, this.config.wordsOnPaperLineValues); }
+        num = roundToMultiplesOf(num, this.config.numberRounding.lines);
+        if(this.config.printWordsOnPaper) { num = roundToValueList(num, this.config.wordsOnPaperLineValues); }
 
         return num;
     }
@@ -106,7 +106,7 @@ export default class WordPhotomone
         num += lengthBonus;
 
         if(this.config.printWordsOnPaper) { num *= this.config.wordsOnPaperPointsScalar }
-        num = Helpers.roundToMultiplesOf(num, this.config.numberRounding.points);
+        num = roundToMultiplesOf(num, this.config.numberRounding.points);
         return num;
     }
 

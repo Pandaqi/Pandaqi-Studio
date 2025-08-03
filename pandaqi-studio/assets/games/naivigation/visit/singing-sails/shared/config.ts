@@ -4,6 +4,7 @@ import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { cardPicker, tilePicker } from "../game/generators";
 
 export const CONFIG:any = 
 {
@@ -13,13 +14,14 @@ export const CONFIG:any =
         {
             type: SettingType.CHECK,
             remark: "Map tiles explain themselves with text on them.",
-            label: "Add text on tiles"
+            label: "Add text on tiles",
+            value: false,
         },
 
         vehiclesAsPawns:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "Create vehicles as pawns",
             remark: "If enabled, you can fold the vehicle to place it on the board standing up." 
         },
@@ -31,28 +33,28 @@ export const CONFIG:any =
             vehicleTiles:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Vehicle Pawns",
             },
 
             mapTiles:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Map Tiles",
             },
 
             vehicleCards:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Vehicle Cards",
             },
 
             specialCards:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Special Cards",
                 remark: "Refers to the (unique) health, time, GPS, or action cards for this game."
             },
@@ -64,24 +66,28 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Supertiles & Slipstreams",
+                value: false,
             },
 
             windstormsWeather:
             {
                 type: SettingType.CHECK,
                 label: "Windstorms & Weather",
+                value: false,
             },
 
             islandsTreasures:
             {
                 type: SettingType.CHECK,
                 label: "Islands & Treasures",
+                value: false,
             },
 
             piratesCannons:
             {
                 type: SettingType.CHECK,
                 label: "Pirates & Cannons",
+                value: false,
             },
         }
     },
@@ -97,24 +103,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Naivigation: Singing Sails",
-    },
-
-    addTextOnTiles: false,
-    sets:
-    {
-        vehicleTiles: true,
-        vehicleCards: true,
-        specialCards: true,
-        mapTiles: true,
-        supertilesSlipstreams: false,
-        windstormsWeather: false,
-        islandsTreasures: false,
-        piratesCannons: false
-    },
-
-    fonts:
-    {
-        special: "whatever"
     },
 
     // assets
@@ -165,48 +153,64 @@ export const CONFIG:any =
         }
     },
 
-    cards:
+    _material:
     {
-        weather:
+        cards:
         {
-            fontSize: new CVal(0.25, "sizeUnit")
+            picker: cardPicker.asFunction()
+        },
+
+        tiles: 
+        {
+            picker: tilePicker.asFunction()
         }
     },
 
-    tiles:
+    _drawing:
     {
-        enemyIcon:
+        cards:
         {
-            pos: new CVal(new Point(0.1), "sizeUnit"),
-            size: new CVal(new Point(0.175), "sizeUnit")
+            weather:
+            {
+                fontSize: new CVal(0.25, "sizeUnit")
+            }
         },
 
-        waterCurrent:
+        tiles:
         {
-            size: new CVal(new Point(1.0), "size"),
-            textPos: new CVal(new Point(0.5), "size"),
-            fontColor: "#000000",
-            fontSize: new CVal(0.4, "sizeUnit")
-        },
+            enemyIcon:
+            {
+                pos: new CVal(new Point(0.1), "sizeUnit"),
+                size: new CVal(new Point(0.175), "sizeUnit")
+            },
 
-        treasure:
-        {
-            fontSize: new CVal(0.053, "sizeUnit"),
-            textBoxDims: new CVal(new Point(0.7, 0.33), "size"),
-            conditionPos: new CVal(new Point(0.5, 0.41), "size"),
-            bonusPos: new CVal(new Point(0.5, 0.72), "size"),
-            iconOffset: new CVal(new Point(0.125, 0.135), "size"),
-            harborIconSize: new CVal(new Point(0.1), "sizeUnit")
-        },
+            waterCurrent:
+            {
+                size: new CVal(new Point(1.0), "size"),
+                textPos: new CVal(new Point(0.5), "size"),
+                fontColor: "#000000",
+                fontSize: new CVal(0.4, "sizeUnit")
+            },
 
-        custom:
-        {
-            // @TODO: make this shared too??
-            fontSize: new CVal(0.3, "sizeUnit"),
-            strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
+            treasure:
+            {
+                fontSize: new CVal(0.053, "sizeUnit"),
+                textBoxDims: new CVal(new Point(0.7, 0.33), "size"),
+                conditionPos: new CVal(new Point(0.5, 0.41), "size"),
+                bonusPos: new CVal(new Point(0.5, 0.72), "size"),
+                iconOffset: new CVal(new Point(0.125, 0.135), "size"),
+                harborIconSize: new CVal(new Point(0.1), "sizeUnit")
+            },
 
-            windBounds: new Bounds(0,4),
-            numTreasures: 10,
+            custom:
+            {
+                // @TODO: make this shared too??
+                fontSize: new CVal(0.3, "sizeUnit"),
+                strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
+
+                windBounds: new Bounds(0,4),
+                numTreasures: 10,
+            }
         }
     }
 }

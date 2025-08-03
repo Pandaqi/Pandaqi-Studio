@@ -1,18 +1,17 @@
-import Card from "./card"
 import GridMapper from "js/pq_games/layout/gridMapper"
-import { CONFIG } from "./config"
+import { CONFIG } from "../shared/config"
+import Card from "./card"
 
-import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import createContext from "js/pq_games/layout/canvas/createContext"
 
-import Circle from "js/pq_games/tools/geometry/circle"
-import Point from "js/pq_games/tools/geometry/point"
-import ResourceShape from "js/pq_games/layout/resources/resourceShape"
-import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import Rectangle from "js/pq_games/tools/geometry/rectangle"
-import Line from "js/pq_games/tools/geometry/line"
 import Color from "js/pq_games/layout/color/color"
 import ColorLike from "js/pq_games/layout/color/colorLike"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
+import Circle from "js/pq_games/tools/geometry/circle"
+import Line from "js/pq_games/tools/geometry/line"
+import Point from "js/pq_games/tools/geometry/point"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
 
 export default class CodeCards {
     gridMapper: GridMapper
@@ -22,23 +21,17 @@ export default class CodeCards {
 
     constructor()
     {
-        this.setupGridMapper();
+        this.setup();
         if(!CONFIG.includeCodeCards) { return; }
         this.setupRoles();
         this.generate();
     }
 
-    setupGridMapper()
+    setup()
     {
-        const gridConfig = { pdfBuilder: CONFIG.pdfBuilder, size: CONFIG.cards.size };
-        this.gridMapper = new GridMapper(gridConfig);
-
         const numPages = CONFIG.cards.numPages;
         const tilesPerPage = CONFIG.cards.size.x * CONFIG.cards.size.y;
         this.cardsToGenerate = numPages * tilesPerPage;
-
-        let size = this.gridMapper.getMaxElementSizeAsSquare().x;
-        CONFIG.cards.sizeResult = new Point(0.5 * size, 0.5 * size);
     }
 
     setupPatterns()
@@ -162,22 +155,6 @@ export default class CodeCards {
         this.cards = arr;
     }
 
-    async draw()
-    {
-        if(!this.cards) { return; }
-
-        await this.setupPatterns();
-
-        const promises = [];
-        for(const card of this.cards)
-        {
-            promises.push(card.draw());
-        }
-        const canvases = await Promise.all(promises);
-        this.gridMapper.addElements(canvases);
-        await this.convertToImages();
-    }
-
     cardAlreadyExists(needle, haystack)
     {
         const needleTypes = needle.getCellTypes();
@@ -197,11 +174,5 @@ export default class CodeCards {
             if(a[i] != b[i]) { return false; }
         }
         return true;
-    }
-
-    getImages() { return this.images ?? []; }
-    async convertToImages()
-    {
-        this.images = await convertCanvasToImageMultiple(this.gridMapper.getCanvases());
     }
 }

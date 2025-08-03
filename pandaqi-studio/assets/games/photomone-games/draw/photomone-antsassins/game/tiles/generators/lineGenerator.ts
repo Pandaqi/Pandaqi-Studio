@@ -37,7 +37,7 @@ export default class LineGenerator
         config.randomWalk.dotsBetweenDist = config.shape.getDistToNeighbour(config.tiles.gridResolution);
 
         let randomWalkTypes = Object.keys(config.randomWalk.types);
-        Random.shuffle(randomWalkTypes);
+        shuffle(randomWalkTypes);
         const maxTypes = Math.min(randomWalkTypes.length, config.randomWalk.maxTypesPerTile);
         randomWalkTypes = randomWalkTypes.slice(0, maxTypes);
 
@@ -97,7 +97,7 @@ export default class LineGenerator
         const maxNumLines = config.gridPoints.length; 
         const minLines = Math.floor(config.randomWalk.numLines.min * maxNumLines);
         const maxLines = Math.ceil(config.randomWalk.numLines.max * maxNumLines);
-        let finalNumLines = Random.rangeInteger(minLines, maxLines);
+        let finalNumLines = rangeInteger(minLines, maxLines);
 
         let counter = 0;
 

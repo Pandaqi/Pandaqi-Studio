@@ -29,12 +29,12 @@ export default class PhotomoneGenerator
     reducePoints(config)
     {
         const allPoints = config.gridPoints.slice();
-        Random.shuffle(allPoints);
+        shuffle(allPoints);
         const numBounds = config.photomone.numPoints;
 
         const edgePoints = this.getEdgePointsWithIndex(allPoints, 0).concat(this.getEdgePointsWithIndex(allPoints, 2));
         const pointsToKeep = edgePoints;
-        const numPoints = Random.rangeInteger(numBounds.min, numBounds.max) + pointsToKeep.length;
+        const numPoints = rangeInteger(numBounds.min, numBounds.max) + pointsToKeep.length;
 
         while(pointsToKeep.length < numPoints)
         {
@@ -76,16 +76,16 @@ export default class PhotomoneGenerator
             if(newPoint.isOnEdge()) { continue; }
             if(newPoint.lineIndex == 0 || newPoint.lineIndex == 2) { continue; }
 
-            let varX = Random.range(bounds.min * minSize, bounds.max * minSize);
+            let varX = range(bounds.min * minSize, bounds.max * minSize);
             if(Math.random() <= 0.5) { varX *= -1; }
-            let varY = Random.range(bounds.min * minSize, bounds.max * minSize);
+            let varY = range(bounds.min * minSize, bounds.max * minSize);
             if(Math.random() <= 0.5) { varY *= -1; }
 
             newPoint.x += varX;
             newPoint.y += varY;            
         }
         this.points = arr;
-        Random.shuffle(this.points);
+        shuffle(this.points);
     }
 
     relaxPoints(config)
@@ -103,7 +103,7 @@ export default class PhotomoneGenerator
     connectPoints(config)
     {
         const numBounds = config.photomone.numConnectionsPerPoint;
-        const numConnections = Random.rangeInteger(numBounds.min, numBounds.max);
+        const numConnections = rangeInteger(numBounds.min, numBounds.max);
         const allLines = [];
         for(const point of this.points)
         {

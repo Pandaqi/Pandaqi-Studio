@@ -1,4 +1,4 @@
-import { POINT_TYPES } from "../../../shared/gameDictionary";
+import { POINT_TYPES } from "../shared/dict";
 
 const CONFIG =
 {

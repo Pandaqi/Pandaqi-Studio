@@ -4,6 +4,7 @@ import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import { cardPicker, tilePicker } from "../game/generators";
 
 export const CONFIG:any = 
 {
@@ -13,13 +14,14 @@ export const CONFIG:any =
         {
             type: SettingType.CHECK,
             remark: "Map tiles explain themselves with text on them.",
+            value: false,
             label: "Add text on tiles"
         },
 
         vehiclesAsPawns:
         {
             type: SettingType.CHECK,
-            default: true,
+            value: true,
             label: "Create vehicles as pawns",
             remark: "If enabled, you can fold the vehicle to place it on the board standing up." 
         },
@@ -31,28 +33,28 @@ export const CONFIG:any =
             vehicleTiles:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Vehicle Pawns",
             },
 
             mapTiles:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Map Tiles",
             },
 
             vehicleCards:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Vehicle Cards",
             },
 
             specialCards:
             {
                 type: SettingType.CHECK,
-                default: true,
+                value: true,
                 label: "Special Cards",
                 remark: "Refers to the (unique) health, time, GPS, or action cards for this game."
             },
@@ -64,24 +66,28 @@ export const CONFIG:any =
             {
                 type: SettingType.CHECK,
                 label: "Traffic & Police",
+                value: false,
             },
 
             fuelFear:
             {
                 type: SettingType.CHECK,
                 label: "Fuel & Fear",
+                value: false,
             },
 
             taxisCargo:
             {
                 type: SettingType.CHECK,
                 label: "Taxis & Cargo",
+                value: false,
             },
 
             terrainTripplanning:
             {
                 type: SettingType.CHECK,
                 label: "Terrain & Tripplanning",
+                value: false,
             },
         }
     },
@@ -97,24 +103,6 @@ export const CONFIG:any =
     _game:
     {
         fileName: "Naivigation: Crashing Cars",
-    },
-
-    addTextOnTiles: false,
-    sets:
-    {
-        vehicleTiles: true,
-        vehicleCards: true,
-        specialCards: true,
-        mapTiles: true,
-        trafficPolice: false,
-        fuelFear: false,
-        taxisCargo: false,
-        terrainTripplanning: false,
-    },
-
-    fonts:
-    {
-        special: "whatever"
     },
 
     // assets
@@ -192,48 +180,64 @@ export const CONFIG:any =
         },
     },
 
-    cards:
+    _material:
     {
-        numFuelCards: 10,
-        
-        passengers:
+        cards:
         {
-            numCards: 12,
-            options: Object.keys(PASSENGERS),
-            fontSize: new CVal(0.07, "sizeUnit"),
-            textBoxDims: new CVal(new Point(0.925, 0.33), "size"),
-            bonusPos: new CVal(new Point(0.5, 0.625), "size"),
-            cursePos: new CVal(new Point(0.5, 0.875), "size"),
-            iconOffset: new CVal(new Point(0.1, 0.4), "size"),
-            shopIconSize: new CVal(new Point(0.12), "sizeUnit")
+            picker: cardPicker.asFunction()
+        },
+
+        tiles: 
+        {
+            picker: tilePicker.asFunction()
         }
     },
 
-    tiles:
+    _drawing:
     {
-        custom:
+        cards:
         {
-            fontSize: new CVal(0.3, "sizeUnit"),
-            strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
-            gearBounds: new Bounds(-2,4),
-        },
-
-        parkingLot:
-        {
-            vehicleIcon:
+            numFuelCards: 10,
+            
+            passengers:
             {
-                dims: new CVal(new Point(0.5), "sizeUnit"),
-                dimsSmall: new CVal(new Point(0.15), "sizeUnit"),
-                alpha: 1.0,
-                composite: "luminosity",
-                shadowBlur: new CVal(0.05 * 0.5, "sizeUnit"),
+                numCards: 12,
+                options: Object.keys(PASSENGERS),
+                fontSize: new CVal(0.07, "sizeUnit"),
+                textBoxDims: new CVal(new Point(0.925, 0.33), "size"),
+                bonusPos: new CVal(new Point(0.5, 0.625), "size"),
+                cursePos: new CVal(new Point(0.5, 0.875), "size"),
+                iconOffset: new CVal(new Point(0.1, 0.4), "size"),
+                shopIconSize: new CVal(new Point(0.12), "sizeUnit")
             }
         },
 
-        shop:
+        tiles:
         {
-            fontSize: new CVal(0.175, "sizeUnit"),
-            strokeWidth: new CVal(0.08, "tiles.shop.fontSize"),
+            custom:
+            {
+                fontSize: new CVal(0.3, "sizeUnit"),
+                strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
+                gearBounds: new Bounds(-2,4),
+            },
+
+            parkingLot:
+            {
+                vehicleIcon:
+                {
+                    dims: new CVal(new Point(0.5), "sizeUnit"),
+                    dimsSmall: new CVal(new Point(0.15), "sizeUnit"),
+                    alpha: 1.0,
+                    composite: "luminosity",
+                    shadowBlur: new CVal(0.05 * 0.5, "sizeUnit"),
+                }
+            },
+
+            shop:
+            {
+                fontSize: new CVal(0.175, "sizeUnit"),
+                strokeWidth: new CVal(0.08, "tiles.shop.fontSize"),
+            }
         }
     }
 }

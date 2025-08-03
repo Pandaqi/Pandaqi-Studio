@@ -1,6 +1,6 @@
 import Color from "js/pq_games/layout/color/color";
 
-export const POINT_TYPES = 
+export const POINT_TYPES_DIGITAL = 
 {
     numLines: { frame: 0, col: new Color(284, 79, 24), expansion: "sneakySpots", prob: 4, num: { min: -5, max: 5 }, title: "Line Counter", desc: "Changes how many lines you have, by the number shown." },
     distance: { frame: 1, col: new Color(46, 100, 62), expansion: "sneakySpots", prob: 1.66, title: "Distance", desc: "You can only use points near ones you already used." },

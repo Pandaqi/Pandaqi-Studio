@@ -8,8 +8,8 @@ import fromArray from "js/pq_games/tools/random/fromArray";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
 
-const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
-const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution);
+export const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
+export const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution);
 
 cardPicker.generateCallback = () =>
 {
@@ -51,7 +51,7 @@ tilePicker.generateCallback = () =>
         for(let i = bounds.min; i <= bounds.max; i++)
         {
             tilePicker.addSingle(new Tile(TileType.CUSTOM, "gear", { num: i }));
-	    tilePicker.addSingle(new Tile(TileType.CUSTOM, "gear", { num: i }));
+	        tilePicker.addSingle(new Tile(TileType.CUSTOM, "gear", { num: i }));
         }
     }
 
@@ -80,8 +80,3 @@ tilePicker.generateCallback = () =>
     }
 
 }
-
-export {
-    cardPicker,
-    tilePicker
-};

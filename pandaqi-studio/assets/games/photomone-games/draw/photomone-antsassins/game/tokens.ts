@@ -1,8 +1,6 @@
+import GridMapper from "js/pq_games/layout/gridMapper"
+import { CONFIG } from "../shared/config"
 import Token from "./token"
-import GridMapper, { GridMapperLayout } from "js/pq_games/layout/gridMapper"
-import Point from "js/pq_games/tools/geometry/point"
-import { CONFIG } from "./config"
-import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 
 export default class Tokens 
 {
@@ -13,23 +11,17 @@ export default class Tokens
 
     constructor()
     {
-        this.setupGridMapper();
+        this.setup();
         if(!CONFIG.includeTokens) { return; }
         this.setupTypes();
         this.generate();
     }
 
-    setupGridMapper()
+    setup()
     {
-        const gridConfig = { pdfBuilder: CONFIG.pdfBuilder, size: CONFIG.tokens.size, layoutShape: GridMapperLayout.CIRCLE };
-        this.gridMapper = new GridMapper(gridConfig);
-
         const numPages = CONFIG.tokens.numPages;
         const tilesPerPage = CONFIG.tokens.size.x * CONFIG.tokens.size.y;
         this.tokensToGenerate = numPages * tilesPerPage;
-
-        let size = this.gridMapper.getMaxElementSizeAsSquare().x;
-        CONFIG.tokens.sizeResult = new Point(0.5 * size, 0.5 * size);
     }
 
     setupTypes()
@@ -75,30 +67,9 @@ export default class Tokens
         const arr : Token[] = [];
         for(let i = 0; i < this.tokensToGenerate; i++)
         {
-            const t = new Token(i);
-            arr.push(t);
+            arr.push(new Token(i));
         }
         this.tokens = arr;
-    }
-
-    async draw()
-    {
-        if(!this.tokens) { return; }
-
-        const promises = [];
-        for(const t of this.tokens)
-        {
-            promises.push(t.draw());
-        }
-        const canvases = await Promise.all(promises);
-        this.gridMapper.addElements(canvases);
-        await this.convertToImages();
-    }
-    
-    getImages() { return this.images ?? []; }
-    async convertToImages()
-    {
-        this.images = await convertCanvasToImageMultiple(this.gridMapper.getCanvases());
     }
 
 }

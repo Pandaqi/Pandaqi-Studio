@@ -170,7 +170,7 @@ export default class MosaicVisualizer
     shrinkAndOffsetShape(points, bounds)
     {
         const center = this.getShapeCenter(points);
-        const scaleFactor = Random.range(bounds.min, bounds.max);
+        const scaleFactor = range(bounds.min, bounds.max);
         const list = [];
         let smallestDistToEdge = Infinity;
         for(const p of points)
@@ -182,7 +182,7 @@ export default class MosaicVisualizer
         }
 
         const randAngle = Math.random() * 2 * Math.PI;
-        const randRadius = Random.range(0, 0.5*smallestDistToEdge);
+        const randRadius = range(0, 0.5*smallestDistToEdge);
         const randOffset = new Point(
             Math.cos(randAngle) * randRadius,
             Math.sin(randAngle) * randRadius

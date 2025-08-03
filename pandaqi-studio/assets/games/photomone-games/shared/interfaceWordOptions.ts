@@ -107,7 +107,7 @@ export default class InterfaceWordOptions {
         const listenToExpansions = cfg.wordInterface.listenToExpansions;
 
         const colors = [0,1,2,3];
-        Random.shuffle(colors);
+        shuffle(colors);
 
         this.wordOptionNodes = [];
         this.wordOptions = newWords;

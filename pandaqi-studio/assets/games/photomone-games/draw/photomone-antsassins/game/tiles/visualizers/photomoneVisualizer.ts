@@ -64,7 +64,7 @@ export default class PhotomoneVisualizer
 
         for(const point of points)
         {
-            ctx.fillStyle = Random.fromArray(possibleColors).toString();
+            ctx.fillStyle = fromArray(possibleColors).toString();
             ctx.beginPath();
             ctx.arc(point.x, point.y, radius, 0, 2*Math.PI);
             ctx.fill();

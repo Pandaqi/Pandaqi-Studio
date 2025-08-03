@@ -8,7 +8,7 @@ export default class LinesAndPixelsVisualizer
     draw(config)
     {
         const possibleColors = config.simple.colors.slice();
-        Random.shuffle(possibleColors);
+        shuffle(possibleColors);
         this.colors = possibleColors;
 
         this.drawBackground(config);
