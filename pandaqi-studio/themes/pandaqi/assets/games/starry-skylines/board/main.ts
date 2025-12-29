@@ -1,3 +1,4 @@
+import { loadGame, SettingType } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 
 const SETTINGS =

@@ -84,7 +84,7 @@ export const CONFIG:Record<string,any> =
     {
         tiles:
         {
-            picker: tilePicker
+            picker: () => tilePicker
         }
     },
     

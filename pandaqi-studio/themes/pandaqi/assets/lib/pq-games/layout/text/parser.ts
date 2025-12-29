@@ -69,7 +69,7 @@ export const parseTextString = (text:string, config:TextConfig) =>
         }
 
         tempText = tempText.slice(key.length);
-        if(!Array.isArray(newChunks)) { newChunks = newChunks; }
+        if(!Array.isArray(newChunks)) { newChunks = [newChunks]; }
         chunks.push(...newChunks);
         
     } while (match);

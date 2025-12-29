@@ -5,7 +5,7 @@ import { CONFIG } from "./config"
 export default class TypeManager
 {
     game: any
-    picker: BalancedDictionaryPicker
+    picker: () => BalancedDictionaryPicker
 
     constructor(game:any) 
     {

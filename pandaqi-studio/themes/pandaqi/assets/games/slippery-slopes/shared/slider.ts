@@ -3,8 +3,7 @@ import { CONFIG } from "./config";
 import equidistantColorsBetweenOpposites from "../game/tools/equidistantColorsBetweenOpposites";
 import createWavyRect from "../game/tools/createWavyRect";
 import { ACTIONS, PROPERTIES, RANDOM_SHAPE_LIST, SLIDERS } from "./dict";
-import { Rectangle, ResourceShape, getWeighted, MaterialVisualizer, createContext, Vector2, Color, LayoutOperation, RectangleRounded, TextConfig, ResourceText, shuffle, TextAlign, rangeInteger, Dims, range, scalePath, fitPath, Path, GrayScaleEffect, ResourceImage, colorDarken, getColorContrastHighest } from "lib/pq-games";
-import { createRandomShape } from "lib/pq-games/geometry/shapes/createRandomShape";
+import { Rectangle, ResourceShape, getWeighted, MaterialVisualizer, createContext, Vector2, Color, LayoutOperation, RectangleRounded, TextConfig, ResourceText, shuffle, TextAlign, rangeInteger, Dims, range, scalePath, fitPath, Path, GrayScaleEffect, ResourceImage, colorDarken, getColorContrastHighest, createRandomShape } from "lib/pq-games";
 
 export default class Slider
 {

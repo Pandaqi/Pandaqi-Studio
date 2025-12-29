@@ -12,12 +12,6 @@ Deal the remaining cards until the deck is empty.
 
 By making the deck bigger/smaller you can control game length. If you remove cards, it's recommended to remove the _extreme numbers_ (highest/lowest).
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/i-bid-you-not/).
-{{% /rules/rules-remark %}}
-
-
-
 ## Objective
 
 The game ends as soon as **all players are out of cards**. Count the total price value of your score pile. The **highest score wins**!

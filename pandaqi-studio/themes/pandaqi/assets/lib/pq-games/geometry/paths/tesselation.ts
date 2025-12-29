@@ -130,7 +130,7 @@ export const bevelPath = (params:BevelPathParams) =>
             q1.clone()
         ]
 
-        const shape = new Path({ points: points });
+        const shape = new Path(points);
         shapes.push(shape);
     }
 
@@ -173,7 +173,7 @@ function takeBite(idx:number, path:Vector2[], dist:number)
     path.splice(idx + 1, 0, bitePoint);
 }
 
-export const takeBitsOutOfPath = (params:BitePathParams) : Vector2[] => 
+export const takeBitesOutOfPath = (params:BitePathParams) : Vector2[] => 
 {
     let path = params.path;
     if(!path) { return []; }

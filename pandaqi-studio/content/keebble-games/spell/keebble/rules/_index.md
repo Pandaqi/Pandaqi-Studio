@@ -8,18 +8,13 @@ type: "rules"
 
 Grab a paper. Fold it in half six times: you should have 64 "cells" now.
 
-You can start with an empty page. Or let [the website](../#board) generate a starting board and copy it to your paper.
+You can start with an empty page. Or let [the website](../board/) generate a starting board and copy it to your paper.
 
 Each player grabs a pen and claims one cell at the edge of the paper. You'll use this to write down which letters you have "in your hand".
 
 {{% rules/rules-remark %}}
-Decide on two things before the game starts. 
-
-**Direction of play**: how words are oriented and read. 
-
-**Dictionary**: what source decides if a word is valid.
+Decide on two things before the game starts. **Direction of play**: how words are oriented and read---and **Dictionary**: what source decides if a word is valid.
 {{% /rules/rules-remark %}}
-
 
 ## Objective
 
@@ -30,7 +25,6 @@ Once **at least 10 edge cells** have a letter, you enter the endgame! You can on
 Click the button to see an example turn, or continue reading the rules below.
 
 {{< rules/rules-example id="turn" >}}
-
 
 ## Gameplay
 

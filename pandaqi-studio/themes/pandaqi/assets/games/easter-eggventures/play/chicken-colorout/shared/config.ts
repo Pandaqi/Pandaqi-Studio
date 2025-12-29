@@ -110,12 +110,12 @@ export const CONFIG:Record<string,any> =
     {
         tiles:
         {
-            picker: tilePicker
+            picker: () => tilePicker
         },
 
         eggs:
         {
-            picker: eggPicker
+            picker: () => eggPicker
         }
     },
 

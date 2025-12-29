@@ -362,7 +362,7 @@ class Board
 
     async draw(sim:InteractiveExampleSimulator, highlightedTiles:Vector2[] = []) : Promise<HTMLImageElement>
     {
-        const tileSize = CONFIG._rulebook.tileSize;
+        const tileSize = CONFIG.rulebook.tileSize;
         const fullSize = this.size.clone().scale(tileSize);
         const ctx = createContext({ size: fullSize });
 
@@ -378,7 +378,7 @@ class Board
             {
                 const pos = new Vector2(x,y);
                 const isHighlighted = highlightedTiles.filter((val) => { return val.matches(pos); }).length > 0;
-                const color = isHighlighted ? CONFIG._rulebook.highlightColor : "#FFFFFF";
+                const color = isHighlighted ? CONFIG.rulebook.highlightColor : "#FFFFFF";
                 ctx.fillStyle = color;
                 ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
 
@@ -391,9 +391,9 @@ class Board
                     ctx.globalAlpha = 1.0;
                 }
                 
-                const strokeColor = isHighlighted ? CONFIG._rulebook.highlightStrokeColor : "#000000";
+                const strokeColor = isHighlighted ? CONFIG.rulebook.highlightStrokeColor : "#000000";
                 ctx.strokeStyle = strokeColor;
-                ctx.lineWidth = CONFIG._rulebook.lineWidth * tileSize;
+                ctx.lineWidth = CONFIG.rulebook.lineWidth * tileSize;
                 ctx.strokeRect(x * tileSize, y * tileSize, tileSize, tileSize);
 
             }
@@ -424,8 +424,8 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     const tileToPlace = tiles.pop();
 
     // fill the board with something believable
-    const board = new Board(CONFIG._rulebook.boardDims);
-    board.placeSleigh(sleighTile, CONFIG._rulebook.sleighMaxDistFromCenter);
+    const board = new Board(CONFIG.rulebook.boardDims);
+    board.placeSleigh(sleighTile, CONFIG.rulebook.sleighMaxDistFromCenter);
 
     let boardTooEmpty = true;
     while(boardTooEmpty)
@@ -438,13 +438,13 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         const randPos = fromArray(validPlacements);
         board.placeTile(randPos, tile);
 
-        boardTooEmpty = board.countTiles() < CONFIG._rulebook.minNumBoardTiles;
+        boardTooEmpty = board.countTiles() < CONFIG.rulebook.minNumBoardTiles;
     }
 
     // check what we can do with our tile
     const validPlacements = board.getValidPlacements(tileToPlace);
     const validSleighMoves = board.getValidSleighMoves();
-    const moveSleigh = (validPlacements.length <= 0 || Math.random() <= CONFIG._rulebook.moveSleighProb) && validSleighMoves.length > 0;
+    const moveSleigh = (validPlacements.length <= 0 || Math.random() <= CONFIG.rulebook.moveSleighProb) && validSleighMoves.length > 0;
     const o = sim.getOutputBuilder();
 
     if(moveSleigh) {

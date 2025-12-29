@@ -1,8 +1,7 @@
 
 import { TerrainType, DinoType, TERRAINS, DINOS, MISC } from "../shared/dict"
 import { CONFIG } from "../shared/config";
-import { MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText } from "lib/pq-games";
-import { drawBlurryRectangle } from "lib/pq-games/layout/tools/drawBlurryRectangle";
+import { MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText, drawBlurryRectangle } from "lib/pq-games";
 
 export default class DominoSide
 {

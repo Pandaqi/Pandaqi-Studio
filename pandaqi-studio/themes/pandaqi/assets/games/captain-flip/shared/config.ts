@@ -64,7 +64,7 @@ export const CONFIG =
     {
         tiles:
         {
-            picker: tilePicker,
+            picker: () => tilePicker,
             mapper:             
             {
                 autoStroke: true,

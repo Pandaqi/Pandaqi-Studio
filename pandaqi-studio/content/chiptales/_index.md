@@ -7,7 +7,7 @@ blurb: "A series of games inspired by poker, trying to simplify, improve or chan
 
 driveLink: "https://drive.google.com/drive/folders/146uKZvbAPjaFnNVwQkz1Rwo3vGNJ1B1W"
 
-date: 2026-08-26
+date: 2025-08-26
 
 # @TODO: metadata
 difficulty: "simple"

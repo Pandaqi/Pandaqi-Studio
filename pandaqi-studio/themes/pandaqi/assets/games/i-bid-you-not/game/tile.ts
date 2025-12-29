@@ -62,6 +62,7 @@ export default class Tile
         // draw audience
         const resMisc = vis.getResource("misc");
         const opAudience = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: vis.get("tiles.audience.pos"),
             size: vis.get("tiles.audience.size"),
             frame: MISC.audience.frame,

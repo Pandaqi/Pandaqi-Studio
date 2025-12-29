@@ -36,7 +36,7 @@ const loadResources = async (config:GameConfig, feedbackNode:HTMLElement, render
     const resourcesToLoad = resourceFilter(config._resources.files ?? {});
     const resLoader = new ResourceLoader({ base: config._resources.base, renderer: renderer });
     resLoader.onResourceLoaded = (txt:string) => { sendProgressInfoSignal(feedbackNode, txt); };
-    resLoader.setCustomResources(config._settings.defaults.resources)
+    resLoader.setCustomResources(config._settings.defaults.resources.value)
 
     if(!config._debug.onlyGenerate) { resLoader.planLoadMultiple(resourcesToLoad, config); }
     await resLoader.loadPlannedResources();
@@ -78,7 +78,7 @@ const generateDrawCalls = (config:GameConfig, allItems:Record<string,any>, mappe
     // collect all items (and the visualizer for them), but don't draw them yet
     // so far, mappers are always just GridMappers, though that might generalize in the future
     const drawCalls:MaterialDrawCall[] = [];
-    const splitDimsGlobal = config._settings.defaults.splitDims;
+    const splitDimsGlobal = config._settings.defaults.splitDims.value;
     for(const [id,mapper] of Object.entries(mappers))
     {
         const materialConfig = config._material[id];
@@ -254,7 +254,7 @@ export const generateMaterial = async (config:GameConfig) =>
     const material:Record<string,MaterialConfig> = config._material ?? {};
     for(const [key,value] of Object.entries(material))
     {
-        generators[key] = value.picker;
+        generators[key] = value.picker();
         mappers[key] = createGridMapperFromConfig(config, value.mapper);
     }
 

@@ -1,8 +1,6 @@
 
-import { PACKS } from "./dict";
-import { generateForRulebook } from "../rules/main";
-import { cardPicker } from "../game/cardPicker";
 import { SettingType, Vector2 } from "lib/pq-games";
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG = 
 {
@@ -163,38 +161,6 @@ export const CONFIG =
         }
     },
 
-    _rulebook:
-    {
-        examples:
-        {
-            "turn":
-            {
-                buttonText: "Give me an example turn!",
-                callback: generateForRulebook,
-            },
-
-            "turn-reverse":
-            {
-                buttonText: "Give me an example turn!",
-                callback: (sim) => { generateForRulebook(sim, true) },
-            },
-        },
-
-        icons:
-        {
-            packs:
-            {
-                config:
-                {
-                    sheetURL: "card_types.webp",
-                    sheetWidth: 8,
-                    base: "/the-outnumbered-series/count-to/sixpack/assets/",
-                },
-                icons: PACKS
-            },
-        }
-    },
-
     numbers: { min: 1, max: 6 },
     numberList: [1,2,3,4,5,6],
     numHandsPerPack: 2,
@@ -232,7 +198,7 @@ export const CONFIG =
     {
         cards: 
         {
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper:
             {
                 size: 

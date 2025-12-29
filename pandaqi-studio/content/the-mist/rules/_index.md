@@ -8,10 +8,6 @@ Print a paper and grab some pens. Pick any start player.
 
 Each player invents their own unique symbol and draws it on any unused starting square. (The highlighted squares with a square center + red pin.)
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/the-mist/).
-{{% /rules/rules-remark %}}
-
 ## Objective
 
 The game ends as soon as **all players are out**. Each player checks the entire path that they walked. Sum the values of all squares: **highest score wins**!

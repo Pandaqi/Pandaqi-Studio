@@ -10,12 +10,6 @@ Place 4 random **Book Shelf** cards in a column on the table. (In the base game,
 
 Give each player 4 **Book Cards**.
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/librarians/).
-{{% /rules/rules-remark %}}
-
-
-
 ## Objective
 
 If you manage to play _all_ the cards, you **win the game**! Otherwise, the game ends if somebody **can't play a card**. The fewer cards you have left, the better you did.

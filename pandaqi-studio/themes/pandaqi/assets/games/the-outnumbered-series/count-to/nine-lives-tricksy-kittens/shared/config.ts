@@ -86,7 +86,7 @@ export const CONFIG =
         cards:
         {
             itemSize: new Vector2(480, 600), // for rulebook
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper:
             {
                 size: { 

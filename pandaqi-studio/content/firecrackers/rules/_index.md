@@ -22,12 +22,6 @@ Finally, place the remaining cards faceup into the **shop**.
 
 The most reckless player becomes Firemaster.
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/firecrackers/).
-{{% /rules/rules-remark %}}
-
-
-
 ## Objective
 
 The game ends after the round when the **shop runs out**. 

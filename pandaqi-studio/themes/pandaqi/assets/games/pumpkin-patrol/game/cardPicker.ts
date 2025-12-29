@@ -1,5 +1,5 @@
 
-import { seedRandom, shuffleAll, shuffle, rangeInteger, clamp, Bounds } from "lib/pq-games";
+import { seedRandom, shuffleAll, shuffle, rangeInteger, clamp, Bounds, getSettingDefault } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { createRandomSet } from "../shared/createRandomSet";
 import { CardData, ReqType, SETS, Type } from "../shared/dict";
@@ -33,7 +33,7 @@ export const cardPicker = () : Card[] =>
 
     CONFIG.allCards = dict;
 
-    const rng = seedRandom(CONFIG._settings.defaults.seed.value);
+    const rng = seedRandom(getSettingDefault("seed", CONFIG));
 
     // 1) assign cards to their type and count how many we have to fill
     // the "hand" type encompasses both decoration and treat
@@ -473,7 +473,7 @@ const getDistToClosestUnusedScore = (score:number, scoresSoFar:number[]) =>
     return minDist;
 }
 
-const modifyForScore = (distance:number, decos:RequirementData, treats:RequirementData, rng:Function) =>
+const modifyForScore = (distance:number, decos:RequirementData, treats:RequirementData, rng:() => number) =>
 {
     const numSteps = Math.abs(distance);
     const convertToWild = distance < 0;

@@ -5,7 +5,7 @@ import { ResourceGroup } from "../layout/resources/resourceGroup";
 import { ResourceLoader } from "../layout/resources/resourceLoader";
 import { Vector2 } from "../geometry/vector2";
 import { Configurator } from "../settings/configurator";
-import { ensureConfigProperties, GameConfig } from "../settings/configuration";
+import { ensureConfigProperties, GameConfig, getSettingDefault } from "../settings/configuration";
 import { translate } from "../layout/text/translation";
 
 export class MaterialVisualizer
@@ -35,10 +35,10 @@ export class MaterialVisualizer
         this.renderer = config._game.renderer ?? new RendererPandaqi();
         this.resLoader = config._game.resLoader;
 
-        this.language = config._settings.defaults.language ?? config._translation.language;
+        this.language = (config._settings.defaults.language ?? {}).value ?? config._translation.language;
         this.translation = config._translation ?? { dictionary: {} };
 
-        this.inkFriendly = config._settings.defaults.inkFriendly ?? false;
+        this.inkFriendly = getSettingDefault("inkFriendly", config) ?? false;
         this.inkFriendlyEffect = this.inkFriendly ? [new GrayScaleEffect()] : [];
         this.size = customItemSize ? customItemSize.clone() : new Vector2(512, 512)
         

@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, Vector2, TextConfig, LayoutOperation, StrokeAlign, ResourceText, Color, Rectangle, Path, roundPath, ResourceShape, rangeInteger } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, Vector2, TextConfig, LayoutOperation, StrokeAlign, ResourceText, Color, Rectangle, Path, roundPath, ResourceShape, rangeInteger, getSettingDefault } from "lib/pq-games";
 import { CELLS, COLOR_GROUPS, CORNER_OFFSETS, GENERAL } from "../shared/dict";
 import BoardDisplay from "./boardDisplay";
 import Cell from "./cell";
@@ -16,7 +16,7 @@ export default class CellDisplay
         this.boardDisplay = null;
     }
 
-    showBackground() { return this.getColorGroup() != null && !CONFIG._settings.defaults.inkFriendly.value; }
+    showBackground() { return this.getColorGroup() != null && !getSettingDefault("inkFriendly", CONFIG); }
     showBorder() { return !this.cell.isHole(); }
     showType() { return this.cell.type; }
     showNum() { return this.cell.hasNum(); }

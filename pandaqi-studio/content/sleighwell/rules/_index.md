@@ -6,10 +6,6 @@ type: "rules"
 
 Place the sleigh tile in the center of the table. Deal everybody 4 tiles to take into their hand. Shuffle the remaining tiles and place them facedown within everyone's reach; this is the draw pile.
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/sleighwell).
-{{% /rules/rules-remark %}}
-
 
 ## Objective
 

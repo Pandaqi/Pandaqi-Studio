@@ -82,7 +82,7 @@ export const CONFIG =
         cards:
         {
             itemSize: new Vector2(375, 525),
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper: 
             {
                 autoStroke: true,

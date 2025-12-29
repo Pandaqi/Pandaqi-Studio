@@ -90,7 +90,7 @@ export const CONFIG:Record<string,any> =
     {
         tiles:
         {
-            picker: tilePicker,
+            picker: () => tilePicker,
             mapper: 
             {
                 autoStroke: true,
@@ -106,7 +106,7 @@ export const CONFIG:Record<string,any> =
 
         cards:
         {
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper: 
             {
                 autoStroke: true,
@@ -121,7 +121,7 @@ export const CONFIG:Record<string,any> =
 
         eggs:
         {
-            picker: eggPicker
+            picker: () => eggPicker
         }
     },
 

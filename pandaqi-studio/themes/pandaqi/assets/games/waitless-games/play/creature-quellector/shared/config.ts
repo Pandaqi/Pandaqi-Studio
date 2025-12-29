@@ -1,7 +1,6 @@
-
+import { SettingType, Vector2, TextConfig, TextStyle, Bounds } from "lib/pq-games";
 import { ELEMENTS } from "./dict"
 import { generateForRulebook } from "../rules/main";
-import { SettingType, Vector2, TextConfig, TextStyle, Bounds } from "lib/pq-games";
 import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG =
@@ -46,105 +45,6 @@ export const CONFIG =
                 values: ["air", "magic", "ghost", "dark"],
                 value: "air"
             },
-        }
-    },
-
-    _rulebook:
-    {
-        examples:
-        {
-            turn:
-            {
-                buttonText: "Generate a random turn!",
-                callback: generateForRulebook,
-            }
-        },
-
-        tables:
-        {
-            red:
-            {
-                icons:
-                {
-                    config:
-                    {
-                        sheetURL: "quellector_actions_with_bg.webp",
-                        sheetWidth: 8,
-                        base: "/waitless-games/play/creature-quellector/assets/"
-                    }
-                },
-
-                data: 
-                {
-                    fire: ELEMENTS.fire,
-                    electric: ELEMENTS.electric,
-                    star: ELEMENTS.star,
-                    dragon: ELEMENTS.dragon
-                }
-            },
-
-            blue:
-            {
-                icons:
-                {
-                    config:
-                    {
-                        sheetURL: "quellector_actions_with_bg.webp",
-                        sheetWidth: 8,
-                        base: "/waitless-games/play/creature-quellector/assets/"
-                    }
-                },
-
-                data: 
-                {
-                    water: ELEMENTS.water,
-                    ice: ELEMENTS.ice,
-                    poison: ELEMENTS.poison,
-                    weather: ELEMENTS.weather
-                }
-            },
-
-            green:
-            {
-                icons:
-                {
-                    config:
-                    {
-                        sheetURL: "quellector_actions_with_bg.webp",
-                        sheetWidth: 8,
-                        base: "/waitless-games/play/creature-quellector/assets/"
-                    }
-                },
-
-                data: 
-                {
-                    earth: ELEMENTS.earth,
-                    grass: ELEMENTS.grass,
-                    rock: ELEMENTS.rock,
-                    bug: ELEMENTS.bug
-                }
-            },
-
-            purple:
-            {
-                icons:
-                {
-                    config:
-                    {
-                        sheetURL: "quellector_actions_with_bg.webp",
-                        sheetWidth: 8,
-                        base: "/waitless-games/play/creature-quellector/assets/"
-                    }
-                },
-                
-                data: 
-                {
-                    air: ELEMENTS.air,
-                    magic: ELEMENTS.magic,
-                    ghost: ELEMENTS.ghost,
-                    dark: ELEMENTS.dark
-                }
-            }
         }
     },
 
@@ -274,7 +174,7 @@ export const CONFIG =
     {
         cards:
         {
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper: 
             {
                 size: 

@@ -2,8 +2,8 @@ import { fromArray } from "../../tools/random/pickers";
 import { Dims } from "../dims";
 import { Vector2 } from "../vector2";
 import { ArcData } from "./arcs";
+import { pointListToPathPoints } from "./merging";
 import { PathCommand, PointPath } from "./pointPath";
-import { pointListToPathPoints } from "./tools";
 
 export class PathAdvanced
 {

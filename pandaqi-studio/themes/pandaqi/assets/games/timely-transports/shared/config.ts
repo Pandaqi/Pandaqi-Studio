@@ -6,7 +6,8 @@ export const CONFIG =
 {
     _game:
     {
-        fileName: "Timely Transports"
+        fileName: "Timely Transports",
+        renderer: null,
     },
 
     // @NOTE: these are used by the GAME. They are completely overridden if generating the BOARD.
@@ -45,7 +46,7 @@ export const CONFIG =
             label: "Add Timeouts (minutes between)",
             remark: "If some of your players find the game too stressful, include regular timeouts. This gives them some time to breathe and make new plans once in a while."
         }
-    },
+    } as Record<string,any>,
 
     _resources:
     {    
@@ -141,7 +142,7 @@ export const CONFIG =
     {
         board:
         {
-            picker: boardPicker,
+            picker: () => boardPicker,
             mapper: MapperPreset.FULL_PAGE
         }
     }

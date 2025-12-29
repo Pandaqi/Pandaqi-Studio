@@ -1,6 +1,5 @@
 
-import { Color, DropShadowEffect, GrayScaleEffect, LayoutOperation, MaterialVisualizer, Path, Rectangle, ResourceShape, ResourceText, StrokeAlign, TextAlign, TextConfig, Vector2, bevelCorners, colorDarken, colorLighten, createContext, fillCanvas, getRectangleCornersWithOffset, strokeCanvas } from "lib/pq-games";
-import { patternizeGrid } from "lib/pq-games/layout/patterns/patternizeGrid";
+import { Color, DropShadowEffect, GrayScaleEffect, LayoutOperation, MaterialVisualizer, Path, Rectangle, ResourceShape, ResourceText, StrokeAlign, TextAlign, TextConfig, Vector2, bevelCorners, colorDarken, colorLighten, createContext, fillCanvas, getRectangleCornersWithOffset, patternizeGrid, strokeCanvas } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CATS, MISC, POWERS } from "../shared/dict";
 

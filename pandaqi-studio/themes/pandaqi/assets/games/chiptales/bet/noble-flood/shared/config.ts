@@ -149,6 +149,7 @@ export const CONFIG =
     {
         numSuits: 4,
         numbersUsedPerSuit: 10, //NUMBERS.length,
+        defaultFrequencySpecialCards: 1,
         defaultFrequencyContracts:
         {
             base: 1,
@@ -161,7 +162,7 @@ export const CONFIG =
         cards:
         {
             itemSize: new Vector2(750, 1050),
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper: 
             {
                 autoStroke: true,

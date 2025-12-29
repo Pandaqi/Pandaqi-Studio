@@ -8,11 +8,6 @@ type: "rules"
 
 Create one deck of tiles and shuffle it. Place a 5x5 grid of facedown tiles, but turn the main diagonals faceup. (For an easier game, reduce the grid to 4x4.)
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/captain-flip/).
-{{% /rules/rules-remark %}}
-
-
 ## Objective
 
 The game ends when the **map is completely cleared**. (There are no more tiles on the table and it cannot be refilled from the deck.) Players sum the points on all tiles they scored: **highest score wins**!

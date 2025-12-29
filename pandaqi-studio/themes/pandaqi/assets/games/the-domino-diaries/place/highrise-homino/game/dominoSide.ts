@@ -1,6 +1,5 @@
 
-import { shuffle, MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText, getPositionsCenteredAround } from "lib/pq-games";
-import { drawBlurryRectangle } from "lib/pq-games/layout/tools/drawBlurryRectangle";
+import { shuffle, MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText, getPositionsCenteredAround, drawBlurryRectangle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { FloorType, GeneralData, ItemType, MISC, OBJECTS, TENANTS } from "../shared/dict";
 import TenantWish from "./tenantWish";
@@ -292,7 +291,8 @@ export default class DominoSide
             {
                 propsEnabled.sort((a,b) => a.localeCompare(b));
 
-                const positions = CONFIG.dominoes.tenant.props.xPositions[numPropsToShow];
+                const positionsAll = vis.get("dominoes.tenant.props.xPositions");
+                const positions = positionsAll[numPropsToShow];
                 for(let i = 0; i < numPropsToShow; i++)
                 {
                     const opProp = new LayoutOperation({
@@ -326,7 +326,7 @@ export default class DominoSide
         }
 
         // extra explanatory text when needed
-        if(data.desc && CONFIG.addText)
+        if(data.desc && CONFIG._settings.addText.value)
         {
             const textPos = new Vector2(0, 0.3*partHeight);
             const textDims = new Vector2(0.885*vis.size.x, 0.25*partHeight);

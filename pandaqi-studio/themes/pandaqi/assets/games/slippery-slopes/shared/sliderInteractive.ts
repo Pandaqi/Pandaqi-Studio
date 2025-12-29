@@ -1,5 +1,5 @@
 
-import { Vector2, MaterialVisualizer, convertEventToLocal, preventDefaults, addTouchEvents } from "lib/pq-games";
+import { Vector2, MaterialVisualizer, convertEventToLocal, preventDefaults, addTouchEvents, SignalManager } from "lib/pq-games";
 import Slider from "./slider";
 
 export default class SliderInteractive

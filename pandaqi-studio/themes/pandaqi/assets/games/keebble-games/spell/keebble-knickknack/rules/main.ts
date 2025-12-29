@@ -189,108 +189,105 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     }
 }
 
-const CONFIG =
+const CONFIG_RULEBOOK =
 {
-    _rulebook:
+    examples:
     {
-        examples:
+        turn:
         {
-            turn:
-            {
-                buttonText: "Give me an example turn!",
-                callback: generate
-            }
-        },
+            buttonText: "Give me an example turn!",
+            callback: generate
+        }
+    },
 
-        tables:
+    tables:
+    {
+        supercells:
         {
-            supercells:
-            {
-                icons:
-                {
-                    config:
-                    {
-                        sheetURL: "special_cells.webp",
-                        sheetWidth: 8,
-                        base: "/keebble-games/spell/keebble/assets/"
-                    }
-
-                },
-
-                data:
-                {
-                    doubleLetter: KEEBBLE_TYPES.doubleLetter,
-                    tripleLetter: KEEBBLE_TYPES.tripleLetter,
-                    doubleWord: KEEBBLE_TYPES.doubleWord,
-                    tripleWord: KEEBBLE_TYPES.tripleWord
-                }
-            },
-
-            "poignant-powerups":
+            icons:
             {
                 config:
                 {
-                    
-                },
+                    sheetURL: "special_cells.webp",
+                    sheetWidth: 8,
+                    base: "/keebble-games/spell/keebble/assets/"
+                }
 
-                icons:
-                {
-                    config:
-                    {
-                        sheetURL: "option_icons.webp",
-                        base: "/keebble-games/spell/keebble-knickknack/assets/",
-                        sheetWidth: 14,
-                    }
-                },
+            },
 
-                data:
+            data:
+            {
+                doubleLetter: KEEBBLE_TYPES.doubleLetter,
+                tripleLetter: KEEBBLE_TYPES.tripleLetter,
+                doubleWord: KEEBBLE_TYPES.doubleWord,
+                tripleWord: KEEBBLE_TYPES.tripleWord
+            }
+        },
+
+        "poignant-powerups":
+        {
+            config:
+            {
+                
+            },
+
+            icons:
+            {
+                config:
                 {
-                    letterChange: OPTIONS.po_letter,
-                    wordChange: OPTIONS.po_word,
-                    straight: OPTIONS.po_straight,
-                    connect: OPTIONS.po_connect,
-                    clear: OPTIONS.po_clear
+                    sheetURL: "option_icons.webp",
+                    base: "/keebble-games/spell/keebble-knickknack/assets/",
+                    sheetWidth: 14,
                 }
             },
 
-            "ominous-options":
+            data:
             {
-                icons:
-                {
-                    config:
-                    {
-                        sheetURL: "option_icons.webp",
-                        base: "/keebble-games/spell/keebble-knickknack/assets/",
-                        sheetWidth: 14,
-                    }
-                },
+                letterChange: OPTIONS.po_letter,
+                wordChange: OPTIONS.po_word,
+                straight: OPTIONS.po_straight,
+                connect: OPTIONS.po_connect,
+                clear: OPTIONS.po_clear
+            }
+        },
 
-                data:
+        "ominous-options":
+        {
+            icons:
+            {
+                config:
                 {
-                    swap: OPTIONS.swap,
-                    destroy: OPTIONS.destroy,
+                    sheetURL: "option_icons.webp",
+                    base: "/keebble-games/spell/keebble-knickknack/assets/",
+                    sheetWidth: 14,
                 }
             },
 
-            "beefy-backpacks":
+            data:
             {
-                icons:
-                {
-                    config:
-                    {
-                        sheetURL: "option_icons.webp",
-                        base: "/keebble-games/spell/keebble-knickknack/assets/",
-                        sheetWidth: 14,
-                    }
-                },
+                swap: OPTIONS.swap,
+                destroy: OPTIONS.destroy,
+            }
+        },
 
-                data:
+        "beefy-backpacks":
+        {
+            icons:
+            {
+                config:
                 {
-                    emptyBackpack: OPTIONS.empty_backpack,
+                    sheetURL: "option_icons.webp",
+                    base: "/keebble-games/spell/keebble-knickknack/assets/",
+                    sheetWidth: 14,
                 }
+            },
+
+            data:
+            {
+                emptyBackpack: OPTIONS.empty_backpack,
             }
         }
     }
 }
 
-loadRulebook(CONFIG._rulebook);
+loadRulebook(CONFIG_RULEBOOK);

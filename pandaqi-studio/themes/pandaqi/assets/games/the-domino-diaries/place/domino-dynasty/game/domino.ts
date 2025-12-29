@@ -3,8 +3,7 @@ import { DominoType, EVENTS, MISC, MISSION_PENALTIES, MISSION_REWARDS, MISSION_T
 import DominoSide from "./dominoSide";
 import { CONFIG } from "../shared/config";
 import MissionRequirement from "./missionRequirement";
-import { fromArray, MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, TextConfig, TextStyle, ResourceText, Vector2 } from "lib/pq-games";
-import { drawBlurryRectangle } from "lib/pq-games/layout/tools/drawBlurryRectangle";
+import { fromArray, MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, TextConfig, TextStyle, ResourceText, Vector2, drawBlurryRectangle } from "lib/pq-games";
 
 export default class Domino
 {

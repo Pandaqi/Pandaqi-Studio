@@ -382,7 +382,7 @@ export class BoardGeneration
 		const max = CONFIG.startHandSize.max;
 		const size = Math.floor(Math.random() * (max - min) + min);
 
-		const numPlayers = CONFIG.numPlayers;
+		const numPlayers = CONFIG._settings.numPlayers.value;
 		const hands = [];
 		for(let i = 0; i < numPlayers; i++)
 		{
@@ -433,7 +433,7 @@ export class BoardGeneration
 
 	visualizeBackground(vis:MaterialVisualizer, group:ResourceGroup)
 	{
-		if(CONFIG._settings.defaults.inkFriendly.value) { return; }
+		if(vis.inkFriendly) { return; }
 
 		const cells = this.gen.cellsFlat.slice();
 		shuffle(cells);

@@ -20,7 +20,7 @@ Finally, prepare the map.
 
 ## Objective
 
-The game ends when the **Asteroid Deck runs out** ( = all its cards have been revealed). Check the [impact of the asteroid](#asteroid), then calculate the [final scores](#scoring).
+The game ends when the **Asteroid Deck runs out** ( = all its cards have been revealed). Check the [impact of the asteroid](#asteroid-impact), then calculate the [final scores](#scoring).
 
 If playing **cooperative**, higher is better. If playing **competitive**, highest score wins.
 

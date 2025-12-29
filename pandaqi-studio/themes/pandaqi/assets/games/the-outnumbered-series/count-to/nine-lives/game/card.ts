@@ -1,9 +1,6 @@
 
 import { CATS, MISC, Type } from "../shared/dict";
-import { CONFIG } from "../shared/config";
-import { MaterialVisualizer, DropShadowEffect, createContext, fillCanvas, Vector2, GrayScaleEffect, LayoutOperation, getRectangleCornersWithOffset, Rectangle, bevelCorners, Path, ResourceShape, LayoutEffect, TextConfig, TextAlign, ResourceText, ColorLike, StrokeAlign, Color, strokeCanvas } from "lib/pq-games";
-import { patternizeGrid } from "lib/pq-games/layout/patterns/patternizeGrid";
-
+import { MaterialVisualizer, DropShadowEffect, createContext, fillCanvas, Vector2, GrayScaleEffect, LayoutOperation, getRectangleCornersWithOffset, Rectangle, bevelCorners, Path, ResourceShape, LayoutEffect, TextConfig, TextAlign, ResourceText, ColorLike, StrokeAlign, Color, strokeCanvas, patternizeGrid } from "lib/pq-games";
 
 const cacheVisualizerData = async (vis:MaterialVisualizer) =>
 {  

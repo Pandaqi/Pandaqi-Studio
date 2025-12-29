@@ -102,7 +102,7 @@ export const CONFIG =
     {
         cards:
         {
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper:
             {
                 sizeElement: new Vector2(1, 1.4),
@@ -117,7 +117,7 @@ export const CONFIG =
 
         tokens:
         {
-            picker: tokenPicker,
+            picker: () => tokenPicker,
             mapper:
             {
                 sizeElement: new Vector2(1,1),

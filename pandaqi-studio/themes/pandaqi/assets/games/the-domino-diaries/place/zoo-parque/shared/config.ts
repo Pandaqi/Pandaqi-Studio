@@ -224,13 +224,13 @@ export const CONFIG =
     {
         dominoes:
         {
-            picker: dominoPicker,
+            picker: () => dominoPicker,
             mapper: MapperPreset.DOMINO
         },
 
         tiles:
         {
-            picker: tilePicker, 
+            picker: () => tilePicker, 
             mapper:
             {
                 sizeElement: new Vector2(2, 1),

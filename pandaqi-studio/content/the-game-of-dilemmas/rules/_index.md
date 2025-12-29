@@ -8,11 +8,6 @@ Sort the cards into _positive_ and _negative_. Shuffle both piles and place them
 
 All players draw 4 cards of each type into their hand.
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/the-game-of-dilemmas/).
-{{% /rules/rules-remark %}}
-
-
 ## Objective
 
 The game ends after 5 rounds. Highest score wins!

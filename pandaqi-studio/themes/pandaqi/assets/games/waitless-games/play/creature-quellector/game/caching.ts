@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceImage, LayoutOperation, createContext, fillCanvas, convertCanvasToImageMultiple, Vector2, Line, ResourceShape, Path, Bounds, takeBitsOutOfPath } from "lib/pq-games";
+import { MaterialVisualizer, ResourceImage, LayoutOperation, createContext, fillCanvas, convertCanvasToImageMultiple, Vector2, Line, ResourceShape, Path, Bounds, takeBitesOutOfPath } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CATEGORIES, ELEMENTS } from "../shared/dict";
 
@@ -165,6 +165,6 @@ const getFunkyClipPath = (size:Vector2, bounds = { min: 3, max: 6 }) : Path =>
         new Vector2() // to close it
     ]
     const chunkSize = 0.5*(bounds.min + bounds.max);
-    const funkyPath = takeBitsOutOfPath({ path: path, biteBounds: bounds, chunkSize: chunkSize, chunksInterval: new Bounds(6, 11) });
+    const funkyPath = takeBitesOutOfPath({ path: path, biteBounds: bounds, chunkSize: chunkSize, chunksInterval: new Bounds(6, 11) });
     return new Path(funkyPath);
 }

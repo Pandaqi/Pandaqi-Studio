@@ -1,4 +1,25 @@
 import { loadRulebook } from "lib/pq-rulebook";
-import { CONFIG } from "../shared/config";
+import { ACTIONS } from "../shared/dict";
 
-loadRulebook(CONFIG._rulebook);
+const CONFIG_RULEBOOK = 
+{
+    tables:
+    {
+        "glidy-gifts":
+        {
+            icons:
+            {
+                config:
+                {
+                    sheetURL: "actions.webp",
+                    sheetWidth: 8,
+                    base: "/slippery-slopes/assets/"
+                }
+            },
+            
+            data: ACTIONS
+        },
+    }
+}
+
+loadRulebook(CONFIG_RULEBOOK);

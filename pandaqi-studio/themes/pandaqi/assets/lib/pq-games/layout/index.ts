@@ -2,6 +2,8 @@
 export * from "./layoutOperation";
 export * from "./gridMapper";
 export * from "./values";
+export * from "./patterns";
+export * from "./tools";
 
 // > Canvas
 export * from "./canvas";

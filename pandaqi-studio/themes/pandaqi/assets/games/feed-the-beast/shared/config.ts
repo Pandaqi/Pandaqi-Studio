@@ -193,7 +193,7 @@ export const CONFIG =
     {
         tokens:
         {
-            picker: tokenPicker,
+            picker: () => tokenPicker,
             mapper:
             {
                 sizeElement: new Vector2(1, 1),
@@ -207,7 +207,7 @@ export const CONFIG =
 
         beasts:
         {
-            picker: tilePicker,
+            picker: () => tilePicker,
             mapper:
             {
                 autoStroke: true,
@@ -222,7 +222,7 @@ export const CONFIG =
 
         cards:
         {
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper: {
                 autoStroke: true,
                 sizeElement: new Vector2(1, 1.4),

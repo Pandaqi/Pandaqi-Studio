@@ -85,7 +85,7 @@ export const CONFIG =
         cards:
         {
             itemSize: new Vector2(375, 575),
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper: MapperPreset.CARD
         }
     },

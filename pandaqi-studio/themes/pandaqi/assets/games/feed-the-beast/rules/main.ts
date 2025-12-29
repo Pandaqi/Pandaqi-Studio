@@ -77,7 +77,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     shuffle(validStartingTokens);
 
     // prepare beast + menu cards
-    const beastCard : Card = fromArray(sim.getPicker("tiles")());
+    const beastCard : Card = fromArray(sim.getPicker("beasts")());
     const beastHand = new Hand();
 
     const menuCards : Card[] = shuffle(sim.getPicker("cards")());

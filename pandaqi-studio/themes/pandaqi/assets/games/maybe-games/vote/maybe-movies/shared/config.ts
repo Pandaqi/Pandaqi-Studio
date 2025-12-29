@@ -111,13 +111,13 @@ export const CONFIG:Record<string,any> =
         cards:
         {
             itemSize: new Vector2(375, 525),
-            picker: cardPicker
+            picker: () => cardPicker
         },
 
         votes:
         {
             itemSize: new Vector2(375, 525),
-            picker: votePicker
+            picker: () => votePicker
         }
     },
 

@@ -6,11 +6,6 @@ type: "rules"
 
 Include 1 suit (all cards 1-9 of one color) per player. Pick anyone to be the Kittykeeper ( = start player). That's it!
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/the-outnumbered-series/count-to/nine-lives-tricksy-kittens/).
-{{% /rules/rules-remark %}}
-
-
 ## Objective
 
 The game ends when **a player reaches 9(+) lives**. The player with the most lives wins.

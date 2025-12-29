@@ -1,5 +1,5 @@
 import { Vector2 } from "../../geometry/vector2";
-import { convertPixelsToInches, getPageSizeSingle, getPageSizeSplittable, PageSize, PageOrientation, makeSizeSplittable } from "./tools";
+import { convertPixelsToInches, getPageSizeSingle, makeSizeSplittable, PageOrientation, PageSize } from "./tools";
 // @ts-ignore
 import { jsPDF } from "./jspdf";
 

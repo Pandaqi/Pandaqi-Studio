@@ -8,11 +8,6 @@ Sort all cards into facedown piles, one per category. For a first game, just use
 
 Pick any player to start.
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/the-game-of-happiness/).
-{{% /rules/rules-remark %}}
-
-
 ## Objective
 
 The game ends once all players have taken a turn. It's cooperative. A higher score is better and the "perfect score" is 10 x the number of turns.

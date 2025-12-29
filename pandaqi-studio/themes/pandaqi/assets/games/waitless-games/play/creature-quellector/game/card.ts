@@ -141,7 +141,7 @@ export default class Card
     getIconColorDark(elem:ElementIcon) : string
     {
         // @ts-ignore
-        if(CONFIG._settings.defaults.inkFriendly.value) { return CONFIG._drawing.cards.icon.backgroundDarkInkFriendly; }
+        if(getSettingDefault("inkFriendly")) { return CONFIG._drawing.cards.icon.backgroundDarkInkFriendly; }
         const cat = this.getIconElementType(elem);
         return CATEGORIES[cat].colorDark;
     }

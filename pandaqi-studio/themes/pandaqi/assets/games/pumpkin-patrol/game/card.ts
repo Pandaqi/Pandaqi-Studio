@@ -1,5 +1,4 @@
-import { MaterialVisualizer, createContext, Vector2, LayoutOperation, convertCanvasToImage, ResourceImage, fillCanvas, ResourceGradient, ColorStop, Color, DropShadowEffect, TextConfig, TextAlign, ResourceText, ResourceShape, Rectangle, getPositionsCenteredAround, TintEffect, Path, movePath, Line, strokeCanvas, colorDarken } from "lib/pq-games";
-import { GradientType } from "lib/pq-games/layout/resources/resourceGradient";
+import { MaterialVisualizer, createContext, Vector2, LayoutOperation, convertCanvasToImage, ResourceImage, fillCanvas, ResourceGradient, ColorStop, Color, DropShadowEffect, TextConfig, TextAlign, ResourceText, ResourceShape, Rectangle, getPositionsCenteredAround, TintEffect, Path, movePath, Line, strokeCanvas, colorDarken, getSettingDefault, GradientType } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { COLORS, MISC, Type } from "../shared/dict";
 import RequirementData from "./requirementData";
@@ -602,7 +601,7 @@ export default class Card
 
         // draw set ID in top left (use SET_ORDER from dict, convert to roman numerals)
         const offset = vis.get("cards.setID.offset").clone().scaleFactor(vis.sizeUnit);
-        const ID = CONFIG._settings.defaults.seed.value; // ???
+        const ID = getSettingDefault("seed", CONFIG);
         const col = vis.inkFriendly ? "#212121" : vis.get("cards.setID.color");
         const op = new LayoutOperation({
             fill: col,

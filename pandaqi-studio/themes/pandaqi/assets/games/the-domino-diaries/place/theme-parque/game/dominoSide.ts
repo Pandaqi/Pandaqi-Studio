@@ -1,6 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, Color, Vector2, ResourceShape, Rectangle, LayoutOperation, DropShadowEffect, TextConfig, ResourceText, StrokeAlign, TextStyle, colorRandomize } from "lib/pq-games";
-import { drawBlurryRectangle } from "lib/pq-games/layout/tools/drawBlurryRectangle";
+import { MaterialVisualizer, ResourceGroup, Color, Vector2, ResourceShape, Rectangle, LayoutOperation, DropShadowEffect, TextConfig, ResourceText, StrokeAlign, TextStyle, colorRandomize, drawBlurryRectangle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { COASTER_PARTS, ITEMS, ItemType, MISC, PATHS, PATHS_ORDER, PathType } from "../shared/dict";
 

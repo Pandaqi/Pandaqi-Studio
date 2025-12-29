@@ -170,13 +170,13 @@ export const CONFIG =
     {
         cards:
         {
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper: MapperPreset.CARD
         },
 
         tiles:
         {
-            picker: tilePicker,
+            picker: () => tilePicker,
             mapper: MapperPreset.TILE
         }
     },

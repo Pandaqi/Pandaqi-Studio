@@ -53,7 +53,7 @@ export const CONFIG =
     {
         board:
         {
-            picker: boardPicker,
+            picker: () => boardPicker,
             mapper: MapperPreset.FULL_PAGE,
         }
     },

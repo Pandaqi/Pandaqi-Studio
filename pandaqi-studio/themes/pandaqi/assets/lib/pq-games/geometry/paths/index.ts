@@ -19,3 +19,4 @@ export * from "./arcs";
 
 // > Arranging (getPositions, getRectangleCorners, ...)
 export * from "./arranging";
+export * from "./merging";

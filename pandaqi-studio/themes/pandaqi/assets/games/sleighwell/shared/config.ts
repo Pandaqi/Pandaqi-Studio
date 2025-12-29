@@ -108,7 +108,7 @@ export const CONFIG =
         tiles:
         {
             itemSize: new Vector2(192), // for rulebook
-            picker: tilePicker,
+            picker: () => tilePicker,
             mapper:
             {
                 size: { 
@@ -182,7 +182,7 @@ export const CONFIG =
         },
     },
 
-    _rulebook:
+    rulebook:
     {
         boardDims: new Vector2(4,4),
         minBoardDim: 2,

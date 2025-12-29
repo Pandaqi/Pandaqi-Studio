@@ -131,20 +131,20 @@ export const getGridSizeFromMapperConfig = (MapperConfig:MapperConfig, itemSizeK
     return newSize;
 }
 
-export const createGridMapperFromConfig = (config:GameConfig, mapperConfig:MapperConfig) =>
+export const createGridMapperFromConfig = (config:GameConfig, mapperConfig:MapperConfig|MapperPreset) =>
 {
     // a shortcut to select an oft-used preset of settings
     if(typeof mapperConfig == "string") { mapperConfig = { preset: mapperConfig }; };
     if(mapperConfig.preset) { mapperConfig = MAPPER_PRESETS[mapperConfig.preset]; }
     
     // grab proper settings from general, allowing override from specific config
-    const itemSizeKey = config._settings.defaults.itemSize;
+    const itemSizeKey = config._settings.defaults.itemSize.value;
     const pageSize = getPageSizeSingle({
-        pageSize: mapperConfig.pageSize ?? config._settings.defaults.pageSize,
+        pageSize: mapperConfig.pageSize ?? config._settings.defaults.pageSize.value,
         orientation: mapperConfig.pageOrientation ?? config._generation.pageOrientation
     });
 
-    const pageSides = config._settings.defaults.pageSides ?? config._game.pageSides ?? PageSides.SINGLE;
+    const pageSides = config._settings.defaults.pageSides.value ?? config._game.pageSides ?? PageSides.SINGLE;
 
     // return new GridMapper made for this
     const size = getGridSizeFromMapperConfig(mapperConfig, itemSizeKey);

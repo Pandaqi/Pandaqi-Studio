@@ -2,7 +2,7 @@
 import { rangeInteger, fromArray, Vector2, createCanvas } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import { CONFIG } from "../shared/config";
-import { CATEGORIES } from "../shared/dict";
+import { CATEGORIES, ELEMENTS } from "../shared/dict";
 
 type Stats = Record<string,number>
 
@@ -91,7 +91,7 @@ class Card
             if(isAction)
             {
                 const fontSize = (0.66*typeSize);
-                ctx.font = fontSize + "px " + vis.get("fonts.heading");
+                ctx.font = fontSize + "px " + CONFIG._drawing.fonts.heading;
                 ctx.textAlign = "center";
                 ctx.fillStyle = "#FFFFFF";
                 ctx.fillText("A", typeListPos.x, typeListPos.y + 0.33*fontSize);
@@ -349,4 +349,103 @@ export const generateForRulebook = async (sim:InteractiveExampleSimulator) =>
     o.addParagraph("Next player's turn!");
 }
 
-loadRulebook(CONFIG._rulebook);
+const CONFIG_RULEBOOK =
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Generate a random turn!",
+            callback: generateForRulebook,
+        }
+    },
+
+    tables:
+    {
+        red:
+        {
+            icons:
+            {
+                config:
+                {
+                    sheetURL: "quellector_actions_with_bg.webp",
+                    sheetWidth: 8,
+                    base: "/waitless-games/play/creature-quellector/assets/"
+                }
+            },
+
+            data: 
+            {
+                fire: ELEMENTS.fire,
+                electric: ELEMENTS.electric,
+                star: ELEMENTS.star,
+                dragon: ELEMENTS.dragon
+            }
+        },
+
+        blue:
+        {
+            icons:
+            {
+                config:
+                {
+                    sheetURL: "quellector_actions_with_bg.webp",
+                    sheetWidth: 8,
+                    base: "/waitless-games/play/creature-quellector/assets/"
+                }
+            },
+
+            data: 
+            {
+                water: ELEMENTS.water,
+                ice: ELEMENTS.ice,
+                poison: ELEMENTS.poison,
+                weather: ELEMENTS.weather
+            }
+        },
+
+        green:
+        {
+            icons:
+            {
+                config:
+                {
+                    sheetURL: "quellector_actions_with_bg.webp",
+                    sheetWidth: 8,
+                    base: "/waitless-games/play/creature-quellector/assets/"
+                }
+            },
+
+            data: 
+            {
+                earth: ELEMENTS.earth,
+                grass: ELEMENTS.grass,
+                rock: ELEMENTS.rock,
+                bug: ELEMENTS.bug
+            }
+        },
+
+        purple:
+        {
+            icons:
+            {
+                config:
+                {
+                    sheetURL: "quellector_actions_with_bg.webp",
+                    sheetWidth: 8,
+                    base: "/waitless-games/play/creature-quellector/assets/"
+                }
+            },
+            
+            data: 
+            {
+                air: ELEMENTS.air,
+                magic: ELEMENTS.magic,
+                ghost: ELEMENTS.ghost,
+                dark: ELEMENTS.dark
+            }
+        }
+    }
+}
+
+loadRulebook(CONFIG_RULEBOOK);

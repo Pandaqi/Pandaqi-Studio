@@ -1,3 +1,4 @@
+
 import type { InteractiveExample } from "./interactiveExample"
 
 export interface InteractiveExampleSimulatorParams
@@ -64,7 +65,7 @@ export class InteractiveExampleSimulator
         return this.materialCustom;
     }
 
-    getPicker(key:string) { return (this.materialCustom.material[key] ?? {}).picker }
+    getPicker(key:string) { return (this.materialCustom.material[key] ?? {}).picker() }
     getVisualizer(key:string = "") 
     { 
         if(!key) { key = Object.keys(this.materialCustom.material)[0]; }

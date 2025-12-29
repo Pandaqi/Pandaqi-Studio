@@ -1,3 +1,4 @@
+import { loadGame, loadSettings } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import Game from "./game/game";
 

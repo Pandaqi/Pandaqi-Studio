@@ -3,14 +3,20 @@ import type { MapperPreset, ItemSize } from "../layout/gridMapper";
 import { ResourceLoadParams, ResourceLoader } from "../layout/resources/resourceLoader";
 import { MaterialVisualizer } from "../renderers";
 import type { Renderer } from "../renderers/renderer";
-import { isObject } from "../tools/collections/checkers";
 import { mergeObjects } from "../tools/collections/converters";
 import type { PageOrientation, PageSides, PageSize } from "../tools/pdf/tools";
 import { getRandomSeedString } from "../tools/random/values";
 
 export const PROTECTED_CONFIGURATION_PROPERTIES = ["_game", "_settings", "_generation", "_drawing", "_material", "_resources", "_debug", "_translation"];
 
-export const getMaterialDataForRulebook = (config:GameConfig) =>
+export interface GameConfigMaterialSubset
+{
+    _resources?: GameConfigResources,
+    _game?: GameConfigGame,
+    _material?: Record<string,MaterialConfig>,
+}
+
+export const getMaterialDataForRulebook = (config:GameConfigMaterialSubset) =>
 {
     // prepare resource loader with correct resources
     config._resources = config._resources ?? {};
@@ -34,6 +40,11 @@ export const getMaterialDataForRulebook = (config:GameConfig) =>
         resourceLoader: resLoader,
         material: newMaterial
     }
+}
+
+export const getSettingDefault = (key:string, config:GameConfig) =>
+{
+    return ((config._settings.defaults ?? {})[key] ?? {}).value;
 }
 
 export const getSetting = (path:string, config:GameConfig) =>
@@ -80,7 +91,32 @@ export const ensureConfigProperties = (config:GameConfig) =>
     config._settings.meta = config._settings.meta ?? {};
 
     // random seeding (if no fixed one set)
-    if(!config._settings.defaults.seed) { config._settings.defaults.seed = getRandomSeedString(); }
+    config._settings.defaults.seed = config._settings.defaults.seed ?? { value: undefined };
+    if(!config._settings.defaults.seed.value) { config._settings.defaults.seed.value = getRandomSeedString(); }
+}
+
+export interface GameConfigResources
+{
+    filter?: Function,
+    base?: string,
+    files?: Record<string,ResourceLoadParams>
+}
+
+export interface GameConfigGame
+{
+    name?: string,
+    fileName?: string,
+
+    renderer?: Renderer, // global renderer used for everything
+    resLoader?: ResourceLoader, // global resource loader used for everything
+    localStorageKey?: string,
+    itemSize?: Vector2, // a fixed item size override/default in case no itemSize is set in some other way
+
+    noUploadingCustomResources?: boolean, // if true, you can't execute this framework locally as it creates no input form for uploading trusted assets
+    noDefaultSettings?: boolean, // if true, none of the default settings are appended to yours
+    noInkFriendly?: boolean, // if true, the option to generate inkfriendly version is not shown
+    noSeed?: boolean, // if true, the text input for a seed is not shown
+    pageSides?: PageSides, // custom default double-sided or single-sided printing
 }
 
 export interface GameConfig
@@ -101,29 +137,8 @@ export interface GameConfig
         layoutOperation?: boolean, // @TODO: implemented, but what should we actually debug/report? Does it assign a unique ID to each operation-resource combo + do a more expensive check on its validity?
     },
 
-    _resources?:
-    {
-        filter?: Function,
-        base?: string,
-        files?: Record<string,ResourceLoadParams>
-    }
-
-    _game?:
-    {
-        name?: string,
-        fileName?: string,
-
-        renderer?: Renderer, // global renderer used for everything
-        resLoader?: ResourceLoader, // global resource loader used for everything
-        localStorageKey?: string,
-        itemSize?: Vector2, // a fixed item size override/default in case no itemSize is set in some other way
-
-        noUploadingCustomResources?: boolean, // if true, you can't execute this framework locally as it creates no input form for uploading trusted assets
-        noDefaultSettings?: boolean, // if true, none of the default settings are appended to yours
-        noInkFriendly?: boolean, // if true, the option to generate inkfriendly version is not shown
-        noSeed?: boolean, // if true, the text input for a seed is not shown
-        pageSides?: PageSides, // custom default double-sided or single-sided printing
-    },
+    _resources?: GameConfigResources,
+    _game?: GameConfigGame,
 
     _settings?:
     {
@@ -136,18 +151,20 @@ export interface GameConfig
             feedbackNode?: HTMLElement
         },
 
-        // @TODO: might have the FINAL VALUES of each setting NOT OVERRIDE the original config in here? It hasn't created any problems so far, but it might in the future?
         defaults?:
         {
-            resources?: FileList,
-            pageSize?: PageSize,
-            pageSides?: PageSides,
-            itemSize?: ItemSize,
-            inkFriendly?: boolean,
-            seed?: string,
-            splitDims?: string, // this would be a GLOBAL splitDims for all elements
-            language?: string,
-        }
+            resources?: { value: FileList },
+            pageSize?: { value: PageSize },
+            pageSides?: { value: PageSides },
+            itemSize?: { value: ItemSize },
+            inkFriendly?: { value: boolean },
+            seed?: { value: string },
+            splitDims?: { value: string }, // this would be a GLOBAL splitDims for all elements
+            language?: { value: string },
+        },
+
+        // all our custom settings
+        [name: string]: any
     }
 
     _translation?: 
@@ -192,7 +209,7 @@ export interface MapperConfig
 export interface MaterialConfig
 {
     picker?:Function, 
-    mapper?:MapperConfig,
+    mapper?:MapperConfig|MapperPreset,
     visualizer?:any,
     itemSize?: Vector2, // if no item size was given by other settings (e.g. PageMapper) it always uses this size
     splitDims?: Vector2, // these splitDims are only applied to this specific bit of material

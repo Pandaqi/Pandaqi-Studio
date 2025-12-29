@@ -1,6 +1,7 @@
 import { getMaterialDataForRulebook, shuffle } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import { CONFIG } from "../shared/config";
+import { PACKS } from "../shared/dict";
 
 const cardDrawConfig = 
 {
@@ -300,4 +301,36 @@ export const generateForRulebook = async (sim:InteractiveExampleSimulator, inclu
     printCardList(o, piles);
 }
 
-loadRulebook(CONFIG._rulebook);
+const CONFIG_RULEBOOK = 
+{
+    examples:
+    {
+        "turn":
+        {
+            buttonText: "Give me an example turn!",
+            callback: generateForRulebook,
+        },
+
+        "turn-reverse":
+        {
+            buttonText: "Give me an example turn!",
+            callback: (sim) => { generateForRulebook(sim, true) },
+        },
+    },
+
+    icons:
+    {
+        packs:
+        {
+            config:
+            {
+                sheetURL: "card_types.webp",
+                sheetWidth: 8,
+                base: "/the-outnumbered-series/count-to/sixpack/assets/",
+            },
+            icons: PACKS
+        },
+    }
+}
+
+loadRulebook(CONFIG_RULEBOOK);

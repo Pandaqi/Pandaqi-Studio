@@ -19,7 +19,7 @@ const generateTilesFor = (tiles, set:string) =>
 {
     if(!CONFIG._settings.sets[set].value) { return; }
 
-    const dir = CONFIG.tiles.generation.setStaggerDir[set] ?? 1;
+    const dir = CONFIG._drawing.tiles.generation.setStaggerDir[set] ?? 1;
 
     // sort types based on starting number (low to high)
     // (this just makes the algorithm much faster and cleaner, it's not crucial)
@@ -37,12 +37,12 @@ const generateTilesFor = (tiles, set:string) =>
     let numTilesNeeded = 0;
     for(const typeObj of typesSorted)
     {
-        const freq = TYPES[typeObj.key].freq ?? CONFIG.tiles.generation.defaultFreqPerType;
+        const freq = TYPES[typeObj.key].freq ?? CONFIG._drawing.tiles.generation.defaultFreqPerType;
         numTilesNeeded += freq;
     }
 
     // prepare price numbers for random drawing
-    const dist = CONFIG.tiles.generation.priceNumberDistribution.slice();
+    const dist = CONFIG._drawing.tiles.generation.priceNumberDistribution.slice();
     const numDistCopies = Math.ceil(numTilesNeeded / dist.length);
     const priceNumbers = [];
     for(let i = 0; i < numDistCopies; i++)
@@ -56,15 +56,15 @@ const generateTilesFor = (tiles, set:string) =>
 
     // then start adding them using a stagger algorithm
     const numbersTaken = [];
-    const staggerConstant = CONFIG.tiles.generation.staggerConstant as number;
-    const staggerBounds = CONFIG.tiles.generation.staggerBounds as Bounds;
-    const setBounds = CONFIG.tiles.generation.setNumBounds[set];
+    const staggerConstant = CONFIG._drawing.tiles.generation.staggerConstant as number;
+    const staggerBounds = CONFIG._drawing.tiles.generation.staggerBounds as Bounds;
+    const setBounds = CONFIG._drawing.tiles.generation.setNumBounds[set];
     
     for(const typeObj of typesSorted)
     {
         const type = typeObj.key;
         const data = TYPES[type];
-        const freq = data.freq ?? CONFIG.tiles.generation.defaultFreqPerType;
+        const freq = data.freq ?? CONFIG._drawing.tiles.generation.defaultFreqPerType;
         
         const actionsPossible = data.actions ?? [];
         const actionsSpecific = [];

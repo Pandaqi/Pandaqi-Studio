@@ -15,7 +15,7 @@ export const CONFIG =
     {
         board:
         {
-            picker: boardPicker,
+            picker: () => boardPicker,
             mapper: MapperPreset.FULL_PAGE
         }
     },
@@ -107,5 +107,7 @@ export const CONFIG =
                 path: "flower_icon.webp"
             },
         }
-    }
+    },
+
+    _settings: {} as Record<string,any>
 }

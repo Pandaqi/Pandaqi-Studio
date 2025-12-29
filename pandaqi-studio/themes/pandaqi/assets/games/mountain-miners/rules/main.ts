@@ -118,7 +118,7 @@ class Board
 
     async draw(sim:InteractiveExampleSimulator, highlightedTiles:Tile[] = []) : Promise<HTMLImageElement>
     {
-        const tileSize = CONFIG._rulebook.tileSize;
+        const tileSize = CONFIG.rulebook.tileSize;
         const mapSize = this.size.clone().scale(tileSize);
 
         const rot = (this.arrowIndex + this.randBoardRotation) % 4;
@@ -165,22 +165,22 @@ class Board
         {
             const pos = cell.customData.pos;
             const isHighlighted = highlightedTiles.filter((val) => { return val == cell; }).length > 0;
-            const color = isHighlighted ? CONFIG._rulebook.highlightColor : CONFIG._rulebook.nonHighlightColor;
+            const color = isHighlighted ? CONFIG.rulebook.highlightColor : CONFIG.rulebook.nonHighlightColor;
             ctx.fillStyle = color;
             ctx.fillRect(pos.x * tileSize, pos.y * tileSize, tileSize, tileSize);
 
             const tile = this.getCell(pos);
             if(tile)
             {
-                if(someCellsAreHighlighted && !isHighlighted) { ctx.globalAlpha = CONFIG._rulebook.nonHighlightAlpha; }
+                if(someCellsAreHighlighted && !isHighlighted) { ctx.globalAlpha = CONFIG.rulebook.nonHighlightAlpha; }
                 const subCanv = await tile.draw(sim.getVisualizer());
                 ctx.drawImage(subCanv, pos.x * tileSize, pos.y * tileSize);
                 ctx.globalAlpha = 1.0;
             }
             
-            const strokeColor = isHighlighted ? CONFIG._rulebook.highlightStrokeColor : CONFIG._rulebook.nonHighlightStrokeColor;
+            const strokeColor = isHighlighted ? CONFIG.rulebook.highlightStrokeColor : CONFIG.rulebook.nonHighlightStrokeColor;
             ctx.strokeStyle = strokeColor;
-            ctx.lineWidth = CONFIG._rulebook.lineWidth * tileSize;
+            ctx.lineWidth = CONFIG.rulebook.lineWidth * tileSize;
             ctx.strokeRect(pos.x * tileSize, pos.y * tileSize, tileSize, tileSize);
         }
 
@@ -204,7 +204,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     }
 
     // fill the board with something believable
-    const board = new Board(CONFIG._rulebook.boardDims);
+    const board = new Board(CONFIG.rulebook.boardDims);
     board.fillRandom(tiles);
     board.placeArrow();
 

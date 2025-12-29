@@ -8,15 +8,9 @@ Create two shuffled, facedown decks: one with the large **Word Tiles** (10 words
 
 Place the **Choice Tokens** (number + color) within easy reach.
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/mammoth-messages/).
-{{% /rules/rules-remark %}}
-
-
 ## Objective
 
 The game ends after 10 rounds. Collectively score as many points as possible!
-
 
 ## Gameplay
 

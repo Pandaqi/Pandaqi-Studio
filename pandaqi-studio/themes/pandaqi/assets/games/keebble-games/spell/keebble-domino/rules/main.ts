@@ -2,6 +2,7 @@
 import { shuffle, Vector2 } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import { CONFIG } from "../game/config"
+import { CELLS } from "../game/dict";
 
 const LETTER_DICTIONARY = 
 {
@@ -938,4 +939,33 @@ export const generateRulebookExample = async (sim:InteractiveExampleSimulator) =
     }
 }
 
-loadRulebook(CONFIG._rulebook);
+const CONFIG_RULEBOOK = 
+{
+    examples:
+    {
+        turn:
+        {
+            buttonText: "Give me an example turn!",
+            callback: generateRulebookExample
+        }
+    },
+
+    tables:
+    {
+        supercells:
+        {
+            icons:
+            {
+                config:
+                {
+                    base: "/keebble-games/spell/keebble-domino/assets/",
+                    sheetURL: "special_cells.webp",
+                    sheetWidth: 8,
+                }
+            },
+            data: CELLS
+        },
+    }
+}
+
+loadRulebook(CONFIG_RULEBOOK);

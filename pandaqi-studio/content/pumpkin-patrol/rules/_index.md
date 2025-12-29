@@ -6,7 +6,7 @@ type: "rules"
 
 {{< rules/rules-image-sidebar src="setup.webp" alt="The two card types explained, and an example setup for 4 players." >}}
 
-Pick a set from [the website](https://pandaqi.com/pumpkin-patrol). For your first games, just play the starter set.
+Pick a set from [the website](/pumpkin-patrol/). For your first games, just play the starter set.
 
 Each player receives 5 **Hand Cards**. Hand cards always show _two_ options: you pick only _one_ of them when you use the card. Place the remaining Hand Cards as a shuffled facedown deck.
 

@@ -40,6 +40,8 @@ const convertRecursive = (config:Record<string,any>, path:string, container:HTML
     for(const [key,data] of Object.entries(config))
     {
         if(typeof data !== "object") { continue; }
+        const isProtectedProperty = ["meta"].includes(key);
+        if(isProtectedProperty) { continue; }
 
         const newPath = path.length <= 0 ? key : `${path}.${key}`;
         if(data.type == SettingType.GROUP) {
@@ -164,6 +166,7 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
         elem.classList.add("settings-input-multi");
 
         const defaultValues = data.default ?? [];
+        const values = data.values ?? [];
         for(const value of values)
         {
             const cont = document.createElement("div");
@@ -230,6 +233,7 @@ export const readSettingsFromHTML = (node:HTMLElement) =>
             if(!curPosition[part]) { curPosition[part] = {}; }
             curPosition = curPosition[part];
         }
+        curPosition[key] = {};
 
         // then place the value at the right place
         let value;

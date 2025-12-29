@@ -1,6 +1,4 @@
-import { SettingType, MapperPreset } from "lib/pq-games";
-import { generateRulebookExample } from "../rules/main";
-import { CELLS } from "./dict";
+import { MapperPreset, SettingType } from "lib/pq-games";
 import { dominoPicker } from "./dominoPicker";
 
 export const CONFIG =
@@ -51,37 +49,8 @@ export const CONFIG =
     {
         dominoes:
         {
-            picker: dominoPicker,
+            picker: () => dominoPicker,
             mapper: MapperPreset.DOMINO
-        }
-    },
-
-    _rulebook:
-    {
-        examples:
-        {
-            turn:
-            {
-                buttonText: "Give me an example turn!",
-                callback: generateRulebookExample
-            }
-        },
-
-        tables:
-        {
-            supercells:
-            {
-                icons:
-                {
-                    config:
-                    {
-                        base: "/keebble-games/spell/keebble-domino/assets/",
-                        sheetURL: "special_cells.webp",
-                        sheetWidth: 8,
-                    }
-                },
-                data: CELLS
-            },
         }
     },
 }

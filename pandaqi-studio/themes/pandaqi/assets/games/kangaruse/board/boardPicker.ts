@@ -1,3 +1,4 @@
+import { getSettingDefault } from "lib/pq-games"
 import BoardDisplay from "./boardDisplay"
 import BoardState from "./boardState"
 import { CONFIG } from "./config"
@@ -8,7 +9,7 @@ export const boardPicker = () : BoardDisplay =>
     const evaluator = new Evaluator();
 
     let cellTexture = "cell_types";
-    if(CONFIG._settings.defaults.inkFriendly.value || CONFIG._settings.simplifiedIcons.value) { cellTexture = "cell_types_simplified"; }
+    if(getSettingDefault("inkFriendly", CONFIG) || CONFIG._settings.simplifiedIcons.value) { cellTexture = "cell_types_simplified"; }
     CONFIG.cellTexture = cellTexture;
 
     let board

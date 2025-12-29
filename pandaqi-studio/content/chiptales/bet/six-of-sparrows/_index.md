@@ -9,7 +9,7 @@ blurb: "Create card patterns, but the earlier you state which pattern you'll com
 driveLink: "https://drive.google.com/drive/folders/1njaLYJ2YF_hRqz94qi8inNJCzSUB5doM"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/chiptales/six-of-sparrows/"
 
-date: 2026-01-26
+date: 2025-12-26
 
 difficulty: "kids-can-play"
 genres: ["family"]

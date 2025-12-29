@@ -1,7 +1,5 @@
 import type { Vector2 } from "../vector2";
 import type { PathLike } from "../path";
-import { Path } from "../path";
-import { PathCommand, PointPath } from "./pointPath";
 
 export const pointListToPath2D = (points:Vector2[]) =>
 {
@@ -26,20 +24,6 @@ export const pointListToPathString = (points:Vector2[], close = false) =>
     return newPoints.join(" ");
 }
 
-export const pointListToPathPoints = (points:Vector2[]|PointPath[]) : PointPath[] =>
-{
-    if(points.length <= 0) { return []; }
-    if(points[0] instanceof PointPath) { return points as PointPath[]; }
-    const arr = [];
-    for(let i = 0; i < points.length; i++)
-    {
-        const command = (i == 0) ? PathCommand.START : PathCommand.LINE; 
-        const p = new PointPath({ point: points[i] as Vector2, command: command });
-        arr.push(p);
-    }
-    return arr;
-}
-
 export const closePath = (path:PathLike) =>
 {
     if(!Array.isArray(path)) { path = path.toPathArray(); }
@@ -48,20 +32,6 @@ export const closePath = (path:PathLike) =>
     if(firstPoint == lastPoint) { return path; }
     path.push(firstPoint);
     return path;
-}
-
-export const mergePaths = (pathList:Path[]) =>
-{
-    const arr = [];
-    let prevPath:Path = null;
-    for(const path of pathList)
-    {
-        let newPath = path.toPathArray();
-        if(prevPath && getLastPathElement(prevPath) == getFirstPathElement(path)) { newPath.shift(); } // no duplicates
-        arr.push(newPath);
-        prevPath = path;
-    }
-    return new Path(arr.flat());
 }
 
 export const removeDuplicatesFromPath = (points:Vector2[]) => 

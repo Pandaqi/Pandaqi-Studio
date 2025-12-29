@@ -1,4 +1,4 @@
-import SignalManager from "lib/pq-games/tools/signals/signalManager";
+import { SignalManager } from "lib/pq-games";
 
 export default class Timer
 {

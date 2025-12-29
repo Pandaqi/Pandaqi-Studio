@@ -1,8 +1,7 @@
 
-import { ACTIONS } from "./dict";
-import { wordPicker } from "../game/wordPicker";
+import { Bounds, Color, MapperPreset, SettingType, TextAlign, TextConfig, Vector2 } from "lib/pq-games";
 import { sliderPicker } from "../game/sliderPicker";
-import { SettingType, Vector2, Bounds, MapperPreset, TextConfig, TextAlign, Color } from "lib/pq-games";
+import { wordPicker } from "../game/wordPicker";
 
 export const CONFIG =
 {
@@ -64,28 +63,7 @@ export const CONFIG =
                 remark: "Slight rule changes and more slider types."
             },
         }
-    },
-
-    _rulebook:
-    {
-        tables:
-        {
-            "glidy-gifts":
-            {
-                icons:
-                {
-                    config:
-                    {
-                        sheetURL: "actions.webp",
-                        sheetWidth: 8,
-                        base: "/slippery-slopes/assets/"
-                    }
-                },
-                
-                data: ACTIONS
-            },
-        }
-    },
+    } as Record<string,any>,
 
     _debug:
     {
@@ -220,13 +198,13 @@ export const CONFIG =
     {
         words:
         {
-            picker: wordPicker,
+            picker: () => wordPicker,
             mapper: MapperPreset.TILE
         },
 
         sliders:
         {
-            picker: sliderPicker,
+            picker: () => sliderPicker,
             mapper: MapperPreset.DOMINO
         }
     },

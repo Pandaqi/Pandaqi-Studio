@@ -138,7 +138,8 @@ export const CONFIG =
     rulebook:
     {
         numPlayerBounds: new Bounds(2,5),
-        itemSize: new Vector2(375, 575)
+        itemSize: new Vector2(375, 575),
+        targetScore: 10
     },
 
     generation:
@@ -175,7 +176,7 @@ export const CONFIG =
         cards:
         {
             itemSize: new Vector2(375, 575),
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper: MapperPreset.CARD
         }
     },

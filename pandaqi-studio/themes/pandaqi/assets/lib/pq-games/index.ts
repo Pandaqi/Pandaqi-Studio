@@ -1,8 +1,5 @@
-export * from "./game";
-export * from "./generateMaterial";
-
-// RENDERERS
-export * from "./renderers";
+// GEOMETRY
+export * from "./geometry";
 
 // LAYOUT
 export * from "./layout";
@@ -13,8 +10,11 @@ export * from "./settings"
 // TOOLS
 export * from "./tools";
 
-// GEOMETRY
-export * from "./geometry";
+// RENDERERS
+export * from "./renderers";
+
+export * from "./game";
+export * from "./generateMaterial";
 
 // @ts-ignore
 window.PQ_GAMES = {};

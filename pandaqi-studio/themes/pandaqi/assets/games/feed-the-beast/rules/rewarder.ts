@@ -5,7 +5,7 @@ import { CONFIG } from "../shared/config";
 import { fromArray, shuffle } from "lib/pq-games";
 import { InteractiveExampleSimulator } from "lib/pq-rulebook";
 
-interface GameState
+export interface GameState
 {
     curPlayer: Hand,
     players: Hand[],
@@ -19,7 +19,6 @@ interface GameState
     sim: InteractiveExampleSimulator
 }
 
-export { GameState }
 export default class Rewarder
 {
     reward(reward:RecipeReward, gameState:GameState)

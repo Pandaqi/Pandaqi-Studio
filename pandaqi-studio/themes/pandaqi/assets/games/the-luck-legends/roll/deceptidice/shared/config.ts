@@ -137,7 +137,7 @@ export const CONFIG =
         cards:
         {
             itemSize: new Vector2(375, 525), // for rulebook
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper: MapperPreset.CARD
         }
     },

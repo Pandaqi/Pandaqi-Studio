@@ -88,7 +88,7 @@ export const CONFIG =
         tiles:
         {
             itemSize: new Vector2(256, 256), // for rulebook
-            picker: tilePicker,
+            picker: () => tilePicker,
             mapper:             
             {
                 autoStroke: true,

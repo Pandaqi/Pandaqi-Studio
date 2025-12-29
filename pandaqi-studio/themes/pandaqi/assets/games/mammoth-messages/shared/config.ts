@@ -121,7 +121,7 @@ export const CONFIG =
     {
         cards:
         {
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper:
             {
                 autoStroke: true, // automatically adds thick outline around cards, which is customary and useful for imprecise cutters
@@ -137,7 +137,7 @@ export const CONFIG =
 
         drawings:
         {
-            picker: drawingPicker,
+            picker: () => drawingPicker,
             mapper:
             {
                 autoStroke: true,
@@ -153,7 +153,7 @@ export const CONFIG =
 
         tokens:
         {
-            picker: tokenPicker,
+            picker: () => tokenPicker,
             mapper:
             {
                 autoStroke: true,

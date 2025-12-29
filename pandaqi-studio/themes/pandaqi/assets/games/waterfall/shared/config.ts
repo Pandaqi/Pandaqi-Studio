@@ -134,7 +134,7 @@ export const CONFIG =
         tiles:
         {
             itemSize: new Vector2(512, 512),
-            picker: tilePicker,
+            picker: () => tilePicker,
             mapper: 
             {
                 autoStroke: true,

@@ -187,7 +187,7 @@ export const CONFIG =
     {
         dominoes:
         {
-            picker: dominoPicker,
+            picker: () => dominoPicker,
             mapper: MapperPreset.DOMINO
         }
     },

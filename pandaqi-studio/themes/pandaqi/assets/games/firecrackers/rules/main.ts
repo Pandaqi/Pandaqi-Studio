@@ -218,10 +218,6 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     const o = sim.getOutputBuilder();
     const numPlayers = SIMULATE ? SIMULATE_PLAYER_BOUNDS.randomInteger() : PLAY_PLAYER_BOUNDS.randomInteger();
 
-    /*const cardPicker = new CardPicker();
-    cardPicker.setNumPacks();
-    cardPicker.generate();*/
-
     let allCards : Card[] = shuffle(sim.getPicker("cards")());
     allCards = setNumPacks(allCards, Math.max(numPlayers, CONFIG.generation.starterDeck.numColors));
     const starterDecks : Card[][] = shuffle(getStarterDecks(allCards, numPlayers).slice());

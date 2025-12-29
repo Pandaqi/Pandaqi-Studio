@@ -34,7 +34,7 @@ Your opponent can do so too, _after_ you've chosen what to do.
 
 ## Squads
 
-{{< rules/rules-image src="card_anatomy.webp" alt="What different card parts mean." class="float-right" >}}
+{{< rules/rules-image-sidebar src="card_anatomy.webp" alt="What different card parts mean." class="float-right" >}}
 
 Creatures always belong to one **element** (their "main type"; the large icon in the center and corners). The rest of the card has a mix of _powers_: **types** and **actions**.
 

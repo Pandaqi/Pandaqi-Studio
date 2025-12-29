@@ -34,7 +34,7 @@ export const cardPicker = () : Card[] =>
 
 const generatePlayingCards = (cards) =>
 {
-    if(!CONFIG.generatePlayingCards.value) { return; }
+    if(!CONFIG._settings.generatePlayingCards.value) { return; }
 
     const suitsUsed = DYNAMIC_OPTIONS["%suit%"].slice();
     const numbersUsed = DYNAMIC_OPTIONS["%number%"].slice();
@@ -64,7 +64,7 @@ const generateStraightShakeContracts = (cards) =>
 
 const generateContracts = (targetSet:string, cards) =>
 {
-    if(!CONFIG.generateContracts.value) { return; }
+    if(!CONFIG._settings.generateContracts.value) { return; }
 
     const defFreq = CONFIG.generation.defaultFrequencyContracts[targetSet] ?? 1;
     for(const [key,data] of Object.entries(CONTRACTS))

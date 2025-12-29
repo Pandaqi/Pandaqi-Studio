@@ -156,9 +156,12 @@ const CONFIG_RULEBOOK =
         {
             icons:
             {
-                sheetURL: "cell_types",
-                sheetWidth: 8,
-                base: "/games/kangaruse/assets/"
+                config:
+                {
+                    sheetURL: "cell_types",
+                    sheetWidth: 8,
+                    base: "/games/kangaruse/assets/"
+                }
             },
             data: CELLS
         }

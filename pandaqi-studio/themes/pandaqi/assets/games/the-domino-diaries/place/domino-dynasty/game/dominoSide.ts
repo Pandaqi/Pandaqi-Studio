@@ -1,6 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, ResourceText } from "lib/pq-games";
-import { drawBlurryRectangle } from "lib/pq-games/layout/tools/drawBlurryRectangle";
+import { MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, ResourceText, drawBlurryRectangle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ICONS, PATHS, TERRAINS, TerrainType } from "../shared/dict";
 

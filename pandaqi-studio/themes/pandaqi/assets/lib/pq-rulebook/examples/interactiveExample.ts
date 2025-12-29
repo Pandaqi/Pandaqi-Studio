@@ -144,7 +144,9 @@ export class InteractiveExample
         {
             callbackButton = async () => 
             {
-                const sim = new InteractiveExampleSimulator({ enabled: false }, this);
+                const paramsModified = Object.assign({}, params.simulator);
+                paramsModified.enabled = false;
+                const sim = new InteractiveExampleSimulator(paramsModified, this);
                 return callback(sim);
             };
         }

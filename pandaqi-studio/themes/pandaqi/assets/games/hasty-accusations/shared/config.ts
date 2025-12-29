@@ -144,7 +144,7 @@ export const CONFIG =
     {
         suspects:
         {
-            picker: suspectPicker,
+            picker: () => suspectPicker,
             mapper:
             {
                  // @NOTE: the WIDTH should be identical to the cards, as this ensures they line up when placed on the table
@@ -161,7 +161,7 @@ export const CONFIG =
 
         cards:
         {
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper:
             {
                 size: 

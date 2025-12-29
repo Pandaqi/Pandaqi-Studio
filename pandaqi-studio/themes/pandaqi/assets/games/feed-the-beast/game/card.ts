@@ -108,6 +108,7 @@ export default class Card
         const opBeast = new LayoutOperation({
             size: vis.size,
             frame: beastData.frame,
+            pivot: Vector2.ZERO,
             effects: vis.inkFriendlyEffect,
             alpha: alpha
         })
@@ -378,7 +379,8 @@ export default class Card
 
             // add this to the overall group
             const opGroup = new LayoutOperation({
-                pos: positionsGlobal[i]
+                pos: positionsGlobal[i],
+                pivot: Vector2.ZERO
             })
             groupGlobal.add(group, opGroup);
 

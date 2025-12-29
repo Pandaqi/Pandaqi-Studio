@@ -1,6 +1,5 @@
 
-import { shuffle, MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, TextStyle, ResourceText } from "lib/pq-games";
-import { drawBlurryRectangle } from "lib/pq-games/layout/tools/drawBlurryRectangle";
+import { shuffle, MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, TextStyle, ResourceText, drawBlurryRectangle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ANIMALS, ITEMS, ItemType, MISC, TERRAINS, TerrainType } from "../shared/dict";
 

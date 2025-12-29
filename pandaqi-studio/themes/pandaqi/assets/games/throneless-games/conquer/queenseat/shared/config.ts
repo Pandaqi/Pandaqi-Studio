@@ -47,7 +47,7 @@ export const CONFIG:Record<string,any> =
     {
         cards:
         {
-            picker: cardPicker
+            picker: () => cardPicker
         }
     },
 

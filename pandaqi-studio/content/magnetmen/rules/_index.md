@@ -8,15 +8,9 @@ Print a game board and hand out pens.
 
 Each player picks one inventory at the edge of the board: that's where you'll track your collected Magnetmen.
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/magnetmen).
-{{% /rules/rules-remark %}}
-
-
 ## Objective
 
 The game ends when nobody can take another move. Sum the values of all Magnetmen you collected: **highest score wins!**
-
 
 ## Gameplay
 

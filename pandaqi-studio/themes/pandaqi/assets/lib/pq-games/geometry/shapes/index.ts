@@ -8,3 +8,4 @@ export { RectangleRounded } from "./rectangleRounded";
 export { Star } from "./star";
 export { Triangle } from "./triangle";
 export { LShape } from "./elShape";
+export { createRandomShape } from "./createRandomShape";

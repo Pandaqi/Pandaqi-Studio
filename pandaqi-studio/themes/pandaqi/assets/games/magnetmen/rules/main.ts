@@ -134,7 +134,7 @@ class Board
                             rot: i == 0 ? 0 : 0.5*Math.PI
                         })
     
-                        await new ResourceShape(line).toCanvas(ctx, lineOp);
+                        new ResourceShape(line).toCanvas(ctx, lineOp);
                     }    
                 }
             }
@@ -196,14 +196,17 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 
 const parseRulebookTableData = (dict:ActionSet) =>
 {
+    const obj : Record<string,any> = {};
     for(const [key,data] of Object.entries(dict))
     {
-        let desc = Array.isArray(data.desc) ? data.desc[0] : data.desc;
+        obj[key] = data;
+        
+        let desc : string = Array.isArray(data.desc) ? data.desc[0] : data.desc;
         desc = desc.replace('<img id="misc" frame="0">', 'points');
-        dict[key].desc = desc;
+        obj[key].desc = desc;
     }
 
-    return dict;
+    return obj;
 }
 
 const CONFIG_RULEBOOK =

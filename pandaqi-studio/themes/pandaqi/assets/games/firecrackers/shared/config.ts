@@ -97,17 +97,20 @@ export const CONFIG =
 
     _material:
     {
-        picker: cardPicker,
-        mapper:
+        cards:
         {
-            sizeElement: new Vector2(1, 1.4),
-            size: { 
-                small: new Vector2(4,4),
-                regular: new Vector2(3,3),
-                large: new Vector2(2,2)
-            },
-            
-        }, 
+            picker: () => cardPicker,
+            mapper:
+            {
+                sizeElement: new Vector2(1, 1.4),
+                size: { 
+                    small: new Vector2(4,4),
+                    regular: new Vector2(3,3),
+                    large: new Vector2(2,2)
+                },
+                
+            }, 
+        }
     },
 
     _drawing:

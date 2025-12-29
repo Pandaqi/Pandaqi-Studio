@@ -81,7 +81,7 @@ export default class BookCoverGenerator
 
     getPageSize() : Vector2
     {
-        return this.customPageSize ?? (this.config.pageSize ?? this.config.settings.defaults.pageSize ?? DEFAULT_PAGE_SIZE);
+        return this.customPageSize ?? (this.config.pageSize ?? this.config.settings.defaults.pageSize.value ?? DEFAULT_PAGE_SIZE);
     }
 
     getCoverTarget() : string

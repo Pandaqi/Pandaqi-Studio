@@ -10,11 +10,6 @@ Put all **number cards** into a deck, shuffle, then deal everyone 3 cards.
 
 Pick anyone to be the Kittyking.
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/the-outnumbered-series/count-to/nine-lives-math-meows).
-{{% /rules/rules-remark %}}
-
-
 ## Objective
 
 The game ends when **a player runs out of lives**. The player with the most lives wins. (Ties are broken by hand size.)

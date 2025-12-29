@@ -8,11 +8,6 @@ Each player receives **9 random Life Cards**. Decide the order you want, then pl
 
 Shuffle the **Cat Deck** and deal everyone 3 cards. Finally, pick anyone to be the Kittyqueen.
 
-{{% rules/rules-remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/the-outnumbered-series/count-to/nine-lives/).
-{{% /rules/rules-remark %}}
-
-
 ## Objective
 
 The game ends when **a player runs out of lives**. The players with the **most lives** win.

@@ -1,5 +1,6 @@
-import RendererPixi from "lib/pq-games/layout/renderers/rendererPixi";
+import { RendererPixi } from "lib/pq-games/renderers/pixi/rendererPixi";
 import { CONFIG } from "../shared/config";
+import { SettingType, loadGame } from "lib/pq-games";
 
 const SETTINGS = 
 {

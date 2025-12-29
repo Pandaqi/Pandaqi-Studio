@@ -9,12 +9,20 @@ const SIMULATION_ITERATIONS = 1000;
 const SHOW_FULL_GAME = false;
 
 const callback = async (sim:InteractiveExampleSimulator) => { await generateShared(sim, CONFIG, PACKS) };
-CONFIG._rulebook.examples["turn-smallseat"].callback = callback;
-CONFIG._rulebook.examples["turn-smallseat"].simulator.enabled = SIMULATION_ENABLED;
-CONFIG._rulebook.examples["turn-smallseat"].simulator.iterations = SIMULATION_ITERATIONS;
-CONFIG._rulebook.examples["turn-smallseat"].simulator.showFullGame = SHOW_FULL_GAME;
+const CONFIG_RULEBOOK = 
+{
+    examples:
+    {
+        "turn-smallseat":
+        {
+            enabled: SIMULATION_ENABLED,
+            iterations: SIMULATION_ITERATIONS,
+            showFullGame: SHOW_FULL_GAME,
+            callback: callback,
+        }
+    }
+}
 
-loadRulebook(CONFIG._rulebook);
-
+loadRulebook(CONFIG_RULEBOOK);
 loadPrinceDataIntoRules(PACKS);
 

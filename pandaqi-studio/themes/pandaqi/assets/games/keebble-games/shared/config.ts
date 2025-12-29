@@ -26,12 +26,14 @@ export const CONFIG =
         },
     },
 
+    _settings: {} as Record<string,any>,
+
     // @NOTE: this is for the BOARD; Keebble Domino just overwrites with its own custom material
     _material:
     {
         board:
         {
-            picker: boardPicker,
+            picker: () => boardPicker,
             mapper: MapperPreset.FULL_PAGE
         }
     },

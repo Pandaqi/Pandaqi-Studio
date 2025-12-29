@@ -108,7 +108,7 @@ export const CONFIG =
     {
         cards:
         {
-            picker: cardPicker,
+            picker: () => cardPicker,
             mapper:
             {
                 size: { 
