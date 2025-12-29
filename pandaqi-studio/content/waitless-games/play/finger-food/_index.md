@@ -15,6 +15,7 @@ tags: ["cooking", "turn-based", "shared-map", "colorful", "experimental", "fast-
 themes: ["cartoon", "food"]
 
 driveLink: "https://drive.google.com/drive/folders/101SQ5KBbdwiiYC-2nU-5H7gKoTnqhXZE"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/waitless-games/finger-food/"
 
 multiplayermode: "competitive"
 language: EN

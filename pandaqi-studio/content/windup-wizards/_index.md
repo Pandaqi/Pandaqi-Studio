@@ -8,13 +8,19 @@ date: 2021-11-30
 
 difficulty: "kids-can-play"
 genres: ["puzzle"]
-categories: ["game", "desktop", "mobile", "game-jam"]
+categories: ["video-game", "desktop", "mobile", "game-jam"]
 tags: ["grid", "map", "logic", "campaign"]
 themes: ["3D", "magic", "fantasy"]
 
 externalLinks:
   - label: "Buy"
-    url: "http://pandaqi.itch.io/bot-bouldering/"
+    url: "https://thewaywardmelody.com/explorers/video-games/windup-wizards/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux", "web", "android"]
+    price: 2
+  - label: "Buy"
+    url: "http://pandaqi.itch.io/windup-wizards/"
+    store: "Itch.io"
     platforms: ["windows", "mac", "linux", "web", "android"]
     price: 2
 

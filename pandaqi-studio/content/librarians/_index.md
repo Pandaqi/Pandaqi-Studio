@@ -5,6 +5,7 @@ title: "Librarians"
 blurb: "Silence in the library! Work together to fill bookshelves in alphabetical order, but without any communication."
 
 driveLink: "https://drive.google.com/drive/folders/1oXsEhIbOgYbdzvjnbK0XVSkOymGM8KxX"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/librarians/"
 
 date: 2025-01-12
 

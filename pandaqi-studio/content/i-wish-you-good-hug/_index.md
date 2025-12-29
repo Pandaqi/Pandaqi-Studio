@@ -8,15 +8,21 @@ date: 2021-07-14
 
 difficulty: "simple"
 genres: ["action", "puzzle"]
-categories: ["game", "desktop", "mobile", "local-multiplayer", "one-week-game"]
+categories: ["video-game", "desktop", "mobile", "local-multiplayer", "one-week-game"]
 tags: ["chaos", "shared-map", "pick-up-and-deliver", "grid", "hot-potato", "procedural-generation", "real-time"]
 themes: ["2D", "relaxing", "vector"]
 
 externalLinks:
   - label: "Download"
-    url: "http://pandaqi.itch.io/i-wish-you-good-hug/"
+    url: "https://thewaywardmelody.com/explorers/video-games/i-wish-you-good-hug/"
+    store: "The Wayward Melody"
     platforms: ["windows", "mac", "linux", "android"]
-    price: 2
+    price: 0
+  - label: "Download"
+    url: "http://pandaqi.itch.io/i-wish-you-good-hug/"
+    store: "Itch.io"
+    platforms: ["windows", "mac", "linux", "android"]
+    price: 0
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'

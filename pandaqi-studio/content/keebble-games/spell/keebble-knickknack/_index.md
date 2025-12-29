@@ -16,6 +16,7 @@ tags: ["grid", "shared-map", "language", "spiritually-inspired"]
 themes: []
 
 driveLink: "https://drive.google.com/drive/folders/1_hK2ICc9T95hSLAGNO4mvBFmqpvrq_15"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/keebble-games/"
 
 multiplayermode: "competitive"
 language: EN

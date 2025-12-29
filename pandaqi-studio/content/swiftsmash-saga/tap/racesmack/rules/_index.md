@@ -9,7 +9,7 @@ Shuffle all cards into one deck. Deal everyone **4 cards**. Place the remaining 
 
 ## Objective
 
-{{<  rules-image-sidebar src="objective.webp" alt="Example of how to check if you finished your Race (and won the game)." >}}
+{{< rules/rules-image-sidebar src="objective.webp" alt="Example of how to check if you finished your Race (and won the game)." >}}
 
 During the game, you'll win cards and place them in a row before you. This is called your **Race**. 
 
@@ -99,7 +99,7 @@ When tapping an incorrect card, you must pick one of the following penalties.
 
 ### Variant: Tiebreaker (Harder)
 
-{{<  rules-image-sidebar src="variant_tiebreaker.webp" alt="Example of how to check if you finished your Race (and won the game)." >}}
+{{< rules/rules-image-sidebar src="variant_tiebreaker.webp" alt="Example of how to check if you finished your Race (and won the game)." >}}
 
 This variant creates only a **single** correct card in most rounds.
 
@@ -123,7 +123,7 @@ This variant makes the game **turn-based** instead of simultaneous.
 
 ### Expansion: Shifting Gears
 
-{{<  rules-image-sidebar src="expansion_shifting_gears.webp" alt="Example of how to check if you finished your Race (and won the game)." >}}
+{{< rules/rules-image-sidebar src="expansion_shifting_gears.webp" alt="Example of how to check if you finished your Race (and won the game)." >}}
 
 All the cards in the game have three properties: their shapes, their colors, and how many of them.
 

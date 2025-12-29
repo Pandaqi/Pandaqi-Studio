@@ -1,0 +1,144 @@
+<div class="metadata-container flex flex-wrap gap-m">
+	{{ $has_categories := .Params.categories }}
+	{{ $has_tags := .Params.tags }}
+	{{ $display_label_section := or $has_categories $has_tags }}
+	{{ if $display_label_section }}
+	<aside class="sidebar-block">
+		<!-- Categories & Tags -->
+		<h3 class="text-uppercase font-size-s">Labels</h3>
+		{{ if $has_categories }}
+			<nav>
+				<ul class="no-default-list-styles">
+					<li><span class="font-size-s text-uppercase text-thin">Categories</span>
+						{{ range $k, $v := .Params.categories }}
+							{{ $url := printf "/categories/%s" $v }}
+							{{ partial "buttons/button.html" (dict "href" $url "content" ($v | humanize) "class" "font-size-s") }}
+						{{ end }}
+
+					</li>
+				</ul>
+			</nav>
+		{{ end }}
+
+		{{ if $has_tags }}
+		<nav>
+			<ul class="no-default-list-styles">
+				<li><span class="font-size-s text-uppercase text-thin">Tags</span>
+					{{ range $k, $v := .Params.tags }}
+						{{ $url := printf "/tags/%s" $v }}
+						{{ partial "buttons/button.html" (dict "href" $url "content" ($v | humanize) "class" "font-size-s") }}
+					{{ end }}
+				</li>
+			</ul>
+		</nav>
+		{{ end }}
+	</aside>
+	{{ end }}
+
+	<!-- Concrete Metadata (player count, multiplayer type, platforms, etc) -->
+	{{ $data_keys := slice "multiplayertype" "multiplayermode" "price" "platform" "language" "genres" "themes" "playtime" "playercount" "input" "ages" "difficulty" }}
+	{{ $data_labels := slice "Multiplayer Type" "Multiplayer Mode" "Price" "Platforms" "Languages" "Genres" "Themes" "Playtime" "Player Count" "Input" "Ages" "Difficulty" }}
+	{{ $display_metadata := false }}
+	{{ range $key, $val := $data_keys }}
+		{{ $param_val := $.Param $val }}
+		{{ if or $param_val (eq $param_val 0) }}
+			{{ $display_metadata = true }}
+			{{ break }}
+		{{ end }}
+	{{ end }}
+
+	{{ if $display_metadata }}
+	<aside class="sidebar-block">
+		<h3 class="text-uppercase font-size-s">Metadata</h3>
+		<!-- NOTE: I use $.Param $val here, because within a "range", apparently the scope (".") is the value being looped over, not the original one -->
+		<!-- NOTE: or $param_val (eq $param_val 0) basically says => ignore any parameters that are empty, EXCEPT those that are the number 0, as those ALSO resolve to false/empty (as in most languages -->
+		<ul class="no-default-list-styles">
+			{{ range $key, $val := $data_keys }}
+				{{ $label := index $data_labels $key }}
+				{{ $param_val := $.Param $val }}
+				{{ if or $param_val (eq $param_val 0) }}
+
+					<!-- Convert the value behind the scenes into something nicer and more meaningful to users -->
+					{{ $humanized_val := $param_val }}
+
+					{{ if eq $val "price" }}
+						{{ if eq $param_val 0 }}
+							{{ $humanized_val = "free" }}
+						{{ else }}
+							{{ $humanized_val = printf "%s euros" (string $param_val) }}
+						{{ end }}
+					{{ end }}
+
+					{{ if eq $val "playtime" }}
+						{{ $humanized_val = printf "%s minutes" (string $param_val) }}
+					{{ end }}
+
+					<!-- If it's a list of things, create a unique link for each -->
+					{{ if reflect.IsSlice $param_val }}
+						<li><span class="font-size-s text-uppercase text-thin">{{ $label }}</span>
+
+							{{ range $param_val }}
+								{{ $url := printf "/%s/%s" $val (string .) }}
+								{{ partial "buttons/button.html" (dict "href" $url "content" . "class" "font-size-s" ) }}
+							{{ end }}
+
+						</li>
+
+					<!-- Otherwise just create the one link -->
+					{{ else }}
+
+						{{ if eq $val "language" }}
+							{{ $param_val = $param_val | lower }}
+							{{ $humanized_val = $param_val }}
+						{{ end }}
+
+						<li><span class="font-size-s text-uppercase text-thin">{{ $label }}</span>
+							
+							{{ $url := printf "/%s/%s" $val (string $param_val) }}
+							{{ partial "buttons/button.html" (dict "href" $url "content" $humanized_val "class" "font-size-s") }}
+						
+						</li>
+					{{ end }}
+				{{ end }}
+			{{ end }}
+		</ul>
+	</aside>
+	{{ end }}
+
+	<!-- Metadata -->
+	{{ $press_kit := .Params.pressKit }}
+	{{ $requirements := .Params.requirements | markdownify }}
+	{{ $devlog := .Params.devlog }}
+	{{ $source_code := .Params.sourcecode }}
+	{{ $blurb := .Params.blurb | markdownify }}
+	{{ $title := .Params.Title }}
+
+	<aside class="sidebar-block">
+		<h3 class="text-uppercase font-size-s">Info</h3>
+		<ul class="no-default-list-styles">
+			<li><span class="font-size-s text-uppercase text-thin">Date Published</span> <span class="font-size-s text-italic">{{ .Date.Format "January 2, 2006" }}</span></li>
+
+			{{ with $press_kit }}
+				<li><span class="font-size-s text-uppercase text-thin">Press Kit</span>
+					{{ partial "buttons/button.html" (dict "href" . "content" "Go to press kit" "failContent" "<em>(not available)</em>" "class" "font-size-s") }}
+				</li>
+			{{ end }}
+
+			{{ with $requirements }}
+				<li><span class="font-size-s text-uppercase text-thin">Requirements</span> <span class="font-size-s text-italic">{{ . | safeHTML }}</span></li>
+			{{ end }}
+
+			{{ with $devlog }}
+				<li><span class="font-size-s text-uppercase text-thin">Devlog</span> {{ partial "buttons/button.html" (dict "href" . "content" "Go to Devlog" "class" "font-size-s") }}</li>
+			{{ end }}
+
+			{{ with $source_code }}
+				<li><span class="font-size-s text-uppercase text-thin">Source Code</span> {{ partial "buttons/button.html" (dict "href" . "content" "Read Source Code" "class" "font-size-s") }}</li>
+			{{ end }}
+
+			{{ with $blurb }}
+				<li><span class="font-size-s text-uppercase text-thin">Summary</span> <span class="font-size-s text-italic">{{ . }}</span></li>
+			{{ end }}
+		</ul>
+	</aside>
+</div>

@@ -8,13 +8,19 @@ date: 2020-03-16
 
 difficulty: "kids-can-play"
 genres: ["action", "family", "sports"]
-categories: ["game", "mobile", "local-multiplayer"]
+categories: ["video-game", "mobile", "local-multiplayer"]
 tags: ["shared-map", "score-and-reset", "real-time", "drawing", "creative", "chaos", "game-modes", "powerups"]
 themes: ["2D", "colorful", "top-down"]
 
 externalLinks:
-  - label: "Play on ITCH"
+  - label: "Play"
+    url: "https://thewaywardmelody.com/explorers/video-games/art-hockey/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "android"]
+    price: 0
+  - label: "Play"
     url: "http://pandaqi.itch.io/art-hockey"
+    store: "Itch.io"
     platforms: ["windows", "android"]
 
 multiplayertype: 'offline'

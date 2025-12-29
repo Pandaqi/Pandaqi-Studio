@@ -8,7 +8,7 @@ date: 2019-09-25
 
 difficulty: "no-brainer"
 genres: ["action", "puzzle", "party"]
-categories: ["game", "desktop", "local-multiplayer"]
+categories: ["video-game", "desktop", "local-multiplayer"]
 tags: ["chaos", "physics-based", "powerups", "real-time", "pick-up-and-deliver", "campaign"]
 themes: ["3D"]
 

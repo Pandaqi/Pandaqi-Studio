@@ -5,6 +5,7 @@ title: "The Mist"
 blurb: "A Mist covers the world. Each area might be a warm fire, or a trap, or a portal---you decide, but do so wisely."
 # blurb: "A [One Paper Game](/boardgames#one_paper_games) about exploring a world where each square is multiple things at once---until you step onto it."
 driveLink: "https://drive.google.com/drive/folders/1yy2JZhtm1iiTvff9o3kyOf0sXtMQjF_f"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/one-paper-games/the-mist/"
 
 date: 2025-01-26
 

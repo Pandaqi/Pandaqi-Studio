@@ -21,6 +21,10 @@ SectionPagesMenu = "main"
   noJSConfigInAssets = true
 
 [params]
+  enableBoardJS = false
+  enableGameJS = false
+  enableRulesJS = true
+
   simpleBanners = false
   heroImage = true
 
@@ -39,17 +43,18 @@ SectionPagesMenu = "main"
   slogans     = ["No, the game will not have online multiplayer", "Creating local multiplayer games until someone tells me to stop", "Creator of friendships, destroyer of friendships", "Couch co-op for everyone (who has a couch)", "Helping gamers and non-gamers connect", "Different games for a different experience"]
 
 [taxonomies]
-  category = 'categories'
-  tag = 'tags'
+  categories = 'categories'
+  tags = 'tags'
   platform = 'platform'
-  genre = 'genre'
+  genres = 'genres'
+  themes = 'themes'
   language = 'language'
   playtime = 'playtime'
   playercount = 'playercount'
   multiplayertype = 'multiplayertype'
   multiplayermode = 'multiplayermode'
   input = 'input'
-  complexity = 'complexity'
+  difficulty = 'difficulty'
   ages = 'ages'
   price = 'price'
 

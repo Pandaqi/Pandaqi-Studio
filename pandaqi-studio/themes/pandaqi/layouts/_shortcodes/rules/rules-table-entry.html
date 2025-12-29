@@ -1,0 +1,12 @@
+{{- $class := or (.Get "class") "" -}}
+{{- $heading := or (.Get "heading") "" -}}
+{{- $icon := or (.Get "icon") "" -}}
+<div class="rules-table-entry rules-table-entry-clicked {{ $class }}" data-folded="false">
+    <div class="icon-container">
+        <div class="rules-table-icon icon-{{ $icon }}"></div>
+    </div>
+    <div class="heading-container">
+        <div>{{- $heading -}}</div>
+    </div>
+    <div class="desc-container">{{- .Inner | safeHTML -}}</div>
+</div>

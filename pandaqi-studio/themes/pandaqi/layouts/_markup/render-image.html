@@ -1,2 +1,2 @@
-{{ $img_url := .Destination }}
-{{ partial "show-image.html" (dict "context" . "img_url" $img_url) }}
+{{ $src := .Destination }}
+{{ partial "content/show-image.html" (dict "context" . "src" $src) }}

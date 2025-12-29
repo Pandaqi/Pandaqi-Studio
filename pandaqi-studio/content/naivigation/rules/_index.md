@@ -14,7 +14,7 @@ Create a deck of 25 tiles, including 5 Collectibles and 1 starting tile. Place t
 If you feel the map is too bunched up or unplayable, just redo this step!
 {{% /rules/rules-remark %}}
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to (generally) setup a new Naivigation game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to (generally) setup a new Naivigation game." >}}
 
 Combine the default **Vehicle Cards** with the specific Vehicle Cards for the chosen game. Shuffle and place as a **faceup** draw pile. Each player draws 3 of these to hold in their hand. 
 
@@ -81,7 +81,7 @@ You **win the game** immediately if
 * The opponent is total loss
 * Or you collected 3(+) of the collectibles (which is a majority the others can't surpass)
 
-{{<  rules-image-sidebar src="high_player_counts.webp" alt="Example of how to play the game, alternating between team vehicles, on high player counts." >}}
+{{< rules/rules-image-sidebar src="high_player_counts.webp" alt="Example of how to play the game, alternating between team vehicles, on high player counts." >}}
 
 The rules stay the same, except for the following changes.
 
@@ -143,7 +143,7 @@ An action card never triggers more than once during a round.
 
 ### GPS Cards
 
-{{<  rules-image-sidebar src="gps_cards.webp" alt="Example of what a GPS card looks like, how to read it, and how to check its bonuses/penalties at the end of a round." >}}
+{{< rules/rules-image-sidebar src="gps_cards.webp" alt="Example of what a GPS card looks like, how to read it, and how to check its bonuses/penalties at the end of a round." >}}
 
 At the start of each round, draw a new GPS Card from the deck.
 
@@ -160,7 +160,7 @@ Some cards introduce an effect for the next round. If you failed or succeeded su
 
 ### Time Deck
 
-{{<  rules-image-sidebar src="time_cards.webp" alt="Example of what Time Cards look like and how they add time pressure to any game." >}}
+{{< rules/rules-image-sidebar src="time_cards.webp" alt="Example of what Time Cards look like and how they add time pressure to any game." >}}
 
 This expansion adds extra time pressure. This is especially useful if your group tries to drive a little too ... safely.
 

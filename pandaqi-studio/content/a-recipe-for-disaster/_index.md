@@ -8,17 +8,24 @@ date: 2021-04-26
 
 difficulty: "simple"
 genres: ["action", "family", "party"]
-categories: ["game", "desktop", "mobile", "one-week-game", "local-multiplayer"]
+categories: ["video-game", "desktop", "mobile", "one-week-game", "local-multiplayer"]
 tags: ["chaos", "cooking", "grid", "shared-map", "pick-up-and-deliver", "real-time"]
 themes: ["2D", "food", "humor"]
 
 externalLinks:
-  - label: "Play on POKI"
+  - label: "Play"
     url: "https://poki.com/en/g/a-recipe-for-disaster"
+    store: "POKI (web portal)"
     platforms: ["web"]
     price: 0 
-  - label: "Play on ITCH"
+  - label: "Buy"
+    url: "https://thewaywardmelody.com/explorers/video-games/a-recipe-for-disaster/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 2
+  - label: "Buy"
     url: "http://pandaqi.itch.io/a-recipe-for-disaster"
+    store: "Itch.io"
     platforms: ["windows", "mac", "linux"]
     price: 2
 

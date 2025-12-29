@@ -6,9 +6,7 @@ title: "Photomone Games"
 blurb: "A series of games about communicating words by connecting dots or weirder methods."
 # blurb: "A series of (party) games about communicating words by connecting dots, or weirder methods, because you're ants."
 driveLink: "https://drive.google.com/drive/folders/1VlrZ32F-gLcPyBJzRPVzZOv0M2ZNq5Rn"
-
-
-
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/photomone-games/"
 
 date: 2023-07-21
 

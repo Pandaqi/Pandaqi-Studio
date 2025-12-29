@@ -5,12 +5,13 @@ title: "Captain Flip"
 blurb: "A mix between a memory game and strategy game, where flipping tiles gives you actions, and scoring the tiles you wanted is a challenge."
 # blurb: "Remember the locations of the best tiles and flip them before anyone else."
 driveLink: "https://drive.google.com/drive/folders/1XyTJDG_9tOtEwNdNxfAAKBFr6LHghwIX"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/tile-games/captain-flip/"
 
 date: 2025-02-26
 
 difficulty: "kids-can-play"
 categories: ["board-game", "tile-game", "standard"]
-genre: ["family"]
+genres: ["family"]
 tags: ["logic", "memory"]
 themes: ["sea", "animals", "monsters"]
 

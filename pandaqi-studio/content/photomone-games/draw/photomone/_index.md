@@ -15,6 +15,7 @@ tags: ["drawing", "creative", "guessing", "turn-based"]
 themes: ["top-down", "vector"]
 
 driveLink: "https://drive.google.com/drive/folders/1d3b_Zsuor4bz9sVmQIdErx2p5GIYF6Nk"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/photomone-games/"
 
 multiplayermode: "cooperative"
 language: EN

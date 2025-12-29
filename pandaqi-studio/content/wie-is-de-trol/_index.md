@@ -14,6 +14,8 @@ tags: ["media", "traitor", "player-powers", "bluffing"]
 themes: []
 
 driveLink: "https://drive.google.com/drive/folders/1u791rNWb82YJme3rEqjjd5k-kWqbzR3t"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/wie-is-de-trol/"
+
 
 multiplayermode: "competitive"
 language: NL

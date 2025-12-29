@@ -34,7 +34,7 @@ When only _one option_ is left, the current round ends. The interface automatica
 
 ### Scoring
 
-{{< rules-image-sidebar src="scoring.webp" alt="Examples of scoring your word(s)." >}}
+{{< rules/rules-image-sidebar src="scoring.webp" alt="Examples of scoring your word(s)." >}}
 
 If you've created **new and valid** words, score them at the end of your turn. 
 

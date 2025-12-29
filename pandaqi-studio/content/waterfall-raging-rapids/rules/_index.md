@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup the game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup the game." >}}
 
 Pick any tile with the **ADD action**. Place it faceup in the center of the table; this will be the starting tile of the waterfall.
 

@@ -14,6 +14,7 @@ tags: ["social", "guessing", "language", "sorting", "turn-based"]
 themes: []
 
 driveLink: "https://drive.google.com/drive/folders/1H1gLrHUsju_tnXbKoJYrsGP1sHRNG-6_"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/thats-amorphe-games/"
 
 multiplayermode: "cooperative"
 language: EN

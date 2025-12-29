@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 This game has a special setup for the map, instead of the usual setup for a Naivigation game.
 

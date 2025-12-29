@@ -1,0 +1,271 @@
+
+import { SettingType, TextConfig, TextStyle, TextWeight, Vector2, MapperPreset, CVal, Bounds } from "lib/pq-games"
+import { cardPicker } from "../game/cardPicker"
+import { tilePicker } from "../game/tilePicker"
+import { CardMovement, TileAction } from "./dict"
+
+export const CONFIG = 
+{
+    _settings:
+    {
+        sets:
+        {
+            type: SettingType.GROUP,
+
+            base:
+            {
+                type: SettingType.CHECK,
+                value: true,
+                label: "Base Set",
+            },
+
+            landsUnknown:
+            {
+                type: SettingType.CHECK,
+                label: "Lands Unknown",
+                value: false,
+            },
+
+            unclearInstructions:
+            {
+                type: SettingType.CHECK,
+                label: "Unclear Instructions",
+                value: false,
+            },
+        }
+    },
+
+    _debug:
+    {
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+    },
+
+    _game:
+    {
+        fileName: "Mapped Out",
+    },
+
+    // assets
+    _resources:
+    {    
+        base: "/mapped-out/assets/",
+        files:
+        {
+            sourceserif:
+            {
+                path: "fonts/SourceSerif418pt-Regular.woff2",
+            },
+
+            sourceserif_italic:
+            {
+                key: "sourceserif",
+                path: "fonts/SourceSerif418pt-Italic.woff2",
+                textConfig: new TextConfig({ style: TextStyle.ITALIC })
+            },
+
+            sourceserif_italic_bold:
+            {
+                key: "sourceserif",
+                path: "fonts/SourceSerif418pt-BlackItalic.woff2",
+                textConfig: new TextConfig({ style: TextStyle.ITALIC, weight: TextWeight.BOLD })
+            },
+
+            vanillawhale:
+            {
+                path: "fonts/VanillaWhale-Regular.woff2",
+            },
+
+            card_templates:
+            {
+                path: "card_templates.webp",
+                frames: new Vector2(2,1)
+            },
+
+            tile_templates:
+            {
+                path: "tile_templates.webp",
+                frames: new Vector2(2,1)
+            },
+
+            misc:
+            {
+                path: "misc.webp",
+                frames: new Vector2(4,4)
+            },
+
+            movements:
+            {
+                path: "movements.webp",
+                frames: new Vector2(4,5)
+            },
+        }
+    },
+
+    generation:
+    {
+        movementCardNumBase: 40, 
+        movementCardDistBase:
+        {
+            [CardMovement.LEFT]: 0.2,
+            [CardMovement.RIGHT]: 0.2,
+            [CardMovement.UP]: 0.2,
+            [CardMovement.DOWN]: 0.2,
+            [CardMovement.ANY]: 0.1,
+            [CardMovement.NOTHING]: 0.1,
+        },
+
+        movementCardNumUnclear: 23, 
+        movementCardDistUnclear:
+        {
+            [CardMovement.LEFT]: 0.1,
+            [CardMovement.RIGHT]: 0.1,
+            [CardMovement.UP]: 0.1,
+            [CardMovement.DOWN]: 0.1,
+            [CardMovement.ANY]: 0.2,
+            [CardMovement.TELEPORT]: 0.1,
+            [CardMovement.MATCH]: 0.1,
+            [CardMovement.COPY]: 0.1,
+            [CardMovement.INVERT]: 0.1,
+        },
+
+        mapTilesNumBase: 42,
+        mapTilesDistBase:
+        {
+            regular: 1.0
+        },
+
+        mapTilesNumLands: 18,
+        mapTilesDistLands:
+        {
+            island: 0.3,
+            tunnel: 0.1,
+            return: 0.05,
+            remove: 0.05,
+            swap: 0.1,
+            score: 0.1,
+            plugholes: 0.05,
+            pawnmove: 0.05,
+            superscore: 0.1,
+            combo: 0.1
+        },
+
+        numFishDist:
+        {
+            1: 0.25,
+            2: 0.5,
+            3: 0.25
+        },
+
+        mapTileActionDist:
+        {
+            [TileAction.REVEAL]: 0.5,
+            [TileAction.SWAP]: 0.35,
+            [TileAction.STUDY]: 0.15,
+        }
+    },
+
+    _material:
+    {
+        cards:
+        {
+            picker: cardPicker,
+            mapper: MapperPreset.CARD
+        },
+
+        tiles:
+        {
+            picker: tilePicker,
+            mapper: MapperPreset.TILE
+        }
+    },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "vanillawhale",
+            body: "sourceserif",
+        },
+
+        cards:
+        {
+            sonar:
+            {
+                templatePos: new CVal(new Vector2(0.5, 0.35), "size"),
+                templateDims: new CVal(new Vector2(0.725), "sizeUnit"),
+                pos: new CVal(new Vector2(0.5, 0.35), "size"), // equal or close to templatePos
+                size: new CVal(new Vector2(0.725), "sizeUnit"), // equal or close to templateDims
+            },
+
+            heading:
+            {
+                pos: new CVal(new Vector2(0.5, 0.695), "size"),
+                fontSize: new CVal(0.1, "sizeUnit"),
+            },
+
+            icons:
+            {
+                offset: new CVal(new Vector2(0.08, 0), "sizeUnit"),
+                size: new CVal(new Vector2(0.1), "sizeUnit")
+            },
+
+            headingAction:
+            {
+                offset: new CVal(new Vector2(0, 0.055), "size"),
+                fontSize: new CVal(0.055, "sizeUnit")
+            },
+
+            matchAction:
+            {
+                pos: new CVal(new Vector2(0.755, 0.35), "size"),
+                size: new CVal(new Vector2(0.165), "sizeUnit")
+            },
+
+            text:
+            {
+                fontSize: new CVal(0.065, "sizeUnit"),
+                pos: new CVal(new Vector2(0.5, 0.83), "size"),
+                size: new CVal(new Vector2(0.8, 0.3), "size")
+            }
+        },
+
+        tiles:
+        {
+            fishes:
+            {
+                angleSubdivisions: 8,
+                size: new CVal(new Vector2(0.25), "sizeUnit"),
+                sizeSpecial: new CVal(new Vector2(0.15), "sizeUnit"),
+                radiusBounds: new Bounds(0.25, 0.35),
+                radiusBoundsSpecial: new Bounds(0.325, 0.425)
+            },
+
+            actions:
+            {
+                fontSize: new CVal(0.07, "sizeUnit"),
+                boxDims: new CVal(new Vector2(0.36), "sizeUnit"),
+                iconDims: new CVal(new Vector2(0.135), "sizeUnit"),
+                textStrokeWidth: new CVal(0.075, "tiles.actions.fontSize"),
+
+                offset: new CVal(new Vector2(0.2), "sizeUnit"),
+                offsetIcons: new CVal(new Vector2(0.11), "sizeUnit")
+            },
+
+            heading:
+            {
+                fontSize: new CVal(0.08, "sizeUnit"),
+                offsetRegular: new CVal(new Vector2(0, 0.0475), "sizeUnit"),
+                offsetSpecial: new CVal(new Vector2(0, 0.225), "sizeUnit"),
+            },
+
+            text:
+            {
+                fontSize: new CVal(0.055, "sizeUnit"),
+                pos: new CVal(new Vector2(0.5), "size"),
+                size: new CVal(new Vector2(0.45, 0.35), "size")
+            }
+        }
+    }
+}

@@ -11,7 +11,7 @@ date: 2025-04-26
 
 difficulty: "kids-can-play"
 categories: ["board-game", "card-game", "standard"]
-genre: ["family", "thematic"]
+genres: ["family", "thematic"]
 tags: ["voting", "simultaneous-turns", "move-through-all"]
 themes: []
 

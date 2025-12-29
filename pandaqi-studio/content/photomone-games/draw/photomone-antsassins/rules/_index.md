@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{< rules-image-sidebar src="starting_setup_1.webp" alt="Example of a starting setup. (Square tiles, 4 players, mosaic style.)" >}}
+{{< rules/rules-image-sidebar src="starting_setup_1.webp" alt="Example of a starting setup. (Square tiles, 4 players, mosaic style.)" >}}
 
 Divide the players into pairs ( = teams of 2). If your player count is odd, include one team of 3.
 
@@ -69,7 +69,7 @@ Playing cooperatively? The tokens are required. After each turn, mark a secret t
 
 ## Almost Tiles
 
-{{< rules-image-sidebar src="almost_actions.webp" alt="How almost actions are placed + example of how its used." >}}
+{{< rules/rules-image-sidebar src="almost_actions.webp" alt="How almost actions are placed + example of how its used." >}}
 
 The _almost_ tiles appear in one of three ways: same _column_, same _row_, or _adjacent_ (to the secret tile of its team).
 

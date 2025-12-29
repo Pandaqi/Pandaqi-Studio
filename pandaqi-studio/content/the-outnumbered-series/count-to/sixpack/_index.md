@@ -16,6 +16,7 @@ tags: ["numbers", "simultaneous-turns", "fast-paced", "stacking", "move-through-
 themes: ["pop-art", "retro", "colorful"]
 
 driveLink: "https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/the-outnumbered-series/sixpack/"
 
 multiplayermode: "competitive"
 language: EN

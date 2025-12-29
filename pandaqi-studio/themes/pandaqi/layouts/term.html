@@ -1,0 +1,15 @@
+{{ define "main" }}
+
+{{ partial "content/background-header" (dict "context" . "src" "/theme/webp/pandaqi-pandas-banner.webp") }}
+
+{{ $context := . }}
+{{ $key := .Data.Plural }}
+{{ $value := .Title }}
+<main class="width-limit block-center position-relative">
+    <h1 class="text-center margin-top-super-xs">Search</h1>
+    <p>You searched for all products with <strong>{{ $key }}</strong> set to <strong>{{ $value }}</strong>. Click the heading for the full list of products for that specific value.</p>
+</main>
+
+{{ partial "navigation/games-list.html" (dict "context" $context) }}
+
+{{ end }}

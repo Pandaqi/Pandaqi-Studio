@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 Create a deck of **Tenant Tiles** and one for **Room Tiles**.
 
@@ -65,7 +65,7 @@ Once done, refill the Guests and the Market, and play the next round.
 
 ## Guests & Wishes
 
-{{<  rules-image-sidebar src="guests_wishes.webp" alt="Example of what every part of a Guest tile means." >}}
+{{< rules/rules-image-sidebar src="guests_wishes.webp" alt="Example of what every part of a Guest tile means." >}}
 
 Guests have two sides: one side shows their SCORE (on the star icon), the other their WISHES. 
 
@@ -97,7 +97,7 @@ If multiple players are valid targets, you _choose_ to which one the leaving Ten
 
 ### Room Service
 
-{{<  rules-image-sidebar src="expansion_room_service.webp" alt="Example of what a Room is and how Construction works." >}}
+{{< rules/rules-image-sidebar src="expansion_room_service.webp" alt="Example of what a Room is and how Construction works." >}}
 
 From now on, it becomes important to create **Rooms**.
 
@@ -120,7 +120,7 @@ There are also some new **Objects** that can appear.
 
 ### Wallet Watchers
 
-{{<  rules-image-sidebar src="expansion_wallet_watchers.webp" alt="Example of the Wallet property and calculating your apartment Price." >}}
+{{< rules/rules-image-sidebar src="expansion_wallet_watchers.webp" alt="Example of the Wallet property and calculating your apartment Price." >}}
 
 This expansion adds another property to some Tenants: **Wallet**. If this icon shows, 
 
@@ -167,7 +167,7 @@ From now on, guests will **wish** for these things. See the added Special Wishes
 
 ### Happy Housing
 
-{{<  rules-image-sidebar src="expansion_happy_housing.webp" alt="Example of the Wandering property." >}}
+{{< rules/rules-image-sidebar src="expansion_happy_housing.webp" alt="Example of the Wandering property." >}}
 
 This expansion adds some more Special Wishes and Objects (again).
 

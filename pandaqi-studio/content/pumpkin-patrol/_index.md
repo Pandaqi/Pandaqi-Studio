@@ -5,6 +5,7 @@ title: "Pumpkin Patrol"
 blurb: "Attract the most valuable Trick-or-Treaters with beautiful Halloween decorations, but don't forget to collect enough candy to actually make them happy!"
 # blurb: "Hand out the most candy in a very competitive Halloween neighborhood."
 driveLink: "https://drive.google.com/drive/folders/1tg66GnYFxZukTDFUGoSjGIpr9BlU3Wy8"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/pumpkin-patrol/"
 
 date: 2024-10-12
 

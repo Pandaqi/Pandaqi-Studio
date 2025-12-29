@@ -5,6 +5,7 @@ title: "Mammoth Messages"
 blurb: "Give message. They guess. Only cave drawings. Nothing else. More guess is more good. Party game. Hum."
 
 driveLink: "https://drive.google.com/drive/folders/1lFWm9gEBEFxKMeDMy_fucT5xcDac4KsC"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/mammoth-messages/"
 
 date: 2024-03-26
 

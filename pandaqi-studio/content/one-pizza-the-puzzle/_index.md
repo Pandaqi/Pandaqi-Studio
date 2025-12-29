@@ -14,6 +14,7 @@ tags: ["movement", "area-control", "take-that", "cooking", "resource-management"
 themes: ["food", "vector", "colorful"]
 
 driveLink: "https://drive.google.com/drive/folders/19oX1xwugq8ArnmKhe8kDO5fuZNPDTfKd"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/one-paper-games/one-paper-games-bundle/"
 
 multiplayermode: "competitive"
 language: EN
@@ -26,19 +27,19 @@ media: [assets/video/onepizza_explanation_gif]
 
 ---
 
-{{% review-container class="limit-width" %}}
-  {{< review stars="5" author="" >}}
+{{% blocks/review-container class="limit-width" %}}
+  {{< blocks/review stars="5" author="" >}}
   This game made me realize several things: I love food, I cannot draw straight lines, and I was born to be a ruthless pizza courier.
-  {{< /review >}}
+  {{< /blocks/review >}}
 
-  {{< review stars="4" author="" >}}
+  {{< blocks/review stars="4" author="" >}}
   I suspect 50% of the players will not appreciate the cheesy pun in the title. As they say: tomatoes before swine.
-  {{< /review >}}
+  {{< /blocks/review >}}
 
-  {{< review stars="5" author="" >}}
+  {{< blocks/review stars="5" author="" >}}
   A steaming hot game with delicious decisions, tasty competitiveness, topped with maze-like mechanics and a side dish of pizza parcour possibilities.
-  {{< /review >}}
-{{% /review-container %}}
+  {{< /blocks/review >}}
+{{% /blocks/review-container %}}
 
 ## What's the idea?
 

@@ -1,7 +1,14 @@
 {{ define "main" }}
 
-{{ partial "games-list.html" . }}
+{{ partial "content/background-header" (dict "context" . "src" "/theme/webp/pandaqi-hero-image.webp") }}
 
-{{ partial "pagination-container.html" . }}
+<div class="width-limit block-center position-relative text-color-dark" style="margin-top: 40vw;">
+    <h1 class="text-center font-size-xxxl" style="margin-bottom: 0; background: linear-gradient(90deg, var(--color-dark), var(--color-mid-dark)); background-clip: text; color: transparent;">Pandaqi Games</h1>
+    <p class="font-size-l text-center text-italic text-bold font-header">Explore <a href="/categories/board-game/">free printable board games</a> and <a href="/categories/video-game/">multiplayer video games</a>.</p>
+    {{ $latest_proj := (index (where .Site.Pages "Type" "project") 0) }}
+    <p class="text-center width-limit-small block-center">Try any game that catches your eye! Maybe check out the <a href="{{ $latest_proj.RelPermalink }}">latest project</a>. Or visit our magical online store where we <a href="https://thewaywardmelody.com">sell educational board games</a>. Or learn more <a href="https://tiamopastoor.com/info/about/">about the guy behind Pandaqi</a>.</p>
+</div>
+
+{{ partial "navigation/games-list.html" (dict "context" .) }}
 
 {{ end }}

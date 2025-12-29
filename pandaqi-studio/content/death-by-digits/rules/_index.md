@@ -18,7 +18,7 @@ In these rules, the **"Midnumber"** is defined as the middle number of your deck
 
 ## Objective
 
-{{<  rules-image-sidebar src="objective.webp" alt="Visualization of how to end and win the game." >}}
+{{< rules/rules-image-sidebar src="objective.webp" alt="Visualization of how to end and win the game." >}}
 
 At the end of your turn, you may say "I know the solution!" 
 
@@ -38,7 +38,7 @@ If you're ever out of cards, immediately take any 3 cards from Evidence into you
 
 ### Guess
 
-{{<  rules-image-sidebar src="gameplay_guess.webp" alt="Example of the guessing action; guessing and potentially getting a player's highest or lowest card." >}}
+{{< rules/rules-image-sidebar src="gameplay_guess.webp" alt="Example of the guessing action; guessing and potentially getting a player's highest or lowest card." >}}
 
 This action is the simplest, but don't underestimate its power.
 

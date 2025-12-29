@@ -10,7 +10,7 @@ date: 2020-04-29
 
 difficulty: "kids-can-play"
 genres: ["action"]
-categories: ["game", "desktop", "local-multiplayer", "online-multiplayer", "smartphone-controlled"]
+categories: ["video-game", "desktop", "local-multiplayer", "online-multiplayer", "smartphone-controlled"]
 tags: []
 themes: ["pixel-art"]
 
@@ -63,6 +63,6 @@ themes: ["pixel-art"]
 	</div>
 </section>	
 
-{{< list-in-category key="peerful" >}}
+<!--- OLD SHORTCODE USED HERE = list-in-category key="peerful" >}}
 
 		

@@ -86,7 +86,7 @@ When is a straight higher than another guess?
 
 ### Variant: Vague Guesses
 
-{{<  rules-image-sidebar src="variant_vague_guesses.webp" alt="Example of how to do a vague guess, and how to convert between vague and specific." >}}
+{{< rules/rules-image-sidebar src="variant_vague_guesses.webp" alt="Example of how to do a vague guess, and how to convert between vague and specific." >}}
 
 This variants adds another **option for guessing**: vague guesses. Instead of stating the _specific_ color or number, you just say "of the same color" or "of the same number".
 
@@ -122,7 +122,7 @@ To make the game **more predictable**,
 
 ### Wildcards
 
-{{<  rules-image-sidebar src="expansion_wildcards.webp" alt="Example of how to use a wildcard." >}}
+{{< rules/rules-image-sidebar src="expansion_wildcards.webp" alt="Example of how to use a wildcard." >}}
 
 This expansion adds a tiny bit of extra material: Wildcards. 
 
@@ -135,7 +135,7 @@ These cards always match the current guess that's being challenged.
 
 ### Power Cards
 
-{{<  rules-image-sidebar src="expansion_powercards.webp" alt="Example of how to guess on (or higher than) power cards." >}}
+{{< rules/rules-image-sidebar src="expansion_powercards.webp" alt="Example of how to guess on (or higher than) power cards." >}}
 
 This expansion adds more material: Power Cards. These cards have **no** suit or number.
 

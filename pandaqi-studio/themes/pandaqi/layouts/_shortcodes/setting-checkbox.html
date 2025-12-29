@@ -1,6 +1,0 @@
-{{- $id := .Get "id" -}}
-{{- $remark := .Get "remark" -}}
-{{- $text := .Get "text" -}}
-{{- $checked := "" -}}
-{{- if .Get "checked" -}}{{- $checked = "checked" -}}{{- end -}}
-{{- partial "settings/setting-checkbox.html" (dict "id" $id "checked" $checked "remark" $remark "text" $text) -}}

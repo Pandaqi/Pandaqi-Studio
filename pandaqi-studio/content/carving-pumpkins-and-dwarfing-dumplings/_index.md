@@ -8,7 +8,7 @@ date: 2022-01-27
 
 difficulty: "no_brainer"
 genres: ["action", "family", "party", "fighting"]
-categories: ["game", "desktop", "local-multiplayer"]
+categories: ["video-game", "desktop", "local-multiplayer"]
 tags: ["battle", "chaos", "physics-based", "player-elimination", "real-time", "shared-map", "game-modes", "modular", "powerups", "map-selection"]
 themes: ["2D", "colorful", "holiday", "top-down"]
 

@@ -19,6 +19,10 @@ SectionPagesMenu = "main"
   noJSConfigInAssets = true
 
 [params]
+  enableBoardJS = true
+  enableGameJS = true
+  enableRulesJS = true
+
   heroImage = true
   title = "Pandaqi"
   subtitle = "Board & Video Game Developer"
@@ -34,13 +38,14 @@ SectionPagesMenu = "main"
   category = 'categories'
   tag = 'tags'
   platform = 'platform'
-  genre = 'genre'
+  genre = 'genres'
+  theme = 'themes'
   language = 'language'
   playtime = 'playtime'
   playercount = 'playercount'
   multiplayertype = 'multiplayertype'
   multiplayermode = 'multiplayermode'
   input = 'input'
-  complexity = 'complexity'
+  difficulty = 'difficulty'
   ages = 'ages'
   price = 'price'

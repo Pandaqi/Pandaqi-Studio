@@ -30,7 +30,7 @@ Take clockwise turns. On your turn, if possible, you must **collect a square**.
 If your inventory is full, you can't take any more turns.
 {{% /rules/rules-remark %}}
 
-{{<  rules-image-sidebar src="the_repel_rule.webp" alt="Visual illustration of the repel rule." >}}
+{{< rules/rules-image-sidebar src="the_repel_rule.webp" alt="Visual illustration of the repel rule." >}}
 
 Here's the twist. The more often you possess a specific icon, the more you're _repelled_ by it.
 
@@ -52,7 +52,7 @@ The paper itself explains how each Magneeple scores you points. Or you can read 
 
 Once you're familiar with the game, and start playing other sets, you can use the advanced rules. This introduces **2 rules changes**.
 
-{{< rules-image-sidebar src="rules_advanced.webp" alt="Example of executing the destroy action.">}}
+{{< rules/rules-image-sidebar src="rules_advanced.webp" alt="Example of executing the destroy action.">}}
 
 On your turn, you can also pick the **destroy** action. 
 

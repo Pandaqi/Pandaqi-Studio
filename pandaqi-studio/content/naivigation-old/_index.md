@@ -15,6 +15,7 @@ tags: ["grid", "shared-map", "limited-communication", "vehicle-simulation", "til
 themes: ["vector"]
 
 driveLink: "https://drive.google.com/open?id=1KYVfdGHwlhRCrBbBwFuwgL5mWycQ8lb3"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/naivigation-original/"
 
 multiplayermode: "cooperative"
 language: ["EN", "NL"]

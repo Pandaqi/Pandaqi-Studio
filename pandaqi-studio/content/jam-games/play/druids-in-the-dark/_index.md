@@ -9,13 +9,19 @@ date: 2025-12-12
 
 difficulty: "no-brainer"
 genres: ["puzzle"]
-categories: ["game", "desktop", "game-jam"]
+categories: ["video-game", "desktop", "game-jam"]
 tags: []
 themes: ["2D"]
 
 externalLinks:
   - label: "Buy"
+    url: "https://thewaywardmelody.com/explorers/video-games/druids-in-the-dark/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 2
+  - label: "Buy"
     url: "http://pandaqi.itch.io/druids-in-the-dark/"
+    store: "Itch.io"
     platforms: ["windows", "mac", "linux", "web"]
     price: 2
 

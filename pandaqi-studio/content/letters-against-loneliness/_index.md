@@ -8,15 +8,20 @@ date: 2021-12-03
 
 difficulty: "no-brainer"
 genres: ["puzzle"]
-categories: ["game", "desktop", "mobile"]
+categories: ["video-game", "desktop", "mobile"]
 tags: ["grid", "networks"]
 themes: ["pixel-art"]
 
 externalLinks:
   - label: "Buy"
+    url: "https://thewaywardmelody.com/explorers/video-games/letters-against-loneliness/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "android"]
+    price: 2
+  - label: "Buy"
     url: "http://pandaqi.itch.io/letters-against-loneliness/"
     platforms: ["windows", "android"]
-    price: 4
+    price: 2
 
 price: 4
 platform: ["windows", "android"]

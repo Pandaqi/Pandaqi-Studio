@@ -1,0 +1,16 @@
+<ul class="no-default-list-styles text-color-dark flex gap-s font-size-s flex-align-center-vertical padding-left-m position-relative">
+{{ $current_page := . }}
+{{ $pages := .Ancestors.Reverse | append . }}
+{{ range $pages }}
+    {{ $title := cond .IsHome "Home" .Title }}
+    {{ $src := partial "func/get-game-thumb" . }}
+    {{ partial "content/show-image" (dict "context" . "src" $src "class" "display-inline-block height-equals-font-size") }}
+    <li>
+        <a href="{{ .RelPermalink }}">{{ $title }}</a>
+    </li>
+    {{ $is_self := eq . $current_page }}
+    {{ if not $is_self }}
+        <span>&gt;&gt;</span>
+    {{ end }}
+{{ end }}
+</ul>

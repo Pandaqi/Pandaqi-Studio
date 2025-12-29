@@ -13,7 +13,7 @@ date: 2025-03-26
 
 difficulty: "no-brainer"
 categories: ["board-game", "tile-game", "standard"]
-genre: ["family", "party"]
+genres: ["family", "party"]
 tags: ["shared-map", "creative", "limited-communication", "guessing"]
 themes: ["colorful", "holiday"]
 

@@ -8,17 +8,23 @@ date: 2021-12-01
 
 difficulty: "kids-can-play"
 genres: ["puzzle"]
-categories: ["game", "desktop", "mobile"]
+categories: ["video-game", "desktop", "mobile"]
 tags: ["movement", "logic", "grid", "turn-based"]
 themes: ["2D", "vector", "lighting", "nature", "top-down"]
 
 externalLinks:
   - label: "Buy"
-    url: "http://pandaqi.itch.io/round-ogre"
+    url: "https://thewaywardmelody.com/explorers/video-games/round-ogre/"
+    store: "The Wayward Melody"
     platforms: ["windows", "mac", "linux", "android"]
-    price: 8
+    price: 4
+  - label: "Buy"
+    url: "http://pandaqi.itch.io/round-ogre"
+    store: "Itch.io"
+    platforms: ["windows", "mac", "linux", "android"]
+    price: 4
 
-price: 8
+price: 4
 platform: ["windows", "mac", "linux", "android"]
 language: EN
 playtime: 10

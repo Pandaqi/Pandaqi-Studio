@@ -16,6 +16,7 @@ tags: ["domino", "shared-map", "language", "spiritually-inspired"]
 themes: ["colorful", "vector"]
 
 driveLink: "https://drive.google.com/drive/folders/14KGDtFeGMpGRltZorC6shHr3pYXGk5MQ"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/keebble-games/"
 
 multiplayermode: "competitive"
 language: EN

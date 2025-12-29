@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a game, and what is meant by your cards being your die." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a game, and what is meant by your cards being your die." >}}
 
 Everyone receives a random set of **6 cards**. (These are numbered 1--6.) This deck is your **"die"**.
 

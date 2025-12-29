@@ -8,7 +8,7 @@ Press the button below to get a random setup you can simply copy to your table.
 
 {{< rules/rules-example id="naivigation-setup" >}}
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 Alternatively, manually do the setup as follows.
 * Create a deck of 25 tiles, including 5 planets and 1 starting tile. 
@@ -99,7 +99,7 @@ It's recommended to add these expansions in order, as they get progressively har
 
 ### Shields & Asteroids
 
-{{<  rules-image-sidebar src="expansion_shields_asteroids.webp" alt="Examples of how to use all the new tiles/cards in the Shields expansion." >}}
+{{< rules/rules-image-sidebar src="expansion_shields_asteroids.webp" alt="Examples of how to use all the new tiles/cards in the Shields expansion." >}}
 
 Add the following map tiles.
 * **Asteroids:** if you fly into this tile, take 1 damage.

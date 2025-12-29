@@ -7,6 +7,7 @@ blurb: "Een simpelere versie van Poker voor Sinterklaasavonden en Blufpieten."
 
 
 driveLink: "https://drive.google.com/drive/folders/15h2WfRlYZwEBD_LSHhYH0pEMT80xbfcO"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/chiptales/pietenpoker/"
 
 date: 2025-11-05
 

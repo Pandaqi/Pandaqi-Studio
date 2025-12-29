@@ -5,6 +5,7 @@ title: "Magnetmen"
 blurb: "The Magnetmen are magical robots, scoring points left and right. The only issue? The more you use them, the more spaces from which you're repelled."
 # blurb: "A [One Paper Game](/boardgames#one_paper_games) about scoring points before the Magnetmen repel you from the entire board!"
 driveLink: "https://drive.google.com/drive/folders/1IWl4VH_Ai7e6BQM6PE4dY3YUfkDn2zQj"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/one-paper-games/magnetmen/"
 
 date: 2025-01-26
 

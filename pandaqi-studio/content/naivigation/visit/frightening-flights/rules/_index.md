@@ -6,7 +6,7 @@ type: "rules"
 
 {{< rules/rules-example id="naivigation-setup" >}}
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup the game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup the game." >}}
 
 Alternatively, manually do the setup as follows.
 
@@ -186,7 +186,7 @@ When you _hit_ an obstacle, there are consequences. These depend on what you hit
 
 ### Passengers & Planes
 
-{{<  rules-image-sidebar src="expansion_passengers_planes.webp" alt="Example of passengers and how to read/use them." >}}
+{{< rules/rules-image-sidebar src="expansion_passengers_planes.webp" alt="Example of passengers and how to read/use them." >}}
 
 This expansion adds extra material: **Passenger Tiles**.
 

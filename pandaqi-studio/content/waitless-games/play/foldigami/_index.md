@@ -15,6 +15,7 @@ tags: ["folding", "turn-based", "experimental", "creative", "fast-paced"]
 themes: ["origami", "history"]
 
 driveLink: "https://drive.google.com/drive/folders/17jgCO-P1M1Fqa0T7NKt8nfJxslF2TDMB"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/waitless-games/foldigami/"
 
 multiplayermode: "competitive"
 language: EN

@@ -4,7 +4,7 @@ type: "rules"
 
 ## Opzet
 
-{{<  rules-image-sidebar src="setup.webp" alt="Voorbeeld van hoe je een nieuw spel opzet." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Voorbeeld van hoe je een nieuw spel opzet." >}}
 
 Plaats alle vierkante tegels in een 5 bij 5 grid. Dit is het **Speelbord** (ofwel de "Kaart van Nederland"). Plaats de **Stoombootpion** op een willekeurig stuk water.
 
@@ -103,7 +103,7 @@ Het spel **eindigt** nu (in verlies) als deze stapel **op is**.
 
 Deze uitbreiding bevat bijzondere pakjeskaarten. Ze bevatten tekst met een speciale actie of vaardigheid, die altijd ingaat zodra de kaart succesvol wordt **bezorgd**.
 
-{{<  rules-image-sidebar src="expansion_pakjes.webp" alt="Voorbeeld van de nieuwe pakjes- en vaarkaarten." >}}
+{{< rules/rules-image-sidebar src="expansion_pakjes.webp" alt="Voorbeeld van de nieuwe pakjes- en vaarkaarten." >}}
 
 * **Joker**: deze pakjes hebben een regenboogkleur en laten een vraagteken zien. Ze stellen elke pakje voor dat je maar wilt!
 * **Dubbelcadeau**: deze pakjes laten twee soorten zien. Als je deze gebruikt, mag je ter plekke kiezen welke van de twee het is.
@@ -124,7 +124,7 @@ Deze uitbreiding bevat speciale tegels voor de kaart. Schud deze met de rest van
 
 <div data-rulebook-table="pepernoot-plekken"></div>
 
-{{<  rules-image-sidebar src="expansion_plekken.webp" alt="Voorbeeld van wat de boot schade doet en de gevolgen daarvan ( = Stoomrij korter)." >}}
+{{< rules/rules-image-sidebar src="expansion_plekken.webp" alt="Voorbeeld van wat de boot schade doet en de gevolgen daarvan ( = Stoomrij korter)." >}}
 
 Ook kan je Stoomboot nu **schade** oplopen.
 

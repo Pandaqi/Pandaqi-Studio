@@ -1,0 +1,228 @@
+@use "sass:color";
+
+$header-font: "sunny";
+$body-font: "minya";
+$base-fonts: "fonts/";
+
+$bg-color: #FCBDBD;
+$text-color: #210000;
+
+$col1: #fe94e9;
+$col2: #63ffe0;
+$col3: $col1;
+
+$button-bg: $col2;
+$button-color: #27231c;
+$link-color: color.adjust($col3, $lightness: -40%);
+$link-color-hover: color.adjust($col3, $lightness: -10%);
+$settings-color: $col1;
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'MinyaNouvelle-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'MinyaNouvelle-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'MinyaNouvelle-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'SunnySpells-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    font-size: 21px;
+    color: $text-color;
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+input, button, select, option, label {
+    font-family: $body-font;
+}
+
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    background-color: $settings-color;
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rules
+//
+#setup {
+    background-color: color.adjust($col1, $lightness: 5%);
+}
+
+#objective {
+    background-color: color.adjust($col2, $lightness: 10%);
+}
+
+#action_play {
+    background-color: color.adjust($col1, $lightness: 5%);
+}
+
+#variants {
+    background-color: color.adjust($col2, $lightness: 10%);
+}
+
+
+body {
+    font-family: $body-font;
+    background-color: #ff74ae;
+}
+
+h1, h2, h3, h4 {
+    font-family: $header-font;
+}
+
+h1 {
+    font-size: 3em;
+    text-align: center;
+    line-height: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.game-wrapper {
+    display: flex;
+    justify-content: center;
+
+    .game-container {
+        max-width: 500px;
+        background-color: #ffeaf3;
+        border-radius: 0.5em;
+        padding: 1em;
+    }
+
+    .game-button {
+        width: 100%;
+        border: none;
+        font-family: "sunny";
+        font-size: 2em;
+        background-color: #0b655c;
+        border-radius: 0.25em;
+        color: white;
+        cursor: Vector2er;
+        transition: color 0.3s, background-color 0.3s;
+
+        &:hover {
+            background-color: #2baa9e;
+            filter: drop-shadow(0 0 0.1rem black);
+        }
+    }
+
+    .game-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        margin-bottom: 0.5em;
+        margin-top: 0.5em;
+        
+        .game-card {
+            border-radius: 0.25em;
+            padding: 0.5em;
+            text-align: center;
+            filter: drop-shadow(0 0 0.15rem black);
+            width: 100%;
+            cursor: Vector2er;
+            transition: filter 0.3s;
+
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+            align-items: center;
+            gap: 0.5em;
+
+            button {
+                font-weight: bold;
+                border: none;
+                background-color: rgba(0,0,0,0.25);
+                color: white;
+                border-radius: 0.25em;
+                font-size: 1.33em;
+                cursor: Vector2er;
+                transition: color 0.3s, background-color 0.3s;
+
+                &:hover {
+                    background-color: white;
+                    color: black;
+                }
+            }
+
+            &:hover {
+                filter: drop-shadow(0 0 0.3em black) brightness(150%);
+            }
+
+            &.dragged {
+                outline: 5px solid black;
+            }
+
+            &.with-result {
+                
+                text-align: left;
+            }
+
+            &.guess-wrong {
+                outline: 5px solid red;
+                opacity: 0.65;
+                filter: none;
+            }
+
+            &.guess-correct {
+                outline: 5px solid green;
+            }
+        }
+    }
+}

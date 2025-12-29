@@ -8,13 +8,19 @@ date: 2021-02-24
 
 difficulty: "kids-can-play"
 genres: ["puzzle"]
-categories: ["game", "desktop", "mobile"]
+categories: ["video-game", "desktop", "mobile"]
 tags: ["movement", "logic", "grid", "turn-based"]
 themes: ["2D", "vector", "lighting", "top-down"]
 
 externalLinks:
   - label: "Buy"
+    url: "https://thewaywardmelody.com/explorers/video-games/square-ogre/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux", "android"]
+    price: 4
+  - label: "Buy"
     url: "http://pandaqi.itch.io/square-ogre"
+    store: "Itch.io"
     platforms: ["windows", "mac", "linux", "android"]
     price: 4
 

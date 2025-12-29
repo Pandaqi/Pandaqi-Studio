@@ -8,13 +8,19 @@ date: 2025-12-12
 
 difficulty: "kids-can-play"
 genres: ["action"]
-categories: ["game", "desktop", "game-jam"]
+categories: ["video-game", "desktop", "game-jam"]
 tags: []
 themes: ["2D"]
 
 externalLinks:
   - label: "Buy"
+    url: "https://thewaywardmelody.com/explorers/video-games/sunbluck/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 2
+  - label: "Buy"
     url: "http://pandaqi.itch.io/sunbluck/"
+    store: "Itch.io"
     platforms: ["windows", "mac", "linux", "web"]
     price: 2
 

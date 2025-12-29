@@ -5,12 +5,13 @@ title: "Waterfall"
 blurb: "Fall down the waterfall as best you can, while lengthening the waterfall as you play, to collect the highest-scoring gemstones along the way."
 # blurb: "Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way."
 driveLink: "https://drive.google.com/drive/folders/1vMuxpb1QiOHnb2tmGOcu50q0xkyRcE9i"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/tile-games/the-waterfall-games/"
 
 date: 2025-08-26
 
 difficulty: "no-brainer"
 categories: ["board-game", "tile-game", "pawn-game", "standard"]
-genre: ["family", "thematic"]
+genres: ["family", "thematic"]
 tags: ["shared-map", "high-score", "fast-paced", "movement"]
 themes: ["nature", "sea"]
 

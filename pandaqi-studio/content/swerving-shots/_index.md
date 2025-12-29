@@ -3,6 +3,7 @@ type: "project"
 
 title: "Swerving Shots"
 blurb: "You're cowboys shooting bullets simultaneously, which means collisions might occur, which means you might just shoot yourself."
+deprecated: true
 
 date: 2019-09-18
 
@@ -13,6 +14,7 @@ tags: ["battle", "networks", "take-that", "programming"]
 themes: ["top-down", "vector", "wild-west"]
 
 driveLink: "https://drive.google.com/open?id=1gGXtVCAP-v0ZD5yqrv1osYf0QE9SK4WB"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/de-retro-bordspellen-bundel/"
 
 multiplayermode: "competitive"
 language: ["EN", "NL"]

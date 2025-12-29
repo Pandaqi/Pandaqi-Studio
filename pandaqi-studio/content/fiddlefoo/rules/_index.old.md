@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" >}}
+{{< rules/rules-image-sidebar src="setup.webp" >}}
 
 Place 1 random card of each color in a 2x2 square on the table. This is the start of the (shared) **Map**.
 
@@ -91,7 +91,7 @@ What changes?
 
 ### Expansion: Talkytoot
 
-{{<  rules-image-sidebar src="setup.webp" >}}
+{{< rules/rules-image-sidebar src="setup.webp" >}}
 
 This expansion adds extra material: cards that also contain _special actions_. 
 

@@ -13,7 +13,7 @@ date: 2025-03-26
 
 difficulty: "simple"
 categories: ["board-game", "tile-game", "standard"]
-genre: ["family"]
+genres: ["family"]
 tags: ["shared-map", "movement", "logic"]
 themes: ["colorful", "holiday"]
 

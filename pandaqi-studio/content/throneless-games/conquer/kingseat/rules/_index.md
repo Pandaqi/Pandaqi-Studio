@@ -26,7 +26,7 @@ Finally, keep two piles of cards during the game.
 
 ## Objective
 
-{{< rules-image-sidebar src="objective.webp" alt="Example counting the votes and declaring a winner (at the end)" >}}
+{{< rules/rules-image-sidebar src="objective.webp" alt="Example counting the votes and declaring a winner (at the end)" >}}
 
 The game ends when **all players are out of cards**. 
 

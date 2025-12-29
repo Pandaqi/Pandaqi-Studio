@@ -31,7 +31,7 @@ During the game, whoever sits at the Smallseat position is called the **Boss**.
 
 ## Objective
 
-{{< rules-image-sidebar src="objective.webp" alt="Example of counting the votes and declaring a winner (at the end)." >}}
+{{< rules/rules-image-sidebar src="objective.webp" alt="Example of counting the votes and declaring a winner (at the end)." >}}
 
 The game ends once **no Candidate can vote anymore**.
 

@@ -8,13 +8,19 @@ date: 2025-12-12
 
 difficulty: "no-brainer"
 genres: ["action"]
-categories: ["game", "desktop", "game-jam"]
+categories: ["video-game", "desktop", "game-jam"]
 tags: ["tower-defense"]
 themes: ["2D"]
 
 externalLinks:
   - label: "Buy"
+    url: "https://thewaywardmelody.com/explorers/video-games/inside-sprout/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 2
+  - label: "Buy"
     url: "http://pandaqi.itch.io/inside-sprout/"
+    store: "Itch.io"
     platforms: ["windows", "mac", "linux", "web"]
     price: 2
 

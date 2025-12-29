@@ -1,0 +1,130 @@
+import { shuffle } from "lib/pq-games";
+import { CONFIG } from "../shared/config";
+import { ANIMALS, AnimalType, CardType, ZOO_CARDS } from "../shared/dict";
+import Card from "./card";
+
+export const cardPicker = () : Card[] =>
+{
+    const cards = [];
+
+    generateBaseCards(cards);
+    generateBusyZoo(cards);
+    generateWildAnimals(cards);
+
+    return cards;
+}
+
+const generateBaseCards = (cards) =>
+{
+    if(!CONFIG._settings.sets.base.value) { return; }
+
+    generateAnimalCards(cards, CONFIG.generation.animalFreqsBase, CONFIG.generation.animalFreqDefaultBase);
+    generateZooCards(cards, CONFIG.generation.zooCardsNumBase, CONFIG.generation.zooCycleNumFreqsBase);
+}
+
+const generateBusyZoo = (cards) =>
+{
+    if(!CONFIG._settings.sets.busyZoo.value) { return; }
+    generateZooCards(cards, CONFIG.generation.zooCardsNumBusy, CONFIG.generation.zooCycleNumFreqsBusy, Object.keys(ZOO_CARDS));
+}
+
+const generateWildAnimals = (cards) =>
+{
+    if(!CONFIG._settings.sets.wildAnimals.value) { return; }
+    generateAnimalCards(cards, CONFIG.generation.animalFreqsWild, CONFIG.generation.animalFreqDefaultWild, true)
+}
+
+const generateAnimalCards = (cards, dist:Record<AnimalType, number>, defFreq:number, specialPowers:boolean = false) =>
+{
+    // the animal cards
+    for(const [key,data] of Object.entries(ANIMALS))
+    {
+        const freq = dist[key] ?? defFreq;
+        for(let i = 0; i < freq; i++)
+        {
+            const newCard = new Card(CardType.ANIMAL, key);
+            newCard.specialPowers = specialPowers;
+            cards.push(newCard);
+        }
+    }
+}
+
+const generateZooCards = (cards, numZooCards:number, dist:Record<number, number>, types:string[] = []) =>
+{
+    // the zoo cards
+    // first count the cycle size for all cards
+    const nums = [];
+    let totalNum = 0;
+    for(const [num,freqRaw] of Object.entries(dist))
+    {
+        const freq = Math.ceil(freqRaw * numZooCards);
+        for(let i = 0; i < freq; i++)
+        {
+            nums.push(parseInt(num));
+            totalNum += parseInt(num);
+        }
+    }
+    shuffle(nums);
+
+    // so we know how many animals we need in total
+    // put them in an _ordered_ list so we can draw random chunks while making sure we have no duplicate animals
+    const allAnimals = Object.keys(ANIMALS);
+    shuffle(allAnimals);
+    const numPerAnimal = Math.ceil(totalNum / allAnimals.length);
+    const allAnimalsOrdered = [];
+    for(let i = 0; i < numPerAnimal; i++)
+    {
+        allAnimalsOrdered.push(...allAnimals);
+    }
+
+    const cardTypes = [];
+    if(types.length > 0)
+    {
+        while(cardTypes.length < numZooCards)
+        {
+            cardTypes.push(...types);
+        }
+        shuffle(cardTypes);
+    }
+
+
+    // also prepare the peopleIcons
+    const numPeopleIcons = Math.round(CONFIG.generation.peopleIconPercentage * numZooCards);
+    const peopleIcons = [];
+    for(let i = 0; i < numZooCards; i++)
+    {
+        peopleIcons.push(i < numPeopleIcons);
+    }
+    shuffle(peopleIcons);
+
+    // and the zoo card scores
+    const scoreValues = [];
+    const freqs : Record<number, number> = CONFIG.generation.zooCardScoreFreqs;
+    for(const [num, freqRaw] of Object.entries(freqs))
+    {
+        const freq = Math.ceil(freqRaw * numZooCards);
+        for(let i = 0; i < freq; i++)
+        {
+            scoreValues.push(parseInt(num));
+        }
+    }
+    shuffle(scoreValues);
+
+    // finally just create those cards
+    for(let i = 0; i < numZooCards; i++)
+    {
+        const cycleSize = nums.pop();
+        const type = cardTypes.pop() ?? "regular";
+        const newCard = new Card(CardType.ZOO, type);
+        newCard.setCycle(allAnimalsOrdered.splice(0, cycleSize));
+        cards.push(newCard);
+
+        let peopleIcon = peopleIcons.pop();
+        const data = ZOO_CARDS[type] ?? {};
+        if(data.forbidPeople) { peopleIcon = false; }
+        if(data.requirePeople) { peopleIcon = true; }
+
+        newCard.peopleIcon = peopleIcon;
+        newCard.scoreValue = scoreValues.pop();
+    }
+}

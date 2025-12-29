@@ -1,0 +1,13 @@
+{{- $class := .class -}}
+{{- $src_id := replace .src "https://www.youtube.com/embed/" "" }}
+{{- $id := $src_id -}}
+{{- $caption := .caption -}}
+<section class="video-embedded {{ $class }}">
+	<div class="video-container">
+		<div id="{{- $id -}}" class="youtube-video" data-src="{{- $src_id -}}"></div>
+		<!--- <iframe class="video" src='\{\{- $src -\}\}' allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" width='560' height='315' frameborder="0"></iframe> --->
+	</div>
+	{{- if $caption -}}
+    <div class="video-caption">{{- $caption | markdownify -}}</div>
+	{{- end -}}
+</section>

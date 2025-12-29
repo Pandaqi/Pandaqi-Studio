@@ -71,7 +71,7 @@ The hand limit is 8 cards. If you can't fit all new cards into your hand, you mu
 
 ## Scoring
 
-{{< rules-image-sidebar src="scoring.webp" alt="Example of how to score your cards at the end of the game." >}}
+{{< rules/rules-image-sidebar src="scoring.webp" alt="Example of how to score your cards at the end of the game." >}}
 
 "Scoring" a card simply means placing it faceup in front of you. You can't use these cards anymore.
 

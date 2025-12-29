@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 For each Animal in the game, place its **Passport** on the table. It contains details about each animal. Don't worry, most of it **isn't used** in the _base game_.
 
@@ -60,7 +60,7 @@ Only two placement rules apply.
 
 ### Claim
 
-{{<  rules-image-sidebar src="gameplay_claim.webp" alt="Example of how claim an Area." >}}
+{{< rules/rules-image-sidebar src="gameplay_claim.webp" alt="Example of how claim an Area." >}}
 
 You **may** claim an Area by placing your Pawn on it. Each Area can only be claimed once.
 
@@ -144,7 +144,7 @@ Yes, if at least one Endgame is present, you'll have to play the entire game unt
 
 ### Strong Species
 
-{{<  rules-image-sidebar src="expansion_strong.webp" alt="Example of what Strong fences mean." >}}
+{{< rules/rules-image-sidebar src="expansion_strong.webp" alt="Example of what Strong fences mean." >}}
 
 This expansion adds a few more animals and a new terrain.
 
@@ -156,7 +156,7 @@ It uses a new detail from the Animal Passport: **strong**.
 
 ### Wildlife Wishes
 
-{{<  rules-image-sidebar src="expansion_wildlife.webp" alt="Example of the new Wildlife rules in action." >}}
+{{< rules/rules-image-sidebar src="expansion_wildlife.webp" alt="Example of the new Wildlife rules in action." >}}
 
 This expansion adds a few more animals, a new terrain, and **objects** (such as toys for the animals).
 
@@ -172,7 +172,7 @@ Below is a list of all objects.
 
 ### Unnatural Utilities
 
-{{<  rules-image-sidebar src="expansion_utilities.webp" alt="Example of how to calculate food requirements following the new rule." >}}
+{{< rules/rules-image-sidebar src="expansion_utilities.webp" alt="Example of how to calculate food requirements following the new rule." >}}
 
 This expansion adds a few more animals, a new terrain, and **stalls** (or "utilities"). These modify their surroundings in some way.
 

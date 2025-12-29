@@ -8,19 +8,25 @@ date: 2021-11-26
 
 difficulty: "simple"
 genres: ["action", "party", "simulation"]
-categories: ["game", "desktop", "local-multiplayer", "game-jam"]
+categories: ["video-game", "desktop", "local-multiplayer", "game-jam"]
 tags: ["area-control", "construction", "ladder-climbing", "chaos", "powerups", "map-selection"]
 themes: ["nature"]
 
 externalLinks:
-  - label: "Buy"
-    url: "http://pandaqi.itch.io/windowsilk/"
+  - label: "Play"
+    url: "https://thewaywardmelody.com/explorers/video-games/windowsilk/"
+    store: "The Wayward Melody"
     platforms: ["windows", "mac", "linux", "web"]
-    price: 2
+    price: 0
+  - label: "Play"
+    url: "http://pandaqi.itch.io/windowsilk/"
+    store: "Itch.io"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 0
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
-price: 2
+price: 0
 platform: ["windows", "mac", "linux", "web"]
 language: EN
 playtime: 5

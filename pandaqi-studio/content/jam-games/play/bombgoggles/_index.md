@@ -8,13 +8,19 @@ date: 2025-12-12
 
 difficulty: "no-brainer"
 genres: ["action"]
-categories: ["game", "desktop", "game-jam"]
+categories: ["video-game", "desktop", "game-jam"]
 tags: []
 themes: ["2D"]
 
 externalLinks:
   - label: "Play"
+    url: "https://thewaywardmelody.com/explorers/video-games/bombgoggles/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 0
+  - label: "Play"
     url: "http://pandaqi.itch.io/bombgoggles/"
+    store: "Itch.io"
     platforms: ["windows", "mac", "linux", "web"]
     price: 0 
 

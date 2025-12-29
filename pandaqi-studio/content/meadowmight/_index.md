@@ -5,6 +5,7 @@ title: "Meadowmight"
 blurb: "Build a meadow and fill it with sheep, but beware other players stomping into your peaceful grasslands and fencing off the wrong parts!"
 # blurb: "Claim the biggest meadow in this war of the wool."
 driveLink: "https://drive.google.com/drive/folders/1mdYwronNojq_L3I9vTkGdCVhVsnpiruT"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/tile-games/meadowmight/"
 
 date: 2024-05-26
 

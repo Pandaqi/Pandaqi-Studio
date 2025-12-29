@@ -1,0 +1,22 @@
+{{ $header_url := partial "func/get-game-header.html" . }}
+{{ $title := .Title }}
+{{ $metadata := partial "func/get-game-metadata.html" . }}
+{{ $blurb_text := or (.Params.blurb | markdownify) "This is a mysterious game without a description ..." }}
+
+<a class="no-default-link-styles bg-color-light display-block padding-m border-radius-m hover_invert hover_popup" href="{{ .RelPermalink }}">
+    {{ if $header_url }}
+        <div class="bg-image">
+            {{ partial "content/show-image.html" (dict "context" . "src" $header_url) }}
+        </div>
+    {{ end }}
+
+    <h2 class="text-center">{{ $title }}</h2>
+    {{ if gt (len $metadata) 0 }}
+    <div class="flex flex-wrap gap-xs text-uppercase text-color-mid-light">
+        {{ range $metadata }}
+            <span class="font-size-s">{{ . }}</span>
+        {{ end }}
+    </div>
+    {{ end }}
+    <p>{{- $blurb_text -}}</p>
+</a>

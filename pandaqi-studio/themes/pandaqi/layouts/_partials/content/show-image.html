@@ -1,0 +1,18 @@
+{{- $src := index (strings.Split .src ".") 0 -}} <!--- chop off any extension --->
+{{- $alt := or .alt ($src | humanize) -}}
+{{- $class := or .class "" -}}
+{{- $url := partial "func/get-valid-image-url.html" (dict "context" .context "src" $src) -}}
+{{- if $url -}}
+	{{- $img := imageConfig (add "content" $url) -}}
+<picture class="{{ $class }}">
+	<img 
+		src="{{- $url -}}" 
+		loading="lazy" 
+		decoding="async" 
+		alt="{{- $alt -}}"
+		title="{{- $alt -}}"
+		width="{{- $img.Width -}}"
+		height="{{- $img.Height -}}"
+	/>
+</picture>
+{{- end -}}

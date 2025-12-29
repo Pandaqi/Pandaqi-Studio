@@ -7,6 +7,7 @@ blurb: "A trick-taking game about getting your nine lives before anybody else, b
 weightProject: 92
 
 driveLink: "https://drive.google.com/drive/folders/1FxdHCEaLdaSrGDIrCx5yZHMx6P07_Ios"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/the-outnumbered-series/nine-lives/"
 
 date: 2024-09-11
 

@@ -14,6 +14,7 @@ tags: ["social", "guessing", "language", "drawing", "creative", "sorting", "simu
 themes: []
 
 driveLink: "https://drive.google.com/drive/folders/1ovrsGP6oso--ii20P5tOfOsdDVRWzz0r"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/thats-amorphe-games/"
 
 multiplayermode: "cooperative"
 language: EN

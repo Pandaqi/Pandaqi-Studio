@@ -14,6 +14,7 @@ tags: ["cooking", "deduction", "logic"]
 themes: ["magic", "fantasy"]
 
 driveLink: "https://drive.google.com/open?id=1y4WescX98VLllbV7FqojADUnAr5fc8Vx"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/one-paper-games/wondering-witches/"
 
 multiplayermode: "cooperative"
 language: EN

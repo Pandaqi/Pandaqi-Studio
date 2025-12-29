@@ -1,0 +1,5 @@
+{{- $class := or (.Get "class") "" -}}
+<section class="rules-table {{ $class }}">
+    {{- .Inner -}}
+</section>
+<div class="ui-hint">Click a symbol to see its name / meaning.</div>

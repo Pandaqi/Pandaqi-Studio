@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a game" >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a game" >}}
 
 Create a deck of **Movement Cards** and a pile of **Map Tiles**.
 

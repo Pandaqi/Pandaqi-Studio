@@ -8,8 +8,6 @@
 
 **Experiment** with adding animations/videos to **rules** (board game mostly, but could also be done for video games.) => Use <https://motioncanvas.io/docs/> for this. It's open source, free, uses Canvas/Web, and does animation through coding and vectors.
 
-**Fonts:** make all LOCAL. Rewrite older games to load them via FontFace API.
-
 ## Games
 
 **Starry Skylines**. Make a *physical* version:

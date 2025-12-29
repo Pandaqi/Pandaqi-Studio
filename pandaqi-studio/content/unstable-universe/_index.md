@@ -14,6 +14,7 @@ tags: ["cutting", "experimental", "movement"]
 themes: ["space", "nature"]
 
 driveLink: "https://drive.google.com/drive/folders/1wu61RX3FCPVfmWjDTW7yOoeqhsgfuMLr"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/one-paper-games/one-paper-games-bundle/"
 
 multiplayermode: "competitive"
 language: EN
@@ -26,19 +27,19 @@ media: [assets/video/unstableuniverse_explanation_gif, assets/page/unstableunive
 
 ---
 
-{{% review-container %}}
-  {{< review stars="5" author="" >}}
+{{% blocks/review-container %}}
+  {{< blocks/review stars="5" author="" >}}
   What a cutting-edge game!
-  {{< /review >}}
+  {{< /blocks/review >}}
 
-  {{< review stars="4" author="" >}}
+  {{< blocks/review stars="4" author="" >}}
   The second game about rocks, papers and scissors---and already a classic
-  {{< /review >}}
+  {{< /blocks/review >}}
 
-  {{< review stars="4" author="" >}}
+  {{< blocks/review stars="4" author="" >}}
   This game cuts right through the crowd with its innovative mechanics and makes the efforts of its competition look paper-thin
-  {{< /review >}}
-{{% /review-container %}}
+  {{< /blocks/review >}}
+{{% /blocks/review-container %}}
 
 ## What's the idea?
 

@@ -5,12 +5,13 @@ title: "Noble Flood"
 blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity. Also playable with standard deck of cards."
 # blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity."
 driveLink: "https://drive.google.com/drive/folders/1CcsMv1m33GWZypAiNYZgkpCh17RQtqW5"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/chiptales/noble-flood/"
 
 date: 2025-05-26
 
 difficulty: "simple"
 categories: ["board-game", "card-game", "standard"]
-genre: ["family"]
+genres: ["family"]
 tags: ["contracts", "shared-map", "high-score"]
 themes: []
 

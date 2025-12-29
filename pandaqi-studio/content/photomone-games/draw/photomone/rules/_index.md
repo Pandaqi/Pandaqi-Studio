@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{< rules-image-sidebar src="starting_setup.webp" alt="Example of a random board + different ways to get random words." >}}
+{{< rules/rules-image-sidebar src="starting_setup.webp" alt="Example of a random board + different ways to get random words." >}}
 
 For each game, you need a board (to draw on) and random words. A board always has to be printed.
 
@@ -29,7 +29,7 @@ You can also play **competitively**. Divide the players into two teams. The firs
 
 Take clockwise turns until done.
 
-{{< rules-image-sidebar src="photomone_turn.webp" alt="Example of a turn: pick a word, draw, others guess." >}}
+{{< rules/rules-image-sidebar src="photomone_turn.webp" alt="Example of a turn: pick a word, draw, others guess." >}}
 
 On your turn, get new words. Look at them _in secret_, then pick one. Each word has a number of **lines** and an amount of **food**.
 

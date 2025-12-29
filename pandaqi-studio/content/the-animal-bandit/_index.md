@@ -15,6 +15,7 @@ tags: ["market", "bluffing", "turn-based"]
 themes: ["nature"]
 
 driveLink: "https://drive.google.com/open?id=1MHd_tAhJ2YP6pBRPXRZEKKxxZGvunPFx"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/de-retro-bordspellen-bundel/"
 
 multiplayermode: "competitive"
 language: ["EN", "NL"]
@@ -28,7 +29,7 @@ media: [assets/the-animal-bandit-in-play]
 
 ## About This Game
 
-This game is as a tiny card game using two innovative mechanics: the idea of _smuggling piles_ and a completely _dynamic market_
+This game is a tiny card game using two innovative mechanics: the idea of _smuggling piles_ and a completely _dynamic market_
 					
 ### Smuggling Piles
 

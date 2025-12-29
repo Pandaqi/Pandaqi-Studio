@@ -9,15 +9,20 @@ date: 2017-07-20
 
 difficulty: "simple"
 genres: ["action", "platformer", "strategy"]
-categories: ["game", "desktop", "local-multiplayer"]
+categories: ["video-game", "desktop", "local-multiplayer"]
 tags: ["construction", "tower-defense", "resource-management", "monsters"]
 themes: ["vector", "side-view", "2D", "lighting"]
 
 externalLinks:
-  - label: "Buy"
+  - label: "Download"
+    url: "https://thewaywardmelody.com/explorers/video-games/tower-of-freedom/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux"]
+    price: 0
+  - label: "Download"
     url: "http://pandaqi.itch.io/tower-of-freedom/"
     platforms: ["windows", "mac", "linux"]
-    price: 2
+    price: 0
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'

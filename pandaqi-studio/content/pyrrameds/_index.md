@@ -6,13 +6,14 @@ title: "Pyrrameds"
 blurb: "Build a pyramid of cards that delivers the right medicine to the right patients. Do it with everyone else, but finish before anyone else."
 # blurb: "Build a pyramid of cards that delivers the right medicine to the right patients."
 driveLink: "https://drive.google.com/drive/folders/1qkIw5weWYltavQCp8GJ-TmiT63Pb9sci"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/pyrrameds/"
 
 
 date: 2025-05-26
 
 difficulty: "kids-can-play"
 categories: ["board-game", "card-game", "standard"]
-genre: ["family"]
+genres: ["family"]
 tags: ["numbers", "patterns", "shared-map", "networks", "move-through-all"]
 themes: ["animals"]
 

@@ -5,6 +5,7 @@ title: "Split the Foody"
 blurb: "Stealing food treasure is the easy part. Grabbing the biggest chunk when dividing the booty is tough---but also crucial to your success as a true pearate."
 # blurb: "A bluffin', stealin', eatin' game of food heists and dividing treasure amongst the pearates."
 driveLink: "https://drive.google.com/drive/folders/1Jw9vO5RnVDgh-ECN8NxMDVKeN9Uhfjjg"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/split-the-foody/"
 
 date: 2024-05-26
 

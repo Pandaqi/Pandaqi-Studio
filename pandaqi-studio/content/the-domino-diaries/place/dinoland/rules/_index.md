@@ -52,7 +52,7 @@ For your first/base game, just ignore any eggs you see.
 
 ## Scoring
 
-{{<  rules-image-sidebar src="scoring.webp" alt="Example of how to determine your score at the end." >}}
+{{< rules/rules-image-sidebar src="scoring.webp" alt="Example of how to determine your score at the end." >}}
 
 Let's define an **Area** as the largest possible group of connected tiles with the same terrain.
 
@@ -120,7 +120,7 @@ An Area that is shared ( = claimed by multiple Players) can't hatch eggs anymore
 
 ### Expansion
 
-{{<  rules-image-sidebar src="expansion.webp" alt="Visuals for the newly added terrains and dinosaurs in this expansion." >}}
+{{< rules/rules-image-sidebar src="expansion.webp" alt="Visuals for the newly added terrains and dinosaurs in this expansion." >}}
 
 This expansion adds two more terrain types: desert and wildcard (which can be _any terrain_, or rather "all of them at the same time").
 

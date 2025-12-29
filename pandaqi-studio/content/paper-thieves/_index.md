@@ -14,6 +14,7 @@ tags: ["shared-map", "movement"]
 themes: ["vector"]
 
 driveLink: "https://drive.google.com/open?id=1Dy71DZLHbO76-NAh5r4zEJbmIUNicY7q"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/one-paper-games/one-paper-games-bundle/"
 
 multiplayermode: "competitive"
 language: EN

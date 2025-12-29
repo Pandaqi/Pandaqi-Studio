@@ -5,6 +5,7 @@ title: "Mountain Miners"
 blurb: "Mine the best tiles from the top of the mountain, by constantly changing what is up and what is down."
 
 driveLink: "https://drive.google.com/drive/folders/1Y8dzzlw19-ZWUxmLlk7f35NBR22OEEkd"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/tile-games/mountain-miners/"
 
 date: 2024-11-12
 

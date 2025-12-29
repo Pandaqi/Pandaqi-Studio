@@ -8,9 +8,11 @@ date: 2024-04-25
 
 difficulty: "no-brainer"
 genres: ["party"]
-categories: ["game", "spin-off"]
+categories: ["video-game", "spin-off"]
 tags: ["social", "guessing", "sorting", "language", "creative", "limited-communication"]
 themes: ["retro", "colorful"]
+
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/slippery-slopes-games/"
 
 multiplayermode: "cooperative"
 language: EN

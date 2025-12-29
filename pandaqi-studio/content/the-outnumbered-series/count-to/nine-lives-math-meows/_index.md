@@ -7,6 +7,7 @@ blurb: "As we all know, cats start with nine lives. And as we all know, being un
 weightProject: 91
 
 driveLink: "https://drive.google.com/drive/folders/1kKuH20FTKx5pm4qy_dqdNgt79iDSJwYp"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/the-outnumbered-series/nine-lives/"
 
 date: 2024-09-11
 

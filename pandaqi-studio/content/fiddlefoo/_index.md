@@ -5,12 +5,13 @@ title: "Fiddlefoo"
 blurb: "Get rid of your cards without allowing others to throw their music at you."
 
 driveLink: "https://drive.google.com/drive/folders/1fRQWyYs7Vi9pX8ArL0zFN87Q-b7G3eIf"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/fiddlefoo/"
 
 date: 2025-12-16
 
 difficulty: "kids-can-play"
 categories: ["board-game", "card-game", "standard"]
-genre: ["family", "abstract"]
+genres: ["family", "abstract"]
 tags: ["shared-map", "grid", "turn-based", "score-and-reset", "numbers"]
 themes: ["colorful", "music"]
 

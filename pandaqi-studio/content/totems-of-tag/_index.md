@@ -8,17 +8,24 @@ date: 2022-08-01
 
 difficulty: "no-brainer"
 genres: ["party", "shooter", "sports"]
-categories: ["game", "desktop", "one-week-game", "local-multiplayer"]
+categories: ["video-game", "desktop", "one-week-game", "local-multiplayer"]
 tags: ["movement", "shared-map", "battle", "map-selection", "powerups"]
 themes: ["vector", "sports", "2D"]
 
 externalLinks:
-  - label: "Play on POKI"
+  - label: "Play"
     url: "https://poki.com/en/g/totems-of-tag"
+    store: "POKI (web portal)"
     platforms: ["web"]
     price: 0 
-  - label: "Buy on ITCH"
+  - label: "Buy"
+    url: "https://thewaywardmelody.com/explorers/video-games/totems-of-tag/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux"]
+    price: 2
+  - label: "Buy"
     url: "http://pandaqi.itch.io/totems-of-tag"
+    store: "Itch.io"
     platforms: ["windows", "mac", "linux"]
     price: 2
 

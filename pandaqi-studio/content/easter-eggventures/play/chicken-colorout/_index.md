@@ -13,7 +13,7 @@ date: 2025-03-26
 
 difficulty: "kids-can-play"
 categories: ["board-game", "tile-game", "standard"]
-genre: ["family"]
+genres: ["family"]
 tags: ["shared-map", "move-through-all"]
 themes: ["colorful", "holiday"]
 

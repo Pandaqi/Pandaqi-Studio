@@ -17,6 +17,7 @@ themes: ["pirate"]
 
 
 driveLink: "https://drive.google.com/drive/folders/1BU_ccMrmdtSwBwXPqsV8sVUkaZR1Jdjp"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/the-pirate-games/"
 
 multiplayermode: "competitive"
 language: EN

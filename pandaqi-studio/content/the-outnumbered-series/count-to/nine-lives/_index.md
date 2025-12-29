@@ -8,6 +8,7 @@ blurbProject: "You're a cat with 9 lives. But blowing up a round with the wrong 
 weightProject: 90
 
 driveLink: "https://drive.google.com/drive/folders/1WkqwCiMo_ggHSkjPDfKS1fSDENgWjzoh"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/the-outnumbered-series/nine-lives/"
 
 date: 2024-08-25
 

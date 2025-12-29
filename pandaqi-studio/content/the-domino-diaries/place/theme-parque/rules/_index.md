@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 Place the **Entrance Tile** in the center of the table. 
 
@@ -47,7 +47,7 @@ The placement rules are ...
 
 ### Claim
 
-{{<  rules-image-sidebar src="gameplay_claim.webp" alt="Example of how to claim a Scorable Item (after your turn)." >}}
+{{< rules/rules-image-sidebar src="gameplay_claim.webp" alt="Example of how to claim a Scorable Item (after your turn)." >}}
 
 You **may** claim a "scorable item" on a domino (see [scoring](#scoring)) by placing your Pawn on it.
 

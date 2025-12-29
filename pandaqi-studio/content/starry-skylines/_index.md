@@ -14,6 +14,7 @@ tags: ["area-control", "numbers", "point-salad", "logic", "variable-setup", "con
 themes: ["space", "top-down"]
 
 driveLink: "https://drive.google.com/drive/folders/1_CkFN2QRv_amGofQcfP9RkGQgiZj9HXh"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/one-paper-games/starry-skylines/"
 
 multiplayermode: "competitive"
 language: EN

@@ -15,6 +15,7 @@ tags: ["hidden-movement", "logic", "player-powers", "traitor", "turn-based", "sh
 themes: ["science", "cartoon"]
 
 driveLink: "https://drive.google.com/open?id=1bZ0z3L63sfoK-iMKIQFG8yPzU5Efe9b-"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/one-paper-games/one-paper-games-bundle/"
 
 multiplayermode: 'cooperative'
 language: EN

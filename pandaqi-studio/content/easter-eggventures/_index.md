@@ -11,7 +11,7 @@ date: 2025-03-26
 
 difficulty: "kids-can-play"
 categories: ["board-game", "tile-game", "card-game", "standard"]
-genre: ["family", "thematic"]
+genres: ["family", "thematic"]
 tags: []
 themes: ["colorful", "holiday"]
 

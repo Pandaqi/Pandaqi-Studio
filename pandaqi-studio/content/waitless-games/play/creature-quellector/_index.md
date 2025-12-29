@@ -15,6 +15,7 @@ tags: ["set-collecting", "battle", "hidden-score", "modular", "turn-based"]
 themes: ["colorful", "monsters"]
 
 driveLink: "https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/waitless-games/creature-quellector/"
 
 multiplayermode: "competitive"
 language: EN

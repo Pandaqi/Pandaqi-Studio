@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup the game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup the game." >}}
 
 Create a deck of **Contract Cards**. Place 5 of them faceup on the table.
 
@@ -102,7 +102,7 @@ Other players are allowed to voluntarily **join** the battle too (if they think 
 
 ### Expansion: Devilish Numbers
 
-{{<  rules-image-sidebar src="expansion_devilish_numbers.webp" alt="Example of the special number cards (wildcard / duo) from this expansion." >}}
+{{< rules/rules-image-sidebar src="expansion_devilish_numbers.webp" alt="Example of the special number cards (wildcard / duo) from this expansion." >}}
 
 This expansion adds a few new number cards.
 

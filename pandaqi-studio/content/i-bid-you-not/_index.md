@@ -5,12 +5,13 @@ title: "I Bid You Not"
 blurb: "Take turns either adding items to the offer or declaring an auction. But once the auction is over, you might not be happy with how much you paid for what you got."
 # blurb: "Sweeten the deal and be the highest bidder---or sour the deal and run away."
 driveLink: "https://drive.google.com/drive/folders/17wUGca1wpZq7EFj3XV7zTPL_Q774X4lN"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/i-bid-you-not/"
 
 date: 2025-02-26
 
 difficulty: "simple"
 categories: ["board-game", "tile-game", "standard"]
-genre: ["family"]
+genres: ["family"]
 tags: ["numbers", "bidding", "auction"]
 themes: ["cartoon"]
 

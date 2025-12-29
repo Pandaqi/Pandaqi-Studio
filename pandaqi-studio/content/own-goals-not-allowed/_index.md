@@ -8,15 +8,21 @@ date: 2022-03-30
 
 difficulty: "no-brainer"
 genres: ["action", "sports"]
-categories: ["game", "desktop", "local-multiplayer", "one-week-game"]
+categories: ["video-game", "desktop", "local-multiplayer", "one-week-game"]
 tags: ["chaos", "physics-based", "powerups", "real-time"]
 themes: ["2D", "top-down", "sports", "textured"]
 
 externalLinks:
   - label: "Buy"
+    url: "https://thewaywardmelody.com/explorers/video-games/own-goals-not-allowed/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 2
+  - label: "Buy"
     url: "http://pandaqi.itch.io/own-goals-not-allowed/"
+    store: "Itch.io"
     platforms: ["windows", "mac", "linux"]
-    price: 1
+    price: 2
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'

@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{< rules-image-sidebar src="starting_setup.webp" alt="Examples of a starting setup (3 players, 2 sides)." >}}
+{{< rules/rules-image-sidebar src="starting_setup.webp" alt="Examples of a starting setup (3 players, 2 sides)." >}}
 
 All players pick a clear side at which they sit: left, right, top or bottom. This is important! It determines how you must _read_ the letters on the board.
 
@@ -54,7 +54,7 @@ If you lack table space, enable a "maximum board size": the playing area is at m
 
 ### Score
 
-{{< rules-image-sidebar src="scoring.webp" alt="Example of scoring your turn (with valid and invalid words)" >}}
+{{< rules/rules-image-sidebar src="scoring.webp" alt="Example of scoring your turn (with valid and invalid words)" >}}
 
 Every new **valid** word gives you points. However, every new **invalid** word means minus points.
 

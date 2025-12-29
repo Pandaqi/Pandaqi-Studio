@@ -68,7 +68,7 @@ You might need the expansions to have enough cards for this, if you have a high 
 
 ### Wildcards
 
-{{<  rules-image-sidebar src="expansion_wildcards.webp" alt="Example of how wildcards work." >}}
+{{< rules/rules-image-sidebar src="expansion_wildcards.webp" alt="Example of how wildcards work." >}}
 
 This expansion adds a tiny bit of extra material: Wildcards. 
 

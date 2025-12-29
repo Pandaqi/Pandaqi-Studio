@@ -7,6 +7,7 @@ blurb: "Play tricks building a house together, but let the house crumble when it
 
 
 driveLink: "https://drive.google.com/drive/folders/1Tcw0OHh5wn-li1w0AGjbX4mGM7zPUcZe"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/bidding-blocks/"
 
 date: 2026-01-26
 

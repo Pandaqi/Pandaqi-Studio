@@ -14,6 +14,7 @@ tags: ["grid", "shared-map", "point-salad", "movement"]
 themes: ["colorful", "nature"]
 
 driveLink: "https://drive.google.com/drive/folders/1kYuSs0w3yKLQBMqBWOlS4ZzGUY32vrHB"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/one-paper-games/kangaruse/"
 
 multiplayermode: "competitive"
 language: EN

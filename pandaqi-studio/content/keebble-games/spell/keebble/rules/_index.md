@@ -55,7 +55,7 @@ This is the "star" square if you use a generated setup.
 
 ### Scoring
 
-{{< rules-image-sidebar src="scoring.webp" alt="Examples of scoring your word." >}}
+{{< rules/rules-image-sidebar src="scoring.webp" alt="Examples of scoring your word." >}}
 
 Unlike Scrabble, letters don't have their own value. Instead, follow these simple rules.
 

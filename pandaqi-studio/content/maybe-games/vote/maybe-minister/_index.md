@@ -13,7 +13,7 @@ date: 2026-04-26
 
 difficulty: "regular"
 categories: ["board-game", "card-game", "standard"]
-genre: ["family", "thematic"]
+genres: ["family", "thematic"]
 tags: ["voting", "income", "simultaneous-turns", "political"]
 themes: []
 

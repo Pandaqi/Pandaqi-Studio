@@ -5,6 +5,7 @@ title: "The Game of Dilemmas"
 blurb: "Combine a positive and negative card from your hand to create a dilemma. If yours is the most controversial, you score the most points!"
 # blurb: "Create tough dilemmas by combining cards from your hand, then make sure yours gets the most controversial votes."
 driveLink: "https://drive.google.com/drive/folders/1b-raHI4BNZjow8E4X9Qc7ZLWbr4jZ3ne"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/game-of-happiness-and-dilemmas/"
 
 date: 2024-12-26
 

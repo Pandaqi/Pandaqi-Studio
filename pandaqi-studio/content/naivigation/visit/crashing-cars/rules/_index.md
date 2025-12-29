@@ -6,7 +6,7 @@ type: "rules"
 
 {{< rules/rules-example id="naivigation-setup" >}}
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 Alternatively, manually do the setup as follows.
 
@@ -145,7 +145,7 @@ For an even bigger challenge (_optional_), deplete Fuel _every time_ a Drive car
 
 ### Taxis & Cargo
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 This expansion adds a deck of **Passenger Cards** (with destinations, curses and rewards).
 

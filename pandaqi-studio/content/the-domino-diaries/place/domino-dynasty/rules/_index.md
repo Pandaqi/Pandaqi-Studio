@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 Create a deck with all **Role** dominoes. Shuffle and deal each player 1 Role. Once revealed, also give each player their corresponding **Starting Dominoes**.
 
@@ -33,7 +33,7 @@ Play happens in rounds. Each round has three steps: DRAW, PLACE, and REPORT.
 
 ### Draw
 
-{{<  rules-image-sidebar src="gameplay_draw.webp" alt="Example the DRAW step of a round: present dominoes and personal mission." >}}
+{{< rules/rules-image-sidebar src="gameplay_draw.webp" alt="Example the DRAW step of a round: present dominoes and personal mission." >}}
 
 Draw 2 times as many dominoes as there are players (from the deck). Place them faceup in a row on the table: the **Domino Market**.
 
@@ -62,7 +62,7 @@ Picking and placing a domino is _required_. Only do nothing if you _can't_ use a
 
 ### Report
 
-{{<  rules-image-sidebar src="gameplay_report.webp" alt="Example of the REPORT step of a round: check if missions fulfilled, handle reward/penalty." >}}
+{{< rules/rules-image-sidebar src="gameplay_report.webp" alt="Example of the REPORT step of a round: check if missions fulfilled, handle reward/penalty." >}}
 
 Take turns in the order of the **role numbers**. (Low to high; every role has a unique number.)
 
@@ -151,7 +151,7 @@ Change 2) You're now allowed to grow your Province by connecting different _"pat
 
 ### Goblin Grandma
 
-{{<  rules-image-sidebar src="expansion_goblin_grandma.webp" alt="Example of the Corrupter icon and how to use it." >}}
+{{< rules/rules-image-sidebar src="expansion_goblin_grandma.webp" alt="Example of the Corrupter icon and how to use it." >}}
 
 This expansion makes external threats (from Goblins) more immediate and powerful.
 
@@ -179,7 +179,7 @@ This expansion also adds **Events**.
 
 ### Directional Daddy
 
-{{<  rules-image-sidebar src="expansion_directional_daddy.webp" alt="Example of directed paths and how to use them." >}}
+{{< rules/rules-image-sidebar src="expansion_directional_daddy.webp" alt="Example of directed paths and how to use them." >}}
 
 This expansion adds paths with arrows (sometimes). 
 
@@ -193,7 +193,7 @@ If a path has no arrows, it is always fine---it is considered "both directions".
 
 ### Machine Mama
 
-{{<  rules-image-sidebar src="expansion_machine_mama.webp" alt="Example of what it means to be connected on the Shared Map." >}}
+{{< rules/rules-image-sidebar src="expansion_machine_mama.webp" alt="Example of what it means to be connected on the Shared Map." >}}
 
 This expansion is about connecting _players_ and using the Personal Maps to feed into a bigger engine (or "machine").
 

@@ -12,6 +12,7 @@ categories: ["board-game", "hybrid-game", "one-paper-game"]
 tags: ["deduction", "turn-based", "logic"]
 themes: ["pirate"]
 driveLink: "https://drive.google.com/drive/folders/1GXtqwg9tsK57zDzmiumtdtlgn3NeAHuF"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/the-pirate-games/"
 
 multiplayermode: "competitive"
 language: EN

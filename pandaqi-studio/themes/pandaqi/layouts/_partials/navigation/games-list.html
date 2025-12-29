@@ -1,0 +1,18 @@
+{{ $context := .context }}
+{{ $paginator := .paginator }}
+{{ if not $paginator }}
+	{{ $num_pages := 9 }}
+	{{ $pages := where $context.Pages "Type" "project" }}
+	{{ $paginator = $context.Paginate $pages $num_pages }}
+{{ end }}
+{{ $suppress_navigation := or .suppress_navigation false }}
+<nav class="width-limit block-center">
+	<ul class="no-default-list-styles project-grid">
+		{{ range $paginator.Pages }}
+			<li>{{ partial "navigation/project-summary.html" . }}</li>
+		{{ end }}
+	</ul>
+	{{ if not $suppress_navigation }}
+		{{ partial "navigation/pagination.html" (dict "paginator" $paginator) }}
+	{{ end }}
+</nav>

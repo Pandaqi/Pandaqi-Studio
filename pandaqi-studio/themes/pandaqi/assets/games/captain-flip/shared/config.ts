@@ -1,0 +1,138 @@
+
+import { ActionType } from "./dict"
+import { tilePicker } from "../game/tilePicker"
+import { TextConfig, TextWeight, Vector2, CVal } from "lib/pq-games"
+
+export const CONFIG = 
+{
+    _debug:
+    {
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+    },
+
+    _game:
+    {
+        fileName: "Captain Flip",
+    },
+
+    // assets
+    _resources:
+    {    
+        base: "/captain-flip/assets/",
+        files:
+        {
+            underlapped:
+            {
+                path: "fonts/Underlapped.woff2",
+            },
+
+            sofia:
+            {
+                path: "fonts/SofiaSansCondensed-Regular.woff2",
+            },
+
+            sofia_bold:
+            {
+                key: "sofia",
+                path: "fonts/SofiaSansCondensed-Black.woff2",
+                textConfig: new TextConfig({ weight: TextWeight.BOLD })
+            },
+
+            tile_types:
+            {
+                path: "tile_types.webp",
+                frames: new Vector2(8,2)
+            },
+
+            patterns:
+            {
+                path: "patterns.webp",
+                frames: new Vector2(8,1)
+            },
+
+            misc:
+            {
+                path: "misc.webp",
+                frames: new Vector2(8,1)
+            },
+        },
+    },
+
+    _material:
+    {
+        tiles:
+        {
+            picker: tilePicker,
+            mapper:             
+            {
+                autoStroke: true,
+                sizeElement: new Vector2(1, 1),
+                size: 
+                { 
+                    small: new Vector2(5,7),
+                    regular: new Vector2(3,5),
+                    large: new Vector2(2,3)
+                },
+            }, 
+
+        }
+    },
+
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "underlapped",
+            body: "sofia"
+        },
+
+        tiles:
+        {
+            generation:
+            {
+                numDeckTotal: 54,
+                percentageDoubleTiles: 0.25,
+                percentageSingleTiles: 0.5,
+            },
+
+            shared:
+            {
+                shadowRadius: new CVal(0.01, "sizeUnit"),
+                shadowColor: "#000000"
+            },
+
+            type:
+            {
+                size: new CVal(new Vector2(0.35), "sizeUnit"),
+                fontSize: new CVal(0.275, "sizeUnit"),
+                numberOffsetFromCenter: new CVal(0.295, "sizeUnit"),
+                textColor: "#000000",
+                textStrokeColor: "#FFFFFF",
+                textStrokeWidth: new CVal(0.0125, "sizeUnit"),
+            },
+
+            action:
+            {
+                iconDims: new CVal(new Vector2(0.25), "sizeUnit"),
+                iconScaleFactor: 0.8,
+                fontSize: new CVal(0.075, "sizeUnit"),
+                lineHeight: 1.075,
+                edgeOffsetForColor: new CVal(0.0425, "sizeUnit"),
+                textColor: "#000000"
+            },
+
+            bg:
+            {
+                colors:
+                {
+                    [ActionType.HEART]: "#F7FFE4",
+                    [ActionType.SKULL]: "#FBE4FF",
+                    [ActionType.STAR]: "#FFF8B2"
+                }
+            }
+
+        },
+    },
+}

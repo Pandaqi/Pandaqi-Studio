@@ -20,34 +20,22 @@
 		<meta property="og:site_name" content="Pandaqi Games" />
 	{{ end }}
 
-    <!-- Progressive Web App essentials -->
-    <link rel="manifest" href="/manifest.webmanifest">
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Pandaqi Games" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- Load Default CSS -->
+    {{ $options := (dict "targetPath" "css/styles.css" "outputStyle" "compressed" "transpiler" "dartsass") }}
+    {{ $style := resources.Get "sass/styles.scss" | css.Sass $options | fingerprint }}
+    <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}">
 
-    <!-- Only load critical CSS first, rest comes after it (external spritesheet) -->
-    {{ $options := (dict "targetPath" "css/critical.css" "outputStyle" "compressed" "transpiler" "dartsass") }}
-    {{ $crit_style := resources.Get "sass/critical.scss" | css.Sass $options }}
-    <link rel="stylesheet" type="text/css" href="{{ $crit_style.RelPermalink }}">
+    <!-- Load Default JS --->
+    {{ $output_url := "/lib/pq-games-functionality.js" }}
+    {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url }}
+    {{ $js := resources.Get "/lib/functionality.ts" | js.Build $opts | fingerprint }}
+    <script async defer src="{{ $js.RelPermalink }}"></script>
 
     <!-- Favicon (use default one on regular pages, unique one for game pages) -->
-    {{ $favicon := .Site.Params.favicon | absURL }}
-    {{ if eq .Type "gamepage" }} 
-        {{ $favicon = partial "func/get-game-favicon.html" . }}
-    {{ end }}
-
+    {{ $favicon := partial "func/get-favicon.html" . }}
     <link rel="icon"  type="image/png" href="{{ $favicon }}">
 
     <!-- Title (use unique game title on game pages, default site descriptor otherwise) -->
-    {{ $page_title := partial "func/format-page-title.html" . }}
-    {{ if .Params.headerTitle }}
-        {{ $page_title = printf "%s | %s" .Title .Params.headerTitle }}
-        {{ if strings.Contains .Params.headerTitle "|" }}{{ $page_title = .Params.headerTitle }}{{ end }}
-    {{ end }}
-
-    {{ $site_title := .Site.Title }}
-    {{ $title := printf "%s | %s" $page_title $site_title }}
-    
+    {{ $title := partial "func/get-page-title.html" . }}
     <title>{{ $title | safeHTML }}</title>
 </head>

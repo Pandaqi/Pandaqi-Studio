@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of game setup and the different components." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of game setup and the different components." >}}
 
 Create a deck from all **Playing Cards**. Create a separate deck of **Bid Cards**.
 
@@ -27,7 +27,7 @@ Every round has three simple phases: **preparing**, **dealing** and **scoring**.
 
 ### Preparing
 
-{{<  rules-image-sidebar src="gameplay_preparing.webp" alt="How to prepare for a new round." >}}
+{{< rules/rules-image-sidebar src="gameplay_preparing.webp" alt="How to prepare for a new round." >}}
 
 Draw **Bid Cards** from the deck until there are 6 faceup bids on the table. They should be easy to reach and read for all players.
 

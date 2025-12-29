@@ -6,6 +6,7 @@ title: "Keebble Games"
 blurb: "A series of word games inspired by Scrabble, but also completely different."
 
 driveLink: "https://drive.google.com/drive/folders/1uetb7g-4GW5yp_bwQyozFr_ktS2uU_ul"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/keebble-games/"
 
 date: 2023-02-16
 

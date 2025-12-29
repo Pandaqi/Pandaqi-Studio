@@ -1,0 +1,75 @@
+
+<!--- Necessary for accessing site data dynamically (JS), such as list of pages for "random project" --->
+{{- $all_pages := (where .Site.Pages "Type" "project") | shuffle | first 50 -}}
+{{- $list := slice }}
+{{- range $all_pages -}}
+    {{- $list = $list | append .RelPermalink -}}
+{{- end -}}
+{{- $list := delimit $list "," }}
+<span style="display:none;" id="hidden-hugo-metadata" data-pages="{{ $list }}"></span>
+
+<!--- Visible Footer -->
+<footer class="bg-color-light padding-m">
+	<div class="width-limit block-center font-size-s text-thin">
+		<nav>
+			<ul class="no-default-list-styles flex flex-wrap flex-align-center">
+				<li>
+					{{ partial "buttons/button.html" (dict "href" "/" "content" "Home") }}
+				</li>
+
+				<li>
+					{{ partial "buttons/button.html" (dict "href" "https://tiamopastoor.com/info/about/" "content" "About") }}
+				</li>
+
+				<li>
+					{{ partial "buttons/button.html" (dict "href" "/categories/video-game" "content" "Video Games") }}
+				</li>
+
+				<li>
+					{{ partial "buttons/button.html" (dict "href" "/categories/board-game" "content" "Board Games") }}
+				</li>
+
+				<!---
+				<li>
+					{{ partial "buttons/button.html" (dict "href" "https://thewaywardmelody.com" "content" "Visit my online store!") }}
+				</li>
+				--->
+
+				<li>
+					{{ partial "buttons/button.html" (dict "content" "Random Project" "buttonID" "randProjBtn") }}
+				</li>
+
+				<li>
+					{{ $latest_proj := (index (where .Site.Pages "Type" "project") 0).RelPermalink }}
+					{{ partial "buttons/button.html" (dict "href" $latest_proj "content" "Latest Project") }}
+				</li>
+
+				<li>
+					{{ partial "buttons/button.html" (dict "content" "Dark / Light Mode" "buttonID" "darkModeBtn") }}
+				</li>
+
+				<li>
+					{{ partial "buttons/button.html" (dict "buttonID" "gotoTopBtn" "content" "Back to top") }}
+				</li>
+			</ul>
+		</nav>
+		<p class="text-center">Hi! I'm Pandaqi, an indie <strong>game developer</strong> who specializes in <strong>free printable board games</strong> and <strong>local multiplayer video games</strong>.</p>
+		<nav>
+			<ul class="no-default-list-styles gap-m flex flex-wrap flex-align-center">
+				<li><a href="/blog/" class="text-color-mid-dark hover_link-color">Read Pandaqi Blog!</a></li>
+				<li><a href="/tutorials/" class="text-color-mid-dark hover_link-color">Visit Pandaqi Tutorials!</a></li>
+				<li><a href="https://patreon.com/tiamopastoor" class="text-color-mid-dark hover_link-color">Support me on Patreon!</a></li>
+			</ul>
+		</nav>
+		<nav>
+			<ul class="no-default-list-styles gap-m flex flex-wrap flex-align-center">
+				<li><a href="mailto:harmonize@pandaqi.com" title="Mail me!"><span class="icon hoverable mail"></span></a></li> 
+				<li><a href="https://pandaqi.itch.io" title="Itch.io Games Marketplace"><span class="icon hoverable itch"></span></a></li> 
+				<li><a href="https://www.youtube.com/channel/UCUegxnNkcycM67gvyeD4CEQ" title="YouTube Channel"><span class="icon hoverable youtube"></span></a></li> 
+			</ul>
+		</nav>
+	</div>
+</footer>
+
+
+

@@ -77,7 +77,7 @@ Heb je het basisspel onder de knie en ben je op zoek naar meer? Probeer dan deze
 
 ### Surprises!
 
-{{<  rules-image-sidebar src="variant_surprise.webp" alt="Voorbeeld van icoontje voor surprise op kaarten." >}}
+{{< rules/rules-image-sidebar src="variant_surprise.webp" alt="Voorbeeld van icoontje voor surprise op kaarten." >}}
 
 Er zijn eigenlijk drie manieren om dit spel te gebruiken voor een **volledige surpriseavond**.
 
@@ -113,7 +113,7 @@ Elke regel is optioneel en staat op zichzelf. Je hoeft ze zeker niet allemaal _t
 * Aan het eind van elke ronde mag men nu _kiezen_ of ze hun handkaarten willen behouden, of allemaal weggooien (voor nieuwe kaarten volgende ronde).
 * Als deze handlimiet is genoemd, dan hoef je _niet_ te stoppen als je bod te laag is maar je zit aan je maximale kaartlimiet.
 
-{{<  rules-image-sidebar src="variant_biedregel.webp" alt="Visualisatie van de Biedregel en Remiseregel." >}}
+{{< rules/rules-image-sidebar src="variant_biedregel.webp" alt="Visualisatie van de Biedregel en Remiseregel." >}}
 
 **Biedregel:** als je een kaart inzet met geldicoontje, heb je een keuze: "meer inzet" of "meer handkaarten".
 
@@ -126,7 +126,7 @@ Elke regel is optioneel en staat op zichzelf. Je hoeft ze zeker niet allemaal _t
 
 ### Uitbreiding: Actiepiet
 
-{{<  rules-image-sidebar src="uitbreiding_actiekaarten.webp" alt="Voorbeeld van een actiekaart en hoe je die gebruikt." >}}
+{{< rules/rules-image-sidebar src="uitbreiding_actiekaarten.webp" alt="Voorbeeld van een actiekaart en hoe je die gebruikt." >}}
 
 Deze uitbreiding voegt speciale kaarten toe met een _actie_ erop. Dit staat op de kaart zelf geschreven. 
 
@@ -138,7 +138,7 @@ Je kan er zo veel of zo weinig toevoegen aan je spel als gewenst. Sommige zijn m
 
 ### Uitbreiding: Pietje Precies
 
-{{<  rules-image-sidebar src="uitbreiding_pietjeprecies.webp" alt="Voorbeeld van mogelijke combinaties en hoe Pietje Precies dit beïnvloedt." >}}
+{{< rules/rules-image-sidebar src="uitbreiding_pietjeprecies.webp" alt="Voorbeeld van mogelijke combinaties en hoe Pietje Precies dit beïnvloedt." >}}
 
 Deze uitbreiding heeft één cruciale nieuwe regel: 
 

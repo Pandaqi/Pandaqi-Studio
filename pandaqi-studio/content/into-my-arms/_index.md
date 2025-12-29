@@ -8,13 +8,19 @@ date: 2020-01-30
 
 difficulty: "kids-can-play"
 genres: ["puzzle"]
-categories: ["game", "desktop", "mobile", "local-multiplayer", "game-jam"]
+categories: ["video-game", "desktop", "mobile", "local-multiplayer", "game-jam"]
 tags: ["grid", "logic", "map", "creative"]
 themes: ["2D", "relaxing", "isometric"]
 
 externalLinks:
   - label: "Buy"
+    url: "https://thewaywardmelody.com/explorers/video-games/into-my-arms/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux", "android"]
+    price: 2
+  - label: "Buy"
     url: "http://pandaqi.itch.io/into-my-arms/"
+    store: "Itch.io"
     platforms: ["windows", "mac", "linux","android"]
     price: 4
 

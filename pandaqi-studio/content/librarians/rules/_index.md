@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup the game (Library and starting cards)." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup the game (Library and starting cards)." >}}
 
 Place 4 random **Book Shelf** cards in a column on the table. (In the base game, ignore the special power on these cards.)
 
@@ -128,7 +128,7 @@ All the expansions below can be played with the base material, except for the la
 
 ### Adventure of the Author
 
-{{<  rules-image-sidebar src="expansion_author.webp" alt="Examples of completing an author, similar to completing a genre." >}}
+{{< rules/rules-image-sidebar src="expansion_author.webp" alt="Examples of completing an author, similar to completing a genre." >}}
 
 All books also have an author, and a number telling you how many books that author wrote.
 
@@ -142,7 +142,7 @@ In other words, you can "complete an author" just as you can "complete a genre".
 
 ### Story for the Ages
 
-{{<  rules-image-sidebar src="expansion_ages.webp" alt="Example of which placement for target audience is and isn't allowed." >}}
+{{< rules/rules-image-sidebar src="expansion_ages.webp" alt="Example of which placement for target audience is and isn't allowed." >}}
 
 Many books also have a target audience or age range. 
 
@@ -154,7 +154,7 @@ The following rule must now be followed.
 
 ### "Song of the Sequels
 
-{{<  rules-image-sidebar src="expansion_sequels.webp" alt="Example of how books within the same series must be connected and in numerical order." >}}
+{{< rules/rules-image-sidebar src="expansion_sequels.webp" alt="Example of how books within the same series must be connected and in numerical order." >}}
 
 Some of the books represent a series. This means their titles are the same, except that they end in different numbers.
 

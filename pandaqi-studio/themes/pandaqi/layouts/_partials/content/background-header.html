@@ -1,0 +1,12 @@
+{{ $context := .context }}
+{{ $src_custom := or .src false }}
+<div class="position-absolute opacity-half align-top width-maximize move-to-back">
+	<!--- Big background image fading into content --->
+    {{ if $src_custom }}
+        <picture><img src="{{ $src_custom }}"></picture>
+    {{ else }}
+        {{ $src := partial "func/get-game-header.html" $context }}
+        {{ partial "content/show-image.html" (dict "context" $context "src" $src "alt" "Header image for this project") }}
+    {{ end }}
+	<div class="gradient-fade-to-bg"></div>
+</div>

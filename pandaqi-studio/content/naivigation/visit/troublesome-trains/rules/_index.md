@@ -6,7 +6,7 @@ type: "rules"
 
 {{< rules/rules-example id="naivigation-setup" >}}
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a new game." >}}
 
 Alternatively, manually do the setup as follows.
 
@@ -138,7 +138,7 @@ During **gameplay**,
 
 ### Rails & Fails
 
-{{<  rules-image-sidebar src="expansion_rails_fails.webp" alt="All different rail types explained." >}}
+{{< rules/rules-image-sidebar src="expansion_rails_fails.webp" alt="All different rail types explained." >}}
 
 This expansion adds tiles with different **types of rails**. Their special powers apply to trains moving over them.
 

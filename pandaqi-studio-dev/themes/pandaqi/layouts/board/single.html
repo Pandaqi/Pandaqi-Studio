@@ -19,5 +19,7 @@
 {{- end -}}
 
 {{ define "footer" }}
+{{ if .Site.Params.enableBoardJS }}
     {{ partial "func/load-assets.html" . }}
+{{ end }}
 {{ end }}

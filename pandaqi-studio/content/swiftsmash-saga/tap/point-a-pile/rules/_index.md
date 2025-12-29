@@ -73,7 +73,7 @@ For a **harder** game (that requires a better **memory**), keep the scored cards
 
 ### Expansion: Point-a-Police
 
-{{<  rules-image-sidebar src="expansion_police.webp" alt="Example of what Rule Cards look like and how to use them." >}}
+{{< rules/rules-image-sidebar src="expansion_police.webp" alt="Example of what Rule Cards look like and how to use them." >}}
 
 This expansion adds new material: **Rule Cards**. They contain a rule stating which piles someone is allowed to point at in the first place.
 
@@ -89,7 +89,7 @@ If you point at an invalid pile, according to this rule, you are out of the roun
 
 ### Expansion: Complete-a-Mission
 
-{{<  rules-image-sidebar src="expansion_mission.webp" alt="Example of what Mission Cards look like and how to use them." >}}
+{{< rules/rules-image-sidebar src="expansion_mission.webp" alt="Example of what Mission Cards look like and how to use them." >}}
 
 This expansion adds new material: **Mission Cards**.
 
@@ -101,7 +101,7 @@ The game ends when a player reveals they've won (according to their personal mis
 
 ### Expansion: Dont-a-Touchme
 
-{{<  rules-image-sidebar src="expansion_touch.webp" alt="Example of what Shy Cards look like and how to use them." >}}
+{{< rules/rules-image-sidebar src="expansion_touch.webp" alt="Example of what Shy Cards look like and how to use them." >}}
 
 This expansion adds new material: **Shy Cards**. They have a rule about who may (not) tap them.
 
@@ -113,7 +113,7 @@ There must always be at least **1 pile without a Shy card** on top.
 
 ### Expansion: Wait-a-Minute
 
-{{<  rules-image-sidebar src="expansion_action.webp" alt="Example of what Action Cards look like and how to use them." >}}
+{{< rules/rules-image-sidebar src="expansion_action.webp" alt="Example of what Action Cards look like and how to use them." >}}
 
 This expansion adds new material: **Action Cards**.
 

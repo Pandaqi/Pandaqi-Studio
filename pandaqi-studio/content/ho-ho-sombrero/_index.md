@@ -8,13 +8,19 @@ date: 2021-12-24
 
 difficulty: "no-brainer"
 genres: ["action", "party"]
-categories: ["game", "desktop", "game-jam"]
+categories: ["video-game", "desktop", "game-jam"]
 tags: ["chaos", "survival", "powerups", "map_selection"]
 themes: ["holiday", "colorful"]
 
 externalLinks:
   - label: "Download"
+    url: "https://thewaywardmelody.com/explorers/video-games/ho-ho-sombrero/"
+    store: "The Wayward Melody"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 0
+  - label: "Download"
     url: "http://pandaqi.itch.io/ho-ho-sombrero/"
+    store: "Itch.io"
     platforms: ["windows", "mac", "linux"]
     price: 0 
 

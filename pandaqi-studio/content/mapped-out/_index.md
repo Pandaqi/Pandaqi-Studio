@@ -5,6 +5,7 @@ title: "Mapped Out"
 blurb: "Design the treasure map to make the most of the random route you were given at the start."
 
 driveLink: "https://drive.google.com/drive/folders/1_jKU6uzGmq2h1d1IVBt3R_kadOrny3vB"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/mapped-out/"
 
 date: 2026-01-26
 

@@ -1,0 +1,17 @@
+{{- $subdir := .Params.collection -}}
+{{- $final_pages := slice -}}
+{{- if $subdir -}}
+    {{- $url := trim .RelPermalink "/" -}}
+    {{- $final_dir := printf "content/%s/%s/" $url $subdir -}}
+    {{- $pages := union (where .Pages "Type" "project") (where .Pages "Type" "tools") -}}
+    <!--- Find all project pages in subdir --->
+    {{- range (readDir $final_dir) -}}
+        {{- if .IsDir -}}
+            {{- $path1 := printf "%s/%s/%s/" $url $subdir .Name -}}
+            {{- $path2 := replace $path1 "/" "\\" -}} <!--- Oh fuck off, this is the solution on some systems? Differing slash directions in paths? --->
+            {{- $selected_pages := union (where $pages ".File.Dir" $path1) (where $pages ".File.Dir" $path2) -}}
+            {{- $final_pages = $final_pages | union $selected_pages -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- return $final_pages -}}

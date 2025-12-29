@@ -14,6 +14,7 @@ tags: ["social", "guessing", "sorting", "language", "creative", "limited-communi
 themes: ["retro", "colorful"]
 
 driveLink: "https://drive.google.com/drive/folders/1Ewuqw4wDfazKhfhsoZx-QLfkhGGiiJqM"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/slippery-slopes-games/"
 
 multiplayermode: "cooperative"
 language: EN

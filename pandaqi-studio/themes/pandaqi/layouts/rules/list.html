@@ -3,69 +3,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{ $favicon := partial "func/get-game-favicon.html" .Parent }}
+    {{ $favicon := partial "func/get-favicon.html" .Parent }}
     <link rel="icon" type="image/png" href="{{ $favicon }}">
 
     <title>{{ .Parent.Title }} | Rules | Pandaqi Games</title>
-
-    <!-- General CSS for rulebooks -->
-    {{ $options := (dict "targetPath" "/css/style-rules.css" "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)  "transpiler" "dartsass") }}
-    {{ $rules_style := resources.Get "/sass/style-rules.scss" | css.Sass $options | minify }}
-    <link rel="stylesheet" type="text/css" href="{{ $rules_style.RelPermalink }}" /> 
-
-    <!-- Unique CSS for this rulebook -->
-    {{ partial "load-assets.html" (dict "context" . "ext" "css" "type" "rules" "include" true) }}
+    <script>
+        window.PagedConfig = {
+            auto: false,
+            after: (flow) => { console.log("after", flow) },
+        };
+    </script>
 </head>
 {{ end }}
 
-{{ define "header" }}
-<!-- Used when you click on an image, to show it full screen -->
-<div class="image-overlay"><img src="" /></div>
-
-<header class="rules-header">
-    <!-- Steal the header image from the parent page, if available -->
-    {{ $url := partial "func/get-game-header.html" .Parent }}
-    {{ if $url }}
-        <div class="header-image">
-            {{ partial "show-image.html" (dict "context" .Parent "img_url" $url) }}
-        </div>
-    {{ end }}
-
-    <!-- Display metadata + title (also steal from parent page) -->
-    {{ $title := .Parent.Title }}
-    {{ $duration := or .Parent.Params.playtime 20 }}
-    {{ $player_count := or .Parent.Params.playercount (slice 2 3 4) }}
-    {{ $player_count_min := index ($player_count | first 1) 0 }}
-    {{ $player_count_max := index ($player_count | last 1) 0 }}
-    {{ $genres := or .Parent.Params.genre (slice "nogenre") }}
-    {{ $genres_str := slice }}
-    {{ range $index, $elem := $genres }}
-        {{ $genres_str = $genres_str | append (printf "#%s" $elem) }}
-    {{ end }}
-    {{ $genres_str = delimit $genres_str " " }}
-
-    <div class="game-title">
-        <span class="metadata-creator">by Pandaqi</span>
-        <span class="metadata-duration">{{ $duration }} minutes</span>
-        <h1><a href="{{ .Parent.RelPermalink }}">{{ $title }} (Rules)</a></h1>
-        <span class="metadata-playercount">{{ $player_count_min }}-{{ $player_count_max }} players</span>
-        <!--- <span class="metadata-genres">{{ $genres_str }}</span> --->
-        <button id="simpleViewButton" title="Toggle Simple View">⚪</button>
-        <button id="printButton" title="Print these rules!">🖨️</button>
-    </div>
-</header>
-{{ end }}
+{{- define "header" -}}<!--- --->{{ end }}
         
 {{- define "main" -}}
-<article class="rulebook">
+<article id="rulebook-content">
     {{ .Content }}
 </article>
 {{- end -}}
 
 {{ define "footer" }}
-    {{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "rules" "include" true) }}
-    {{ partial "load-fonts-auto.html" (dict "context" . "type" "rules") }}
-
-    {{ $js := resources.Get "/js/pq_rulebook/main.ts" | js.Build "/js/lib-pqRulebook.js" | minify }}
-    <script async defer src="{{ $js.RelPermalink }}"></script>
+{{ if .Site.Params.enableRulesJS }}
+    {{ partial "func/load-assets.html" . }}
+    <script defer src="/lib/paged.polyfill.js"></script>
+{{ end }}
 {{ end }}

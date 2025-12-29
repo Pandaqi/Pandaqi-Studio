@@ -5,6 +5,7 @@ title: "The Game of Happiness"
 blurb: "Rank a series of random events based on how happy they'd make you---and hope your friends and family know you well enough to perfectly guess your ranking."
 
 driveLink: "https://drive.google.com/drive/folders/1GyAwnyAyk8J9XK190-KQNGulIBGo3xIb"
+sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/game-of-happiness-and-dilemmas/"
 
 date: 2024-12-26
 

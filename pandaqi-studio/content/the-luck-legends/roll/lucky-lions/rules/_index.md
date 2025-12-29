@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-{{<  rules-image-sidebar src="setup.webp" alt="Example of how to setup a game and the different kinds of material." >}}
+{{< rules/rules-image-sidebar src="setup.webp" alt="Example of how to setup a game and the different kinds of material." >}}
 
 Create a deck of **Zoo Cards**. Place the top 4 cards faceup on the table.
 
@@ -39,7 +39,7 @@ That's it, have fun!
 
 ## Zoo Cards
 
-{{<  rules-image-sidebar src="zoo_cards.webp" alt="The different parts of a Zoo Card and how to use its cycle to find the best animal in a battle." >}}
+{{< rules/rules-image-sidebar src="zoo_cards.webp" alt="The different parts of a Zoo Card and how to use its cycle to find the best animal in a battle." >}}
 
 A Zoo Card states how **valuable** animals are this turn. It also shows a **number**: how many points it's worth.
 
