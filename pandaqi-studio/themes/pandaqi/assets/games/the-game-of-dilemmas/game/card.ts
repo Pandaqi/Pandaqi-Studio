@@ -48,6 +48,7 @@ export default class Card
         }
 
         const resOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             effects: effects
         });

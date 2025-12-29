@@ -40,7 +40,7 @@ export default class Card extends MaterialNaivigation
         const height = vis.size.y / 3.0;
 
         // (cutting) boundary around it
-        const rect = new Rectangle().fromTopLeft(new Vector2(), new Vector2(vis.size.x, height));
+        const rect = new Rectangle().fromTopLeft(Vector2.ZERO, new Vector2(vis.size.x, height));
         const resShape = new ResourceShape(rect);
         const shapeOp = new LayoutOperation({
             stroke: vis.get("cards.planetProperties.stroke"),

@@ -77,12 +77,12 @@ export default class Card
         const ctx = createContext({ size: vis.size });
         this.sort();
 
-        await this.drawBackground(vis,ctx);
+        this.drawBackground(vis,ctx);
 
         if(this.type == Type.LIFE) {
-            await this.drawLifeCard(vis,ctx);
+            this.drawLifeCard(vis,ctx);
         } else {
-            await this.drawCatCard(vis,ctx);
+            this.drawCatCard(vis,ctx);
         }
         return ctx.canvas;
     }
@@ -90,16 +90,16 @@ export default class Card
     //
     // > LIFE CARDS
     //
-    async drawLifeCard(vis:MaterialVisualizer, ctx)
+    drawLifeCard(vis:MaterialVisualizer, ctx)
     {
-        await this.drawLifeBackground(vis, ctx);
-        await this.drawCornerHearts(vis, ctx);
-        await this.drawCardLimit(vis, ctx);
-        await this.drawPower(vis, ctx);
-        await this.drawLifeText(vis, ctx);
+        this.drawLifeBackground(vis, ctx);
+        this.drawCornerHearts(vis, ctx);
+        this.drawCardLimit(vis, ctx);
+        this.drawPower(vis, ctx);
+        this.drawLifeText(vis, ctx);
     }
 
-    async drawLifeBackground(vis:MaterialVisualizer, ctx)
+    drawLifeBackground(vis:MaterialVisualizer, ctx)
     {
         const res = vis.resLoader.getResource("misc");
         const frame = MISC.heart_life.frame;
@@ -114,10 +114,10 @@ export default class Card
             effects: effects
         })
 
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
     }
 
-    async drawCornerHearts(vis:MaterialVisualizer, ctx)
+    drawCornerHearts(vis:MaterialVisualizer, ctx)
     {
         const size = new Vector2(vis.get("cards.life.heartCornerSize") * vis.sizeUnit);
         const offset = size.clone().scaleFactor(0.5).scaleFactor(vis.get("cards.life.heartCornerOffset"));
@@ -136,11 +136,11 @@ export default class Card
                 pivot: Vector2.CENTER,
                 effects: vis.custom.effects,
             })
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
     }
 
-    async drawCardLimit(vis:MaterialVisualizer, ctx)
+    drawCardLimit(vis:MaterialVisualizer, ctx)
     {
         // background rect (with beveled corners)
         const center = new Vector2(0.5*vis.size.x, vis.get("cards.life.cardRectY") * vis.size.y);
@@ -158,7 +158,7 @@ export default class Card
             strokeWidth: strokeWidth,
             effects: vis.custom.effects,
         })
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
 
         // actual card draw limit
         const numCards = this.data.drawNum;
@@ -176,11 +176,11 @@ export default class Card
                 size: new Vector2(itemSize),
                 pivot: Vector2.CENTER,
             })
-            await resCard.toCanvas(ctx, op);
+            resCard.toCanvas(ctx, op);
         }
     }
 
-    async drawPower(vis:MaterialVisualizer, ctx)
+    drawPower(vis:MaterialVisualizer, ctx)
     {
         const isCustomPower = this.data.reqs && this.data.reqs.length > 0;
         const center = vis.size.clone().scale(0.5);
@@ -196,7 +196,7 @@ export default class Card
         }
 
         if(isCustomPower) {
-            await this.drawCustomPower(vis, ctx, center, size, powerEffects);
+            this.drawCustomPower(vis, ctx, center, size, powerEffects);
         } else {
             const res = vis.resLoader.getResource("powers");
             const frame = this.data.frame;
@@ -207,11 +207,11 @@ export default class Card
                 pivot: Vector2.CENTER,
                 effects: powerEffects,
             })
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
     }
 
-    async drawCustomPower(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D, center:Vector2, size:Vector2, powerEffects:LayoutEffect[])
+    drawCustomPower(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D, center:Vector2, size:Vector2, powerEffects:LayoutEffect[])
     {
         const res = vis.resLoader.getResource("cats");
         const resMisc = vis.resLoader.getResource("misc");
@@ -220,7 +220,7 @@ export default class Card
         const strokeWidth = vis.get("cards.powers.textStrokeWidth") * vis.sizeUnit;
 
         const op = new LayoutOperation({
-            pos: new Vector2(),
+            pos: Vector2.ZERO,
             size: size, 
             frame: 0,
             pivot: Vector2.CENTER,
@@ -240,15 +240,15 @@ export default class Card
 
             op.frame = frame0;
             op.pos = pos;
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
 
             op.frame = frame1;
             op.pos = center.clone();
-            await resMisc.toCanvas(ctx, op);
+            resMisc.toCanvas(ctx, op);
 
             op.frame = frame2;
             op.pos = center.clone().move(new Vector2(size.x, 0));
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
         else if(powerSubtype == "numbershift")
         {
@@ -269,11 +269,11 @@ export default class Card
 
             op.frame = frame0;
             op.pos = pos;
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
 
             op.frame = frame1;
             op.pos = center.clone();
-            await resMisc.toCanvas(ctx, op);
+            resMisc.toCanvas(ctx, op);
 
             const resText = new ResourceText({ text: numberText, textConfig: textConfig });
 
@@ -282,41 +282,41 @@ export default class Card
             op.strokeWidth = strokeWidth;
             op.strokeAlign = StrokeAlign.OUTSIDE;
             op.pos = center.clone().move(new Vector2(size.x, 0));
-            await resText.toCanvas(ctx, op);
+            resText.toCanvas(ctx, op);
         }
         else if(powerSubtype == "ignore")
         {
             op.frame = MISC.ignore.frame;
             op.pos = posLeft;
-            await resMisc.toCanvas(ctx, op);
+            resMisc.toCanvas(ctx, op);
 
             op.frame = CATS[this.data.reqs[0]].frame;
             op.pos = posRight;
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
         else if(powerSubtype == "forbid")
         {
             op.frame = MISC.cross.frame;
             op.pos = posLeft;
-            await resMisc.toCanvas(ctx, op);
+            resMisc.toCanvas(ctx, op);
 
             op.frame = CATS[this.data.reqs[0]].frame;
             op.pos = posRight;
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
         else if(powerSubtype == "plus")
         {
             op.frame = CATS[this.data.reqs[0]].frame;
             op.pos = posLeft;
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
 
             op.frame = MISC.plus.frame;
             op.pos = posRight;
-            await resMisc.toCanvas(ctx, op);
+            resMisc.toCanvas(ctx, op);
         }
     }
 
-    async drawLifeText(vis:MaterialVisualizer, ctx)
+    drawLifeText(vis:MaterialVisualizer, ctx)
     {
         const fontSize = vis.get("cards.life.fontSize") * vis.sizeUnit;
         const textConfig = new TextConfig({
@@ -339,25 +339,25 @@ export default class Card
             strokeAlign: StrokeAlign.OUTSIDE,
             pivot: Vector2.CENTER
         });
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
 
         textConfig.size *= vis.get("cards.life.lifeCardFontSizeFactor");
         const resLife = new ResourceText({ text: "Life Card", textConfig });
         op.alpha = vis.get("cards.life.lifeCardTextAlpha");
         op.pos = pos.clone().move(new Vector2(0, fontSize*1.2));
-        await resLife.toCanvas(ctx, op);
+        resLife.toCanvas(ctx, op);
     }
 
     //
     // > CAT cards 
     //
-    async drawCatCard(vis:MaterialVisualizer, ctx)
+    drawCatCard(vis:MaterialVisualizer, ctx)
     {
-        await this.drawCats(vis, ctx);
-        await this.drawCatsSimplified(vis, ctx);
+        this.drawCats(vis, ctx);
+        this.drawCatsSimplified(vis, ctx);
     }
 
-    async drawCats(vis:MaterialVisualizer, ctx)
+    drawCats(vis:MaterialVisualizer, ctx)
     {
         const numIcons = this.cats.length;
         const positions = vis.get("cards.cats.positions[numIcons]");
@@ -381,11 +381,11 @@ export default class Card
                 effects: vis.custom.effects,
             })
 
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
     }
 
-    async drawCatsSimplified(vis:MaterialVisualizer, ctx)
+    drawCatsSimplified(vis:MaterialVisualizer, ctx)
     {
         if(vis.inkFriendly) { return; }
 
@@ -419,11 +419,11 @@ export default class Card
                     frame: frame,
                     pos: pos,
                     size: new Vector2(iconSize),
-                    pivot: new Vector2(0.5),
+                    pivot: Vector2.CENTER,
                     rot: rot,
                     effects: vis.custom.effects,
                 })
-                await res.toCanvas(ctx, op);
+                res.toCanvas(ctx, op);
             }
             
         }
@@ -449,7 +449,7 @@ export default class Card
         return color;
     }
 
-    async drawBackground(vis:MaterialVisualizer, ctx)
+    drawBackground(vis:MaterialVisualizer, ctx)
     {
         // first solid color
         let color = this.getBackgroundColor(vis);
@@ -466,8 +466,8 @@ export default class Card
             pos: center,
             alpha: alpha,
             rot: rot,
-            pivot: new Vector2(0.5)
+            pivot: Vector2.CENTER
         })
-        await pattern.toCanvas(ctx, op);
+        pattern.toCanvas(ctx, op);
     }
 }

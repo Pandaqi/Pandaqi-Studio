@@ -54,6 +54,7 @@ export default class Tile
     {
         const res = vis.getResource("misc");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: MISC[this.keyAction].frame,
             effects: vis.inkFriendlyEffect
@@ -73,6 +74,7 @@ export default class Tile
 
         const resTemplate = vis.getResource("decoration");
         const opTemplate = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: templateData.frame
         });
@@ -80,6 +82,7 @@ export default class Tile
 
         const bgDirtTextureKey = "bg_" + CONFIG.generation.bgDirtTextureBounds.randomInteger();
         const opDirt = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: DECORATION[bgDirtTextureKey].frame,
             composite: "overlay",
@@ -127,7 +130,7 @@ export default class Tile
 
             const isDefaultAction = actionData.default;
 
-            const drawIcon = isDefaultAction && CONFIG.useIconsForDefaultActions;
+            const drawIcon = isDefaultAction && CONFIG._settings.useIconsForDefaultActions.value;
             const drawText = !drawIcon;
             
             const pos = hasActionAndGate ? vis.get("tiles.action.posWithGate") : vis.get("tiles.action.pos");
@@ -328,7 +331,7 @@ export default class Tile
                 effects: vis.inkFriendlyEffect
             });
             subGroup.add(resMisc, opDiag);
-            lines.push(new Line(new Vector2(), topLeft));
+            lines.push(new Line(Vector2.ZERO.clone(), topLeft));
 
             const opVert = new LayoutOperation({
                 pos: topLeft,
@@ -464,7 +467,7 @@ export default class Tile
         group.add(subGroup);
 
         // add circles on line ends to make it look smoother
-        const circ = new ResourceShape( new Circle({ center: new Vector2(), radius: vis.get("tiles.water.circleRadius") }) );
+        const circ = new ResourceShape( new Circle({ center: Vector2.ZERO, radius: vis.get("tiles.water.circleRadius") }) );
         for(const line of lines)
         {
             const positions = [line.start, line.end];

@@ -126,10 +126,10 @@ export default class BoardState
     getAllDirs()
     {
         return [
-            new Vector2().setXY(1,0),
-            new Vector2().setXY(0,1),
-            new Vector2().setXY(-1,0),
-            new Vector2().setXY(0,-1)
+            new Vector2(1,0),
+            new Vector2(0,1),
+            new Vector2(-1,0),
+            new Vector2(0,-1)
         ]
     }
 

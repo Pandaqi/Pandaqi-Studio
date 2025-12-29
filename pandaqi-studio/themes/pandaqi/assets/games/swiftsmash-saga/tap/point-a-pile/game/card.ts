@@ -100,6 +100,7 @@ export default class Card
         // the color + pattern background
         const res = vis.getResource("card_templates");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: tempData.frame,
             alpha: vis.inkFriendly ? 0.4 : 1.0
@@ -151,7 +152,7 @@ export default class Card
 
         const rectSize = vis.get("cards.corners.rectSize");
         const cornerRadius = vis.get("cards.corners.rectRadius");
-        const resRect = new ResourceShape(new RectangleRounded({ center: new Vector2(), extents: rectSize, radius: cornerRadius }));
+        const resRect = new ResourceShape(new RectangleRounded({ center: Vector2.ZERO, extents: rectSize, radius: cornerRadius }));
 
         const strokeColor = tempData.hex;
         const strokeWidth = vis.get("cards.corners.strokeWidth");

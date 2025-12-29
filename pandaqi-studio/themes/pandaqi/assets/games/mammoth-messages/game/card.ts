@@ -86,6 +86,7 @@ export default class Card
         // fill background with the word card template
         const res = vis.resLoader.getResource("word_card_template");
         const resOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             effects: vis.inkFriendlyEffect
         });

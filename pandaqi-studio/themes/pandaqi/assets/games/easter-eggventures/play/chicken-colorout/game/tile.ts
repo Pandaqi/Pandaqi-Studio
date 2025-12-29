@@ -45,7 +45,8 @@ export default class Tile extends MaterialEaster
     {
         const res = vis.getResource("misc_unique");
         const op = new LayoutOperation({
-            pos: new Vector2(),
+            pos: Vector2.ZERO,
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: MISC_UNIQUE.seeker_pawn.frame,
             effects: vis.inkFriendlyEffect
@@ -58,7 +59,8 @@ export default class Tile extends MaterialEaster
         // the actual egg in background
         const res = vis.getResource("misc_unique");
         const op = new LayoutOperation({
-            pos: new Vector2(),
+            pos: Vector2.ZERO,
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: MISC_UNIQUE.victory_egg.frame,
             effects: vis.inkFriendlyEffect
@@ -105,7 +107,8 @@ export default class Tile extends MaterialEaster
         const key = "bg_" + vis.get("tiles.background.randomFrameBounds").randomInteger();
         const res = vis.getResource("misc_unique");
         const op = new LayoutOperation({
-            pos: new Vector2(),
+            pos: Vector2.ZERO,
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: MISC_UNIQUE[key].frame,
             alpha: vis.get("tiles.background.alpha"),
@@ -119,7 +122,8 @@ export default class Tile extends MaterialEaster
         {
             const resPattern = vis.getResource("misc");
             const opPattern = new LayoutOperation({
-                pos: new Vector2(),
+                pos: Vector2.ZERO,
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: vis.get("tiles.background.randomPatternFrameBounds").randomInteger(),
                 alpha: vis.get("tiles.background.alphaPattern")

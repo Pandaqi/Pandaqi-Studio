@@ -100,7 +100,7 @@ class Board
 
                 const isValidMove = this.isValidMove(cell, collection);
 
-                const rect = new Rectangle({ center: new Vector2(), extents: cellSize });
+                const rect = new Rectangle({ center: Vector2.ZERO, extents: cellSize });
                 const bgColor = isValidMove ? "#AAFFAA" : "#FFFFFF";
                 const rectOp = new LayoutOperation({
                     pos: pos,

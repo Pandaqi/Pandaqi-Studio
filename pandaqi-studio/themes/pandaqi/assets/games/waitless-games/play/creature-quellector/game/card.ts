@@ -74,7 +74,7 @@ export default class Card
 
         this.size = size.clone();
         this.sizeUnit = Math.min(this.size.x, this.size.y);
-        this.center = new Vector2().fromXY(0.5*size.x, 0.5*size.y);
+        this.center = new Vector2(0.5*size.x, 0.5*size.y);
 
         this.cornerIconSize = 0.12*this.sizeUnit;
         this.creatureSpritesheetNum = rangeInteger(0,2);
@@ -402,7 +402,7 @@ export default class Card
         return parts.join(joiner);
     }
 
-    getClipPath(size:Vector2, offset:Vector2 = new Vector2()) : Path
+    getClipPath(size:Vector2, offset:Vector2 = Vector2.ZERO) : Path
     {
         const margin = this.cornerIconSize*1.25;
         const p = this.rootPadding;

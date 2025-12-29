@@ -3327,7 +3327,7 @@ export default class BoardGeneration
 	{
 		const group = new ResourceGroup();
 
-		const bgRect = new Rectangle().fromTopLeft(new Vector2(), new Vector2(this.cfg.pixelWidth, this.cfg.pixelHeight));
+		const bgRect = new Rectangle().fromTopLeft(Vector2.ZERO, new Vector2(this.cfg.pixelWidth, this.cfg.pixelHeight));
 		const opRect = new LayoutOperation({
 			fill: "#FFFFFF"
 		});

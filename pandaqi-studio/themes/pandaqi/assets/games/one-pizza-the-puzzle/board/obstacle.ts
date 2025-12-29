@@ -4,7 +4,7 @@ export default class Obstacle
 {
     type:string
     borders:Line[] = []
-    center = new Vector2()
+    center = Vector2.ZERO
     line:Line
     specialBuilding:string
     rot:number

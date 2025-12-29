@@ -33,6 +33,7 @@ export default class Token
     {
         const resBlock = vis.custom.tintedSquareResource;
         const resBlockOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             frame: this.getColorData().frame,
             size: vis.size,
             effects: vis.inkFriendlyEffect

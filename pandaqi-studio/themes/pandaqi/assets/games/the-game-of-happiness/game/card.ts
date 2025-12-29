@@ -46,6 +46,7 @@ export default class Card
         const res = vis.resLoader.getResource("tintable_templates");
         const effects = vis.inkFriendly ? [] : [new TintEffect({ color: data.colorBG })]
         const resOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             frame: 0,
             effects: effects,
             size: vis.size,

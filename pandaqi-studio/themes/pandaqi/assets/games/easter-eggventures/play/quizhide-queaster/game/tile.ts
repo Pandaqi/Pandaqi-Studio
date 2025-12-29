@@ -49,7 +49,8 @@ export default class Tile extends MaterialEaster
         const data = this.getData();
         const res = vis.getResource(this.getTypeData().textureKey);
         const op = new LayoutOperation({
-            pos: new Vector2(),
+            pos: Vector2.ZERO,
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: data.frame,
             effects: vis.inkFriendlyEffect

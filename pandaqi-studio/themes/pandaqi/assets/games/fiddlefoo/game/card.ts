@@ -60,6 +60,7 @@ export default class Card
         const res = vis.getResource("templates");
         const alpha = vis.inkFriendly ? 0.5 : 1.0;
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: TEMPLATES[this.color].frame,
             effects: vis.inkFriendlyEffect,

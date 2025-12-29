@@ -60,6 +60,7 @@ export default class Card
         // the tinted background (that leaves a white space/gap in center)
         const tintEffect = new TintEffect({ color: this.color });
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             effects: [tintEffect],
             frame: 0
@@ -72,6 +73,7 @@ export default class Card
         
         // the two hooks around it (with darkened tint)
         const opHooks = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             effects: [new TintEffect({ color: this.getColorDarkened(vis) })],
             frame: 1

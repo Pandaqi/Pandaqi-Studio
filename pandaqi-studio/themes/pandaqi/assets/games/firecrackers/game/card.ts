@@ -319,7 +319,7 @@ export default class Card
             const textStrokeColor = isBig ? colorLight : colorMid;
 
             // @EXCEPTION: as usual, the number 1 needs to be offset slightly to look centered
-            let posOffset = (this.num == 1) ? new Vector2(-0.1*fontSize, 0) : new Vector2();
+            let posOffset = (this.num == 1) ? new Vector2(-0.1*fontSize, 0) : Vector2.ZERO;
             const effects = isBig ? visEffects : [];
 
             const opText = new LayoutOperation({

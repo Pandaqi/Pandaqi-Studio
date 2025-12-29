@@ -59,6 +59,7 @@ export default class Tile
         const randBG = rangeInteger(1, vis.get("tiles.generation.numBackgrounds"));
         const frame = MISC["bg_" + randBG].frame;
         const resOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: frame,
             alpha: vis.get("tiles.background.textureAlpha")
@@ -72,7 +73,7 @@ export default class Tile
         const rectSize = vis.size.clone().scale(0.5);
         const rectPositions = 
         [
-            new Vector2(),
+            Vector2.ZERO,
             new Vector2(rectSize.x, 0),
             rectSize.clone(),
             new Vector2(0, rectSize.y)
@@ -100,10 +101,10 @@ export default class Tile
 
         const DIVIDING_LINES = 
         [
-            new Line(new Vector2(), new Vector2(0,-rectSize.y)),
-            new Line(new Vector2(), new Vector2(rectSize.x, 0)),
-            new Line(new Vector2(), new Vector2(0, rectSize.y)),
-            new Line(new Vector2(), new Vector2(-rectSize.x, 0))
+            new Line(Vector2.ZERO, new Vector2(0,-rectSize.y)),
+            new Line(Vector2.ZERO, new Vector2(rectSize.x, 0)),
+            new Line(Vector2.ZERO, new Vector2(0, rectSize.y)),
+            new Line(Vector2.ZERO, new Vector2(-rectSize.x, 0))
         ]
 
         const dividingLineResources = [];
@@ -120,7 +121,7 @@ export default class Tile
             if(this.keys.length == 3 && rectCounter == 2) { numRects = 2; } 
 
             // color in the sections
-            const midPoint = new Vector2();
+            const midPoint = Vector2.ZERO.clone();
             let rot = 0; // we rotate the icons so the tile looks completely normal in _diamond_ orientation
             for(let i = 0; i < numRects; i++)
             {

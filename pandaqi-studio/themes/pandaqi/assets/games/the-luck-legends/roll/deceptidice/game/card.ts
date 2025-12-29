@@ -99,7 +99,7 @@ export default class Card
         if(this.isWildCard())
         {
             const yOffset = 0.25*vis.size.y;
-            const rect = new ResourceShape( new Rectangle().fromTopLeft(new Vector2(), new Vector2(vis.size.x, yOffset)) );
+            const rect = new ResourceShape( new Rectangle().fromTopLeft(Vector2.ZERO, new Vector2(vis.size.x, yOffset)) );
             let counter = 0;
             for(const key of Object.keys(SUITS))
             {
@@ -116,6 +116,7 @@ export default class Card
 
         const res = vis.getResource("card_templates");
         const opOutlineInner = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: TEMPLATES.outline_inner.frame,
             composite: "overlay",
@@ -124,6 +125,7 @@ export default class Card
         group.add(res, opOutlineInner);
 
         const opOutline = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: TEMPLATES.outline.frame
         });
@@ -324,6 +326,7 @@ export default class Card
 
         const res = vis.getResource("card_templates");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: TEMPLATES.texture_overlay.frame,
             composite: "overlay",

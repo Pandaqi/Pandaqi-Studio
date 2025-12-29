@@ -103,7 +103,7 @@ export default class WonkyRectangle
 
     getRandomSide(end:Vector2, reverse = false)
     {  
-        let arr = [new Vector2(), end.clone()];
+        let arr = [Vector2.ZERO.clone(), end.clone()];
         arr = subdividePath({ path: arr, numChunks: 6 });
 
         const offsetBounds = CONFIG._drawing.cards.wonkyRect.pointOffset;

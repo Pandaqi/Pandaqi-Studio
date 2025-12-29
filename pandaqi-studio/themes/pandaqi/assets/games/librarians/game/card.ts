@@ -283,7 +283,7 @@ export default class Card
         
         const cornerOffset = vis.get("cards.genre.cornerOffset");
         const corners = getRectangleCornersWithOffset(bookCoverSize, cornerOffset);
-        const cornersNoOffset = getRectangleCornersWithOffset(bookCoverSize, new Vector2());
+        const cornersNoOffset = getRectangleCornersWithOffset(bookCoverSize, Vector2.ZERO);
         
         const resMisc = vis.getResource("misc");
         const resGenreIcons = vis.getResource("genres");

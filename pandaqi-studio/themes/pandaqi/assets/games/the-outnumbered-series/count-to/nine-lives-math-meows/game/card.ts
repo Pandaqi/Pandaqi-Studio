@@ -427,9 +427,9 @@ export default class Card
         const pathObj = new Path(path, true);
         const resLine = new ResourceShape({ shape: pathObj });
 
-        op.pos = new Vector2();
-        op.size = new Vector2();
-        op.pivot = new Vector2();
+        op.pos = Vector2.ZERO;
+        op.size = Vector2.ZERO;
+        op.pivot = Vector2.ZERO;
         resLine.toCanvas(ctx, op);
         
     }
@@ -514,7 +514,7 @@ export default class Card
                 frame: frame,
                 size: iconSize,
                 pos: pos,
-                pivot: new Vector2(0.5),
+                pivot: Vector2.CENTER,
                 rot: rot,
                 effects: effects
             })
@@ -541,7 +541,7 @@ export default class Card
             pos: center,
             alpha: alpha,
             rot: vis.get("cards.bgCats.patternRotation"),
-            pivot: new Vector2(0.5)
+            pivot: Vector2.CENTER
         })
         vis.custom.patternCat.toCanvas(ctx, op);
     }

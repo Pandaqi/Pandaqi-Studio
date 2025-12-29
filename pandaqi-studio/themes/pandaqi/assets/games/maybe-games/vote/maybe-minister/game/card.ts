@@ -67,7 +67,8 @@ export default class Card
         const key = this.type + "_" + this.subType;
         const frame = CARD_TEMPLATES[key].frame;
         const op = new LayoutOperation({
-            pos: new Vector2(),
+            pos: Vector2.ZERO,
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: frame,
             effects: vis.inkFriendlyEffect

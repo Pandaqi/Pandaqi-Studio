@@ -40,7 +40,7 @@ export const PACKS:Record<string, PackData> =
         },
         bg: {
             icon: {
-                offset: new Vector2().fromXY(0, -0.4)
+                offset: new Vector2(0, -0.4)
             }
         },
         action: {

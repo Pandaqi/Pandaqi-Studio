@@ -63,6 +63,7 @@ export default class Tile
     {
         const res = vis.getResource("misc");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: MISC[this.keyAction].frame,
             effects: vis.inkFriendlyEffect
@@ -79,6 +80,7 @@ export default class Tile
         const resTemplate = vis.getResource("misc");
         const baseAlpha = vis.inkFriendly ? 0.35 : 1.0;
         const opTemplate = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: MISC.card_template.frame,
             effects: vis.inkFriendlyEffect,
@@ -88,6 +90,7 @@ export default class Tile
 
         const bgDirtTextureKey = "bg_" + CONFIG.generation.bgDirtTextureBounds.randomInteger();
         const opDirt = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: MISC[bgDirtTextureKey].frame,
             composite: "overlay",

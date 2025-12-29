@@ -126,6 +126,7 @@ export default class Domino
         const res = vis.getResource("events");
         const frame = (this.getChallengeData().type == ChallengeType.WIN) ? 0 : 1;
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: frame,
             effects: vis.inkFriendlyEffect

@@ -33,6 +33,7 @@ export default class Tile extends MaterialNaivigation
 
         const resBG = vis.getResource("misc");
         const opBG = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: MISC[key + "_template"].frame,
             effects: vis.inkFriendlyEffect

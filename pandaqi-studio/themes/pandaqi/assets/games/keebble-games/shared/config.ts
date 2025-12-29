@@ -87,7 +87,7 @@ export const CONFIG =
 
     cellSizeX: 0,
     cellSizeY: 0,
-    cellSize: new Vector2(),
+    cellSize: Vector2.ZERO,
     cellSizeUnit: 0,
 
     spriteSize: 0,

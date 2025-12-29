@@ -57,6 +57,7 @@ export default class Card
 
         const res = vis.getResource("card_templates");
         const opOverlay = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: CARD_TEMPLATES.bg.frame,
             effects: [new TintEffect(this.getTintColor(vis))]
@@ -244,11 +245,12 @@ export default class Card
 
             const iconSize = vis.get("cards.icons.rowDisplay.size");
             const subGroup = new ResourceGroup();
-            const tempAnchor = new Vector2();
+            const tempAnchor = Vector2.ZERO.clone();
             for(let n = 0; n < this.num; n++)
             {
                 // anchored to top left to make it align with top and properly flip at bottom copy
                 const op = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     pos: tempAnchor.clone(),
                     frame: this.getTypeFrame(),
                     size: iconSize
@@ -260,6 +262,7 @@ export default class Card
             for(let i = 0; i < 2; i++)
             {
                 const opGroup = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     pos: anchors[i],
                     rot: i == 0 ? 0 : Math.PI
                 })
@@ -299,6 +302,7 @@ export default class Card
         // the two boxes for containing content
         const resOverlay = vis.getResource("card_templates");
         const opOverlay = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: CARD_TEMPLATES.action_overlay.frame,
         });

@@ -110,13 +110,14 @@ export default class Card
         if(!vis.inkFriendly)
         {
             // the main texture
-            const rect = new ResourceShape(new Rectangle().fromTopLeft(new Vector2(), vis.size));
+            const rect = new ResourceShape(new Rectangle().fromTopLeft(Vector2.ZERO, vis.size));
             const opRect = new LayoutOperation({
                 fill: this.getBackgroundColor(vis)
             });
             group.add(rect, opRect);
 
             const opTexture = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: this.isWildCard() ? TEMPLATES.texture_wildcard.frame : TEMPLATES.texture.frame,
                 composite: this.isWildCard() ? "luminosity" : "overlay",
@@ -128,6 +129,7 @@ export default class Card
             if(!this.isWildCard())
             {
                 const opGrad = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     size: vis.size,
                     frame: TEMPLATES.gradient.frame,
                     composite: "overlay"
@@ -139,6 +141,7 @@ export default class Card
         // outline (tinted)
         const col = this.getTintColor(vis);
         const opOutline = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: TEMPLATES.outline.frame,
             effects: [new TintEffect(col)]
@@ -311,6 +314,7 @@ export default class Card
         // display background
         const resTemp = vis.getResource("card_templates");
         const opTemp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: TEMPLATES.contract.frame,
             effects: vis.inkFriendlyEffect

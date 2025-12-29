@@ -35,6 +35,7 @@ export default class Tile
         const frameVariation = rangeInteger(0,3);
         const frame = this.getFrame("grass", frameVariation);
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: frame
         })

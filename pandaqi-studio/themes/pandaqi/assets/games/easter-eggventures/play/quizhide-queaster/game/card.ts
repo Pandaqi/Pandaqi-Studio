@@ -36,7 +36,8 @@ export default class Card
         const typeData = this.getTypeData();
         const res = vis.getResource(typeData.textureKey);
         const op = new LayoutOperation({
-            pos: new Vector2(),
+            pos: Vector2.ZERO,
+            pivot: Vector2.ZERO,
             frame: this.customData.num,
             size: vis.size,
             effects: vis.inkFriendlyEffect

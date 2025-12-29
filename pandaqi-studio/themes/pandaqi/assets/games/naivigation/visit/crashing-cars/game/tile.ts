@@ -86,6 +86,7 @@ export default class Tile extends MaterialNaivigation
         // the background template
         const resBG = vis.getResource("misc");
         const opBG = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: MISC[this.key + "_template"].frame,
             effects: vis.inkFriendlyEffect

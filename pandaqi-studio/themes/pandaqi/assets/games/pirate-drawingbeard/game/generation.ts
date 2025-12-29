@@ -265,7 +265,7 @@ export default class BoardGeneration
 				{
 					const opTextDebug = opText.clone();
 					opTextDebug.pos = new Vector2(oX + margin, oY + margin + counter*lineHeight);
-					opTextDebug.pivot = new Vector2();
+					opTextDebug.pivot = Vector2.ZERO;
 					const str = playerString + Hints.perPlayer[i][j].text;
 
 					const resTextDebug = new ResourceText({ text: str, textConfig: textConfig });

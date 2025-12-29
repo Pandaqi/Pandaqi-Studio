@@ -56,7 +56,7 @@ export default class SideBar
         const tutSizeY = tutRatio * tutSizeX;
         const op = new LayoutOperation({
             pos: this.anchorPos.clone(),
-            pivot: new Vector2(),
+            pivot: Vector2.ZERO,
             size: new Vector2(tutSizeX, tutSizeY)
         })
         group.add(res, op);
@@ -73,7 +73,7 @@ export default class SideBar
 
     drawTutorial(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, tutorialHeight:number, type:string)
     {
-        const pos = new Vector2().setXY(
+        const pos = new Vector2(
             this.anchorPos.x + 0.5*tutorialHeight, 
             this.anchorPos.y + 0.5*tutorialHeight
         );

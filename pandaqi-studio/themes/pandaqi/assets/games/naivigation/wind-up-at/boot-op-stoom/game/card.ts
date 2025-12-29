@@ -48,6 +48,7 @@ export default class Card
         if(this.type == CardType.BORD)
         {
             const opMap = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: 9
             });
@@ -61,6 +62,7 @@ export default class Card
             const baseFrame = 10
             const offset = parseInt(this.key.charAt(this.key.length - 1));
             const opPietje = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: baseFrame + offset,
                 effects: vis.inkFriendlyEffect
@@ -77,6 +79,7 @@ export default class Card
         if(!vis.inkFriendly && bgData)
         {
             const opBG = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 flipY: flipY,
                 frame: bgData.frame
@@ -89,6 +92,7 @@ export default class Card
         if(this.type == CardType.PAWN) { contentData = CARD_TEMPLATES.pawn;}
         if(!contentData) { return; }
         const opContent = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             flipY: flipY,
             frame: contentData.frame,
@@ -103,6 +107,7 @@ export default class Card
         const data = MAP_TILES[this.key] ?? {};
         const res = vis.getResource("map_tiles");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: data.frame,
             effects: vis.inkFriendlyEffect

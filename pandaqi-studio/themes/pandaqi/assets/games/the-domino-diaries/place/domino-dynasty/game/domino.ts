@@ -136,6 +136,7 @@ export default class Domino
         // actually, this is everything, decided to just bake it in there
         const res = vis.getResource("templates");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: ROLES[this.key].frame,
             effects: vis.inkFriendlyEffect
@@ -148,6 +149,7 @@ export default class Domino
         // background template
         const res = vis.getResource("templates");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: vis.get("dominoes.missionTemplateFrame"), 
             effects: vis.inkFriendlyEffect
@@ -237,6 +239,7 @@ export default class Domino
         // background template
         const res = vis.getResource("templates");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: vis.get("dominoes.eventTemplateFrame"), 
             effects: vis.inkFriendlyEffect

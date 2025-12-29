@@ -68,7 +68,8 @@ export default class Card
         const frame = CARD_TEMPLATES[key].frame;
         const alpha = vis.inkFriendly ? 0.5 : 1.0;
         const op = new LayoutOperation({
-            pos: new Vector2(),
+            pos: Vector2.ZERO,
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: frame,
             effects: vis.inkFriendlyEffect,

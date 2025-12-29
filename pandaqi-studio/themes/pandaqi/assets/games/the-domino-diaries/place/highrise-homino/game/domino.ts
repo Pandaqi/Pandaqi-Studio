@@ -78,6 +78,7 @@ export default class Domino
         const res = vis.getResource("mission_tiles");
         const frame = this.missionType == MissionType.GOAL ? 0 : 1;
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: frame
         });

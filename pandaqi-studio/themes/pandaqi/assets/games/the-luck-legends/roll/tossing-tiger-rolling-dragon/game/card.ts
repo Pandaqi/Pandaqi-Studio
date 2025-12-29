@@ -80,6 +80,7 @@ export default class Card
         if(vis.inkFriendly)
         {
             const opOutline = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: TEMPLATES.outline.frame,
                 alpha: 0.66,
@@ -91,7 +92,7 @@ export default class Card
 
         // the colored bg rect
         // (don't do this with fillCanvas, as then overlay effects and stuff don't work, because it's considered a different canvas/group)
-        const rect = new ResourceShape(new Rectangle().fromTopLeft(new Vector2(), vis.size));
+        const rect = new ResourceShape(new Rectangle().fromTopLeft(Vector2.ZERO, vis.size));
         const opRect = new LayoutOperation({
             fill: this.getTintColor(vis)
         });
@@ -99,6 +100,7 @@ export default class Card
 
         // the bamboo at the bottom
         const opBamboo = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             composite: "multiply",
             alpha: vis.get("cards.bg.bambooAlpha"),
@@ -109,6 +111,7 @@ export default class Card
         // the patterns at the edge
         const patternComp = this.isDark() ? "overlay" : "luminosity"
         const opPatterns = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             composite: patternComp,
             alpha: vis.get("cards.bg.patternsAlpha"),
@@ -118,6 +121,7 @@ export default class Card
 
         // paper texture
         const opTexture = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             composite: "overlay",
             alpha: vis.get("cards.bg.textureAlpha"),
@@ -128,6 +132,7 @@ export default class Card
         // border outline
         const outlineEffects = this.isDark() ? [] : [new InvertEffect()];
         const opOutline = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             composite: "overlay",
             alpha: vis.get("cards.bg.outlineAlpha"),
@@ -138,6 +143,7 @@ export default class Card
 
         // spiral rays
         const opSpiral = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             composite: "overlay",
             alpha: vis.get("cards.bg.spiralAlpha"),
@@ -147,6 +153,7 @@ export default class Card
 
         // cherry blossoms
         const opBlossom = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             composite: "luminosity",
             alpha: vis.get("cards.bg.blossomAlpha"),

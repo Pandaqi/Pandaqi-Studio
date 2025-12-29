@@ -339,7 +339,7 @@ export default class Card
 
         const groupGlobal = new ResourceGroup();
         const positionsGlobal = getPositionsCenteredAround({
-            pos: new Vector2(),
+            pos: Vector2.ZERO,
             num: iconList.length,
             size: groupSizes, // these are of dynamic lengths, but should still be centered nicely by this function
             align: align,
@@ -358,7 +358,7 @@ export default class Card
 
             const iconDimsWithOverlap = new Vector2((1.0 - overlap)*iconDims.x, iconDims.y);
             const positions = getPositionsCenteredAround({
-                pos: new Vector2(),
+                pos: Vector2.ZERO,
                 num: num,
                 size: iconDimsWithOverlap,
                 align: align
@@ -431,6 +431,7 @@ export default class Card
 
         const resTemplate = vis.getResource("card_templates");
         const opTemplate = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: templateData.frame,
             effects: vis.inkFriendlyEffect
@@ -505,7 +506,7 @@ export default class Card
 
             // some FRAMING around/behind each option
             const opFrame = new LayoutOperation({
-                pos: new Vector2(),
+                pos: Vector2.ZERO,
                 size: new Vector2(spaceXPerRecipe), // this image is 1x1 square, so need to "squarify" it
                 frame: MISC.recipe_frame.frame,
                 pivot: Vector2.CENTER
@@ -653,13 +654,13 @@ export default class Card
         // place dots around the edges to signal food tier
         const dotRadius = vis.get("foodTokens.tierDotRadius");
         const circleRadius = vis.get("foodTokens.circleRadius");
-        const dotTier = new ResourceShape( new Circle({ center: new Vector2(), radius: dotRadius }) );
+        const dotTier = new ResourceShape( new Circle({ center: Vector2.ZERO, radius: dotRadius }) );
         for(let i = 0; i < 4; i++)
         {
             const ang = i * 0.5 * Math.PI;
             const numDots = (foodData.tier ?? 0) + 1;
             const positions = getPositionsCenteredAround({
-                pos: new Vector2(),
+                pos: Vector2.ZERO,
                 num: numDots,
                 size: new Vector2(dotRadius*2),
                 dir: Vector2.DOWN

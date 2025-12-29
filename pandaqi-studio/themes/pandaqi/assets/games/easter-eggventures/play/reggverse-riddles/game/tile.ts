@@ -81,7 +81,8 @@ export default class Tile extends MaterialEaster
         const res = vis.getResource("misc_unique");
         const frame = (this.type == TileType.OBJECTIVE) ? MISC_UNIQUE.bg_objective.frame : MISC_UNIQUE.bg.frame;
         const op = new LayoutOperation({
-            pos: new Vector2(),
+            pivot: Vector2.ZERO,
+            pos: Vector2.ZERO,
             size: vis.size,
             frame: frame,
             effects: vis.inkFriendlyEffect

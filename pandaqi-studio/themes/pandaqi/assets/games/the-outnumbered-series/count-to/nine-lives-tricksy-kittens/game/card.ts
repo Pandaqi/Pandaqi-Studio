@@ -24,7 +24,7 @@ const cacheVisualizerData = async (vis:MaterialVisualizer) =>
     vis.custom =
     {
         effects: [new DropShadowEffect({ offset: shadowOffset, color: shadowColor }), vis.inkFriendlyEffect].flat(),
-        patternCat: await patternizeGrid(params),
+        patternCat: patternizeGrid(params),
     }
 }
 
@@ -47,10 +47,8 @@ export default class Card
         const ctx = createContext({ size: vis.size });
         fillCanvas(ctx, "#FFFFFF");
 
-        await this.drawCorners(vis, ctx);
-        await this.drawMainIllustration(vis, ctx);
-
-        this.drawOutline(vis, ctx);
+        this.drawCorners(vis, ctx);
+        this.drawMainIllustration(vis, ctx);
         return ctx.canvas;
     }
 
@@ -61,16 +59,14 @@ export default class Card
 
         const ctx = createContext({ size: vis.size });
 
-        await this.drawBackground(vis, ctx);
-        await this.drawCorners(vis, ctx);
-        await this.drawMainIllustration(vis, ctx);
-        await this.drawPower(vis, ctx);
-
-        this.drawOutline(vis, ctx);
+        this.drawBackground(vis, ctx);
+        this.drawCorners(vis, ctx);
+        this.drawMainIllustration(vis, ctx);
+        this.drawPower(vis, ctx);
         return ctx.canvas;
     }
 
-    async drawBackground(vis:MaterialVisualizer, ctx)
+    drawBackground(vis:MaterialVisualizer, ctx)
     {
         // first solid color
         let color = vis.get("cards.shared.defaultBGColor");
@@ -89,16 +85,16 @@ export default class Card
             rot: rot,
             pivot: Vector2.CENTER
         })
-        await pattern.toCanvas(ctx, op);
+        pattern.toCanvas(ctx, op);
     }
 
-    async drawCorners(vis:MaterialVisualizer, ctx)
+    drawCorners(vis:MaterialVisualizer, ctx)
     {
-        await this.drawCornerNumbers(vis, ctx);
-        await this.drawCornerSuits(vis, ctx);
+        this.drawCornerNumbers(vis, ctx);
+        this.drawCornerSuits(vis, ctx);
     }
 
-    async drawCornerNumbers(vis:MaterialVisualizer, ctx)
+    drawCornerNumbers(vis:MaterialVisualizer, ctx)
     {
         // first the text (number of the card)
         const fontSize = vis.get("cards.corners.fontSize") * vis.sizeUnit;
@@ -137,11 +133,11 @@ export default class Card
                 effects: vis.custom.effects
             })
 
-            await resText.toCanvas(ctx, op);
+            resText.toCanvas(ctx, op);
         }
     }
 
-    async drawCornerSuits(vis:MaterialVisualizer, ctx)
+    drawCornerSuits(vis:MaterialVisualizer, ctx)
     {
         const fontSize = vis.get("cards.corners.fontSize") * vis.sizeUnit;
         const offset = new Vector2(fontSize * 0.5 * vis.get("cards.corners.offsetText"));
@@ -172,11 +168,11 @@ export default class Card
                 effects: effects,
             })
 
-            await resIcon.toCanvas(ctx, op);
+            resIcon.toCanvas(ctx, op);
         }
     }
 
-    async drawMainIllustration(vis:MaterialVisualizer, ctx)
+    drawMainIllustration(vis:MaterialVisualizer, ctx)
     {
         const extentsRect = vis.get("cards.powers.rectSize").clone().scale(vis.size);
         const offsetFactor = CONFIG._settings.includePowers.value ? vis.get("cards.illustration.offset") : 0.0;
@@ -200,11 +196,11 @@ export default class Card
                 effects: effects
             })
 
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
     }
 
-    async drawPower(vis:MaterialVisualizer, ctx)
+    drawPower(vis:MaterialVisualizer, ctx)
     {
         if(!CONFIG._settings.includePowers.value) { return; }
 
@@ -251,12 +247,6 @@ export default class Card
             fill: "#000000",
             pivot: Vector2.CENTER
         })
-        await resText.toCanvas(ctx, opText);
-    }
-
-    drawOutline(vis:MaterialVisualizer, ctx)
-    {
-        const outlineSize = vis.get("cards.outline.size") * vis.sizeUnit;
-        strokeCanvas(ctx, vis.get("cards.outline.color"), outlineSize);
+        resText.toCanvas(ctx, opText);
     }
 }

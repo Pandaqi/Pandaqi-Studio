@@ -114,7 +114,7 @@ export default class BoardDraw
 
             for(let pos of positions)
             {
-                const rect = new Rectangle({ center: new Vector2(), extents: slotDimsTemp });
+                const rect = new Rectangle({ center: Vector2.ZERO, extents: slotDimsTemp });
                 const rectOp = new LayoutOperation({
                     pos: pos,
                     fill: "#FFFFFF",
@@ -141,7 +141,7 @@ export default class BoardDraw
             let col = bgColor.clone();
             if(isOddCell) { col = colorDarken(col, bgColorDarken); }
 
-            const rect = new Rectangle({ center: new Vector2(), extents: this.cellSize });
+            const rect = new Rectangle({ center: Vector2.ZERO, extents: this.cellSize });
             const rectOp = new LayoutOperation({
                 pos: posCenter,
                 fill: col,

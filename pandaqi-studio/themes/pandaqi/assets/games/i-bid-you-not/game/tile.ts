@@ -74,6 +74,7 @@ export default class Tile
         const posY = vis.get("tiles.action.rectPosY");
         const rect = new ResourceShape( new Rectangle().fromTopLeft(new Vector2(0, posY), new Vector2(vis.size.x, vis.size.y - posY)) );
         const rectOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             fill: vis.get("tiles.action.bgColor"),
             stroke: vis.get("tiles.action.rectStrokeColor"),
             strokeWidth: vis.get("tiles.action.rectStrokeWidth")

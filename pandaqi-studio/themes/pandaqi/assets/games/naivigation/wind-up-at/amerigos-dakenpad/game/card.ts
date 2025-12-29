@@ -55,6 +55,7 @@ export default class Card
 
         // the overlay must be present though (with grayscale effect)
         const opOverlay = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: frameOverlay,
             effects: vis.inkFriendlyEffect
@@ -66,6 +67,7 @@ export default class Card
     {
         const res = vis.getResource("card_templates");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: CARD_TEMPLATES.pawn.frame,
             effects: vis.inkFriendlyEffect
@@ -254,7 +256,7 @@ export default class Card
             positions[1].clone().sub(dotOffset)
         ]
 
-        const resDot = new ResourceShape(new Circle({ center: new Vector2(), radius: 0.5*dotSize.x }));
+        const resDot = new ResourceShape(new Circle({ center: Vector2.ZERO, radius: 0.5*dotSize.x }));
 
         for(let i = 0; i < positions.length; i++)
         {

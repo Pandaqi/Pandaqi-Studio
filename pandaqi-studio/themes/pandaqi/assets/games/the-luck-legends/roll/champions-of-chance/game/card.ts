@@ -61,6 +61,7 @@ export default class Card
         const keySuffix = this.isSpecial() ? "_special" : "_regular";
         const resTemp = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: TEMPLATES["bg" + keySuffix].frame,
             alpha: vis.get("cards.bg.alpha")
@@ -70,6 +71,7 @@ export default class Card
         if(!vis.inkFriendly)
         {
             const opTint = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: TEMPLATES["tint" + keySuffix].frame,
                 effects: [new TintEffect(this.getTintColor(vis))]

@@ -74,6 +74,7 @@ export default class Card
 
         const resBG = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: TEMPLATES.zoo.frame,
             effects: vis.inkFriendlyEffect
@@ -192,6 +193,7 @@ export default class Card
 
         const resBG = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: TEMPLATES.animal.frame,
             effects: vis.inkFriendlyEffect

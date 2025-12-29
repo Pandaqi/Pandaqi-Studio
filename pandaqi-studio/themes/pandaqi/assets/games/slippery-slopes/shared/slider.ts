@@ -74,6 +74,7 @@ export default class Slider
             const topOffset = a == 0 ? -2*amp : 0;
             const canvOp = new LayoutOperation({
                 pos: new Vector2(0, blockHeight*a + topOffset),
+                pivot: Vector2.ZERO,
                 fill: color,
                 stroke: "#000000",
                 strokeWidth: 1,
@@ -141,8 +142,9 @@ export default class Slider
             const word = extremes[i];
             const text = new ResourceText({ text: word, textConfig: textConfig })
 
-            const translate = (i == 0) ? new Vector2() : new Vector2(0, itemSize.y - blockHeight)
+            const translate = (i == 0) ? Vector2.ZERO : new Vector2(0, itemSize.y - blockHeight)
             const canvOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: translate,
                 fill: finalColor,
                 size: new Vector2(itemSize.x, blockHeight)
@@ -254,7 +256,7 @@ export default class Slider
         const shapeList = shuffle(Object.keys(shapes));
 
         const maxShapeHeight = 0.75*blockHeight;
-        const maxShapeDims = new Dims(new Vector2(), new Vector2(maxShapeHeight, maxShapeHeight));
+        const maxShapeDims = new Dims(Vector2.ZERO, new Vector2(maxShapeHeight, maxShapeHeight));
 
         for(let i = 0; i < colors.length; i++)
         {

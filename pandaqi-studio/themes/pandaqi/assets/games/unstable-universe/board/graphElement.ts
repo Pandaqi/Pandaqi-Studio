@@ -4,7 +4,7 @@ import GraphNode from "./graphNode"
 
 export default class GraphElement
 {
-    pos = new Vector2()
+    pos = Vector2.ZERO
     x = 0
     y = 0
     

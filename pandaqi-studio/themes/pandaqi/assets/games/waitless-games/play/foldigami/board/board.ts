@@ -51,7 +51,7 @@ export default class Board
         const tilesNotSquare = Math.abs(cellX - cellY) > 10;
         if(tilesNotSquare) { return console.error("Tiles not square: ", cellX, cellY); }
 
-        this.cellSize = new Vector2().fromXY(cellX, cellY);
+        this.cellSize = new Vector2(cellX, cellY);
         this.cellSizeSquare = Math.min(cellX, cellY);
 
         // top left should be the smallest cell, so save that as the measurement for everything
@@ -301,11 +301,11 @@ export default class Board
         return await vis.finishDraw(group);
     }
 
-    convertGridToRealPos(cell:Cell)
+    convertGridToRealPos(pos:Vector2)
     {
-        return new Vector2().setXY(
-            cell.x * this.cellSize.x + this.outerRect.getTopLeft().x,
-            cell.y * this.cellSize.y + this.outerRect.getTopLeft().y
+        return new Vector2(
+            pos.x * this.cellSize.x + this.outerRect.getTopLeft().x,
+            pos.y * this.cellSize.y + this.outerRect.getTopLeft().y
         );
     }
 
@@ -335,19 +335,19 @@ export default class Board
         const pos = rect.getTopLeft();
         const size = rect.getSize();
         if(rotInt == 0) {
-            return new Vector2().setXY(pos.x + size.x, pos.y + size.y);
+            return new Vector2(pos.x + size.x, pos.y + size.y);
         } else if(rotInt == 1) { 
-            return new Vector2().setXY(pos.x, pos.y + size.y);
+            return new Vector2(pos.x, pos.y + size.y);
         } else if(rotInt == 2) { 
-            return new Vector2().setXY(pos.x, pos.y);
+            return new Vector2(pos.x, pos.y);
         } else if(rotInt == 3) {
-            return new Vector2().setXY(pos.x + size.x, pos.y);
+            return new Vector2(pos.x + size.x, pos.y);
         }
     }
 
     getRectForCell(c:Cell)
     {
-        let pos = this.convertGridToRealPos(c);
+        let pos = this.convertGridToRealPos(c.getPos());
         let size = this.cellSize.clone();
 
         const isHorizontalEdge = (c.x == 0 || c.x == (CONFIG._drawing.board.size.x-1));
@@ -427,15 +427,15 @@ export default class Board
 
     drawLineVertical(vis:MaterialVisualizer, group:ResourceGroup, x:number, size:Vector2, dotted = false)
     {
-        const pos1 = this.convertGridToRealPos(new Vector2().fromXY(x, 0));
-        const pos2 = this.convertGridToRealPos(new Vector2().fromXY(x, size.y));
+        const pos1 = this.convertGridToRealPos(new Vector2(x, 0));
+        const pos2 = this.convertGridToRealPos(new Vector2(x, size.y));
         this.drawLineBetween(vis, group, pos1, pos2, dotted);
     }
 
     drawLineHorizontal(vis:MaterialVisualizer, group:ResourceGroup, y:number, size:Vector2, dotted = false)
     {
-        const pos1 = this.convertGridToRealPos(new Vector2().fromXY(0, y));
-        const pos2 = this.convertGridToRealPos(new Vector2().fromXY(size.x, y));
+        const pos1 = this.convertGridToRealPos(new Vector2(0, y));
+        const pos2 = this.convertGridToRealPos(new Vector2(size.x, y));
         this.drawLineBetween(vis, group, pos1, pos2, dotted);
     }
 
@@ -545,7 +545,7 @@ export default class Board
                 const anchorPos = this.getCornerFromRotation(rect, rot);
                 const teamIconScale = iconSize * CONFIG._drawing.teams.iconScale;
 
-                const offset = new Vector2().setXY(
+                const offset = new Vector2(
                     -Math.cos(rot + 0.25*Math.PI) * teamIconScale,
                     -Math.sin(rot + 0.25*Math.PI) * teamIconScale
                 );

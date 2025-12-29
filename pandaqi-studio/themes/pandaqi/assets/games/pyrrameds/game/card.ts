@@ -86,6 +86,7 @@ export default class Card
             const alpha = data.invertTexture ? 0.2 : 0.2;
 
             const opTexture = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: CARD_TEMPLATES[fromArray(options)].frame,
                 composite: composite,
@@ -96,6 +97,7 @@ export default class Card
 
         // the actual card template on top
         const opTemplate = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: data.frame,
             effects: vis.inkFriendlyEffect

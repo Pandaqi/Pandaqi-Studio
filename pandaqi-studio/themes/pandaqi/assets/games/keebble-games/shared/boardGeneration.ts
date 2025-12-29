@@ -439,7 +439,7 @@ export class BoardGeneration
 		shuffle(cells);
 		const rand = CONFIG.baseCellBackgroundRandomness * CONFIG.cellSizeUnit;
 
-		const bgRect = new Rectangle().fromTopLeft(new Vector2(), vis.size);
+		const bgRect = new Rectangle().fromTopLeft(Vector2.ZERO, vis.size);
 		const op = new LayoutOperation({
 			fill: this.getCellBackgroundColor()
 		});

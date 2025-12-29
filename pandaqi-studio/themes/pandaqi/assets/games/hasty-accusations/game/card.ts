@@ -47,6 +47,7 @@ export default class Card
         const res = vis.resLoader.getResource("fingerprints");
         const alpha = vis.get("suspects.bg.alpha");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             alpha: alpha
         });
@@ -169,6 +170,7 @@ export default class Card
         const res = vis.resLoader.getResource("papers");
         const effects = vis.inkFriendly ? [new GrayScaleEffect()] : []
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             effects: effects
         })

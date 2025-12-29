@@ -102,7 +102,7 @@ export default class CellDisplay
         const offsetX = cornerOffset.x * 0.5 * (cs.x - size.x - margin);
         const offsetY = cornerOffset.y * 0.5 * (cs.y - size.y - margin);
 
-        const offsetVec = new Vector2().setXY(offsetX, offsetY);
+        const offsetVec = new Vector2(offsetX, offsetY);
         const offsetPos = centerPos.move(offsetVec);
 
         return offsetPos;

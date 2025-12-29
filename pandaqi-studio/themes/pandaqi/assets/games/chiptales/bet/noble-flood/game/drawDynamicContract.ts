@@ -95,7 +95,7 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
     const resMisc = vis.getResource("misc");
 
     // actually give card background + border
-    const resRect = new ResourceShape( new Rectangle().fromTopLeft(new Vector2(), canvSize) );
+    const resRect = new ResourceShape( new Rectangle().fromTopLeft(Vector2.ZERO, canvSize) );
     const opRect = new LayoutOperation({
         fill: "#FFFFFF",
         stroke: "#1C1C1C",
@@ -260,7 +260,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
     const groupGlobal = new ResourceGroup();
 
     /*
-    const debugRect = new ResourceShape( new Rectangle().fromTopLeft(new Vector2(), canvSize) );
+    const debugRect = new ResourceShape( new Rectangle().fromTopLeft(Vector2.ZERO, canvSize) );
     const debugOp = new LayoutOperation({
         stroke: "#FF0000",
         strokeWidth: 50
@@ -293,7 +293,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
         const cards = drawGroup.cards.slice();
         const numCards = cards.length;
         const positions = getPositionsCenteredAround({
-            pos: new Vector2(),
+            pos: Vector2.ZERO,
             num: numCards,
             size: cardDims.clone().scale(new Vector2(1.0 - cardOverlap, 1))
         });

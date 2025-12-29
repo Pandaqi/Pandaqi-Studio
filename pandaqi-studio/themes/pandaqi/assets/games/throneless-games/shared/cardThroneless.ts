@@ -82,6 +82,7 @@ export default class CardThroneless
             const frame = CARD_TEMPLATES[this.cardType].frame;
             const res = vis.getResource("card_templates");
             const canvOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: frame,
                 effects: vis.inkFriendlyEffect

@@ -44,7 +44,8 @@ export default class Tile
     {
         const resMisc = vis.getResource("misc");
         const opWave = new LayoutOperation({
-            pos: new Vector2(),
+            pivot: Vector2.ZERO,
+            pos: Vector2.ZERO,
             size: vis.size,
             frame: MISC.wave_bg.frame,
         })
@@ -105,7 +106,7 @@ export default class Tile
         // to easily differentiate the 6 and 9 from any angle, we add a dot to their bottom right corner
         const needsDot = [6,9].includes( Math.abs(typeData.points) );
         const circleRadius = 0.05 * fontSize;
-        const resCircle = new ResourceShape(new Circle({ center: new Vector2(), radius: circleRadius }));
+        const resCircle = new ResourceShape(new Circle({ center: Vector2.ZERO, radius: circleRadius }));
         const opCircle = new LayoutOperation({
             fill: vis.get("tiles.type.textColor"),
             stroke: vis.get("tiles.type.textStrokeColor"),
@@ -202,7 +203,8 @@ export default class Tile
     {
         const resCol = vis.getResource("patterns");
         const opCol = new LayoutOperation({
-            pos: new Vector2(),
+            pivot: Vector2.ZERO,
+            pos: Vector2.ZERO,
             size: vis.size,
             frame: COLORS[this.color].frame
         })

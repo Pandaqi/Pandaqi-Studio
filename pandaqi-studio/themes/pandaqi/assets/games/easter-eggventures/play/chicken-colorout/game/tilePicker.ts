@@ -165,7 +165,7 @@ const placeSquareInGrid = (grid:TileGridCell[][], size:Vector2) =>
     if(!validPos) 
     { 
         cells = []; 
-        anchor = new Vector2(); 
+        anchor = Vector2.ZERO.clone(); 
         console.error("Couldn't place square in grid.");
     }
 

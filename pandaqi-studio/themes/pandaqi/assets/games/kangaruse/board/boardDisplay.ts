@@ -128,7 +128,7 @@ export default class BoardDisplay
             const x = anchorPos.x + (i + 0.5) * this.cellSize.x;
             const yTop = anchorPos.y - colOffset;
             const yBelow = anchorPos.y + this.boardDimensions.y + colOffset;
-            const positions = [new Vector2().setXY(x, yTop), new Vector2().setXY(x,yBelow)];
+            const positions = [new Vector2(x, yTop), new Vector2(x,yBelow)];
             
             this.drawGridCommandsAt(vis, group, colData[i], positions);
         }
@@ -141,7 +141,7 @@ export default class BoardDisplay
             const y = anchorPos.y + (i + 0.5) * this.cellSize.y;
             const xTop = anchorPos.x - rowOffset;
             const xBelow = anchorPos.x + this.boardDimensions.x + rowOffset;
-            const positions = [new Vector2().setXY(xTop, y), new Vector2().setXY(xBelow, y)];
+            const positions = [new Vector2(xTop, y), new Vector2(xBelow, y)];
 
             this.drawGridCommandsAt(vis, group, rowData[i], positions);
         }

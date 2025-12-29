@@ -38,7 +38,8 @@ const drawTerrain = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
     const effects = tile.terrainUsesGrayscale ? vis.inkFriendlyEffect : [];
     const resOp = new LayoutOperation({
         frame: frame,
-        pos: new Vector2(),
+        pos: Vector2.ZERO,
+        pivot: Vector2.ZERO,
         size: vis.size,
         effects: effects
     });

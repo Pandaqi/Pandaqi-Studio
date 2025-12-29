@@ -144,6 +144,7 @@ export default class Domino
         const campTypeData = CAMP_TYPES[this.campaignMissionType];
         const res = vis.getResource("campaign_templates");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: campTypeData.frame,
             effects: vis.inkFriendlyEffect

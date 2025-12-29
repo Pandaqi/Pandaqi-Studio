@@ -20,7 +20,7 @@ export default class Drawing
         
         this.drawBackground(vis, group, ctx);
         this.drawContent(vis, group);
-        await group.toCanvas(ctx);
+        group.toCanvas(ctx);
         return ctx.canvas;
     }
 

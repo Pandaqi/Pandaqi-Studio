@@ -36,7 +36,7 @@ export default class Board
     create(startingTile:Tile, numPlayers:number)
     {
         // place the starting tile
-        this.startingTileData = this.addTile(startingTile, new Vector2());
+        this.startingTileData = this.addTile(startingTile, Vector2.ZERO);
 
         // create the pawns (+place then off board)
         for(let i = 0; i < numPlayers; i++)

@@ -24,7 +24,7 @@ type Order = number[]
 export { Cell, SubwayData, PoliceData, EntranceData, Order }
 export default class Cell
 {
-    pos = new Vector2()
+    pos = Vector2.ZERO
     x = 0
     y = 0
     type = "empty"

@@ -16,7 +16,7 @@ export default class GraphNode extends GraphElement
     staticX = false
     staticY = false
 
-    relaxVelocity = new Vector2()
+    relaxVelocity = Vector2.ZERO
 
     powerDots:PowerDot[] = []
     edgeAngles = []

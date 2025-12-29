@@ -157,8 +157,8 @@ export default class BoardDisplay
     getCellsConnectedToRealPoint(axis:string, p:Vector2)
     {
         const gridPointBelow = this.convertRealPointToGridPoint(p);
-        let gridPointAbove = gridPointBelow.clone().add(new Vector2().setXY(0,-1))
-        if(axis == "y") { gridPointAbove = gridPointBelow.clone().add(new Vector2().setXY(-1,0)); }
+        let gridPointAbove = gridPointBelow.clone().add(new Vector2(0,-1))
+        if(axis == "y") { gridPointAbove = gridPointBelow.clone().add(new Vector2(-1,0)); }
         
         const arr = [];
         if(this.board.getCellAt(gridPointBelow)) { arr.push(this.board.getCellAt(gridPointBelow)); }
@@ -170,14 +170,14 @@ export default class BoardDisplay
     {
         const x = Math.floor((p.x - this.outerMargin.x) / this.cellSize.x);
         const y = Math.floor((p.y - this.outerMargin.y) / this.cellSize.y);
-        return new Vector2().setXY(x,y);
+        return new Vector2(x,y);
     }
 
     convertGridPointToRealPoint(p:Vector2)
     {
         const x = p.x * this.cellSize.x + this.outerMargin.x;
         const y = p.y * this.cellSize.y + this.outerMargin.y;
-        return new Vector2().setXY(x,y);
+        return new Vector2(x,y);
     }
 
     smoothLines(vis:MaterialVisualizer, lines:Lines)
@@ -234,7 +234,7 @@ export default class BoardDisplay
         {
             for(let y = 0; y < this.size.y; y++)
             {
-                const cell = this.board.getCellAt(new Vector2().setXY(x,y));
+                const cell = this.board.getCellAt(new Vector2(x,y));
                 let backgroundColor = new Color(cell.getColor());
                 if(vis.inkFriendly) { backgroundColor = Color.WHITE; }
 
@@ -273,7 +273,7 @@ export default class BoardDisplay
 
         const w = this.cellSize.x, h = this.cellSize.y;
         const realPos = this.convertGridPointToRealPoint(point);
-        const centerPos = realPos.clone().add(new Vector2().setXY(0.5*w, 0.5*h));
+        const centerPos = realPos.clone().add(new Vector2(0.5*w, 0.5*h));
 
         const resCustom = vis.getResource("custom_spritesheet");
 

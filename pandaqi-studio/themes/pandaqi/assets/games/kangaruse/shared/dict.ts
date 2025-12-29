@@ -47,22 +47,22 @@ export const TUTORIALS = {
 }
 
 export const NB_OFFSETS = {
-    "right": new Vector2().setXY(1,0),
-    "left": new Vector2().setXY(-1,0),
-    "bottom": new Vector2().setXY(0,1),
-    "top": new Vector2().setXY(0,-1)
+    "right": new Vector2(1,0),
+    "left": new Vector2(-1,0),
+    "bottom": new Vector2(0,1),
+    "top": new Vector2(0,-1)
 }
 
 export const CORNER_OFFSETS = {
-    "bottom right": new Vector2().setXY(1,1),
-    "bottom center": new Vector2().setXY(0,1),
-    "bottom left": new Vector2().setXY(-1,1),
-    "center left": new Vector2().setXY(-1,0),
-    "center center": new Vector2().setXY(0,0),
-    "center right": new Vector2().setXY(1,0),
-    "top left": new Vector2().setXY(-1,-1),
-    "top center": new Vector2().setXY(0,-1),
-    "top right": new Vector2().setXY(1,-1),
+    "bottom right": new Vector2(1,1),
+    "bottom center": new Vector2(0,1),
+    "bottom left": new Vector2(-1,1),
+    "center left": new Vector2(-1,0),
+    "center center": new Vector2(0,0),
+    "center right": new Vector2(1,0),
+    "top left": new Vector2(-1,-1),
+    "top center": new Vector2(0,-1),
+    "top right": new Vector2(1,-1),
 };
 
 export const COLOR_GROUPS = {

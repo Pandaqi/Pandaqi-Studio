@@ -64,6 +64,7 @@ export default class Card
         const alpha = vis.inkFriendly ? 0.66 : 1.0;
         const resTemp = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: templateData.frame,
             alpha: alpha,
@@ -233,6 +234,7 @@ export default class Card
 
         const resTemp = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: TEMPLATES.overlay.frame,
             effects: vis.inkFriendlyEffect,

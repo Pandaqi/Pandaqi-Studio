@@ -82,7 +82,7 @@ export default class BoardState
         {
             for(let y = 0; y < size.y; y++)
             {
-                const point = new Vector2().setXY(anchorCell.x + x, anchorCell.y + y);
+                const point = new Vector2(anchorCell.x + x, anchorCell.y + y);
                 const cell = this.getCellAt(point);
                 if(!cell) { return []; }
 

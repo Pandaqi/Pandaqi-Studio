@@ -112,6 +112,7 @@ export default class Card
         const frame = (this.type == CardType.REGULAR) ? 0 : 1;
         const res = vis.getResource("card_templates");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: frame,
             effects: vis.inkFriendlyEffect,

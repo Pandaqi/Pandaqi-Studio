@@ -1,6 +1,5 @@
 
 import { MISC, PowerData, SETS } from "../shared/dict";
-import { CONFIG } from "../shared/config";
 import { MaterialVisualizer, DropShadowEffect, createContext, fillCanvas, Vector2, LayoutOperation, TextConfig, TextAlign, ColorLike, StrokeAlign, ResourceText, getRectangleCornersWithOffset, rangeInteger, strokeCanvas } from "lib/pq-games";
 
 const getMaterialVisualizerEffects = (vis:MaterialVisualizer) =>
@@ -27,8 +26,8 @@ export default class Card
         const ctx = createContext({ size: vis.size });
         fillCanvas(ctx, "#FFFFFF");
 
-        await this.drawCorners(vis, ctx);
-        await this.drawMainIllustration(vis, ctx);
+        this.drawCorners(vis, ctx);
+        this.drawMainIllustration(vis, ctx);
 
         return ctx.canvas;
     }
@@ -38,21 +37,21 @@ export default class Card
     {
         const ctx = createContext({ size: vis.size });
 
-        await this.drawBackground(vis, ctx);
-        await this.drawCorners(vis, ctx);
-        await this.drawMainIllustration(vis, ctx);
-        await this.drawPower(vis, ctx);
+        this.drawBackground(vis, ctx);
+        this.drawCorners(vis, ctx);
+        this.drawMainIllustration(vis, ctx);
+        this.drawPower(vis, ctx);
 
         return ctx.canvas;
     }
 
-    async drawCorners(vis:MaterialVisualizer, ctx)
+    drawCorners(vis:MaterialVisualizer, ctx)
     {
-        await this.drawHeadingText(vis, ctx);
-        await this.drawCornerCoins(vis, ctx);
+        this.drawHeadingText(vis, ctx);
+        this.drawCornerCoins(vis, ctx);
     }
 
-    async drawHeadingText(vis:MaterialVisualizer, ctx)
+    drawHeadingText(vis:MaterialVisualizer, ctx)
     {
         // rope behind all of it
         const resRope = vis.resLoader.getResource("misc");
@@ -67,7 +66,7 @@ export default class Card
             pivot: Vector2.CENTER,
             effects: getMaterialVisualizerEffects(vis)
         })
-        await resRope.toCanvas(ctx, op);
+        resRope.toCanvas(ctx, op);
 
         // text showing name of the card
         const text = this.data.label;
@@ -92,11 +91,11 @@ export default class Card
         op.effects = [new DropShadowEffect({ offset: new Vector2(textShadowOffset), color: vis.get("cards.shared.shadowColor") })];
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
-        await resText.toCanvas(ctx, op);
+        resText.toCanvas(ctx, op);
     }
 
     // the coins + numbers inside
-    async drawCornerCoins(vis:MaterialVisualizer, ctx)
+    drawCornerCoins(vis:MaterialVisualizer, ctx)
     {
         const offsetBig = vis.get("cards.corners.edgeOffsetBig").clone().scale(vis.sizeUnit);
         const offsetSmall = vis.get("cards.corners.edgeOffsetSmall").clone().scale(vis.sizeUnit);
@@ -141,7 +140,7 @@ export default class Card
                 rot: rot,
                 effects: getMaterialVisualizerEffects(vis)
             })
-            await resCoin.toCanvas(ctx, op);
+            resCoin.toCanvas(ctx, op);
 
             // places a scoring coin underneath the big numbers on cards
             // with actions that only trigger while scoring
@@ -155,7 +154,7 @@ export default class Card
                     pivot: Vector2.CENTER,
                     effects: getMaterialVisualizerEffects(vis)
                 })
-                await resCoin.toCanvas(ctx, opCoin);
+                resCoin.toCanvas(ctx, opCoin);
             }
             
             const strokeWidth = vis.get("cards.corners.strokeWidth") * fontSize;
@@ -163,12 +162,13 @@ export default class Card
             tempTextConfig.size = fontSize;
             const resText = new ResourceText({ text: text, textConfig: tempTextConfig });
 
+            op.pivot = Vector2.ZERO;
             op.fill = new ColorLike(fillColor);
             op.stroke = new ColorLike(strokeColor);
             op.strokeWidth = strokeWidth;
             op.strokeAlign = StrokeAlign.OUTSIDE
             op.effects = getMaterialVisualizerEffects(vis); 
-            await resText.toCanvas(ctx, op);
+            resText.toCanvas(ctx, op);
 
         }
     }
@@ -182,7 +182,7 @@ export default class Card
         return "base";
     }
 
-    async drawMainIllustration(vis:MaterialVisualizer, ctx)
+    drawMainIllustration(vis:MaterialVisualizer, ctx)
     {
         const res = vis.resLoader.getResource(this.getConnectedSet());
         const frame = this.data.frame;
@@ -196,10 +196,10 @@ export default class Card
             pivot: Vector2.CENTER,
             effects: getMaterialVisualizerEffects(vis)
         })
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
     }
 
-    async drawPower(vis:MaterialVisualizer, ctx)
+    drawPower(vis:MaterialVisualizer, ctx)
     {
         // first the background scroll
         const resMisc = vis.resLoader.getResource("misc");
@@ -213,7 +213,7 @@ export default class Card
             pivot: Vector2.CENTER,
             effects: getMaterialVisualizerEffects(vis)
         })
-        await resMisc.toCanvas(ctx, opMisc);
+        resMisc.toCanvas(ctx, opMisc);
 
         // then the text
         const text = this.data.desc;
@@ -230,10 +230,10 @@ export default class Card
         opMisc.effects = [new DropShadowEffect({ offset: new Vector2(textShadowOffset), color: vis.get("cards.shared.shadowColor") })];
         opMisc.fill = new ColorLike("#000000");
         opMisc.size.x *= vis.get("cards.power.textBoxWidth");
-        await resText.toCanvas(ctx, opMisc);
+        resText.toCanvas(ctx, opMisc);
     }
 
-    async drawBackground(vis:MaterialVisualizer, ctx)
+    drawBackground(vis:MaterialVisualizer, ctx)
     {
         if(vis.inkFriendly)
         {
@@ -244,9 +244,10 @@ export default class Card
         const bg = vis.resLoader.getResource("bgs");
         const frame = rangeInteger(0,3);
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             frame: frame,
             size: vis.size.clone(),
         })
-        await bg.toCanvas(ctx, op);
+        bg.toCanvas(ctx, op);
     }
 }

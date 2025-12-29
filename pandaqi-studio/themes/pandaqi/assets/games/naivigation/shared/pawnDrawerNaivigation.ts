@@ -52,7 +52,7 @@ export default (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivig
     }
 
     // simple rectangle around + line to indicate folding
-    const resOuterRect = new ResourceShape(new Rectangle({ center: new Vector2(), extents: new Vector2(0.5*vis.size.x, vis.size.y) }));
+    const resOuterRect = new ResourceShape(new Rectangle({ center: Vector2.ZERO, extents: new Vector2(0.5*vis.size.x, vis.size.y) }));
     const opOuterRect = new LayoutOperation({ 
         stroke: vis.get("pawns.general.outline.color"),
         strokeWidth: vis.get("pawns.general.outline.width")

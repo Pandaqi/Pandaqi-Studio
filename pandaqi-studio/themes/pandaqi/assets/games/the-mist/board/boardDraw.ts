@@ -83,7 +83,7 @@ export default class BoardDraw
         this.showTypeMetadata = requiresMetadata;
     }
 
-    async drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
+    drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const bgColor = vis.inkFriendly ? "#FFFFFF" : vis.get("bgColor");
         fillResourceGroup(this.fullSize, group, bgColor);
@@ -107,7 +107,7 @@ export default class BoardDraw
         return this.originBoard.clone().add( pos.clone().scale(this.cellSize) );
     }
 
-    async drawBoard(vis:MaterialVisualizer, group:ResourceGroup)
+    drawBoard(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const bgColorLightness = vis.get("cells.bgColorLightness");
         const bgColorDarken = vis.get("cells.bgColorDarken");
@@ -260,7 +260,7 @@ export default class BoardDraw
         return fromArray(possibleSides);
     }
 
-    async drawSidebar(vis:MaterialVisualizer, group:ResourceGroup)
+    drawSidebar(vis:MaterialVisualizer, group:ResourceGroup)
     {
         if(!CONFIG._settings.includeRules.value) { return; }
 

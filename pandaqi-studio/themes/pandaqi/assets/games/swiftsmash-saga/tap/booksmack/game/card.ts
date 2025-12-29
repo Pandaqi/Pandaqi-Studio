@@ -29,6 +29,7 @@ export default class Card
 
         const res = vis.getResource("card_templates");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: 0
         });
@@ -84,6 +85,7 @@ export default class Card
         // the modal/box to put the text within
         const resModal = vis.getResource("card_templates");
         const opModal = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: 1,
             effects: vis.inkFriendlyEffect,

@@ -367,7 +367,7 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
     // override with a custom illustration, IF that function returned anything
     let resIllu = resSprite;
     const resTempCustom = card.getCustomIllustration(vis, spriteOp);
-    if(resTempCustom) { resIllu = resTempCustom; spriteOp.frame = 0; spriteOp.size = new Vector2(); }
+    if(resTempCustom) { resIllu = resTempCustom; spriteOp.frame = 0; spriteOp.size = Vector2.ZERO; }
     group.add(resIllu, spriteOp);
 
     // GPS cards draw that dynamic grid on top of the usual main illu

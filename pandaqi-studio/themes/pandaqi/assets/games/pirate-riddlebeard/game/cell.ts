@@ -5,7 +5,7 @@ export default class Cell
 {
     x = 0
     y = 0
-    pos = new Vector2()
+    pos = Vector2.ZERO
 
     row = "1"
     column = "A"

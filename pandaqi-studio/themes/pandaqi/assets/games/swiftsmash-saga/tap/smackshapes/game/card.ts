@@ -66,6 +66,7 @@ export default class Card
         
         const res = vis.getResource("card_templates");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             size: vis.size,
             frame: 0
         });
