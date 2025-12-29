@@ -1,10 +1,9 @@
 {{- $controls := or .controls "controls" -}}
 {{- $loop := or .loop "loop" -}}
-{{- $autoplay := or .autoplay "autoplay" -}}
 {{- $src := index (strings.Split .src ".") 0 -}} <!--- chop off any extension --->
 {{- $url := partial "func/get-valid-video-url.html" (dict "context" .context "src" $src) -}}
 {{- if $url -}}
-    <video {{ $autoplay }} {{ $loop }} {{ $controls }} muted playsinline loading="lazy" decoding="async">
+    <video {{ $loop }} {{ $controls }} muted playsinline loading="lazy" decoding="async">
     <source src="{{ $url }}" type="video/webm">
     Video: {{ (replace $url ".webm" "") | humanize }}
     </video>

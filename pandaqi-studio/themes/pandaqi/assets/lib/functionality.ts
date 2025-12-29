@@ -4,10 +4,7 @@ import { loadStyling, loadStylingPrefetch } from "./functionality/styling";
 
 loadStylingPrefetch();
 
-window.addEventListener("DOMContentLoaded", () => 
-{
-    loadStyling();
-    loadNavigation();
-    loadMediaGalleries();
-    loadYoutubeIFrames();
-});
+loadStyling();
+loadNavigation();
+loadMediaGalleries();
+loadYoutubeIFrames();

@@ -4,8 +4,6 @@
 	{{- $urls = split $urls "," -}}
 {{- end -}}
 {{- $context := .context -}}
-
-
 <section class="media-gallery-container drop-shadow-soft bg-color-light border-radius-m padding-s {{ $class }}">
 	<div class="media-gallery">
 		{{- range $k, $v := $urls -}}
