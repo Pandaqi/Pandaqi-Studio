@@ -1,11 +1,10 @@
 ---
+draft: true
 type: "project"
-
 
 title: "Pirate Drawingbeard"
 blurb: "1-6 pirates try to discover the secret (drawn) hints of the other players, to find the treasure before the others"
 # blurb: "Discover the treasure by figuring out what secret visual clues the other players are holding!"
-
 
 date: 2022-07-20
 
@@ -14,7 +13,6 @@ genres: ["puzzle"]
 categories: ["board-game", "hybrid-game", "tile-game", "spin-off", "one-paper-game"]
 tags: ["deduction", "turn-based", "logic"]
 themes: ["pirate"]
-
 
 driveLink: "https://drive.google.com/drive/folders/1BU_ccMrmdtSwBwXPqsV8sVUkaZR1Jdjp"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/the-pirate-games/"

@@ -21,7 +21,7 @@ SectionPagesMenu = "main"
   noJSConfigInAssets = true
 
 [params]
-  enableBoardJS = true # just to prevent it from building publicly already
+  enableBoardJS = false
   enableGameJS = false
   enableRulesJS = true
 

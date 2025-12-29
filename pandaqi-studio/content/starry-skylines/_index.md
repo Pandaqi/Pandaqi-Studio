@@ -1,9 +1,9 @@
 ---
+draft: true
 type: "project"
 
 title: "Starry Skylines"
 blurb: "You are all simultaneously building a city in space. On the same planet. And no, this is not a cooperative game."
-# blurb: "A [One Paper Game](/boardgames#one-paper-games) for 1--9 players about simultaneously building a city in space."
 
 date: 2020-08-22
 
@@ -27,7 +27,7 @@ media: [assets/video/starryskylines_explanation_gif, assets/page/starryskylines_
 
 ---
 
-A [One Paper Game](/boardgames#one-paper-games) for 1--9 players about simultaneously building a city in space.
+A [One Paper Game](https://pandaqi.com/categories/one-paper-game/) for 1--9 players about simultaneously building a city in space.
 
 Build the nicest neighbourhood on your planet and **score the most points**. The problem? Your opponents are doing the same and invading your precious space!
 

@@ -1,4 +1,4 @@
-{{- $controls := or .controls "" -}}
+{{- $controls := or .controls "controls" -}}
 {{- $loop := or .loop "loop" -}}
 {{- $autoplay := or .autoplay "autoplay" -}}
 {{- $src := index (strings.Split .src ".") 0 -}} <!--- chop off any extension --->

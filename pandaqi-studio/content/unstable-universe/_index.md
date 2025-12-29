@@ -3,7 +3,6 @@ type: "project"
 
 title: "Unstable Universe"
 blurb: "The only boardgame where you're allowed to cut the board into pieces, especially when you are losing."
-# blurb: "The only game in which you're allowed to cut the paper into pieces, especially when you are losing. A [One Paper Game](/boardgames#one-paper-games) for 2--9 players."
 
 date: 2020-09-05
 

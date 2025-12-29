@@ -18,7 +18,7 @@
         {{ end }}
         
         {{ $game_page := .GetPage "./game/" }}
-        {{ if and $game_page .Site.Params.enableGameJS }}
+        {{ if and (and $game_page .Site.Params.enableGameJS) (not .Params.hideGame) }}
             <li class="width-maximize">
                 {{ partial "buttons/button.html" (dict "content" "Game Generator" "href" "game" "class" "button-large accent-purple") }}
                 <div class="font-size-s text-italic text-color-mid-light text-center">Generate your own custom PDF</div>
@@ -26,7 +26,7 @@
         {{ end }}
         
         {{ $board_page := .GetPage "./board/" }}
-        {{ if and $board_page .Site.Params.enableBoardJS }}
+        {{ if and (and $board_page .Site.Params.enableBoardJS) (not .Params.hideBoard) }}
             <li class="width-maximize">
                 {{ partial "buttons/button.html" (dict "content" "Board Generator" "href" "board" "class" "button-large accent-blue") }}
                 <div class="font-size-s text-italic text-color-mid-light text-center">Generate your own custom PDF</div>
@@ -34,7 +34,7 @@
         {{ end }}
         
         {{ $rules_page := .GetPage "./rules/" }}
-        {{ if and $rules_page .Site.Params.enableRulesJS }}
+        {{ if and (and $rules_page .Site.Params.enableRulesJS) (not .Params.hideRules) }}
             <li class="width-maximize">
                 {{ partial "buttons/button.html" (dict "content" "Rulebook" "href" "rules" "class" "button-large accent-orange") }}
                 <div class="font-size-s text-italic text-color-mid-light text-center">The interactive rulebook</div>

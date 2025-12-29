@@ -1,5 +1,5 @@
 {{ $input := .Get "input" }}
 {{ $output := .Get "output" }}
 {{ $js := (resources.Get $input | js.Build $output | minify) }}
-<script async defer src="{{ $js.RelPermalink }}"></script>
+<script defer src="{{ $js.RelPermalink }}"></script>
 <!--- @TODO: add second branch for CSS custom loading/building (just decide this based on output extension --->

@@ -4,7 +4,6 @@ type: "project"
 
 title: "Epic Medics"
 blurb: "Oh no, a terrible pandemic is raging across the country! Will you be the heroic medics ... or will you play the virus?"
-# blurb: "A cooperative [One Paper Game](boardgames#one-paper-games) for 2--7 players about fighting an uncontrollable pandemic."
 
 date: 2020-03-22
 

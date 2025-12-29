@@ -1,4 +1,5 @@
 ---
+draft: true
 type: "project"
 
 title: "Slippery Slopes: Trippy Touches"

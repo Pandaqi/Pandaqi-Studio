@@ -1,9 +1,9 @@
 ---
+draft: true
 type: "project"
 
 title: "Wondering Witches"
 blurb: "Brew a secret potion to defeat your greatest enemies—as witches tend to do—but the High Witch is terrible at communicating recipes ..."
-# blurb: "Ten ingredients, one correct combination. A cooperative [One Paper Game](/boardgames#one-paper-games) for 1--5 players about finding the right potion, where ingredients have wondrous effects and the High Witch is terrible at communicating."
 
 date: 2023-02-14 # old publishing date: 2020-04-28
 
