@@ -1,13 +1,11 @@
 ---
 type: "project"
 
-
 title: "Hold my Bear"
 blurb: "Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether. A fast and loose card game for any situation."
 # blurb: "Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether."
 driveLink: "https://drive.google.com/drive/folders/1JD-LWnPoX3yXfQM8jXdlh4vsZvdMOzQQ"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/hold-my-bear/"
-
 
 date: 2024-06-25
 
@@ -19,10 +17,8 @@ themes: ["nature", "watercolor", "sports"]
 
 multiplayermode: "competitive"
 language: EN
-genres: ["card", "party"]
 playtime: 10
 playercount: [3,4,5,6,7,8]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/hold-my-bear/"
 

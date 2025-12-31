@@ -5,8 +5,8 @@
 {{- $url := partial "func/get-valid-image-url.html" (dict "context" .context "src" $src) -}}
 {{- if $url -}}
 {{- $url_relative := replace $url (.context.RelPermalink) "" -}}
-{{- $img_data = .context.Resources.Get $url_relative -}}
-{{- if $should_resize }}
+{{- $img_data := .context.Resources.Get $url_relative -}}
+{{- if and $img_data $should_resize }}
 	{{ $img_data_small := $img_data.Process "resize 500x" }}
 	{{ $img_data_smallest := $img_data.Process "resize 250x" }}
 <picture class="{{ $class }}">

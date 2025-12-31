@@ -24,7 +24,8 @@
     <!-- Load Default CSS -->
     {{ $options := (dict "targetPath" "css/styles.css" "outputStyle" "compressed" "transpiler" "dartsass") }}
     {{ $style := resources.Get "sass/styles.scss" | css.Sass $options | fingerprint }}
-    <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}">
+    <link rel="preload" href="{{ $style.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ $style.RelPermalink }}"></noscript>
 
     <!-- Load Default JS --->
     {{ $output_url := "/lib/pq-games-functionality.js" }}

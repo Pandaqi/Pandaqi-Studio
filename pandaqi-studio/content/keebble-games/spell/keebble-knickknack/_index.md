@@ -21,10 +21,8 @@ sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/keebble-games/"
 
 multiplayermode: "competitive"
 language: EN
-genres: ["party", "interactive", "word"]
 playtime: 60
 playercount: [2,3,4,5]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/keebble-knickknack/"
 

@@ -7,6 +7,6 @@
 	</div>
 	<div class="non-text-side">
 {{- $is_video := (.Get "video") -}}
-{{- partial "content/show-media.html" (dict "context" . "media_url" $media_raw "is_video" $is_video) -}}
+{{- partial "content/show-media.html" (dict "context" .Page "media_url" $media_raw "is_video" $is_video) -}}
 	</div>
 </section>

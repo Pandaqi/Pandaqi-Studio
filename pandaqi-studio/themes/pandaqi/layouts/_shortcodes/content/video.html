@@ -1,2 +1,2 @@
 {{ $src := add (.Get "src") ".webm" }}
-{{ partial "content/show-video.html" (dict "context" . "src" $src) }}
+{{ partial "content/show-video.html" (dict "context" .Page "src" $src) }}
