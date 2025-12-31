@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
     {{ block "head" . }}{{- partial "head.html" . -}}{{ end }}
 
     {{ $class := printf "page-type-%s" .Type }}
@@ -8,7 +8,9 @@
             {{- partialCached "navigation/header.html" . -}}
         {{ end }}
 
+        <main>
         {{- block "main" . }}{{- end }}
+        </main>
 
         {{ block "footer" . }}
             {{- partialCached "navigation/footer.html" . -}}

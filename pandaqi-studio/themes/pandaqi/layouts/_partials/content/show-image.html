@@ -1,18 +1,38 @@
 {{- $src := index (strings.Split .src ".") 0 -}} <!--- chop off any extension --->
 {{- $alt := or .alt ($src | humanize) -}}
 {{- $class := or .class "" -}}
+{{- $should_resize := or .resize false -}}
 {{- $url := partial "func/get-valid-image-url.html" (dict "context" .context "src" $src) -}}
 {{- if $url -}}
-	{{- $img := imageConfig (add "content" $url) -}}
+{{- $url_relative := replace $url (.context.RelPermalink) "" -}}
+{{- $img_data = .context.Resources.Get $url_relative -}}
+{{- if $should_resize }}
+	{{ $img_data_small := $img_data.Process "resize 500x" }}
+	{{ $img_data_smallest := $img_data.Process "resize 250x" }}
+<picture class="{{ $class }}">
+	<img class="position-relative margin-vertical-s shadow-border-s" 
+		srcset="{{ $img_data_smallest.RelPermalink }} {{ $img_data_smallest.Width -}}w, {{ $img_data_small.RelPermalink }} {{ $img_data_small.Width -}}w,  {{ $img_data.RelPermalink }} {{ $img_data.Width -}}w"
+		sizes="(width <= 500px) {{ $img_data_smallest.Width -}}px,
+				(width <= 1500px) {{- $img_data_small.Width -}}px,
+				{{- $img_data.Width -}}px"
+		loading="lazy" decoding="async" 
+		src="{{ $img_data_small.RelPermalink }}" 
+		alt="{{ $alt }}"
+		width="{{ $img_data_small.Width }}" height="{{ $img_data_small.Height }}"
+		>
+</picture>
+{{- end -}}
+{{- if not $should_resize -}}
 <picture class="{{ $class }}">
 	<img 
-		src="{{- $url -}}" 
+		src="{{- $img_data.RelPermalink -}}" 
 		loading="lazy" 
 		decoding="async" 
 		alt="{{- $alt -}}"
 		title="{{- $alt -}}"
-		width="{{- $img.Width -}}"
-		height="{{- $img.Height -}}"
+		width="{{- $img_data.Width -}}"
+		height="{{- $img_data.Height -}}"
 	/>
 </picture>
+{{- end -}}
 {{- end -}}

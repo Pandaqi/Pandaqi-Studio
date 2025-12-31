@@ -6,7 +6,7 @@
 <a class="no-default-link-styles bg-color-light display-block padding-m border-radius-m hover_invert hover_popup" href="{{ .RelPermalink }}">
     {{ if $header_url }}
         <div class="bg-image">
-            {{ partial "content/show-image.html" (dict "context" . "src" $header_url) }}
+            {{ partial "content/show-image.html" (dict "context" . "src" $header_url "resize" true) }}
         </div>
     {{ end }}
 

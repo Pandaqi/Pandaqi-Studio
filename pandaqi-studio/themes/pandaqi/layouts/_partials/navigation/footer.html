@@ -14,42 +14,40 @@
 		<nav>
 			<ul class="no-default-list-styles flex flex-wrap flex-align-center">
 				<li>
-					{{ partial "buttons/button.html" (dict "href" "/" "content" "Home") }}
+					{{ partial "buttons/button.html" (dict "href" "/" "content" "Home" "class" "padding-m") }}
 				</li>
 
 				<li>
-					{{ partial "buttons/button.html" (dict "href" "https://tiamopastoor.com/info/about/" "content" "About") }}
+					{{ partial "buttons/button.html" (dict "href" "https://tiamopastoor.com/info/about/" "content" "About" "class" "padding-m") }}
 				</li>
 
 				<li>
-					{{ partial "buttons/button.html" (dict "href" "/categories/video-game" "content" "Video Games") }}
+					{{ partial "buttons/button.html" (dict "href" "/categories/video-game" "content" "Video Games" "class" "padding-m") }}
 				</li>
 
 				<li>
-					{{ partial "buttons/button.html" (dict "href" "/categories/board-game" "content" "Board Games") }}
+					{{ partial "buttons/button.html" (dict "href" "/categories/board-game" "content" "Board Games" "class" "padding-m") }}
 				</li>
 
-				<!---
 				<li>
-					{{ partial "buttons/button.html" (dict "href" "https://thewaywardmelody.com" "content" "Visit my online store!") }}
+					{{ partial "buttons/button.html" (dict "href" "https://thewaywardmelody.com" "content" "Visit my online store!" "class" "padding-m") }}
 				</li>
-				--->
 
 				<li>
-					{{ partial "buttons/button.html" (dict "content" "Random Project" "buttonID" "randProjBtn") }}
+					{{ partial "buttons/button.html" (dict "content" "Random Project" "buttonID" "randProjBtn" "class" "padding-m") }}
 				</li>
 
 				<li>
 					{{ $latest_proj := (index (where .Site.Pages "Type" "project") 0).RelPermalink }}
-					{{ partial "buttons/button.html" (dict "href" $latest_proj "content" "Latest Project") }}
+					{{ partial "buttons/button.html" (dict "href" $latest_proj "content" "Latest Project" "class" "padding-m") }}
 				</li>
 
 				<li>
-					{{ partial "buttons/button.html" (dict "content" "Dark / Light Mode" "buttonID" "darkModeBtn") }}
+					{{ partial "buttons/button.html" (dict "content" "Dark / Light Mode" "buttonID" "darkModeBtn" "class" "padding-m") }}
 				</li>
 
 				<li>
-					{{ partial "buttons/button.html" (dict "buttonID" "gotoTopBtn" "content" "Back to top") }}
+					{{ partial "buttons/button.html" (dict "buttonID" "gotoTopBtn" "content" "Back to top" "class" "padding-m") }}
 				</li>
 			</ul>
 		</nav>

@@ -4,6 +4,7 @@ title       	= "Pandaqi Games"
 languageCode    = "en-US"
 summaryLength 	= 18
 SectionPagesMenu = "main"
+enableRobotsTXT = true
 
 [pagination]
   pagerSize = 5

@@ -1,9 +1,10 @@
 {{ $context := .context }}
 {{ $src_custom := or .src false }}
+{{ $alt := or .alt "Background header image" }}
 <div class="position-absolute opacity-half align-top width-maximize move-to-back">
 	<!--- Big background image fading into content --->
     {{ if $src_custom }}
-        <picture><img src="{{ $src_custom }}"></picture>
+        <picture><img src="{{ $src_custom }}" alt="{{ $alt }}" fetchpriority="high" width="1280" height="720"></picture>
     {{ else }}
         {{ $src := partial "func/get-game-header.html" $context }}
         {{ partial "content/show-image.html" (dict "context" $context "src" $src "alt" "Header image for this project") }}
