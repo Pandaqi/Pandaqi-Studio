@@ -1,5 +1,4 @@
-<!doctype html><html lang=en-US><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=X-UA-Compatible content="IE=edge"><title>Starry Skylines (Part 2) | Pandaqi Blog</title>
-<link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.min.css></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-3" style=--rotation:1.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-8" style=--rotation:0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-2" style=--rotation:-1.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-6" style=--rotation:2deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-7" style=--rotation:0deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-4" style=--rotation:1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../starry-skylines-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Starry Skylines (Part 2)" title="Thumbnail / Header for article: Starry Skylines (Part 2)" width=2481 height=877></picture></figure></div><h1>Starry Skylines (Part 2)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<!doctype html><html lang=en-US><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=X-UA-Compatible content="IE=edge"><title>Starry Skylines (Part 2) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.min.css></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-3" style=--rotation:0deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-5" style=--rotation:-1deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-4" style=--rotation:-1deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-2" style=--rotation:1deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-3" style=--rotation:2deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-4" style=--rotation:2deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../starry-skylines-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Starry Skylines (Part 2)" title="Thumbnail / Header for article: Starry Skylines (Part 2)" width=2481 height=877></picture></figure></div><h1>Starry Skylines (Part 2)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
 <a href=https://pandaqi.com/blog/>Home</a>
 /
 <a href=/blog/>Blog</a>
@@ -78,10 +77,10 @@ than the one you&rsquo;re currently playing. I also calculate the <em>total
 probability</em> by summing all <em>probability</em> values.</p><p>Why? Because I need it whenever I want to sample a <em>random</em> element.
 This is an algorithm that I&rsquo;ve used extensively since the first time I
 encountered it, because it&rsquo;s a really simple way to pick random elements
-<em>following some probability distribution</em>. It looks like this:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>//
+<em>following some probability distribution</em>. It looks like this:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>//
 </span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=c1>// This is executed once at the start, to compile the full list for this particular game
 </span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=c1>//
-</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1></span><span class=kd>function</span> <span class=nx>initList</span><span class=p>(</span><span class=nx>myType</span><span class=p>,</span> <span class=nx>list</span><span class=p>)</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=kd>function</span> <span class=nx>initList</span><span class=p>(</span><span class=nx>myType</span><span class=p>,</span> <span class=nx>list</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=ln> 5</span><span class=cl>	<span class=nx>totalProbabilities</span><span class=p>[</span><span class=nx>myType</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=ln> 6</span><span class=cl>
 </span></span><span class=line><span class=ln> 7</span><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=nx>name</span> <span class=k>in</span> <span class=nx>list</span><span class=p>)</span> <span class=p>{</span>
@@ -90,14 +89,14 @@ encountered it, because it&rsquo;s a really simple way to pick random elements
 </span></span><span class=line><span class=ln>10</span><span class=cl>		<span class=kd>var</span> <span class=nx>myDifficulty</span> <span class=o>=</span> <span class=nx>mapPlanetToDifficulty</span><span class=p>(</span><span class=nx>planet</span><span class=p>);</span>
 </span></span><span class=line><span class=ln>11</span><span class=cl>
 </span></span><span class=line><span class=ln>12</span><span class=cl>		<span class=c1>// if we&#39;re working from a &#34;planet set&#34;, remove everything that&#39;s not from one of those planets
-</span></span></span><span class=line><span class=ln>13</span><span class=cl><span class=c1></span>		<span class=k>if</span><span class=p>(</span><span class=nx>planetSetEnabled</span><span class=p>)</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=ln>13</span><span class=cl>		<span class=k>if</span><span class=p>(</span><span class=nx>planetSetEnabled</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=ln>14</span><span class=cl>			<span class=k>if</span><span class=p>(</span><span class=nx>PLANET_SET</span><span class=p>.</span><span class=nx>indexOf</span><span class=p>(</span><span class=nx>planet</span><span class=p>)</span> <span class=o>==</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=ln>15</span><span class=cl>				<span class=k>delete</span> <span class=nx>list</span><span class=p>[</span><span class=nx>name</span><span class=p>];</span>
 </span></span><span class=line><span class=ln>16</span><span class=cl>				<span class=k>continue</span><span class=p>;</span>
 </span></span><span class=line><span class=ln>17</span><span class=cl>      <span class=p>}</span>
 </span></span><span class=line><span class=ln>18</span><span class=cl>
 </span></span><span class=line><span class=ln>19</span><span class=cl>		<span class=c1>// otherwise, we&#39;re looking at difficulty only, and include everything up to and including our current difficulty
-</span></span></span><span class=line><span class=ln>20</span><span class=cl><span class=c1></span>		<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=ln>20</span><span class=cl>		<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
 </span></span><span class=line><span class=ln>21</span><span class=cl>			<span class=k>if</span><span class=p>(</span><span class=nx>myDifficulty</span> <span class=o>&gt;</span> <span class=nx>gameDifficulty</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=ln>22</span><span class=cl>				<span class=k>delete</span> <span class=nx>list</span><span class=p>[</span><span class=nx>name</span><span class=p>];</span>
 </span></span><span class=line><span class=ln>23</span><span class=cl>				<span class=k>continue</span><span class=p>;</span>
@@ -115,7 +114,7 @@ encountered it, because it&rsquo;s a really simple way to pick random elements
 </span></span><span class=line><span class=ln>35</span><span class=cl><span class=c1>//
 </span></span></span><span class=line><span class=ln>36</span><span class=cl><span class=c1>// Then, any time we need to draw a random element of a certain type, we call this function
 </span></span></span><span class=line><span class=ln>37</span><span class=cl><span class=c1>//
-</span></span></span><span class=line><span class=ln>38</span><span class=cl><span class=c1></span><span class=kd>function</span> <span class=nx>getRandom</span><span class=p>(</span><span class=nx>myType</span><span class=p>,</span> <span class=nx>list</span><span class=p>)</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=ln>38</span><span class=cl><span class=kd>function</span> <span class=nx>getRandom</span><span class=p>(</span><span class=nx>myType</span><span class=p>,</span> <span class=nx>list</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=ln>39</span><span class=cl>	<span class=kr>const</span> <span class=nx>rand</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>();</span>
 </span></span><span class=line><span class=ln>40</span><span class=cl>	<span class=kr>const</span> <span class=nx>total</span> <span class=o>=</span> <span class=nx>totalProbabilities</span><span class=p>[</span><span class=nx>myType</span><span class=p>];</span>
 </span></span><span class=line><span class=ln>41</span><span class=cl>
@@ -258,19 +257,20 @@ generator</em>.</p><p>This shouldn&rsquo;t be too hard, as my previous games (Ti
 Wondering Witches) features <em>way more complex</em> computer components. I
 only need to place some random rocks, streets, trees and buildings
 across the paper, instead of finding routes between cities and all that
-complex stuff from the previous games.</p><p>Continue reading this devlog at part 3! (At which I&rsquo;ll tell you why I&rsquo;m both happy and disappointed when it comes to this game, and how that relates to having <em>too much stuff</em> in a single game.)</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/starry-skylines/devlog-starry-skylines/devlog-starry-skylines-part-1/ class="masked-link big-mask mask-4" style=--rotation:-1.5deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/boardgames/starry-skylines/devlog-starry-skylines/devlog-starry-skylines-part-3/ class="masked-link big-mask mask-8" style=--rotation:-1deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+complex stuff from the previous games.</p><p>Continue reading this devlog at part 3! (At which I&rsquo;ll tell you why I&rsquo;m both happy and disappointed when it comes to this game, and how that relates to having <em>too much stuff</em> in a single game.)</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/starry-skylines/devlog-starry-skylines/devlog-starry-skylines-part-1/ class="masked-link big-mask mask-6" style=--rotation:-0.5deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/boardgames/starry-skylines/devlog-starry-skylines/devlog-starry-skylines-part-3/ class="masked-link big-mask mask-2" style=--rotation:1deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
 Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
-Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/the-game-of-dilemmas/>The Game of Dilemmas
-(🤨)</a></li><li><a href=/blog/boardgames/the-game-of-happiness/>The Game of Happiness
-(🌈)</a></li><li><a href=/blog/boardgames/firecrackers/>Firecrackers
-(🎆)</a></li><li><a href=/blog/boardgames/sleighwell/>Sleighwell
-(🎄)</a></li><li><a href=/blog/reviews-and-thoughts/the-two-crucial-components-of-a-game/>The Two Crucial Components of Any Game
-(💬)</a></li><li><a href=/blog/news-and-updates/2024/lets-talk-about-throneless-games/>Let's Talk About: Throneless Games
-(👑)</a></li><li><a href=/blog/boardgames/mountain-miners/>Mountain Miners
-(⛏️)</a></li><li><a href=/blog/boardgames/throneless-games/queenseat/>Queenseat
-(👑)</a></li><li><a href=/blog/boardgames/throneless-games/smallseat/>Smallseat
-(👑)</a></li><li><a href=/blog/news-and-updates/2024/pandaqi-games-2024-update-iv/>Pandaqi Games: 2024 Update IV
-(🎮)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.
+Or my <a href=https://nietdathetuitmaakt.nl/>(mostly) Dutch online store</a> that sells unique merchandise.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/news-and-updates/2026/my-online-store-has-launched/>My Online Store Has Launched!
+(🛒)</a></li><li><a href=/blog/news-and-updates/2026/pandaqi-games-version-4/>Pandaqi Games: Version 4.0?
+(🐼)</a></li><li><a href=/blog/boardgames/death-by-digits/>Death by Digits
+(🕵️‍♂️)</a></li><li><a href=/blog/boardgames/fiddlefoo/>Fiddlefoo
+(🎻)</a></li><li><a href=/blog/news-and-updates/2026/how-i-coded-my-own-webshop/>How I Coded My Own Webshop
+(🛒)</a></li><li><a href=/blog/boardgames/the-luck-legends/a-little-white-die/>A Little White Die
+(🎲)</a></li><li><a href=/blog/boardgames/the-luck-legends/champions-of-chance/>Champions of Chance
+(🎲)</a></li><li><a href=/blog/boardgames/the-luck-legends/chaos-contract/>Chaos Contract
+(😈)</a></li><li><a href=/blog/boardgames/the-luck-legends/deceptidice/>Deceptidice
+(🤥)</a></li><li><a href=/blog/boardgames/the-luck-legends/folly-and-fortune/>Folly & Fortune
+(🤥)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
 (🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
 (📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
 (💭)</a></li><li><a href=/blog/tutorials/>Tutorials
@@ -278,4 +278,4 @@ Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutel
 (🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
 with ❤️ &#183;
 using <a href=https://gohugo.io>Hugo</a> &#183;
-&copy; 2018&ndash;2024 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/main.bundle.min.js async defer></script></body></html>
+&copy; 2018&ndash;2026 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/main.bundle.min.js async defer></script></body></html>
