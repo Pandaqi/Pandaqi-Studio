@@ -9,7 +9,7 @@
         <li class="text-italic text-center text-color-mid-light">No projects inside this collection (yet)!</li>
     {{ end }}
     {{- range $final_pages -}}
-        <li>{{ partial "navigation/project-summary.html" .context }}</li>
+        <li>{{ partial "navigation/project-summary.html" . }}</li>
     {{- end -}}
     </ul>
 </div>
