@@ -40,7 +40,7 @@ Hoe doe je dat?
 
 **Mijn groep heeft meer dan 5 spelers!** Het basismateriaal is gemaakt voor maximaal 5 spelers. Als je met meer bent, moet je deze simpelweg twee keer printen en knippen.
 
-**Kan ik het spel aanpassen?** Met de [generator](#material) hieronder kan je precies instellen wat je wilt. Druk op de knop en hij maakt een PDF met jouw gewenste kaarten. Zo kan je een zwart-wit versie vragen (minder inkt nodig!) of eentje met veel grotere kaarten (voor de kleinste kinderen!) 
+**Kan ik het spel aanpassen?** Met de [generator](game) kan je precies instellen wat je wilt. Druk op de knop en hij maakt een PDF met jouw gewenste kaarten. Zo kan je een zwart-wit versie vragen (minder inkt nodig!) of eentje met veel grotere kaarten (voor de kleinste kinderen!) 
 
 ## Achtergrond
 

@@ -50,7 +50,7 @@ Below is a list of all major games, roughly sorted by difficulty. These really r
 
 You can [read the shared rules](rules), though they are repeated within the rulebook of each specific game. (On their own, they're not a full game!)
 
-You can [generate your own material](#material) right on this website. (If the PDFs at the "Download" button don't suit your needs, or you're just curious!)
+You can [generate your own material](game) right on this website. (If the PDFs at the "Download" button don't suit your needs, or you're just curious!)
 
 ### Minor Games
 
