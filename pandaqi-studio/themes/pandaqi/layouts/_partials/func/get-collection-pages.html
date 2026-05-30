@@ -1,9 +1,9 @@
-{{- $subdir := .Params.collection -}}
+{{- $subdir := .collection -}}
 {{- $final_pages := slice -}}
 {{- if $subdir -}}
-    {{- $url := trim .RelPermalink "/" -}}
+    {{- $url := trim .context.RelPermalink "/" -}}
     {{- $final_dir := printf "content/%s/%s/" $url $subdir -}}
-    {{- $pages := union (where .Pages "Type" "project") (where .Pages "Type" "tools") -}}
+    {{- $pages := union (where .context.Pages "Type" "project") (where .context.Pages "Type" "tools") -}}
     <!--- Find all project pages in subdir --->
     {{- range (readDir $final_dir) -}}
         {{- if .IsDir -}}

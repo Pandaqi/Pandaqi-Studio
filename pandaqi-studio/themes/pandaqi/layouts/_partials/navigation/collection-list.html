@@ -1,4 +1,5 @@
 <!--- Get pages, then display sorted by weight --->
+<!--- The `.` here is a dictionary with ("context" . "collection" var)! --->
 {{- $final_pages := partial "func/get-collection-pages" . }}
 {{- $final_pages = sort $final_pages ".Params.weightProject" -}}
 {{- $no_pages := eq (len $final_pages) 0 }}
@@ -8,7 +9,7 @@
         <li class="text-italic text-center text-color-mid-light">No projects inside this collection (yet)!</li>
     {{ end }}
     {{- range $final_pages -}}
-        <li>{{ partial "navigation/project-summary.html" . }}</li>
+        <li>{{ partial "navigation/project-summary.html" .context }}</li>
     {{- end -}}
     </ul>
 </div>

@@ -22,9 +22,10 @@
 			{{ if $has_media }}
 				{{ partial "content/media-gallery.html" (dict "context" .) }}
 			{{ end }}
-			{{ $has_collection_pages := gt (len (partial "func/get-collection-pages.html" .)) 0 }}
+			{{ $collection_params := dict "context" . "collection" .Params.collection }}
+			{{ $has_collection_pages := gt (len (partial "func/get-collection-pages.html" $collection_params)) 0 }}
 			{{ if $has_collection_pages }}
-				{{ partial "navigation/collection-list.html" . }}
+				{{ partial "navigation/collection-list.html" $collection_params }}
 			{{ end }}
 			{{ $display_backup := and (not $has_media) (not $has_collection_pages) }}
 			{{ if $display_backup }}

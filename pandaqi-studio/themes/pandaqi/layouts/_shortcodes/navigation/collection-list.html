@@ -1,2 +1,2 @@
 {{ $subdir := or (.Get "subdir") .Page.Params.collection }}
-{{ partial "navigation/collection-list" (dict "Params" (dict "collection" $subdir)) }}
+{{ partial "navigation/collection-list" (dict "context" .Page "collection" $subdir) }}
