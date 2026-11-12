@@ -30,12 +30,13 @@ This is by far my largest project. Hence, some sub projects have their own GitHu
 * [Pandaqi Blog](https://github.com/Pandaqi/Pandaqi-Blog) => my blog that mostly contains devlogs / diaries about these games
 * [Pandaqi Tutorials](https://github.com/Pandaqi/Pandaqi-Tutorials) => my huge tutorials website with free interactive courses on lots of things
 * I've written many custom libraries powering all of this, which are all open source and on my GitHub account. Examples:
+  * [PQ-Rulebook](https://github.com/Pandaqi/pq-rulebook) is our system for interactive, open source board game rulebooks.
+  * [PQ-Games](https://github.com/Pandaqi/pq-games) is our powerful system for generating board game material (cards, boards, etc) on the fly and exporting to high-resolution PDFs.
   * [PQ-Trivia](https://github.com/Pandaqi/pq-trivia) is our system for quickly creating (pub) quizzes on any topic, physical or digital, including images/audio/video.
   * [PQ-Words](https://github.com/Pandaqi/pq-words) is a useful list of common English words, tagged in useful ways, to use in word games/activities/language education.
   * [PQ-Bamboo](https://github.com/Pandaqi/pq-bamboo) is our own (simplified, beginner-friendly) coding language to learn programming right inside the browser.
   * [PQ-Midi](https://github.com/Pandaqi/pq-midi) is a MIDI player to learn and play with songwriting right within your browser (used in our music courses)
   * [PQ-DAW](https://github.com/Pandaqi/pq-daw) goes even further by providing a minimal "Digital Audio Workstation" on the page (used in our music courses)
-  * @TODO: PQ-Games and PQ-Rulebook power all the games on the website. I haven't neatly extracted them into their own GitHub repos yet; their latest code is in `assets` of `pandaqi-studio`.
   * And more ...
 
 > Update: This website has since been overtaken by [The Wayward Melody](https://github.com/Pandaqi/The-Wayward-Melody), our massive online educational store, as our largest project! It hosts educational board and video games, some of them paid.
