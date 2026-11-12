@@ -4,6 +4,8 @@ This is the full source code / project behind [Pandaqi](https://pandaqi.com), al
 
 It currently hosts a bit over 100 board games, video games, and game utility tools. All of these are custom games fully designed by us, not ports or rip-offs of existing games.
 
+![Example of what landing page looks like right now.](misc/design/pandaqi-studio-header.png)
+
 ## What?
 
 It contains the landing pages and assets for all our games (both video games and board games).
