@@ -232,7 +232,7 @@ const main = async () : Promise<number> =>
         if(entry.contract === "rulebook")
         {
             return await runRulebook(session, entry, {
-                baseUrl, artifactsRoot, baselinesRoot, updateBaselines,
+                baseUrl, studioDir, artifactsRoot, baselinesRoot, updateBaselines,
                 timeoutMs, exampleTimeoutMs, seed, allowlist,
             });
         }

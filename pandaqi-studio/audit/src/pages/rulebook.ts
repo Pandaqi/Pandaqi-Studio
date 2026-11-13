@@ -1,4 +1,4 @@
-import { readFileSync, mkdirSync } from "node:fs";
+import { existsSync, readFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import type { ManifestEntry, PageResult, RenderInfo } from "../lib/types";
 import type { Session } from "../lib/browser";
@@ -9,6 +9,7 @@ import { slugOf } from "../manifest";
 export interface RunOptions
 {
     baseUrl: string;
+    studioDir: string;
     artifactsRoot: string;
     baselinesRoot?: string;
     updateBaselines?: boolean;
@@ -30,6 +31,60 @@ const headingsOf = (html:string) : string[] =>
 }
 
 const INK_MIN_RULEBOOK = 0.005;
+
+// the page's own entry file, e.g. assets/games/foo/rules/main.ts or assets/games/foo/rules.ts
+const entrySourcePath = (studioDir:string, url:string) : string|null =>
+{
+    const rel = url.replace(/^\//, "").replace(/\/$/, "");
+    const base = join(studioDir, "themes", "pandaqi", "assets", "games", rel);
+    for(const file of [`${base}/main.ts`, `${base}.ts`])
+    {
+        if(existsSync(file)) { return file; }
+    }
+    return null;
+}
+
+const readEntrySource = (studioDir:string, url:string) : string|null =>
+{
+    const file = entrySourcePath(studioDir, url);
+    return file ? readFileSync(file, "utf8") : null;
+}
+
+interface SimulatorInfo { declared:boolean; enabled:boolean; detail:string; }
+
+// Simulators are a development aid; a published rulebook must not have one enabled. They are also
+// slow enough (1000 iterations) that clicking one is a minute of audit time for no coverage.
+const readSimulators = (source:string|null) : SimulatorInfo =>
+{
+    if(!source) { return { declared: false, enabled: false, detail: "no entry source found" }; }
+
+    const constants:Record<string,string> = {};
+    for(const match of source.matchAll(/(?:const|let|var)\s+([A-Za-z0-9_$]+)\s*=\s*(true|false)\s*;/g))
+    {
+        constants[match[1]] = match[2];
+    }
+
+    const details:string[] = [];
+    let declared = false;
+    let enabled = false;
+    for(const match of source.matchAll(/simulator\s*:\s*\{([\s\S]{0,600}?)\}/g))
+    {
+        declared = true;
+        const found = match[1].match(/enabled\s*:\s*([A-Za-z0-9_$.]+)/);
+        // a simulator block without an explicit `enabled: false` is treated as enabled: the safe assumption
+        const expr = found ? found[1] : "(implicit)";
+        const resolved = found ? (constants[expr] ?? expr) : "true";
+        if(resolved !== "false") { enabled = true; }
+        details.push(`${expr} = ${resolved}`);
+    }
+    return { declared, enabled, detail: details.join(", ") || "- " };
+}
+
+const countSettingsDeclarations = (source:string|null) =>
+{
+    if(!source) { return 0; }
+    return (source.match(/(^|[^_A-Za-z0-9])settings\s*:/g) ?? []).length;
+}
 
 // measures the canvases that are actually visible inside a node; returns ink ratios
 const measureCanvasesIn = async (locator:any) =>
@@ -85,6 +140,8 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
         allowlist: opts.allowlist,
     });
     const page = audited.page;
+    const source = readEntrySource(opts.studioDir, entry.url);
+    const simulators = readSimulators(source);
 
     try
     {
@@ -192,9 +249,35 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
             }
         }
 
+        // RB-10 (page level): an example that declares settings must actually render them.
+        // Without this the per-example check is vacuous: it only ran on blocks that already existed.
+        const declaredSettings = countSettingsDeclarations(source);
+        if(declaredSettings > 0)
+        {
+            const renderedSettings = await page.locator(".rulebook-settings").count();
+            checker.ok(renderedSettings > 0, "RB_EXAMPLE_SETTINGS",
+                `the entry declares ${declaredSettings} example settings block(s) but the page renders none`);
+            if(renderedSettings > 0 && renderedSettings < declaredSettings)
+            {
+                checker.warn(`entry declares ${declaredSettings} settings block(s), page renders ${renderedSettings}`);
+            }
+        }
+
+        // Simulators are development-only. Never drive them; assert they are switched off instead.
+        if(simulators.declared)
+        {
+            checker.ok(!simulators.enabled, "SIMULATION_ENABLED",
+                `an interactive example declares an enabled simulator (${simulators.detail}); ` +
+                `simulators are debug-only and must be disabled before publishing`);
+            checker.warn(`simulator declared (${simulators.detail}); examples were not clicked`);
+        }
+
         // RB-6 / RB-7
         for(const id of entry.examples)
         {
+            // a simulator-backed example costs a minute to run and is not part of the published experience
+            if(simulators.declared) { continue; }
+
             const node = page.locator(`[data-rulebook-example="${id}"]`).first();
             if(await node.count() <= 0) { continue; }
 
@@ -248,6 +331,9 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
 
             const renders:RenderInfo[] = (await measureCanvasesIn(node)) as RenderInfo[];
             const all = renders.length > 0 ? renders : ((collected?.renders ?? []) as RenderInfo[]);
+            // RB-7 must measure something: "produced no canvas" is not a pass
+            checker.ok(all.length > 0, "RB_NO_CANVAS",
+                `example "${id}" rendered no canvas, so its output could not be checked`, id);
             for(const render of all)
             {
                 checker.ok(!!render.error || (render.inkRatio >= INK_MIN_RULEBOOK || render.w <= 16),

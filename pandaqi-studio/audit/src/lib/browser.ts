@@ -51,18 +51,23 @@ export class AuditedPage
 
     countErrors() : number
     {
-        return this.errors.pageErrors.length
-            + this.errors.consoleErrors.length
-            + this.errors.requestFailures.length
-            + this.errors.httpErrors.length;
+        return this.errorMessages().length;
     }
 
     errorMessages() : string[]
     {
+        // one failed resource produces several events (a console error, an aborted request, a 4xx response);
+        // report it once, keyed by URL
+        const httpUrls = new Set(this.errors.httpErrors.map(x => x.url));
+        const abortedButAlreadyReported = (failure:NetError) =>
+            failure.what === "net::ERR_ABORTED" && httpUrls.has(failure.url);
+        const consoleOnly = this.errors.consoleErrors.filter(text => !/^Failed to load resource/i.test(text));
+
         return [
             ...this.errors.pageErrors.map(x => `pageerror: ${x}`),
-            ...this.errors.consoleErrors.map(x => `console.error: ${x}`),
-            ...this.errors.requestFailures.map(x => `requestfailed: ${x.what} ${x.url}`),
+            ...consoleOnly.map(x => `console.error: ${x}`),
+            ...this.errors.requestFailures.filter(x => !abortedButAlreadyReported(x))
+                .map(x => `requestfailed: ${x.what} ${x.url}`),
             ...this.errors.httpErrors.map(x => `http: ${x.what} ${x.url}`),
         ];
     }
@@ -176,7 +181,10 @@ export class Session
 
         page.on("console", (msg) =>
         {
-            if(msg.type() === "error") { audited.errors.consoleErrors.push(msg.text()); }
+            if(msg.type() !== "error") { return; }
+            // Chromium logs one of these per failed load; the response/request listeners already record it
+            if(/^Failed to load resource/i.test(msg.text())) { return; }
+            audited.errors.consoleErrors.push(msg.text());
         });
 
         page.on("requestfailed", (req) =>
