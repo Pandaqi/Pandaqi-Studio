@@ -141,7 +141,7 @@ $icons: (
     }
 
     .icon-#{$name} {
-        background-image: g.$special-cells-url;
+        background-image: $special-cells-url;
         background-size: 800%;
         background-position-x: -$col * 100%;
         background-position-y: -$row * 100%;
@@ -170,7 +170,7 @@ $option-icons: (
 @each $name, $frame in $option-icons {
 
     .rules-icon-option-#{$name}, .icon-option-#{$name} {
-        background-image: g.$knickknack-options-url;
+        background-image: $knickknack-options-url;
         background-size: cover;
         background-position-x: -$frame * 100%;
     }
@@ -204,7 +204,7 @@ html, body {
     margin: 0;
     padding: 0;
     font-size: 22px;
-    font-family: g.$header-font;
+    font-family: $header-font;
     background-color: #325109;
     color: #f4ffe4;
 }
@@ -247,7 +247,7 @@ html, body {
 /* Buttons, input, the usual stuff */
 button, input {
     width: 100%;
-    font-family: g.$header-font;
+    font-family: $header-font;
     font-size: 1rem;
     border: none;
     border-radius: 0.25rem;
@@ -480,7 +480,7 @@ $option-icons: (
 @each $name, $frame in $option-icons {
 
     .suboption-sprite-#{$name} {
-        background-image: g.$knickknack-options-url;
+        background-image: $knickknack-options-url;
         background-size: cover;
         background-position-x: -$frame * 100%;
     }
@@ -545,7 +545,7 @@ $icons: (
 .cell-sprite {
     width: 64px;
     height: 64px;
-    background-image: g.$special-cells-url;
+    background-image: $special-cells-url;
     margin: auto;
 }
 

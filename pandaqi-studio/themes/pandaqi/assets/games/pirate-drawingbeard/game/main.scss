@@ -51,7 +51,7 @@ input, button, select, option, label {
 body {
     margin: 0;
     padding: 0;
-    font-family: g.$header-font;
+    font-family: $header-font;
     font-size: 20px;
     background-color: #eeeeab;
 }
@@ -97,7 +97,7 @@ body {
 
 button, select {
     width: 100%;
-    font-family: g.$header-font;
+    font-family: $header-font;
     font-size: 24px;
     background: #ff7600;
     border-radius: 5px;

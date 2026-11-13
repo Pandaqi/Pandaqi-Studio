@@ -1,6 +1,6 @@
 # MIGRATION — V1 → V2 recovery, audit and test harness
 
-> **Status:** plan only. Nothing here is implemented.
+> **Status:** in progress. Done: Phase 1 (build green, D-1) and the mechanical fixes (D-3, D-4, D-5, D-7, D-8, D-10, D-14). Not done: the audit harness (§5), the library work, and the structural defects D-2, D-6, D-9, D-11..D-13, D-15, D-16.
 > **Companion to:** `ROADMAP.md` (human checklist). This file is the engineering plan: what is broken, what "working" means, how to test it, in what order, and how to make the build fast enough to work with.
 > **Scope:** `pandaqi-studio/` only. `pandaqi-studio-dev/` is out of scope.
 
@@ -225,13 +225,15 @@ Keep the suite lean; it may take at most an hour, never full day(s).
 
 ### 3.1 Build state with generators enabled
 
+Green as of this batch:
+
 ```
-$ HUGO_PARAMS_ENABLEGAMEJS=true HUGO_PARAMS_ENABLEBOARDJS=true hugo
-ERROR … TOCSS-DART … games/pirate-drawingbeard/game/main.scss: There is no module with the namespace "g".
-exit code 1
+$ HUGO_PARAMS_ENABLEGAMEJS=true HUGO_PARAMS_ENABLEBOARDJS=true \
+    hugo -d audit-artifacts/site --cleanDestinationDir --disableKinds taxonomy,term,rss,sitemap
+exit code 0        (294 pages, 158 s warm; 166 game/board/rules content pages, zero NOT_BUILT)
 ```
 
-Phase 1 of the migration is therefore a build gate, not a test question. Timings and the iteration workflow are in §4.
+Timings and the iteration workflow are in §4.
 
 ### 3.2 Generators table
 
@@ -262,7 +264,7 @@ Legend — Framework: `loadGame` = V2 generator, `custom JS` = hand-written entr
 | `/keebble-games/spell/keebble-knickknack/board/` | board | loadGame | ok | no | — |
 | `/keebble-games/spell/keebble-knickknack/game/` | game | custom JS | ok | no | — |
 | `/keebble-games/spell/keebble/board/` | board | loadGame | ok | no | — |
-| `/librarians/game/` | game | loadGame | **BROKEN** | yes | — |
+| `/librarians/game/` | game | loadGame | ok | yes | — |
 | `/magnetmen/board/` | board | loadGame | check | no | pivot:3 |
 | `/mammoth-messages/game/` | game | loadGame | ok | no | — |
 | `/mapped-out/game/` | game | loadGame | ok | yes | — |
@@ -296,7 +298,7 @@ Legend — Framework: `loadGame` = V2 generator, `custom JS` = hand-written entr
 | `/swiftsmash-saga/tap/racesmack/game/` | game | loadGame | ok | yes | — |
 | `/swiftsmash-saga/tap/smackshapes/game/` | game | loadGame | ok | yes | — |
 | `/thats-amorphe-pictures/game/` | game | loadGame | ok | no | — |
-| `/thats-amorphe/game/` | game | loadGame | **BROKEN** | no | align:2, pivot:2 |
+| `/thats-amorphe/game/` | game | loadGame | ok | no | align:2, pivot:2 |
 | `/the-domino-diaries/place/dinoland/game/` | game | loadGame | ok | yes | align:1, pivot:2 |
 | `/the-domino-diaries/place/domino-dynasty/game/` | game | loadGame | check | yes | align:2, pivot:2 |
 | `/the-domino-diaries/place/highrise-homino/game/` | game | loadGame | check | yes | align:2, pivot:3 |
@@ -328,7 +330,7 @@ Legend — Framework: `loadGame` = V2 generator, `custom JS` = hand-written entr
 | `/waitless-games/play/foldigami/board/` | board | loadGame | ok | no | — |
 | `/waterfall-raging-rapids/game/` | game | loadGame | ok | yes | pivot:1 |
 | `/waterfall/game/` | game | loadGame | ok | yes | — |
-| `/wie-is-de-trol/game/` | game | custom JS | **BROKEN** | no | — |
+| `/wie-is-de-trol/game/` | game | custom JS | ok | no | — |
 | `/wondering-witches/board/` | board | loadGame | ok | no | — |
 | `/wondering-witches/game/` | game | custom JS | ok | no | — |
 
@@ -414,35 +416,14 @@ Legend — Framework: `loadGame` = V2 generator, `custom JS` = hand-written entr
 
 ### 3.4 Confirmed defects (fix in this order)
 
-**D-1 — Build blocker: SCSS leftovers.**
-`games/pirate-drawingbeard/game/main.scss:54` → `font-family: g.$header-font;`; `games/keebble-games/spell/keebble-knickknack/game/main.scss:144` and `:548` → `background-image: g.$special-cells-url;`. The `g` namespace does not exist; both variables are declared locally (`$header-font` line 2, `$special-cells-url` line 18). Remove `g.`. Compiling every game `.scss` with dart-sass 1.77.6 shows these are the only two failures. With generators disabled this CSS is never compiled, which is why production builds pass.
-
 **D-2 — `hasty-accusations` still uses the V1 generator.**
 `games/hasty-accusations/game/main.ts` has no imports, uses globals (`ProgressBar`, `PdfBuilder`, `GridMapper`, `Visualizer`, `PageOrientation`, `PageFormat`), reads an undefined `vis` (line 84), and uses V1 settings (`CONFIG.cardSet`, `CONFIG.includeCards`, `CONFIG.includeCharacters`, `CONFIG.itemSize`, `CONFIG[type].size`, `CONFIG.debugOnlyGenerate`). Its `shared/config.ts` is already fully V2, so only the entry must be replaced (§6.5). Same file, second bug: the asset filter (`data.cardSet && key != CONFIG.cardSet`, `data.suspectsOnly && !CONFIG.includeCharacters`) reads undefined values, so suspect assets never load.
-
-**D-3 — `librarians` generator crashes.**
-`games/librarians/game/cardPicker.ts:16-20`: `_settings.packs` is a `GROUP`, so `Object.entries()` yields setting objects and `(genre as string).toLowerCase()` throws `TypeError`. Runs on every generation (`generateGenreCards` defaults true). Fix: `genre.value`.
-
-**D-4 — `thats-amorphe` settings never read.**
-`game/cardPicker.ts:67,89,97,105`: `_settings.material.wordCards` etc. without `.value` → always truthy → every card type is always generated.
-
-**D-5 — `wie-is-de-trol` expansion flag never read.**
-`game/main.ts:112`: `_settings.expansions.specialeKrachten` (missing `.value`).
 
 **D-6 — Naivigation "visit" rulebooks never initialise.**
 `games/naivigation/visit/*/rules/main.ts` (5 pages) contain no `loadRulebook(...)`. No toolbar, no sections, no tables, and the `naivigation-setup` example is never created. Compare `naivigation/wind-up-at/boot-op-stoom/rules/main.ts`.
 
-**D-7 — `sixpack` rulebook example id mismatch.**
-JS defines `turn` and `turn-reverse`; markdown asks for `turn-with-reverse` → that example never renders (no button at all). Rename one side.
-
-**D-8 — Stray legacy rulebook page is live.**
-`content/fiddlefoo/rules/_index.old/index.md` → `/fiddlefoo/rules/_index.old/`, declares an example, no JS. Delete the folder.
-
 **D-9 — Pirates pass the wrong second argument to `MaterialVisualizer`.**
 `pirate-riddlebeard/game/main.ts:14` and `pirate-drawingbeard/game/main.ts:14`: `new MaterialVisualizer(CONFIG, { resLoader, renderer })`; the signature is `(config, customItemSize: Vector2)` → `customItemSize.clone is not a function`. Both projects are drafts, so no user impact today, but they can never be published.
-
-**D-10 — `keebble-knickknack` digital game uses an unimported global.**
-`keebble-games/spell/keebble-knickknack/game/main.ts:234` calls `loadSettings(...)` with no import → `ReferenceError` on load.
 
 **D-11 — [LIB pq-games] Multi-select settings are never read.**
 `settings/nodes.ts`: `convertSettingToHTML` renders `MULTI` as `div.settings-input-multi` (that div gets `id = path`) containing checkboxes that carry `dataset.value` but **no `id`**; `readSettingsFromHTML` queries `"input,select"` only, so the dead branch `elem.classList.contains("settings-input-multi")` never runs and every checkbox writes to `obj[""]`. Net effect: **every `SettingType.MULTI` control in every generator is inert** (firecrackers packs, hold-my-bear animals, thats-amorphe categories, …). Nothing errors.
@@ -452,9 +433,6 @@ JS defines `turn` and `turn-reverse`; markdown asks for `turn-with-reverse` → 
 
 **D-13 — [LIB] Silent failures.**
 `ResourceLoader` sets `img.src` and `FontFace` with no `onerror`; `MaterialVisualizer.get("typo")` returns `undefined`; `load-assets.html` emits nothing when no bundle exists. This is how "looks fine, is broken" pages were produced.
-
-**D-14 — Dead shortcode.**
-`layouts/_shortcodes/rules/rules-table.html` + `rules-table-entry.html` emit `.rules-table`/`.rules-table-entry`, but the library targets `.rulebook-table`/`.rulebook-table-entry`. Zero usages. Delete both.
 
 **D-15 — [LIB pq-games] The Generate button label is never restored.**
 `sendProgressPhaseSignal` writes the phase into the button itself (`FeedbackNode.nodeMain` *is* the button), so after a run the label stays `Done!`; the click handler restores only `btn.disabled`. Fix: set `btn.innerHTML = "Generate!"` after `await callback(config)` inside `try/finally` (an error currently leaves the button disabled *and* labelled with the failing phase). Until fixed, never use the label as a completion signal (MG-4).
@@ -481,7 +459,7 @@ All timings on the author's machine, Hugo 0.153.4 extended, Windows, `resources/
 
 | Command | Measured |
 |---|---|
-| full build, generators on, **cold** cache | **>15 min** (aborted on D-1) |
+| full build, generators on, **cold** cache | **>15 min** (measured when it aborted on a Dart Sass error) |
 | full build, generators on, warm cache | **5 min 42 s** |
 | + `--disableKinds taxonomy,term,rss,sitemap` | **3 min 55 s** |
 | + generators **off** too (no game JS at all, same flags) | **3 min 48 s** |
@@ -739,7 +717,7 @@ Whether the rules text matches the game (Fiddlefoo), whether material is balance
 
 ### 6.1 Order
 
-1. D-1 (build must exit 0 with generators on). 2. D-11..D-13 + R-3 in the library repos, then sync. 3. D-3, D-4, D-5 (one-line reads) — three generators fixed immediately. 4. D-6, D-7, D-8. 5. D-2, D-9, D-10. 6. Whatever the harness reports red. 7. §3.5 canonicalisation on its own branch.
+1. D-11..D-13 + R-3 in the library repos, then sync. 2. D-6. 3. D-2, D-9. 4. Whatever the harness reports red. 5. §3.5 canonicalisation on its own branch.
 
 ### 6.2 Setting read
 
@@ -893,9 +871,9 @@ Also `warnf` when a `rules` page contains `rules-example` but falls back to `rul
 | Phase | Work | Exit criterion |
 |---|---|---|
 | 0. Skeleton (½–1 day) | §5.2–§5.7, §5.9, `perf.ts`; no game fixes | `bun run audit --kind rules` produces reds matching D-6/D-7; `bun run perf` prints the §4 table |
-| 1. Build green (2–3 h) | D-1 | `hugo` exits 0 with generators on; 167/167 pages exist; no `NOT_BUILT` |
+| ~~1. Build green~~ | ~~D-1~~ — done: build exits 0 with generators on; all 166 content pages built, no `NOT_BUILT`. | — |
 | 2. Libraries (1 day, in their repos) | D-11..D-13, R-1, R-3, §4.2 | `bun run lib` green (LIB-1..LIB-8); `bun run static` error-free except known D-2/D-6; game `.ts` edit ≤10 s |
-| 3. Mechanical fixes (2–3 days) | D-3, D-4, D-5, D-7, D-8, D-10, then full `--runs 1` and all one-liners | ≥80 % of generators and all custom rulebooks green |
+| 3. Mechanical fixes (partly done) | ~~D-3, D-4, D-5, D-7, D-8, D-10~~ done; remaining: full `--runs 1` sweep and any further one-liners it surfaces (needs §5) | ≥80 % of generators and all custom rulebooks green |
 | 4. Structural (1–2 weeks) | D-2 port, D-6 Naivigation, D-9 pirates, remaining reds, `--runs 2` on `[~~]` games | `--runs 2` green for every non-draft project except documented exceptions |
 | 5. Visual review (1 day, batched) | contact sheet per project; fix pivot/alignment; re-baseline | `review.json` `ok` for every non-draft project |
 | 6. Re-enable (1 h) | `enableBoardJS`/`enableGameJS` true (or R-5), deploy, spot-check 5 games | links visible in production; CI green; nightly audit scheduled |

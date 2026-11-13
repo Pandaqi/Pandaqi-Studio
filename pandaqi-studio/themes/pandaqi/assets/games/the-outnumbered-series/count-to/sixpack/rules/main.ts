@@ -311,7 +311,7 @@ const CONFIG_RULEBOOK =
             callback: generateForRulebook,
         },
 
-        "turn-reverse":
+        "turn-with-reverse":
         {
             buttonText: "Give me an example turn!",
             callback: (sim) => { generateForRulebook(sim, true) },

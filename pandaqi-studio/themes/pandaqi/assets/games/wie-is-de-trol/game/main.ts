@@ -109,7 +109,7 @@ const prepareTaskList = () =>
 			continue;
 		}
 
-		const requiredExpansionMissing = (p.eigenschappen == true && !CONFIG._settings.expansions.eigenschappen.value) || (p.specialeKrachten == true && !CONFIG._settings.expansions.specialeKrachten) || (p.bondjes == true && !CONFIG._settings.expansions.bondjes.value)
+		const requiredExpansionMissing = (p.eigenschappen == true && !CONFIG._settings.expansions.eigenschappen.value) || (p.specialeKrachten == true && !CONFIG._settings.expansions.specialeKrachten.value) || (p.bondjes == true && !CONFIG._settings.expansions.bondjes.value)
 		// expansions not included
 		if(requiredExpansionMissing) 
 		{

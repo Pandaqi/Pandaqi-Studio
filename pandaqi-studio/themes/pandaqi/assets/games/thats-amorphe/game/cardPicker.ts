@@ -64,7 +64,7 @@ export const cardPicker = async () : Promise<Card[]> =>
 {
     const cards = [];
 
-    if(CONFIG._settings.material.wordCards)
+    if(CONFIG._settings.material.wordCards.value)
     {
         const wordList = await getFullWordList();
 
@@ -86,7 +86,7 @@ export const cardPicker = async () : Promise<Card[]> =>
         }
     }
 
-    if(CONFIG._settings.material.specialCards)
+    if(CONFIG._settings.material.specialCards.value)
     {
         for(let i = 0; i < 12; i++)
         {
@@ -94,7 +94,7 @@ export const cardPicker = async () : Promise<Card[]> =>
         }
     }
 
-    if(CONFIG._settings.material.morphCards)
+    if(CONFIG._settings.material.morphCards.value)
     {
         for(let i = 0; i <= 10; i++)
         {
@@ -102,7 +102,7 @@ export const cardPicker = async () : Promise<Card[]> =>
         }
     }
 
-    if(CONFIG._settings.material.voteCards)
+    if(CONFIG._settings.material.voteCards.value)
     {
         const numTeamColors = CONFIG._drawing.teamColors.length;
         for(let c = 0; c < numTeamColors; c++)

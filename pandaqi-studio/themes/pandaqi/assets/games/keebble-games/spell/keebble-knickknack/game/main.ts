@@ -7,6 +7,7 @@ import Instructions from "./instructions"
 import Powerups from "./powerups"
 import Backpacks from "./backpacks"
 import { CONFIG } from "./config"
+import { loadSettings } from "lib/pq-games"
 
 export default class Game 
 {

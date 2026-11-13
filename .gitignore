@@ -4,3 +4,6 @@ build/
 _gen/
 *.zip
 backup/
+pandaqi-studio/audit/node_modules/
+pandaqi-studio/audit/artifacts/
+pandaqi-studio/audit-artifacts/
