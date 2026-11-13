@@ -1,0 +1,12 @@
+{
+  "name": "pandaqi-audit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "audit": "bun run src/main.ts",
+    "perf": "bun run src/perf.ts"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.65.1"
+  }
+}

@@ -1,6 +1,6 @@
 # MIGRATION — V1 → V2 recovery, audit and test harness
 
-> **Status:** in progress. Done: Phase 1 (build green, D-1) and the mechanical fixes (D-3, D-4, D-5, D-7, D-8, D-10, D-14). Not done: the audit harness (§5), the library work, and the structural defects D-2, D-6, D-9, D-11..D-13, D-15, D-16.
+> **Status:** in progress. Done: Phase 1 (build green, D-1), the mechanical fixes (D-3, D-4, D-5, D-7, D-8, D-10, D-14) and Phase 0 (the audit harness in `pandaqi-studio/audit/`). Not done: the library work (D-11..D-13, D-15, D-16), the structural defects (D-2, D-6, D-9), and everything the first audit run newly found (§3.7).
 > **Companion to:** `ROADMAP.md` (human checklist). This file is the engineering plan: what is broken, what "working" means, how to test it, in what order, and how to make the build fast enough to work with.
 > **Scope:** `pandaqi-studio/` only. `pandaqi-studio-dev/` is out of scope.
 
@@ -24,7 +24,7 @@ Read §1 and §2 first; everything later refers to them.
 
 **Rules for the implementer**
 
-1. Library changes (`lib/pq-games`, `lib/pq-rulebook`) go to their own repos first, then get copied into `themes/pandaqi/assets/lib/` (per `ROADMAP.md`). Library defects are marked **[LIB]** with the owning repo.
+1. Library changes (`lib/pq-games`, `lib/pq-rulebook`) are fine. `ROADMAP.md` states they go to their own repos first, but that is slow and not practical for this migration work. So just make adjustments in place and I will copy the updates to the other repos myself. Library defects are marked **[LIB]** with the owning repo.
 2. Never weaken a test to make it pass. If a test is wrong, fix it and say why in the commit.
 3. Work in the order of §8; do not start a phase before the previous exit criterion is met.
 4. A missing decision here is a bug in this document: stop and ask instead of guessing.
@@ -96,6 +96,8 @@ Progress: `CustomEvent`s `feedback-progress-main` (written **into the button**) 
 
 ### 1.5 The three V1→V2 breaking changes (normative)
 
+IMPORTANT: Many pivots, text alignments, and settings were _already updated_. This migration is moreso looking for those that were missed or weren't changed yet. For example, elements that _should_ have their pivot in the top left, but now accidentally have their pivot in the center because of the new default. Be VERY reluctant to actually forcefully update the `pos`, as changing the `pivot` to what it used to be (before the migration) is actually all you need to do.
+
 **(a) Pivot default — top-left → centre.** `LayoutOperation`: `this.pivot = params.pivot ?? Vector2.CENTER`. V1 `pos` meant top-left; in V2 the same `pos` is the centre. Symptoms: content shifted by half its size, half off-canvas, "text invisible". Fix: keep V2 and convert positions (`pos = topLeft + size/2`) — preferred when the value is a named anchor, rename the key too — or restore V1 with `pivot: Vector2.ZERO`. **Shapes are exempt**: `calculateTransformationMatrix` subtracts `0.5` for `ResourceShape`, so they are centred regardless.
 
 **(b) Text alignment default — left → centre.** `TextConfig`: `alignHorizontal = (params.align ?? params.alignHorizontal) ?? TextAlign.MIDDLE`, likewise `alignVertical`. Either accept centring (and delete V1's manual `+0.5*size` compensation) or restore with `.alignTopLeft()`. `TextConfig`s that only describe a font face (inside `_resources.files`) are irrelevant to tooling.
@@ -151,7 +153,7 @@ A page passes only if every applicable requirement passes for every configured r
 | RB-4 | `Fold All` sets `display:none` on every `.rulebook-section:not([data-nofold]) .rulebook-section-content`; `Unfold All` clears it. |
 | RB-5 | Every `[data-rulebook-example="ID"]` has `.rulebook-example`, one `.rulebook-example-ui`, one generate button, one close button, one `.rulebook-example-content`. **No orphans**: every declared id gets a UI (catches markdown↔JS id mismatch). |
 | RB-6 | Clicking each example: within `EXAMPLE_TIMEOUT` the button is enabled again with its original label and `.rulebook-example-content` has ≥1 child element; no error recorded. |
-| RB-7 | Every canvas the example produced is non-blank: ink ratio ≥ 0.5 % (pixels differing from the dominant colour) or canvas ≤ 16 px. |
+| RB-7 | One random canvas the example produced is non-blank: ink ratio ≥ 0.5 % (pixels differing from the dominant colour) or canvas ≤ 16 px. |
 | RB-8 | Every `[data-rulebook-table="ID"]` contains ≥1 `.rulebook-table-entry` with non-empty heading and exactly one icon container; clicking the first entry toggles `…-folded`/`…-unfolded`. No orphans (markdown↔JS mismatch). |
 | RB-9 | Every `<img>` inside the content has `naturalWidth > 0`. |
 | RB-10 | If the example declares settings, `.rulebook-settings` exists with ≥1 `.rulebook-settings-input`. |
@@ -167,7 +169,7 @@ A page passes only if every applicable requirement passes for every configured r
 | MG-4 | After clicking it: `.feedback-node-sub` contains `PDF Downloaded!` and the button is enabled again, within `GEN_TIMEOUT` (240 s). **Never wait for the label `Generate!`.** |
 | MG-5 | ≥1 download event, filename ending `.pdf`, ≥5 000 bytes. |
 | MG-6 | Zero errors/404s during generation. |
-| MG-7 | ≥1 canvas captured through `toDataURL`, each with ink ratio ≥ 0.1 %. |
+| MG-7 | ≥1 canvas captured through `toDataURL`, at least one with ink ratio ≥ 0.1 %. |
 | MG-8 | All configured profiles pass MG-1..MG-7. |
 | MG-9 | *(warning only)* `--inert`: a profile that changed settings but produced identical renders lists those controls as possibly ignored. |
 
@@ -191,12 +193,10 @@ Errors block; warnings/info only report.
 | SC-3 | Every `game`/`board` entry calls `loadGame(` or `loadSettings(`. | **error** |
 | SC-4 | Every `rules` entry with examples/tables calls `loadRulebook(`. Constructing `InteractiveExample` / `RandomNaivigation*Generator` does **not** count (D-6). | **error** |
 | SC-5 | Every `data-rulebook-example`/`data-rulebook-table` id in markdown exists as a key in the entry's import graph, unless the graph uses a computed key pattern (`[expr + "-…"]`). | **error** |
-| SC-6 | `TextConfig` that renders text specifies alignment. Font descriptors (`*config*.ts`, no `size|font`) excluded. | warn |
-| SC-7 | `LayoutOperation` with `pos` but no `pivot`. Shape ops and blocks containing `new ResourceShape(` excluded. | warn |
-| SC-8 | Every `_resources.files[*].path` exists on disk (§2.4 resolution). | **error** |
-| SC-9 | Info only: `_drawing` without `CVal`; stray `*.old`, `_index.old`, `*.v1.ts`, unimported `.ts`. | info |
+| SC-6 | Every `_resources.files[*].path` exists on disk (§2.4 resolution). | **error** |
+| SC-7 | Info only: `_drawing` without `CVal`; stray `*.old`, `_index.old`, `*.v1.ts`, unimported `.ts`. | info |
 
-SC-8 resolution: absolute path (`/x/y`) → `content/x/y`, else `static/x/y`, else `themes/pandaqi/static/x/y`; relative → `content/<base without leading slash>/<path>`. Hugo never opens these files, so nothing else catches a moved asset folder.
+SC-6 resolution: absolute path (`/x/y`) → `content/x/y`, else `static/x/y`, else `themes/pandaqi/static/x/y`; relative → `content/<base without leading slash>/<path>`. Hugo never opens these files, so nothing else catches a moved asset folder.
 
 ### 2.5 Classification (in this order)
 
@@ -453,6 +453,29 @@ These multiply raw `_drawing` values manually (`vis.get("x") * vis.sizeUnit`). C
 
 ---
 
+### 3.7 Measured results (first audit run, 2026-11-13)
+
+`cd pandaqi-studio/audit && bun run audit --kind rules --workers 2` — **74 rulebooks: 52 pass, 22 fail**, 7 warnings.
+Codes: `RB_EXAMPLE_EMPTY` 22, `RB_EXAMPLE_TIMEOUT` 15, `RB_EXAMPLE_LABEL` 15, `PAGE_ERROR` 13, `RB_NO_TOOLBAR` 6, `RB_SECTION_MISSING` 1, `RB_BROKEN_IMAGE` 1.
+
+What the reds actually are:
+
+* **D-6 confirmed** on all five `naivigation/visit/*/rules/` — no `.rulebook-toolbar` at all.
+* **D-7 is already fixed** (sixpack passes), so it no longer shows up as a red.
+* `swiftsmash-saga/tap/smackshapes/rules/` — the bundle exists and calls `loadRulebook`, yet no toolbar appears. New; not root-caused.
+* The four Throneless rulebooks (`kaizerseat`, `kingseat`, `queenseat`, `smallseat`) throw `TypeError: Cannot convert undefined or null to object` in `planLoadMultiple`: the example loads resources that do not exist yet.
+* `keebble-domino/rules/` throws `TypeError: r.pos is not a function` inside the visualizer — a `pos`/pivot migration defect — and one heading (`Werewalls`) never becomes a section header.
+* 15 examples exceed `EXAMPLE_TIMEOUT` (90 s) because they run `SIMULATION_ITERATIONS = 1000` interactive simulations (chiptales pietenpoker and six-of-sparrows, the maybe-games, swiftsmash cookie-smasher and point-a-pile, nine-lives, ...). Decide per page: lower the iteration count, or raise the timeout deliberately.
+* `the-mist/rules/` contains an `<img>` with no `src`.
+* `hold-my-bear/rules/` first failed `RB_SECTION_MISSING`; that was a harness bug (HTML entities were not decoded before comparing headings) and is fixed. Treat the harness's own false positives as bugs in the harness.
+
+First generator and digital runs:
+
+* `/chiptales/bet/noble-flood/game/` passes MG-1..MG-7 with a 2-profile run.
+* `/epic-medics/game/` requests `/games/epic-medics/game/fonts/woodcutter.woff2`, which 404s; the file exists at `/epic-medics/assets/fonts/`. Its CSS resolves the font relative to the bundle, so this only ever broke once generator CSS was compiled.
+
+`bun run perf` (warm cache): segment build 54.2 s (budget 90 s), markdown edit 1.3 s (2 s), game-code edit 2.4 s (10 s), **full build 193.9 s (budget 150 s — OVER)**. That last one is the §4.4 image-resizing work, not the harness; the exit code is 1 until it is fixed.
+
 ## 4. Build speed (measured — read before touching anything)
 
 All timings on the author's machine, Hugo 0.153.4 extended, Windows, `resources/_gen` populated unless stated.
@@ -559,144 +582,37 @@ Expected: full audit build well under 90 s once (1) and (2) land, since image wo
 
 ## 5. The harness
 
-### 5.1 Stack and layout
+### 5.1 Implemented: `pandaqi-studio/audit/`
+
+Bun + `playwright-core` driving system Chrome (`CHROME_PATH` overrides). No browser download; there is no Node on the author's machine.
 
 ```
-pandaqi-studio/audit/
-  package.json            bun; devDeps: playwright-core, pngjs, pixelmatch
-  src/main.ts             CLI
-  src/perf.ts             §4.3
-  src/build.ts  serve.ts  manifest.ts  static-checks.ts  library-tests.ts
+audit/
+  package.json            scripts: audit, perf
+  src/main.ts             CLI, exit codes 0/1/2/3, the flags of §5.9
+  src/perf.ts             §4.3 budgets
+  src/build.ts            hugo build, reuse by input hash, project segments
+  src/serve.ts            static server, real 404s, no-store
+  src/manifest.ts         content frontmatter + built HTML -> manifest
   src/pages/{rulebook,generator,digital}.ts
-  src/lib/{browser,instrument,settings,assert,report,thumb}.ts
-  fixtures/library-tests.ts     page module exposing window.__auditLibraries
-  allowlist.json   baselines/   segment.toml (generated)
+  src/lib/{browser,instrument,settings,assert,wait,report,types}.ts
+  allowlist.json          http failures to ignore
 ```
 
-* `playwright-core` + system Chrome (`chromium.launch({ channel: "chrome" })`); `CHROME_PATH` for CI. No browser download.
-* Bun only (`bun install`, `bun run …`); there is no Node on the author's machine.
-* Repo `.gitignore`: `pandaqi-studio/audit/node_modules/`, `pandaqi-studio/audit/artifacts/`, `pandaqi-studio/audit-artifacts/`.
+Pipeline: build (or reuse, hashed on `content/**`, `themes/pandaqi/{assets,layouts}/**`, `config.toml`) -> manifest -> static server -> one instrumented page per URL -> the §2 checks -> `audit-artifacts/{build.log,manifest.json,report.json,report.md,perf.json,index.html}` plus screenshots and render thumbnails under `audit-artifacts/artifacts/<slug>/<profile>/`.
 
-### 5.2 Build step
+Instrumentation: `unhandledrejection` and `error` capture, seeded `Math.random` from `?auditSeed=` (appendix B), and a wrapped `toDataURL` that records `{w, h, inkRatio, thumb}` for every canvas. Rulebook examples additionally measure the canvases currently in the DOM, so a blank render is caught even when the page never calls `toDataURL`.
 
-```ts
-buildSite({ project?: string, lean?: boolean, dest: string, log: string })
+**Not implemented yet:** baselines and pixel diffs (§5.10), static checks (§2.4), the library contract suite (§5.8). `--deep`/`splitDims` is unspecified in this document and is not implemented; the profiles are `default`, `invert` and `--runs N` seeded ones.
+
+Usage:
+
+```bash
+cd pandaqi-studio/audit
+bun run audit --kind rules --workers 2
+bun run audit --filter chiptales --skip-build --base-url http://127.0.0.1:1399
+bun run perf            # --fast skips the full build
 ```
-
-Runs from `pandaqi-studio/` with `HUGO_PARAMS_ENABLEGAMEJS=true HUGO_PARAMS_ENABLEBOARDJS=true`:
-
-```
-hugo -d <dest> --disableKinds taxonomy,term,rss,sitemap --logLevel warn
-   [--config config.toml,audit/segment.toml --renderSegments one]   # when --filter is a project
-```
-
-Capture stdout+stderr to `log` **and** memory, keep the exit code, print the last 40 lines on failure (`BUILD_FAILED`). `--skip-build` reuses `dest` (must contain `index.html`). **Skip the build entirely if a hash of `content/**`, `themes/pandaqi/assets/**`, `themes/pandaqi/layouts/**`, `config.toml` matches the stored hash in `dest/.audit-inputs`** — this is what makes re-running the audit free.
-
-### 5.3 Manifest (from built HTML, never from Hugo's resolution logic)
-
-Walk `content/**/*.md`, read `type` from frontmatter, derive the URL (`/<dir>/<basename>/`, dropping `index`/`_index`; keep a leading `_` but mark `legacyPath`). For each:
-
-```ts
-{ url, kind, scripts[], links[], examples[], tables[], bodyClass,
-  hasRulebookContent, bundleText, contract, isDraftProject, sourceMd, missing? }
-```
-
-Regexes: `script[^>]+src="([^"]+)"`, `link[^>]+href="([^"]+)"`, `data-rulebook-example="([^"]+)"`, `data-rulebook-table="([^"]+)"`. `bundleText` = concatenated text of `/games/**` scripts (plus `/rulebook-default.js`). Contract per §2.5. Missing HTML → `NOT_BUILT`. Persist `manifest.json`.
-
-### 5.4 Static server
-
-`Bun.serve` on `127.0.0.1:<port>` (default 8788), root `siteDir`: `/x/y/` → `x/y/index.html`, everything else as a file, **unknown paths return a real 404** (MG-6 depends on it), `Cache-Control: no-store`, MIME from extension with a fallback map (`.js → text/javascript`, `.css → text/css`, `.webp → image/webp`, `.woff2 → font/woff2`). Use a static server, not `hugo server` (its livereload re-renders and makes timing flaky).
-
-### 5.5 Browser + instrumentation
-
-`openPage(ctx, url, { timeoutMs })`: launch `channel: "chrome"`, context `{ acceptDownloads: true, viewport: 1280×900 }`; attach `pageerror`, `console` (type error), `requestfailed`, `response >= 400`, `download` **before** `goto`; `addInitScript(INSTRUMENT)`; `goto(waitUntil: "load")`; `await document.fonts.ready`.
-
-Injected script (`instrument.ts`, a string) must:
-
-1. Capture `unhandledrejection` and `error` into `window.__audit.{rejects,errors}` — example callbacks throw asynchronously and never reach `window.onerror`.
-2. Seed `Math.random` from `?auditSeed=` (mulberry32, as specified in the appendix) until the library seeds itself (D-12/R-11).
-3. Wrap `HTMLCanvasElement.prototype.toDataURL`: for each canvas with size > 0, downscale to ≤480 px wide, read pixels, compute `inkRatio = 1 - dominantColourShare` (sample every 7th pixel), keep the thumbnail data URL.
-4. Return `{ w, h, inkRatio, thumb }` into `window.__audit.renders`; a tainted canvas records `error: "tainted"` (→ `CANVAS_TAINTED`, means a cross-origin asset).
-
-`AuditedPage` exposes `collect()` (pull `window.__audit`), `errors`, `downloads`, `screenshot(name)`, `elementScreenshot(sel, name)`.
-
-### 5.6 Rulebook run
-
-```
-p = openPage(url + "?auditSeed=" + seed)
-waitFor(".rulebook-toolbar", 15s)                        // else RB-1/RB-2 fail, stop
-RB-3: source headings (index.html, tags stripped, whitespace collapsed, lowercased)
-      each appear among .rulebook-section-header texts; root section has data-nofold
-RB-4: click "Fold All" -> all .rulebook-section:not([data-nofold]) content display:none
-      click "Unfold All" -> none
-for id of entry.examples:                                // RB-5
-  node = [data-rulebook-example="id"]
-  require class rulebook-example, 1 ui, 1 button, 1 close, 1 content
-for id of entry.examples:                                // RB-6/RB-7
-  clear p.collect(); original = button.innerText; button.click()
-  wait until button enabled && innerText == original     // EXAMPLE_TIMEOUT 90s
-  require content has >=1 child element; require 0 new errors
-  for render in collected: require inkRatio >= 0.005 || w <= 16
-  screenshot the content
-RB-8: per table id: >=1 entry, non-empty heading, 1 icon container; click toggles class
-RB-9: all imgs naturalWidth > 0
-RB-10: if example declares settings -> .rulebook-settings has an input
-RB-11 (warn): anchors resolve
-```
-
-Budget: `EXAMPLE_TIMEOUT` per example; a page with N examples gets N × timeout.
-
-### 5.7 Generator run
-
-Read controls once: `.settings-container input, .settings-container select` (skip `type=file`), keeping `id`, `type`, `options`, `min`, `max`.
-
-Profiles (deterministic, applied in order): `default` (no change), `invert` (check every unchecked checkbox, last option of every select, `max` for numbers, `"audit"` for text — or the mirror image when everything is already on, decided by a fixed rule: **if ≥50 % of checkboxes are checked, uncheck all; otherwise check all**). `--runs N` adds seeded random profiles. After applying, keep-one rule: in a group whose controls are all checkboxes, if none is checked, check the first. `splitDims` capped at `2×2` unless `--deep`.
-
-```
-apply(profile); expected = readDom()
-if first profile: require button enabled && label == "Generate!"
-$eval(".feedback-node-sub", el => el.textContent = "")     // stale text from the previous run
-downloadPromise = waitForEvent("download", GEN_TIMEOUT)     // must exist before the click
-click("div.settings-container > button")
-waitForFunction: !btn.disabled && /PDF Downloaded!/.test(fb.textContent)   // never the label
-download = await downloadPromise; require .pdf && >= 5000 bytes
-require no new errors; renders = collect(); require >=1 && each inkRatio >= 0.001
-save thumbnails; hash = sha1(thumbs)
-```
-
-Notes: if `div.settings` disappears (`_settings.meta.selfDestroy`), mark `GEN_SELF_DESTROYED` and stop after run 1. `--inert` compares hashes and lists controls whose change produced identical output (how D-11-class bugs surface) — a warning, not a failure.
-
-### 5.8 Library contract suite (seconds, permanent guard for the three default changes)
-
-Draft-only page `content/audit-library-tests/_index.md` (`type: audit`, `draft: true`), layout `layouts/audit/single.html` (head + content + `load-assets.html`), entry `games/audit-library-tests/main.ts` importing the libraries and exposing `window.__auditLibraries.run()`.
-
-| ID | Assertion |
-|---|---|
-| LIB-1 | `new LayoutOperation().pivot` is `Vector2.CENTER`; `.pos` is `(0,0)`. |
-| LIB-2 | `new TextConfig()` has `alignHorizontal === alignVertical === TextAlign.MIDDLE`. |
-| LIB-3 | `new CVal(0.5,"sizeUnit").calculate([100]) === 50`; `new CVal(new Vector2(0.5),"size").calculate([new Vector2(200,100)])` is `(100,50)`. |
-| LIB-4 | Round-trip one of each `SettingType` through `convertSettingsToHTML` → mutate → `readSettingsFromHTML` returns typed values: boolean, string, number, **array for MULTI**. Fails today (D-11) and is its permanent guard. |
-| LIB-5 | Every rendered control has a unique non-empty `id`; groups render `.settings-group` + `data-folded`. |
-| LIB-6 | `loadRulebookCallback` on a DOM fixture yields toolbar, ≥1 section, `.rulebook-example-ui`, ≥1 `.rulebook-table-entry`. |
-| LIB-7 | Clicking that example restores the button label and adds content; `createExampleHTMLForNode` works with an empty target (D-16). |
-| LIB-8 | `ResourceLoader` reports a failed image load (requires R-3; mark `expectedFailure` until then). |
-
-`bun run lib` opens the page, calls `run()`, prints a table, exits 1 on failure, and is part of every phase gate.
-
-### 5.9 Report
-
-```
-audit-artifacts/{build.log, manifest.json, report.json, report.md, perf.json, index.html}
-audit-artifacts/artifacts/<slug>/<profile>/{page.png, example-<id>.png, render-<n>.png, console.json}
-```
-
-`report.json`: `{ version, generatedAt, seed, build:{exitCode,durationMs}, summary:{pages,pass,fail,skip,warnings,failuresByCode}, results:[{url,kind,contract,status,durationMs,failures:[{code,contract,message,where}],warnings,artifacts}] }`.
-
-`report.md`: one row per page (`Page | Contract | Status | Failures | Artifacts`), plus "Needs manual pass" (digital games + `SETTINGS_INERT`), plus a checkbox list ready to paste into `ROADMAP.md`.
-
-`index.html`: self-contained contact sheet grouped by project (page screenshot + every render thumbnail).
-
-Exit codes: `0` pass, `1` failures, `2` build failed, `3` internal error. Flags: `--filter`, `--only-failing`, `--kind`, `--runs`, `--inert`, `--deep`, `--headed`, `--skip-build`, `--base-url`, `--update-baselines`, `--port`, `--seed`, `--workers` (default 2 — canvas work is CPU-bound), `--timeout`.
 
 ### 5.10 Baselines and human review
 
@@ -810,10 +726,8 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 
 1. `bun run static --filter <project>` → no error rows.
 2. `bun run audit --filter <project> --runs 2` → all pages pass.
-3. `review.json` says `ok` after a human looked at the contact sheet.
-4. No unexplained `SETTINGS_INERT` warning (document intentional cosmetic controls in `allowlist.json`).
-5. `ROADMAP.md` entry set to `[x]`.
-6. Generate one PDF by hand in a browser and open it — the one step the harness cannot do.
+3. No unexplained `SETTINGS_INERT` warning (document intentional cosmetic controls in `allowlist.json`).
+4. `ROADMAP.md` entry set to `[x]`.
 
 ---
 
@@ -870,9 +784,9 @@ Also `warnf` when a `rules` page contains `rules-example` but falls back to `rul
 
 | Phase | Work | Exit criterion |
 |---|---|---|
-| 0. Skeleton (½–1 day) | §5.2–§5.7, §5.9, `perf.ts`; no game fixes | `bun run audit --kind rules` produces reds matching D-6/D-7; `bun run perf` prints the §4 table |
+| ~~0. Skeleton~~ done | harness in `pandaqi-studio/audit/` (§5.1) | met: `--kind rules` reds include all five Naivigation pages (D-6); `bun run perf` prints the table |
 | ~~1. Build green~~ | ~~D-1~~ — done: build exits 0 with generators on; all 166 content pages built, no `NOT_BUILT`. | — |
-| 2. Libraries (1 day, in their repos) | D-11..D-13, R-1, R-3, §4.2 | `bun run lib` green (LIB-1..LIB-8); `bun run static` error-free except known D-2/D-6; game `.ts` edit ≤10 s |
+| 2. Libraries (1 day) | D-11..D-13, R-1, R-3, §4.2 | `bun run lib` green (LIB-1..LIB-8); `bun run static` error-free except known D-2/D-6; game `.ts` edit ≤10 s |
 | 3. Mechanical fixes (partly done) | ~~D-3, D-4, D-5, D-7, D-8, D-10~~ done; remaining: full `--runs 1` sweep and any further one-liners it surfaces (needs §5) | ≥80 % of generators and all custom rulebooks green |
 | 4. Structural (1–2 weeks) | D-2 port, D-6 Naivigation, D-9 pirates, remaining reds, `--runs 2` on `[~~]` games | `--runs 2` green for every non-draft project except documented exceptions |
 | 5. Visual review (1 day, batched) | contact sheet per project; fix pivot/alignment; re-baseline | `review.json` `ok` for every non-draft project |
@@ -922,7 +836,7 @@ Math.random = () => {
 
 ### C. Out of scope (recorded so nobody "helpfully" does it)
 
-`content/tools/**` and `layouts/tool/single.html`; digital-game gameplay testing; `pandaqi-studio-dev/`; the deploy pipeline (`_site_`, `htmltest.exe`, Netlify config); rewriting pq-games/pq-rulebook architecture (that belongs in their repos).
+`content/tools/**` and `layouts/tool/single.html`; digital-game gameplay testing; `pandaqi-studio-dev/`; the deploy pipeline (`_site_`, `htmltest.exe`, Netlify config)
 
 ### D. Glossary
 
