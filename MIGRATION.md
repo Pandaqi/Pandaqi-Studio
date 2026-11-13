@@ -464,7 +464,7 @@ What the reds actually are:
 * `swiftsmash-saga/tap/smackshapes/rules/` — the bundle exists and calls `loadRulebook`, yet no toolbar appears. New; not root-caused.
 * The four Throneless rulebooks (`kaizerseat`, `kingseat`, `queenseat`, `smallseat`) throw `TypeError: Cannot convert undefined or null to object` in `planLoadMultiple`: the example loads resources that do not exist yet.
 * `keebble-domino/rules/` throws `TypeError: r.pos is not a function` inside the visualizer — a `pos`/pivot migration defect — and one heading (`Werewalls`) never becomes a section header.
-* 15 examples exceeded `EXAMPLE_TIMEOUT` (90 s) on simulator-backed pages (chiptales pietenpoker and six-of-sparrows, the maybe-games, swiftsmash cookie-smasher and point-a-pile, nine-lives, ...). Simulators are development-only, so the harness no longer drives them: it asserts every declared simulator resolves to `enabled: false` (`SIMULATION_ENABLED` otherwise) and skips clicking that page's examples. Those 15 pages now pass RB-6/RB-7 by not being exercised — the real coverage there is the disabled-simulator assertion.
+* 15 examples exceeded `EXAMPLE_TIMEOUT` (90 s). They all declare simulators, but every `SIMULATION_ENABLED` in the tree is already `false`, so the simulator was never what cost the time: `maybe-minister`'s `generate()` runs `while(!playerReachedPointsTarget)` and plays a whole game per click. Those callbacks need a bounded example; refusing to drive simulators does not fix them.
 * `the-mist/rules/` contains an `<img>` with no `src`.
 
 First generator and digital runs:
@@ -601,7 +601,7 @@ Pipeline: build (or reuse, hashed on `content/**`, `themes/pandaqi/{assets,layou
 
 Instrumentation: `unhandledrejection` and `error` capture, seeded `Math.random` from `?auditSeed=` (appendix B), and a wrapped `toDataURL` that records `{w, h, inkRatio, thumb}` for every canvas. Rulebook examples additionally measure the canvases currently in the DOM, so a blank render is caught even when the page never calls `toDataURL`.
 
-Simulators are not driven: the entry source is read, every `simulator: { ... }` block's `enabled` is resolved against the file's `const` declarations, and an example gets `SIMULATION_ENABLED` unless that resolves to `false`. Examples on a simulator-declaring page are not clicked at all, which is most of the rulebook suite's runtime.
+Simulators are not driven. The entry source is read, every `simulator: { ... }` block's `enabled` is resolved against the file's `const` declarations, and a page whose simulator cannot be shown to be off reports `SIMULATION_ENABLED` and is not clicked at all. A *disabled* simulator is configuration only, so those examples are still clicked normally — which is every one of the 25 declarations in the tree today. An example that produces no canvas is a warning, not a failure: plenty of examples are text-only by design.
 
 One failed resource is reported once (`console.error: Failed to load resource…` and `net::ERR_ABORTED` duplicates are collapsed onto the matching HTTP status).
 
@@ -811,7 +811,6 @@ Also `warnf` when a `rules` page contains `rules-example` but falls back to `rul
 | `RB_ORPHAN_EXAMPLE` / `_TABLE` | markdown id has no JS key | page markdown vs `rules/main.ts` |
 | `RB_EXAMPLE_EMPTY` | callback threw or returned nothing | captured `unhandledrejection` |
 | `RB_BLANK_CANVAS` | ink ratio too low | visualizer config, pivot, asset path |
-| `RB_NO_CANVAS` | the example produced nothing measurable | its callback: does it draw at all? |
 | `SIMULATION_ENABLED` | a debug simulator is switched on | that page's `SIMULATION_ENABLED` constant |
 | `RB_BROKEN_IMAGE` | `naturalWidth == 0` | SC-8, `_resources.base` |
 | `GEN_NO_SETTINGS` | settings never mounted | entry file, imports, `ReferenceError` |

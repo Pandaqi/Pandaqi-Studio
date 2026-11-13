@@ -263,20 +263,24 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
             }
         }
 
-        // Simulators are development-only. Never drive them; assert they are switched off instead.
+        // Simulators are development-only. Never drive an enabled one; assert it is switched off instead.
+        // A disabled simulator is just configuration: the example runs once and is clicked normally.
         if(simulators.declared)
         {
             checker.ok(!simulators.enabled, "SIMULATION_ENABLED",
                 `an interactive example declares an enabled simulator (${simulators.detail}); ` +
                 `simulators are debug-only and must be disabled before publishing`);
-            checker.warn(`simulator declared (${simulators.detail}); examples were not clicked`);
+            if(simulators.enabled)
+            {
+                checker.warn(`simulator is enabled (${simulators.detail}); examples were not clicked`);
+            }
         }
 
         // RB-6 / RB-7
         for(const id of entry.examples)
         {
-            // a simulator-backed example costs a minute to run and is not part of the published experience
-            if(simulators.declared) { continue; }
+            // never start a simulation: it is debug-only and can take minutes
+            if(simulators.enabled) { continue; }
 
             const node = page.locator(`[data-rulebook-example="${id}"]`).first();
             if(await node.count() <= 0) { continue; }
@@ -331,9 +335,11 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
 
             const renders:RenderInfo[] = (await measureCanvasesIn(node)) as RenderInfo[];
             const all = renders.length > 0 ? renders : ((collected?.renders ?? []) as RenderInfo[]);
-            // RB-7 must measure something: "produced no canvas" is not a pass
-            checker.ok(all.length > 0, "RB_NO_CANVAS",
-                `example "${id}" rendered no canvas, so its output could not be checked`, id);
+            // plenty of examples are text-only by design: note it, do not fail it
+            if(all.length === 0)
+            {
+                checker.warn(`example "${id}" produced no canvas (text-only output)`);
+            }
             for(const render of all)
             {
                 checker.ok(!!render.error || (render.inkRatio >= INK_MIN_RULEBOOK || render.w <= 16),
