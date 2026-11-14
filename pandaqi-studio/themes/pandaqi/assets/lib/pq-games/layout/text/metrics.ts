@@ -19,9 +19,20 @@ export interface TextBoxMetrics
 // if no size set, we need a really huge canvas to make sure whatever we draw will likely fit so it can be measured
 const DEFAULT_SIZE = new Vector2(2048, 2048); 
 
+// Measuring only needs a context to ask `measureText` (and a font), never its pixels. Allocating a fresh
+// 2048×2048 surface per text box meant a 16 MB canvas per card face — hundreds of them per deck — for no
+// benefit at all. One context is enough, and the function is synchronous, so nothing can interleave.
+let measureContext:CanvasRenderingContext2D|null = null;
+const getMeasureContext = () =>
+{
+    if(!measureContext) { measureContext = createContext({ size: DEFAULT_SIZE }); }
+    return measureContext;
+}
+
 export const calculateTextMetrics = (resource:ResourceText, size:Vector2 = DEFAULT_SIZE, offset:Vector2 = Vector2.ZERO) =>
 {
-    const ctx = createContext({ size: size });
+    // a measuring context never draws, so the box size only matters for wrapping (which takes it as a number)
+    const ctx = getMeasureContext();
     ctx.textAlign = "left";
     ctx.textBaseline = "alphabetic";
 

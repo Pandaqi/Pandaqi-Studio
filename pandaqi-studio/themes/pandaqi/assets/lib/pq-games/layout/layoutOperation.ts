@@ -265,14 +265,17 @@ export class LayoutOperation
         trans.rotate(this.rot);
         trans.scale(this.scaleResult);
 
-        const pivot = this.pivot.clone();
-        if(this.isShape()) { pivot.x -= 0.5; pivot.y -= 0.5; } // EXCEPTION: because all shapes are centered by default instead of top-left like images and such
-        if(this.flipX) { pivot.x = 1.0 - pivot.x; }
-        if(this.flipY) { pivot.y = 1.0 - pivot.y; }
+        // plain numbers instead of clone → negate → scale: this runs for every operation of every item, and
+        // three temporary vectors each time is pure allocation for no reason
+        let pivotX = this.pivot.x;
+        let pivotY = this.pivot.y;
+        if(this.isShape()) { pivotX -= 0.5; pivotY -= 0.5; } // EXCEPTION: because all shapes are centered by default instead of top-left like images and such
+        if(this.flipX) { pivotX = 1.0 - pivotX; }
+        if(this.flipY) { pivotY = 1.0 - pivotY; }
 
-        const offset = pivot.negate().scale(this.sizeResult);
+        const offset = new Vector2(-pivotX * this.sizeResult.x, -pivotY * this.sizeResult.y);
         this.pivotOffset = offset;
-        trans.translate(offset);
+        if(pivotX !== 0 || pivotY !== 0) { trans.translate(offset); }
         trans.skew(this.skew);
         return trans;
     }

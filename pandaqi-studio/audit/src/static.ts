@@ -210,13 +210,39 @@ const resourcePathsOf = (text:string) =>
 // An asset *folder* (a `_resources.base`) is invisible to SC-6, which only looks at the files inside it: a
 // renamed folder leaves every `path` string behind, and the page then renders blank cards with no source
 // finding to point at. Resolving the folder itself is one stat call per page.
-const canResolveDirectory = (path:string, projectRoot:string) =>
+const directoryCandidates = (path:string, projectRoot:string) =>
 {
     const cleaned = path.replace(/^\/+/, "");
-    const candidates = path.startsWith("/")
+    return path.startsWith("/")
         ? [join(contentDir, cleaned), join(studioDir, "static", cleaned), join(studioDir, "themes", "pandaqi", "static", cleaned)]
         : [join(contentDir, projectRoot, path), join(studioDir, "static", cleaned), join(studioDir, "themes", "pandaqi", "static", cleaned)];
+}
+
+const canResolveDirectory = (path:string, projectRoot:string) =>
+{
+    const candidates = directoryCandidates(path, projectRoot);
     return candidates.some(f => existsSync(f) && statSync(f).isDirectory()) ? null : candidates[0];
+}
+
+const resolvedDirectory = (path:string, projectRoot:string) =>
+{
+    return directoryCandidates(path, projectRoot).find(f => existsSync(f) && statSync(f).isDirectory()) ?? null;
+}
+
+// Hugo does not publish the resources of a draft section, so an asset folder living there exists on disk, looks
+// fine to every file check, and 404s for every request the page ever makes. Files are checked where they live;
+// this asks the one question that decides whether they are actually served.
+const draftOwnerOf = (dir:string|null) =>
+{
+    if(!dir || !dir.startsWith(contentDir)) { return null; }
+    let current = dir;
+    while(current.length > contentDir.length)
+    {
+        const index = join(current, "_index.md");
+        if(existsSync(index) && /^\s*draft\s*:\s*true\s*$/m.test(read(index).slice(0, 400))) { return index; }
+        current = dirname(current);
+    }
+    return null;
 }
 
 // Images a page's own markdown/front matter points at. Same class of defect as SC-6, one level up: the
@@ -409,9 +435,19 @@ export const runStaticChecks = (opts:StaticOptions = {}) =>
             const resources = resourcePathsOf(text);
             if(!resources || !resources.base) { continue; }
             const missing = canResolveDirectory(resources.base, page.projectRoot);
-            if(!missing) { continue; }
-            add("SC-8", "error", file, lineOf(text, text.indexOf(resources.base)),
-                `_resources.base "${resources.base}" is not a directory (looked in ${rel(missing)})`);
+            if(missing)
+            {
+                add("SC-8", "error", file, lineOf(text, text.indexOf(resources.base)),
+                    `_resources.base "${resources.base}" is not a directory (looked in ${rel(missing)})`);
+                continue;
+            }
+
+            const draft = draftOwnerOf(resolvedDirectory(resources.base, page.projectRoot));
+            if(draft)
+            {
+                add("SC-8", "warn", file, lineOf(text, text.indexOf(resources.base)),
+                    `_resources.base "${resources.base}" lives in a draft section (${rel(draft)}), so Hugo never publishes it: every asset there 404s for this page`);
+            }
         }
 
         const markdown = read(page.mdPath);

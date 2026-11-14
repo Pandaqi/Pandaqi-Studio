@@ -29,6 +29,8 @@ export interface ResourceLoadParams
     uniqueKey?: string,
 }
 
+const PROTOCOL_RE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i; // http://, //cdn…, and anything else that is already a URL
+
 const IMAGE_EXTENSIONS = ["jpg", "jpeg", "webp", "png", "jfif", "avif", "svg"]
 const AUDIO_EXTENSIONS = ["mp3", "ogg", "wav"]
 const VIDEO_EXTENSIONS = ["mp4", "webm"]
@@ -132,9 +134,10 @@ export class ResourceLoader
 
     getExtension(path:string) : string
     {
-        const splitPath = path.split(".");
-        if(splitPath.length <= 1) { return ""; }
-        return splitPath[splitPath.length - 1];
+        const clean = path.replace(/[?#].*$/, "");
+        const idx = clean.lastIndexOf(".");
+        if(idx < 0) { return ""; }
+        return clean.slice(idx + 1).toLowerCase();
     }
 
     isImage(path:string) : boolean
@@ -157,6 +160,26 @@ export class ResourceLoader
         return FONT_EXTENSIONS.includes(this.getExtension(path));
     }
 
+    // Joins the way the page's other asset paths resolve: `base` + `path`, with exactly one slash between
+    // them and any doubled slash inside the path collapsed. A declared absolute path (a leading "/" or a
+    // full URL) is still appended to the base, because that is how these paths have always been written
+    // (`base: "/game/assets/"` + `path: "/fonts/x.woff2"`). The old `replaceAll("//", "/")` did the same
+    // thing by accident and also mangled `https://` into `https:/`.
+    resolvePath(path:string, useAbsolutePath = false) : string
+    {
+        if(useAbsolutePath || PROTOCOL_RE.test(path) || path.startsWith("data:") || path.startsWith("blob:"))
+        {
+            return path;
+        }
+
+        const base = this.base.replace(/\/+$/, "");
+        const relative = path.replace(/^\/+/, "");
+        if(!base) { return path; }
+
+        const joined = `${base}/${relative}`;
+        return joined.replace(/(^|[^:/])\/{2,}/g, "$1/");
+    }
+
     addResource(id:string, res:Resource)
     {
         this.resourcesLoaded[id] = res;
@@ -166,8 +189,8 @@ export class ResourceLoader
     {
         // manipulate path to get both the FULL path (correctly) + the individual FILENAME
         const originalPath = params.path ?? "";
-        let path = params.useAbsolutePath ? params.path : this.base + originalPath;
-        path = path.replaceAll("//", "/"); // to prevent any silly shenanigans with trailing slashes
+        let path = this.resolvePath(originalPath, params.useAbsolutePath);
+        const extension = this.getExtension(originalPath);
 
         const key = (params.id ?? params.key) ?? id;
 
@@ -183,8 +206,8 @@ export class ResourceLoader
             path = URL.createObjectURL(this.resourcesCustom[customResourceIndex]);
         }
 
-        // load images as needed
-        if(this.isImage(pathOriginal))
+        // load images as needed (the extension is computed once above instead of once per type check)
+        if(IMAGE_EXTENSIONS.includes(extension))
         {
             const img = new Image();
             const loaded = await new Promise<boolean>((resolve) =>
@@ -204,7 +227,7 @@ export class ResourceLoader
         }
 
         // load fonts as needed
-        if(this.isFont(pathOriginal))
+        if(FONT_EXTENSIONS.includes(extension))
         {
             const textConfig = params.textConfig ? params.textConfig.getFontFaceDescriptors() : {};
             const fontFile = new FontFace(key, "url('" + path + "')", textConfig);

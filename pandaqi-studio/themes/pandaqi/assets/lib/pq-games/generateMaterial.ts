@@ -6,7 +6,7 @@ import { ResourceLoader } from "./layout/resources/resourceLoader";
 import { MaterialVisualizer } from "./renderers/materialVisualizer";
 import { RendererPandaqi } from "./renderers/pandaqi/rendererPandaqi";
 import type { Renderer } from "./renderers/renderer";
-import { addConfigFromLocalStorage, ensureConfigProperties, getDefaultSetting, type GameConfig, type MaterialConfig } from "./settings/configuration";
+import { addConfigFromLocalStorage, ensureConfigProperties, getSettingDefault, type GameConfig, type MaterialConfig } from "./settings/configuration";
 import { sendProgressInfoSignal, sendProgressPhaseSignal } from "./tools/dom/feedbackNode";
 import { PdfBuilder, PdfCompression, PdfPageConfig } from "./tools/pdf/pdfBuilder";
 import { getSplitDimsAsPoint, makeSizeSplittable } from "./tools/pdf/tools";
@@ -86,7 +86,8 @@ const generateDrawCalls = (config:GameConfig, allItems:Record<string,any>, mappe
     // collect all items (and the visualizer for them), but don't draw them yet
     // so far, mappers are always just GridMappers, though that might generalize in the future
     const drawCalls:MaterialDrawCall[] = [];
-    const splitDimsGlobal = getDefaultSetting("splitDims", config, "1x1");
+    // no fallback here: a material's own splitDims must still win when the global setting is unset
+    const splitDimsGlobal = getSettingDefault("splitDims", config);
     for(const [id,mapper] of Object.entries(mappers))
     {
         const materialConfig = config._material[id];
