@@ -1,5 +1,4 @@
 import type { Vector2 } from "./geometry/vector2";
-import { convertCanvasToImage } from "./layout/canvas/converters";
 import { splitCanvas } from "./layout/canvas/splitters";
 import { GridMapper, createGridMapperFromConfig } from "./layout/gridMapper";
 import { ResourceLoader } from "./layout/resources/resourceLoader";
@@ -228,8 +227,10 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
             sendProgressInfoSignal(feedbackNode, infoText);
             await letDomUpdate();
 
-            const image = await convertCanvasToImage(canvases[i]);
-            pdfBuilder.addImage(image);
+            // jsPDF takes a canvas directly (it encodes it itself, see the CANVAS branch in jspdf's
+            // addImage_image), so handing over the canvas skips an entire toDataURL → <img> → decode
+            // round-trip and never holds a decoded 300 DPI bitmap in memory
+            pdfBuilder.addImage(canvases[i]);
         }
     }
 
