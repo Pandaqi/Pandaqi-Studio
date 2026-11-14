@@ -31,7 +31,9 @@ const sleep = (ms:number) => new Promise(r => setTimeout(r, ms));
 const killServer = async (proc:any) =>
 {
     if(!proc) { return; }
-    try { proc.kill(); } catch(e) {}
+    // taskkill FIRST: killing the wrapper before the tree is walked orphans the real hugo server,
+    // which then keeps port 1399 (so the next run's "first build" measures that stale server) and
+    // keeps rebuilding the tree on every later edit.
     if(process.platform === "win32")
     {
         try {
@@ -39,6 +41,7 @@ const killServer = async (proc:any) =>
             await child.exited;
         } catch(e) {}
     }
+    try { proc.kill(); } catch(e) {}
     try { await proc.exited; } catch(e) {}
 };
 
@@ -154,6 +157,9 @@ const run = async () =>
     if(!fast)
     {
         console.log("full audit build …");
+        // always a cold destination: an incremental result would measure almost nothing and the
+        // budget would silently stop meaning anything
+        rmSync(join(outDir, "perf-full"), { recursive: true, force: true });
         const start = Date.now();
         await waitForMemory(1500, 120000);
         const build = Bun.spawn([

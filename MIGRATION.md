@@ -470,7 +470,7 @@ First generator and digital runs:
 * `/chiptales/bet/noble-flood/game/` passes MG-1..MG-7 with a 2-profile run.
 * `/epic-medics/game/` requests `/games/epic-medics/game/fonts/woodcutter.woff2`, which 404s; the file exists at `/epic-medics/assets/fonts/`. Its CSS resolves the font relative to the bundle, so this only ever broke once generator CSS was compiled.
 
-`bun run perf`: segment build 3.0 s (budget 90 s), markdown edit 1.2 s (2 s), game-code edit 0.3 s (10 s), full build 107.8 s (budget 150 s). Every budget green.
+`bun run perf` (cold destination, so the numbers mean something): segment build 3.9 s (budget 90 s), markdown edit 1.4 s (2 s), game-code edit 0.5 s (10 s), full build 32.1 s (budget 150 s). Every budget green. The full build was 193.9 s before §4.2 and §4.4.
 
 One filtered run of the reworked harness (`bun run audit --filter firecrackers`, 1 worker, 1 profile, `audit/lean.toml`): build 11 s, `/firecrackers/game/` **pass** (61.6 s), `/firecrackers/rules/` **pass** (2.6 s). That is the shape a full sweep takes — do it in one go, at the end.
 
@@ -480,11 +480,11 @@ All timings on the author's machine, Hugo 0.153.4 extended, Windows. `bun run pe
 
 | Command | Measured |
 |---|---|
-| full build, generators on, `audit/lean.toml` | **107.8 s** |
-| one project (`--renderSegments` + `--disableKinds` + lean) | **3.0 s** |
-| `hugo server` + segment, edit page **markdown** | **1.2 s** |
-| `hugo server` + segment, edit a game **`main.ts`** | **0.3 s** |
-| static tree without `lean.toml` (2 811 files, 149 MB instead of 33 files) | +31 s of pure copying |
+| full build into a fresh directory, generators on, `audit/lean.toml` | **32.1 s** |
+| one project (`--renderSegments` + `--disableKinds` + lean), cold | **3.9 s** |
+| `hugo server` + segment, edit page **markdown** | **1.4 s** |
+| `hugo server` + segment, edit a game **`main.ts`** | **0.5 s** |
+| the same full build without `lean.toml` (2 811 static files, 149 MB instead of 33) | +31 s of pure copying |
 | pages written by a full build | ~1 940 |
 
 What is left in the full build is esbuild building one bundle per page (`load-assets.html` is the biggest line in the profile) plus the per-page templates. §4.2 and §4.4 explain the two things that used to dominate it.
@@ -526,7 +526,7 @@ Rules:
 
 `assets/lib/vendor/pq-games-global.ts` and `pq-rulebook-global.ts` are built once in `load-assets.html` into `/lib/vendor/pq-games.js` (531 KB) and `/lib/vendor/pq-rulebook.js` (69 KB), emitted **before** the page bundle (deferred scripts keep document order). `js.Build`'s `shims` option maps `lib/pq-games` / `lib/pq-rulebook` to `assets/js/shims/*.js`, i.e. `module.exports = window.PQ_GAMES` / `window.PQ_RULEBOOK`. Page code is unchanged.
 
-A page bundle is ~21 KB instead of ~480 KB, and a `main.ts` edit lands in **0.2 s**.
+A page bundle is ~21 KB instead of ~480 KB, and a `main.ts` edit lands in **0.5 s**.
 
 Two consequences to remember:
 * The vendor file is not tree-shaken (it is a namespace on `window`), so one generator page loads ~550 KB instead of ~480 KB. It is cached across the whole site, so every other page pays nothing.
