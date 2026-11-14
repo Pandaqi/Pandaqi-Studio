@@ -169,7 +169,10 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
         elem = document.createElement("div");
         elem.classList.add("settings-input-multi");
 
-        const defaultValues = data.default ?? [];
+        // MULTI settings usually declare `value`, not `default`; without this fallback every
+        // checkbox starts unchecked and the setting reads back as an empty list
+        const declaredDefaults = data.default ?? data.value ?? [];
+        const defaultValues = Array.isArray(declaredDefaults) ? declaredDefaults : [declaredDefaults];
         const values = data.values ?? [];
         for(const value of values)
         {

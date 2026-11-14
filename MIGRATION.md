@@ -472,6 +472,8 @@ First generator and digital runs:
 
 `bun run perf`: segment build 3.0 s (budget 90 s), markdown edit 1.2 s (2 s), game-code edit 0.3 s (10 s), full build 107.8 s (budget 150 s). Every budget green.
 
+One filtered run of the reworked harness (`bun run audit --filter firecrackers`, 1 worker, 1 profile, `audit/lean.toml`): build 11 s, `/firecrackers/game/` **pass** (61.6 s), `/firecrackers/rules/` **pass** (2.6 s). That is the shape a full sweep takes — do it in one go, at the end.
+
 ## 4. Build speed (measured — read before touching anything)
 
 All timings on the author's machine, Hugo 0.153.4 extended, Windows. `bun run perf` is the source of truth (`audit-artifacts/perf.json`); run it after touching anything in the build.
