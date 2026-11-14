@@ -262,7 +262,7 @@ export default class Card
 
         // draw the actual image
         const res : ResourceImage = vis.resLoader.getResource(this.data.textureKey);
-        const spriteSize = vis.get("cards.illustration.sizeFactor") * vis.sizeUnit;
+        const spriteSize = vis.get("cards.illustration.sizeFactor");
         const frame = this.data.frame;
         const effects = [];
         if(vis.inkFriendly) { effects.push(new GrayScaleEffect()); }
@@ -403,7 +403,7 @@ export default class Card
         let positions = [numberPos, namePos];
 
         // draw number
-        const fontSizeNumber = vis.get("cards.icons.fontSizeNumber") * vis.sizeUnit;
+        const fontSizeNumber = vis.get("cards.icons.fontSizeNumber");
         const textConfigNumber = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSizeNumber,
@@ -440,7 +440,7 @@ export default class Card
         group.add(cardNumber, numOp);
 
         // draw card name
-        const fontSizeName = vis.get("cards.icons.fontSizeName") * vis.sizeUnit;
+        const fontSizeName = vis.get("cards.icons.fontSizeName");
         const textConfigName = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSizeName,
@@ -505,7 +505,7 @@ export default class Card
         // draw the explanatory text
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
-            size: vis.get("cards.power.fontSize") * vis.sizeUnit,
+            size: vis.get("cards.power.fontSize"),
             lineHeight: vis.get("cards.power.lineHeight"),
             resLoader: vis.resLoader
         }).alignCenter();

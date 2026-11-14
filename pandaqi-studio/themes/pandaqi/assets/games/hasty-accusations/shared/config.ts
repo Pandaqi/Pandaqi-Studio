@@ -1,7 +1,7 @@
 
 import { suspectPicker } from "../game/suspectPicker"
 import { cardPicker } from "../game/cardPicker"
-import { SettingType, TextConfig, TextWeight, Vector2, Bounds } from "lib/pq-games"
+import { CVal, SettingType, TextConfig, TextWeight, Vector2, Bounds } from "lib/pq-games"
 
 export const CONFIG = 
 {
@@ -175,17 +175,17 @@ export const CONFIG =
         {
             power:
             {
-                iconSize: 0.3, // ~sizeUnit
-                extraEdgeOffset: 0.05, // ~sizeUnit (it already automatically makes sure we're out of the way of text, this is EXTRA)
+                iconSize: new CVal(0.3, "sizeUnit"),
+                extraEdgeOffset: new CVal(0.05, "sizeUnit"),
             },
 
             illustration:
             {
-                fontSize: 0.15, // ~sizeUnit
+                fontSize: new CVal(0.15, "sizeUnit"),
                 textColorLighten: 75,
-                scaleFactor: 0.9, // ~sizeUnit
-                shadowRadius: 0.1, // ~sizeUnit
-                paperClipScale: 0.375, // ~sizeUnit
+                scaleFactor: new CVal(0.9, "sizeUnit"),
+                shadowRadius: new CVal(0.1, "sizeUnit"),
+                paperClipScale: new CVal(0.375, "sizeUnit"),
             },
 
             bg:
@@ -205,8 +205,8 @@ export const CONFIG =
 
             photographs:
             {
-                yPos: 0.325, // ~sizeY
-                rectSize: new Vector2(0.735), // ~sizeUnit
+                yPos: new CVal(0.325, "sizeY"),
+                rectSize: new CVal(new Vector2(0.735), "sizeUnit"),
                 rectHeightTitle: 0.2, // ~rectSizeY
                 padding: new Vector2(0.05), // ~rectSizeUnit
                 maxRotation: new Bounds(0.025 * Math.PI, 0.04*Math.PI),
@@ -228,17 +228,17 @@ export const CONFIG =
             illustration:
             {
                 scaleFactor: 1.0, // ~innerRectSize
-                paperClipScale: 0.2, // ~sizeUnit
-                paperClipOffset: new Vector2(0.2, 0.0925), // ~sizeUnit, X is from the center, Y is from the top
+                paperClipScale: new CVal(0.2, "sizeUnit"),
+                paperClipOffset: new CVal(new Vector2(0.2, 0.0925), "sizeUnit"), // X is from the center, Y is from the top
             },
 
             text:
             {
-                yPos: 0.78,
-                rectSize: new Vector2(0.8, 0.33), // ~size
+                yPos: new CVal(0.78, "sizeY"),
+                rectSize: new CVal(new Vector2(0.8, 0.33), "size"),
                 rectColor: "#FFEFE6",
                 rectBlur: 0.065, // ~rectSizeUnit
-                fontSize: 0.07, // ~sizeUnit
+                fontSize: new CVal(0.07, "sizeUnit"),
                 hardShadowOffset: 0.015, // ~fontSize (a very slight shadow that "thickens" the text and makes it slightly more legible)
             },
             

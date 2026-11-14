@@ -1,4 +1,5 @@
 
+import { CVal } from "lib/pq-games"
 import { MESSAGES } from "./dict"
 import { cardPicker } from "../game/cardPicker"
 import { drawingPicker } from "../game/drawingPicker"
@@ -200,24 +201,24 @@ export const CONFIG =
             {
                 num: new Bounds(0,2),
                 options: MESSAGES,
-                fontSize: 0.078, // ~sizeUnit
+                fontSize: new CVal(0.078, "sizeUnit"),
                 alpha: 0.65,
                 textColor: "#FF5E00"
             },
 
             words:
             {
-                yPos: 0.17, // ~sizeY
-                fontSize: 0.066, // ~sizeUnit
-                fontSizeNumber: 0.066, // ~sizeUnit; should be close to fontSize above
+                yPos: new CVal(0.17, "sizeY"),
+                fontSize: new CVal(0.066, "sizeUnit"),
+                fontSizeNumber: new CVal(0.066, "sizeUnit"),
 
-                iconDims: 0.125, // ~sizeUnit
+                iconDims: new CVal(0.125, "sizeUnit"),
                 iconSymbolDims: 0.9, // ~iconDims
-                gapIconToText: 0.1, // ~sizeUnit; should be close to iconDims above
+                gapIconToText: new CVal(0.1, "sizeUnit"),
 
-                edgeMargin: 0.1, // ~sizeUnit; should be higher than iconDims to have space
+                edgeMargin: new CVal(0.1, "sizeX"),
                 strokeWidth: 0.125, // ~fontSize
-                dividerDims: 0.9, // ~sizeUnit; should be near 1.0 in any case
+                dividerDims: new CVal(0.9, "sizeUnit"),
                 dividerAlpha: 0.875,
                 dividerAlphaInkFriendly: 0.33,
             }
@@ -227,7 +228,7 @@ export const CONFIG =
         // (same sizes as tokens for now, not sure if that will stay that way)
         drawings:
         {
-            iconSize: 0.9, // ~sizeUnit
+            iconSize: new CVal(0.9, "sizeUnit"),
         },
 
         // choice tokens
@@ -239,11 +240,11 @@ export const CONFIG =
                 hardCap: 48
             },
 
-            fontSize: 0.55, // ~sizeUnit
+            fontSize: new CVal(0.55, "sizeUnit"),
             textColor: "#FFFFFF",
             strokeColor: "#000000",
             iconDims: 0.9,
-            strokeWidth: 0.025, // ~sizeUnit
+            strokeWidth: new CVal(0.025, "sizeUnit"),
         }
     }
 }

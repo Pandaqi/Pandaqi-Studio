@@ -10,7 +10,7 @@ const cacheVisualizerData = async (vis:MaterialVisualizer) =>
     const alreadyCached = vis.custom && Object.keys(vis.custom).length > 0;
     if(alreadyCached) { return; }
 
-    const patternSize = (1.0 + vis.get("cards.bgCats.patternExtraMargin")) * vis.size.y;
+    const patternSize = vis.get("cards.bgCats.patternExtraMargin");
     const num = vis.get("cards.bgCats.patternNumIcons");
     const distBetweenIcons = patternSize / num;
     const iconSize = vis.get("cards.bgCats.patternIconSize") * distBetweenIcons;
@@ -137,8 +137,8 @@ export default class Card
 
         // two small rectangles to make transition to bottom look better
         const bottomEdge = pos.clone().move(new Vector2(0, 0.5*size.y));
-        const strokeWidth = vis.get("cards.sharedStrokeWidth") * vis.sizeUnit;
-        const extraRectHeight = vis.get("cards.cat.extraRectHeight") * vis.sizeUnit;
+        const strokeWidth = vis.get("cards.sharedStrokeWidth");
+        const extraRectHeight = vis.get("cards.cat.extraRectHeight");
         const posAbove = bottomEdge.clone().move(new Vector2(0, -0.5*extraRectHeight));
         const rectAbove = new Rectangle({ extents: new Vector2(vis.size.x, extraRectHeight) })
         const resAbove = new ResourceShape({ shape: rectAbove });
@@ -156,7 +156,7 @@ export default class Card
         resAbove.toCanvas(ctx, opAbove);
 
         // the cat's name
-        const fontSize = vis.get("cards.cat.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.cat.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
@@ -192,9 +192,9 @@ export default class Card
         // first icon in background
         const resIcon = vis.resLoader.getResource("misc");
         const frame = MISC.heart.frame;
-        const yPos = vis.get("cards.lives.yPos") * vis.size.y;
+        const yPos = vis.get("cards.lives.yPos");
         const pos = new Vector2(0.5*vis.size.x, yPos);
-        const iconSize = new Vector2(vis.get("cards.lives.iconSize") * vis.sizeUnit);
+        const iconSize = new Vector2(vis.get("cards.lives.iconSize"));
         const effects : any[] = [new DropShadowEffect({ offset: iconSize.clone().scaleFactor(0.025), color: vis.get("cards.sharedShadowColor") })];
         if(vis.inkFriendly) { effects.push(new GrayScaleEffect()); }
         
@@ -209,8 +209,8 @@ export default class Card
         resIcon.toCanvas(ctx, opIcon);
 
         // then text on top
-        const strokeWidth = vis.get("cards.sharedStrokeWidth") * vis.sizeUnit;
-        const fontSize = vis.get("cards.lives.fontSize") * vis.sizeUnit;
+        const strokeWidth = vis.get("cards.sharedStrokeWidth");
+        const fontSize = vis.get("cards.lives.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
@@ -239,7 +239,7 @@ export default class Card
         const res = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
         res.toCanvas(ctx, op);
 
-        const sideOffset = vis.get("cards.lives.handIconSideOffset") * vis.size.x;
+        const sideOffset = vis.get("cards.lives.handIconSideOffset");
         const topOffset = 0; // not needed anymore, right?
         const handIconPositions = 
         [
@@ -251,7 +251,7 @@ export default class Card
         {
             // hand limit icon
             const resHand = vis.resLoader.getResource("misc");
-            const handIconSize = vis.get("cards.lives.handIconSize") * vis.sizeUnit;
+            const handIconSize = vis.get("cards.lives.handIconSize");
             const pos = handIconPositions[i];
             const handOp = new LayoutOperation({
                 frame: MISC.hand.frame,
@@ -266,7 +266,7 @@ export default class Card
 
             // hand limit number
             const limit = CONFIG.generation.lifeCards.handLimits[this.num-1];
-            const fontSize = vis.get("cards.lives.handIconFontSize") * vis.sizeUnit;
+            const fontSize = vis.get("cards.lives.handIconFontSize");
             textConfig.size = fontSize;
             const moveDir = i == 0 ? 1 : -1;
             const resHandText = new ResourceText({ text: limit.toString(), textConfig: textConfig });
@@ -288,7 +288,7 @@ export default class Card
     {
         if(this.isRuleReminder() || !this.power) { return; }
 
-        const fontSize = vis.get("cards.power.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.power.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSize,
@@ -296,9 +296,9 @@ export default class Card
         }).alignCenter();
 
         // some small vector magic to create a rectangle with the corners cut/beveled
-        const yPos = vis.get("cards.power.yPos") * vis.size.y;
+        const yPos = vis.get("cards.power.yPos");
         const pos = new Vector2(0.5*vis.size.x, yPos);
-        const rectSize = vis.get("cards.power.rectSize").clone().scale(vis.size);
+        const rectSize = vis.get("cards.power.rectSize").clone();
         const rectSizeUnit = Math.min(rectSize.x, rectSize.y);
 
         const corners : Vector2[] = 
@@ -312,7 +312,7 @@ export default class Card
         const cutOffset = vis.get("cards.power.rectCutSize") * rectSizeUnit;
         const rectCut = bevelCorners(corners, cutOffset);
 
-        const strokeWidth = vis.get("cards.sharedStrokeWidth") * vis.sizeUnit;
+        const strokeWidth = vis.get("cards.sharedStrokeWidth");
         const effects = [new DropShadowEffect({ offset: new Vector2(fontSize*0.2), color: vis.get("cards.sharedShadowColor") })];
         const opRect = new LayoutOperation({
             fill: "#FFFFFF",
@@ -365,16 +365,16 @@ export default class Card
     drawBigNumber(vis:MaterialVisualizer, ctx)
     {
         // the number
-        const fontSize = vis.get("cards.numbers.fontSizeBig") * vis.sizeUnit;
+        const fontSize = vis.get("cards.numbers.fontSizeBig");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
         }).alignCenter();
 
-        const strokeWidth = vis.get("cards.sharedStrokeWidth") * vis.sizeUnit;
-        const shadowOffset = new Vector2(vis.get("cards.sharedShadowOffset") * vis.sizeUnit);
+        const strokeWidth = vis.get("cards.sharedStrokeWidth");
+        const shadowOffset = new Vector2(vis.get("cards.sharedShadowOffset"));
         const effects = [new DropShadowEffect({ offset: shadowOffset, color: vis.get("cards.sharedShadowColor") })];
-        const iconSize = vis.get("cards.suits.bigSuitSize") * vis.sizeUnit
+        const iconSize = vis.get("cards.suits.bigSuitSize")
         const center = vis.size.clone().scale(0.5);
 
         const op = new LayoutOperation({
@@ -401,7 +401,7 @@ export default class Card
         // the abstract suit icon behind it
         const resIcon = vis.resLoader.getResource("suits");
         const frame = this.data.frame + 1;
-        const iconSize = vis.get("cards.suits.bigSuitSize") * vis.sizeUnit
+        const iconSize = vis.get("cards.suits.bigSuitSize")
         const opIcon = new LayoutOperation({
             frame: frame,
             pos: center,
@@ -418,7 +418,7 @@ export default class Card
         const needsLine = is6or9
         if(!needsLine) { return; }
 
-        const fontSize = vis.get("cards.numbers.fontSizeBig") * vis.sizeUnit;
+        const fontSize = vis.get("cards.numbers.fontSizeBig");
         const lineCenter = center.clone().move(new Vector2(0, vis.get("cards.numbers.clarityLineOffsetY")*fontSize));
         const lineExtents = vis.get("cards.numbers.clarityLineSize").clone().scale(fontSize);
         const rect = new Rectangle({ center: lineCenter, extents: lineExtents });
@@ -450,7 +450,7 @@ export default class Card
             Vector2.RIGHT
         ]
 
-        const fontSize = vis.get("cards.numbers.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.numbers.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
@@ -458,7 +458,7 @@ export default class Card
             alignVertical: TextAlign.MIDDLE
         })
         const textOffset = vis.get("cards.numbers.offsetFromEdge") * fontSize;
-        const strokeWidth = vis.get("cards.sharedStrokeWidth") * vis.sizeUnit;
+        const strokeWidth = vis.get("cards.sharedStrokeWidth");
 
         for(let i = 0; i < edges.length; i++)
         {
@@ -498,7 +498,7 @@ export default class Card
         ]
 
         const offset = vis.get("cards.suits.offset").clone().scaleFactor(vis.sizeUnit);
-        const iconSize = new Vector2(vis.get("cards.suits.iconSize") * vis.sizeUnit);
+        const iconSize = new Vector2(vis.get("cards.suits.iconSize"));
         const frame = this.data.frame;
         const res = vis.resLoader.getResource("suits");
         const effects : any[] = [

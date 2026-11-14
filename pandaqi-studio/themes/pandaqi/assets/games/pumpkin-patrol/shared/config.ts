@@ -1,7 +1,7 @@
 
 import { MISC, ReqType, Type } from "./dict"
 import { cardPicker } from "../game/cardPicker"
-import { SettingType, Vector2, Bounds } from "lib/pq-games"
+import { CVal, SettingType, Vector2, Bounds } from "lib/pq-games"
 
 export const CONFIG = 
 {
@@ -226,10 +226,10 @@ export const CONFIG =
 
             score:
             {
-                offset: 0.1, // offset from top, relative to card height
-                size: 0.25, // size of star, relative to sizeUnit
+                offset: new CVal(0.1, "sizeY"),
+                size: new CVal(0.25, "sizeUnit"),
                 shadowSize: 0.1, // relative to starDims
-                textSize: 0.15, // relative to sizeUnit; should be ~2x as large as namePerson.size
+                textSize: new CVal(0.15, "sizeUnit"), // should be ~2x as large as namePerson.size
                 doubleDigitShrinkFactor: 0.875,
                 textColor: "#241E00",
             },
@@ -237,9 +237,9 @@ export const CONFIG =
             details:
             {
                 powerRectFraction: 0.45, // how much of the space the bottom rectangle (for power) takes up
-                rectShadowSize: 0.0275,
-                iconOffset: 0.1, // relative to sizeUnit, applied to X-axis
-                wonkyRectElongation: 0.015, // relative to sizeUnit
+                rectShadowSize: new CVal(0.0275, "sizeUnit"),
+                iconOffset: new CVal(0.1, "sizeUnit"), // applied to X-axis
+                wonkyRectElongation: new CVal(0.015, "sizeUnit"),
                 iconHeight: 0.725, // relative to wonky rect height
                 iconShadowSize: 0.04, // relative to icon height
                 rectTextFontSize: 0.75, // relative to icon height!
@@ -260,11 +260,11 @@ export const CONFIG =
 
                 power:
                 {
-                    fontSize: 0.0475,
-                    fontSizeNoPower: 0.04,
+                    fontSize: new CVal(0.0475, "sizeUnit"),
+                    fontSizeNoPower: new CVal(0.04, "sizeUnit"),
                     alphaNoPower: 0.66,
                     textColor: "#000000",
-                    textMaxWidth: 0.7, // relative to full width of card
+                    textMaxWidth: new CVal(0.7, "sizeX"),
                 },
 
             },
@@ -283,21 +283,21 @@ export const CONFIG =
                 patternNumIcons: 10,
                 patternIconSize: 0.9, // relative to max available space based on num icons distributed in pattern
                 rectElongationFactor: 0.045, // relative to this side's height
-                patternExtraMargin: 1.2,
+                patternExtraMargin: new CVal(1.2, "sizeX"),
 
-                fontSize: 0.053, // relative to sizeUnit
+                fontSize: new CVal(0.053, "sizeUnit"),
                 textColor: "#FEFEFE",
                 textShadow: 0.1, // relative to fontSize
                 textOffsetFromLine: 1.0, // relative to fontSize
 
-                slantedLineWidth: 0.018, // relative to sizeUnit
+                slantedLineWidth: new CVal(0.018, "sizeUnit"),
                 slantedLineColor: "#FEFEFE"
             },
 
             bgPerson:
             {
                 color: "#2B1D41", // dark purple
-                size: 0.66, // scale factor on Y-axis of the person illustration block (at the top)
+                size: new CVal(0.66, "sizeY"), // scale factor on Y-axis of the person illustration block (at the top)
                 beamScale: 0.92, // relative to full block scale
                 beamOffsetY: 0.36, // fraction of score offset
             },
@@ -306,15 +306,15 @@ export const CONFIG =
             {
                 color: "#FFFFFF",
                 alpha: 0.9,
-                size: 0.068, // relative to sizeUnit; should be ~3x as large as setID.size
+                size: new CVal(0.068, "sizeUnit"), // should be ~3x as large as setID.size
             },
 
             setID:
             {
                 color: "#FFFFFF",
                 alpha: 0.35,
-                size: 0.03, // relative to sizeUnit
-                offset: new Vector2(0.066, 0.04), // relative to sizeUnit, from top-left corner
+                size: new CVal(0.03, "sizeUnit"),
+                offset: new CVal(new Vector2(0.066, 0.04), "sizeUnit"),
             },
 
             outline:

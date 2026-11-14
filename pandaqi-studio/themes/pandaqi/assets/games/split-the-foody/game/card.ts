@@ -4,7 +4,7 @@ import { MaterialVisualizer, DropShadowEffect, createContext, fillCanvas, Vector
 
 const getMaterialVisualizerEffects = (vis:MaterialVisualizer) =>
 {
-    const shadowRadius = vis.get("cards.shared.shadowRadius") * vis.sizeUnit;
+    const shadowRadius = vis.get("cards.shared.shadowRadius");
     const shadowColor = vis.get("cards.shared.shadowColor");
     const shadowEffect = new DropShadowEffect({ blurRadius: shadowRadius, color: shadowColor });
     return [shadowEffect, vis.inkFriendlyEffect].flat();
@@ -56,7 +56,7 @@ export default class Card
         // rope behind all of it
         const resRope = vis.resLoader.getResource("misc");
         const frameRope = MISC.rope.frame;
-        const yPos = vis.get("cards.heading.yPos") * vis.size.y;
+        const yPos = vis.get("cards.heading.yPos");
         const pos = new Vector2(vis.center.x, yPos);
         const size = new Vector2(vis.sizeUnit);
         const op = new LayoutOperation({
@@ -70,7 +70,7 @@ export default class Card
 
         // text showing name of the card
         const text = this.data.label;
-        const fontSize = vis.get("cards.heading.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.heading.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
@@ -97,19 +97,19 @@ export default class Card
     // the coins + numbers inside
     drawCornerCoins(vis:MaterialVisualizer, ctx)
     {
-        const offsetBig = vis.get("cards.corners.edgeOffsetBig").clone().scale(vis.sizeUnit);
-        const offsetSmall = vis.get("cards.corners.edgeOffsetSmall").clone().scale(vis.sizeUnit);
+        const offsetBig = vis.get("cards.corners.edgeOffsetBig").clone();
+        const offsetSmall = vis.get("cards.corners.edgeOffsetSmall").clone();
         const positionsBig = getRectangleCornersWithOffset(vis.size, offsetBig);
         const positionsSmall = getRectangleCornersWithOffset(vis.size, offsetSmall)
 
-        const sizeBig = new Vector2(vis.get("cards.corners.coinScaleBig") * vis.sizeUnit);
-        const sizeSmall = new Vector2(vis.get("cards.corners.coinScaleSmall") * vis.sizeUnit);
+        const sizeBig = new Vector2(vis.get("cards.corners.coinScaleBig"));
+        const sizeSmall = new Vector2(vis.get("cards.corners.coinScaleSmall"));
 
         const resCoin = vis.resLoader.getResource("misc");
         const frameCoin = MISC.coin.frame;
 
-        const fontSizeBig = vis.get("cards.corners.fontSizeBig") * vis.sizeUnit;
-        const fontSizeSmall = vis.get("cards.corners.fontSizeSmall") * vis.sizeUnit;
+        const fontSizeBig = vis.get("cards.corners.fontSizeBig");
+        const fontSizeSmall = vis.get("cards.corners.fontSizeSmall");
 
         const text = this.data.num.toString();
         const textConfig = new TextConfig({
@@ -186,9 +186,9 @@ export default class Card
     {
         const res = vis.resLoader.getResource(this.getConnectedSet());
         const frame = this.data.frame;
-        const yPos = vis.get("cards.illustration.yPos") * vis.size.y;
+        const yPos = vis.get("cards.illustration.yPos");
         const pos = new Vector2(vis.center.x, yPos);
-        const size = new Vector2(vis.get("cards.illustration.scale") * vis.sizeUnit);
+        const size = new Vector2(vis.get("cards.illustration.scale"));
         const op = new LayoutOperation({
             frame: frame,
             pos: pos,
@@ -204,8 +204,8 @@ export default class Card
         // first the background scroll
         const resMisc = vis.resLoader.getResource("misc");
         const frame = MISC.scroll.frame;
-        const pos = new Vector2(vis.center.x, vis.get("cards.power.yPos") * vis.size.y);
-        const size = new Vector2(vis.get("cards.power.scrollScale").x * vis.sizeUnit);
+        const pos = new Vector2(vis.center.x, vis.get("cards.power.yPos"));
+        const size = new Vector2(vis.get("cards.power.scrollScale").x);
         const opMisc = new LayoutOperation({
             frame: frame,
             pos: pos,
@@ -217,7 +217,7 @@ export default class Card
 
         // then the text
         const text = this.data.desc;
-        const fontSize = vis.get("cards.power.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.power.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSize,

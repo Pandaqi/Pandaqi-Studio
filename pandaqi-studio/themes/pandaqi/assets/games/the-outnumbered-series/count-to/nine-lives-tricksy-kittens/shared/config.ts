@@ -1,5 +1,5 @@
 
-import { SettingType, Vector2 } from "lib/pq-games"
+import { CVal, SettingType, Vector2 } from "lib/pq-games"
 import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
@@ -113,14 +113,14 @@ export const CONFIG =
             {
                 defaultBGColor: "#FEFEFE",
                 shadowColor: "#00000099",
-                shadowOffset: 0.01, // ~sizeUnit
+                shadowOffset: new CVal(0.01, "sizeUnit"),
                 colorLighten: 62.5,
                 colorDarken: 10,
             },
 
             corners:
             {
-                fontSize: 0.21, // ~sizeUnit
+                fontSize: new CVal(0.21, "sizeUnit"),
                 offsetText: 1.2, // ~0.5 fontSize
                 strokeWidth: 0.075, // ~fontSize
 
@@ -131,7 +131,8 @@ export const CONFIG =
 
             bgCats:
             {
-                patternExtraMargin: 0.2, // relative to card Y, extra margin at edge to make sure no empty space when rotated   
+                // 1.2 = the 1.0 the pattern always needs plus the 0.2 extra margin at the edge
+                patternExtraMargin: new CVal(1.2, "sizeY"),
                 patternNumIcons: 12, // again, Y-axis
                 patternIconSize: 0.8, // relative to full space reserved for icon (1.0)
 
@@ -143,15 +144,15 @@ export const CONFIG =
             illustration:
             {
                 offset: 0.7, // ~rectSizeUnit (from powers, see below)
-                size: 0.5, // ~sizeUnit (note that this is placed twice, top and bottom (rotated), so higher than 0.5 will surely clip it on Y-axis)
+                size: new CVal(0.5, "sizeUnit"), // placed twice, top and bottom (rotated), so higher than 0.5 will surely clip it on Y-axis
             },
 
             powers:
             {
-                rectSize: new Vector2(0.8, 0.25), // ~sizeUnit
+                rectSize: new CVal(new Vector2(0.8, 0.25), "sizeUnit"),
                 rectBevel: 0.1, // ~rectSizeUnit
-                rectStrokeWidth: 0.01, // ~sizeUnit
-                fontSize: 0.065, // ~sizeUnit
+                rectStrokeWidth: new CVal(0.01, "sizeUnit"),
+                fontSize: new CVal(0.065, "sizeUnit"),
                 textPadding: new Vector2(0.05, 0.05) // ~rectSizeUnit
             },
 

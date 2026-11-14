@@ -6,7 +6,7 @@ import SideData from "./sideData";
 
 const createSidePattern = async (vis:MaterialVisualizer, subType:Type) =>
 {
-    const patternSize = vis.get("cards.bgHand.patternExtraMargin") * vis.size.x;
+    const patternSize = vis.get("cards.bgHand.patternExtraMargin");
     const num = vis.get("cards.bgHand.patternNumIcons");
     const distBetweenIcons = patternSize / num;
     const iconSize = vis.get("cards.bgHand.patternIconSize") * distBetweenIcons;
@@ -121,7 +121,7 @@ export default class Card
         fillCanvas(ctx, bgColor);
 
         // gradient (top block)
-        const size = new Vector2(vis.size.x, vis.size.y * vis.get("cards.bgPerson.size"));
+        const size = new Vector2(vis.size.x, vis.get("cards.bgPerson.size"));
         const midPoint = size.clone().scaleFactor(0.5);
         const res = new ResourceGradient({ 
             type: GradientType.RADIAL, 
@@ -145,7 +145,7 @@ export default class Card
         const frame = MISC.beam.frame;
         const beamScale = vis.get("cards.bgPerson.beamScale");
         const beamSize = size.clone().scaleFactor(beamScale)
-        const scoreOffset = vis.get("cards.score.offset") * vis.size.y* vis.get("cards.bgPerson.beamOffsetY");
+        const scoreOffset = vis.get("cards.score.offset") * vis.get("cards.bgPerson.beamOffsetY");
         const beamPos = midPoint.clone().move(new Vector2(0,scoreOffset));
         const beamOp = new LayoutOperation({
             pos: beamPos,
@@ -163,7 +163,7 @@ export default class Card
         const data = this.getData();
         const textureKey = data.textureKey;
         const res = vis.resLoader.getResource(textureKey);
-        const topBlockEnd = vis.size.y * vis.get("cards.bgPerson.size");
+        const topBlockEnd = vis.get("cards.bgPerson.size");
         const iconSize = topBlockEnd * vis.get("cards.illustrationPerson.size");
         const iconOffsetY = vis.get("cards.illustrationPerson.offsetY") * topBlockEnd;
         const anchor = new Vector2(0.5*vis.size.x, topBlockEnd);
@@ -179,8 +179,8 @@ export default class Card
         // draw score star + score text
         const resStar = vis.resLoader.getResource("misc");
         const starFrame = MISC.score.frame;
-        const starOffset = new Vector2(0.5*vis.size.x, vis.get("cards.score.offset") * vis.size.y);
-        const starDims = vis.get("cards.score.size") * vis.sizeUnit;
+        const starOffset = new Vector2(0.5*vis.size.x, vis.get("cards.score.offset"));
+        const starDims = vis.get("cards.score.size");
         const shadowBlur = vis.get("cards.score.shadowSize") * starDims;
         const starEffects = [ new DropShadowEffect({ blurRadius: shadowBlur }), vis.inkFriendlyEffect ].flat();
         const starOp = new LayoutOperation({ 
@@ -192,7 +192,7 @@ export default class Card
         })
         resStar.toCanvas(ctx, starOp);
 
-        let fontSizeScore = vis.get("cards.score.textSize") * vis.sizeUnit;
+        let fontSizeScore = vis.get("cards.score.textSize");
         const doubleDigits = this.score >= 10;
         if(doubleDigits) { fontSizeScore *= vis.get("cards.score.doubleDigitShrinkFactor"); }
 
@@ -214,7 +214,7 @@ export default class Card
         scoreRes.toCanvas(ctx, starTextOp);
 
         // draw person name left + right (rotated, white)
-        const fontSizeName = vis.get("cards.namePerson.size") * vis.sizeUnit;
+        const fontSizeName = vis.get("cards.namePerson.size");
         textConfig.size = fontSizeName;
         const textOffset = fontSizeName;
         const positions = [
@@ -253,7 +253,7 @@ export default class Card
     {
         // draw purple background (underneath main illustration, all the way to bottom)
         const cardBGColor = vis.inkFriendly ? "#FFFFFF" : vis.get("cards.details.bgs.power");
-        const anchorY = vis.get("cards.bgPerson.size") * vis.size.y;
+        const anchorY = vis.get("cards.bgPerson.size");
         const rect = new ResourceShape(new Rectangle().fromTopLeft(new Vector2(0,anchorY), vis.size));
         const rectOp = new LayoutOperation({ fill: cardBGColor });
         rect.toCanvas(ctx, rectOp);
@@ -263,12 +263,12 @@ export default class Card
         const powerRectHeight = (vis.size.y - anchorY) * powerRectFraction;
         const baseRectHeight = ((vis.size.y - anchorY) - powerRectHeight) * 0.5; // *0.5 because split over two things (decos + treats)
         const baseRectSize = new Vector2(vis.size.x, baseRectHeight);
-        const shadowBlur = vis.get("cards.details.rectShadowSize") * vis.sizeUnit;
+        const shadowBlur = vis.get("cards.details.rectShadowSize");
         const rectEffects = [
             new DropShadowEffect({ blurRadius: shadowBlur })
         ]
 
-        const elongation = vis.get("cards.details.wonkyRectElongation") * vis.sizeUnit;
+        const elongation = vis.get("cards.details.wonkyRectElongation");
 
         // > TREAT FIRST (treat icon right + requirements middle) (comes first for correct overlap + shadow)        
         this.drawDetailsRectangle(vis, ctx, anchorY + baseRectSize.y + elongation, baseRectSize, rectEffects, "right", "treats");
@@ -283,15 +283,15 @@ export default class Card
         const desc = data.desc ?? "This is a placeholder tagline.";
         const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.details.power.textColor");
         const powerMidY = vis.size.y - 0.5*powerRectHeight + elongation;
-        const powerMaxWidth = vis.get("cards.details.power.textMaxWidth") * vis.size.x;
+        const powerMaxWidth = vis.get("cards.details.power.textMaxWidth");
         let alpha = 1.0;
         let fontSize = 20.0;
 
         if(!hasPower) {
-            fontSize = vis.get("cards.details.power.fontSizeNoPower") * vis.sizeUnit;
+            fontSize = vis.get("cards.details.power.fontSizeNoPower");
             alpha = vis.get("cards.details.power.alphaNoPower");
         } else {
-            fontSize = vis.get("cards.details.power.fontSize") * vis.sizeUnit;
+            fontSize = vis.get("cards.details.power.fontSize");
             this.drawDetailsIcon(vis, ctx, powerMidY, vis.get("cards.details.iconHeight") * baseRectSize.y, "left", "power");
         }
         
@@ -401,7 +401,7 @@ export default class Card
         // type icon
         const icon = vis.resLoader.getResource("misc");
         const iconFrame = MISC[prop].frame;
-        const iconOffset = vis.get("cards.details.iconOffset") * vis.sizeUnit;
+        const iconOffset = vis.get("cards.details.iconOffset");
         const iconX = side == "left" ? iconOffset : (vis.size.x - iconOffset);
         const col = colorDarken(new Color(vis.get("cards.details.bgs")[prop]), 50);
         const iconEffects = [ new TintEffect({ color: col }), vis.custom.effects ].flat();
@@ -427,7 +427,7 @@ export default class Card
         ]
 
         // then elongate the given side
-        const distance = vis.get("cards.details.wonkyRectElongation") * vis.sizeUnit;
+        const distance = vis.get("cards.details.wonkyRectElongation");
         const vectors = [ new Vector2(0,1), new Vector2(0,-1) ];
         let points = [ path[3], path[0] ];
         if(side == "right") { points = [ path[2], path[1] ]; }
@@ -511,7 +511,7 @@ export default class Card
             const patternAlpha = vis.inkFriendly ? vis.get("cards.bgHand.patternAlphaInkFriendly") : vis.get("cards.bgHand.patternAlpha");
             const patternOp = new LayoutOperation({
                 pos: midPoint,
-                size: new Vector2(vis.size.x * vis.get("cards.bgHand.patternExtraMargin")),
+                size: new Vector2(vis.get("cards.bgHand.patternExtraMargin")),
                 rot: patternRot,
                 alpha: patternAlpha,
                 pivot: new Vector2(0.5)
@@ -526,7 +526,7 @@ export default class Card
         const lineColor = vis.inkFriendly ? "#212121" : vis.get("cards.bgHand.slantedLineColor");
         const lineOp = new LayoutOperation({
             pos: new Vector2(0, halfHeight),
-            strokeWidth: vis.get("cards.bgHand.slantedLineWidth") * vis.sizeUnit,
+            strokeWidth: vis.get("cards.bgHand.slantedLineWidth"),
             stroke: lineColor
         })
         resLine.toCanvas(ctx, lineOp);
@@ -564,7 +564,7 @@ export default class Card
         }
 
         // add text for type along slanted line
-        const fontSize = vis.get("cards.bgHand.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.bgHand.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
@@ -591,7 +591,7 @@ export default class Card
     drawSetID(vis:MaterialVisualizer, ctx)
     {
         // @NOTE: this seems to break when I set alignHorizontal to anything else???
-        const fontSizeID = vis.get("cards.setID.size") * vis.sizeUnit;
+        const fontSizeID = vis.get("cards.setID.size");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSizeID,
@@ -600,7 +600,7 @@ export default class Card
         });
 
         // draw set ID in top left (use SET_ORDER from dict, convert to roman numerals)
-        const offset = vis.get("cards.setID.offset").clone().scaleFactor(vis.sizeUnit);
+        const offset = vis.get("cards.setID.offset").clone();
         const ID = getSettingDefault("seed", CONFIG);
         const col = vis.inkFriendly ? "#212121" : vis.get("cards.setID.color");
         const op = new LayoutOperation({

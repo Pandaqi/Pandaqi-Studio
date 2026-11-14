@@ -1,4 +1,4 @@
-import { resetRulebook, type RulebookParams } from "./rulebook";
+import { type RulebookParams } from "./rulebook";
 import { DEFAULT_SECTION_CONTENT_CLASS, DEFAULT_SECTION_HEADER_CLASS, getAllSections, getSectionAsFlatHTML, RulebookSection, unfoldAllSectionsAbove } from "./sections";
 
 export const isLocalFile = () =>
@@ -147,15 +147,14 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
             return console.error("[Rulebook] Paged.js could not be loaded! Can't print advanced.", err);
         }
 
-        window.onafterprint = () =>
-        {
-            resetRulebook(params, node);
-        }
-
         const div = getSectionAsFlatHTML(params._sectionRoot, params);
-        console.log(div);
-        node.parentElement.removeChild(node);
+        node.remove();
         document.body.appendChild(div);
+
+        // paged.js does not merely read the page, it rebuilds the entire body, so undoing that by hand is
+        // fiddly and easy to get wrong. A reload rebuilds the rulebook exactly as it was, from the source.
+        window.addEventListener("afterprint", () => { window.location.reload(); }, { once: true });
+
         await pagedJS.preview();
         print();
     });

@@ -59,7 +59,7 @@ export default class Card
         const dataSuspect = this.getDataSuspect();
 
         // texts on the side
-        const fontSize = vis.get("suspects.illustration.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("suspects.illustration.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
@@ -78,7 +78,7 @@ export default class Card
             new Vector2(vis.size.x - fontSize, vis.center.y)
         ]
 
-        const shadowRadius = vis.get("suspects.illustration.shadowRadius") * vis.sizeUnit;
+        const shadowRadius = vis.get("suspects.illustration.shadowRadius");
         const effects = [new DropShadowEffect({ blurRadius: shadowRadius })];
         const textDims = new Vector2(vis.size.y, 2*fontSize);
 
@@ -103,8 +103,8 @@ export default class Card
         const hasSpecialPower = dataSuspect.type && dataSuspect.power;
         if(hasSpecialPower)
         {
-            const extraOffset = vis.get("suspects.power.extraEdgeOffset") * vis.sizeUnit;
-            const powerIconDims = new Vector2(vis.get("suspects.power.iconSize") * vis.sizeUnit);
+            const extraOffset = vis.get("suspects.power.extraEdgeOffset");
+            const powerIconDims = new Vector2(vis.get("suspects.power.iconSize"));
             const offset = new Vector2(0.5 * fontSize + 0.5 * powerIconDims.x + extraOffset, 0);
             const positionsPower = [
                 positions[0].clone().move(offset),
@@ -133,7 +133,7 @@ export default class Card
         // main illustration in the center
         const res = vis.resLoader.getResource("suspects");
         const frame = dataSuspect.frame;
-        const illuDims = new Vector2(vis.get("suspects.illustration.scaleFactor") * vis.sizeUnit);
+        const illuDims = new Vector2(vis.get("suspects.illustration.scaleFactor"));
         const op = new LayoutOperation({
             frame: frame,
             pos: vis.center,
@@ -146,7 +146,7 @@ export default class Card
         // paperclip at the top
         const resClip = vis.resLoader.getResource("misc");
         const frameClip = MISC.paperclip.frame;
-        const sizeClip = new Vector2(vis.get("suspects.illustration.paperClipScale") * vis.sizeUnit);
+        const sizeClip = new Vector2(vis.get("suspects.illustration.paperClipScale"));
         const opClip = new LayoutOperation({
             frame: frameClip,
             size: sizeClip,
@@ -193,10 +193,10 @@ export default class Card
     async drawPhotographs(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const numPhotographs = vis.get("cards.photographs.numPerCard").randomInteger();
-        const photographCenter = new Vector2(vis.center.x, vis.get("cards.photographs.yPos") * vis.size.y);
+        const photographCenter = new Vector2(vis.center.x, vis.get("cards.photographs.yPos"));
 
         // the basic rectangles to make up the photograph
-        const rectSize = vis.get("cards.photographs.rectSize").clone().scale(vis.sizeUnit);
+        const rectSize = vis.get("cards.photographs.rectSize").clone();
         const rectSizeUnit = Math.min(rectSize.x, rectSize.y);
         const rect = new Rectangle({ extents: rectSize });
         const shadowRadius = vis.get("cards.photographs.shadowRadius") * rectSizeUnit;
@@ -343,8 +343,8 @@ export default class Card
         // paperclip at the top
         const resClip = vis.resLoader.getResource("misc");
         const frameClip = MISC.paperclip.frame;
-        const sizeClip = new Vector2(vis.get("cards.illustration.paperClipScale") * vis.sizeUnit);
-        const offsetClip = vis.get("cards.illustration.paperClipOffset").clone().scale(vis.sizeUnit);
+        const sizeClip = new Vector2(vis.get("cards.illustration.paperClipScale"));
+        const offsetClip = vis.get("cards.illustration.paperClipOffset").clone();
         const offsetDir = topPhotoRotation > 0 ? -1 : 1;
         const opClip = new LayoutOperation({
             frame: frameClip,
@@ -375,8 +375,8 @@ export default class Card
     async drawText(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // the faded background rect for more legibility/contrast
-        const pos = new Vector2(vis.center.x, vis.get("cards.text.yPos") * vis.size.y);
-        const size = vis.get("cards.text.rectSize").clone().scale(vis.size);
+        const pos = new Vector2(vis.center.x, vis.get("cards.text.yPos"));
+        const size = vis.get("cards.text.rectSize").clone();
         const rect = new Rectangle({ center: pos, extents: size });
         const rectColor = vis.get("cards.text.rectColor");
         const rectBlur = vis.get("cards.text.rectBlur") * Math.min(size.x, size.y);
@@ -391,7 +391,7 @@ export default class Card
         group.add(resShape, rectOp);
 
         // then the actual text
-        const fontSize = vis.get("cards.text.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.text.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSize,

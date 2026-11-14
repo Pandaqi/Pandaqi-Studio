@@ -47,7 +47,7 @@ export default class Token
         const res = vis.resLoader.getResource("categories");
         const data = this.getCategoryData();
         const frame = data.frame;
-        const iconDims = new Vector2(vis.get("cards.token.iconSize") * vis.sizeUnit);
+        const iconDims = new Vector2(vis.get("cards.token.iconSize"));
 
         const resOp = new LayoutOperation({
             frame: frame,
@@ -61,7 +61,7 @@ export default class Token
 
     drawText(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const fontSize = vis.get("cards.token.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.token.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,

@@ -70,8 +70,8 @@ export default class Card
         group.add(res, bubbleOp);
 
         // text with category
-        const yPos = vis.get("cards.category.textYPos") * vis.size.y;
-        const fontSize = vis.get("cards.category.textFontSize") * vis.sizeUnit;
+        const yPos = vis.get("cards.category.textYPos");
+        const fontSize = vis.get("cards.category.textFontSize");
         const strokeWidth = vis.get("cards.category.textStrokeWidth") * fontSize;
         const strokeColor = vis.inkFriendly ? "#212121" : data.colorText
         const textConfig = new TextConfig({
@@ -93,8 +93,8 @@ export default class Card
         group.add(resText, textOp);
 
         // category icons left and right of text
-        const cornerOffset = vis.get("cards.category.iconOffset") * vis.sizeUnit;
-        const iconDims = new Vector2(vis.get("cards.category.iconSize") * vis.sizeUnit);
+        const cornerOffset = vis.get("cards.category.iconOffset");
+        const iconDims = new Vector2(vis.get("cards.category.iconSize"));
         const corners = [
             new Vector2(cornerOffset, yPos),
             new Vector2(vis.size.x - cornerOffset, yPos)
@@ -129,7 +129,7 @@ export default class Card
             console.error("A card has text that's too long for any font size (" + textLength + " characters): ", text);
         }
 
-        const fontSize = fontSizeRaw * vis.sizeUnit;
+        const fontSize = fontSizeRaw;
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSize,
@@ -137,10 +137,10 @@ export default class Card
         }).alignCenter();
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
-        const textDims = vis.get("cards.text.size").clone().scale(vis.size);
+        const textDims = vis.get("cards.text.size").clone();
         const categoryData = this.getCategoryData();
         const colorText = vis.inkFriendly ? "#000000" : (categoryData.colorText ?? "#000000");
-        const yPos = vis.get("cards.text.yPos") * vis.size.y;
+        const yPos = vis.get("cards.text.yPos");
 
         const textOp = new LayoutOperation({
             pos: new Vector2(vis.center.x, yPos),

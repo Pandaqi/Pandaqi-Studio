@@ -7,12 +7,12 @@ const cacheVisualizerData = async (vis:MaterialVisualizer) =>
     const alreadyCached = vis.custom && Object.keys(vis.custom).length > 0;
     if(alreadyCached) { return; }
 
-    const shadowOffset = vis.get("cards.shared.shadowOffset").clone().scale(vis.sizeUnit);
+    const shadowOffset = vis.get("cards.shared.shadowOffset").clone();
     const shadowColor = vis.get("cards.shared.shadowColor");
 
     const params = 
     {
-        dims: (1.0 + vis.get("cards.bgCats.patternExtraMargin")) * vis.size.y,
+        dims: vis.get("cards.bgCats.patternExtraMargin"),
         size: vis.get("cards.bgCats.patternIconSize"),
         num: vis.get("cards.bgCats.patternNumIcons"),
         resource: vis.getResource("misc"),
@@ -103,8 +103,8 @@ export default class Card
     {
         const res = vis.resLoader.getResource("misc");
         const frame = MISC.heart_life.frame;
-        const pos = new Vector2(0.5*vis.size.x, vis.get("cards.life.heartPosY") * vis.size.y);
-        const size = new Vector2(vis.get("cards.life.heartSize") * vis.sizeUnit);
+        const pos = new Vector2(0.5*vis.size.x, vis.get("cards.life.heartPosY"));
+        const size = new Vector2(vis.get("cards.life.heartSize"));
         const effects = vis.inkFriendly ? [new GrayScaleEffect()] : [];
         const op = new LayoutOperation({
             frame: frame,
@@ -119,7 +119,7 @@ export default class Card
 
     drawCornerHearts(vis:MaterialVisualizer, ctx)
     {
-        const size = new Vector2(vis.get("cards.life.heartCornerSize") * vis.sizeUnit);
+        const size = new Vector2(vis.get("cards.life.heartCornerSize"));
         const offset = size.clone().scaleFactor(0.5).scaleFactor(vis.get("cards.life.heartCornerOffset"));
         const positions = getRectangleCornersWithOffset(vis.size, offset);
         const res = vis.resLoader.getResource("misc");
@@ -143,7 +143,7 @@ export default class Card
     drawCardLimit(vis:MaterialVisualizer, ctx)
     {
         // background rect (with beveled corners)
-        const center = new Vector2(0.5*vis.size.x, vis.get("cards.life.cardRectY") * vis.size.y);
+        const center = new Vector2(0.5*vis.size.x, vis.get("cards.life.cardRectY"));
         const extents = vis.get("cards.life.cardRectSize").clone().scaleFactor(vis.sizeUnit);
         const rect = new Rectangle({ center: center, extents: extents });
         const rectBevel = vis.get("cards.life.cardRectBevel") * Math.min(extents.x, extents.y);
@@ -151,7 +151,7 @@ export default class Card
         
         const pathObj = new Path(path, true);
         const res = new ResourceShape({ shape: pathObj });
-        const strokeWidth = vis.get("cards.life.cardRectStrokeWidth") * vis.sizeUnit;
+        const strokeWidth = vis.get("cards.life.cardRectStrokeWidth");
         const op = new LayoutOperation({
             fill: "#00353D",
             stroke: "#FFFFFF",
@@ -184,7 +184,7 @@ export default class Card
     {
         const isCustomPower = this.data.reqs && this.data.reqs.length > 0;
         const center = vis.size.clone().scale(0.5);
-        const size = new Vector2(vis.get("cards.powers.iconSize") * vis.sizeUnit);
+        const size = new Vector2(vis.get("cards.powers.iconSize"));
         const powerEffects = vis.custom.effects.slice();
 
         const glowBlur = vis.get("cards.powers.glowAroundIcons.blur") * size.x;
@@ -217,7 +217,7 @@ export default class Card
         const resMisc = vis.resLoader.getResource("misc");
         const posLeft = center.clone().move(new Vector2(-0.5*size.x, 0));
         const posRight = center.clone().move(new Vector2(0.5*size.x, 0));
-        const strokeWidth = vis.get("cards.powers.textStrokeWidth") * vis.sizeUnit;
+        const strokeWidth = vis.get("cards.powers.textStrokeWidth");
 
         const op = new LayoutOperation({
             pos: Vector2.ZERO,
@@ -318,7 +318,7 @@ export default class Card
 
     drawLifeText(vis:MaterialVisualizer, ctx)
     {
-        const fontSize = vis.get("cards.life.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.life.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
@@ -327,9 +327,9 @@ export default class Card
         })
         const label = this.data.label;
         const res = new ResourceText({ text: label, textConfig: textConfig });
-        const offset = vis.get("cards.life.textOffsetFromCenter") * vis.size.y;
+        const offset = vis.get("cards.life.textOffsetFromCenter");
         const pos = new Vector2(0.5*vis.size.x, 0.5*vis.size.y + offset);
-        const strokeWidth = vis.get("cards.life.textStrokeWidth") * vis.sizeUnit;
+        const strokeWidth = vis.get("cards.life.textStrokeWidth");
         const op = new LayoutOperation({
             pos: pos,
             size: new Vector2(vis.size.x, fontSize),
@@ -364,7 +364,7 @@ export default class Card
         const positions = vis.get("cards.cats.positions")[numIcons];
         const res = vis.resLoader.getResource("cats");
 
-        const size = new Vector2(vis.get("cards.cats.iconSize") * vis.sizeUnit);
+        const size = new Vector2(vis.get("cards.cats.iconSize"));
         const center = vis.size.clone().scale(0.5);
         const posOffset = vis.get("cards.cats.positionOffset");
         const posOffsetAbsolute = vis.size.clone().scaleFactor(0.5 * posOffset);
@@ -390,9 +390,9 @@ export default class Card
     {
         if(vis.inkFriendly) { return; }
 
-        const iconSize = vis.get("cards.cats.simplifiedIconSize") * vis.sizeUnit;
+        const iconSize = vis.get("cards.cats.simplifiedIconSize");
         const numIcons = this.cats.length;
-        const offset = vis.get("cards.cats.simplifiedIconOffset").clone().scale(vis.sizeUnit);
+        const offset = vis.get("cards.cats.simplifiedIconOffset").clone();
         const positions = 
         [
             new Vector2(vis.size.x - (numIcons-0.5)*iconSize - offset.x, 0.5*iconSize + offset.y),

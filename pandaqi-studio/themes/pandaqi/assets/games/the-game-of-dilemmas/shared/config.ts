@@ -2,7 +2,7 @@
 import { TokenType } from "./dict"
 import { tokenPicker } from "../game/tokenPicker"
 import { cardPicker } from "../game/cardPicker"
-import { SettingType, TextConfig, TextWeight, Vector2 } from "lib/pq-games"
+import { CVal, SettingType, TextConfig, TextWeight, Vector2 } from "lib/pq-games"
 
 export const CONFIG = 
 {
@@ -148,26 +148,30 @@ export const CONFIG =
 
             category:
             {
-                iconSize: 0.15, // ~sizeUnit
-                iconOffset: 0.125, // ~sizeUnit
-                textYPos: 0.925, // ~sizeY
-                textFontSize: 0.15, // ~sizeUnit
+                iconSize: new CVal(0.15, "sizeUnit"),
+                iconOffset: new CVal(0.125, "sizeUnit"),
+                textYPos: new CVal(0.925, "sizeY"),
+                textFontSize: new CVal(0.15, "sizeUnit"),
                 textStrokeWidth: 0.1 // ~textFontSize
             },
 
             text:
             {
-                fontSize: { large: 0.125, medium: 0.105, small: 0.09 }, // ~sizeUnit
+                fontSize: {
+                    large: new CVal(0.125, "sizeUnit"),
+                    medium: new CVal(0.105, "sizeUnit"),
+                    small: new CVal(0.09, "sizeUnit"),
+                },
                 fontSizeCutoffs: { large: 65, medium: 105, small: 145 },
-                yPos: 0.433, // ~sizeY
-                size: new Vector2(0.91, 0.8), // ~size
+                yPos: new CVal(0.433, "sizeY"),
+                size: new CVal(new Vector2(0.91, 0.8), "size"),
                 negativeCardPrefix: "... but "
             },
 
             token:
             {
-                iconSize: 0.75, // ~sizeUnit
-                fontSize: 0.75, // ~sizeUnit
+                iconSize: new CVal(0.75, "sizeUnit"),
+                fontSize: new CVal(0.75, "sizeUnit"),
             },
 
             outline:

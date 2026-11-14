@@ -43,7 +43,7 @@ export default class Token
 
     drawNumber(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const fontSize = vis.get("tokens.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("tokens.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
@@ -58,7 +58,7 @@ export default class Token
             size: textDims,
             fill: vis.get("tokens.textColor") ?? "#000000",
             stroke: vis.get("tokens.strokeColor") ?? "#FFFFFF",
-            strokeWidth: vis.get("tokens.strokeWidth") * vis.sizeUnit,
+            strokeWidth: vis.get("tokens.strokeWidth"),
             strokeAlign: StrokeAlign.OUTSIDE,
             pivot: Vector2.CENTER,
             effects: vis.custom.dropShadowEffects

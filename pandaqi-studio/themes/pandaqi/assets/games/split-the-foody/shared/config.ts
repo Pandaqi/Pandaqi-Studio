@@ -1,5 +1,5 @@
 
-import { SettingType, TextConfig, TextStyle, Vector2 } from "lib/pq-games"
+import { CVal, SettingType, TextConfig, TextStyle, Vector2 } from "lib/pq-games"
 import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
@@ -133,14 +133,14 @@ export const CONFIG =
         {            
             shared:
             {
-                shadowRadius: 0.033, // ~sizeUnit
+                shadowRadius: new CVal(0.033, "sizeUnit"),
                 shadowColor: "#00000099", // semi-transparent black
             },
 
             heading:
             {
-                yPos: 0.925,
-                fontSize: 0.075, // ~sizeUnit
+                yPos: new CVal(0.925, "sizeY"),
+                fontSize: new CVal(0.075, "sizeUnit"),
                 fillColor: "#FFFFFF",
                 strokeColor: "#240C00",
                 strokeWidth: 0.1, // ~fontSize
@@ -149,14 +149,14 @@ export const CONFIG =
 
             corners:
             {
-                edgeOffsetBig: new Vector2(0.15, 0.15), // ~sizeUnit
-                coinScaleBig: 0.235, // ~sizeUnit
+                edgeOffsetBig: new CVal(new Vector2(0.15, 0.15), "sizeUnit"),
+                coinScaleBig: new CVal(0.235, "sizeUnit"),
                 coinScoreScale: 0.5, // ~coinDims
-                fontSizeBig: 0.15, // ~sizeUnit
+                fontSizeBig: new CVal(0.15, "sizeUnit"),
 
-                edgeOffsetSmall: new Vector2(0.1, 0.1), // ~sizeUnit
-                coinScaleSmall: 0.15, // ~sizeUnit
-                fontSizeSmall: 0.075, // ~sizeUnit
+                edgeOffsetSmall: new CVal(new Vector2(0.1, 0.1), "sizeUnit"),
+                coinScaleSmall: new CVal(0.15, "sizeUnit"),
+                fontSizeSmall: new CVal(0.075, "sizeUnit"),
 
                 fillColor: "#FFFFFF",
                 strokeColor: "#240C00",
@@ -165,16 +165,16 @@ export const CONFIG =
 
             illustration:
             {
-                yPos: 0.33, // ~sizeY
-                scale: 0.66 // ~sizeUnit
+                yPos: new CVal(0.33, "sizeY"),
+                scale: new CVal(0.66, "sizeUnit"),
             },
 
             power:
             {
-                yPos: 0.725, // ~sizeY
-                scrollScale: new Vector2(0.95, 0.95/2.13), // ~size => the image is about 2.13:1
+                yPos: new CVal(0.725, "sizeY"),
+                scrollScale: new CVal(new Vector2(0.95, 0.95/2.13), "sizeUnit"), // the image is about 2.13:1
                 textBoxWidth: 0.844, // ~scrollWidth
-                fontSize: 0.066, // ~sizeUnit
+                fontSize: new CVal(0.066, "sizeUnit"),
                 shadowOffset: 0.033, // ~fontSize
             },
             

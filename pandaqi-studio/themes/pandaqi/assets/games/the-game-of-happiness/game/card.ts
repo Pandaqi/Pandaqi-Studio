@@ -63,10 +63,10 @@ export default class Card
     {
         // category icons in 4 corners
         const res = vis.resLoader.getResource("categories");
-        const cornerOffset = vis.get("cards.category.iconOffset").clone().scale(vis.sizeUnit);
+        const cornerOffset = vis.get("cards.category.iconOffset").clone();
         const corners = getRectangleCornersWithOffset(vis.size, cornerOffset);
         const data = this.getCategoryData();
-        const iconDims = new Vector2(vis.get("cards.category.iconSize") * vis.sizeUnit);
+        const iconDims = new Vector2(vis.get("cards.category.iconSize"));
 
         for(let i = 0; i < corners.length; i++)
         {
@@ -82,8 +82,8 @@ export default class Card
         }
 
         // much bigger (but faded) icons above and below text
-        const bigIconDims = new Vector2(vis.get("cards.category.iconSizeBig") * vis.sizeUnit);
-        const bigYPos = vis.get("cards.category.bigIconYPos") * vis.size.y;
+        const bigIconDims = new Vector2(vis.get("cards.category.iconSizeBig"));
+        const bigYPos = vis.get("cards.category.bigIconYPos");
         const positions = [
             new Vector2(vis.center.x, bigYPos),
             new Vector2(vis.center.x, vis.size.y - bigYPos)
@@ -123,7 +123,7 @@ export default class Card
             console.error("A card has text that's too long for any font size (" + textLength + " characters): ", text);
         }
 
-        const fontSize = fontSizeRaw * vis.sizeUnit;
+        const fontSize = fontSizeRaw;
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSize,
@@ -131,7 +131,7 @@ export default class Card
         }).alignCenter();
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
-        const textDims = vis.get("cards.text.size").clone().scale(vis.size);
+        const textDims = vis.get("cards.text.size").clone();
         const categoryData = this.getCategoryData();
         const colorText = vis.inkFriendly ? "#000000" : (categoryData.colorText ?? "#000000");
 
@@ -147,9 +147,9 @@ export default class Card
     drawMetaText(vis:MaterialVisualizer, group: ResourceGroup)
     {
         const texts = ["Category: " + this.category, "Pack: " + this.pack];
-        const fontSize = vis.get("cards.textMeta.fontSize") * vis.sizeUnit;
-        const yPos = vis.get("cards.textMeta.yPos") * vis.size.y;
-        const size = new Vector2(vis.get("cards.textMeta.textBlockWidth") * vis.size.x, 1.5*fontSize);
+        const fontSize = vis.get("cards.textMeta.fontSize");
+        const yPos = vis.get("cards.textMeta.yPos");
+        const size = new Vector2(vis.get("cards.textMeta.textBlockWidth"), 1.5*fontSize);
         const positions = [
             new Vector2(vis.center.x, yPos),
             new Vector2(vis.center.x, vis.size.y-yPos)

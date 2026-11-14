@@ -94,7 +94,7 @@ export default class Card
 
         // add random secret messages (in night unreadable caveman font)
         const numMessages = vis.get("cards.secretMessages.num").randomInteger();
-        const fontSize = vis.get("cards.secretMessages.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.secretMessages.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSize
@@ -121,9 +121,9 @@ export default class Card
 
     drawWords(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const fontSize = vis.get("cards.words.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.words.fontSize");
 
-        let yPos = vis.get("cards.words.yPos") * vis.size.y;
+        let yPos = vis.get("cards.words.yPos");
         if(vis.inkFriendly) { yPos = fontSize*1.5; } // if no "Word Card" at the top anyway, just use the full card size
 
         const numWords = this.words.length;
@@ -134,7 +134,7 @@ export default class Card
             size: fontSize
         }).alignCenter();
 
-        const fontSizeNumber = vis.get("cards.words.fontSizeNumber") * vis.sizeUnit;
+        const fontSizeNumber = vis.get("cards.words.fontSizeNumber");
         const textConfigNumber = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSizeNumber
@@ -146,18 +146,18 @@ export default class Card
         const textConfigRight = textConfig.clone(true);
         textConfigRight.alignHorizontal = TextAlign.END;
 
-        const margin = vis.get("cards.words.edgeMargin") * vis.size.x;
+        const margin = vis.get("cards.words.edgeMargin");
         const xPositions = [margin, vis.size.x - margin];
 
         const resMisc = vis.resLoader.getResource("misc");
         const resBlock = vis.custom.tintedSquareResource;
         const resColor = vis.resLoader.getResource("colors");
 
-        const iconDims = new Vector2(vis.get("cards.words.iconDims") * vis.sizeUnit);
+        const iconDims = new Vector2(vis.get("cards.words.iconDims"));
         const strokeWidth = vis.get("cards.words.strokeWidth") * fontSize;
-        const dividerDims = new Vector2(vis.get("cards.words.dividerDims") * vis.sizeUnit);
+        const dividerDims = new Vector2(vis.get("cards.words.dividerDims"));
         const dividerAlpha = vis.inkFriendly ? vis.get("cards.words.dividerAlphaInkFriendly") : vis.get("cards.words.dividerAlpha");
-        const gapIconToText = vis.get("cards.words.gapIconToText") * vis.sizeUnit;
+        const gapIconToText = vis.get("cards.words.gapIconToText");
 
         for(let i = 0; i < numWords; i++)
         {

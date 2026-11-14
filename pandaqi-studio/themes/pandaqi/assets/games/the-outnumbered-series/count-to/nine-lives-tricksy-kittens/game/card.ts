@@ -9,12 +9,12 @@ const cacheVisualizerData = async (vis:MaterialVisualizer) =>
     const alreadyCached = vis.custom && Object.keys(vis.custom).length > 0;
     if(alreadyCached) { return; }
 
-    const shadowOffset = new Vector2(vis.get("cards.shared.shadowOffset")).clone().scale(vis.sizeUnit);
+    const shadowOffset = new Vector2(vis.get("cards.shared.shadowOffset")).clone();
     const shadowColor = vis.get("cards.shared.shadowColor");
 
     const params = 
     {
-        dims: (1.0 + vis.get("cards.bgCats.patternExtraMargin")) * vis.size.y,
+        dims: vis.get("cards.bgCats.patternExtraMargin"),
         size: vis.get("cards.bgCats.patternIconSize"),
         num: vis.get("cards.bgCats.patternNumIcons"),
         resource: vis.getResource("misc"),
@@ -97,7 +97,7 @@ export default class Card
     drawCornerNumbers(vis:MaterialVisualizer, ctx)
     {
         // first the text (number of the card)
-        const fontSize = vis.get("cards.corners.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.corners.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
@@ -139,7 +139,7 @@ export default class Card
 
     drawCornerSuits(vis:MaterialVisualizer, ctx)
     {
-        const fontSize = vis.get("cards.corners.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.corners.fontSize");
         const offset = new Vector2(fontSize * 0.5 * vis.get("cards.corners.offsetText"));
         const positions = getRectangleCornersWithOffset(vis.size, offset);
 
@@ -174,10 +174,10 @@ export default class Card
 
     drawMainIllustration(vis:MaterialVisualizer, ctx)
     {
-        const extentsRect = vis.get("cards.powers.rectSize").clone().scale(vis.size);
+        const extentsRect = vis.get("cards.powers.rectSize").clone();
         const offsetFactor = CONFIG._settings.includePowers.value ? vis.get("cards.illustration.offset") : 0.0;
         const offset = 0.5 * offsetFactor * extentsRect.y;
-        const size = new Vector2(vis.get("cards.illustration.size") * vis.sizeUnit);
+        const size = new Vector2(vis.get("cards.illustration.size"));
         const res = vis.resLoader.getResource("cats");
         const frame = this.getData().frame;
         const effects = vis.inkFriendly ? [new GrayScaleEffect()] : [];
@@ -205,7 +205,7 @@ export default class Card
         if(!CONFIG._settings.includePowers.value) { return; }
 
         // the background rectangle
-        const extents = vis.get("cards.powers.rectSize").clone().scale(vis.size);
+        const extents = vis.get("cards.powers.rectSize").clone();
         const extentsUnit = Math.min(extents.x, extents.y);;
         const rect = new Rectangle({ center: vis.center, extents: extents });
         const bevelSize = vis.get("cards.powers.rectBevel") * extentsUnit;
@@ -216,7 +216,7 @@ export default class Card
         const color = this.getData().color;
         const lighten = this.getData().colorLighten ?? vis.get("cards.shared.colorLighten");
         const colorLight = vis.inkFriendly ? "#FFFFFF" : colorLighten(new Color(color), lighten);
-        const strokeWidth = vis.get("cards.powers.rectStrokeWidth") * vis.sizeUnit;
+        const strokeWidth = vis.get("cards.powers.rectStrokeWidth");
 
         const op = new LayoutOperation({
             fill: colorLight,
@@ -228,7 +228,7 @@ export default class Card
         shape.toCanvas(ctx, op);
 
         // the text inside
-        const fontSize = vis.get("cards.powers.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.powers.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSize,

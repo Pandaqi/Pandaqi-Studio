@@ -1,4 +1,4 @@
-import { SettingType, Vector2 } from "lib/pq-games"
+import { CVal, SettingType, Vector2 } from "lib/pq-games"
 import { tilePicker } from "../game/tilePicker"
 
 export const CONFIG = 
@@ -88,12 +88,12 @@ export const CONFIG =
             fences:
             {
                 scale: [0.775, 0.75, 0.705],
-                edgeOffset: [0.08, 0.11, 0.115], // ~sizeUnit
+                edgeOffset: new CVal([0.08, 0.11, 0.115], "sizeUnit"),
             },
 
             sheep:
             {
-                scale: 0.6, // ~sizeUnit, cut in half further for multiple sheep on a tile
+                scale: new CVal(0.6, "sizeUnit"), // cut in half further for multiple sheep on a tile
             },
 
             outline:

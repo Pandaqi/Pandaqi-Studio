@@ -1,5 +1,5 @@
 
-import { SettingType, TextConfig, TextWeight, Vector2 } from "lib/pq-games"
+import { CVal, SettingType, TextConfig, TextWeight, Vector2 } from "lib/pq-games"
 import { cardPicker } from "../game/cardPicker"
 import { tokenPicker } from "../game/tokenPicker"
 
@@ -147,30 +147,34 @@ export const CONFIG =
 
             category:
             {
-                iconSize: 0.12, // ~sizeUnit
-                iconSizeBig: 0.3, // ~sizeUnit
-                bigIconYPos: 0.225, // ~sizeY
-                iconOffset: new Vector2(0.075, 0.18), // ~sizeUnit
+                iconSize: new CVal(0.12, "sizeUnit"),
+                iconSizeBig: new CVal(0.3, "sizeUnit"),
+                bigIconYPos: new CVal(0.225, "sizeY"),
+                iconOffset: new CVal(new Vector2(0.075, 0.18), "sizeUnit"),
             },
 
             text:
             {
-                fontSize: { large: 0.125, medium: 0.105, small: 0.085 }, // ~sizeUnit
+                fontSize: {
+                    large: new CVal(0.125, "sizeUnit"),
+                    medium: new CVal(0.105, "sizeUnit"),
+                    small: new CVal(0.085, "sizeUnit"),
+                },
                 fontSizeCutoffs: { large: 50, medium: 90, small: 130 },
-                size: new Vector2(0.9, 0.75), // ~size
+                size: new CVal(new Vector2(0.9, 0.75), "size"),
             },
 
             textMeta:
             {
-                fontSize: 0.04, // ~sizeUnit
-                yPos: 0.0285, // ~sizeUnit
-                textBlockWidth: 0.866, // ~sizeX
+                fontSize: new CVal(0.04, "sizeUnit"),
+                yPos: new CVal(0.0285, "sizeY"),
+                textBlockWidth: new CVal(0.866, "sizeX"),
             },
 
             token:
             {
-                iconSize: 0.75, // ~sizeUnit
-                fontSize: 0.75, // ~sizeUnit
+                iconSize: new CVal(0.75, "sizeUnit"),
+                fontSize: new CVal(0.75, "sizeUnit"),
             },
 
             outline:

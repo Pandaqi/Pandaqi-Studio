@@ -1,5 +1,5 @@
 
-import { SettingType, Vector2 } from "lib/pq-games"
+import { CVal, SettingType, Vector2 } from "lib/pq-games"
 import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
@@ -125,13 +125,14 @@ export const CONFIG =
         {    
             shared:
             {
-                shadowOffset: new Vector2(0.0175, 0.0175),
+                shadowOffset: new CVal(new Vector2(0.0175, 0.0175), "sizeUnit"),
                 shadowColor: "#00000099"
             },
 
             bgCats:
             {
-                patternExtraMargin: 0.2, // relative to card Y, extra margin at edge to make sure no empty space when rotated   
+                // 1.2 = the 1.0 the pattern always needs plus the 0.2 extra margin at the edge
+                patternExtraMargin: new CVal(1.2, "sizeY"),
                 patternNumIcons: 12, // again, Y-axis
                 patternIconSize: 0.8, // relative to full space reserved for icon (1.0)
 
@@ -161,37 +162,37 @@ export const CONFIG =
                     [new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1), new Vector2(-1, 0), new Vector2(1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1)],
                     [new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1), new Vector2(-1, 0), Vector2.ZERO, new Vector2(1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1)]
                 ],
-                iconSize: 0.25, // ~sizeUnit
-                simplifiedIconSize: 0.08, // ~sizeUnit
-                simplifiedIconOffset: new Vector2(0.05, 0.05), // ~sizeUnit
+                iconSize: new CVal(0.25, "sizeUnit"),
+                simplifiedIconSize: new CVal(0.08, "sizeUnit"),
+                simplifiedIconOffset: new CVal(new Vector2(0.05, 0.05), "sizeUnit"),
             },
 
             life:
             {
                 bgColor: "#7C0600",
-                heartPosY: 0.533, // ~sizeY
-                heartSize: 1.4, // ~sizeUnit, should be above 1.0 by a good amount
-                heartCornerSize: 0.175, // ~sizeUnit
+                heartPosY: new CVal(0.533, "sizeY"),
+                heartSize: new CVal(1.4, "sizeUnit"), // should be above 1.0 by a good amount
+                heartCornerSize: new CVal(0.175, "sizeUnit"),
                 heartCornerOffset: 1.4, // ~half size of corner heart
 
-                cardRectY: 0.08, // ~sizeY
+                cardRectY: new CVal(0.08, "sizeY"),
                 cardRectSize: new Vector2(0.315, 0.135), // ~sizeUnit
                 cardRectBevel: 0.15, // ~rectSizeUnit
-                cardRectStrokeWidth: 0.0075, // ~sizeUnit
+                cardRectStrokeWidth: new CVal(0.0075, "sizeUnit"),
                 cardRectIconSize: 0.9, // ~rectY
                 cardRectIconXSpacing: 0.675, // ~rectIconX (cards are portrait, so their actual width is smaller than the square frame, compensate for that)
 
-                fontSize: 0.075, // ~sizeUnit
-                textOffsetFromCenter: 0.175, // ~sizeY
-                textStrokeWidth: 0.005, // ~sizeUnit
+                fontSize: new CVal(0.075, "sizeUnit"),
+                textOffsetFromCenter: new CVal(0.175, "sizeY"),
+                textStrokeWidth: new CVal(0.005, "sizeUnit"),
                 lifeCardTextAlpha: 0.5,
                 lifeCardFontSizeFactor: 0.85,
             },
 
             powers:
             {
-                iconSize: 0.33, // ~sizeUnit
-                textStrokeWidth: 0.01, // ~sizeUnit, only used for ONE power right now (that shows a NUMBER)
+                iconSize: new CVal(0.33, "sizeUnit"),
+                textStrokeWidth: new CVal(0.01, "sizeUnit"), // only used for ONE power right now (that shows a NUMBER)
                 glowAroundIcons:
                 {
                     blur: 0.05, //~iconSize

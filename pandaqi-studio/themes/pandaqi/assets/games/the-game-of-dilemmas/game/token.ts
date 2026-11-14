@@ -34,7 +34,7 @@ export default class Token
         const res = vis.resLoader.getResource("token_types");
         const data = this.getTypeData();
         const frame = data.frame;
-        const iconDims = new Vector2(vis.get("cards.token.iconSize") * vis.sizeUnit);
+        const iconDims = new Vector2(vis.get("cards.token.iconSize"));
 
         const resOp = new LayoutOperation({
             frame: frame,

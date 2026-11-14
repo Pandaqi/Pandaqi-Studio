@@ -1,5 +1,5 @@
 
-import { SettingType, Vector2 } from "lib/pq-games"
+import { CVal, SettingType, Vector2 } from "lib/pq-games"
 import { tilePicker } from "../game/tilePicker"
 
 export const CONFIG = 
@@ -135,32 +135,32 @@ export const CONFIG =
             {
                 defaultBGColor: "#FFFFFF",
                 glowColor: "#FFFFFF",
-                glowRadius: 0.0175, // ~sizeUnit
+                glowRadius: new CVal(0.0175, "sizeUnit"),
             },
 
             main:
             {
-                iconSize: 0.66, // ~sizeUnit
+                iconSize: new CVal(0.66, "sizeUnit"),
 
                 house:
                 {
-                    xPosLeft: 0.35, // ~sizeX
-                    xPosRight: 0.75, // ~sizeX
+                    xPosLeft: new CVal(0.35, "sizeX"),
+                    xPosRight: new CVal(0.75, "sizeX"),
                     iconSizeFactor: 0.8125, // ~original iconSize
-                    iconSizePresent: 0.175, // ~sizeUnit
+                    iconSizePresent: new CVal(0.175, "sizeUnit"),
                     iconPresentEmptySpace: 0.075, // ~1.0 = total icon size
 
-                    iconSizeStar: 0.15, // ~sizeUnit
-                    yPosStar: 0.115, // ~sizeY
+                    iconSizeStar: new CVal(0.15, "sizeUnit"),
+                    yPosStar: new CVal(0.115, "sizeY"),
                 }
             },
 
             numbers:
             {
-                fontSize: 0.15, // ~sizeUnit
-                fontSizeTiny: 0.066, // ~sizeUnit
+                fontSize: new CVal(0.15, "sizeUnit"),
+                fontSizeTiny: new CVal(0.066, "sizeUnit"),
                 fontAlphaTiny: 0.75,
-                offset: new Vector2(0.12, 0.12), // ~sizeUnit
+                offset: new CVal(new Vector2(0.12, 0.12), "sizeUnit"),
                 numberIconSizeFactor: 0.975, // ~fontSize; it looks better if images in corners (wildcard numbers) are slightly smaller
             
                 stroke: "#000000",
@@ -169,8 +169,8 @@ export const CONFIG =
 
             specialAction:
             {
-                fontSize: 0.0775, // ~sizeUnit
-                textDims: new Vector2(0.8, 0.8), // ~size
+                fontSize: new CVal(0.0775, "sizeUnit"),
+                textDims: new CVal(new Vector2(0.8, 0.8), "size"),
                 textColor: "#111111", // should be on light present background (present_circle), so dark text
             },
 

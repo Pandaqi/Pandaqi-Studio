@@ -1,5 +1,5 @@
 
-import { SettingType, Vector2 } from "lib/pq-games"
+import { CVal, SettingType, Vector2 } from "lib/pq-games"
 import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
@@ -116,13 +116,14 @@ export const CONFIG =
 
         cards:
         { 
-            sharedStrokeWidth: 0.01, // relative to sizeUnit
+            sharedStrokeWidth: new CVal(0.01, "sizeUnit"),
             sharedShadowColor: "#00000055", // black but low opacity
-            sharedShadowOffset: 0.025, // relative to sizeUnit
+            sharedShadowOffset: new CVal(0.025, "sizeUnit"),
 
             bgCats:
             {
-                patternExtraMargin: 0.2, // relative to card Y, extra margin at edge to make sure no empty space when rotated   
+                // 1.2 = the 1.0 the pattern always needs plus the 0.2 extra margin at the edge
+                patternExtraMargin: new CVal(1.2, "sizeY"),
                 patternNumIcons: 12, // again, Y-axis
                 patternIconSize: 0.8, // relative to full space reserved for icon (1.0)
                 patternRotation: -0.166*Math.PI, // = 30 degrees tilt
@@ -131,16 +132,16 @@ export const CONFIG =
 
             suits:
             {
-                iconSize: 0.175, // relative to sizeUnit
+                iconSize: new CVal(0.175, "sizeUnit"),
                 offset: new Vector2(0.125, 0.125), // relative to sizeUnit
-                bigSuitSize: 0.55, // relative to SizeUnit
+                bigSuitSize: new CVal(0.55, "sizeUnit"),
                 bigSuitAlpha: 0.55
             },
 
             numbers:
             {
-                fontSize: 0.2, // relative to sizeUnit
-                fontSizeBig: 1.165, // relative to sizeUnit => the big number in the center
+                fontSize: new CVal(0.2, "sizeUnit"),
+                fontSizeBig: new CVal(1.165, "sizeUnit"), // the big number in the center
                 offsetFromEdge: 0.5, // relative to fontSize
 
                 clarityLineBevel: 0.4, // ~lineSizeUnit => this is the line underneath 6 and 9 to differentiate
@@ -152,9 +153,9 @@ export const CONFIG =
             {
                 offset: new Vector2(0, -0.075),
                 sizeFactor: 1.0, // relative to card X-axis ( = width)
-                extraRectHeight: 0.0525,
+                extraRectHeight: new CVal(0.0525, "sizeUnit"),
                 extraRectAlpha: 0.33,
-                fontSize: 0.066, // relative to sizeUnit
+                fontSize: new CVal(0.066, "sizeUnit"),
                 textOffset: 0.8, // relative to fontSize
                 strokeWidthFactor: 0.5,
 
@@ -164,20 +165,20 @@ export const CONFIG =
 
             power:
             {
-                yPos: 0.845, // relative to Y-axis, placement of box on card
-                rectSize: new Vector2(0.9, 0.225), // simply relative to exact card dimensions
+                yPos: new CVal(0.845, "sizeY"),
+                rectSize: new CVal(new Vector2(0.9, 0.225), "size"),
                 rectCutSize: 0.15, // relative to rectSizeUnit
-                fontSize: 0.066,
+                fontSize: new CVal(0.066, "sizeUnit"),
             },
 
             lives:
             {
-                yPos: 0.665, // should be slightly lower than the power.yPos
-                iconSize: 0.315, // 0.5, // relative to sizeUnit
-                handIconSize: 0.15, // some fraction of iconSize
-                fontSize: 0.2, //0.25,
-                handIconFontSize: 0.12,
-                handIconSideOffset: 0.125, // relative to sizeX
+                yPos: new CVal(0.665, "sizeY"), // should be slightly lower than the power.yPos
+                iconSize: new CVal(0.315, "sizeUnit"),
+                handIconSize: new CVal(0.15, "sizeUnit"),
+                fontSize: new CVal(0.2, "sizeUnit"),
+                handIconFontSize: new CVal(0.12, "sizeUnit"),
+                handIconSideOffset: new CVal(0.125, "sizeX"),
             },
 
             outline:

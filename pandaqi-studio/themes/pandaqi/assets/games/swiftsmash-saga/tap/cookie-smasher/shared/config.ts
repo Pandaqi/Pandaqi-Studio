@@ -1,7 +1,7 @@
 
 import { TYPES } from "./dict"
 import { cardPicker } from "../game/cardPicker"
-import { SettingType, Vector2, Bounds } from "lib/pq-games"
+import { CVal, SettingType, Vector2, Bounds } from "lib/pq-games"
 
 export const CONFIG = 
 {
@@ -162,8 +162,8 @@ export const CONFIG =
 
             icons:
             {
-                fontSizeNumber: 0.13, // relative to sizeUnit
-                fontSizeName: 0.065, // relative to sizeUnit
+                fontSizeNumber: new CVal(0.13, "sizeUnit"),
+                fontSizeName: new CVal(0.065, "sizeUnit"),
                 trapeziumShortSideShrinkFactor: 0.75,
                 gapToIllustration: 0.05, // relative to sizeUnit
 
@@ -172,7 +172,7 @@ export const CONFIG =
 
             illustration:
             {
-                sizeFactor: 0.55, // relative to sizeUnit
+                sizeFactor: new CVal(0.55, "sizeUnit"),
                 bgSize: new Vector2(0.65, 0.6), // should always be bigger than sizeFactor above
 
                 addShadow: true,
@@ -184,7 +184,7 @@ export const CONFIG =
             {
             gapIconAndText: 0.05, // relative to sizeUnit
             padding: 0.08, // relative to sizeUnit
-            fontSize: 0.075, // relative to sizeUnit
+            fontSize: new CVal(0.075, "sizeUnit"),
             lineHeight: 0.9,
             iconHeight: 0.55, // relative to text+image container for power
             inlineIconHeight: 0.9, // icon within text, relative to font size = capital letter height

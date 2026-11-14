@@ -51,7 +51,10 @@ export default class Tile
         const frameVariation = this.useUniqueFences() ? 0 : rangeInteger(1,2);
         const frame = this.getFrame("fence", frameVariation);
         const size = vis.size.clone().scale(vis.get("tiles.fences.scale")[frameVariation]);
-        const edgeOffset = vis.get("tiles.fences.edgeOffset[frameVariation]") * vis.sizeUnit;
+        // the offsets are a resolved list now; indexing is the caller's job, not a bracket path the
+        // configurator cannot resolve
+        const edgeOffsets = vis.get("tiles.fences.edgeOffset");
+        const edgeOffset = edgeOffsets[frameVariation] ?? edgeOffsets[0];
         const op = new LayoutOperation({
             size: size,
             frame: frame,
@@ -99,7 +102,7 @@ export default class Tile
         }
 
         let positions = [vis.center];
-        let size = new Vector2(vis.get("tiles.sheep.scale") * vis.sizeUnit);
+        let size = new Vector2(vis.get("tiles.sheep.scale"));
         if(numIllustrations == 2) {
             size.scale(0.5);
             positions = [

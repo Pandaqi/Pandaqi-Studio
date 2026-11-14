@@ -4,7 +4,7 @@ import { MISC, SPECIAL_ACTIONS, TILES } from "../shared/dict";
 
 const getVisualizerEffects = (vis:MaterialVisualizer) =>
 {
-    const glowRadius = vis.get("tiles.shared.glowRadius") * vis.sizeUnit;
+    const glowRadius = vis.get("tiles.shared.glowRadius");
     const glowColor = vis.get("tiles.shared.glowColor");
     return [new DropShadowEffect({ blurRadius: glowRadius, color: glowColor }), vis.inkFriendlyEffect].flat();
 }
@@ -75,7 +75,7 @@ export default class Tile
         const tileData = TILES[this.getFirstType()]
         const isWildcard = this.isWildcardNumber();
 
-        const offset = vis.get("tiles.numbers.offset").clone().scale(vis.sizeUnit);
+        const offset = vis.get("tiles.numbers.offset").clone();
         const positions = getRectangleCornersWithOffset(vis.size, offset);
         const offsetsForSmall = [
             Vector2.DOWN,
@@ -84,7 +84,7 @@ export default class Tile
             Vector2.UP,
         ]
 
-        const fontSize = vis.get("tiles.numbers.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("tiles.numbers.fontSize");
         const textConfigBig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
@@ -92,7 +92,7 @@ export default class Tile
             alignVertical: TextAlign.MIDDLE
         })
 
-        const fontSizeSmall = vis.get("tiles.numbers.fontSizeTiny") * vis.sizeUnit;
+        const fontSizeSmall = vis.get("tiles.numbers.fontSizeTiny");
         const textConfigSmall = textConfigBig.clone();
         textConfigSmall.size = fontSizeSmall;
         textConfigSmall.font = vis.get("fonts.body");
@@ -154,7 +154,7 @@ export default class Tile
             [vis.center], 
             [vis.center.clone().scale(0.75), vis.center.clone().scale(1.33)]
         ]
-        const size = new Vector2(vis.get("tiles.main.iconSize") * vis.sizeUnit);
+        const size = new Vector2(vis.get("tiles.main.iconSize"));
         const sizes = [
             [size],
             [size.clone().scale(0.5), size.clone().scale(0.5)]
@@ -187,7 +187,7 @@ export default class Tile
 
     drawSpecialAction(vis:MaterialVisualizer, group)
     {
-        const fontSize = vis.get("tiles.specialAction.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("tiles.specialAction.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSize,
@@ -195,7 +195,7 @@ export default class Tile
             alignVertical: TextAlign.MIDDLE
         })
 
-        const textDims = vis.get("tiles.specialAction.textDims").clone().scale(vis.size);
+        const textDims = vis.get("tiles.specialAction.textDims").clone();
         const textOp = new LayoutOperation({
             pos: vis.center,
             size: textDims,
@@ -214,8 +214,8 @@ export default class Tile
         // draw the big house on the left
         const res = vis.getResource("tiles");
         const frame = TILES.house.frame;
-        const xPosLeft = vis.get("tiles.main.house.xPosLeft") * vis.size.x;
-        const size = new Vector2(vis.get("tiles.main.iconSize") * vis.get("tiles.main.house.iconSizeFactor") * vis.sizeUnit);
+        const xPosLeft = vis.get("tiles.main.house.xPosLeft");
+        const size = new Vector2(vis.get("tiles.main.iconSize") * vis.get("tiles.main.house.iconSizeFactor"));
         const op = new LayoutOperation({
             frame: frame,
             pos: new Vector2(xPosLeft, vis.center.y),
@@ -226,9 +226,9 @@ export default class Tile
         group.add(res, op);
 
         // draw the presents it wants in a centered (column) list on the right
-        const xPosRight = vis.get("tiles.main.house.xPosRight") * vis.size.x;
+        const xPosRight = vis.get("tiles.main.house.xPosRight");
         const posRight = new Vector2(xPosRight, vis.center.y);
-        const sizePresentWithSpace = new Vector2(vis.get("tiles.main.house.iconSizePresent") * vis.sizeUnit);
+        const sizePresentWithSpace = new Vector2(vis.get("tiles.main.house.iconSizePresent"));
         const sizePresent = sizePresentWithSpace.clone().scale(1.0 - vis.get("tiles.main.house.iconPresentEmptySpace"));
         const numPresents = this.reqs.length;
         const positions = getPositionsCenteredAround({ 
@@ -258,8 +258,8 @@ export default class Tile
         // draw the house score at the top
         // (a horizontal centered list of star icons)
         const score = this.calculateScore();
-        const sizeStar = new Vector2(vis.get("tiles.main.house.iconSizeStar") * vis.sizeUnit);
-        const yPos = vis.get("tiles.main.house.yPosStar") * vis.size.y;
+        const sizeStar = new Vector2(vis.get("tiles.main.house.iconSizeStar"));
+        const yPos = vis.get("tiles.main.house.yPosStar");
         const positionsScore = getPositionsCenteredAround({
             pos: new Vector2(vis.center.x, yPos),
             size: sizeStar,
