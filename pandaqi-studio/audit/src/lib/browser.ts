@@ -19,6 +19,8 @@ export interface OpenOptions
     headed?: boolean;
     artifactsDir?: string;
     allowlist?: string[];
+    marker?: string; // a harmless Chrome flag, so a leftover browser can be recognised and killed
+    auditPdf?: { maxPages?: number, compression?: string }; // see `window.__auditPdf` below
 }
 
 const DEFAULT_ALLOWLIST: string[] = [];
@@ -177,6 +179,9 @@ export class Session
                 "--disk-cache-size=67108864",
             ],
         };
+        // Chrome ignores unknown flags, so this one only exists to make a leftover browser identifiable (govern.ts)
+        if(opts.marker) { launchOpts.args.push(`--audit-harness=${opts.marker}`); }
+
         if(process.env.CHROME_PATH) { launchOpts.executablePath = process.env.CHROME_PATH; }
         else { launchOpts.channel = "chrome"; }
 
@@ -227,7 +232,13 @@ export class Session
             audited.downloads.push(download);
         });
 
-        await page.addInitScript({ content: INSTRUMENT });
+        // `window.__auditPdf` is the one hook the harness has into the PDF pipeline: it caps the pages and drops
+        // the compression, so a sweep tests that generation works without paying for a full print document.
+        // Nothing sets it outside the audit, so a real user's PDF is unaffected.
+        const auditPdfScript = opts.auditPdf
+            ? `\n;(window.__auditPdf = ${JSON.stringify(opts.auditPdf)});\n`
+            : "";
+        await page.addInitScript({ content: INSTRUMENT + auditPdfScript });
 
         page.setDefaultTimeout(timeoutMs);
         await page.goto(url, { waitUntil: "load", timeout: timeoutMs });

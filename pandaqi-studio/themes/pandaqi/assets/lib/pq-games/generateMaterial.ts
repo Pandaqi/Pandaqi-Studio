@@ -8,7 +8,7 @@ import { RendererPandaqi } from "./renderers/pandaqi/rendererPandaqi";
 import type { Renderer } from "./renderers/renderer";
 import { addConfigFromLocalStorage, ensureConfigProperties, getDefaultSetting, type GameConfig, type MaterialConfig } from "./settings/configuration";
 import { sendProgressInfoSignal, sendProgressPhaseSignal } from "./tools/dom/feedbackNode";
-import { PdfBuilder, PdfPageConfig } from "./tools/pdf/pdfBuilder";
+import { PdfBuilder, PdfCompression, PdfPageConfig } from "./tools/pdf/pdfBuilder";
 import { getSplitDimsAsPoint, makeSizeSplittable } from "./tools/pdf/tools";
 import { setSeed } from "./tools/random/rng";
 import { getRandomSeedString } from "./tools/random/values";
@@ -193,6 +193,11 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
     // which promised "one builder per size" but never delivered it: every mapper owns its own Vector2, so the
     // lookup always missed and every material got its own builder anyway — only the comment was wrong. A
     // material owns its fileName and its split, so separate documents are the behaviour to keep.
+    // The audit harness tests that the pipeline runs, not what the material looks like: two pages and an
+    // uncompressed PDF are the same code path without paying for hundreds of PNG encodes. Production code
+    // never sets this, so nothing here changes for a user.
+    const auditPdf = ((window as any).__auditPdf ?? {}) as { maxPages?:number, compression?:PdfCompression };
+
     const pdfBuilders:PdfBuilder[] = [];
     for(const [key,mapper] of Object.entries(mappers))
     {
@@ -200,6 +205,8 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
             size: mapper.getPageSize(), 
             debugWithoutFile: config._debug.omitFile, 
             lossless: config._generation.losslessPdf,
+            compression: auditPdf.compression,
+            maxPages: auditPdf.maxPages,
             fileName: config._material[key].fileName ?? config._game.fileName ?? config._game.name,
         };
         const pdfBuilder = new PdfBuilder(pageParams);
@@ -210,6 +217,10 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
         const numPages = canvases.length;
         for(let i = 0; i < numPages; i++)
         {
+            // stop converting once the builder is full: toDataURL + decode of a 300 DPI page is the single
+            // most expensive step here, so a capped run must skip it, not just skip the addImage
+            if(pdfBuilder.isFull) { break; }
+
             const infoText = "Adding page " + (i+1) + " / " + numPages + " to PDF";
             console.log(infoText);
 

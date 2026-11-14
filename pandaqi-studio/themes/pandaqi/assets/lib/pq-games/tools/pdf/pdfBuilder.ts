@@ -12,6 +12,8 @@ export interface PdfConfig
     hotfixes?: string[],
 }
 
+export type PdfCompression = "NONE" | "FAST" | "MEDIUM" | "SLOW";
+
 export interface PdfPageConfig 
 {
     orientation?: PageOrientation,
@@ -21,10 +23,16 @@ export interface PdfPageConfig
     jsPDF?:any,
     debugWithoutFile?: boolean,
     lossless?: boolean, // default = false, means we compress the PDF
+    compression?: PdfCompression, // overrides the lossless default (the audit harness sets NONE)
+    maxPages?: number, // 0/undefined = every page; the audit harness caps it, the pipeline is what is tested
     splitEnabled?: boolean,
     splitDims?: Vector2,
 }
 
+// One PDF per material. Pages are added to the jsPDF document as they arrive instead of being collected
+// first: a full A4 page at 300 DPI is a ~35 MB decoded bitmap, so keeping every page alive until "save"
+// meant a 40-page document held well over a gigabyte (and made whole audit sweeps crawl). jsPDF keeps the
+// compressed bytes, which are what actually ends up in the file.
 export class PdfBuilder 
 {
     jsPDF : jsPDF
@@ -33,9 +41,16 @@ export class PdfBuilder
     sizeSplittablePage : Vector2 // defined in PIXELS
     sizeSinglePage : Vector2
 
-    images : HTMLImageElement[]
+    images : (HTMLImageElement|HTMLCanvasElement)[] // only filled in debugWithoutFile mode
     debugWithoutFile : boolean
     lossless : boolean
+    compression : PdfCompression
+    maxPages : number
+
+    doc : any
+    pageCount : number
+    aliases : WeakMap<object, string>
+    aliasCount : number
 
     constructor(config:PdfPageConfig = {})
     {
@@ -48,20 +63,65 @@ export class PdfBuilder
         
         this.debugWithoutFile = config.debugWithoutFile ?? false;
         this.lossless = config.lossless ?? false;
+        this.compression = config.compression ?? (this.lossless ? "NONE" : "MEDIUM");
+        this.maxPages = Math.max(0, config.maxPages ?? 0);
         this.sizeSinglePage = config.size ?? getPageSizeSingle(config);
         this.sizeSplittablePage = makeSizeSplittable(this.sizeSinglePage, config.splitDims);
         this.fileName = config.fileName ?? "Generated Game";
         this.reset();
     }
 
-    reset() { this.images = [] }
+    reset()
+    {
+        this.images = [];
+        this.doc = null;
+        this.pageCount = 0;
+        this.aliases = new WeakMap();
+        this.aliasCount = 0;
+    }
+
     destroy() { this.reset(); }
 
-    addImage(img:HTMLImageElement) { this.images.push(img); }
-    addImages(imgs:HTMLImageElement[])
+    get isFull() : boolean { return this.maxPages > 0 && this.pageCount >= this.maxPages; }
+
+    // The same canvas (frontDefault/backDefault) drawn onto many pages is one image in the PDF: jsPDF
+    // caches by alias, so without one every repeated page is encoded again.
+    aliasOf(img:object) : string | undefined
+    {
+        const known = this.aliases.get(img);
+        if(known) { return known; }
+        // a WeakMap has no size, so the alias number comes from a plain counter
+        const alias = `img${this.aliasCount++}`;
+        this.aliases.set(img, alias);
+        return alias;
+    }
+
+    addImage(img:HTMLImageElement|HTMLCanvasElement)
+    {
+        if(this.isFull) { return; }
+
+        if(this.debugWithoutFile)
+        {
+            this.images.push(img);
+            this.pageCount++;
+            return;
+        }
+
+        if(!this.doc) { this.doc = new this.jsPDF(this.getPDFConfig()); }
+        if(this.pageCount > 0) { this.doc.addPage(); }
+
+        // DOC: addImage(imageData, format, x, y, width, height, alias, compression, rotation)
+        // compression values = NONE, FAST, MEDIUM, SLOW; NONE creates 100+ mb files, so it is opt-in
+        const pageSizeInches = convertPixelsToInches(this.sizeSinglePage);
+        this.doc.addImage(img, 'png', 0, 0, pageSizeInches.x, pageSizeInches.y, this.aliasOf(img), this.compression);
+        this.pageCount++;
+    }
+
+    addImages(imgs:(HTMLImageElement|HTMLCanvasElement)[])
     {
         for(const img of imgs)
         {
+            if(this.isFull) { return; }
             this.addImage(img);
         }
     }
@@ -82,7 +142,7 @@ export class PdfBuilder
             format: [pageSizeInches.x, pageSizeInches.y],
             orientation: orientation,
             //hotfixes: ["px_scaling"]
-        }
+        };
     }
 
     downloadPDF(customFileName = null)
@@ -90,29 +150,15 @@ export class PdfBuilder
         if(this.debugWithoutFile)
         {
             return this.images.forEach((img) => { 
+                if(img instanceof HTMLCanvasElement) { img.style.maxWidth = "100%"; document.body.appendChild(img); return; }
                 img.style.maxWidth = "100%";
                 document.body.appendChild(img);
             });
         }
 
-        const pdfConfig = this.getPDFConfig();
-        const doc = new this.jsPDF(pdfConfig);
-
-        const pageSize = this.getSinglePageSize();
-        const pageSizeInches = convertPixelsToInches(pageSize);
-
-        // This simply places images, one per page, and creates a _new_ page each time after the first one
-        // DOC: addImage(imageData, format, x, y, width, height, alias, compression, rotation)
-        // compression values = NONE, FAST, MEDIUM, SLOW
-        // NONE creates 100+ mb files, so don't use that
-        const compressionValue = this.lossless ? "NONE" : "MEDIUM";
-        for(var i = 0; i < this.images.length; i++) 
-        {
-            if(i > 0) { doc.addPage(); }
-            doc.addImage(this.images[i], 'png', 0, 0, pageSizeInches.x, pageSizeInches.y, undefined, compressionValue);
-        }
+        if(!this.doc) { return; } // every page was skipped (maxPages = 0 pages requested)
 
         const fileName = `${customFileName ?? this.fileName}.pdf`;
-        doc.save(fileName);
+        this.doc.save(fileName);
     }
 }

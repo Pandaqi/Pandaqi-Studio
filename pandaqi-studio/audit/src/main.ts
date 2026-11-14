@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { buildSite, lastLines, writeSegment } from "./build";
 import { buildManifest, slugOf, writeManifest } from "./manifest";
@@ -8,7 +8,7 @@ import { runRulebook } from "./pages/rulebook";
 import { runGenerator } from "./pages/generator";
 import { runDigital } from "./pages/digital";
 import { copyBaseline, failureCounts, writeReports } from "./lib/report";
-import { acquireLock, breathe, freeMemoryMb, waitForMemory } from "./lib/govern";
+import { acquireLock, breathe, cleanupStrayAudits, freeMemoryMb, waitForMemory } from "./lib/govern";
 import { runStaticChecks } from "./static";
 import type { ManifestEntry, PageResult, ReportData } from "./lib/types";
 
@@ -34,12 +34,23 @@ const outDir = join(studioDir, "audit-artifacts");
 const siteDir = join(outDir, "site");
 const artifactsRoot = join(outDir, "artifacts");
 const baselinesRoot = join(auditDir, "baselines");
+const progressPath = join(outDir, "progress.json");
+const auditEntry = join(auditDir, "src", "main.ts");
+const chromeMarker = "pandaqi-audit";
 
 const seed = argValue("seed", "audit-1") as string;
 const timeoutMs = argNumber("timeout", 30000);
-// these are hard ceilings: a page that needs longer is a defect, not a slow machine
-const genTimeoutMs = 30000;
+// A material generation runs the whole picker → draw → PDF pipeline; some games legitimately take a minute
+// on a full deck, so this is a ceiling for "stuck", not a target. The harness caps the PDF itself
+// (--pdf-max-pages) and drops its compression, which is where most of the time went.
+const genTimeoutMs = argNumber("gen-timeout", 90000);
 const exampleTimeoutMs = 10000;
+// the sweep tests the pipeline, not the printing: two pages, uncompressed. `--pdf-full` restores production.
+const pdfFull = hasFlag("pdf-full");
+const auditPdf = pdfFull ? undefined : {
+    maxPages: Math.max(0, argNumber("pdf-max-pages", 2)),
+    compression: argValue("pdf-compression", "NONE"),
+};
 // one page at a time by default; two is the hard ceiling, because each worker is a whole browser page
 // with full-page canvases in it
 const workers = Math.min(2, Math.max(1, argNumber("workers", 1)));
@@ -51,6 +62,11 @@ const onlyFailing = hasFlag("only-failing");
 const skipBuild = hasFlag("skip-build");
 const baseUrlOverride = argValue("base-url");
 const updateBaselines = hasFlag("update-baselines");
+// a full sweep is a long job on a machine that is also being used: report and take a short break every few
+// minutes, and let an interrupted run continue instead of starting the first page again
+const resume = hasFlag("resume");
+const reportEveryMs = Math.max(1, argNumber("report-every", 3)) * 60000;
+const pauseMs = Math.max(0, argNumber("pause", 10)) * 1000;
 const allowlist = loadAllowlist();
 
 function loadAllowlist() : string[]
@@ -74,10 +90,29 @@ const matchesKind = (entry:ManifestEntry) =>
     return false;
 }
 
+const readProgress = () : PageResult[] =>
+{
+    if(!existsSync(progressPath)) { return []; }
+    try
+    {
+        const data = JSON.parse(readFileSync(progressPath, "utf8"));
+        if(data.version !== 1 || data.seed !== seed || data.runs !== runs) { return []; }
+        return Array.isArray(data.results) ? data.results : [];
+    }
+    catch(e) { return []; }
+}
+
 const main = async () : Promise<number> =>
 {
     mkdirSync(outDir, { recursive: true });
     mkdirSync(artifactsRoot, { recursive: true });
+
+    // A previous audit that was killed leaves its Chrome behind, and that leftover is what makes the next
+    // run crawl and fail with the memory guard. Stop it (and only it: this harness's entry point and this
+    // harness's Chrome profile), then start Chrome from a clean profile.
+    cleanupStrayAudits({ auditEntry, marker: chromeMarker });
+
+    const startedAt = Date.now();
 
     // one build/audit at a time: two of these together is what actually takes a computer down
     try { acquireLock(outDir, `audit ${argv.join(" ")}`.trim()); }
@@ -122,6 +157,16 @@ const main = async () : Promise<number> =>
     writeManifest(join(outDir, "manifest.json"), entries);
 
     let queue = entries.filter(matchesKind);
+
+    // --resume: an interrupted sweep continues where it stopped (same seed and profile count only)
+    const resumed = resume ? readProgress() : [];
+    if(resumed.length > 0)
+    {
+        const done = new Set(resumed.map(r => r.url));
+        const before = queue.length;
+        queue = queue.filter(entry => !done.has(entry.url));
+        console.log(`resume: ${before - queue.length} page(s) already recorded, ${queue.length} left`);
+    }
     if(onlyFailing)
     {
         const previous = join(outDir, "report.json");
@@ -146,8 +191,37 @@ const main = async () : Promise<number> =>
     const baseUrl = baseUrlOverride ?? (server as any).url;
     console.log(`serving ${siteDir} at ${baseUrl} — ${queue.length} page(s), ${workers} worker(s), runs ${runs}`);
 
-    const session = await Session.launch({ headed: hasFlag("headed") });
-    const results:PageResult[] = [];
+    const session = await Session.launch({ headed: hasFlag("headed"), marker: chromeMarker });
+    const results:PageResult[] = [...resumed];
+    const totalPages = queue.length + resumed.length;
+
+    const saveProgress = () =>
+    {
+        try
+        {
+            writeFileSync(progressPath, JSON.stringify({ version: 1, seed, runs, startedAt, results }), "utf8");
+        }
+        catch(e) { /* progress is a convenience; the report at the end is the real output */ }
+    }
+
+    // A long sweep reports itself and then steps aside for a few seconds, so the machine (and the author)
+    // get a predictable breather instead of one uninterrupted hour of Chrome + esbuild.
+    let lastReportAt = Date.now();
+    let breaking = false;
+    const maybeBreak = async () =>
+    {
+        if(breaking || (Date.now() - lastReportAt) < reportEveryMs) { return; }
+        breaking = true;
+        saveProgress();
+        const pass = results.filter(r => r.status === "pass").length;
+        const fail = results.filter(r => r.status === "fail").length;
+        const skip = results.filter(r => r.status === "skip").length;
+        const minutes = ((Date.now() - startedAt) / 60000).toFixed(1);
+        console.log(`[progress] ${results.length}/${totalPages} pages · ${pass} pass · ${fail} fail · ${skip} skip · ${minutes} min · pausing ${(pauseMs / 1000).toFixed(0)}s`);
+        await breathe(pauseMs);
+        lastReportAt = Date.now();
+        breaking = false;
+    };
 
     try
     {
@@ -193,7 +267,9 @@ const main = async () : Promise<number> =>
                     });
                     console.error(`FAIL ${entry.url} (internal: ${e?.message ?? e})`);
                 }
+                saveProgress();
                 await breathe(1000);
+                await maybeBreak();
             }
         };
 
@@ -206,6 +282,7 @@ const main = async () : Promise<number> =>
     }
 
     results.sort((a, b) => a.url.localeCompare(b.url));
+    saveProgress();
 
     if(updateBaselines)
     {
@@ -278,7 +355,7 @@ const main = async () : Promise<number> =>
         {
             return await runGenerator(session, entry, {
                 baseUrl, artifactsRoot, timeoutMs, genTimeoutMs, seed, runs,
-                inert: hasFlag("inert"), allowlist,
+                inert: hasFlag("inert"), allowlist, auditPdf,
             });
         }
         if(entry.contract === "digital")

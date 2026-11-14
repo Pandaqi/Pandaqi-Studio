@@ -17,6 +17,7 @@ export interface GeneratorOptions
     runs: number;
     inert: boolean;
     allowlist: string[];
+    auditPdf?: { maxPages?: number, compression?: string };
 }
 
 const INK_MIN_GENERATOR = 0.001;
@@ -46,6 +47,7 @@ export const runGenerator = async (session:Session, entry:ManifestEntry, opts:Ge
         timeoutMs: opts.timeoutMs,
         artifactsDir: join(opts.artifactsRoot, slug, "default"),
         allowlist: opts.allowlist,
+        auditPdf: opts.auditPdf,
     });
     const page = audited.page;
 
