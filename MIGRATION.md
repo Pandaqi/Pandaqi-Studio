@@ -215,6 +215,8 @@ SC-6 resolution: absolute path (`/x/y`) → `content/x/y`, else `static/x/y`, el
 
 `downloadPDF` is emitted by `generateMaterial.ts` and survives minification: measured 73 of 80 game bundles, and the 7 without it are exactly the digital games. Do **not** use `Reset to Defaults` (epic-medics, slippery-slopes-trippy-touches, timely-transports and wondering-witches are digital games that call `loadSettings`) or `generateMaterial` (does not survive minification). If a page classified as generator has no `div.settings`, fail `GEN_NO_SETTINGS`.
 
+What a page can *print* is not what it *is*, and `loadGame` says nothing either way: generators are built on `loadGame` too (firecrackers is a generator), and digital games print PDFs as well (the pirate games). Keep the classifier as it is — the page's scripts, vendor included, mention `downloadPDF` or they do not — and do not "fix" it by reading the entry source or by guessing from `loadGame`/`loadSettings`.
+
 Baseline counts: 92 `game`+`board` → **85 generators** + 7 digital games; 75 rulebooks.
 
 ### 2.6 Test-suite budget (deliberate)
@@ -470,9 +472,17 @@ First generator and digital runs:
 * `/chiptales/bet/noble-flood/game/` passes MG-1..MG-7 with a 2-profile run.
 * `/epic-medics/game/` requests `/games/epic-medics/game/fonts/woodcutter.woff2`, which 404s; the file exists at `/epic-medics/assets/fonts/`. Its CSS resolves the font relative to the bundle, so this only ever broke once generator CSS was compiled.
 
-`bun run perf` (cold destination, so the numbers mean something): segment build 3.9 s (budget 90 s), markdown edit 1.4 s (2 s), game-code edit 0.5 s (10 s), full build 32.1 s (budget 150 s). Every budget green. The full build was 193.9 s before §4.2 and §4.4.
+`bun run perf` (cold destination, so the numbers mean something): segment build 3.9 s (budget 90 s), markdown edit 1.4 s (2 s), game-code edit 0.5 s (10 s), full build 32.1 s (budget 150 s). Every budget green. The full build was 193.9 s before §4.2 and §4.4. Repeat cold builds of the same tree measured 32 s, 64 s and once 217 s (fresh `resources/_gen` and a cold disk), so read the budget, not the best number — warm rebuilds are 15 s.
 
-One filtered run of the reworked harness (`bun run audit --filter firecrackers`, 1 worker, 1 profile, `audit/lean.toml`): build 11 s, `/firecrackers/game/` **pass** (61.6 s), `/firecrackers/rules/` **pass** (2.6 s). That is the shape a full sweep takes — do it in one go, at the end.
+Filtered runs of the reworked harness (1 worker, 1 profile, `audit/lean.toml`), all with the build already warm:
+
+* `/firecrackers/game/` **pass** (61.6 s), `/firecrackers/rules/` **pass** (2.6 s) — generator whose material follows the chosen packs.
+* `/hasty-accusations/rules/` **pass**; `/hasty-accusations/game/` **fail `GEN_NO_SETTINGS`** — that project is not converted yet and its entry still uses bare globals (`ReferenceError: ProgressBar is not defined`), which is the documented migration work, not a harness artefact.
+* `/hold-my-bear/game/` **pass** (29.1 s), `/hold-my-bear/rules/` **pass** (2.7 s).
+
+`report.md` now lists each failure's message under **Failure details**: a code alone does not say what to open, and for `/hasty-accusations/game/` it is what names the actual cause.
+
+That is the shape a full sweep takes — do it in one go, at the end.
 
 ## 4. Build speed (measured — read before touching anything)
 
@@ -480,7 +490,7 @@ All timings on the author's machine, Hugo 0.153.4 extended, Windows. `bun run pe
 
 | Command | Measured |
 |---|---|
-| full build into a fresh directory, generators on, `audit/lean.toml` | **32.1 s** |
+| full build into a fresh directory, generators on, `audit/lean.toml` | **32–67 s** (cold disk: 217 s) |
 | one project (`--renderSegments` + `--disableKinds` + lean), cold | **3.9 s** |
 | `hugo server` + segment, edit page **markdown** | **1.4 s** |
 | `hugo server` + segment, edit a game **`main.ts`** | **0.5 s** |
@@ -524,13 +534,13 @@ Rules:
 
 ### 4.2 Shared libraries
 
-`assets/lib/vendor/pq-games-global.ts` and `pq-rulebook-global.ts` are built once in `load-assets.html` into `/lib/vendor/pq-games.js` (531 KB) and `/lib/vendor/pq-rulebook.js` (69 KB), emitted **before** the page bundle (deferred scripts keep document order). `js.Build`'s `shims` option maps `lib/pq-games` / `lib/pq-rulebook` to `assets/js/shims/*.js`, i.e. `module.exports = window.PQ_GAMES` / `window.PQ_RULEBOOK`. Page code is unchanged.
+`assets/lib/vendor/pq-games-global.ts` and `pq-rulebook-global.ts` are built once in `load-assets.html` into `/lib/vendor/pq-games.js` (531 KB) and `/lib/vendor/pq-rulebook.js` (69 KB), emitted **before** the page bundle (deferred scripts keep document order). `js.Build`'s `shims` option maps `lib/pq-games` / `lib/pq-rulebook` to `assets/js/shims/*.js`, i.e. `module.exports = window.PQ_GAMES` / `window.PQ_RULEBOOK`; those shim references are what the layout greps for in each built bundle, so a page needs the vendor file exactly when its output reads the global. Page code is unchanged.
 
 A page bundle is ~21 KB instead of ~480 KB, and a `main.ts` edit lands in **0.5 s**.
 
 Two consequences to remember:
 * The vendor file is not tree-shaken (it is a namespace on `window`), so one generator page loads ~550 KB instead of ~480 KB. It is cached across the whole site, so every other page pays nothing.
-* `load-assets.html` only emits a vendor a page provably needs: it looks for the import in the entry source, so a rulebook that never touches pq-games does not load it.
+* `load-assets.html` only emits a vendor a page provably needs, and it decides that from the **built** bundle: after `js.Build` it looks for the shim's `PQ_GAMES` / `PQ_RULEBOOK` reference. Reading the entry source instead missed every page that reaches a library through `shared/config.ts` and only imports local modules itself — those pages shipped with an undefined global. A rulebook that never touches pq-games still does not load it.
 
 ### 4.3 Keep it honest: `bun run perf`
 

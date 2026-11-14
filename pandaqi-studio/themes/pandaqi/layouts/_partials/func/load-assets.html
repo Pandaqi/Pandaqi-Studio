@@ -20,22 +20,27 @@
 {{ end }}
 
 {{ if $res_js }}
-    {{ $vendor_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-games.js" }}
-    {{ if strings.Contains $res_js.Content "lib/pq-games" }}
-        {{ $vendor := resources.Get "/lib/vendor/pq-games-global.ts" | js.Build $vendor_opts }}
-        <script defer src="{{ $vendor.RelPermalink }}"></script>
-    {{ end }}
-
-    {{ $vendor_rulebook_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-rulebook.js" }}
-    {{ if strings.Contains $res_js.Content "lib/pq-rulebook" }}
-        {{ $vendor_rulebook := resources.Get "/lib/vendor/pq-rulebook-global.ts" | js.Build $vendor_rulebook_opts }}
-        <script defer src="{{ $vendor_rulebook.RelPermalink }}"></script>
-    {{ end }}
-
     {{ $output_url := printf "%s/bundle.js" $url_prefixed }}
     {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url "shims" $shims }}
     {{ $script := $res_js | js.Build $opts }}
     {{ $script.Publish }}
+
+    <!--- Which vendor bundles this page needs is read from the BUILT bundle, not the entry source: the only
+          thing in the output that mentions these globals is the shim, so this also catches a page that
+          reaches a library through a shared module (`shared/config.ts`) rather than importing it itself.
+          Building the shim away is what would break such a page, so the check has to look after the build. --->
+    {{ if strings.Contains $script.Content "PQ_GAMES" }}
+        {{ $vendor_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-games.js" }}
+        {{ $vendor := resources.Get "/lib/vendor/pq-games-global.ts" | js.Build $vendor_opts }}
+        <script defer src="{{ $vendor.RelPermalink }}"></script>
+    {{ end }}
+
+    {{ if strings.Contains $script.Content "PQ_RULEBOOK" }}
+        {{ $vendor_rulebook_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-rulebook.js" }}
+        {{ $vendor_rulebook := resources.Get "/lib/vendor/pq-rulebook-global.ts" | js.Build $vendor_rulebook_opts }}
+        <script defer src="{{ $vendor_rulebook.RelPermalink }}"></script>
+    {{ end }}
+
     <script defer src="{{ $script.RelPermalink }}"></script>
 {{ end }}
 

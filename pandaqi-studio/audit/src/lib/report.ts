@@ -56,6 +56,24 @@ const writeMarkdown = (path:string, data:ReportData, outDir:string) =>
     }
     lines.push("");
 
+    // A code alone does not say what to fix: the message is the only place the difference between
+    // "never mounted" and "never called loadSettings" is recorded.
+    const failing = data.results.filter(r => r.failures.length > 0);
+    if(failing.length > 0)
+    {
+        lines.push("## Failure details");
+        lines.push("");
+        for(const result of failing)
+        {
+            for(const failure of result.failures)
+            {
+                const where = failure.where ? ` (${failure.where})` : "";
+                lines.push(`- \`${result.url}\` **${failure.code}**${where} — ${failure.message}`);
+            }
+        }
+        lines.push("");
+    }
+
     if(data.needsManual.length > 0)
     {
         lines.push("## Needs manual pass");
