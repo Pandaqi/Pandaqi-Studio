@@ -1,6 +1,6 @@
 # MIGRATION — V1 → V2 recovery, audit and test harness
 
-> **Status:** what is left is §3.4 (remaining defects), §3.7 (what the audit found) and §8 (phases). Library changes are made in place in `lib/pq-games` and `lib/pq-rulebook`.
+> **Status:** what is left is §3.7 (what the audit found) and §8 (phases). Library changes are made in place in `lib/pq-games` and `lib/pq-rulebook`.
 > **Companion to:** `ROADMAP.md` (human checklist). This file is the engineering plan: what is broken, what "working" means, how to test it, in what order, and how to make the build fast enough to work with.
 > **Scope:** `pandaqi-studio/` only. `pandaqi-studio-dev/` is out of scope.
 
@@ -428,11 +428,6 @@ Legend — Framework: `loadGame` = V2 generator, `custom JS` = hand-written entr
 | `/waterfall-raging-rapids/rules/` | default | — | 0 / 0 |
 | `/waterfall/rules/` | custom | yes | 0 / 2 |
 
-### 3.4 Confirmed defects (fix in this order)
-
-**D-9 — Pirates pass the wrong second argument to `MaterialVisualizer`.**
-`pirate-riddlebeard/game/main.ts:14` and `pirate-drawingbeard/game/main.ts:14`: `new MaterialVisualizer(CONFIG, { resLoader, renderer })`; the signature is `(config, customItemSize: Vector2)` → `customItemSize.clone is not a function`. Both projects are drafts, so no user impact today, but they can never be published.
-
 ### 3.5 Non-canonical but working (separate branch)
 
 These multiply raw `_drawing` values manually (`vis.get("x") * vis.sizeUnit`). Converting to `CVal` is a refactor that can break working games; §6.5. List: firecrackers, hold-my-bear, sleighwell, magnetmen, the-mist, pumpkin-patrol, split-the-foody, the-game-of-dilemmas, the-game-of-happiness, mammoth-messages, meadowmight, kangaruse, the-outnumbered-series/*, waitless-games/* boards, swiftsmash-saga/tap/cookie-smasher, keebble-domino, thats-amorphe, pirates, wondering-witches, starry-skylines, timely-transports, one-pizza-the-puzzle, unstable-universe, slippery-slopes*.
@@ -635,9 +630,8 @@ Whether the rules text matches the game (Fiddlefoo), whether material is balance
 
 ### 6.1 Order
 
-1. D-9.
-2. Whatever the harness reports red.
-3. §3.5 canonicalisation on its own branch.
+1. Whatever the harness reports red.
+2. §3.5 canonicalisation on its own branch.
 
 ### 6.2 Setting read
 
@@ -741,7 +735,7 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 | Phase | Work | Exit criterion |
 |---|---|---|
 | 3. Mechanical fixes ✅ **done (2026-11-14)** | full `--runs 1` sweep and every one-liner it surfaces, plus the Naivigation V2 port (§3.7) | Closed by hand: the sweep was stopped for time and the green-sweep criterion moves to Phase 4's entry check. Imports/lib layer, static checks, D-2, D-6 and the Naivigation port are finished. |
-| 4. Structural (1–2 weeks) | D-9 pirates, remaining reds, `--runs 2` on `[~~]` games | `--runs 1` green for every non-draft project except documented exceptions; `--runs 2` spot-checked on whatever was touched |
+| 4. Structural (1–2 weeks) | remaining reds, `--runs 2` on `[~~]` games | `--runs 1` green for every non-draft project except documented exceptions; `--runs 2` spot-checked on whatever was touched |
 | 6. Re-enable (1 h) | `enableBoardJS`/`enableGameJS` true (or R-5), deploy, spot-check 5 games | links visible in production; the pre-merge gate is green |
 | 7. Durability (ongoing) | R-4, R-6, R-7, R-11, R-13 | budgets of §4.3 hold |
 | 8. Optional | §10: contact sheet per project, fix pivot/alignment, re-baseline | nothing depends on it |

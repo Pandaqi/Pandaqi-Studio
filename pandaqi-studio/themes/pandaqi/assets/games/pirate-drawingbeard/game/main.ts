@@ -11,7 +11,9 @@ const callback = async (cfg) =>
     const renderer = new RendererPixi();
     const resLoader = new ResourceLoader({ base: CONFIG._resources.base, renderer: renderer });
     resLoader.planLoadMultiple(CONFIG._resources.files);
-    const vis = new MaterialVisualizer(CONFIG, { resLoader: resLoader, renderer: renderer });
+    CONFIG._game.renderer = renderer;
+    CONFIG._game.resLoader = resLoader;
+    const vis = new MaterialVisualizer(CONFIG, CONFIG.size);
     const gen = new BoardGeneration();
     gen.start(vis);
 }

@@ -24,8 +24,7 @@ export default class BoardGeneration
 		const container = document.getElementsByTagName("main")[0];
 		container.insertBefore(div, container.firstChild);
 
-		// @TODO: used to be vis.config, but that's not a thing anymore!
-    	CONFIG.initialize(this, vis.configurator.itemsCalculated);
+    	CONFIG.initialize(this);
 
     	const timeout = 20;
     	let interval;

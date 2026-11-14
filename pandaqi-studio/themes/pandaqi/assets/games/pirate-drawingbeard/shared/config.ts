@@ -1,4 +1,4 @@
-import { seedRandom, SettingType, Vector2 } from "lib/pq-games";
+import { seedRandom, SettingType, Vector2, getSetting } from "lib/pq-games";
 import { TILE_DICT, DISCRETE_LISTS } from "../game/dict" 
 
 export const CONFIG =  
@@ -229,14 +229,13 @@ export const CONFIG =
 	alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 	waterOnlyAtEdges: true,
 
-	initialize(game:any, config:Record<string,any> = {})
+	initialize(game:any)
 	{
-		var savedData = window.localStorage.getItem(config.configKey);
-		var parsedData:Record<string,any> = {};
-		if(savedData) { parsedData = JSON.parse(savedData); }
+		// read the settings the framework collected (V1 kept them in localStorage and passed the parsed object in here)
+		const setting = (path:string) => getSetting(path, CONFIG);
 
-		this.seed = parsedData.seed ?? "";
-		this.playerCount = parseInt(parsedData.playerCount) ?? 4;
+		this.seed = setting("defaults.seed") ?? "";
+		this.playerCount = setting("playerCount") ?? 4;
 		this.addBot = (this.playerCount <= 2);
 		if(this.addBot) { this.playerCount += 1; }
 
@@ -244,23 +243,23 @@ export const CONFIG =
     	this.pixelheight = game.visualizer.size.y;
 
 		this.expansions = {
-			rot: parsedData.expansions.rot ?? false,
-			networks: parsedData.expansions.networks ?? false,
-			symbols: parsedData.expansions.symbols ?? false,
-			special: parsedData.expansions.special ?? false,
+			rot: setting("hints.rotation") ?? false,
+			networks: setting("hints.networks") ?? false,
+			symbols: setting("hints.symbols") ?? false,
+			special: setting("hints.special") ?? false,
 		}
 
 		this.maxHintsPerPlayer = 1;
-		if(parsedData.multiHints) { this.maxHintsPerPlayer = 3; }
+		if(setting("hints.multiHints")) { this.maxHintsPerPlayer = 3; }
 		if(this.addBot) { this.maxHintsPerPlayer = Math.max(this.maxHintsPerPlayer, 3); }
 
-		this.advancedHints = parsedData.advancedHints;
-		this.inkFriendly = !parsedData.inkFriendly; // input asks about "Colored?", so reverse it
-		this.useRealMaterial = parsedData.useRealMaterial;
-		this.createPremadeGame = parsedData.createPremadeGame;
+		this.advancedHints = setting("hints.advancedHints");
+		this.inkFriendly = game.visualizer.inkFriendly;
+		this.useRealMaterial = setting("useRealMaterial");
+		this.createPremadeGame = setting("createPremadeGame");
 		if(this.createPremadeGame) { this.useInterface = true; }
 
-		this.fastGeneration = parsedData.fastGeneration;
+		this.fastGeneration = setting("fastGeneration");
 		if(this.fastGeneration) 
 		{ 
 			this.minImpactPerHint = 1; 

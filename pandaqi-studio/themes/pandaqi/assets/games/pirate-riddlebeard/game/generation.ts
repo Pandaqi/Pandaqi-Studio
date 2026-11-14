@@ -3,7 +3,7 @@ import Cell from "./cell";
 import { HINTS, HINT_ICONS, LANDMARKS, LISTS, NATURE, QUADRANTS, ROADS, STONES, TERRAINS, TERRAIN_DATA, alphabet } from "../shared/dict";
 import Interface from "./interface";
 import { CONFIG } from "../shared/config";
-import { MaterialVisualizer, PdfBuilder, PageOrientation, convertCanvasToImage, Vector2, seedRandom, ResourceGroup, Rectangle, LayoutOperation, ResourceShape, TextConfig, ResourceText, StrokeAlign, Line, TextAlign } from "lib/pq-games";
+import { MaterialVisualizer, PdfBuilder, PageOrientation, convertCanvasToImage, Vector2, seedRandom, ResourceGroup, Rectangle, LayoutOperation, ResourceShape, TextConfig, ResourceText, StrokeAlign, Line, TextAlign, getSetting } from "lib/pq-games";
 type Hint = { final_text?: string, html_text?: string }
 
 export default class BoardGeneration
@@ -507,7 +507,27 @@ export default class BoardGeneration
 	*/
 	generateConfiguration(config = {})
 	{
-		let data = JSON.parse(window.localStorage.pirateRiddlebeardData);
+		// read the settings the framework collected (V1 kept them in localStorage under this project's own key)
+		const data =
+		{
+			seed: getSetting("defaults.seed", config) ?? "",
+			premadeGame: getSetting("premadeGame", config),
+			playerCount: getSetting("playerCount", config) ?? 4,
+			multiHint: getSetting("bonusRules.multiHint", config),
+			advancedHints: getSetting("bonusRules.advancedHints", config),
+			isColored: getSetting("map.isColored", config),
+			allTerrains: getSetting("map.allTerrains", config),
+			includeStones: getSetting("map.includeStones", config),
+			includeRoads: getSetting("map.includeRoads", config),
+			includeLandmarks: getSetting("map.includeLandmarks", config),
+			expansions:
+			{
+				liarsCouncil: getSetting("bonusRules.liarsCouncil", config),
+				theLostRiddles: getSetting("bonusRules.theLostRiddles", config),
+				tinyTreasures: getSetting("bonusRules.tinyTreasures", config),
+				gamblerOfMyWord: getSetting("bonusRules.gamblerOfMyWord", config),
+			}
+		};
 
     	this.cfg = 
     	{
