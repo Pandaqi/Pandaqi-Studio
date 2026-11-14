@@ -1,5 +1,4 @@
 ---
-draft: true
 type: "project"
 
 title: "Pirate Riddlebeard"

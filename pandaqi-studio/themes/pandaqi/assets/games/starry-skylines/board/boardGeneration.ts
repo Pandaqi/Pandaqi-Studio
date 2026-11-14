@@ -28,73 +28,20 @@ export default class BoardGeneration
 
 	setupConfig(vis:MaterialVisualizer)
 	{
-		const minSize = vis.sizeUnit;
-
-		this.cfg = 
+		this.cfg =
 		{
-			minSize: minSize,
-			gridWidth: 8,
-			gridHeight: 8,
-			playerCount: (getSetting("playerCount", CONFIG) ?? 3),
+			...CONFIG.generation,
 			lists: {},
 			totalProbabilities: {},
-			spriteScale: 0.9,
-			maxPlayerCount: 3,
-			numObstacles: 6,
-			bgRectColors: ["#AAFFAA", "#99DD99"],
-			bgRectColorsGray: ["#FFFFFF", "#EEEEEE"],
-			playerColors: ["#FF0000", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#000000", "#AA8800"],
-			peopleColor: "#FA7921",
-			peopleSpriteScale: 0.4,
-			terrainTypes: ['rock', 'river', 'garden'],
-			buildingColors: 
-			{
-				river: "#6EB4FF",
-				rock: "#D8D8D8",
-				garden: "#63FF7D"
-			},
-			resourceColors: 
-			{
-				water: "#2B60AD",
-				oxygen: "#29C1B1",
-				electricity: "#FFFF00"
-			},
-			resourceLineWidth: 0.025*minSize,
-			horizontalMarks: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-			fontFamily: "subrayada",
-			grid: 
-			{
-				fontSize: Math.round(0.025*minSize),
-				fontColor: "#000000",
-				lineWidth: 0.003*minSize,
-				lineColor: 0x666666,
-				lineColorGray: 0x999999,
-				textMargin: { x: 0.0125*minSize, y: 0.0125*minSize }
-			},
-			path: 
-			{
-				fontSize: Math.round(0.1*minSize),
-				fontColor: "#000000",
-				strokeColor: "#AAFFAA",
-				strokeColorGray: "#AAAAAA",
-				strokeWidth: 0.005*minSize
-			},
-
-			cellWidth: 0,
-			cellHeight: 0,
-			minSizeCell: 0,
-			soloMode: false,
-			difficulty: 0,
+			playerCount: getSetting("playerCount", CONFIG) ?? 3,
+			planet: getSetting("planet", CONFIG),
+			manualCombo: getSetting("manualCombo", CONFIG),
 		}
 
+		this.cfg.numPlayers = this.cfg.playerCount;
 		this.cfg.cellWidth = (vis.size.x / this.cfg.gridWidth);
 		this.cfg.cellHeight = (vis.size.y / this.cfg.gridHeight);
 		this.cfg.minSizeCell = Math.min(this.cfg.cellWidth, this.cfg.cellHeight)*this.cfg.spriteScale;
-		
-		// the player count is a setting, not a field on the config
-		this.cfg.playerCount = (getSetting("playerCount", CONFIG) ?? 3);
-		this.cfg.numPlayers = this.cfg.playerCount;
-		Object.assign(this.cfg, CONFIG);
 
 		this.cfg.soloMode = (this.cfg.playerCount == 1);
 		this.cfg.difficulty = PLANET_MAP[this.cfg.planet];
@@ -192,7 +139,7 @@ export default class BoardGeneration
 	// draw background rectangles (for nicer grid coloring)
 	visualizeBackground(vis:MaterialVisualizer, group:ResourceGroup)
 	{		
-		const inkFriendly = this.cfg.inkFriendly;
+		const inkFriendly = vis.inkFriendly;
 		for(let i = 0; i < this.cfg.gridWidth; i++) 
 		{
 			const x = i * this.cfg.cellWidth;
@@ -201,8 +148,8 @@ export default class BoardGeneration
 			{
 				const y = j * this.cfg.cellHeight;
 				const colorIdx = (i + j) % 2;
-				let color = this.cfg.bgRectColors[colorIdx];
-				if(inkFriendly) { color = this.cfg.bgRectColorsGray[colorIdx]; }
+				let color = vis.get("bgColors")[colorIdx];
+				if(inkFriendly) { color = vis.get("bgColorsInkfriendly")[colorIdx]; }
 
 				const rect = new Rectangle().fromTopLeft(new Vector2(x,y), new Vector2(this.cfg.cellWidth, this.cfg.cellHeight));
 				const opRect = new LayoutOperation({
@@ -236,7 +183,7 @@ export default class BoardGeneration
 	// draw player starting positions (skipped anything green-like, as the board is already green on the background)
 	visualizeStartingPositions(vis:MaterialVisualizer, group:ResourceGroup)
 	{
-		const inkFriendly = this.cfg.inkFriendly;
+		const inkFriendly = vis.inkFriendly;
 		const res = vis.getResource("StartingPositionIcon");
 
 		for(let i = 0; i < this.startingPositions.length; i++) 
@@ -244,7 +191,7 @@ export default class BoardGeneration
 			const pos = this.startingPositions[i];
 			const rect = new Rectangle().fromTopLeft(new Vector2(pos.x * this.cfg.cellWidth, pos.y * this.cfg.cellHeight), new Vector2(this.cfg.cellWidth, this.cfg.cellHeight));
 
-			const color = this.cfg.playerColors[i];
+			const color = vis.get("playerColors")[i];
 			if(!inkFriendly)
 			{
 				const opRect = new LayoutOperation({ fill: color });
@@ -263,12 +210,12 @@ export default class BoardGeneration
 
 	visualizeCellContents(vis:MaterialVisualizer, group:ResourceGroup)
 	{
-		const inkFriendly = this.cfg.inkFriendly;
+		const inkFriendly = vis.inkFriendly;
 		const lineGroup = new ResourceGroup();
 
 		const textConfig = new TextConfig({
-			font: this.cfg.fontFamily,
-			size: this.cfg.path.fontSize
+			font: vis.get("fonts.heading"),
+			size: vis.get("path.fontSize")
 		}).alignCenter();
 
 		// draw random obstacles, buildings, numbers, stuff
@@ -284,19 +231,19 @@ export default class BoardGeneration
 				const opText = new LayoutOperation({
 					pos: new Vector2(x,y),
 					size: new Vector2(2*textConfig.size),
-					fill: this.cfg.path.fontColor,
-					stroke: inkFriendly ? this.cfg.path.strokeColorGray : this.cfg.path.strokeColor,
-					strokeWidth: this.cfg.path.strokeWidth,
+					fill: vis.get("path.fontColor"),
+					stroke: inkFriendly ? vis.get("path.strokeColorGray") : vis.get("path.strokeColor"),
+					strokeWidth: vis.get("path.strokeWidth"),
 					pivot: Vector2.CENTER
 				})
 				group.add(resText, opText);
 
 			} else if(t == "people") {
 				const randPerson = this.getRandom(this.cfg.lists.people)
-				const spriteSize = this.cfg.minSizeCell * this.cfg.peopleSpriteScale;
+				const spriteSize = this.cfg.minSizeCell * vis.get("people.scale");
 				const backgroundCircle = new Circle({ center: new Vector2(x,y), radius: 0.9*0.5*spriteSize });
 				const opCircle = new LayoutOperation({
-					fill: this.cfg.peopleColor
+					fill: vis.get("people.color")
 				});
 				group.add(new ResourceShape(backgroundCircle), opCircle);
 
@@ -310,12 +257,12 @@ export default class BoardGeneration
 				group.add(res, op);
 			
 			} else if(t == "buildings") {
-				const terrainTypes = this.cfg.terrainTypes;
+				const terrainTypes = CONFIG.generation.terrainTypes;
 				const randType = terrainTypes[Math.floor(rand() * terrainTypes.length)]
 
 				if(!inkFriendly)
 				{
-					const color = this.cfg.buildingColors[randType];
+					const color = vis.get("buildingColors")[randType];
 					const pos = new Vector2(obj.x*this.cfg.cellWidth, obj.y*this.cfg.cellHeight);
 					const bgRect = new Rectangle().fromTopLeft(pos, new Vector2(this.cfg.cellWidth, this.cfg.cellHeight));
 					const opRect = new LayoutOperation({
@@ -335,7 +282,7 @@ export default class BoardGeneration
 			
 			} else if(t == "resource") {
 				const randResource = this.getRandom(this.cfg.lists.resources);
-				const color = this.cfg.resourceColors[randResource];
+				const color = vis.get("resourceColors")[randResource];
 
 				// random direction (horizontal or vertical)
 				let startX = obj.x*this.cfg.cellWidth, startY = obj.y*this.cfg.cellHeight
@@ -347,7 +294,7 @@ export default class BoardGeneration
 					newY = startY + this.cfg.cellHeight
 				}
 
-				const lw = this.cfg.resourceLineWidth;
+				const lw = vis.get("resources.lineWidth");
 				const line = new Line(new Vector2(startX, startY), new Vector2(newX, newY));
 				const opLine = new LayoutOperation({
 					stroke: color,
@@ -377,16 +324,16 @@ export default class BoardGeneration
 	visualizeGrid(vis:MaterialVisualizer, group:ResourceGroup)
 	{
 		const textConfig = new TextConfig({
-			font: this.cfg.fontFamily,
-			size: this.cfg.grid.fontSize
+			font: vis.get("fonts.heading"),
+			size: vis.get("grid.fontSize")
 		}).alignCenter();
 
-		const inkFriendly = this.cfg.inkFriendly;
-		const color = inkFriendly ? this.cfg.grid.lineColorGray : this.cfg.grid.lineColor;
+		const inkFriendly = vis.inkFriendly;
+		const color = inkFriendly ? vis.get("grid.lineColorGray") : vis.get("grid.lineColor");
 
 		const opLine = new LayoutOperation({
 			stroke: color,
-			strokeWidth: this.cfg.grid.lineWidth
+			strokeWidth: vis.get("grid.lineWidth")
 		})
 
 		for(let i = 0; i <= this.cfg.gridWidth; i++) 
@@ -397,14 +344,14 @@ export default class BoardGeneration
 			group.add(new ResourceShape(line), opLine);
 
 			const finalX = x + 0.5*this.cfg.cellWidth;
-			const finalY = this.cfg.grid.textMargin.y;
+			const finalY = vis.get("grid.textMargin");
 
-			const str = this.cfg.horizontalMarks.at(i);
+			const str = vis.get("horizontalMarks").at(i);
 			const resText = new ResourceText({ text: str, textConfig: textConfig });
 			const opText = new LayoutOperation({
 				pos: new Vector2(finalX, finalY),
 				size: new Vector2(2*textConfig.size),
-				fill: this.cfg.grid.fontColor,
+				fill: vis.get("grid.fontColor"),
 				pivot: Vector2.CENTER
 			})
 			group.add(resText, opText);
@@ -418,7 +365,7 @@ export default class BoardGeneration
 			const line = new Line(new Vector2(0,y), new Vector2(vis.size.x, y));
 			group.add(new ResourceShape(line), opLine);
 
-			const finalX = this.cfg.grid.textMargin.x;
+			const finalX = vis.get("grid.textMargin");
 			const finalY = y + 0.5*this.cfg.cellHeight;
 
 			const str = (i + 1).toString();
@@ -426,7 +373,7 @@ export default class BoardGeneration
 			const opText = new LayoutOperation({
 				pos: new Vector2(finalX, finalY),
 				size: new Vector2(2*textConfig.size),
-				fill: this.cfg.grid.fontColor,
+				fill: vis.get("grid.fontColor"),
 				pivot: Vector2.CENTER
 			})
 			group.add(resText, opText);
