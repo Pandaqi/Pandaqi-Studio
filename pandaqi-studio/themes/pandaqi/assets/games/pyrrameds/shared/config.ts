@@ -124,6 +124,7 @@ export const CONFIG =
             base: 5,
             intensiveCare: 4,
         },
+        defaultFrequencySpecialCards: 1,
         numPatientCards: 
         {
             base: 18,

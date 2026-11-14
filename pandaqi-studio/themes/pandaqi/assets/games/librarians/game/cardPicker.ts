@@ -15,7 +15,8 @@ export const cardPicker = () : Card[] =>
         for(const [color,setting] of Object.entries(CONFIG._settings.packs))
         {
             if(!validColors.includes(color)) { continue; }
-            if(!setting || setting.type === SettingType.GROUP) { continue; }
+            // Object.entries() also yields the group's own `type` key (a string), so guard on the value shape
+            if(!setting || typeof setting !== "object" || setting.type === SettingType.GROUP) { continue; }
             generateCardsFor(cards, bookTitles, color, (setting.value as string).toLowerCase());
         }        
     }

@@ -200,7 +200,7 @@ const generateDominoes = (dominoes:Domino[], set:string) =>
 
 }
 
-const addAllPathsFrom = (numTotal:number, freqDist:Record<PathType,number>, dict:Record<string,any>, list:DominoSide[]) =>
+const addAllPathsFrom = (numTotal:number, freqDist:Partial<Record<PathType,number>>, dict:Record<string,any>, list:DominoSide[]) =>
 { 
     let totalEmptyPathValue = 0;
     for(const [key,data] of Object.entries(dict))

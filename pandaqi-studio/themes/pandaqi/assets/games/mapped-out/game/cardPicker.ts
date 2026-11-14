@@ -25,7 +25,7 @@ const generateUnclearInstructions = (cards) =>
     generateMovementCards(cards, CONFIG.generation.movementCardNumUnclear, CONFIG.generation.movementCardDistUnclear, true);
 }
 
-const generateMovementCards = (cards:Card[], targetNum:number, dist:Record<CardMovement, number>, addSpecial:boolean = false) =>
+const generateMovementCards = (cards:Card[], targetNum:number, dist:Partial<Record<CardMovement, number>>, addSpecial:boolean = false) =>
 {
     const possibleActions = Object.keys(MOVEMENT_SPECIAL);
     for(const [key,freqRaw] of Object.entries(dist))

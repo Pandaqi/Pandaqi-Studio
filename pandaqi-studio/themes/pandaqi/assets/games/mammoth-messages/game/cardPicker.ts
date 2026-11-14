@@ -9,7 +9,8 @@ export const cardPicker = async () : Promise<Card[]> =>
     if(!CONFIG._settings.sets.includeCards.value) { return; }
 
     const pqWords = new PandaqiWords();
-    const params = structuredClone(CONFIG.cards.generation.pqWordsParams);
+    // the card drawing config holds its own generation block (the same place tokenPicker reads from)
+    const params = structuredClone(CONFIG._drawing.cards.generation.pqWordsParams);
     params.wordExceptions = Object.keys(DRAWINGS);
 
     if(CONFIG._settings.wordPreferences.includeDifficultWords.value) { params.levels.push("medium"); }
@@ -18,8 +19,8 @@ export const cardPicker = async () : Promise<Card[]> =>
 
     await pqWords.loadWithParams(params);
 
-    const numWordCards = CONFIG.cards.generation.num;
-    const numWordsPerCard = CONFIG.cards.generation.wordsPerCard;
+    const numWordCards = CONFIG._drawing.cards.generation.num;
+    const numWordsPerCard = CONFIG._drawing.cards.generation.wordsPerCard;
     const wordsNeeded = numWordCards * numWordsPerCard;
 
     const allWords = pqWords.getRandomMultiple(wordsNeeded, true);

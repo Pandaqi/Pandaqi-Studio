@@ -31,7 +31,8 @@ const SETTINGS =
     }
 };
 
-CONFIG._settings = SETTINGS;
+// the board generator has its own settings block, a different shape from the game's
+CONFIG._settings = SETTINGS as any;
 CONFIG._game.renderer = new RendererPixi();
 
 loadGame(CONFIG);

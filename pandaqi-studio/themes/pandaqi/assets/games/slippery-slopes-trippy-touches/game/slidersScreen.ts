@@ -59,7 +59,7 @@ export default class SlidersScreen
                     }
                 }
             })
-            await s.setup(CONFIG.sliderCards.interactiveBaseSize);
+            await s.setup(CONFIG._drawing.sliderCards.interactiveBaseSize);
         }
         subCont.appendChild(sliderContainer);
 

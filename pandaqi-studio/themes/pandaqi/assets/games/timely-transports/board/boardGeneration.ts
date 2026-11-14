@@ -96,7 +96,7 @@ export default class BoardGeneration
 		const scaleFactorDPI = (canvasWidth/1160.0);
 
 		const userConfig = CONFIG;
-		userConfig.numPlayers = parseInt(userConfig._settings.playerCount.value);
+		const numPlayers = parseInt(userConfig._settings.playerCount.value);
 
 		this.cfg = 
 		{
@@ -106,7 +106,7 @@ export default class BoardGeneration
 			w: vis.size.x,
 			h: vis.size.y,
 
-			numCities: PLAYERCOUNT_TO_CITYCOUNT[userConfig.numPlayers] ?? 10,
+			numCities: PLAYERCOUNT_TO_CITYCOUNT[numPlayers] ?? 10,
 			cellSize: 20,
 			noiseZoom: 99.9578372,
 
@@ -124,7 +124,7 @@ export default class BoardGeneration
 
 			landCityProbability: 0.35,
 
-			numPlayers: userConfig.numPlayers,
+			numPlayers: numPlayers,
 			difficulty: userConfig._settings.difficulty.value ?? "trainingWheels",
 			inkFriendly: userConfig._settings.defaults.inkFriendly.value ?? false,
 			cityBonus: userConfig._settings.cityBonus.value ?? false,

@@ -158,7 +158,7 @@ const createMultiFoodRecipe = (pickers:BalancedFrequencyPickerWithMargin[], maxT
     recipeData.total++;
 
     const recipe = [pickers[maxTier].pickNext()];
-    if(!CONFIG.allowMultiFoodRecipes) { return [recipe]; }
+    if(!CONFIG._settings.allowMultiFoodRecipes.value) { return [recipe]; }
 
     let prob = CONFIG.generation.multiFoodRecipeProbPerTier[maxTier];
     if(customProb >= 0) { prob = customProb; }

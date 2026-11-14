@@ -631,7 +631,7 @@ class Board
         this.grid[val2.x][val2.y].setValueDisplayed(displayVal2.value);
     }
 
-    loadSpriteSheet()
+    loadSpriteSheet() : Promise<HTMLImageElement>
     {
         return new Promise((resolve, reject) => {
             const spriteSheet = new Image()

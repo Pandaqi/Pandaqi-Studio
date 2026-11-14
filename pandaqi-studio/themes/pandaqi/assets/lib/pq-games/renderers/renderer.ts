@@ -42,4 +42,6 @@ export class Renderer
     }
 
     async applyOperationToPixi(op:LayoutOperation, app:any, parent:any) : Promise<any> {}
+
+    applyToPixiObjectProperties(op:LayoutOperation, obj:any) : any { return obj; }
 }

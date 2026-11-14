@@ -95,6 +95,7 @@ export const CONFIG =
     _game:
     {
         fileName: "Naivigation: Swerving Spaceships",
+        resLoader: null as any, // filled by the entry: a rulebook page builds its own
     },
 
     // assets

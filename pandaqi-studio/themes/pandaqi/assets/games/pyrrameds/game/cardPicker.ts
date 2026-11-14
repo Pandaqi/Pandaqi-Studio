@@ -69,6 +69,7 @@ const generateMedicineCards = (cards) =>
 {
     for(const [set,setConfig] of Object.entries(CONFIG._settings.sets))
     {
+        if(!setConfig || typeof setConfig !== "object") { continue; }
         const enabled = setConfig.value == true;
         if(!enabled) { continue; }
 
@@ -102,6 +103,7 @@ const generatePatientCards = (cards) =>
     const setsIncluded = [];
     for(const [set,setConfig] of Object.entries(CONFIG._settings.sets))
     {
+        if(!setConfig || typeof setConfig !== "object") { continue; }
         const enabled = setConfig.value == true;
         if(!enabled) { continue; }
         totalNumCards += CONFIG.generation.numPatientCards[set] ?? 0;
@@ -147,6 +149,7 @@ const generatePatientCards = (cards) =>
 
     for(const [set,setConfig] of Object.entries(CONFIG._settings.sets))
     {
+        if(!setConfig || typeof setConfig !== "object") { continue; }
         const enabled = setConfig.value == true;
         if(!enabled) { continue; }
 

@@ -102,6 +102,7 @@ export const CONFIG =
     _game:
     {
         fileName: "Naivigation: Singing Sails",
+        resLoader: null as any, // filled by the entry: a rulebook page builds its own
     },
 
     // assets

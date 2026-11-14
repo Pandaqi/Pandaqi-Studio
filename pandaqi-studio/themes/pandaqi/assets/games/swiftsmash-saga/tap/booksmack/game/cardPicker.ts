@@ -8,10 +8,10 @@ export const cardPicker = () : Card[] =>
     
     // collect all symbols we want to print (in a neat uniform array)
     const allSymbols : string[] = [];
-    for(let [set,data] of Object.entries(CONFIG.generation.symbolsPerSet))
+    for(const [set,entry] of Object.entries(CONFIG.generation.symbolsPerSet))
     {
         if(!CONFIG._settings.sets[set].value) { continue; }
-        if(typeof data === "string") { data = data.split(""); }
+        const data = typeof entry === "string" ? entry.split("") : entry;
         const dataFinal = (data as any[]).map((x) => x.toString());
         allSymbols.push(...dataFinal);
     }

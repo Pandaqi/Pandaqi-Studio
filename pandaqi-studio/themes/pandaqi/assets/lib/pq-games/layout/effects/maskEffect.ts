@@ -55,9 +55,9 @@ export class MaskEffect extends LayoutEffect
     {
         console.error("[Not Implemented] Mask Operations not implemented on RendererPixi yet!", this);
 
-        const maskSprite = this.resource.getPixiObject();
+        const maskSprite = this.resource.getPixiObject(0);
         this.operation.resource = this.resource;
-        this.operation.renderer.applyToPixiObjectProperties(maskSprite);
+        this.operation.renderer.applyToPixiObjectProperties(this.operation, maskSprite);
         obj.mask = maskSprite;
     }
 }

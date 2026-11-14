@@ -12,7 +12,7 @@ export const cardPicker = () : Card[] =>
     let packs : Record<string,any> = {};
     for(const [type,data] of Object.entries(packsRaw))
     {
-        if(!data.value) { continue; }
+        if(!data || typeof data !== "object" || !data.value) { continue; }
         let num = parseInt(data.value.toString());
         if(isNaN(num)) { num = 1; }
         packs[type] = num;

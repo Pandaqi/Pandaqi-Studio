@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "lib": ["DOM", "DOM.Iterable", "ES2023"],
+        "target": "ES2020",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "paths": { "*": ["*"] },
+        "strict": false,
+        "noEmit": true,
+        "skipLibCheck": true,
+        "allowJs": false
+    },
+    "include": ["lib/**/*.ts", "games/**/*.ts", "*.ts"]
+}

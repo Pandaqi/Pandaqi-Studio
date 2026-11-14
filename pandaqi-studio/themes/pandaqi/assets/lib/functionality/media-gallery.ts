@@ -109,7 +109,7 @@ export const loadMediaGallery = (gallery:HTMLElement) =>
 
     // init (including automatic changing)
     changeGalleryItem(0);
-    autoScroller = setInterval(() => { changeGalleryItem(currentItemIndex + 1) }, AUTO_SCROLL_INTERVAL);
+    autoScroller = window.setInterval(() => { changeGalleryItem(currentItemIndex + 1) }, AUTO_SCROLL_INTERVAL);
 }
 
 export const loadMediaGalleries = () =>

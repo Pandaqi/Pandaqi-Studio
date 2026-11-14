@@ -1,3 +1,4 @@
+import { loadSettings } from "lib/pq-games";
 import AI from "./ai"
 import Events from "./events"
 import Options from "./options"

@@ -96,6 +96,14 @@ Generate button and feedback node. It is the file every settings bug lands in.
 (`readSettingsFromHTML`, `resetSettings`), `settings/mount.ts` (`loadSettings`, fold/unfold). No API change:
 `nodes.ts` re-exports. **Cost:** pure move; the transpile check plus one generator page proves it.
 
+### A-9. Frequency maps are typed as complete records
+
+`Pyrrameds`-style helpers (`generateAnimalCards(dist: Record<AnimalType, number>)`, `addAllPathsFrom(freqDist: Record<PathType, number>)`, mapped-out's `Record<CardMovement, number>`) reject the partial maps the configs actually hold, because the type says every key is required. The page-side signatures are `Partial<Record<…>>` now, which is what they always meant. The library versions deserve the same treatment, plus a `mergeWithDefaults(dict, defaults)` helper so a missing key means "the declared default" instead of `undefined` (which silently made a branch a no-op in two games this batch).
+
+### A-10. `Renderer.applyToPixiObjectProperties` was not on the base type
+
+`RendererPixi` has it, the base `Renderer` did not, so every place that accepts a `Renderer` (visualizers, config `_game.renderer`, `getMaterialDataForRulebook`) rejected a `RendererPixi` and the mask effect called it through an `any`. The base class now declares it. The wider point: a renderer's optional capabilities are invisible until something calls them, which is how `maskEffect` shipped a call to a method no type knew about.
+
 ---
 
 ## B. pq-rulebook

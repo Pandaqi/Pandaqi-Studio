@@ -117,6 +117,13 @@ export const CONFIG =
 
     size: new Vector2(297*3.8, 210*3.8),
     
+    // both are created by the entry, because this game brings its own renderer and PDF code
+    _game:
+    {
+        renderer: null as any,
+        resLoader: null as any,
+    },
+
     _resources:
     {    
         base: '/pirate-riddlebeard/assets/',

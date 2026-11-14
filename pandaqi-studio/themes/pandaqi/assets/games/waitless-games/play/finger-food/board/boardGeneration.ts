@@ -13,7 +13,7 @@ export default class BoardGeneration
     evaluator: Evaluator
     visualizer: MaterialVisualizer
 
-    async draw(vis:MaterialVisualizer) : Promise<ResourceGroup[]>
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
         this.visualizer = vis;
         Object.assign(CONFIG, vis.config);

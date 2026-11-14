@@ -1,0 +1,90 @@
+name: Audit gate
+
+# One pre-merge gate, nothing scheduled. A pull request that turns a green page red must not merge:
+#   1. the site builds with both generator flags on
+#   2. the sources type check (js.Build never does)
+#   3. the static checks (SC-1..SC-7) report no errors
+#   4. the audit runs on the projects this PR touches
+# Everything the audit wrote is uploaded when a step fails.
+#
+# The same commands run locally (MIGRATION.md §5.1); this file is the only place that runs them
+# automatically. A sweep on the author's machine is still the author's call.
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # a base comparison needs the merge base, not a single commit
+
+      - uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.153.4"
+          extended: true # dartsass
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install audit dependencies
+        working-directory: pandaqi-studio/audit
+        run: bun install --frozen-lockfile
+
+      - name: Type check
+        working-directory: pandaqi-studio/audit
+        run: bun run typecheck
+
+      - name: Build the site with the generators on
+        working-directory: pandaqi-studio
+        env:
+          HUGO_PARAMS_ENABLEGAMEJS: "true"
+          HUGO_PARAMS_ENABLEBOARDJS: "true"
+        run: hugo --destination "$RUNNER_TEMP/site" --cleanDestinationDir
+
+      - name: Static checks (SC-1..SC-7)
+        working-directory: pandaqi-studio/audit
+        run: bun run static
+
+      - name: Which projects changed
+        run: |
+          set -o pipefail
+          git diff --name-only "origin/${{ github.base_ref || 'main' }}...HEAD" \
+            | bash .github/scripts/touched-projects.sh > "$RUNNER_TEMP/touched.txt"
+          echo "touched:"; cat "$RUNNER_TEMP/touched.txt"
+
+      - name: Audit the touched projects
+        working-directory: pandaqi-studio/audit
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          set -euo pipefail
+          if [ ! -s "$RUNNER_TEMP/touched.txt" ]; then
+            echo "No project pages touched; skipping the browser checks."
+            exit 0
+          fi
+          while IFS= read -r entry; do
+            if [ "$entry" = "ALL" ]; then
+              echo "::warning::Shared code changed; running the rulebook suite. Run the generator suite locally before merging."
+              bun run audit --kind rules --runs 1
+            else
+              bun run audit --filter "$entry" --runs 1
+            fi
+          done < "$RUNNER_TEMP/touched.txt"
+
+      - name: Keep what failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-artifacts
+          path: pandaqi-studio/audit-artifacts/
+          if-no-files-found: ignore

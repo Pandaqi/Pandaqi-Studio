@@ -3,6 +3,7 @@ import FontLoader from "./fontLoader"
 import Overlay from "./overlay"
 import Interface from "./interface"
 import { CONFIG } from "../shared/config";
+import { loadSettings } from "lib/pq-games";
 
 export default class Game 
 {

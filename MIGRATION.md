@@ -202,7 +202,7 @@ Errors block; warnings/info only report.
 |---|---|---|
 | SC-1 | No `_settings` chain without `.value` (skip `.defaults`, `.meta`, and `Object.keys/entries/values(_settings…)`). | warn |
 | SC-2 | No legacy framework globals in game code: `new ProgressBar(`, `new PdfBuilder(`, `new GridMapper(`, `new Visualizer(`, `PageFormat`. | **error** |
-| SC-3 | Every `game`/`board` entry calls `loadGame(` or `loadSettings(`. | **error** |
+| SC-3 | Every `game`/`board` entry calls `loadGame(` or `loadSettings(`, unless the page declares `customWidget: true` (a hand-written widget that mounts its own controls, e.g. epic-medics). | **error** |
 | SC-4 | Every `rules` entry with examples/tables calls `loadRulebook(`. Constructing `InteractiveExample` / `RandomNaivigation*Generator` does **not** count. | **error** |
 | SC-5 | Every `data-rulebook-example`/`data-rulebook-table` id in markdown exists as a key in the entry's import graph, unless the graph uses a computed key pattern (`[expr + "-…"]`). | **error** |
 | SC-6 | Every `_resources.files[*].path` exists on disk (§2.4 resolution). | **error** |
@@ -219,7 +219,7 @@ Implemented in `audit/src/static.ts` (`bun run static`, `--filter <project>` to 
 3. `type: game` and bundle contains literal `downloadPDF` → generator.
 4. otherwise → digital game.
 
-`downloadPDF` is emitted by `generateMaterial.ts` and survives minification: measured 73 of 80 game bundles, and the 7 without it are exactly the digital games. Do **not** use `Reset to Defaults` (epic-medics, slippery-slopes-trippy-touches, timely-transports and wondering-witches are digital games that call `loadSettings`) or `generateMaterial` (does not survive minification). If a page classified as generator has no `div.settings`, fail `GEN_NO_SETTINGS`.
+`downloadPDF` is emitted by `generateMaterial.ts` and survives minification: measured 73 of 80 game bundles, and the 7 without it are exactly the digital games. Do **not** use `Reset to Defaults` (slippery-slopes-trippy-touches, timely-transports and wondering-witches are digital games that call `loadSettings`) or `generateMaterial` (does not survive minification). If a page classified as generator has no `div.settings`, fail `GEN_NO_SETTINGS`.
 
 What a page can *print* is not what it *is*, and `loadGame` says nothing either way: generators are built on `loadGame` too (firecrackers is a generator), and digital games print PDFs as well (the pirate games). Keep the classifier as it is — the page's scripts, vendor included, mention `downloadPDF` or they do not — and do not "fix" it by reading the entry source or by guessing from `loadGame`/`loadSettings`.
 
@@ -631,6 +631,7 @@ Usage — **the author runs these, not the coding agent** (§0, rule 2b):
 ```bash
 cd pandaqi-studio/audit
 bun run static                                        # 2 s, source checks only
+bun run typecheck                                     # tsc over themes/pandaqi/assets, no emit
 bun run audit --kind rules --workers 2                # all 74 rulebooks, ~15 min
 bun run audit --kind generator --workers 2             # the material generators
 bun run audit --filter chiptales --skip-build --base-url http://127.0.0.1:1399
@@ -725,11 +726,8 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 
 ### P0 — stops this class of failure
 
-**R-4. One pre-merge gate** (`.github/workflows/audit.yml`). Nothing scheduled, no nightly job: (1) `hugo` with generators enabled must exit 0; (2) `bun run static` reports no errors; (3) `bun run audit --runs 1` on the projects the PR touches. Upload `audit-artifacts/` on failure. Never merge a PR that turns a green page red.
-
 ### P1 — make the codebase verify itself
 
-**R-6. Type checking.** Add `themes/pandaqi/assets/tsconfig.json` (reusing the `paths` from the existing `jsconfig.json`), run `bunx tsc -p themes/pandaqi/assets --noEmit`. Expect many errors; fix by project, starting with `lib/` and the `[x]` games. `js.Build` never type-checks, which is why D-9 shipped.
 
 **R-7. `defineConfig` generic** so `_drawing`/`_settings` keys are inferred and `vis.get("typo")` is a compile error. The structural fix for the whole "wrong settings" class; do it after R-6.
 
@@ -756,7 +754,7 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 | Phase | Work | Exit criterion |
 |---|---|---|
 | 4. Structural (1–2 weeks) | `--runs 2` on `[~~]` games, generator kind | `--runs 1` green for every non-draft project except documented exceptions; `--runs 2` spot-checked on whatever was touched |
-| 6. Durability (ongoing) | R-4, R-6, R-7, R-11, R-13 | budgets of §4.3 hold |
+| 6. Durability (ongoing) | R-7, R-11, R-13 | budgets of §4.3 hold |
 | 7. Optional | §10: contact sheet per project, fix pivot/alignment, re-baseline | nothing depends on it |
 
 ---

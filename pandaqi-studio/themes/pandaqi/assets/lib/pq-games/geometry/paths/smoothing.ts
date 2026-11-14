@@ -76,7 +76,7 @@ class CatmullRomSegment
         const p2 = params.p2;
         const p3 = params.p3;
         const alpha = params.alpha ?? 0.5;
-        const tau = (1.0 - params.tension) ?? 0.5;
+        const tau = 1.0 - (params.tension ?? 0.5);
 
         /*
             @SOURCE: https://qroph.github.io/2018/07/30/smooth-paths-using-catmull-rom-splines.html

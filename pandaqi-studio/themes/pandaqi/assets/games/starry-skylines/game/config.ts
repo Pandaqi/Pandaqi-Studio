@@ -1,3 +1,5 @@
+import { SettingType } from "lib/pq-games";
+
 export const CONFIG =
 {
     _resources:

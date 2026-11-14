@@ -34,7 +34,7 @@ const generateWildAnimals = (cards) =>
     generateAnimalCards(cards, CONFIG.generation.animalFreqsWild, CONFIG.generation.animalFreqDefaultWild, true)
 }
 
-const generateAnimalCards = (cards, dist:Record<AnimalType, number>, defFreq:number, specialPowers:boolean = false) =>
+const generateAnimalCards = (cards, dist:Partial<Record<AnimalType, number>>, defFreq:number, specialPowers:boolean = false) =>
 {
     // the animal cards
     for(const [key,data] of Object.entries(ANIMALS))

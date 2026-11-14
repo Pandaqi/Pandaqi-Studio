@@ -47,7 +47,7 @@ export default class WordsScreen
 
         const wordContainer = document.createElement("div");
         wordContainer.classList.add("word-options");
-        const words = this.pandaqiWords.getRandomMultiple(CONFIG.wordCards.numPerCard, true);
+        const words = this.pandaqiWords.getRandomMultiple(CONFIG._drawing.wordCards.numPerCard, true);
 
 
         for(const word of words)

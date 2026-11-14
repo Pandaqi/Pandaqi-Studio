@@ -112,6 +112,8 @@ interface Page
     entry: string | null;
     exampleIds: string[];
     tableIds: string[];
+    // a hand-written widget that mounts its own controls instead of the generator framework (SC-3)
+    customWidget: boolean;
 }
 
 // markdown reaches these ids two ways: the shortcode (id="turn") and raw HTML (data-rulebook-example="turn")
@@ -146,6 +148,7 @@ const collectPages = (filter?:string) : Page[] =>
             entry: entryFor(url),
             exampleIds: idsOf(text, ["rules/rules-example", "rules-example", "rulebook-example"]),
             tableIds: idsOf(text, ["rules/rules-table", "rules-table", "rulebook-table"]),
+            customWidget: /^\s*customWidget:\s*true\s*$/m.test(frontmatter(text)),
         });
     }
     return pages;
@@ -250,6 +253,9 @@ export const runStaticChecks = (opts:StaticOptions = {}) =>
         {
             const segments = (match[0] as string).split(".").slice(1);
             if(segments.includes("value")) { continue; }
+            // `_settings.sets[key]?.value` ends the match at the bracket, so look at what follows it too
+            const after = text.slice((match.index as number) + (match[0] as string).length, (match.index as number) + (match[0] as string).length + 8);
+            if(/^\s*\??\.\s*value\b/.test(after)) { continue; }
             if(segments[0] === "defaults" || segments[0] === "meta") { continue; }
             const before = text.slice(Math.max(0, (match.index as number) - 60), match.index);
             // iterating the group's children (or copying it) is a legitimate read; only reading the
@@ -304,8 +310,9 @@ export const runStaticChecks = (opts:StaticOptions = {}) =>
             }
         }
 
-        // SC-3: every game/board entry mounts the framework
-        if(page.kind === "game" || page.kind === "board")
+        // SC-3: every game/board entry mounts the framework, unless the page declares itself a custom
+        // widget (`customWidget: true`), in which case it builds and wires its own controls
+        if((page.kind === "game" || page.kind === "board") && !page.customWidget)
         {
             if(!/\bloadGame\s*\(|\bloadSettings\s*\(/.test(entryText))
             {

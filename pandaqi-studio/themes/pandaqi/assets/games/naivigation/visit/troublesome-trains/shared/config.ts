@@ -103,6 +103,7 @@ export const CONFIG =
     _game:
     {
         fileName: "Naivigation: Troublesome Trains",
+        resLoader: null as any, // filled by the entry: a rulebook page builds its own
     },
 
     // assets

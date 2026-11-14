@@ -13,7 +13,7 @@ export const boardPicker = () =>
     const includedSets = [];
     for(const [setKey,setConfig] of Object.entries(CONFIG._settings.sets))
     {
-        if(!setConfig.value) { continue; }
+        if(!setConfig || typeof setConfig !== "object" || !setConfig.value) { continue; }
         
         const included = setConfig.value == true;
         if(!included) { continue; }

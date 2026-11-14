@@ -41,8 +41,11 @@ export default class BoardGeneration
 	createConfig(vis:MaterialVisualizer)
 	{
 		const userConfig = CONFIG;
+		// this page swaps in the board generator's own settings at load, so the declared game settings type
+		// does not describe what is here at generation time
+		const settings = userConfig._settings as Record<string,any>;
 		const cfg : Record<string,any> = {};
-		userConfig.numPlayers = parseInt(userConfig._settings.numPlayers.value);
+		cfg.numPlayers = parseInt(settings.numPlayers.value);
 		Object.assign(cfg, userConfig);
 
 		console.log(cfg);
@@ -71,7 +74,7 @@ export default class BoardGeneration
 		cfg.recipeLength = 4;
 		cfg.maxGardenSize = cfg.recipeLength;
 		cfg.minGardensOfPotionLength = 2; // how many gardens should exist (at least) that can contain the final potion
-		cfg.useBackPage = userConfig._settings.pageBack.value;
+		cfg.useBackPage = settings.pageBack.value;
 
 		cfg.fullWidth = vis.size.x;
 		cfg.fullHeight = vis.size.y;

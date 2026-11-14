@@ -109,6 +109,7 @@ export const CONFIG =
     _game:
     {
         fileName: "Naivigation: Frightening Flights",
+        resLoader: null as any, // filled by the entry: a rulebook page builds its own
     },
 
     // assets

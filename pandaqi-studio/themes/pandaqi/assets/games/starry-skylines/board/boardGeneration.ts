@@ -34,7 +34,7 @@ export default class BoardGeneration
 			minSize: minSize,
 			gridWidth: 8,
 			gridHeight: 8,
-			playerCount: parseInt(CONFIG.playerCount ?? 3),
+			playerCount: parseInt(CONFIG._settings.playerCount.value ?? 3),
 			lists: {},
 			totalProbabilities: {},
 			spriteScale: 0.9,
@@ -90,8 +90,9 @@ export default class BoardGeneration
 		this.cfg.cellHeight = (vis.size.y / this.cfg.gridHeight);
 		this.cfg.minSizeCell = Math.min(this.cfg.cellWidth, this.cfg.cellHeight)*this.cfg.spriteScale;
 		
-		CONFIG.playerCount = parseInt(CONFIG.playerCount ?? 4);
-		CONFIG.numPlayers = CONFIG.playerCount;
+		// the player count is a setting, not a field on the config
+		this.cfg.playerCount = parseInt(CONFIG._settings.playerCount.value ?? 3);
+		this.cfg.numPlayers = this.cfg.playerCount;
 		Object.assign(this.cfg, CONFIG);
 
 		this.cfg.soloMode = (this.cfg.playerCount == 1);

@@ -56,7 +56,7 @@ export default class Evaluator
         let biggestHoleClump = -1;
         for(const clump of holeClumps)
         { 
-            biggestHoleClump = Math.max(biggestHoleClump, clump.count());
+            biggestHoleClump = Math.max(biggestHoleClump, clump.length);
         }
 
         if(biggestHoleClump > CONFIG.evaluator.maxHoleClumpSize) { return false; }

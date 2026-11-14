@@ -128,7 +128,7 @@ const generateTiles = (tiles) =>
     const numConditionalActions = Math.floor(CONFIG.generation.conditionalActionsPercentage * totalNumTiles);
     for(let i = 0; i < arr.length; i++)
     {
-        if(CONFIG.useConditionalActions && i < numConditionalActions) {
+        if(CONFIG._settings.useConditionalActions.value && i < numConditionalActions) {
             const cond = getWeighted(CONDITIONS);
             const reward = getWeighted(ACTIONS_CONDITIONAL);
             const finalString = CONDITIONS[cond].desc + ", " + ACTIONS_CONDITIONAL[reward].desc;

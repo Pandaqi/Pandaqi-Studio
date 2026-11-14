@@ -1,4 +1,4 @@
-import { shuffle } from "lib/pq-games";
+import { shuffle, loadSettings } from "lib/pq-games";
 import { ADDERTJES, Q, ROLVOORDELEN, Task, TASKS } from "./dict";
 import { CONFIG } from "./config";
 
@@ -419,7 +419,7 @@ const startTimer = () =>
 		timerValue = parseInt( document.getElementById('timerValue').getAttribute('data-originalTimerValue') );
 	}
 
-	timerInterval = setInterval(() => 
+	timerInterval = window.setInterval(() => 
 	{
 		timerValue -= 1;
 		document.getElementById('timerValue').innerHTML = convertSecondsToString(timerValue);

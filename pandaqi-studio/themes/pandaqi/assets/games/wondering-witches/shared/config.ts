@@ -5,7 +5,8 @@ export const CONFIG =
 {
     _game:
     {
-        fileName: "Wondering Witches"
+        fileName: "Wondering Witches",
+        renderer: null as any,
     },
 
     numPlayers: 4,

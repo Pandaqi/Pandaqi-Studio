@@ -5,6 +5,7 @@ import Interface from "./interface";
 import Puzzle from "./puzzle";
 import { INGREDIENTS, EVENTS } from "../shared/dict"
 import { CONFIG } from "../shared/config";
+import { loadSettings } from "lib/pq-games";
 
 export default class Game 
 {
