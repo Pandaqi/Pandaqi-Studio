@@ -1,0 +1,12 @@
+#!/bin/sh
+# R-14: run the source checks (SC-1..SC-8) for the projects a commit touches — about 2 s, and it stops a
+# typo from costing a build and a browser run to find.
+#
+# Enable it once per clone:
+#   git config core.hooksPath pandaqi-studio/audit/githooks
+#
+# `git commit --no-verify` skips it when you know why.
+
+root=$(git rev-parse --show-toplevel) || exit 0
+cd "$root/pandaqi-studio/audit" || exit 0
+exec bun run precommit

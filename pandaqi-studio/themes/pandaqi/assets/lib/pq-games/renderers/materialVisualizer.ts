@@ -9,6 +9,9 @@ import { CVal } from "../settings/cval";
 import { ensureConfigProperties, GameConfig, getSettingDefault, DrawingPaths } from "../settings/configuration";
 import { translate } from "../layout/text/translation";
 
+// one warning per config, not one per material
+const WARNED_CONFIGS = new WeakSet<object>();
+
 export class MaterialVisualizer<TConfig extends GameConfig = GameConfig>
 {
     debug?: boolean
@@ -39,6 +42,16 @@ export class MaterialVisualizer<TConfig extends GameConfig = GameConfig>
         this.config = config;
         this.renderer = config._game.renderer ?? new RendererPandaqi();
         this.resLoader = config._game.resLoader;
+
+        // A config that never went through loadResources/getMaterialDataForRulebook has no loader, and the
+        // failure only surfaced much later, while drawing a random card, as "Cannot read properties of
+        // undefined (reading 'getResource')". Say it once, here, without throwing: "config only, no
+        // rendering" is a legitimate path (rulebook-default, debug tooling).
+        if(!this.resLoader && !WARNED_CONFIGS.has(config))
+        {
+            WARNED_CONFIGS.add(config);
+            console.warn("[Visualizer] This config has no resource loader (_game.resLoader); resources will not resolve. Call loadResources() or getMaterialDataForRulebook() first.");
+        }
 
         this.language = (config._settings.defaults.language ?? {}).value ?? config._translation.language;
         this.translation = config._translation ?? { dictionary: {} };

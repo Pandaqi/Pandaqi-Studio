@@ -216,7 +216,7 @@ const main = async () : Promise<number> =>
             {
                 if(!file.toLowerCase().endsWith(".png")) { continue; }
                 const name = file.split(/[\\/]/).pop() as string;
-                if(name.startsWith("render-") || name === "page.png" || name.startsWith("example-"))
+                if(name.startsWith("render") || name === "page.png" || name.startsWith("example-"))
                 {
                     copyBaseline(file, join(baselinesRoot, slug));
                 }

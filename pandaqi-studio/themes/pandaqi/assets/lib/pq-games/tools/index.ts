@@ -16,3 +16,6 @@ export * from "./random";
 
 // > Numbers
 export * from "./numbers";
+
+// > Debug
+export * from "./debug/flags";

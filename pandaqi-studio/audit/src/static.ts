@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { frontmatter, typeOf, urlForMarkdown } from "./manifest";
 
@@ -8,7 +8,7 @@ import { frontmatter, typeOf, urlForMarkdown } from "./manifest";
 //   bun run static                     everything
 //   bun run static --filter <project>  one project
 //
-// Every finding names the check (SC-1..SC-7) so the report and this table stay the same thing.
+// Every finding names the check (SC-1..SC-8) so the report and this table stay the same thing.
 
 const auditDir = resolve(import.meta.dir, "..");
 const studioDir = resolve(auditDir, "..");
@@ -109,6 +109,7 @@ interface Page
     url: string;
     kind: "game" | "board" | "rules";
     projectRoot: string;
+    mdPath: string;
     entry: string | null;
     exampleIds: string[];
     tableIds: string[];
@@ -145,6 +146,7 @@ const collectPages = (filter?:string) : Page[] =>
         pages.push({
             url, kind,
             projectRoot: projectRootOf(url),
+            mdPath,
             entry: entryFor(url),
             exampleIds: idsOf(text, ["rules/rules-example", "rules-example", "rulebook-example"]),
             tableIds: idsOf(text, ["rules/rules-table", "rules-table", "rulebook-table"]),
@@ -203,6 +205,41 @@ const resourcePathsOf = (text:string) =>
     const base = (block.match(/\bbase\s*:\s*["']([^"']+)["']/) ?? ["", ""])[1] || null;
     const paths = Array.from(block.matchAll(/\bpath\s*:\s*["']([^"']+)["']/g)).map(m => m[1]);
     return { base, paths };
+}
+
+// An asset *folder* (a `_resources.base`) is invisible to SC-6, which only looks at the files inside it: a
+// renamed folder leaves every `path` string behind, and the page then renders blank cards with no source
+// finding to point at. Resolving the folder itself is one stat call per page.
+const canResolveDirectory = (path:string, projectRoot:string) =>
+{
+    const cleaned = path.replace(/^\/+/, "");
+    const candidates = path.startsWith("/")
+        ? [join(contentDir, cleaned), join(studioDir, "static", cleaned), join(studioDir, "themes", "pandaqi", "static", cleaned)]
+        : [join(contentDir, projectRoot, path), join(studioDir, "static", cleaned), join(studioDir, "themes", "pandaqi", "static", cleaned)];
+    return candidates.some(f => existsSync(f) && statSync(f).isDirectory()) ? null : candidates[0];
+}
+
+// Images a page's own markdown/front matter points at. Same class of defect as SC-6, one level up: the
+// folder moved, the markdown kept the old path, and only a browser run shows the broken image.
+const contentAssetPathsOf = (text:string) : string[] =>
+{
+    const out:string[] = [];
+    for(const match of text.matchAll(/!\[[^\]]*\]\(\s*([^\s)]+)/g)) { out.push(match[1]); }
+    for(const match of text.matchAll(/<img[^>]*\bsrc\s*=\s*["']([^"']+)["']/g)) { out.push(match[1]); }
+    for(const match of text.matchAll(/^\s*(?:thumbnail|header|image|banner)\s*:\s*["']([^"']+)["']\s*$/gm)) { out.push(match[1]); }
+    return Array.from(new Set(out))
+        .filter(p => p.length > 0 && !/^(?:https?:|data:|mailto:|\/\/)/.test(p) && !/[{}<>]/.test(p))
+        .map(p => p.replace(/[?#].*$/, ""));
+}
+
+const canResolveContentAsset = (path:string, projectRoot:string, mdPath:string) =>
+{
+    const cleaned = path.replace(/^\/+/, "");
+    // a relative image in markdown is relative to the file it appears in (Hugo leaves those paths alone)
+    const candidates = path.startsWith("/")
+        ? [join(contentDir, cleaned), join(studioDir, "static", cleaned), join(studioDir, "themes", "pandaqi", "static", cleaned)]
+        : [join(dirname(mdPath), path), join(contentDir, projectRoot, path), join(contentDir, projectRoot, "assets", path)];
+    return candidates.some(f => existsSync(f)) ? null : candidates[0];
 }
 
 const canResolveResource = (path:string, base:string|null, projectRoot:string) =>
@@ -359,6 +396,31 @@ export const runStaticChecks = (opts:StaticOptions = {}) =>
                 add("SC-6", "error", file, lineOf(text, text.indexOf(path)),
                     `resource path "${path}" does not exist (looked in ${rel(missing)})`);
             }
+        }
+    }
+
+    // SC-8: the asset folder exists, and so does every image the page's own markdown points at
+    for(const page of pages)
+    {
+        const files = page.entry ? graphOf(page.entry) : [];
+        for(const file of files)
+        {
+            const text = read(file);
+            const resources = resourcePathsOf(text);
+            if(!resources || !resources.base) { continue; }
+            const missing = canResolveDirectory(resources.base, page.projectRoot);
+            if(!missing) { continue; }
+            add("SC-8", "error", file, lineOf(text, text.indexOf(resources.base)),
+                `_resources.base "${resources.base}" is not a directory (looked in ${rel(missing)})`);
+        }
+
+        const markdown = read(page.mdPath);
+        for(const path of contentAssetPathsOf(markdown))
+        {
+            const missing = canResolveContentAsset(path, page.projectRoot, page.mdPath);
+            if(!missing) { continue; }
+            add("SC-8", "error", page.mdPath, lineOf(markdown, markdown.indexOf(path)),
+                `image "${path}" does not exist (looked in ${rel(missing)})`);
         }
     }
 

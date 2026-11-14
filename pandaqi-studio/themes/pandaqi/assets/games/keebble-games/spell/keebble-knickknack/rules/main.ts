@@ -197,7 +197,8 @@ const CONFIG_RULEBOOK =
         turn:
         {
             buttonText: "Give me an example turn!",
-            callback: generate
+            callback: generate,
+            draws: false // the example explains a turn in text; it deliberately produces no material
         }
     },
 

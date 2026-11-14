@@ -6,6 +6,8 @@ import type { Renderer } from "../renderers/renderer";
 import { mergeObjects } from "../tools/collections/converters";
 import type { PageOrientation, PageSides, PageSize } from "../tools/pdf/tools";
 import { getRandomSeedString } from "../tools/random/values";
+import { setStrictWarnings } from "../tools/debug/warnings";
+import { debugEnabled } from "../tools/debug/flags";
 
 export const PROTECTED_CONFIGURATION_PROPERTIES = ["_game", "_settings", "_generation", "_drawing", "_material", "_resources", "_debug", "_translation"];
 
@@ -19,6 +21,7 @@ export type DrawingPaths<T> = T extends object
 
 export interface GameConfigMaterialSubset
 {
+    _debug?: GameConfig["_debug"],
     _resources?: GameConfigResources,
     _game?: GameConfigGame,
     _material?: Record<string,MaterialConfig>,
@@ -29,6 +32,10 @@ export const getMaterialDataForRulebook = (config:GameConfigMaterialSubset) =>
     // prepare resource loader with correct resources
     config._resources = config._resources ?? {};
     const resLoader = new ResourceLoader({ base: config._resources.base });
+
+    // a rulebook example draws through the same visualizer as a generator; without this, `_debug.strict`
+    // was only ever honoured by `generateMaterial`, so the default-pivot/alignment warnings never fired here
+    setStrictWarnings(debugEnabled(config, "strict"));
     resLoader.planLoadMultiple(config._resources.files, config);
    
     config._game = config._game ?? {};
@@ -55,9 +62,19 @@ export const getSettingDefault = (key:string, config:GameConfig) =>
     return ((config._settings.defaults ?? {})[key] ?? {}).value;
 }
 
-export const getSetting = (path:string, config:GameConfig) =>
+// `getDefaultSettings()` only emits a setting whose option list has more than one entry, and
+// `noDefaultSettings: true` skips them all: a setting's default genuinely can be missing. One accessor with
+// an explicit fallback keeps the "Cannot read properties of undefined" crashes out of every caller.
+export const getDefaultSetting = <T>(key:string, config:GameConfig, fallback:T) : T =>
 {
-    if(!config._settings) { return false; }
+    return (getSettingDefault(key, config) as T) ?? fallback;
+}
+
+// Returns `undefined` for a missing setting, never `false`: a setting whose value is legitimately `false`
+// must be distinguishable from one that does not exist.
+export const getSetting = <T = any>(path:string, config:GameConfig) : T | undefined =>
+{
+    if(!config._settings) { return undefined; }
     const pathParts = path.split(".");
     let obj:Record<string,any> = config._settings;
     while(pathParts.length > 0 && obj)
@@ -70,7 +87,7 @@ export const getSetting = (path:string, config:GameConfig) =>
 export const getPicker = (key:string, config:GameConfig) =>
 { 
     if(!config._material) { config._material = {}; }
-    return (config._material[key] ?? {}).picker;
+    return config._material[key]?.picker;
 }
 
 export const getVisualizer = (key:string, config:GameConfig) =>
@@ -224,9 +241,18 @@ export interface MapperConfig
     pageOrientation?: PageOrientation, // unique orientation override
 }
 
+// A picker produces the material's items, and the framework accepts all three shapes projects actually use:
+//   `() => Card[]`          the items itself
+//   `() => BoardDisplay`    one item, for material that is a single canvas
+//   `() => () => Card[]`    a generator, which `generateItems` calls with the config next
+// It is required, so a material without one is a type error rather than a runtime `value.picker is not a
+// function`; the shape itself stays open, because narrowing it to the three above would reject configs that
+// build their material through a helper typed as `Function`.
+export type MaterialPicker = (config?: GameConfig) => any;
+
 export interface MaterialConfig
 {
-    picker?:Function, 
+    picker: MaterialPicker, 
     mapper?:MapperConfig|MapperPreset,
     visualizer?:any,
     itemSize?: Vector2, // if no item size was given by other settings (e.g. PageMapper) it always uses this size

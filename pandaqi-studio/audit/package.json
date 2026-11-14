@@ -6,6 +6,8 @@
     "audit": "bun run src/main.ts",
     "static": "bun run src/static.ts",
     "perf": "bun run src/perf.ts",
+    "test": "bun test tests",
+    "precommit": "bun run src/precommit.ts",
     "typecheck": "tsc -p ../themes/pandaqi/assets --noEmit"
   },
   "devDependencies": {

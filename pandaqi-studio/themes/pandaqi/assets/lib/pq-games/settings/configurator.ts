@@ -3,12 +3,14 @@ import { CVal } from "./cval";
 
 export class Configurator
 {
-    itemsCalculated: Record<string, any>;
+    // A Map, not a plain object: a `_drawing` path called `constructor`, `toString` or `__proto__` used to
+    // resolve to an inherited property instead of `undefined`, and `set("__proto__", …)` wrote to the prototype.
+    itemsCalculated: Map<string, any>;
     exceptions: string[];
 
     constructor()
     {
-        this.itemsCalculated = {};
+        this.itemsCalculated = new Map();
         this.exceptions = [];
     }
 
@@ -36,7 +38,7 @@ export class Configurator
     get(key:string|string[])
     {
         const path = this.keyToPath(key);
-        let item = this.itemsCalculated[path];
+        let item = this.itemsCalculated.get(path);
 
         const notCalculatedYet = item instanceof CVal;
         if(notCalculatedYet)
@@ -51,7 +53,7 @@ export class Configurator
     set(key:string|string[], value:any)
     {
         const path = this.keyToPath(key);
-        this.itemsCalculated[path] = value;
+        this.itemsCalculated.set(path, value);
     }
 
     keyToPath(key:string|string[])
@@ -85,34 +87,38 @@ export class Configurator
 
         for(const [key,data] of Object.entries(config))
         {
-            const pathNew = path.slice()
-            pathNew.push(key);
+            // one path array for the whole walk instead of a copy per key
+            path.push(key);
 
-            const isException = anyMatch(this.exceptions, pathNew);
-            if(isException) { continue; }
+            const isException = anyMatch(this.exceptions, path);
 
-            if(data == null || data == undefined) { continue; }
-
-            // either calculate the final value (or try to)
-            const isCVal = (data instanceof CVal);
-            if(isCVal)
+            if(!isException && data != null)
             {
-                this.set(pathNew, this.calculateItem(data));
-                continue;
+                // either calculate the final value (or try to)
+                const isCVal = (data instanceof CVal);
+                if(isCVal)
+                {
+                    this.set(path, this.calculateItem(data));
+                }
+                else
+                {
+                    // or go deeper into the object
+                    const isClassInstance = this.isClassInstance(data) && !this.isForbiddenEntry(data);
+                    const isRawObject = typeof data === "object" && !isClassInstance;
+                    if(isRawObject)
+                    {
+                        this.set(path, data); // also save the original object as well, so we can access the WHOLE thing as well as the PARTS
+                        this.calculate(data, path);
+                    }
+                    else
+                    {
+                        // otherwise assume this is a raw value, save and do not touch
+                        this.set(path, data);
+                    }
+                }
             }
 
-            // or go deeper into the object
-            const isClassInstance = this.isClassInstance(data) && !this.isForbiddenEntry(data);
-            const isRawObject = typeof data === "object" && !isClassInstance;
-            if(isRawObject)
-            {
-                this.set(pathNew, data); // also save the original object as well, so we can access the WHOLE thing as well as the PARTS
-                this.calculate(data, pathNew);
-                continue;
-            }
-
-            // otherwise assume this is a raw value, save and do not touch
-            this.set(pathNew, data);
+            path.pop();
         }
     }
 

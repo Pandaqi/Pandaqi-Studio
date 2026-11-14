@@ -3,8 +3,10 @@ name: Audit gate
 # One pre-merge gate, nothing scheduled. A pull request that turns a green page red must not merge:
 #   1. the site builds with both generator flags on
 #   2. the sources type check (js.Build never does)
-#   3. the static checks (SC-1..SC-7) report no errors
-#   4. the audit runs on the projects this PR touches
+#   3. the static checks (SC-1..SC-8) report no errors, including the asset-folder check (R-9): a moved
+#      `_resources.base` or markdown image is invisible until a page renders blank
+#   4. the library unit tests (the V2 defaults) pass
+#   5. the audit runs on the projects this PR touches
 # Everything the audit wrote is uploaded when a step fails.
 #
 # The same commands run locally (MIGRATION.md §5.1); this file is the only place that runs them
@@ -51,9 +53,13 @@ jobs:
           HUGO_PARAMS_ENABLEBOARDJS: "true"
         run: hugo --destination "$RUNNER_TEMP/site" --cleanDestinationDir
 
-      - name: Static checks (SC-1..SC-7)
+      - name: Static checks (SC-1..SC-8)
         working-directory: pandaqi-studio/audit
         run: bun run static
+
+      - name: Library unit tests
+        working-directory: pandaqi-studio/audit
+        run: bun run test
 
       - name: Which projects changed
         run: |

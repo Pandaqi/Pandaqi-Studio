@@ -13,6 +13,7 @@ export interface InteractiveExampleParams
     settings?: Record<string, SettingConfig>,
     _settings?: RulebookSettings, // protected: has the actual settings object created from raw input above
     simulator?: InteractiveExampleSimulatorParams,
+    draws?: boolean, // false = this example deliberately produces text only; the audit skips its canvas check
 }
 
 const FAKE_PLAYER_NAMES = ["Anna", "Bella", "Chris", "Dennis", "Erik", "Frank", "Gini", "Harry", "Ingrid", "James", "Kayla", "Lily"];
@@ -103,11 +104,13 @@ export class InteractiveExample
     generateCallback: Function;
     busy:boolean;
     settings: RulebookSettings;
+    draws: boolean;
     
     constructor(params:InteractiveExampleParams = {})
     {
         this.id = params.id;
         this.busy = false;
+        this.draws = params.draws ?? true;
         
         this.buttonText = params.buttonText ?? "Give me an example turn!";
         if(params._settings) { this.settings = params._settings; }
@@ -178,13 +181,24 @@ export class InteractiveExample
             this.generateButton.classList.add("rulebook-example-button-active");
             this.closeButton.classList.add("rulebook-example-button-active");
 
-            await this.generateCallback();
-
-            this.closeButton.style.display = "block";
-            this.busy = false;
-            btn.disabled = false;
-            btn.style.opacity = "1.0";
-            btn.innerHTML = this.buttonText;
+            // A throwing callback used to leave the button disabled and surface only as an unhandled
+            // rejection, which nothing but the audit harness could see (and it saw a timeout).
+            try
+            {
+                await this.generateCallback();
+            }
+            catch(error)
+            {
+                this.showError(error);
+            }
+            finally
+            {
+                this.closeButton.style.display = "block";
+                this.busy = false;
+                btn.disabled = false;
+                btn.style.opacity = "1.0";
+                btn.innerHTML = this.buttonText;
+            }
         });
 
         const btnClose = this.node.getElementsByClassName("rulebook-example-button-close")[0] as HTMLButtonElement;
@@ -200,6 +214,16 @@ export class InteractiveExample
     setGenerationCallback(func:Function)
     {
         this.generateCallback = func;
+    }
+
+    showError(error:any)
+    {
+        const node = document.createElement("pre");
+        node.classList.add("rulebook-example-error");
+        node.textContent = `This example could not be generated: ${error?.message ?? String(error)}`;
+        this.contentNode.style.display = "block";
+        this.contentNode.appendChild(node);
+        console.error(`[Rulebook] example "${this.id}" failed`, error);
     }
 
     getOutputBuilder()

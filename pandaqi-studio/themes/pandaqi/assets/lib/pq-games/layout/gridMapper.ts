@@ -1,7 +1,7 @@
-import { MapperConfig, GameConfig } from "../settings/configuration"
+import { MapperConfig, GameConfig, getDefaultSetting } from "../settings/configuration"
 import { Vector2 } from "../geometry/vector2"
 import { createCanvas } from "../layout/canvas/creators"
-import { PageOrientation, PageSides, getPageSizeSingle } from "../tools/pdf/tools"
+import { PageOrientation, PageSize, PageSides, getPageSizeSingle } from "../tools/pdf/tools"
 
 export enum GridMapperLayout
 {
@@ -138,13 +138,13 @@ export const createGridMapperFromConfig = (config:GameConfig, mapperConfig:Mappe
     if(mapperConfig.preset) { mapperConfig = MAPPER_PRESETS[mapperConfig.preset]; }
     
     // grab proper settings from general, allowing override from specific config
-    const itemSizeKey = config._settings.defaults.itemSize.value;
+    const itemSizeKey = getDefaultSetting("itemSize", config, ItemSize.REGULAR);
     const pageSize = getPageSizeSingle({
-        pageSize: mapperConfig.pageSize ?? config._settings.defaults.pageSize.value,
+        pageSize: mapperConfig.pageSize ?? getDefaultSetting("pageSize", config, PageSize.A4),
         orientation: mapperConfig.pageOrientation ?? config._generation.pageOrientation
     });
 
-    const pageSides = config._settings.defaults.pageSides.value ?? config._game.pageSides ?? PageSides.SINGLE;
+    const pageSides = getDefaultSetting("pageSides", config, config._game.pageSides ?? PageSides.SINGLE);
 
     // return new GridMapper made for this
     const size = getGridSizeFromMapperConfig(mapperConfig, itemSizeKey);

@@ -6,13 +6,14 @@ import { ResourceLoader } from "./layout/resources/resourceLoader";
 import { MaterialVisualizer } from "./renderers/materialVisualizer";
 import { RendererPandaqi } from "./renderers/pandaqi/rendererPandaqi";
 import type { Renderer } from "./renderers/renderer";
-import { addConfigFromLocalStorage, ensureConfigProperties, type GameConfig, type MaterialConfig } from "./settings/configuration";
+import { addConfigFromLocalStorage, ensureConfigProperties, getDefaultSetting, type GameConfig, type MaterialConfig } from "./settings/configuration";
 import { sendProgressInfoSignal, sendProgressPhaseSignal } from "./tools/dom/feedbackNode";
 import { PdfBuilder, PdfPageConfig } from "./tools/pdf/pdfBuilder";
 import { getSplitDimsAsPoint, makeSizeSplittable } from "./tools/pdf/tools";
 import { setSeed } from "./tools/random/rng";
 import { getRandomSeedString } from "./tools/random/values";
 import { setStrictWarnings } from "./tools/debug/warnings";
+import { debugEnabled } from "./tools/debug/flags";
 
 const DEFAULT_BATCH_SIZE = 10;
 const DEFAULT_SLEEP_DURATION = 33 // ms
@@ -85,7 +86,7 @@ const generateDrawCalls = (config:GameConfig, allItems:Record<string,any>, mappe
     // collect all items (and the visualizer for them), but don't draw them yet
     // so far, mappers are always just GridMappers, though that might generalize in the future
     const drawCalls:MaterialDrawCall[] = [];
-    const splitDimsGlobal = config._settings.defaults.splitDims.value;
+    const splitDimsGlobal = getDefaultSetting("splitDims", config, "1x1");
     for(const [id,mapper] of Object.entries(mappers))
     {
         const materialConfig = config._material[id];
@@ -188,24 +189,21 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
 
     sendProgressPhaseSignal(feedbackNode, "Preparing PDF(s)");
 
-    const pdfBuilders = new Map();
+    // One PDF per material, deliberately. This used to keep a Map keyed by the mapper's page-size *object*,
+    // which promised "one builder per size" but never delivered it: every mapper owns its own Vector2, so the
+    // lookup always missed and every material got its own builder anyway — only the comment was wrong. A
+    // material owns its fileName and its split, so separate documents are the behaviour to keep.
+    const pdfBuilders:PdfBuilder[] = [];
     for(const [key,mapper] of Object.entries(mappers))
     {
-        const size = mapper.getPageSize();
-
-        // if there isn't a PDF builder with the exact size we need yet, we're forced to start a new PDF
-        let pdfBuilder = pdfBuilders.get(size);
-        if(!pdfBuilder)
-        {
-            const pageParams:PdfPageConfig = {
-                size: mapper.getPageSize(), 
-                debugWithoutFile: config._debug.omitFile, 
-                lossless: config._generation.losslessPdf,
-                fileName: config._material[key].fileName ?? config._game.fileName ?? config._game.name,
-            };
-            pdfBuilder = new PdfBuilder(pageParams);
-            pdfBuilders.set(size, pdfBuilder);
-        }
+        const pageParams:PdfPageConfig = {
+            size: mapper.getPageSize(), 
+            debugWithoutFile: config._debug.omitFile, 
+            lossless: config._generation.losslessPdf,
+            fileName: config._material[key].fileName ?? config._game.fileName ?? config._game.name,
+        };
+        const pdfBuilder = new PdfBuilder(pageParams);
+        pdfBuilders.push(pdfBuilder);
 
         // draw everything into that new PDF
         const canvases = mapper.getCanvases();
@@ -223,12 +221,12 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
         }
     }
 
-    const numPdfs = pdfBuilders.size;
+    const numPdfs = pdfBuilders.length;
     sendProgressInfoSignal(feedbackNode, `Compressing PDFs (${numPdfs}) (final step).`);
     await letDomUpdate();
 
     // download all PDFs created
-    for(const [size,builder] of pdfBuilders.entries())
+    for(const builder of pdfBuilders)
     {
         builder.downloadPDF();
     }
@@ -239,9 +237,9 @@ const setupRenderer = (config:GameConfig) =>
 {
     const renderer = config._game.renderer ?? new RendererPandaqi();
     config._game.renderer = renderer;
-    renderer.debugLayoutOperation = config._debug.layoutOperation;
-    renderer.debugText = config._debug.text;
-    setStrictWarnings(config._debug.strict ?? false);
+    renderer.debugLayoutOperation = debugEnabled(config, "layoutOperation");
+    renderer.debugText = debugEnabled(config, "text");
+    setStrictWarnings(debugEnabled(config, "strict"));
     return renderer; 
 }
 
