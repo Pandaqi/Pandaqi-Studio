@@ -1,20 +1,21 @@
 import { CardType, TileType } from "games/naivigation/shared/dictShared";
 import GeneralPickerNaivigation from "games/naivigation/shared/generalPickerNaivigation";
 import { CONFIG } from "../shared/config";
+import { registerPicker } from "games/naivigation/shared/pickerRegistry";
 import { MATERIAL, PASSENGER_BONUSES, PASSENGER_CURSES } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";
-import { shuffle, fromArray } from "lib/pq-games";
-export const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
-export const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist);
+import { shuffle, fromArray, getSetting } from "lib/pq-games";
+export const cardPicker = registerPicker("cards", new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL));
+export const tilePicker = registerPicker("tiles", new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist));
 
 cardPicker.generateCallback = () =>
 {
-    if(cardPicker.config.sets.passengersPlanes)
+    if(getSetting("expansions.passengersPlanes", CONFIG))
     {
         const airports = Object.keys(MATERIAL[TileType.MAP]).filter((key:string) => MATERIAL[TileType.MAP][key].collectible);
-        const numPassengers = cardPicker.config.cards.passengers.numCards;
-        const passengersPossible = cardPicker.config.cards.passengers.options;
+        const numPassengers = CONFIG.generation.cards.passengers.numCards;
+        const passengersPossible = CONFIG.generation.cards.passengers.options;
         const randBonusOrder = shuffle(Object.keys(PASSENGER_BONUSES));
         const randCurseOrder = shuffle(Object.keys(PASSENGER_CURSES));
         for(let i = 0; i < numPassengers; i++)
@@ -28,9 +29,9 @@ cardPicker.generateCallback = () =>
         }
     }
 
-    if(cardPicker.config.sets.fuelFalling)
+    if(getSetting("expansions.fuelFalling", CONFIG))
     {
-        const num = cardPicker.config.cards.numFuelCards;
+        const num = CONFIG.generation.cards.numFuelCards;
         for(let i = 0; i < num; i++)
         {
             cardPicker.addSingle(new Card(CardType.FUEL, "fuel"));
@@ -42,9 +43,9 @@ cardPicker.generateCallback = () =>
 tilePicker.generateCallback = () =>
 {
     // Add elevation tiles twice, in case a group plays with 2 planes
-    if(tilePicker.config.sets.mapTiles)
+    if(getSetting("sets.mapTiles", CONFIG))
     {
-        const bounds = tilePicker.config.tiles.custom.elevationBounds;
+        const bounds = CONFIG.generation.tiles.custom.elevationBounds;
         for(let i = bounds.min; i <= bounds.max; i++)
         {
             tilePicker.addSingle(new Tile(TileType.CUSTOM, "elevation", { num: i }));
@@ -52,10 +53,10 @@ tilePicker.generateCallback = () =>
         }
     }
 
-    if(tilePicker.config.sets.timezonesTomorrow)
+    if(getSetting("expansions.timezonesTomorrow", CONFIG))
     {
-        const bounds = tilePicker.config.tiles.custom.clockBounds;
-        const numPerValue = tilePicker.config.tiles.custom.clockCardsPerValue;
+        const bounds = CONFIG.generation.tiles.custom.clockBounds;
+        const numPerValue = CONFIG.generation.tiles.custom.clockCardsPerValue;
         for(let i = bounds.min; i <= bounds.max; i++)
         {
             for(let a = 0; a < numPerValue; a++)

@@ -1,6 +1,6 @@
 import { CONFIG_NAIVIGATION_SHARED } from "games/naivigation/shared/configShared";
 import { NetworkType, PASSENGERS, TerrainType } from "games/naivigation/shared/dictShared";
-import { cardPicker, tilePicker } from "../game/generators";
+import { PICKER_REGISTRY } from "games/naivigation/shared/pickerRegistry";
 import { SettingType, Vector2, CVal, Bounds, mergeObjects } from "lib/pq-games";
 
 export const CONFIG = 
@@ -130,7 +130,7 @@ export const CONFIG =
             {
                 path: "icons.webp",
                 frames: new Vector2(5,1),
-                loadIf: ["sets.vehicleCards", "sets.specialCards", "sets.fuelFear"]
+                loadIf: ["sets.vehicleCards", "sets.specialCards", "expansions.fuelFear"]
             },
 
             networks:
@@ -141,12 +141,12 @@ export const CONFIG =
 
             terrains:
             {
-                loadIf: ["sets.mapTiles", "sets.trafficPolice", "sets.fuelFear", "sets.terrainTripplanning"]
+                loadIf: ["sets.mapTiles", "expansions.trafficPolice", "expansions.fuelFear", "expansions.terrainTripplanning"]
             },
 
             persons:
             {
-                loadIf: ["sets.taxisCargo"]
+                loadIf: ["expansions.taxisCargo"]
             }
         },
     },
@@ -178,18 +178,37 @@ export const CONFIG =
                 cobblestones: { perc: 0.1 }
             }
         },
+
+        cards:
+        {
+            numFuelCards: 10,
+
+            passengers:
+            {
+                numCards: 12,
+                options: Object.keys(PASSENGERS)
+            }
+        },
+
+        tiles:
+        {
+            custom:
+            {
+                gearBounds: new Bounds(-2,4)
+            }
+        },
     },
 
     _material:
     {
         cards:
         {
-            picker: cardPicker.asFunction()
+            picker: () => PICKER_REGISTRY.cards
         },
 
         tiles: 
         {
-            picker: tilePicker.asFunction()
+            picker: () => PICKER_REGISTRY.tiles
         }
     },
 
@@ -197,12 +216,8 @@ export const CONFIG =
     {
         cards:
         {
-            numFuelCards: 10,
-            
             passengers:
             {
-                numCards: 12,
-                options: Object.keys(PASSENGERS),
                 fontSize: new CVal(0.07, "sizeUnit"),
                 textBoxDims: new CVal(new Vector2(0.925, 0.33), "size"),
                 bonusPos: new CVal(new Vector2(0.5, 0.625), "size"),
@@ -218,7 +233,6 @@ export const CONFIG =
             {
                 fontSize: new CVal(0.3, "sizeUnit"),
                 strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
-                gearBounds: new Bounds(-2,4),
             },
 
             parkingLot:

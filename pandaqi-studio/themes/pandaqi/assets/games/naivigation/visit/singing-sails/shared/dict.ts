@@ -11,11 +11,11 @@ export const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
     sail: { frame: 0, label: "Sail", desc: "<b>Move</b> as many tiles as your <b>Wind</b>, in the <b>North</b> direction (of the Compass).", freq: 10 },
     wind: { frame: 1, label: "Wind", desc: "<b>Change</b> the <b>Wind</b> deck by 1 (up or down).", freq: 10 },
     rotate: { frame: 2, label: "Rotate", desc: "<b>Rotate</b> Ship or Compass a quarter turn in the direction shown.", freq: 10 },
-    weather: { frame: 3, label: "Weather", desc: "@CUSTOM", freq: 7, sets: ["windstormsWeather"] },
-    row: { frame: 4, label: "Row", desc: "<b>Move</b> 1 tile forward ( = in the direction the ship faces).", freq: 8, sets: ["windstormsWeather"] },
-    spyglass: { frame: 5, label: "Spyglass", desc: "<b>Study all</b> tiles from one deck OR <b>Add 3</b> tiles from one deck.", freq: 6, sets: ["windstormsWeather"] },
-    dig: { frame: 6, label: "Dig", desc: "<b>Replace</b> 1-3 map tiles with new ones from any deck(s).", freq: 4, sets: ["islandsTreasures"] },
-    cannon: { frame: 7, label: "Cannon", desc: "<b>Destroy adjacent Enemies</b>. (Directly to your left or right.)", freq: 8, sets: ["piratesCannons"] },
+    weather: { frame: 3, label: "Weather", desc: "@CUSTOM", freq: 7, sets: ["expansions.windstormsWeather"] },
+    row: { frame: 4, label: "Row", desc: "<b>Move</b> 1 tile forward ( = in the direction the ship faces).", freq: 8, sets: ["expansions.windstormsWeather"] },
+    spyglass: { frame: 5, label: "Spyglass", desc: "<b>Study all</b> tiles from one deck OR <b>Add 3</b> tiles from one deck.", freq: 6, sets: ["expansions.windstormsWeather"] },
+    dig: { frame: 6, label: "Dig", desc: "<b>Replace</b> 1-3 map tiles with new ones from any deck(s).", freq: 4, sets: ["expansions.islandsTreasures"] },
+    cannon: { frame: 7, label: "Cannon", desc: "<b>Destroy adjacent Enemies</b>. (Directly to your left or right.)", freq: 8, sets: ["expansions.piratesCannons"] },
 };
 
 export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
@@ -23,7 +23,7 @@ export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
     fog: { label: "Fog", desc: "Turn one Compass deck <b>facedown</b>.", num: 3 },
     fragile_plane: { label: "Fragile Ship", desc: "Sailing into land does <b>2 damage</b> (instead of 1).", num: 2 },
     stubborn_storms: { label: "Stubborn Storms", desc: "The first <b>Wind</b> card played determines how all later Wind cards work (+1 or -1).", num: 3 },
-    row_invert: { label: "Inverted Paddles", desc: "The <b>Row</b> card moves you 1 tile backward (instead of forward).", num: 5, sets: ["windstormsWeather"] },
+    row_invert: { label: "Inverted Paddles", desc: "The <b>Row</b> card moves you 1 tile backward (instead of forward).", num: 5, sets: ["expansions.windstormsWeather"] },
     end_of_world: { label: "At World's End", desc: "Shuffle one Compass deck into another. (You can never explore in that direction again.)", num: 4 },
     moodswing_sails: { label: "Moodswing Sails", desc: "Round your Wind deck. (You either move at <b>minimum speed</b> or <b>maximum speed</b>.)", num: 1 },
     rioting_rudder: { label: "Rudder Riot", desc: "Whenever you <b>take damage</b>, <b>rotate</b> the ship a quarter turn to the <b>right</b>.", num: 4 },
@@ -43,20 +43,20 @@ export const TIME_CARDS:Record<string,MaterialNaivigationData> =
     explorers_return: { label: "Explorer's Return", desc: "<b>Add 4 tiles</b> to the map, wherever you want.", type: EventType.EVENT },
     tsunami: { label: "Tsunami", desc: "<b>Remove 4 map tiles</b>. (Put them back into a Compass deck for each direction.)", type: EventType.EVENT },
     panic_disembark: { label: "Seasick Disembark", desc: "Return to the <b>last tile</b> you visited that was adjacent to land.", type: EventType.EVENT },
-    enemy_speedup: { label: "Enemy Speedup", desc: "All <b>Enemies</b> instantly <b>move</b> 1 tile closer to your ship.", type: EventType.EVENT, sets: ["piratesCannons"] },
+    enemy_speedup: { label: "Enemy Speedup", desc: "All <b>Enemies</b> instantly <b>move</b> 1 tile closer to your ship.", type: EventType.EVENT, sets: ["expansions.piratesCannons"] },
 
     wind_for_info: { label: "Clear Skies", desc: "<b>Lose 2 Wind</b> to play all cards <b>faceup</b> this round.", type: EventType.OFFER }, 
     damage_for_wind: { label: "Stormgod Prayer", desc: "<b>Take 1 damage</b> to set your Wind to <b>any value</b>.", type: EventType.OFFER }, 
     damage_for_ghost: { label: "Ghost Ship", desc: "<b>Take 1 damage</b> to allow ignoring any <b>special powers</b> or <b>pawns</b> on tiles.", type: EventType.OFFER },
     facedown_for_harbor: { label: "Tempting Magic", desc: "Turn <b>2 Compass decks facedown</b> (permanently) to teleport to any harbor.", type: EventType.OFFER },
-    wind_for_current: { label: "Fake Anchor", desc: "<b>Reset Wind to 0</b> to ignore all <b>water currents</b>.", type: EventType.OFFER, sets: ["supertilesSlipstreams"] },
+    wind_for_current: { label: "Fake Anchor", desc: "<b>Reset Wind to 0</b> to ignore all <b>water currents</b>.", type: EventType.OFFER, sets: ["expansions.supertilesSlipstreams"] },
 
     still_weather: { label: "Still Weather", desc: "If <b>Wind</b> cards were played, only apply them at the <b>end</b> of the round.", type: EventType.RULE },
     powerboat: { label: "Powerboat", desc: "<b>Ignore Wind</b> this round: you always Sail 1 tile.", type: EventType.RULE }, 
     supersailing: { label: "Supersailing", desc: "All movement is <b>doubled</b>, but you <b>can't visit harbors</b>.", type: EventType.RULE },
     monsterboat: { label: "Monster Boat", desc: "You can sail <b>over land</b> (without taking damage).", type: EventType.RULE },
     engineer_harbor: { label: "Engineer Port", desc: "If you <b>visit a harbor</b> this round, <b>repair</b> 1 damage.", type: EventType.RULE },
-    enemy_holiday: { label: "Enemy Holiday", desc: "You <b>don't</b> need to play a Vehicle Card to all <b>Enemies</b>.", type: EventType.RULE, sets: ["piratesCannons"] },
+    enemy_holiday: { label: "Enemy Holiday", desc: "You <b>don't</b> need to play a Vehicle Card to all <b>Enemies</b>.", type: EventType.RULE, sets: ["expansions.piratesCannons"] },
 
 }
 
@@ -74,11 +74,11 @@ export const MAP_TILES:Record<string,MaterialNaivigationData> =
     island: { frame: 8, label: "Island", desc: "Add 1 tile from any deck to the map, ignoring placement rules.", freq: 2 },
     anchor: { frame: 9, label: "Anchor", desc: "The round ends. There were remaining instructions? Take 1 damage.", freq: 3 },
     lighthouse: { frame: 10, label: "Lighthouse", desc: "While here, start player shows their hand and plays their cards faceup.", freq: 3 },
-    buoy: { frame: 11, label: "Buoy", desc: "You may freely discuss the game, but at the cost of <b>1 damage</b>.", sets: ["supertilesSlipstreams"], freq: 2 },
-    shipwreck: { frame: 12, label: "Shipwreck", desc: "Moved through here at a speed < 3? Bounce back and take 1 damage.", sets: ["supertilesSlipstreams"], freq: 2 },
-    treasure_map: { frame: 13, label: "Treasure Map", desc: "Look at any deck until you find a Harbor. Move it to the top.", sets: ["supertilesSlipstreams"], freq: 1 },
-    pirate_haven: { frame: 14, label: "Pirate Haven", desc: "<b>Visit all Pirate Havens.</b> Only possible if an Enemy is within 2 tiles.", sets: ["piratesCannons"], collectible: true, freq: 3 },
-    whirlpool: { frame: 15, label: "Whirlpool", desc: "Randomize your Wind deck and Ship orientation.", sets: ["islandsTreasures"], freq: 3 },
+    buoy: { frame: 11, label: "Buoy", desc: "You may freely discuss the game, but at the cost of <b>1 damage</b>.", sets: ["expansions.supertilesSlipstreams"], freq: 2 },
+    shipwreck: { frame: 12, label: "Shipwreck", desc: "Moved through here at a speed < 3? Bounce back and take 1 damage.", sets: ["expansions.supertilesSlipstreams"], freq: 2 },
+    treasure_map: { frame: 13, label: "Treasure Map", desc: "Look at any deck until you find a Harbor. Move it to the top.", sets: ["expansions.supertilesSlipstreams"], freq: 1 },
+    pirate_haven: { frame: 14, label: "Pirate Haven", desc: "<b>Visit all Pirate Havens.</b> Only possible if an Enemy is within 2 tiles.", sets: ["expansions.piratesCannons"], collectible: true, freq: 3 },
+    whirlpool: { frame: 15, label: "Whirlpool", desc: "Randomize your Wind deck and Ship orientation.", sets: ["expansions.islandsTreasures"], freq: 3 },
 }
 
 export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
@@ -90,9 +90,9 @@ export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
 
 export const PAWN_TILES:Record<string,MaterialNaivigationData> =
 {
-    pawn_pirateship: { frame: 7, label: "Pirates", textureKey: "misc", sets: ["piratesCannons"], freq: 3 },
-    pawn_seamonster: { frame: 8, label: "Sea Monster", textureKey: "misc", sets: ["piratesCannons"], freq: 3 },
-    pawn_giantwave: { frame: 9, label: "Giant Wave", textureKey: "misc", sets: ["piratesCannons"], freq: 3 },
+    pawn_pirateship: { frame: 7, label: "Pirates", textureKey: "misc", sets: ["expansions.piratesCannons"], freq: 3 },
+    pawn_seamonster: { frame: 8, label: "Sea Monster", textureKey: "misc", sets: ["expansions.piratesCannons"], freq: 3 },
+    pawn_giantwave: { frame: 9, label: "Giant Wave", textureKey: "misc", sets: ["expansions.piratesCannons"], freq: 3 },
 }
 
 export const MISC =

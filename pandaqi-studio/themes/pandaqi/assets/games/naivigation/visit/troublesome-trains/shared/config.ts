@@ -1,7 +1,7 @@
 import { CONFIG_NAIVIGATION_SHARED } from "games/naivigation/shared/configShared";
 import { NetworkType, TerrainType, TileType } from "games/naivigation/shared/dictShared";
 import { MATERIAL } from "./dict";
-import { cardPicker, tilePicker } from "../game/generators";
+import { PICKER_REGISTRY } from "games/naivigation/shared/pickerRegistry";
 import { SettingType, Vector2, CVal, mergeObjects } from "lib/pq-games";
 
 export const CONFIG = 
@@ -138,12 +138,12 @@ export const CONFIG =
             {
                 path: "networks.webp",
                 frames: new Vector2(5,4),
-                loadIf: ["sets.mapTiles", "sets.animalsCrossings"]
+                loadIf: ["sets.mapTiles", "expansions.animalsCrossings"]
             },
 
             terrains:
             {
-                loadIf: ["sets.mapTiles", "sets.animalsCrossings"]
+                loadIf: ["sets.mapTiles", "expansions.animalsCrossings"]
             }
         },
     },
@@ -175,23 +175,7 @@ export const CONFIG =
                 colored: { perc: 0.1, filterCollectibles: "exclude" }
             }
         },
-    },
 
-    _material:
-    {
-        cards:
-        {
-            picker: cardPicker.asFunction()
-        },
-
-        tiles: 
-        {
-            picker: tilePicker.asFunction()
-        }
-    },
-
-    _drawing:
-    {
         cards:
         {
             trainVehicle:
@@ -205,7 +189,38 @@ export const CONFIG =
                     5: 0.1
                 },
 
-                options: Object.keys(MATERIAL[TileType.VEHICLE]),
+                options: Object.keys(MATERIAL[TileType.VEHICLE])
+            }
+        },
+
+        tiles:
+        {
+            custom:
+            {
+                numSwitchTemplates: 5
+            }
+        },
+    },
+
+    _material:
+    {
+        cards:
+        {
+            picker: () => PICKER_REGISTRY.cards
+        },
+
+        tiles: 
+        {
+            picker: () => PICKER_REGISTRY.tiles
+        }
+    },
+
+    _drawing:
+    {
+        cards:
+        {
+            trainVehicle:
+            {
                 iconSize: 0.145, // ~tiles.general.illustration.mainDims
                 iconPlacementBounds: 0.175, // ~mainDims
                 iconPositions:
@@ -225,7 +240,6 @@ export const CONFIG =
             {
                 fontSize: new CVal(0.3, "sizeUnit"),
                 strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
-                numSwitchTemplates: 5,
                 trainIconSize: new CVal(new Vector2(0.385), "sizeUnit")
             }   
         },

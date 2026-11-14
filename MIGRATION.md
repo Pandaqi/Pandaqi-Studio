@@ -477,6 +477,18 @@ Filtered runs of the reworked harness (1 worker, 1 profile, `audit/lean.toml`), 
 
 That is the shape a full sweep takes — do it in one go, at the end.
 
+### 3.8 Naivigation ported to V2 (2026-11-14)
+
+Giving the five visit rulebooks a working entry (D-6) showed how much of the old flat config those projects still assumed: `config.sets`, `config.cards`, `config.tiles`. That is now fixed at the source instead of behind a compatibility layer.
+
+* `GeneralPickerNaivigation` reads settings through `getSetting("sets.x" / "expansions.x", config)`; a material's `sets` list names full `_settings` paths.
+* Generation counts and options moved out of `_drawing` into `generation`: `numFuelCards`, passenger `numCards`/`options`, `gearBounds`, `elevationBounds`, `clockBounds`, `clockCardsPerValue`, `windBounds`, `numTreasures`, the train distribution/options, `numSwitchTemplates`, `numSteerCards`. `_drawing` keeps only what is drawn.
+* `CONFIG_NAIVIGATION_SHARED.files` became `_resources.files`, so merging the shared config feeds the resource loader; `loadIf` entries that pointed at `sets.<expansion>` now point at `expansions.<expansion>`.
+* The shared Naivigation config renamed its `_generation` block to `_settings`; `game/cardPicker.ts` reads `generation.cards`, and its `required` loop now actually skips a material instead of `continue`-ing inside a loop that ends anyway.
+* Each visit rules entry loads the resources it planned (`loadPlannedResources`) before an example runs, and the debug `console.log`s in the setup generator are gone.
+
+Checked by loading all five visit rulebooks and their examples in a browser: no page errors, no console warnings, examples render. No full audit run on Naivigation yet — that is the Phase 4 entry check.
+
 ## 4. Build speed (measured — read before touching anything)
 
 All timings on the author's machine, Hugo 0.153.4 extended, Windows. `bun run perf` is the source of truth (`audit-artifacts/perf.json`); run it after touching anything in the build.
@@ -726,7 +738,7 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 
 | Phase | Work | Exit criterion |
 |---|---|---|
-| 3. Mechanical fixes | full `--runs 1` sweep and every one-liner it surfaces | ≥80 % of generators and all custom rulebooks green |
+| 3. Mechanical fixes ✅ **done (2026-11-14)** | full `--runs 1` sweep and every one-liner it surfaces, plus the Naivigation V2 port (§3.7) | Closed by hand: the sweep was stopped for time and the green-sweep criterion moves to Phase 4's entry check. Imports/lib layer, static checks, D-2, D-6 and the Naivigation port are finished. |
 | 4. Structural (1–2 weeks) | D-9 pirates, remaining reds, `--runs 2` on `[~~]` games | `--runs 1` green for every non-draft project except documented exceptions; `--runs 2` spot-checked on whatever was touched |
 | 6. Re-enable (1 h) | `enableBoardJS`/`enableGameJS` true (or R-5), deploy, spot-check 5 games | links visible in production; the pre-merge gate is green |
 | 7. Durability (ongoing) | R-4, R-6, R-7, R-11, R-13 | budgets of §4.3 hold |

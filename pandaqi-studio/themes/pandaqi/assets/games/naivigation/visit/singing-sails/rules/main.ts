@@ -9,8 +9,9 @@ import { MaterialVisualizer, Vector2 } from "lib/pq-games";
 
 // a rulebook page never calls loadGame, so nothing has created the resource loader the visualizer reads
 const resLoader = new ResourceLoader({ base: CONFIG._resources.base });
-resLoader.planLoadMultiple(CONFIG._resources.files);
+resLoader.planLoadMultiple(CONFIG._resources.files, CONFIG);
 CONFIG._game.resLoader = resLoader;
+const withResources = async (fn:Function) => { await resLoader.loadPlannedResources(); return fn(); };
 
 const visualizerTiles = new MaterialVisualizer(CONFIG, new Vector2(256,256));
 const setup = new RandomNaivigationSetupGenerator({
@@ -107,7 +108,7 @@ loadRulebook({
         "naivigation-turn":
         {
             buttonText: "Give me an example turn!",
-            callback: (sim) => turn.generate(sim.getOutputBuilder())
+            callback: (sim) => withResources(() => turn.generate(sim.getOutputBuilder()))
         }
     }
 });

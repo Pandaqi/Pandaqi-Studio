@@ -10,10 +10,10 @@ export const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
     steer: { frame: 1, label: "Steer", desc: "Pick an angle within range. <b>Rotate</b> the vehicle that much." },
     thrust: { frame: 0, label: "Thrust", desc: "<b>Move</b> 1 tile <b>forward</b> ( = in the direction your spaceship faces).", freq: 12 },
     disengage: { frame: 2, label: "Disable", desc: "Perform 1 <b>gravitational pull</b> step.", freq: 12 },
-    shield: { frame: 3, label: "Shield", desc: "<b>Toggle the shield</b> on/off.", freq: 10, sets: ["shields"] },
-    superthrust: { frame: 4, label: "Thrust+", desc: "<b>Move</b> 2 tiles <b>forward</b>.", freq: 4, sets: ["shields"] },
-    shoot: { frame: 5, label: "Shoot", desc: "<b>Destroy</b> the first tile within <b>line of sight</b>.", freq: 8, sets: ["weapons"] },
-    hyperdrive: { frame: 6, label: "Hyper", desc: "<b>Move</b> to a tile at the <b>end of your row</b>.", freq: 6, sets: ["trade"] },
+    shield: { frame: 3, label: "Shield", desc: "<b>Toggle the shield</b> on/off.", freq: 10, sets: ["expansions.shields"] },
+    superthrust: { frame: 4, label: "Thrust+", desc: "<b>Move</b> 2 tiles <b>forward</b>.", freq: 4, sets: ["expansions.shields"] },
+    shoot: { frame: 5, label: "Shoot", desc: "<b>Destroy</b> the first tile within <b>line of sight</b>.", freq: 8, sets: ["expansions.weapons"] },
+    hyperdrive: { frame: 6, label: "Hyper", desc: "<b>Move</b> to a tile at the <b>end of your row</b>.", freq: 6, sets: ["expansions.trade"] },
 };
 
 export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
@@ -39,12 +39,12 @@ export const MAP_TILES:Record<string,MaterialNaivigationData> =
 
     starting_tile: { frame: 8, label: "Starting Tile", freq: 1, starting: true },
 
-    wormhole: { frame: 9, label: "Wormhole", desc: "Take 1 damage. Teleport to another Wormhole.", freq: 4, sets: ["shields"] },
-    asteroids: { frame: 10, label: "Asteroids", desc: "Take 1 damage.", freq: 4, sets: ["shields"] },
-    spaceship: { frame: 11, label: "Enemy Spaceship", desc: "Take 1 damage if in their line of sight. Then rotate them.", freq: 4, sets: ["weapons"] },
-    moon: { frame: 12, label: "Moon", desc: "Collect this resource, then replace tile. Optional: rearrange planet properties.", freq: 6, sets: ["trade"] }, 
-    sun: { frame: 13, label: "Sun", desc: "Take 3 damage. Also counts for Gravitational Pull.", freq: 2, sets: ["weapons"] },
-    space_station: { frame: 14, label: "Space Station", desc: "Repair 2 damage. Then replace this tile.", freq: 3, sets: ["trade"] }
+    wormhole: { frame: 9, label: "Wormhole", desc: "Take 1 damage. Teleport to another Wormhole.", freq: 4, sets: ["expansions.shields"] },
+    asteroids: { frame: 10, label: "Asteroids", desc: "Take 1 damage.", freq: 4, sets: ["expansions.shields"] },
+    spaceship: { frame: 11, label: "Enemy Spaceship", desc: "Take 1 damage if in their line of sight. Then rotate them.", freq: 4, sets: ["expansions.weapons"] },
+    moon: { frame: 12, label: "Moon", desc: "Collect this resource, then replace tile. Optional: rearrange planet properties.", freq: 6, sets: ["expansions.trade"] }, 
+    sun: { frame: 13, label: "Sun", desc: "Take 3 damage. Also counts for Gravitational Pull.", freq: 2, sets: ["expansions.weapons"] },
+    space_station: { frame: 14, label: "Space Station", desc: "Repair 2 damage. Then replace this tile.", freq: 3, sets: ["expansions.trade"] }
 }
 
 export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =

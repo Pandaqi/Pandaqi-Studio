@@ -1,13 +1,14 @@
 import { CardType, TileType } from "games/naivigation/shared/dictShared";
 import GeneralPickerNaivigation from "games/naivigation/shared/generalPickerNaivigation";
 import { CONFIG } from "../shared/config";
+import { registerPicker } from "games/naivigation/shared/pickerRegistry";
 import { MATERIAL } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";
 import { shuffle } from "lib/pq-games";
 
-export const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
-export const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL);
+export const cardPicker = registerPicker("cards", new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL));
+export const tilePicker = registerPicker("tiles", new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL));
 const cardCustomCallback = (key, data) =>
 {
     if(key != "steer") { return; }
@@ -24,7 +25,7 @@ const cardCustomCallback = (key, data) =>
     }
 
     // then filter to bring it back to a reasonable amount by removing those that go through the origin OR have diagonal angles
-    const maxNum = CONFIG.cards.generation.numSteerCards;
+    const maxNum = CONFIG.generation.cards.numSteerCards;
     shuffle(angleCombos);
     for(let i = angleCombos.length - 1; i >= 0; i--)
     {

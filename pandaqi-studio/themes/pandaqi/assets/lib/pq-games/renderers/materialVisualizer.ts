@@ -13,6 +13,7 @@ export class MaterialVisualizer
 {
     debug?: boolean
 
+    config: GameConfig
     configurator: Configurator
     resLoader: ResourceLoader
     renderer: Renderer;
@@ -35,6 +36,7 @@ export class MaterialVisualizer
         ensureConfigProperties(config);
         this.warnedDrawingPaths = new Set();
         
+        this.config = config;
         this.renderer = config._game.renderer ?? new RendererPandaqi();
         this.resLoader = config._game.resLoader;
 

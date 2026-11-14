@@ -5,72 +5,77 @@ export const CONFIG_NAIVIGATION_SHARED =
     // assets
     // these links are absolute, so we can keep using relative links all throughout the specific games
     // but this shit will still load fine for all
-    files:
+    _resources:
     {
-        ambery:
-        {
-            path: "/naivigation/assets/fonts/AmberyGarden-Regular.woff2",
-            useAbsolutePath: true
-        },
+        base: "/naivigation/assets/",
 
-        k2d:
+        files:
         {
-            path: "/naivigation/assets/fonts/K2D-Regular.woff2",
-            useAbsolutePath: true
-        },
+            ambery:
+            {
+                path: "/naivigation/assets/fonts/AmberyGarden-Regular.woff2",
+                useAbsolutePath: true
+            },
 
-        k2d_bold:
-        {
-            key: "k2d",
-            path: "/naivigation/assets/fonts/K2D-ExtraBold.woff2",
-            useAbsolutePath: true,
-            textConfig: new TextConfig({ weight: TextWeight.BOLD })
-        },
+            k2d:
+            {
+                path: "/naivigation/assets/fonts/K2D-Regular.woff2",
+                useAbsolutePath: true
+            },
 
-        k2d_italic:
-        {
-            key: "k2d",
-            path: "/naivigation/assets/fonts/K2D-Italic.woff2",
-            useAbsolutePath: true,
-            textConfig: new TextConfig({ style: TextStyle.ITALIC })
-        },
+            k2d_bold:
+            {
+                key: "k2d",
+                path: "/naivigation/assets/fonts/K2D-ExtraBold.woff2",
+                useAbsolutePath: true,
+                textConfig: new TextConfig({ weight: TextWeight.BOLD })
+            },
 
-        // @NOTE: this is also simply "misc" for shared material, but it's loaded doubly (only for shared material) just for convenient code
-        misc_shared:
-        {
-            path: "/naivigation/assets/misc.webp",
-            frames: new Vector2(8,2),
-            useAbsolutePath: true
-        },
+            k2d_italic:
+            {
+                key: "k2d",
+                path: "/naivigation/assets/fonts/K2D-Italic.woff2",
+                useAbsolutePath: true,
+                textConfig: new TextConfig({ style: TextStyle.ITALIC })
+            },
 
-        card_templates:
-        {
-            path: "/naivigation/assets/card_templates.webp",
-            frames: new Vector2(8,1),
-            useAbsolutePath: true,
-        },
+            // @NOTE: this is also simply "misc" for shared material, but it's loaded doubly (only for shared material) just for convenient code
+            misc_shared:
+            {
+                path: "/naivigation/assets/misc.webp",
+                frames: new Vector2(8,2),
+                useAbsolutePath: true
+            },
 
-        bg_blobs:
-        {
-            path: "/naivigation/assets/bg_blobs.webp",
-            frames: new Vector2(4,2),
-            useAbsolutePath: true
-        },
+            card_templates:
+            {
+                path: "/naivigation/assets/card_templates.webp",
+                frames: new Vector2(8,1),
+                useAbsolutePath: true,
+            },
 
-        terrains:
-        {
-            path: "/naivigation/assets/terrains.webp",
-            frames: new Vector2(8,1),
-            useAbsolutePath: true,
-            loadIf: ["sets.willneverhappen"]
-        },
+            bg_blobs:
+            {
+                path: "/naivigation/assets/bg_blobs.webp",
+                frames: new Vector2(4,2),
+                useAbsolutePath: true
+            },
 
-        persons:
-        {
-            path: "/naivigation/assets/persons.webp",
-            frames: new Vector2(8,1),
-            useAbsolutePath: true,
-            loadIf: ["sets.willneverhappen"]
+            terrains:
+            {
+                path: "/naivigation/assets/terrains.webp",
+                frames: new Vector2(8,1),
+                useAbsolutePath: true,
+                loadIf: ["sets.willneverhappen"]
+            },
+
+            persons:
+            {
+                path: "/naivigation/assets/persons.webp",
+                frames: new Vector2(8,1),
+                useAbsolutePath: true,
+                loadIf: ["sets.willneverhappen"]
+            },
         },
     },
 
@@ -108,11 +113,6 @@ export const CONFIG_NAIVIGATION_SHARED =
 
         cards:
         {
-            generation:
-            {
-                numInstructionTokens: 8
-            },
-
             background:
             {
                 size: new CVal(new Vector2(1.2), "sizeUnit"),

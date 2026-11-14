@@ -1,14 +1,15 @@
 import { TileType } from "games/naivigation/shared/dictShared";
 import GeneralPickerNaivigation from "games/naivigation/shared/generalPickerNaivigation";
 import { CONFIG } from "../shared/config";
+import { registerPicker } from "games/naivigation/shared/pickerRegistry";
 import { MATERIAL } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
-import { shuffle } from "lib/pq-games";
+import { shuffle, getSetting } from "lib/pq-games";
 
-export const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
-export const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution);
+export const cardPicker = registerPicker("cards", new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL));
+export const tilePicker = registerPicker("tiles", new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution));
 
 cardPicker.generateCallback = () =>
 {
@@ -17,7 +18,7 @@ cardPicker.generateCallback = () =>
     if(numTrainCards > 0)
     {
         // first figure out how _many_ (different icons/colors) we want for each vehicle card
-        const dist:Record<number, number> = cardPicker.config.cards.trainVehicle.distribution;
+        const dist:Record<number, number> = CONFIG.generation.cards.trainVehicle.distribution;
         const numColors = [];
         let totalNumColors = 0;
         for(const [num,freqRaw] of Object.entries(dist))
@@ -33,7 +34,7 @@ cardPicker.generateCallback = () =>
 
         // keep a helper dictionary with how often each type has been picked already
         const freqDist = {};
-        const allOptions = cardPicker.config.cards.trainVehicle.options;
+        const allOptions = CONFIG.generation.cards.trainVehicle.options;
         for(const option of allOptions)
         {
             freqDist[option] = 0;
@@ -62,16 +63,16 @@ cardPicker.generateCallback = () =>
 
 tilePicker.generateCallback = () =>
 {
-    if(tilePicker.config.sets.mapTiles)
+    if(getSetting("sets.mapTiles", CONFIG))
     {
         // the switch tiles
-        for(let i = 0; i < tilePicker.config.tiles.custom.numSwitchTemplates; i++)
+        for(let i = 0; i < CONFIG.generation.tiles.custom.numSwitchTemplates; i++)
         {
             tilePicker.addSingle(new Tile(TileType.CUSTOM, "switch", { num: i }));
         }
     }
 
-    if(tilePicker.config.sets.directionDelay)
+    if(getSetting("expansions.directionDelay", CONFIG))
     {
         // the train tile for each possible vehicle
         for(const [key,data] of Object.entries(MATERIAL[TileType.VEHICLE]))

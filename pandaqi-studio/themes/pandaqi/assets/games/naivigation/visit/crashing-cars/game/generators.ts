@@ -1,22 +1,23 @@
 import { CardType, TileType } from "games/naivigation/shared/dictShared";
 import GeneralPickerNaivigation from "games/naivigation/shared/generalPickerNaivigation";
 import { CONFIG } from "../shared/config";
+import { registerPicker } from "games/naivigation/shared/pickerRegistry";
 import { MATERIAL, PASSENGER_BONUSES, PASSENGER_CURSES } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
-import { shuffle, fromArray } from "lib/pq-games";
+import { shuffle, fromArray, getSetting } from "lib/pq-games";
 
-export const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
-export const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution);
+export const cardPicker = registerPicker("cards", new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL));
+export const tilePicker = registerPicker("tiles", new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution));
 
 cardPicker.generateCallback = () =>
 {
-    if(cardPicker.config.sets.taxisCargo)
+    if(getSetting("expansions.taxisCargo", CONFIG))
     {
         const shops = Object.keys(MATERIAL[TileType.MAP]).filter((key:string) => MATERIAL[TileType.MAP][key].collectible);
-        const numPassengers = cardPicker.config.cards.passengers.numCards;
-        const passengersPossible = cardPicker.config.cards.passengers.options;
+        const numPassengers = CONFIG.generation.cards.passengers.numCards;
+        const passengersPossible = CONFIG.generation.cards.passengers.options;
         const randBonusOrder = shuffle(Object.keys(PASSENGER_BONUSES));
         const randCurseOrder = shuffle(Object.keys(PASSENGER_CURSES));
         for(let i = 0; i < numPassengers; i++)
@@ -30,9 +31,9 @@ cardPicker.generateCallback = () =>
         }
     }
 
-    if(cardPicker.config.sets.fuelFear)
+    if(getSetting("expansions.fuelFear", CONFIG))
     {
-        const num = cardPicker.config.cards.numFuelCards;
+        const num = CONFIG.generation.cards.numFuelCards;
         for(let i = 0; i < num; i++)
         {
             cardPicker.addSingle(new Card(CardType.FUEL, "fuel"));
@@ -44,9 +45,9 @@ cardPicker.generateCallback = () =>
 tilePicker.generateCallback = () =>
 {
     // Add these tiles twice in case people play with TWO cars
-    if(tilePicker.config.sets.mapTiles)
+    if(getSetting("sets.mapTiles", CONFIG))
     {
-        const bounds = tilePicker.config.tiles.custom.gearBounds;
+        const bounds = CONFIG.generation.tiles.custom.gearBounds;
         for(let i = bounds.min; i <= bounds.max; i++)
         {
             tilePicker.addSingle(new Tile(TileType.CUSTOM, "gear", { num: i }));

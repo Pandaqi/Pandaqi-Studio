@@ -26,11 +26,8 @@ const generateFromDictionary = (cards, inputType:CardType, cardType:CardType = n
 
     for(const [key,data] of Object.entries(MATERIAL[inputType]))
     {
-        const reqs = data.required ?? [];
-        for(const requirement of reqs)
-        {
-            if(!CONFIG._settings.sets[requirement].value) { continue; }
-        }
+        const reqs:string[] = data.required ?? [];
+        if(!reqs.every((req:string) => CONFIG._settings.sets[req]?.value)) { continue; }
 
         const freq = data.freq ?? 1;
         for(let i = 0; i < freq; i++)
@@ -46,7 +43,7 @@ const generateInstructionTokens = (cards) =>
     if(!CONFIG._settings.sets.instructionTokens.value) { return; }
 
     // we use a trick here to push 2 tokens on ONE card, to fold it into this system and ensure it has the same dimensions as the cards you play with
-    const num = CONFIG.cards.generation.numInstructionTokens;
+    const num = CONFIG.generation.cards.numInstructionTokens;
     for(let i = 0; i < num; i++)
     {
         const newToken = new Card(CardType.INSTRUCTION);
@@ -82,8 +79,8 @@ const generateGPSCards = (cards) =>
     if(!CONFIG._settings.sets.GPSCards.value) { return; }
     
     const params = {
-        num: CONFIG.cards.generation.numGPSCards,
-        single: CONFIG.cards.generation.percentageSingleGPS,
+        num: CONFIG.generation.cards.numGPSCards,
+        single: CONFIG.generation.cards.percentageSingleGPS,
         rewardDict: GPS_REWARDS,
         penaltyDict: GPS_PENALTIES,
         cardClass: Card
@@ -108,7 +105,7 @@ generateFuelDeck()
     if(!CONFIG._settings.sets.fuelDeck.value) { return; }
 
     // add the actual fuel trackers
-    const num = CONFIG.cards.generation.numFuelCards;
+    const num = CONFIG.generation.cards.numFuelCards;
     for(let i = 0; i < num; i++)
     {
         const newCard = new Card(CardType.FUEL);

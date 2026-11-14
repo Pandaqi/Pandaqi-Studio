@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, fillResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, ResourceText, ResourceShape, Rectangle, BlurEffect, Path, getRectangleCornersWithOffset } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, fillResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, ResourceText, ResourceShape, Rectangle, BlurEffect, Path, getRectangleCornersWithOffset, getSetting } from "lib/pq-games";
 import { MISC_SHARED, NETWORKS, TERRAINS, TileType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 import vehicleDrawerNaivigation from "./vehicleDrawerNaivigation";
@@ -122,7 +122,7 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
 
     // (added late) an option to add text on the tiles to explain themselves
     // not recommended on more complex games (where you really need to be able to see the entire tile below), but still possible for those who like it
-    const needsText = typeData.desc && vis.get("addTextOnTiles");
+    const needsText = typeData.desc && getSetting("addTextOnTiles", vis.config);
     if(needsText)
     {
         const textConfig = new TextConfig({

@@ -1,6 +1,6 @@
 import { CONFIG_NAIVIGATION_SHARED } from "games/naivigation/shared/configShared";
 import { PASSENGERS, TerrainType } from "games/naivigation/shared/dictShared";
-import { cardPicker, tilePicker } from "../game/generators";
+import { PICKER_REGISTRY } from "games/naivigation/shared/pickerRegistry";
 import { SettingType, Vector2, CVal, Bounds, mergeObjects } from "lib/pq-games";
 
 export const CONFIG = 
@@ -137,17 +137,17 @@ export const CONFIG =
             {
                 path: "icons.webp",
                 frames: new Vector2(8,1),
-                loadIf: ["sets.vehicleCards", "sets.specialCards", "sets.fuelFalling"]
+                loadIf: ["sets.vehicleCards", "sets.specialCards", "expansions.fuelFalling"]
             },
 
             terrains:
             {
-                loadIf: ["sets.mapTiles", "sets.repairsRacing"]
+                loadIf: ["sets.mapTiles", "expansions.repairsRacing"]
             },
 
             persons:
             {
-                loadIf: ["sets.passengersPlanes"]
+                loadIf: ["expansions.passengersPlanes"]
             }
         },
     },
@@ -161,24 +161,8 @@ export const CONFIG =
             [TerrainType.FOREST]: { perc: 0.3 },
             [TerrainType.CITY]: { perc: 0.2 },
             [TerrainType.MOUNTAIN]: { perc: 0.1 },
-        }
-    },
-
-    _material:
-    {
-        cards:
-        {
-            picker: cardPicker.asFunction()
         },
 
-        tiles: 
-        {
-            picker: tilePicker.asFunction()
-        }
-    },
-
-    _drawing:
-    {
         cards:
         {
             numFuelCards: 10,
@@ -186,7 +170,40 @@ export const CONFIG =
             passengers:
             {
                 numCards: 10,
-                options: Object.keys(PASSENGERS),
+                options: Object.keys(PASSENGERS)
+            }
+        },
+
+        tiles:
+        {
+            custom:
+            {
+                elevationBounds: new Bounds(1,5),
+                clockBounds: new Bounds(0,7),
+                clockCardsPerValue: 2
+            }
+        }
+    },
+
+    _material:
+    {
+        cards:
+        {
+            picker: () => PICKER_REGISTRY.cards
+        },
+
+        tiles: 
+        {
+            picker: () => PICKER_REGISTRY.tiles
+        }
+    },
+
+    _drawing:
+    {
+        cards:
+        {
+            passengers:
+            {
                 fontSize: new CVal(0.07, "sizeUnit"),
                 textBoxDims: new CVal(new Vector2(0.925, 0.33), "size"),
                 bonusPos: new CVal(new Vector2(0.5, 0.625), "size"),
@@ -203,10 +220,6 @@ export const CONFIG =
             {
                 fontSize: new CVal(0.3, "sizeUnit"),
                 strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
-
-                elevationBounds: new Bounds(1,5),
-                clockBounds: new Bounds(0,7),
-                clockCardsPerValue: 2,
             }   
         }
     }

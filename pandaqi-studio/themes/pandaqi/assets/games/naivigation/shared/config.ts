@@ -4,7 +4,7 @@ import { CONFIG_NAIVIGATION_SHARED } from "./configShared"
 
 export const CONFIG = 
 {
-    _generation:
+    _settings:
     {
         sets:
         {
@@ -60,6 +60,17 @@ export const CONFIG =
         fileName: "Naivigation (Shared)",
     },
 
+    generation:
+    {
+        cards:
+        {
+            numInstructionTokens: 8,
+            numGPSCards: 30,
+            percentageSingleGPS: 0.25, // how many only have a reward OR penalty, not both
+            numFuelCards: 10,
+        }
+    },
+
     // assets
     _resources:
     {    
@@ -86,13 +97,6 @@ export const CONFIG =
     {
         cards:
         {
-            generation:
-            {
-                numGPSCards: 30,
-                percentageSingleGPS: 0.25, // how many only have a reward OR penalty, not both
-                numFuelCards: 10,
-            },
-        
             instruction:
             {
                 fontSize: new CVal(0.235, "sizeUnit"),

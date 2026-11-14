@@ -1,6 +1,6 @@
 import { CardType, MaterialNaivigationData, MaterialNaivigationType, NetworkType, TerrainType, TileType } from "games/naivigation/shared/dictShared";
 import MaterialNaivigation from "./materialNaivigation";
-import { shuffle, fromArray } from "lib/pq-games";
+import { shuffle, fromArray, getSetting } from "lib/pq-games";
 
 interface DictData
 {
@@ -50,7 +50,6 @@ export default class GeneralPickerNaivigation
         this.assignTerrains();
         this.assignNetworks();
         if(this.generateCallback) { this.generateCallback(); }
-        console.log(this.elements);
         return this.elements;
     }
 
@@ -241,24 +240,17 @@ export default class GeneralPickerNaivigation
         const isSpecialCard = SPECIAL_CARD_TYPES.includes(materialType as CardType);
 
         // @NOTE: this is tricky; all regular cards are generated with vehicleCards (if true), only MAP tiles are different and have their own toggle
-        let defaultSets = isSpecialCard ? ["specialCards"] : ["vehicleCards"];
-        if(materialType == TileType.MAP) { defaultSets = ["mapTiles"]; }
-        
+        let defaultSet = isSpecialCard ? "sets.specialCards" : "sets.vehicleCards";
+        if(materialType == TileType.MAP) { defaultSet = "sets.mapTiles"; }
+
         for(const [key,data] of Object.entries(inputData.dict))
         {            
-            // filter based on sets
-            const setsTarget = data.sets ?? defaultSets;
-            let shouldInclude = false;
-            for(const set of setsTarget)
-            {
-                if(this.config.sets[set]) { shouldInclude = true; break; }
-            }
-            
-            // handy default settings to toggle an entire section on/off, available in all settings blocks
-            if(isVehiclePawn) { shouldInclude = shouldInclude && this.config.sets.vehicleTiles; }
-            if(isSpecialCard) { shouldInclude = shouldInclude && this.config.sets.specialCards; }
-            
-            if(!shouldInclude) { continue; }
+            // a material entry can list the settings it belongs to; by default it belongs to its own material type
+            const requiredSets:string[] = data.sets ?? [defaultSet];
+            if(!requiredSets.some((set:string) => getSetting(set, this.config))) { continue; }
+
+            // handy default setting to toggle all vehicle pawns on/off, regardless of their specific settings
+            if(isVehiclePawn && !getSetting("sets.vehicleTiles", this.config)) { continue; }
 
             // hook for custom handling of certain tiles
             let res = this.mapCallback(key, data);

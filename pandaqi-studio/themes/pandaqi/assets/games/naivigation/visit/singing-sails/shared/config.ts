@@ -1,6 +1,6 @@
 import { CONFIG_NAIVIGATION_SHARED } from "games/naivigation/shared/configShared";
 import { TerrainType } from "games/naivigation/shared/dictShared";
-import { cardPicker, tilePicker } from "../game/generators";
+import { PICKER_REGISTRY } from "games/naivigation/shared/pickerRegistry";
 import { SettingType, Vector2, CVal, Bounds, mergeObjects } from "lib/pq-games";
 
 export const CONFIG = 
@@ -134,7 +134,7 @@ export const CONFIG =
 
             terrains:
             {
-                loadIf: ["sets.mapTiles", "sets.supertilesSlipstreams", "sets.islandsTreasures", "sets.piratesCannons"]
+                loadIf: ["sets.mapTiles", "expansions.supertilesSlipstreams", "expansions.islandsTreasures", "expansions.piratesCannons"]
             }
         },
     },
@@ -150,6 +150,15 @@ export const CONFIG =
             [TerrainType.NONE]: { perc: 0, filterCollectibles: "include" },
             [TerrainType.SEA]: { perc: 0.55, filterCollectibles: "exclude" },
             [TerrainType.GRASS]: { perc: 0.45, filterCollectibles: "exclude", filterInclude: ["empty"] }, // this basically forces all special types to be on water tiles
+        },
+
+        tiles:
+        {
+            custom:
+            {
+                windBounds: new Bounds(0,4),
+                numTreasures: 10
+            }
         }
     },
 
@@ -157,12 +166,12 @@ export const CONFIG =
     {
         cards:
         {
-            picker: cardPicker.asFunction()
+            picker: () => PICKER_REGISTRY.cards
         },
 
         tiles: 
         {
-            picker: tilePicker.asFunction()
+            picker: () => PICKER_REGISTRY.tiles
         }
     },
 
@@ -206,9 +215,6 @@ export const CONFIG =
             {
                 fontSize: new CVal(0.3, "sizeUnit"),
                 strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
-
-                windBounds: new Bounds(0,4),
-                numTreasures: 10,
             }
         }
     }

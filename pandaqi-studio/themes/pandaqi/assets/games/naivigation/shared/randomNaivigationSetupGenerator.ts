@@ -161,7 +161,6 @@ export default class RandomNaivigationSetupGenerator
         this.grid = grid;
         this.cells = cells;
 
-        console.log(cells);
 
         let invalidBoard = true;
         while(invalidBoard)
@@ -212,7 +211,6 @@ export default class RandomNaivigationSetupGenerator
     {
         await this.visualizer.resLoader.loadPlannedResources();
 
-        console.log(this.vehicleTokenData);
 
         // draw it all
         const ctx = createContext({ size: this.size.clone().scale(TILE_SIZE) })

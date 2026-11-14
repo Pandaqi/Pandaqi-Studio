@@ -11,10 +11,10 @@ export const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
     turn: { frame: 1, label: "Turn", desc: "<b>Rotate</b> a quarter turn <b>left or right</b>.", freq: 10 },
     elevate: { frame: 2, label: "Elevate", desc: "Played in <b>odd-numbered</b> slot? <b>Add 1 Elevation</b>. Otherwise, <b>remove 1</b>.", freq: 10 },
     stunt: { frame: 3, label: "Stunt", desc: "<b>Move 1 tile</b> forward, <b>ignoring Elevation</b>.", freq: 5 },
-    repair: { frame: 4, label: "Repair", desc: "<b>Repair 1 health if landed.</b> Otherwise, take 1 damage and end round.", freq: 4, sets: ["repairsRacing"] },
-    backflip: { frame: 5, label: "Backflip", desc: "<b>Rotate</b> the plane to face <b>backwards</b>.", freq: 8, sets: ["repairsRacing"] },
-    fly_double: { frame: 6, label: "Fly+", desc: "<b>Move 2 tiles</b> forward.", freq: 6, sets: ["repairsRacing"] },
-    refuel: { frame: 7, label: "Refuel", desc: "<b>Replenish fuel if landed.</b> Otherwise, take 1 damage and only gain 3 Fuel.", freq: 10, sets: ["fuelFalling"] },
+    repair: { frame: 4, label: "Repair", desc: "<b>Repair 1 health if landed.</b> Otherwise, take 1 damage and end round.", freq: 4, sets: ["expansions.repairsRacing"] },
+    backflip: { frame: 5, label: "Backflip", desc: "<b>Rotate</b> the plane to face <b>backwards</b>.", freq: 8, sets: ["expansions.repairsRacing"] },
+    fly_double: { frame: 6, label: "Fly+", desc: "<b>Move 2 tiles</b> forward.", freq: 6, sets: ["expansions.repairsRacing"] },
+    refuel: { frame: 7, label: "Refuel", desc: "<b>Replenish fuel if landed.</b> Otherwise, take 1 damage and only gain 3 Fuel.", freq: 10, sets: ["expansions.fuelFalling"] },
 };
 
 export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
@@ -31,7 +31,7 @@ export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 export const ACTION_CARDS:Record<string,MaterialNaivigationData> =
 {
     ghost_plane: { frame: 0, label: "Ghost Plane", desc: "Completely <b>ignore elevation</b> on further moves. (No damage, land automatically.)" },
-    solar_plane: { frame: 1, label: "Solar Plane", desc: "<b>Replenish fuel.</b> Ignore any fuel lost (this round).", sets: ["fuelFalling"] },
+    solar_plane: { frame: 1, label: "Solar Plane", desc: "<b>Replenish fuel.</b> Ignore any fuel lost (this round).", sets: ["expansions.fuelFalling"] },
     cloudy: { frame: 2, label: "Cloudy Day", desc: "You may choose to <b>ignore</b> any <b>special powers</b> or <b>pawns</b> on tiles." },
     thunderstorm: { frame: 3, label: "Thunderstorm", desc: "Instantly <b>return</b> to the <b>last airport</b> you visited." },
     lost_luggage: { frame: 4, label: "Lost Luggage", desc: "Change your <b>Elevation</b> to whatever you want." },
@@ -41,7 +41,7 @@ export const ACTION_CARDS:Record<string,MaterialNaivigationData> =
 export const TIME_CARDS:Record<string,MaterialNaivigationData> =
 {
     mayday: { label: "Mayday", desc: "Return to the <b>last airport</b> you visited.", type: EventType.EVENT },
-    fuel_explosion: { label: "Fuel Explosion", desc: "Instantly reduce your Fuel tank to 1.", type: EventType.EVENT, sets: ["fuelFalling"] },
+    fuel_explosion: { label: "Fuel Explosion", desc: "Instantly reduce your Fuel tank to 1.", type: EventType.EVENT, sets: ["expansions.fuelFalling"] },
     elevation_for_info: { label: "Clear Skies", desc: "<b>Lose 2 Elevation</b> to play all cards <b>faceup</b> this round.", type: EventType.OFFER }, 
     damage_for_elevation: { label: "Rocket Launch", desc: "<b>Take 1 damage</b> to set your Elevation to <b>any value</b>.", type: EventType.OFFER }, 
     safer_spheres: { label: "Safer Spheres", desc: "If you end the round on <b>maximum elevation</b>, <b>repair</b> 1 damage.", type: EventType.RULE },
@@ -63,9 +63,9 @@ export const MAP_TILES:Record<string,MaterialNaivigationData> =
     airport_4: { frame: 4, label: "Airport", collectible: true },
     starting_tile: { frame: 8, label: "Starting Tile", freq: 1, starting: true },
     stopover: { frame: 12, label: "Stopover", desc: "You can land here.", freq: 2 },
-    volcano: { frame: 13, label: "Volcano", desc: "Take 1 damage, but change Elevation to anything.", freq: 4, sets: ["repairsRacing"] },
-    skyscraper: { frame: 14, label: "Skyscraper", desc: "Elevation 1? Instantly lose the game. Otherwise, do a backflip.", freq: 1, sets: ["repairsRacing"] },
-    fireworks: { frame: 15, label: "Fireworks Show", desc: "Reveal the remaining instructions. Decide if you still want to execute them.", freq: 3, sets: ["repairsRacing"] },
+    volcano: { frame: 13, label: "Volcano", desc: "Take 1 damage, but change Elevation to anything.", freq: 4, sets: ["expansions.repairsRacing"] },
+    skyscraper: { frame: 14, label: "Skyscraper", desc: "Elevation 1? Instantly lose the game. Otherwise, do a backflip.", freq: 1, sets: ["expansions.repairsRacing"] },
+    fireworks: { frame: 15, label: "Fireworks Show", desc: "Reveal the remaining instructions. Decide if you still want to execute them.", freq: 3, sets: ["expansions.repairsRacing"] },
 }
 
 export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
@@ -77,9 +77,9 @@ export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
 
 export const PAWN_TILES:Record<string,MaterialNaivigationData> =
 {
-    pawn_balloon: { frame: 9, label: "Balloon", sets: ["birdsBumps"], freq: 2 },
-    pawn_bird: { frame: 10, label: "Bird", sets: ["birdsBumps"], freq: 2 },
-    pawn_tornado: { frame: 11, label: "Tornado", sets: ["birdsBumps"], freq: 2 },
+    pawn_balloon: { frame: 9, label: "Balloon", sets: ["expansions.birdsBumps"], freq: 2 },
+    pawn_bird: { frame: 10, label: "Bird", sets: ["expansions.birdsBumps"], freq: 2 },
+    pawn_tornado: { frame: 11, label: "Tornado", sets: ["expansions.birdsBumps"], freq: 2 },
 }
 
 export const PASSENGER_BONUSES:Record<string, MaterialNaivigationData> =

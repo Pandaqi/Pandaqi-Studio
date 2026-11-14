@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, ResourceShape, Rectangle, LayoutOperation, Vector2 } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, ResourceShape, Rectangle, LayoutOperation, Vector2, getSetting } from "lib/pq-games";
 import { MISC } from "./dict";
 import MaterialNaivigation from "./materialNaivigation";
 import pawnDrawerNaivigation from "./pawnDrawerNaivigation";
@@ -50,7 +50,7 @@ const drawToken = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNai
 // The default Tile Drawer that can just be plugged into most games
 export default (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
-    if(vis.get("vehiclesAsPawns")) {
+    if(getSetting("vehiclesAsPawns", vis.config)) {
         drawPawn(vis, group, tile);
     } else {
         drawToken(vis, group, tile);

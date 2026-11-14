@@ -41,8 +41,9 @@ const vehicleStartCallback = (vehicle:MaterialNaivigation, setup:RandomNaivigati
 
 // a rulebook page never calls loadGame, so nothing has created the resource loader the visualizer reads
 const resLoader = new ResourceLoader({ base: CONFIG._resources.base });
-resLoader.planLoadMultiple(CONFIG._resources.files);
+resLoader.planLoadMultiple(CONFIG._resources.files, CONFIG);
 CONFIG._game.resLoader = resLoader;
+const withResources = async (fn:Function) => { await resLoader.loadPlannedResources(); return fn(); };
 
 const visualizerTiles = new MaterialVisualizer(CONFIG, new Vector2(256,256));
 const setup = new RandomNaivigationSetupGenerator({
@@ -157,13 +158,13 @@ loadRulebook({
         "naivigation-setup":
         {
             buttonText: "Give me a random setup!",
-            callback: (sim) => setup.onSetupRequested(sim.getOutputBuilder())
+            callback: (sim) => withResources(() => setup.onSetupRequested(sim.getOutputBuilder()))
         },
 
         "naivigation-turn":
         {
             buttonText: "Give me an example turn!",
-            callback: (sim) => turn.generate(sim.getOutputBuilder())
+            callback: (sim) => withResources(() => turn.generate(sim.getOutputBuilder()))
         }
     }
 });

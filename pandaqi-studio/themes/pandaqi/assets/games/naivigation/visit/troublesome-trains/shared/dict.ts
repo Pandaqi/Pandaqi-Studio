@@ -9,11 +9,11 @@ export const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 {
     train: { frame: 0, label: "Train", desc: "<b>Move</b> 1 train of a matching color by <b>1 step</b>.", freq: 16 },
     switch: { frame: 1, label: "Switch", desc: "<b>Rotate</b> the <b>Switch</b> tile however you like.", freq: 12 },
-    power: { frame: 2, label: "Power", desc: "<b>Rotate</b> any <b>Train</b> tile however you like.", freq: 8, sets: ["directionDelay"] },
+    power: { frame: 2, label: "Power", desc: "<b>Rotate</b> any <b>Train</b> tile however you like.", freq: 8, sets: ["expansions.directionDelay"] },
     map: { frame: 3, label: "Map", desc: "<b>Rotate</b> 1 map tile OR <b>replace</b> 1 map tile (from deck).", freq: 7 },
-    disengage: { frame: 4, label: "Disengage", desc: "<b>Move</b> all trains connected to the <b>leading car</b> to an adjacent tile.", freq: 8, sets: ["leadersFollowers"] },
-    control_room: { frame: 5, label: "Control Room", desc: "<b>Rotate 2 items</b> equally much. <b>Lead Trains</b> move on their own this round.", freq: 5, sets: ["leadersFollowers"] },
-    wildlife: { frame: 6, label: "Wildlife", desc: "<b>Move</b> an Animal to an adjacent tile.", freq: 6, sets: ["animalsCrossings"] },
+    disengage: { frame: 4, label: "Disengage", desc: "<b>Move</b> all trains connected to the <b>leading car</b> to an adjacent tile.", freq: 8, sets: ["expansions.leadersFollowers"] },
+    control_room: { frame: 5, label: "Control Room", desc: "<b>Rotate 2 items</b> equally much. <b>Lead Trains</b> move on their own this round.", freq: 5, sets: ["expansions.leadersFollowers"] },
+    wildlife: { frame: 6, label: "Wildlife", desc: "<b>Move</b> an Animal to an adjacent tile.", freq: 6, sets: ["expansions.animalsCrossings"] },
 };
 
 export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
@@ -21,7 +21,7 @@ export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
     fragile_car: { label: "Fragile Car", desc: "Driving off-track does <b>2 damage</b> (instead of 1).", num: 2 },
     trains_restricted: { label: "Color Mix-up", desc: "If a Train card has multiple options, you must pick one of the <b>first 2</b>.", num: 3 },
     crossroads_restricted: { label: "Overwhelmed", desc: "You <b>can't</b> change a Train's Tile if it's on a <b>crossroads</b>.", num: 2 },
-    large_train: { label: "Ultrawide Train", desc: "You already <b>hit</b> an animal if it's <b>adjacent</b> to a train car.", num: 2, sets: ["animalsCrossings"] },
+    large_train: { label: "Ultrawide Train", desc: "You already <b>hit</b> an animal if it's <b>adjacent</b> to a train car.", num: 2, sets: ["expansions.animalsCrossings"] },
     power_required: { label: "Low Battery", desc: "Any <b>Switch</b> or <b>Map</b> cards only work if a <b>Power</b> card was played earlier.", num: 3 },
     map_limit: { label: "Protected Area", desc: "The <b>Map</b> card is only allowed to <b>rotate</b> map tiles (never replace).", num: 4 },
     valid_network: { label: "Rubbish Network", desc: "Any new tiles you place <b>must</b> properly connect the tracks. (If not, leave a hole.)", num: 1 },
@@ -77,7 +77,7 @@ export const MAP_TILES:Record<string,MaterialNaivigationData> =
     station_3: { frame: 3, label: "Station", collectible: true },
     station_4: { frame: 4, label: "Station", collectible: true },
 
-    crossing: { frame: 13, label: "Crossing", desc: "When added to the map, place a new Animal Pawn on it.", freq: 5, sets: ["animalsCrossings"] },
+    crossing: { frame: 13, label: "Crossing", desc: "When added to the map, place a new Animal Pawn on it.", freq: 5, sets: ["expansions.animalsCrossings"] },
 }
 
 export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
@@ -91,9 +91,9 @@ export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
 
 export const PAWN_TILES:Record<string,MaterialNaivigationData> =
 {
-    pawn_deer: { frame: 10, label: "Deer", sets: ["animalsCrossings"], freq: 2 },
-    pawn_bunny: { frame: 11, label: "Bunny", sets: ["animalsCrossings"], freq: 2 },
-    pawn_bear: { frame: 12, label: "Bear", sets: ["animalsCrossings"], freq: 2 },
+    pawn_deer: { frame: 10, label: "Deer", sets: ["expansions.animalsCrossings"], freq: 2 },
+    pawn_bunny: { frame: 11, label: "Bunny", sets: ["expansions.animalsCrossings"], freq: 2 },
+    pawn_bear: { frame: 12, label: "Bear", sets: ["expansions.animalsCrossings"], freq: 2 },
 }
 
 export const MISC =

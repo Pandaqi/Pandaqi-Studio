@@ -56,7 +56,7 @@ export const getSetting = (path:string, config:GameConfig) =>
     {
         obj = obj[pathParts.shift()];
     }
-    return obj.value;
+    return obj?.value;
 }
 
 export const getPicker = (key:string, config:GameConfig) =>

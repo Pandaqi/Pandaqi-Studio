@@ -22,8 +22,9 @@ const validPlacementCallback = (cell:TileData, setup:RandomNaivigationSetupGener
 
 // a rulebook page never calls loadGame, so nothing has created the resource loader the visualizer reads
 const resLoader = new ResourceLoader({ base: CONFIG._resources.base });
-resLoader.planLoadMultiple(CONFIG._resources.files);
+resLoader.planLoadMultiple(CONFIG._resources.files, CONFIG);
 CONFIG._game.resLoader = resLoader;
+const withResources = async (fn:Function) => { await resLoader.loadPlannedResources(); return fn(); };
 
 const visualizerTiles = new MaterialVisualizer(CONFIG, new Vector2(256,256));
 const setup = new RandomNaivigationSetupGenerator({
@@ -77,7 +78,7 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
         fb.push("The Gear card was played to slot " + (cardIndex + 1) + ", so the car's Gear goes " + totalChangeStr + ". (Start player chose this direction of change.)");
         
         const newGear = curGear + totalChange;
-        turn.gameData.gear = CONFIG.tiles.custom.gearBounds.clamp(newGear);
+        turn.gameData.gear = CONFIG.generation.tiles.custom.gearBounds.clamp(newGear);
     }
 
     if(key == "cruise_control")
@@ -139,13 +140,13 @@ loadRulebook({
         "naivigation-setup":
         {
             buttonText: "Give me a random setup!",
-            callback: (sim) => setup.onSetupRequested(sim.getOutputBuilder())
+            callback: (sim) => withResources(() => setup.onSetupRequested(sim.getOutputBuilder()))
         },
 
         "naivigation-turn":
         {
             buttonText: "Give me an example turn!",
-            callback: (sim) => turn.generate(sim.getOutputBuilder())
+            callback: (sim) => withResources(() => turn.generate(sim.getOutputBuilder()))
         }
     }
 });

@@ -11,11 +11,11 @@ export const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
     drive: { frame: 1, label: "Drive", desc: "<b>Move</b> as many tiles <b>forward</b> as your <b>Gear</b>. (Negative Gear = Backward.)", freq: 12 },
     turn: { frame: 2, label: "Turn", desc: "<b>Rotate</b> as many quarter turns to the <b>right</b> as your <b>Gear</b>. (Negative Gear = Turn Left)", freq: 10 },
     cruise_control: { frame: 3, label: "Cruise", desc: "<b>Move once</b> (Drive or Turn) while <b>ignoring Gear</b>.", freq: 6 },
-    police: { frame: 4, label: "Police", desc: "Adjacent to Police? Move them <b>1 tile away</b> from you. Otherwise, move them <b>1 tile closer</b>.", freq: 7, sets: ["trafficPolice"] },
-    lock_doors: { frame: 5, label: "Lock Doors", desc: "This round, hitting the Police <b>doesn't</b> harm you in any way.", freq: 4, sets: ["trafficPolice"] },
-    refuel: { frame: 6, label: "Refuel", desc: "<b>Gain</b> as much <b>Fuel</b> as your current <b>Gear</b>.", freq: 6, sets: ["fuelFear"] },
-    unload: { frame: 7, label: "(Un)Load", desc: "Grab a <b>new passenger</b> from the deck OR <b>drop off</b> an existing passenger.", freq: 6, sets: ["taxisCargo"] },
-    radio: { frame: 8, label: "Radio On", desc: "This round, <b>ignore the curses</b> of all your passengers.", freq: 4, sets: ["taxisCargo"] },
+    police: { frame: 4, label: "Police", desc: "Adjacent to Police? Move them <b>1 tile away</b> from you. Otherwise, move them <b>1 tile closer</b>.", freq: 7, sets: ["expansions.trafficPolice"] },
+    lock_doors: { frame: 5, label: "Lock Doors", desc: "This round, hitting the Police <b>doesn't</b> harm you in any way.", freq: 4, sets: ["expansions.trafficPolice"] },
+    refuel: { frame: 6, label: "Refuel", desc: "<b>Gain</b> as much <b>Fuel</b> as your current <b>Gear</b>.", freq: 6, sets: ["expansions.fuelFear"] },
+    unload: { frame: 7, label: "(Un)Load", desc: "Grab a <b>new passenger</b> from the deck OR <b>drop off</b> an existing passenger.", freq: 6, sets: ["expansions.taxisCargo"] },
+    radio: { frame: 8, label: "Radio On", desc: "This round, <b>ignore the curses</b> of all your passengers.", freq: 4, sets: ["expansions.taxisCargo"] },
 
 };
 
@@ -34,7 +34,7 @@ export const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 export const ACTION_CARDS:Record<string,MaterialNaivigationData> =
 {
     towtruck: { frame: 0, label: "Towtruck", desc: "Put <b>3 crossroads tiles</b> back into the map." },
-    refueler: { frame: 1, label: "Refueler", desc: "<b>Replenish fuel.</b> Ignore any fuel lost (this round).", sets: ["fuelFear"] },
+    refueler: { frame: 1, label: "Refueler", desc: "<b>Replenish fuel.</b> Ignore any fuel lost (this round).", sets: ["expansions.fuelFear"] },
     souped_up: { frame: 2, label: "Souped-Up", desc: "Change your <b>Gear</b> to whatever you want." },
     drive_through: { frame: 3, label: "Drive-Through", desc: "This round, <b>collect</b> a shop by <b>visiting it directly</b> (instead of via parking)." },
     parking_attendant: { frame: 4, label: "Parking Attendant", desc: "<b>Move or Rotate</b> 1 parking lot." },
@@ -43,7 +43,7 @@ export const ACTION_CARDS:Record<string,MaterialNaivigationData> =
 export const TIME_CARDS:Record<string,MaterialNaivigationData> =
 {
     sinkhole: { label: "Sinkhole", desc: "If you're on a <b>crossroads</b> or <b>dead end</b>, take 1 damage, but move to anywhere.", type: EventType.EVENT },
-    fuel_explosion: { label: "Fuel Explosion", desc: "<b>Reduce your Fuel</b> tank to 1.", type: EventType.EVENT, sets: ["fuelFear"] },
+    fuel_explosion: { label: "Fuel Explosion", desc: "<b>Reduce your Fuel</b> tank to 1.", type: EventType.EVENT, sets: ["expansions.fuelFear"] },
     gear_breakdown: { label: "Gear Breakdown", desc: "<b>Reset your Gear</b> to 0.", type: EventType.EVENT },
     shops_closing: { label: "Shops Closing", desc: "\"Close\" 3 shops (turn facedown). You can't visit them this round.", type: EventType.EVENT },
     
@@ -53,7 +53,7 @@ export const TIME_CARDS:Record<string,MaterialNaivigationData> =
 
     cruise_disable: { label: "No Cruising", desc: "<b>Cruise Control</b> doesn't work.", type: EventType.RULE },
     cruise_penalty: { label: "No Control", desc: "Executing <b>Cruise Control</b> incurs 1 damage.", type: EventType.RULE },
-    fuel_conservation: { label: "Fuel Supertank", desc: "Whatever you do, you only lose <b>1 Fuel</b> this round.", type: EventType.RULE, sets: ["fuelFear"] },
+    fuel_conservation: { label: "Fuel Supertank", desc: "Whatever you do, you only lose <b>1 Fuel</b> this round.", type: EventType.RULE, sets: ["expansions.fuelFear"] },
     supersonic: { label: "Supersonic", desc: "Set your Gear to maximum. You <b>can't collect a shop</b> this round.", type: EventType.RULE },
     careful_driving: { label: "Careful Driving", desc: "If you end the round on <b>Gear 0</b>, <b>repair</b> 1 damage.", type: EventType.RULE },
     strong_car: { label: "Strong Wheels", desc: "Going off-road incurs <b>no damage</b>.", type: EventType.RULE },
@@ -75,12 +75,12 @@ export const MAP_TILES:Record<string,MaterialNaivigationData> =
     stop_sign: { frame: 10, label: "Stop Sign", desc: "End the round. Reset Gear to 0.", freq: 2 },
     construction: { frame: 11, label: "Construction Work", desc: "Take 1 damage.", freq: 2 },
     earthquake: { frame: 12, label: "Earthquake", desc: "Swap 2 map tiles OR replace 1 map tile (from deck).", freq: 2 },
-    traffic_light: { frame: 13, label: "Traffic Light", desc: "You must move away from this tile with a card past slot 3. Otherwise, law broken.", sets: ["trafficPolice"], freq: 3 },
-    max_speed: { frame: 14, label: "Max Speed", desc: "Your Gear must stay between 1 and 2. Otherwise, law broken.", sets: ["trafficPolice"], freq: 3 },
-    gas_station: { frame: 15, label: "Gas Station", desc: "Completely refill your Fuel.", sets: ["fuelFear"], freq: 2 },
-    tunnel: { frame: 16, label: "Tunnel", desc: "Move once (Drive or Turn) in any direction. Another tunnel exists? Teleport there.", sets: ["terrainTripplanning"], freq: 3 }, // used to be "crane" or "roadworker"
-    shop_special_1: { frame: 17, label: "Shop Special", collectible: true, sets: ["terrainTripplanning"] }, // simply has a new illustration + higher number?
-    shop_special_2: { frame: 18, label: "Shop Special", collectible: true, sets: ["terrainTripplanning"] }, // simply has a new illustration + higher number?
+    traffic_light: { frame: 13, label: "Traffic Light", desc: "You must move away from this tile with a card past slot 3. Otherwise, law broken.", sets: ["expansions.trafficPolice"], freq: 3 },
+    max_speed: { frame: 14, label: "Max Speed", desc: "Your Gear must stay between 1 and 2. Otherwise, law broken.", sets: ["expansions.trafficPolice"], freq: 3 },
+    gas_station: { frame: 15, label: "Gas Station", desc: "Completely refill your Fuel.", sets: ["expansions.fuelFear"], freq: 2 },
+    tunnel: { frame: 16, label: "Tunnel", desc: "Move once (Drive or Turn) in any direction. Another tunnel exists? Teleport there.", sets: ["expansions.terrainTripplanning"], freq: 3 }, // used to be "crane" or "roadworker"
+    shop_special_1: { frame: 17, label: "Shop Special", collectible: true, sets: ["expansions.terrainTripplanning"] }, // simply has a new illustration + higher number?
+    shop_special_2: { frame: 18, label: "Shop Special", collectible: true, sets: ["expansions.terrainTripplanning"] }, // simply has a new illustration + higher number?
 }
 
 export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
@@ -92,7 +92,7 @@ export const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
 
 export const PAWN_TILES:Record<string,MaterialNaivigationData> =
 {
-    pawn_police: { frame: 19, label: "Police", sets: ["trafficPolice"], freq: 3 },
+    pawn_police: { frame: 19, label: "Police", sets: ["expansions.trafficPolice"], freq: 3 },
 }
 
 export const PASSENGER_BONUSES:Record<string, MaterialNaivigationData> =

@@ -1,5 +1,5 @@
 import { CONFIG_NAIVIGATION_SHARED } from "games/naivigation/shared/configShared"
-import { cardPicker, tilePicker } from "../game/generators";
+import { PICKER_REGISTRY } from "games/naivigation/shared/pickerRegistry";
 import { planetPropertiesPicker } from "../game/planetPropertiesPicker";
 import { SettingType, Vector2, MapperPreset, CVal, Bounds, mergeObjects } from "lib/pq-games";
 
@@ -121,16 +121,24 @@ export const CONFIG =
         },
     },
 
+    generation:
+    {
+        cards:
+        {
+            numSteerCards: 14
+        }
+    },
+
     _material:
     {
         cards:
         {
-            picker: cardPicker.asFunction()
+            picker: () => PICKER_REGISTRY.cards
         },
 
         tiles: 
         {
-            picker: tilePicker.asFunction()
+            picker: () => PICKER_REGISTRY.tiles
         },
 
         planetProperties:
@@ -144,11 +152,6 @@ export const CONFIG =
     {
         cards:
         {
-            generation:
-            {
-                numSteerCards: 14
-            },
-
             steer:
             {
                 circleRadius: 0.45, // ~tiles.general.illustration.mainDims
