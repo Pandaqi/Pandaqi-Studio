@@ -126,7 +126,7 @@ If you **run out of fuel** ( = fuel deck is empty), you enter "free fall".
 * The Fly and Elevate cards don't work anymore. (You will mostly be steering and hoping for a refuel.)
 * At the end of each round, you automatically move forward 1 tile and drop 1 elevation level. (Take these two steps in the order that suits you.)
 
-{{< rules/rules-image src="fuel_falling.webp" alt="Example of tracking fuel, freefall when you run out, and how to refuel in time." >}}
+{{< rules/rules-image src="expansion_fuel_falling.webp" alt="Example of tracking fuel, freefall when you run out, and how to refuel in time." >}}
 
 
 ### Repairs & Racing

@@ -41,7 +41,8 @@ export const createExampleHTMLForNode = (data:InteractiveExampleParams, node:HTM
     const btn = document.createElement("button");
     nodeUI.appendChild(btn);
     btn.classList.add("rulebook-example-button");
-    btn.innerHTML = data.buttonText;
+    // an example without its own button text must not render the string "undefined"
+    btn.innerHTML = data.buttonText ?? "Give me an example turn!";
 
     const closeBtn = document.createElement("button");
     nodeUI.appendChild(closeBtn);
@@ -235,7 +236,8 @@ export class InteractiveExample
         const arr = [];
         for(let i = 0; i < num; i++)
         {
-            arr.push(list.splice(Math.floor(Math.random() * list.length), 1));
+            // splice returns a list of the removed elements; the caller expects the elements themselves
+            arr.push(list.splice(Math.floor(Math.random() * list.length), 1)[0]);
         }
         return arr;
     }

@@ -98,10 +98,11 @@ export const CONFIG:Record<string,any> =
 
     rulebook:
     {
+        numPlayerBounds: new Bounds(2,5),
         marketSize: 6,
         numStartingVotesPerPlayer: 10,
         minProposalSize: 1,
-        numCardsToMoviesMade: 1, // should probably always be the same as minProposalSize right?
+        numCardsToMovieMade: 1, // should probably always be the same as minProposalSize right?
         useWildcardSetsRule: true,
         numIconsNeededForWildcard: 2,
     },

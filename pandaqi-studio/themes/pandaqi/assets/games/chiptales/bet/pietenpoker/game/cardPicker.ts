@@ -75,7 +75,7 @@ const generatePietjePrecies = (cards) =>
 
 const generateActiePiet = (cards) =>
 {
-    if(!CONFIG._settings.sets.actiepiet.value) { return; }
+    if(!CONFIG._settings.sets.actiePiet.value) { return; }
 
     const freqDefault = CONFIG.generation.actiepiet.defaultFrequency;
     for(const [key,data] of Object.entries(ACTIEPIETEN))

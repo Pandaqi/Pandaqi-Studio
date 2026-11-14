@@ -45,14 +45,16 @@ export const SPECIAL_ACTIONS:Record<string, GeneralData> =
     colorshift: { frame: 9, desc: "All %color% cards become %color% instead.", prob: 0.25 }
 }
 
-export const DYNAMIC_STRINGS = 
-{
+// a function, not a constant: CONFIG is still being built when this module is first evaluated
+// (config imports the card picker, which imports the card, which imports this)
+export const getDynamicStrings = () =>
+({
     "%color%": Object.values(Color).map((x) => x.toUpperCase()),
     "%shape%": Object.values(Shape).map((x) => x.toUpperCase()),
     "%number%": CONFIG.generation.numberBounds.asList(),
     "%change%": [1,2,3],
     "%identifier%": [Object.values(Color), Object.values(Shape)].flat().map((x) => x.toUpperCase())
-}
+})
 
 export const MISC:Record<string, GeneralData> =
 {

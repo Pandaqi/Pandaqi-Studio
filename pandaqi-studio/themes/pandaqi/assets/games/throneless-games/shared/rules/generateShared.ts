@@ -14,9 +14,9 @@ export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
     const numPlayers = CONFIG.rulebook.numPlayerBounds.randomInteger();
     const playerNames = ["Anna", "Bert", "Claire", "Dennis", "Eric", "Fred"].slice(0, numPlayers);
     const packTypes = shuffle(Object.keys(PACKS)).slice(0, numPlayers);
-    CONFIG.set = "none";
-    for(const type of Object.keys(CONFIG.packs)) { CONFIG.packs[type] = false; }
-    for(const type of packTypes) { CONFIG.packs[type] = true; }
+    // only the packs this example drew are in play; write that back through the real settings
+    CONFIG._settings.set.value = "none";
+    CONFIG._settings.packs.value = packTypes;
 
     const allCards : CardThroneless[] = shuffle(sim.getPicker("cards")());
 
@@ -99,7 +99,10 @@ export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
             }
         }
 
-        sim.stats.numWinningCardsDist[numWinningCards]++;
+        // stats are only initialised for a full simulation; a plain example still writes into them
+        // (and writing into a missing counter is what threw on every Throneless rulebook)
+        sim.stats.numWinningCardsDist = sim.stats.numWinningCardsDist ?? {};
+        sim.stats.numWinningCardsDist[numWinningCards] = (sim.stats.numWinningCardsDist[numWinningCards] ?? 0) + 1;
 
         const leaderWins = winningCards.includes( board.cardsPlayed.getCardAtIndex(board.kingseat) );
         if(leaderWins) { sim.stats.leaderPartOfWinningSequence++; }

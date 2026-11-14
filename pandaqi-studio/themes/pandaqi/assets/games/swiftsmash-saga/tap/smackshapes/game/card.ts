@@ -1,6 +1,6 @@
 
 import { shuffle, MaterialVisualizer, ResourceGroup, fillResourceGroup, LayoutOperation, TintEffect, Vector2, TextConfig, ResourceText, Rectangle, ResourceShape, getPositionsCenteredAround } from "lib/pq-games";
-import { COLORS, CardType, Color, DYNAMIC_STRINGS, MISC, POSITIONS, SPECIAL_ACTIONS, Shape } from "../shared/dict";
+import { COLORS, CardType, Color, getDynamicStrings, MISC, POSITIONS, SPECIAL_ACTIONS, Shape } from "../shared/dict";
 
 export default class Card
 {
@@ -30,7 +30,7 @@ export default class Card
         this.action = key;
 
         let str = this.getActionData().desc;
-        const replacements = structuredClone(DYNAMIC_STRINGS);
+        const replacements = structuredClone(getDynamicStrings());
         
         let replacedSomething = true;
         while(replacedSomething)

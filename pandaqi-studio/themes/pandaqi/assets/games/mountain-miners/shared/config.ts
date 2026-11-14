@@ -113,6 +113,20 @@ export const CONFIG =
         }
     },
 
+    generation:
+    {
+        numBackgrounds: 4,
+        defFreq: 3, // default amount of times a specific tile type appears
+        numArrowTiles: 2,
+        numTilesPerGemstoneValue: 
+        {
+            1: 8,
+            2: 7,
+            3: 6,
+            4: 5
+        }
+    },
+
     _drawing:
     {
         fonts:
@@ -123,20 +137,6 @@ export const CONFIG =
 
         tiles:
         {
-            generation:
-            {
-                numBackgrounds: 4,
-                defFreq: 3, // default amount of times a specific tile type appears
-                numArrowTiles: 2,
-                numTilesPerGemstoneValue: 
-                {
-                    1: 8,
-                    2: 7,
-                    3: 6,
-                    4: 5
-                }
-            },
-
             icon:
             {
                 size: new CVal(new Vector2(0.725), "sizeUnit"),

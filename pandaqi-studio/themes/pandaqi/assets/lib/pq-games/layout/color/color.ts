@@ -43,6 +43,17 @@ export class Color
         return new Color(this);
     }
 
+    // blend two colors (used, for example, when a card belongs to multiple categories)
+    mix(c:Color, weight = 0.5)
+    {
+        const [r1,g1,b1] = this.toRGBRaw();
+        const [r2,g2,b2] = c.toRGBRaw();
+        const r = Math.round(r1*(1-weight) + r2*weight);
+        const g = Math.round(g1*(1-weight) + g2*weight);
+        const b = Math.round(b1*(1-weight) + b2*weight);
+        return new Color().fromRGBA(r, g, b, Math.round(255*this.getAlpha()));
+    }
+
     /* The `from` functions */
     fromColor(c:Color)
     {

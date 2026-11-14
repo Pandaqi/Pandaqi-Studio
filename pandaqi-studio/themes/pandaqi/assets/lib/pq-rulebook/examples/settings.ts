@@ -65,7 +65,7 @@ export class RulebookSettings
         const nodeContainer = this.nodes[id];
         if(!nodeContainer) { console.error(`Can't read non-existing setting ${id}`); return null; }
 
-        const inputs = nodeContainer.getElementsByClassName("rules-settings-input");
+        const inputs = nodeContainer.getElementsByClassName("rulebook-settings-input");
         if(inputs.length <= 0) { console.error(`Setting with id ${id} has no readable inputs!`); return null; }
 
         const nodeInput : HTMLElement = inputs[0] as HTMLElement;

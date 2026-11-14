@@ -1,5 +1,6 @@
 import { MaterialVisualizer, ResourceGroup, LayoutEffect, DropShadowEffect, GrayScaleEffect, LayoutOperation, Vector2, rangeInteger, TextConfig, Line, ResourceShape, Rectangle, ResourceText, StrokeAlign } from "lib/pq-games";
 import { MISC, TILES, COLORS } from "../shared/dict";
+import { CONFIG } from "../shared/config";
 
 const NUM_RECTS_PER_KEY =
 {
@@ -56,7 +57,7 @@ export default class Tile
         if(vis.inkFriendly) { return; }
 
         const res = vis.getResource("misc");
-        const randBG = rangeInteger(1, vis.get("tiles.generation.numBackgrounds"));
+        const randBG = rangeInteger(1, CONFIG.generation.numBackgrounds);
         const frame = MISC["bg_" + randBG].frame;
         const resOp = new LayoutOperation({
             pivot: Vector2.ZERO,

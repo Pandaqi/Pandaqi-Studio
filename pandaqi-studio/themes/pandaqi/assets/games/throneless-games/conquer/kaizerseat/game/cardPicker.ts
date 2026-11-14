@@ -4,6 +4,7 @@ import { PACKS, SEAT_CARDS, SETS, THRONE_CARDS } from "../shared/dict";
 import CardThroneless from "games/throneless-games/shared/cardThroneless";
 import cacheDefaultData from "games/throneless-games/shared/cacheDefaultData";
 import { CardType } from "games/throneless-games/shared/dictShared";
+import { getSetting } from "lib/pq-games";
 
 export const cardPicker = () : CardThroneless[] => 
 {
@@ -17,7 +18,7 @@ export const cardPicker = () : CardThroneless[] =>
 
 const generateThroneCards = (cards) =>
 {
-    if(!CONFIG.generateThroneCards) { return; }
+    if(!getSetting("generateThroneCards", CONFIG)) { return; }
 
     for(const data of THRONE_CARDS)
     {
@@ -29,7 +30,7 @@ const generateThroneCards = (cards) =>
 
 const generateSeatCards = (cards) =>
 {
-    if(!CONFIG.generateSeatCards) { return; }
+    if(!getSetting("generateSeatCards", CONFIG)) { return; }
 
     for(const data of SEAT_CARDS)
     {

@@ -11,7 +11,7 @@ export const tilePicker = () : Tile[] =>
     // the crucial arrow tiles
     if(CONFIG._settings.sets.base.value)
     {
-        for(let i = 0; i < CONFIG.tiles.generation.numArrowTiles; i++)
+        for(let i = 0; i < CONFIG.generation.numArrowTiles; i++)
         {
             tiles.push(new Tile("arrow"));
         }
@@ -26,8 +26,8 @@ export const tilePicker = () : Tile[] =>
         const setIncluded = CONFIG._settings.sets[data.set ?? "base"].value;
         if(!setIncluded) { continue; }
 
-        let freq = data.freq ?? CONFIG.tiles.generation.defFreq;
-        if(data.points) { freq = CONFIG.tiles.generation.numTilesPerGemstoneValue[data.points] ?? freq; }
+        let freq = data.freq ?? CONFIG.generation.defFreq;
+        if(data.points) { freq = CONFIG.generation.numTilesPerGemstoneValue[data.points] ?? freq; }
 
         for(let i = 0; i < freq; i++)
         {

@@ -7,9 +7,12 @@ const parseForRulebookTable = (dict:ActionSet) =>
     for(const [key,data] of Object.entries(dict))
     {
         let desc = Array.isArray(data.desc) ? data.desc[0] : data.desc;
-        desc = desc.replace('<img id="misc" frame="0">', 'points');
-        desc = desc.replace('<img id="misc" frame="1">', 'items');
-        desc = desc.replace('<img id="misc" frame="2">', 'hazards');
+
+        // replace ALL of them: an icon can appear more than once in one description, and every
+        // leftover would be an <img> without a src (which is exactly what the rulebook cannot render)
+        desc = desc.replaceAll('<img id="misc" frame="0">', 'points');
+        desc = desc.replaceAll('<img id="misc" frame="1">', 'items');
+        desc = desc.replaceAll('<img id="misc" frame="2">', 'hazards');
         dict[key].desc = desc;
     }
 

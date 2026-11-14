@@ -78,7 +78,7 @@ However, when you _overlap_ this space with another domino, the action is trigge
 
 Below are all options.
 
-<div data-rulebook-table="supercells">
+<div data-rulebook-table="supercells"></div>
 
 ### Werewalls
 

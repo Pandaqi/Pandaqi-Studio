@@ -327,10 +327,13 @@ export default class RandomNaivigationSetupGenerator
 
     setPlayerPosition(idx = 0, pos:Vector2)
     {
-        this.getVehicleData(idx).position = pos;
-        if(!this.isOutOfBounds(pos))
+        // movement is built from angles, so a position can be a hair off (1.9999999999 instead of 2);
+        // rounding keeps the grid lookups (and isOutOfBounds) exact
+        const gridPos = new Vector2(Math.round(pos.x), Math.round(pos.y));
+        this.getVehicleData(idx).position = gridPos;
+        if(!this.isOutOfBounds(gridPos))
         {
-            this.getVehicleData(idx).tile = this.grid[pos.x][pos.y].tile;
+            this.getVehicleData(idx).tile = this.grid[gridPos.x][gridPos.y].tile;
         }
     }
 

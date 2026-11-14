@@ -153,8 +153,6 @@ export const CONFIG_SHARED =
         }
     },
 
-    packs: [],
-
     files: 
     {
         crests_full: 
@@ -257,7 +255,6 @@ export const CONFIG_SHARED =
         cards:
         {
             itemSize: new Vector2(375, 525),
-            picker: null,
             mapper: 
             { 
                 autoStroke: true,
@@ -307,3 +304,9 @@ export const CONFIG_SHARED =
         }
     },
 }
+
+// the framework only reads `_resources.files`, so the shared sheets and fonts must live there
+// (they used to sit at the top level as `files`, where no resource loader ever looked)
+CONFIG_SHARED._resources = CONFIG_SHARED._resources ?? {};
+CONFIG_SHARED._resources.files = Object.assign(CONFIG_SHARED._resources.files ?? {}, CONFIG_SHARED.files);
+delete CONFIG_SHARED.files;

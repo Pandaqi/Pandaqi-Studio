@@ -1,6 +1,6 @@
 # MIGRATION — V1 → V2 recovery, audit and test harness
 
-> **Status:** what is left is §3.7 (what the audit found) and §8 (phases). Library changes are made in place in `lib/pq-games` and `lib/pq-rulebook`.
+> **Status:** the `rules` sweep is green (§3.7: 74/74); what is left is §8 (phases). Library changes are made in place in `lib/pq-games` and `lib/pq-rulebook`.
 > **Companion to:** `ROADMAP.md` (human checklist). This file is the engineering plan: what is broken, what "working" means, how to test it, in what order, and how to make the build fast enough to work with.
 > **Scope:** `pandaqi-studio/` only. `pandaqi-studio-dev/` is out of scope.
 
@@ -440,18 +440,21 @@ These multiply raw `_drawing` values manually (`vis.get("x") * vis.sizeUnit`). C
 
 ---
 
-### 3.7 Measured results (first audit run, 2026-11-13)
+### 3.7 Measured results (2026-11-14)
 
-`cd pandaqi-studio/audit && bun run audit --kind rules --workers 2` — **74 rulebooks: 52 pass, 22 fail**, 7 warnings.
-Codes: `RB_EXAMPLE_EMPTY` 22, `RB_EXAMPLE_TIMEOUT` 15, `RB_EXAMPLE_LABEL` 15, `PAGE_ERROR` 13, `RB_NO_TOOLBAR` 6, `RB_SECTION_MISSING` 1, `RB_BROKEN_IMAGE` 1.
+`cd pandaqi-studio/audit && bun run audit --kind rules --workers 2` — **74 rulebooks: 74 pass, 0 fail**, 9 warnings.
 
-What the reds actually are:
+The 9 warnings: 7 dead in-page anchors (`#slots`, `#cards_reference`, `#variants`, `#finding_the_poison`, `#guests`, `#zoo_cards`, `#simulwars` — markdown copy, §10) and 2 keebble examples that are text-only by design.
 
-* `swiftsmash-saga/tap/smackshapes/rules/` — the bundle exists and calls `loadRulebook`, yet no toolbar appears. New; not root-caused.
-* The four Throneless rulebooks (`kaizerseat`, `kingseat`, `queenseat`, `smallseat`) throw `TypeError: Cannot convert undefined or null to object` in `planLoadMultiple`: the example loads resources that do not exist yet.
-* `keebble-domino/rules/` throws `TypeError: r.pos is not a function` inside the visualizer — a `pos`/pivot migration defect — and one heading (`Werewalls`) never becomes a section header.
-* 15 examples exceeded `EXAMPLE_TIMEOUT` (90 s). They all declare simulators, but every `SIMULATION_ENABLED` in the tree is already `false`, so the simulator was never what cost the time: `maybe-minister`'s `generate()` runs `while(!playerReachedPointsTarget)` and plays a whole game per click. Those callbacks need a bounded example; refusing to drive simulators does not fix them.
-* `the-mist/rules/` contains an `<img>` with no `src`.
+The first run of this same sweep (2026-11-13) was 52 pass / 22 fail. What each red actually was, and what fixed it at the root:
+
+* `swiftsmash-saga/tap/smackshapes/rules/` — `DYNAMIC_STRINGS` was a module-level constant built at import time, so a circular import left it empty and the toolbar never rendered; it is now `getDynamicStrings()`.
+* The four Throneless rulebooks — `planLoadMultiple` got an empty plan: the config kept its files in a flat `files` list plus top-level `packs`/`picker`. `configShared` now writes `_resources.files` and `_settings.*`, and the example guards `stats.numWinningCardsDist` (only a full simulation initialises it, and `undefined[i]++` threw on every page).
+* `keebble-domino/rules/` — `ctx.pos()` (the V1 name) is now `ctx.translate()`, and the unclosed `data-rulebook-table` div swallowed the next heading.
+* The 15 `EXAMPLE_TIMEOUT`s — an example without `buttonText` rendered the literal string "undefined" as its label, so the harness's label and timeout checks could never settle. `createExampleHTMLForNode` now defaults the label, and `getRandomFromList` pushes the element it splices out instead of a one-element array.
+* `the-mist/rules/` — three `<img id="misc" frame="N">` tags (a V1 assembly instruction) had no `src`; they are now real image tags.
+
+The same sweep forced these smaller fixes: `drawTextToCanvas` walked into `calculateTextMetrics`' undefined result for text with nothing visible (point-a-pile); the settings widget read the wrong input class; mountain-miners read `CONFIG.tiles.generation.*` while the constants sat in `_drawing`; maybe-movies' config had no `numPlayerBounds` and spelled `numCardsToMovieMade` two ways; pietenpoker read `sets.actiepiet` for the `actiePiet` setting; six-of-sparrows popped a bid card that is not there in the last rounds; sixpack's reverse example did not return its async callback (empty content); frightening-flights pointed at a renamed image; nine-lives interpolated `[numIcons]` inside a plain string path; `Color` had lost `mix`; the naivigation picker's chained setters returned void (so `.generate()` ran on `undefined`), and `setPlayerPosition` kept angle-derived float positions that missed the grid.
 
 First generator and digital runs:
 
@@ -734,11 +737,10 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 
 | Phase | Work | Exit criterion |
 |---|---|---|
-| 3. Mechanical fixes ✅ **done (2026-11-14)** | full `--runs 1` sweep and every one-liner it surfaces, plus the Naivigation V2 port (§3.7) | Closed by hand: the sweep was stopped for time and the green-sweep criterion moves to Phase 4's entry check. Imports/lib layer, static checks, D-2, D-6 and the Naivigation port are finished. |
-| 4. Structural (1–2 weeks) | remaining reds, `--runs 2` on `[~~]` games | `--runs 1` green for every non-draft project except documented exceptions; `--runs 2` spot-checked on whatever was touched |
-| 6. Re-enable (1 h) | `enableBoardJS`/`enableGameJS` true (or R-5), deploy, spot-check 5 games | links visible in production; the pre-merge gate is green |
-| 7. Durability (ongoing) | R-4, R-6, R-7, R-11, R-13 | budgets of §4.3 hold |
-| 8. Optional | §10: contact sheet per project, fix pivot/alignment, re-baseline | nothing depends on it |
+| 4. Structural (1–2 weeks) | `--runs 2` on `[~~]` games, generator kind | `--runs 1` green for every non-draft project except documented exceptions; `--runs 2` spot-checked on whatever was touched |
+| 5. Re-enable (1 h) | `enableBoardJS`/`enableGameJS` true (or R-5), deploy, spot-check 5 games | links visible in production; the pre-merge gate is green |
+| 6. Durability (ongoing) | R-4, R-6, R-7, R-11, R-13 | budgets of §4.3 hold |
+| 7. Optional | §10: contact sheet per project, fix pivot/alignment, re-baseline | nothing depends on it |
 
 ---
 

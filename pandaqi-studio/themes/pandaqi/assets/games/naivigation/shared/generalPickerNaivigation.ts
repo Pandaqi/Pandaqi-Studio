@@ -51,7 +51,7 @@ export default class GeneralPickerNaivigation
         return this.elements;
     }
 
-    setCustomCallback(cb) { this.mapCallback = cb; }
+    setCustomCallback(cb) { this.mapCallback = cb; return this; }
     addData(type:MaterialNaivigationType, dict:Record<string,any>)
     {
         this.data.push({
@@ -247,8 +247,9 @@ export default class GeneralPickerNaivigation
             const requiredSets:string[] = data.sets ?? [defaultSet];
             if(!requiredSets.some((set:string) => getSetting(set, this.config))) { continue; }
 
-            // handy default setting to toggle all vehicle pawns on/off, regardless of their specific settings
+            // handy default settings that toggle a whole section on/off, no matter what an entry lists itself
             if(isVehiclePawn && !getSetting("sets.vehicleTiles", this.config)) { continue; }
+            if(isSpecialCard && !getSetting("sets.specialCards", this.config)) { continue; }
 
             // hook for custom handling of certain tiles
             let res = this.mapCallback(key, data);

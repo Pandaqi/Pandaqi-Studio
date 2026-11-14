@@ -121,7 +121,10 @@ const generate = async (sim:InteractiveExampleSimulator) =>
                 str += "The following players wanted to bid: " + playersBidding.join(", ") + ". Only <b>Player " + playersBidding[0] + "</b> bids, because they are closest to Dealer.";
             }
 
+            // the deck runs out on the final rounds: nobody can bid when there is no bid card left
             const newBidCard = bidCards.pop();
+            if(!newBidCard) { continue; }
+
             str += " They grab their desired <i>Bid Card</i> (<i>" + newBidCard.getLabel() + "</i>) and <i>Bid Token " + handSize + "</i>.";
             players[ playersBidding[0] - 1] .bid = new Bid(newBidCard, handSize);
         }

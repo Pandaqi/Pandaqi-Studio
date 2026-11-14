@@ -52,7 +52,7 @@ const visualizeSymbol = (params) =>
     const scale = params.scale || 1.0;
     
     ctx.save();
-    ctx.pos((params.x + 0.5) * cs, (params.y + 0.5) * cs);
+    ctx.translate((params.x + 0.5) * cs, (params.y + 0.5) * cs);
     ctx.rotate(rotRadians);
     ctx.drawImage(
         img,

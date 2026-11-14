@@ -360,7 +360,8 @@ export default class Card
     drawCats(vis:MaterialVisualizer, ctx)
     {
         const numIcons = this.cats.length;
-        const positions = vis.get("cards.cats.positions[numIcons]");
+        // visualizer paths don't interpolate: grab the full list, then pick the entry for this card
+        const positions = vis.get("cards.cats.positions")[numIcons];
         const res = vis.resLoader.getResource("cats");
 
         const size = new Vector2(vis.get("cards.cats.iconSize") * vis.sizeUnit);

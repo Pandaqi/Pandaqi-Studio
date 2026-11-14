@@ -22,7 +22,14 @@ export const drawTextFromResource = (resource:ResourceText) =>
 
 export const drawTextToCanvas = (canv:CanvasLike, op:LayoutOperation = new LayoutOperation(), debug = false) =>
 {
+    // text drawn through a nested resource may reach this point without having been through
+    // LayoutOperation.applyToCanvas, which is what normally measures it
+    if(op.textMetrics === undefined) { op.calculateResultProperties(); }
+
+    // measuring returns nothing for text that has nothing visible in it (empty string, only breaks),
+    // which is a valid thing to draw: it simply draws nothing
     const textMetrics = op.textMetrics;
+    if(!textMetrics) { return; }
     const config = (op.resource as ResourceText).textConfig;
     if(!hasVisibleLines(textMetrics.lines)) { return; }
 
