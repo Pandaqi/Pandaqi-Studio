@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray, getAllPossibleCombinationsRaw, anyMatch, getMaterialDataForRulebook, rangeInteger } from "lib/pq-games";
+import { shuffle, fromArray, getAllPossibleCombinationsRaw, anyMatch, getMaterialDataForRulebook, rangeInteger, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -126,7 +126,7 @@ class Move
         const moveSuits = this.getSuits();
         const neighborLeftMatches = moveSuits.includes(tableCards.getFirstCard());
         const neighborRightMatches = moveSuits.includes(tableCards.getLastCard());
-        let side = Math.random() <= 0.5 ? MoveSide.RIGHT : MoveSide.LEFT;
+        let side = rand() <= 0.5 ? MoveSide.RIGHT : MoveSide.LEFT;
         if(neighborRightMatches) { side = MoveSide.RIGHT; }
         else if(neighborLeftMatches) { side = MoveSide.LEFT; }
         return side;

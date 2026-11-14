@@ -6,14 +6,14 @@ import { ResourceLoader } from "../layout/resources/resourceLoader";
 import { Vector2 } from "../geometry/vector2";
 import { Configurator } from "../settings/configurator";
 import { CVal } from "../settings/cval";
-import { ensureConfigProperties, GameConfig, getSettingDefault } from "../settings/configuration";
+import { ensureConfigProperties, GameConfig, getSettingDefault, DrawingPaths } from "../settings/configuration";
 import { translate } from "../layout/text/translation";
 
-export class MaterialVisualizer
+export class MaterialVisualizer<TConfig extends GameConfig = GameConfig>
 {
     debug?: boolean
 
-    config: GameConfig
+    config: TConfig
     configurator: Configurator
     resLoader: ResourceLoader
     renderer: Renderer;
@@ -31,7 +31,7 @@ export class MaterialVisualizer
     language: string
     warnedDrawingPaths: Set<string>
 
-    constructor(config:GameConfig, customItemSize:Vector2 = null)
+    constructor(config:TConfig, customItemSize:Vector2 = null)
     {
         ensureConfigProperties(config);
         this.warnedDrawingPaths = new Set();
@@ -64,7 +64,9 @@ export class MaterialVisualizer
         if(this.debug) { console.log(`[Debug] MaterialVisualizer`, this); console.log(`[Debug] MaterialVisualizer's configurator object`, this.configurator); }
     }
 
-    get(s:string|string[])
+    // `_drawing` paths are only as typed as the config that was handed in: a literal config (via
+    // `defineConfig`) rejects a typo here, a plain GameConfig falls back to `string`.
+    get(s:DrawingPaths<NonNullable<TConfig["_drawing"]>> | string[])
     {
         const val = this.configurator.get(s);
 

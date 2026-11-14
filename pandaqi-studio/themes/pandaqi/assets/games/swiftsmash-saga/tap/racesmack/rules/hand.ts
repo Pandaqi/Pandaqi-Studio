@@ -3,7 +3,7 @@ import Player from "./player";
 import { CONFIG } from "../shared/config";
 import { CardType } from "../shared/dict";
 import RulesTracker from "./rulesTracker";
-import { shuffle, convertCanvasToImageMultiple } from "lib/pq-games";
+import { shuffle, convertCanvasToImageMultiple, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator } from "lib/pq-rulebook";
 
 export default class Hand
@@ -30,7 +30,7 @@ export default class Hand
     {
         const subList = shuffle(this.cards.slice());
         maxNum = Math.min(maxNum, subList.length);
-        return subList[Math.floor(Math.random() * maxNum)];
+        return subList[Math.floor(rand() * maxNum)];
     }
     
     removeCardRandom() 

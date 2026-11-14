@@ -1,4 +1,5 @@
-import { EFFECT_DICT } from "../shared/dict"
+
+import { rand } from "lib/pq-games";import { EFFECT_DICT } from "../shared/dict"
 
 // handles all the buttons, adding/removing, hiding/showing
 export default class Interface 
@@ -268,10 +269,10 @@ export default class Interface
 		const totalProb = this.getTotalProb(list);
 		let runningSum = 0.0;
 		let fraction = 1.0 / totalProb;
-		const rand = Math.random();
+		const randValue = rand();
 
 		let counter = -1;
-		while(runningSum < rand)
+		while(runningSum < randValue)
 		{
 			counter++;
 			runningSum += list[counter].prob * fraction;
@@ -285,13 +286,13 @@ export default class Interface
 	pickEvent()
 	{
 		const prob = (this.eventBalancer.good - this.eventBalancer.bad);
-		let type = Math.random() <= 0.5 ? "good" : "bad";
+		let type = rand() <= 0.5 ? "good" : "bad";
 		const neutralProb = 0.1;
 		if(prob != 0)
 		{
-			if(prob > 0 && Math.random() <= (1.0 / prob)) { type = "bad"; }
-			if(prob < 0 && Math.random() <= (1.0 / -prob)) { type = "good"; }
-			if(Math.random() <= neutralProb) { type = "neutral"; }
+			if(prob > 0 && rand() <= (1.0 / prob)) { type = "bad"; }
+			if(prob < 0 && rand() <= (1.0 / -prob)) { type = "good"; }
+			if(rand() <= neutralProb) { type = "neutral"; }
 		}
 
 		const options = this.config.shuffle(this.config.eventList[type].slice());

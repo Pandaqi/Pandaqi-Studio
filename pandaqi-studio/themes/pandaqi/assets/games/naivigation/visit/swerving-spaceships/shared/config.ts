@@ -2,6 +2,7 @@ import { CONFIG_NAIVIGATION_SHARED } from "games/naivigation/shared/configShared
 import { cardPicker, tilePicker } from "../game/generators";
 import { planetPropertiesPicker } from "../game/planetPropertiesPicker";
 import { SettingType, Vector2, MapperPreset, CVal, Bounds, mergeObjects } from "lib/pq-games";
+import type { GameConfigGame } from "lib/pq-games";
 
 export const CONFIG = 
 {
@@ -92,11 +93,11 @@ export const CONFIG =
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
+    // typed so the entry can attach the resource loader it builds (a rulebook page has no loadGame to do it)
     _game:
     {
         fileName: "Naivigation: Swerving Spaceships",
-        resLoader: null as any, // filled by the entry: a rulebook page builds its own
-    },
+    } as GameConfigGame,
 
     // assets
     _resources:

@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, Color, Vector2, ResourceShape, Rectangle, LayoutOperation, DropShadowEffect, TextConfig, ResourceText, StrokeAlign, TextStyle, colorRandomize, drawBlurryRectangle } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, Color, Vector2, ResourceShape, Rectangle, LayoutOperation, DropShadowEffect, TextConfig, ResourceText, StrokeAlign, TextStyle, colorRandomize, drawBlurryRectangle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { COASTER_PARTS, ITEMS, ItemType, MISC, PATHS, PATHS_ORDER, PathType } from "../shared/dict";
 
@@ -14,7 +14,7 @@ export default class DominoSide
     constructor(it:ItemType)
     {
         this.type = it;
-        this.rot = Math.floor(Math.random() * 4);
+        this.rot = Math.floor(rand() * 4);
     }
 
     getTypeData()
@@ -163,7 +163,7 @@ export default class DominoSide
             pivot: Vector2.CENTER,
             alpha: vis.get("dominoes.bg.dotTextureAlpha"),
             composite: vis.get("dominoes.bg.dotTextureComposite"),
-            rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI
+            rot: Math.floor(rand() * 4) * 0.5 * Math.PI
         })
         group.add(resMisc, opDotTexture);
 
@@ -174,7 +174,7 @@ export default class DominoSide
             pivot: Vector2.CENTER,
             alpha: vis.get("dominoes.bg.gradientAlpha"),
             composite: vis.get("dominoes.bg.gradientComposite"),
-            rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI
+            rot: Math.floor(rand() * 4) * 0.5 * Math.PI
         })
         group.add(resMisc, opGradient);
     }

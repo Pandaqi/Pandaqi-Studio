@@ -1,4 +1,4 @@
-import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, getRectangleCornersWithOffset, TextConfig, ResourceText, Vector2, DropShadowEffect, StrokeAlign, ResourceShape, Circle, getPositionsCenteredAround } from "lib/pq-games";
+import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, getRectangleCornersWithOffset, TextConfig, ResourceText, Vector2, DropShadowEffect, StrokeAlign, ResourceShape, Circle, getPositionsCenteredAround, rand } from "lib/pq-games";
 import { TEMPLATES, SPECIAL_CARDS } from "../shared/dict";
 
 const NUMBERS_WRITTEN = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty"];
@@ -171,7 +171,7 @@ export default class Card
         const groupNotes = new ResourceGroup();
         for(let i = 0; i < positions.length; i++)
         {
-            const randYOffset = Math.floor(Math.random() * 3) * lineOffset;
+            const randYOffset = Math.floor(rand() * 3) * lineOffset;
             const opNote = new LayoutOperation({
                 pos: positions[i].add(new Vector2(0, -randYOffset)),
                 size: noteSize,

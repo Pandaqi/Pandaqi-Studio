@@ -1,4 +1,4 @@
-import { shuffle, Vector2, Color, ResourceGroup, ResourceShape, Rectangle, Line, LayoutOperation, ResourceImage, createContext, convertCanvasToImage, DropShadowEffect } from "lib/pq-games";
+import { shuffle, Vector2, Color, ResourceGroup, ResourceShape, Rectangle, Line, LayoutOperation, ResourceImage, createContext, convertCanvasToImage, DropShadowEffect, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import { CONFIG } from "../game/config"
 import { CELLS } from "../game/dict";
@@ -87,7 +87,7 @@ class Domino
             if(!this.values[i]) { continue; }
 
             const JOKER_PROB = 0.15;
-            if(Math.random() > JOKER_PROB) { return; }
+            if(rand() > JOKER_PROB) { return; }
 
             this.valuesDisplayed[i] = "joker";
         }
@@ -101,7 +101,7 @@ class Domino
             new Color(4,88,56)
         ];
         // NOTE: stored as HEX, because layout operations parse colors from strings
-        this.color = DOMINO_COLORS[Math.floor(Math.random() * DOMINO_COLORS.length)].toHEXA();
+        this.color = DOMINO_COLORS[Math.floor(rand() * DOMINO_COLORS.length)].toHEXA();
     }
 
     setHighlight(val)
@@ -124,7 +124,7 @@ class Domino
         const values : string[] = [];
         for(let v = 0; v < 2; v++)
         {
-            const randLetter = letters[Math.floor(Math.random() * letters.length)];
+            const randLetter = letters[Math.floor(rand() * letters.length)];
             values.push(randLetter);
         }
         return values;
@@ -290,9 +290,9 @@ class Cell
     {
         const letters = Object.keys(LETTER_DICTIONARY);
         letters.splice(letters.indexOf("joker"), 1);
-        let randLetter = letters[Math.floor(Math.random() * letters.length)];
+        let randLetter = letters[Math.floor(rand() * letters.length)];
         const EMPTY_RAND_VAL_PROB = 0.25;
-        if(Math.random() <= EMPTY_RAND_VAL_PROB) { randLetter = ''; }
+        if(rand() <= EMPTY_RAND_VAL_PROB) { randLetter = ''; }
         this.value = randLetter;
     }
 
@@ -481,7 +481,7 @@ class Board
 
     getNonEmptyLine()
     {
-        const orient = Math.random() <= 0.5 ? 0 : 1;
+        const orient = rand() <= 0.5 ? 0 : 1;
         const maxValue = orient == 0 ? this.height : this.width;
         const options : number[] = [];
         for(let i = 0; i < maxValue; i++)
@@ -570,10 +570,10 @@ class Board
 
     addRandomDominoes()
     {
-        const num = Math.floor(Math.random() * 3) + 1;
+        const num = Math.floor(rand() * 3) + 1;
         for(let i = 0; i < num; i++)
         {
-            const orient = Math.random() <= 0.5 ? 0 : 1;
+            const orient = rand() <= 0.5 ? 0 : 1;
             const pos = this.findPlaceForDomino(orient);
             const d = new Domino(pos.x, pos.y, undefined, orient);
             this.addDomino(d);
@@ -612,7 +612,7 @@ class Board
             }
         }
 
-        return locations[Math.floor(Math.random() * locations.length)];
+        return locations[Math.floor(rand() * locations.length)];
     }
 
     addDomino(domino)
@@ -778,7 +778,7 @@ export const generateRulebookExample = async (sim:InteractiveExampleSimulator) =
     let badGeneration = true;
     while(badGeneration)
     {
-        const numWordsInSetup = Math.floor(Math.random() * 2) + 2;
+        const numWordsInSetup = Math.floor(rand() * 2) + 2;
         board.addWords(numWordsInSetup, shuffle(wordOptions.slice()));
         board.cutIntoDominoes();
 
@@ -839,7 +839,7 @@ export const generateRulebookExample = async (sim:InteractiveExampleSimulator) =
     o.addNode(containerNode);
 
     // option 1) don't play anything
-    const play = Math.random() <= 0.95;
+    const play = rand() <= 0.95;
     if(!play)
     {
         o.addParagraph("You do not play any cards.");

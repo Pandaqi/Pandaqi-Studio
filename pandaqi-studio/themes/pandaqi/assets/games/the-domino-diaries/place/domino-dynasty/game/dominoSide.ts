@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, ResourceText, drawBlurryRectangle } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, ResourceText, drawBlurryRectangle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ICONS, PATHS, TERRAINS, TerrainType } from "../shared/dict";
 
@@ -39,7 +39,7 @@ export default class DominoSide
     {
         this.pathKey = k;
         this.pathDirected = directed;
-        this.pathRotation = Math.floor(Math.random() * 4);
+        this.pathRotation = Math.floor(rand() * 4);
     }
 
     setIcon(k:string)
@@ -111,7 +111,7 @@ export default class DominoSide
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const partSize = new Vector2(vis.size.x, 0.5*vis.size.y);
-        const randRotation = Math.floor(Math.random() * 4) * 0.5 * Math.PI;
+        const randRotation = Math.floor(rand() * 4) * 0.5 * Math.PI;
 
         // the terrain
         const resTerrain = vis.getResource("terrains");

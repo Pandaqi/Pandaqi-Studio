@@ -1,4 +1,4 @@
-import { getMaterialDataForRulebook, shuffle, fromArray, Bounds } from "lib/pq-games";
+import { getMaterialDataForRulebook, shuffle, fromArray, Bounds, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -194,7 +194,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         const tokenValues = curPlayer.decideValueOfTokens(curMenuCard, beastCard, beastHand);
         let tokenPicked = tokenValues[0]; // in case loop below fails, have a random default value
         gameState.tokenValues = tokenValues;
-        const pickGood = Math.random() <= CONFIG.rulebook.pickGoodFoodProb;
+        const pickGood = rand() <= CONFIG.rulebook.pickGoodFoodProb;
         for(const tokenData of tokenValues)
         {
             if(pickGood == tokenData.good)
@@ -218,7 +218,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
             sim.stats.numGoodFoodPaid++;
             if(tokenPicked.beastMenu) { sim.stats.numBeastMenuPaid++; }
 
-            const pickReward = Math.random() <= CONFIG.rulebook.pickRewardOverUpgradeProb;
+            const pickReward = rand() <= CONFIG.rulebook.pickRewardOverUpgradeProb;
             let str = "";
             if(pickReward) {
                 rewarder.reward(tokenPicked.reward, gameState);

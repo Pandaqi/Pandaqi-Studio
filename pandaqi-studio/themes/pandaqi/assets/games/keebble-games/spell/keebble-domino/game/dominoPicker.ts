@@ -1,5 +1,5 @@
 
-import { rangeInteger, getWeighted } from "lib/pq-games";
+import { rangeInteger, getWeighted, rand } from "lib/pq-games";
 import { CONFIG } from "./config";
 import { CELLS, KEEBBLE_LETTER_VALUES, LETTERS, REAL_LETTER_FREQS } from "./dict";
 import Domino from "./domino";
@@ -67,7 +67,7 @@ export const dominoPicker = () : Domino[] =>
     const finalDominoes = [];
     for(let i = 0; i < numSpecialCells; i++)
     {
-        const randIndex = Math.floor(Math.random() * allDominoes.length);
+        const randIndex = Math.floor(rand() * allDominoes.length);
         const randDomino = allDominoes[randIndex];
         const randomCellType = getRandomCellType();
         const success = randDomino.setEmptySideTo("cell", randomCellType);
@@ -91,7 +91,7 @@ export const dominoPicker = () : Domino[] =>
     // (otherwise uncommon letters might be left out completely)
     for(const letter of Object.keys(LETTERS))
     {
-        const randIndex = Math.floor(Math.random() * allDominoes.length);
+        const randIndex = Math.floor(rand() * allDominoes.length);
         const randDomino = allDominoes[randIndex];
         randDomino.setEmptySideTo("letter", letter);
         registerLettersOf(letter);
@@ -105,7 +105,7 @@ export const dominoPicker = () : Domino[] =>
     
     while(allDominoes.length > 0)
     {
-        const randIndex = Math.floor(Math.random() * allDominoes.length);
+        const randIndex = Math.floor(rand() * allDominoes.length);
         const randDomino = allDominoes[randIndex];
         const drawParams : RandomLetterParams = {
             letterData: letterData,
@@ -185,7 +185,7 @@ const getRandomLetter = (params:RandomLetterParams) =>
         }    
     }
 
-    const makeEmpty = Math.random() <= params.emptyDominoProb
+    const makeEmpty = rand() <= params.emptyDominoProb
     if(makeEmpty) { return ""; }
 
     for(const letter of Object.values(LETTERS))

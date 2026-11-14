@@ -1,4 +1,5 @@
 import { SettingType, Vector2 } from "lib/pq-games";
+import type { GameConfigGame } from "lib/pq-games";
 
 export const CONFIG =
 {
@@ -117,12 +118,9 @@ export const CONFIG =
 
     size: new Vector2(297*3.8, 210*3.8),
     
-    // both are created by the entry, because this game brings its own renderer and PDF code
-    _game:
-    {
-        renderer: null as any,
-        resLoader: null as any,
-    },
+    // typed so the entry can attach the renderer + resource loader it builds: this game brings its own
+    // renderer and PDF code
+    _game: {} as GameConfigGame,
 
     _resources:
     {    

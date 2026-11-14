@@ -1,5 +1,6 @@
 import Card from "../game/card";
 import { countFood, countNumber, countPoisoned, countProp, countType, countWithNumAbove, countWithNumBelow, getFrequencyStatsSorted, getHighestFrequency, getLowestFrequency, getNeighbors, getNumbers, getSequences, getTypes, getWithNumAbove, getWithNumBelow } from "./queries";
+import { rand } from "lib/pq-games";
 
 export default class PowerChecker
 {
@@ -355,7 +356,7 @@ export default class PowerChecker
     {
         // "first or last place" for 4 players is 50% chance
         // with possible ties for first/last, this should be even higher, so 60% it is
-        return Math.random() <= 0.6; 
+        return rand() <= 0.6; 
     }
 
     almond(a,b)

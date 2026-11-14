@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray, getWeighted } from "lib/pq-games";
+import { shuffle, fromArray, getWeighted, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ANIMALS, CAMPAIGN_MISSIONS, CAMPAIGN_RULES, CampDiff, CampType, DominoType, ITEMS, ItemType, OBJECTS, RuleVibe, STALLS, TERRAINS, TerrainType } from "../shared/dict";
 import Domino from "./domino";
@@ -135,7 +135,7 @@ const generateZooperative = (dominoes:Domino[]) =>
             // draw rule if wanted
             // (this already changes how hard out mission needs to be to match target)
             let targetDifficulty = cardScore;
-            const needsRule = Math.random() <= ruleProb;
+            const needsRule = rand() <= ruleProb;
             if(needsRule)
             {
                 const chosenRule = getWeighted(CAMPAIGN_RULES);

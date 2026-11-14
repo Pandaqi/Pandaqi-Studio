@@ -1,4 +1,4 @@
-import { shuffle, convertCanvasToImageMultiple } from "lib/pq-games";
+import { shuffle, convertCanvasToImageMultiple, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator } from "lib/pq-rulebook";
 import Card from "../game/card";
 
@@ -25,7 +25,7 @@ export default class Player
     {
         const subList = shuffle(this.cards.slice());
         maxNum = Math.min(maxNum, subList.length);
-        return subList[Math.floor(Math.random() * maxNum)];
+        return subList[Math.floor(rand() * maxNum)];
     }
     
     removeCardRandom() 

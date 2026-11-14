@@ -1,5 +1,5 @@
 
-import { fromArray, MaterialVisualizer, createContext, fillCanvas, TextConfig, Vector2, LayoutOperation, ResourceText, convertCanvasToImage, fillResourceGroup, ResourceGroup, ResourceImage, GrayScaleEffect, DropShadowEffect, ResourceShape, Path, Line, TintEffect, movePath, calculateCenter, calculateBoundingBox, TextAlign, Rectangle } from "lib/pq-games";
+import { fromArray, MaterialVisualizer, createContext, fillCanvas, TextConfig, Vector2, LayoutOperation, ResourceText, convertCanvasToImage, fillResourceGroup, ResourceGroup, ResourceImage, GrayScaleEffect, DropShadowEffect, ResourceShape, Path, Line, TintEffect, movePath, calculateCenter, calculateBoundingBox, TextAlign, Rectangle, rand } from "lib/pq-games";
 import { COLORS, CardData, SETS, TYPES, Type } from "../shared/dict";
 import WonkyRectangle from "./wonkyRectangle";
 
@@ -60,7 +60,7 @@ export default class Card
         let needle = "%any%"
         while(desc.includes(needle))
         {
-            const displayType = Math.random() <= 0.5;
+            const displayType = rand() <= 0.5;
             let val;
             if(displayType) { val = this.getRandomType(types, possibleTypes); types.push(val); }
             else { val = this.getRandomNumber(numbers, possibleNumbers); numbers.push(val); }

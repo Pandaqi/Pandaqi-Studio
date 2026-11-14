@@ -3,7 +3,7 @@
 
 <!--- Shared framework code (pq-games, pq-rulebook) is built ONCE for the whole site and emitted before the
       page bundle. Page bundles therefore only reference it instead of carrying their own ~800 KB copy. --->
-{{ $shims := dict "lib/pq-games" "js/shims/pq-games.js" "lib/pq-rulebook" "js/shims/pq-rulebook.js" }}
+{{ $shims := partial "func/js-shims.html" . }}
 
 <!--- Find JS on standard path, build + include if found --->
 {{ $url_js_direct := printf "%s.ts" (trim $url_prefixed "/") }}
@@ -25,21 +25,8 @@
     {{ $script := $res_js | js.Build $opts }}
     {{ $script.Publish }}
 
-    <!--- Which vendor bundles this page needs is read from the BUILT bundle, not the entry source: the only
-          thing in the output that mentions these globals is the shim, so this also catches a page that
-          reaches a library through a shared module (`shared/config.ts`) rather than importing it itself.
-          Building the shim away is what would break such a page, so the check has to look after the build. --->
-    {{ if strings.Contains $script.Content "PQ_GAMES" }}
-        {{ $vendor_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-games.js" }}
-        {{ $vendor := resources.Get "/lib/vendor/pq-games-global.ts" | js.Build $vendor_opts }}
-        <script defer src="{{ $vendor.RelPermalink }}"></script>
-    {{ end }}
-
-    {{ if strings.Contains $script.Content "PQ_RULEBOOK" }}
-        {{ $vendor_rulebook_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-rulebook.js" }}
-        {{ $vendor_rulebook := resources.Get "/lib/vendor/pq-rulebook-global.ts" | js.Build $vendor_rulebook_opts }}
-        <script defer src="{{ $vendor_rulebook.RelPermalink }}"></script>
-    {{ end }}
+    <!--- Building the shim away is what would break a page, so the check has to look after the build. --->
+    {{ partial "func/vendor-bundles.html" $script.Content }}
 
     <script defer src="{{ $script.RelPermalink }}"></script>
 {{ end }}
@@ -68,9 +55,7 @@
         {{ warnf "%s has rules-example shortcodes but falls back to the default rulebook (no entry file)" .RelPermalink }}
     {{ end }}
 
-    {{ $vendor_rulebook_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-rulebook.js" }}
-    {{ $vendor_rulebook := resources.Get "/lib/vendor/pq-rulebook-global.ts" | js.Build $vendor_rulebook_opts }}
-    <script defer src="{{ $vendor_rulebook.RelPermalink }}"></script>
+    {{ partial "func/vendor-bundles.html" "PQ_RULEBOOK" }}
 
     {{ $output_url := "/rulebook-default.js" }}
     {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url "shims" $shims }}

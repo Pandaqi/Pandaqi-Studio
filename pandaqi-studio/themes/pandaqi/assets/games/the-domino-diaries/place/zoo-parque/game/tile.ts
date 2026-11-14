@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, Vector2, TextConfig, TextStyle, ResourceText, getPositionsCenteredAround, DropShadowEffect, TextAlign, StrokeAlign } from "lib/pq-games";
+import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, Vector2, TextConfig, TextStyle, ResourceText, getPositionsCenteredAround, DropShadowEffect, TextAlign, StrokeAlign, rand } from "lib/pq-games";
 import { ANIMALS, AnimalDetailData, AnimalDiet, AnimalSocial, AnimalType, MISC, TERRAINS, TerrainType } from "../shared/dict";
 
 export default class Tile
@@ -61,7 +61,7 @@ export default class Tile
                 size: vis.get("tiles.extinct.size"),
                 frame: MISC.extinct_stamp.frame,
                 pivot: Vector2.CENTER,
-                rot: -0.25*Math.PI + (Math.random() - 0.5) * 0.1 * Math.PI
+                rot: -0.25*Math.PI + (rand() - 0.5) * 0.1 * Math.PI
             })
             group.add(res, op);
         }

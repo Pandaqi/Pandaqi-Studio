@@ -5,7 +5,7 @@ import Card from "./card";
 import Tile from "./tile";
 import { CardType, TerrainType, TileType } from "games/naivigation/shared/dictShared";
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
-import { shuffle, fromArray, getSetting } from "lib/pq-games";
+import { shuffle, fromArray, getSetting, rand } from "lib/pq-games";
 
 // special card types that need some modification
 const cardCustomCallback = (key, data) =>
@@ -104,8 +104,8 @@ export const tilePicker = () : MaterialNaivigation[] =>
     const numWater = Math.round(CONFIG.generation.percentageWaterCurrent * waterTiles.length);
     for(let i = 0; i < numWater; i++)
     {
-        const randDir = Math.floor(Math.random() * 4);
-        const randStrength = 1; // 1 + Math.floor(Math.random() * 2)
+        const randDir = Math.floor(rand() * 4);
+        const randStrength = 1; // 1 + Math.floor(rand() * 2)
         waterTiles[i].customData.waterCurrent = { dir: randDir, strength: randStrength }
     }
 

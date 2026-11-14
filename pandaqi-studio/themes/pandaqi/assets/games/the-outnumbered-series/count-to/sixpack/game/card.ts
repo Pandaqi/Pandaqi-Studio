@@ -1,7 +1,7 @@
 
 import { PACKS, PackData } from "../shared/dict"
 import { CONFIG } from "../shared/config";
-import { Vector2, MaterialVisualizer, createContext, LayoutOperation, TextConfig, TextAlign, ResourceText, ColorLike } from "lib/pq-games";
+import { Vector2, MaterialVisualizer, createContext, LayoutOperation, TextConfig, TextAlign, ResourceText, ColorLike, rand } from "lib/pq-games";
 
 export default class Card 
 {
@@ -120,7 +120,7 @@ export default class Card
 
             const numberList = CONFIG.numberList.slice();
             numberList.splice(CONFIG.numberList.indexOf(this.num), 1);
-            const otherNum = numberList[Math.floor(Math.random() * numberList.length)];
+            const otherNum = numberList[Math.floor(rand() * numberList.length)];
             texts = [
                 text,
                 otherNum.toString()

@@ -1,4 +1,5 @@
-import { OPTIONS } from "./dict"
+
+import { rand } from "lib/pq-games";import { OPTIONS } from "./dict"
 import { CONFIG } from "./config"
 
 export default class Option 
@@ -50,7 +51,7 @@ export default class Option
         {
             const min = data.num.min;
             const max = data.num.max;
-            this.num = min + Math.floor(Math.random() * (max - min + 1));
+            this.num = min + Math.floor(rand() * (max - min + 1));
         }
 
         if(tp == "letter")
@@ -69,7 +70,7 @@ export default class Option
         {
             this.letter = this.game.options.getRandomLetter(true);
             const possibleValues = [-6, -5, -4, -3, 3, 4, 5, 6];
-            const num = possibleValues[Math.floor(Math.random() * possibleValues.length)];
+            const num = possibleValues[Math.floor(rand() * possibleValues.length)];
             if(num > 0) { this.twoPartValue = "+" + this.twoPartValue; }
             else { this.twoPartValue = num.toString(); }
         }
@@ -77,7 +78,7 @@ export default class Option
         if(tp == "po_word")
         {
             const possibleValues = [-8, -6, -4, -2, 2, 4, 6, 8];
-            const num = possibleValues[Math.floor(Math.random() * possibleValues.length)];
+            const num = possibleValues[Math.floor(rand() * possibleValues.length)];
             if(num > 0) { this.twoPartValue = "+" + this.twoPartValue; }
             else { this.twoPartValue = num.toString(); }
         }
@@ -93,12 +94,12 @@ export default class Option
 
         if(tp == "points")
         {
-            this.value = 4 + Math.floor(Math.random() * 5);
+            this.value = 4 + Math.floor(rand() * 5);
         }
 
         if(tp == "wall")
         {
-            this.value = 1 + Math.floor(Math.random() * 3);
+            this.value = 1 + Math.floor(rand() * 3);
         }
     }
 

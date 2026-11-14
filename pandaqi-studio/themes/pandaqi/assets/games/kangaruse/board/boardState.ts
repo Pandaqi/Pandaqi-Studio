@@ -1,4 +1,4 @@
-import { shuffle, distributeDiscrete, range, rangeInteger, floodFill } from "lib/pq-games";
+import { shuffle, distributeDiscrete, range, rangeInteger, floodFill, rand } from "lib/pq-games";
 import BoardHole from "./boardHole";
 import BoardRiver from "./boardRiver";
 import Cell from "./cell";
@@ -206,7 +206,7 @@ export default class BoardState
         let numbersAxis = CONFIG.board.numbers.axis;
         if(CONFIG.board.randomizeAxes)
         {
-            numbersAxis = Math.random() <= 0.5 ? "column" : "row"
+            numbersAxis = rand() <= 0.5 ? "column" : "row"
         }
 
         const columnHasNumbers = numbersAxis == "column"

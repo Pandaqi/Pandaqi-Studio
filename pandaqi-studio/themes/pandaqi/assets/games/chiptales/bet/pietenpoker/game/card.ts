@@ -1,4 +1,4 @@
-import { MaterialVisualizer, ResourceGroup, fillResourceGroup, LayoutOperation, TintEffect, TextConfig, TextAlign, ResourceText, Vector2, StrokeAlign, ResourceShape, Circle } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, fillResourceGroup, LayoutOperation, TintEffect, TextConfig, TextAlign, ResourceText, Vector2, StrokeAlign, ResourceShape, Circle, rand } from "lib/pq-games";
 import { CardType, ColorType, MISC, ACTIEPIETEN, CARD_TEMPLATES, POSITION_INDICES, ICON_POSITIONS } from "../shared/dict";
 
 export default class Card
@@ -193,7 +193,7 @@ export default class Card
         for(const [key,anchor] of Object.entries(anchors))
         {
             // modify to get final point
-            const variation = 0.5*(Math.random()*2 - 1) * vis.get("cards.icons.special.randomVariation").y;
+            const variation = 0.5*(rand()*2 - 1) * vis.get("cards.icons.special.randomVariation").y;
             const pos = anchor.clone().add(new Vector2(0, variation));
 
             // place circle behind

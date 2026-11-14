@@ -1,4 +1,5 @@
-import { FIRST_HINT_TYPES, EFFECTS, EFFECT_DICT } from "../shared/dict"
+
+import { rand } from "lib/pq-games";import { FIRST_HINT_TYPES, EFFECTS, EFFECT_DICT } from "../shared/dict"
 
 // Holds the puzzle and solution + can print/explain it
 export default class Puzzle 
@@ -142,7 +143,7 @@ export default class Puzzle
 		this.config.shuffle(ingredientOptions);
 		while(finalEffectList.length > 0 && ingredientOptions.length > 0)
 		{
-			let ing = ingredientOptions[Math.floor(Math.random() * ingredientOptions.length)];
+			let ing = ingredientOptions[Math.floor(rand() * ingredientOptions.length)];
 			if(this.config.oneEffectPerIngredient) { ing = ingredientOptions.pop(); }
 
 			const eff = finalEffectList.pop(); // @NOTE: This is an "Effect" object instance
@@ -182,24 +183,24 @@ export default class Puzzle
 		this.valid = false;
 		while(numTries <= maxTries)
 		{
-			const deviation = Math.floor(Math.random() * maxDeviation) + 1;
+			const deviation = Math.floor(rand() * maxDeviation) + 1;
 			const sol = perfectSolution.slice();
 
-			const numToAdd = Math.floor(Math.random() * deviation);
+			const numToAdd = Math.floor(rand() * deviation);
 			const numToChange = deviation - numToAdd;
 
 			// adds new elements to the solution; any element, any index
 			for(let i = 0; i < numToAdd; i++)
 			{
-				let randIdx = Math.floor(Math.random() * sol.length);
-				let randNum = Math.floor(Math.random() * this.config.numIngredients);
+				let randIdx = Math.floor(rand() * sol.length);
+				let randNum = Math.floor(rand() * this.config.numIngredients);
 				sol.splice(randIdx, 0, randNum)
 			}
 
 			// changes an existing element
 			for(let i = 0; i < numToChange; i++)
 			{
-				sol[i] = Math.floor(Math.random() * this.config.numIngredients);
+				sol[i] = Math.floor(rand() * this.config.numIngredients);
 			}
 
 			if(evaluator.usePotion(sol, true)) {
@@ -270,7 +271,7 @@ export default class Puzzle
 	{
 		if(!this.config.freeClue) { return "<p>Have fun! Potion results will be here.</p>"; }
 
-		const type = FIRST_HINT_TYPES[Math.floor(Math.random()*FIRST_HINT_TYPES.length)];
+		const type = FIRST_HINT_TYPES[Math.floor(rand()*FIRST_HINT_TYPES.length)];
 	
 		var arr = ['<p>Here\'s a <strong>free clue</strong> to start the game!</p><p>'];
 		
@@ -294,7 +295,7 @@ export default class Puzzle
 
 		else if(type == "Negative")
 		{
-			var idx = Math.floor(Math.random() * this.puzzle.length);
+			var idx = Math.floor(rand() * this.puzzle.length);
 			var ing = this.puzzle[idx];
 			arr.push(ing.getName() + ' is NOT ');
 
@@ -312,7 +313,7 @@ export default class Puzzle
 	
 		else if(type == "Effects")
 		{
-			var ing = this.puzzle[Math.floor(Math.random() * this.puzzle.length)];
+			var ing = this.puzzle[Math.floor(rand() * this.puzzle.length)];
 			arr.push(ing.getName());
 
 			const effectsNotEnabled = (this.config.effectsLevel == 0);

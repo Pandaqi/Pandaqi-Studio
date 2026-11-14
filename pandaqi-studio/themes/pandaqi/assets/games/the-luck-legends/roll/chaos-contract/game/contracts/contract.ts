@@ -2,6 +2,7 @@ import { ContractType } from "../../shared/dict";
 import ContractDo from "./contractDo";
 import ContractSpecial from "./contractSpecial";
 import ContractTest from "./contractTest";
+import { rand } from "lib/pq-games";
 
 interface StringReplace
 {
@@ -28,7 +29,7 @@ export default class Contract
         this.minTurnout = 1;
         if(this.type == ContractType.FORCED)
         {
-            this.minTurnout = Math.random() <= 0.5 ? 2 : 3;
+            this.minTurnout = rand() <= 0.5 ? 2 : 3;
         }
 
         const isBattle = this.type == ContractType.BATTLE;

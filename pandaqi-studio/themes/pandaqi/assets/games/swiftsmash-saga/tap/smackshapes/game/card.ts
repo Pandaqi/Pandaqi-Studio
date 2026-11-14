@@ -1,5 +1,5 @@
 
-import { shuffle, MaterialVisualizer, ResourceGroup, fillResourceGroup, LayoutOperation, TintEffect, Vector2, TextConfig, ResourceText, Rectangle, ResourceShape, getPositionsCenteredAround } from "lib/pq-games";
+import { shuffle, MaterialVisualizer, ResourceGroup, fillResourceGroup, LayoutOperation, TintEffect, Vector2, TextConfig, ResourceText, Rectangle, ResourceShape, getPositionsCenteredAround, rand } from "lib/pq-games";
 import { COLORS, CardType, Color, getDynamicStrings, MISC, POSITIONS, SPECIAL_ACTIONS, Shape } from "../shared/dict";
 
 export default class Card
@@ -88,7 +88,7 @@ export default class Card
             const posCard = vis.get("cards.shapes.topLeft").clone().add(posRaw.clone().scale(vis.get("cards.shapes.boxSize")));
             const op = new LayoutOperation({
                 pos: posCard,
-                rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
+                rot: Math.floor(rand() * 4) * 0.5 * Math.PI,
                 frame: MISC[this.shape].frame,
                 size: iconSize,
                 pivot: Vector2.CENTER,
@@ -106,7 +106,7 @@ export default class Card
         const resIcon = vis.getResource("misc");
         const opIcon = new LayoutOperation({
             pos: vis.get("cards.action.icon.pos"),
-            rot: ((Math.random() <= 0.5) ? 1 : -1) * 0.05 * Math.PI,
+            rot: ((rand() <= 0.5) ? 1 : -1) * 0.05 * Math.PI,
             size: vis.get("cards.action.icon.size"),
             frame: MISC.action.frame,
             pivot: Vector2.CENTER,

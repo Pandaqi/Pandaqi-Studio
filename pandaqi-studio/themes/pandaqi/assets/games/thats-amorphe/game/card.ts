@@ -1,4 +1,4 @@
-import { colorLighten, ColorLike, createContext, LayoutOperation, MaterialVisualizer, ResourceImage, ResourceText, TextAlign, TextConfig, TintEffect, Vector2 } from "lib/pq-games";
+import { colorLighten, ColorLike, createContext, LayoutOperation, MaterialVisualizer, ResourceImage, ResourceText, TextAlign, TextConfig, TintEffect, Vector2, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ICONS, ICONS_PICTURES, ICONS_SPECIAL, MaterialType } from "../shared/dict";
 import { getRandomTypeData } from "./cardPicker";
@@ -57,7 +57,7 @@ export class Card
         ctx.drawImage(bgResource.img, 0, 0, cardSize.x, cardSize.y);
 
         // add action icon in the middle
-        const placeIcon = Math.random() <= iconProbability && addActions;
+        const placeIcon = rand() <= iconProbability && addActions;
         if(placeIcon)
         {
             let iconKey = actionIconsKey;
@@ -85,8 +85,8 @@ export class Card
         // @NOTE: The extremes (1 and 9) are half as likely as any other number
         // This is _on purpose_, as these numbers are most boring for this game
         const morphNumbers = [2,3,4,6,7,8];
-        if(Math.random() <= 0.725) { morphNumbers.push(5); }
-        if(Math.random() <= 0.5) { morphNumbers.push(1); morphNumbers.push(9); }
+        if(rand() <= 0.725) { morphNumbers.push(5); }
+        if(rand() <= 0.5) { morphNumbers.push(1); morphNumbers.push(9); }
 
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
@@ -129,7 +129,7 @@ export class Card
             
             if(addNumbersToWords)
             {
-                const randIndex = Math.floor(Math.random() * morphNumbers.length);
+                const randIndex = Math.floor(rand() * morphNumbers.length);
                 const number = morphNumbers.splice(randIndex, 1);
                 const numberText = number + "";
 
@@ -381,8 +381,8 @@ export class Card
         const bubblySize = new Vector2(256 + 128, 256 + 128);
 
         const ctx = createContext({ size: cardSize });
-        const randNum = Math.floor(Math.random()*8) + 1;
-        let secondRandNum = Math.floor(Math.random()*8) + 1;
+        const randNum = Math.floor(rand()*8) + 1;
+        let secondRandNum = Math.floor(rand()*8) + 1;
         if(Math.abs(secondRandNum - randNum) < 2) { 
             secondRandNum = ((secondRandNum + 3) % 8) + 1;
         }

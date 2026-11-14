@@ -1,5 +1,5 @@
 
-import { shuffle, MaterialVisualizer, createContext, fillCanvas, ResourceGroup, fillResourceGroup, LayoutOperation, InvertEffect, Vector2, DropShadowEffect, TextConfig, ResourceText } from "lib/pq-games";
+import { shuffle, MaterialVisualizer, createContext, fillCanvas, ResourceGroup, fillResourceGroup, LayoutOperation, InvertEffect, Vector2, DropShadowEffect, TextConfig, ResourceText, rand } from "lib/pq-games";
 import { ANIMALS, AnimalType, CardType, MISC, TEMPLATES, ZOO_CARDS } from "../shared/dict";
 
 export default class Card
@@ -247,8 +247,8 @@ export default class Card
         const opTex = new LayoutOperation({
             pos: vis.center,
             size: vis.size,
-            flipX: Math.random() <= 0.5,
-            flipY: Math.random() <= 0.5,
+            flipX: rand() <= 0.5,
+            flipY: rand() <= 0.5,
             pivot: Vector2.CENTER,
             composite: "overlay",
             alpha: vis.get("cards.backgroundTextureAlpha"),

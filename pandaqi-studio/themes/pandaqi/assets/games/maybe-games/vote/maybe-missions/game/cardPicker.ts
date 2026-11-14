@@ -1,5 +1,5 @@
 
-import { Bounds, shuffle, getAllPossibleCombinations, fromArray, getWeighted, BalancedFrequencyPickerWithMargin } from "lib/pq-games";
+import { Bounds, shuffle, getAllPossibleCombinations, fromArray, getWeighted, BalancedFrequencyPickerWithMargin, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardGadgetData, CardResourceData, CardType, DYNAMIC_OPTIONS, GADGET_NAMES, IdentityCardData, IdentityCardType, MASTER_CARDS, MissionType, PUBLIC_IDENTITIES, RANDOM_TEXTS, RESOURCES, SECRET_IDENTITIES, SHOP_REWARDS, ShopType, ShopVibe } from "../shared/dict";
 import Card from "./card";
@@ -58,7 +58,7 @@ const drawRandomResources = (combos, combosBackup) =>
     for(const icon of iconsGood)
     {
         const iconAppearsMultipleTimes = iconsGood.filter((val) => { return val == icon }).length > 1;
-        const crossOut = iconsGood.length > 1 && Math.random() <= CONFIG.generation.goodIconFlipProb && !iconGoodAlreadyCrossedOut && !iconAppearsMultipleTimes;
+        const crossOut = iconsGood.length > 1 && rand() <= CONFIG.generation.goodIconFlipProb && !iconGoodAlreadyCrossedOut && !iconAppearsMultipleTimes;
 
         d.good.push({ type: icon, cross: crossOut });
         if(crossOut) { iconGoodAlreadyCrossedOut = true; }
@@ -68,7 +68,7 @@ const drawRandomResources = (combos, combosBackup) =>
     for(const icon of iconsBad)
     {
         const iconAppearsMultipleTimes = iconsGood.filter((val) => { return val == icon }).length > 1;
-        const crossOut = iconsBad.length <= 1 || Math.random() > CONFIG.generation.badIconFlipProb || iconBadNotCrossedOutYet || iconAppearsMultipleTimes;
+        const crossOut = iconsBad.length <= 1 || rand() > CONFIG.generation.badIconFlipProb || iconBadNotCrossedOutYet || iconAppearsMultipleTimes;
 
         d.bad.push({ type: icon, cross: crossOut });
         if(crossOut) { iconBadNotCrossedOutYet = false; }

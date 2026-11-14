@@ -1,5 +1,5 @@
 
-import { shuffle, MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, TextStyle, ResourceText, drawBlurryRectangle } from "lib/pq-games";
+import { shuffle, MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, TextStyle, ResourceText, drawBlurryRectangle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ANIMALS, ITEMS, ItemType, MISC, TERRAINS, TerrainType } from "../shared/dict";
 
@@ -152,7 +152,7 @@ export default class DominoSide
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const partSize = new Vector2(vis.size.x, 0.5*vis.size.y);
-        const randRotation = Math.floor(Math.random() * 4) * 0.5 * Math.PI;
+        const randRotation = Math.floor(rand() * 4) * 0.5 * Math.PI;
         const op = new LayoutOperation({
             size: partSize,
             pivot: Vector2.CENTER,

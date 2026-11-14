@@ -1,5 +1,5 @@
 
-import { getMaterialDataForRulebook, shuffle } from "lib/pq-games";
+import { getMaterialDataForRulebook, shuffle, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -71,15 +71,15 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         sim.print("It's <b>Player " + (curPlayerNum + 1) + "'s</b> turn. They have the following cards in their hand.");
         await sim.listImages(curPlayer, "draw");
 
-        const opponentPlayerNum = (curPlayerNum + 1 + Math.floor(Math.random() * (players.length-1))) % players.length;
+        const opponentPlayerNum = (curPlayerNum + 1 + Math.floor(rand() * (players.length-1))) % players.length;
         const opponentPlayer = players[opponentPlayerNum];
         sim.print("They first pick an opponent: <b>Player " + (opponentPlayerNum + 1) + ".</b>");
 
         const maxNumPossible = Math.min(curPlayer.count(), opponentPlayer.count());
-        const maxNumAllowed = Math.max( 2 + Math.floor(Math.random() * (maxNumPossible-2)), 1);
+        const maxNumAllowed = Math.max( 2 + Math.floor(rand() * (maxNumPossible-2)), 1);
         sim.print("Now the <i>opponent</i> picks a number: <b>" + maxNumAllowed + "</b>. Both battlers select only that many hand cards to use for their die roll.");
 
-        const challenge = Math.random() <= 0.5 ? "highest" : "lowest";
+        const challenge = rand() <= 0.5 ? "highest" : "lowest";
         sim.print("Finally, the active player (<b>Player " + (curPlayerNum + 1) + "</b>) chooses the challenge: <b>" + challenge + "</b>.");
 
         sim.print("Now both battlers \"roll their die\" (which should have " + maxNumAllowed + " cards). The results are as follows:");

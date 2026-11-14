@@ -1,7 +1,7 @@
 import Player from "./player";
 import Sequence from "./sequence";
 import CardThroneless from "../cardThroneless";
-import { fromArray, Vector2, TextConfig, LayoutOperation, DropShadowEffect, convertCanvasToImage } from "lib/pq-games";
+import { fromArray, Vector2, TextConfig, LayoutOperation, DropShadowEffect, convertCanvasToImage, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator } from "lib/pq-rulebook";
 
 export default class GameState
@@ -323,7 +323,7 @@ export default class GameState
     }
 
     countPlayers() { return this.players.length; }
-    setRandomKingseat() { this.kingseat = Math.floor(Math.random() * this.countPlayers()); }
+    setRandomKingseat() { this.kingseat = Math.floor(rand() * this.countPlayers()); }
     getKingseat() { return this.kingseat; }
     isPlayerKingseat(p:Player) { return this.getIndexOf(p) == this.kingseat; }
     getKingseatPlayer() { return this.players[this.kingseat]; }

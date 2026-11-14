@@ -1,4 +1,5 @@
 import Ingredient from "./ingredient";
+import { rand } from "lib/pq-games";
 
 // holds the ingredients + seeds currently input by player
 export default class Cauldron 
@@ -81,7 +82,7 @@ export default class Cauldron
 
 	getRandomNumber()
 	{
-		const randIngredient = this.content[Math.floor(Math.random() * this.content.length)];
+		const randIngredient = this.content[Math.floor(rand() * this.content.length)];
 		return randIngredient.num;
 	}
 

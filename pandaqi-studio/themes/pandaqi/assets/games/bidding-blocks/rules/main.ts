@@ -1,4 +1,4 @@
-import { getMaterialDataForRulebook, shuffle, fromArray } from "lib/pq-games";
+import { getMaterialDataForRulebook, shuffle, fromArray, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -95,7 +95,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         let counterChallengeTurns = 0;
         let winningPlayerChallenge : Player = null;
 
-        let challengeType = Math.random() <= CONFIG.rulebook.simulTurnProb ? ChallengeType.SIMUL : ChallengeType.TURN;
+        let challengeType = rand() <= CONFIG.rulebook.simulTurnProb ? ChallengeType.SIMUL : ChallengeType.TURN;
         if(curDealer.hand.count() <= 0) { challengeType = ChallengeType.TURN; } // just for simplification and I can't find a bug otherwise
 
         sim.print("<hr>");
@@ -159,7 +159,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 
             const possibleMoves : Card[] = curPlayer.getValidMoves(cardsPlayed);
             const canPlay = possibleMoves.length > 0 && cardsPlayed.count() < CONFIG.rulebook.maxTurnsPerChallenge;
-            const wannaPlay = cardsPlayed.count() < CONFIG.rulebook.minTurnsPerChallenge || Math.random() <= CONFIG.rulebook.dontGiveUpProb; 
+            const wannaPlay = cardsPlayed.count() < CONFIG.rulebook.minTurnsPerChallenge || rand() <= CONFIG.rulebook.dontGiveUpProb; 
 
             // deal with the fallout
             const hasPlayed = canPlay && wannaPlay;

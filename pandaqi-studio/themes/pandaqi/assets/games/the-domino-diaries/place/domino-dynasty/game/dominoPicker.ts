@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray } from "lib/pq-games";
+import { shuffle, fromArray, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { DominoType, EVENTS, GeneralData, ICONS, MISSION_PENALTIES, MISSION_REWARDS, MISSION_SCALARS, MISSION_TEXTS, ROLES, TERRAINS } from "../shared/dict";
 import Domino from "./domino";
@@ -279,7 +279,7 @@ const generateRegularDominoes = (dominoes: Domino[], set:string) =>
         const twoCapitalsSameDomino = sideA.isCapital() && sideB.isCapital();
         if(twoCapitalsSameDomino)
         {
-            const randIndex = Math.floor(Math.random() * options.length);
+            const randIndex = Math.floor(rand() * options.length);
             options.splice(randIndex, 0, sideB);
             sideB = sideB.clone();
             sideB.setIcon("empty");
@@ -294,7 +294,7 @@ const generateRegularDominoes = (dominoes: Domino[], set:string) =>
         }
     
         // but also keep some where the paths do not link up on the domino itself
-        const mustNotMatch = Math.random() <= CONFIG.generation.pathNonMatchProb && !(sideA.isCompletelyOpen() || sideB.isCompletelyOpen());
+        const mustNotMatch = rand() <= CONFIG.generation.pathNonMatchProb && !(sideA.isCompletelyOpen() || sideB.isCompletelyOpen());
         if(mustNotMatch)
         {
             sideA.rotateUntilNoPathAt(1);

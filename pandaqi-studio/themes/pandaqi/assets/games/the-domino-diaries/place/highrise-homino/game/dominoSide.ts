@@ -1,5 +1,5 @@
 
-import { shuffle, MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText, getPositionsCenteredAround, drawBlurryRectangle } from "lib/pq-games";
+import { shuffle, MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText, getPositionsCenteredAround, drawBlurryRectangle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { FloorType, GeneralData, ItemType, MISC, OBJECTS, TENANTS } from "../shared/dict";
 import TenantWish from "./tenantWish";
@@ -208,8 +208,8 @@ export default class DominoSide
                 frame: MISC.tenant_bg.frame,
                 size: new Vector2(vis.sizeUnit),
                 pivot: Vector2.CENTER,
-                rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
-                alpha: Math.random()*0.35 + 0.35
+                rot: Math.floor(rand() * 4) * 0.5 * Math.PI,
+                alpha: rand()*0.35 + 0.35
             });
             group.add(resBG, opBG);
         }

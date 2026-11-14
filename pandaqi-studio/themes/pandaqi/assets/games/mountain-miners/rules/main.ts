@@ -1,5 +1,5 @@
 
-import { Vector2, rangeInteger, createContext, convertCanvasToImage, getMaterialDataForRulebook, shuffle } from "lib/pq-games";
+import { Vector2, rangeInteger, createContext, convertCanvasToImage, getMaterialDataForRulebook, shuffle, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Tile from "../game/tile";
 import { CONFIG } from "../shared/config";
@@ -30,7 +30,7 @@ class Board
             for(let y = 0; y < this.size.y; y++)
             {
                 const distFromCenter = Math.abs(y - center.y) + Math.abs(x - center.x);
-                const shouldFill = Math.random() <= 1.0 - distFromCenter/maxDistFromCenter;
+                const shouldFill = rand() <= 1.0 - distFromCenter/maxDistFromCenter;
 
                 let tile = null;
                 if(shouldFill) { tile = options.pop(); tile.customData.pos = new Vector2(x,y); }

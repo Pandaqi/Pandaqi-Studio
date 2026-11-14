@@ -1,3 +1,4 @@
 ---
 type: "game"
+customWidget: true
 ---

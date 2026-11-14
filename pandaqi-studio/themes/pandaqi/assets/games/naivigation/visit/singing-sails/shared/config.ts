@@ -2,6 +2,7 @@ import { CONFIG_NAIVIGATION_SHARED } from "games/naivigation/shared/configShared
 import { TerrainType } from "games/naivigation/shared/dictShared";
 import { cardPicker, tilePicker } from "../game/generators";
 import { SettingType, Vector2, CVal, Bounds, mergeObjects } from "lib/pq-games";
+import type { GameConfigGame } from "lib/pq-games";
 
 export const CONFIG = 
 {
@@ -99,11 +100,11 @@ export const CONFIG =
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
+    // typed so the entry can attach the resource loader it builds (a rulebook page has no loadGame to do it)
     _game:
     {
         fileName: "Naivigation: Singing Sails",
-        resLoader: null as any, // filled by the entry: a rulebook page builds its own
-    },
+    } as GameConfigGame,
 
     // assets
     _resources:

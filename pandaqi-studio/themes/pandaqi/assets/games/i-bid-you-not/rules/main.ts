@@ -1,4 +1,4 @@
-import { convertCanvasToImageMultiple, getMaterialDataForRulebook, shuffle, Bounds, fromArray } from "lib/pq-games";
+import { convertCanvasToImageMultiple, getMaterialDataForRulebook, shuffle, Bounds, fromArray, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Tile from "../game/tile";
 import { CONFIG } from "../shared/config";
@@ -29,7 +29,7 @@ class Hand
 
     getFirstTile() { return this.tiles[0]; }
     getLastTile() { return this.tiles[this.tiles.length - 1]; }
-    getRandomTile() { return this.tiles[Math.floor(Math.random() * this.tiles.length)]; }
+    getRandomTile() { return this.tiles[Math.floor(rand() * this.tiles.length)]; }
     addTile(t:Tile)
     {
         this.tiles.push(t);
@@ -121,7 +121,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         const curHand = players[curPlayerIndex];
         const validMoves = curHand.getTilesAbove(offer.getLastTile());
 
-        const declareAuction = (validMoves.length <= 0) || (offer.count() >= MIN_OFFER_LENGTH_FOR_AUCTION && Math.random() <= AUCTION_PROBABILITY) || (offer.count() >= MAX_OFFER_SIZE);
+        const declareAuction = (validMoves.length <= 0) || (offer.count() >= MIN_OFFER_LENGTH_FOR_AUCTION && rand() <= AUCTION_PROBABILITY) || (offer.count() >= MAX_OFFER_SIZE);
         if(declareAuction) {
             o.addParagraph("Player " + (curPlayerIndex + 1) + " declares an <strong>auction</strong>!");
         } else {
@@ -174,7 +174,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         const hasHandCards = (playerData.count() > 0);
         const isFinalPlayer = (i >= (numPlayers - 1));
         
-        const willSkip = Math.random() <= SKIP_PROBABILITY && hasHandCards && !isFinalPlayer;
+        const willSkip = rand() <= SKIP_PROBABILITY && hasHandCards && !isFinalPlayer;
         if(willSkip) {
             o.addParagraph("Player " + playerNumStr + " decides to <strong>skip</strong>. They add a tile to the offer and discard a scored tile.");
 

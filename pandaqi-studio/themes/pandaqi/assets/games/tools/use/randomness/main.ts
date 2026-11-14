@@ -1,4 +1,5 @@
 
+import { rand } from "lib/pq-games";
 const playPopupAnimation = (node:HTMLElement) =>
 {
     node.classList.remove("popUp");
@@ -91,7 +92,7 @@ class Coin
             this.coinFeedbackCont.appendChild(elem);
             elem.classList.add("coin-canvas-container");
 
-            const result = Math.random() <= fairness ? "heads" : "tails";
+            const result = rand() <= fairness ? "heads" : "tails";
             elem.appendChild(this.createCoinVisual(result));
         }
         playPopupAnimation(this.coinFeedbackCont);
@@ -187,7 +188,7 @@ class Dice
         {
             const elem = document.createElement("div");
             elem.classList.add("dice-canvas-container");
-            const side = 1 + Math.floor(Math.random()*sides);
+            const side = 1 + Math.floor(rand()*sides);
             elem.appendChild(this.createDiceVisual(side, useNumbers));
             this.diceFeedbackCont.appendChild(elem);
         }
@@ -239,7 +240,7 @@ class Numbers
         let range = (max - min + epsilon);
         if(makeInteger) { range += (1.0 - epsilon); }
 
-        let result = min + Math.random() * range;
+        let result = min + rand() * range;
         if(makeInteger) { result = Math.floor(result); }
         else { result = Math.round(result*100)/100.0; }
 
@@ -345,7 +346,7 @@ class List
             return;
         }
 
-        const randomElement = list[Math.floor(Math.random()*list.length)];
+        const randomElement = list[Math.floor(rand()*list.length)];
         this.listFeedbackCont.innerHTML = randomElement;
         playPopupAnimation(this.listFeedbackCont);
     }

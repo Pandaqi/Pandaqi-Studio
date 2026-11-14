@@ -1,5 +1,5 @@
 
-import { fromArray } from "lib/pq-games";
+import { fromArray, rand } from "lib/pq-games";
 import Hand from "./hand";
 
 export default class Guess
@@ -37,7 +37,7 @@ export default class Guess
         if(prevGuess.isEmpty())
         {
             this.number = fromArray(myNumbers);
-            this.frequency = Math.floor(Math.random() * 2) + 1;
+            this.frequency = Math.floor(rand() * 2) + 1;
             return;
         }
 
@@ -61,11 +61,11 @@ export default class Guess
         if(!hasCurrentNumber && canRaiseFrequency)
         {
             // try going to a different number instead
-            nextHighestNumber = prevGuess.number + 1 + Math.floor(Math.random() * (6 - prevGuess.number));
+            nextHighestNumber = prevGuess.number + 1 + Math.floor(rand() * (6 - prevGuess.number));
             if(nextHighestNumber <= 6) { canRaiseNumber = true; canRaiseFrequency = false; }
 
             // with some probability, just give up and challenge
-            if(Math.random() <= 0.5 && !canRaiseNumber) { canRaiseNumber = false; canRaiseFrequency = false; }
+            if(rand() <= 0.5 && !canRaiseNumber) { canRaiseNumber = false; canRaiseFrequency = false; }
         }
 
         if(!canRaiseNumber && !canRaiseFrequency) { return; }
@@ -73,11 +73,11 @@ export default class Guess
         this.number = prevGuess.number;
         this.frequency = prevGuess.frequency;
 
-        const raiseFrequency = !canRaiseNumber || (canRaiseFrequency && Math.random() <= 0.5);
+        const raiseFrequency = !canRaiseNumber || (canRaiseFrequency && rand() <= 0.5);
         if(raiseFrequency)
         {
             const maxRaise = Math.min(maxFrequency - prevGuess.frequency, 2);
-            const randRaise = Math.max( 1 + Math.floor(Math.random() * (maxRaise - 1)), 1);
+            const randRaise = Math.max( 1 + Math.floor(rand() * (maxRaise - 1)), 1);
             this.frequency += randRaise;
             return;
         }

@@ -5,7 +5,7 @@ import { MATERIAL, PASSENGER_BONUSES, PASSENGER_CURSES } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
-import { shuffle, fromArray, getSetting } from "lib/pq-games";
+import { shuffle, fromArray, getSetting, rand } from "lib/pq-games";
 
 export const cardPicker = () : MaterialNaivigation[] =>
 {
@@ -82,7 +82,7 @@ export const tilePicker = () : MaterialNaivigation[] =>
     const parkingTiles = shuffle(mapTiles.filter((e:MaterialNaivigation) => e.key == "parking_lot"));
     for(const tile of parkingTiles)
     {
-        tile.customData.carOrientation = Math.floor(Math.random() * 4);
+        tile.customData.carOrientation = Math.floor(rand() * 4);
     }
 
     return tiles;

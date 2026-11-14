@@ -1,4 +1,5 @@
-import { PLANET_MAP, PLANET_SETS, NUMBERS, EVENTS, RESOURCES, EFFECTS, BUILDINGS, PEOPLE, COMPONENTS } from "../shared/dict"
+
+import { rand } from "lib/pq-games";import { PLANET_MAP, PLANET_SETS, NUMBERS, EVENTS, RESOURCES, EFFECTS, BUILDINGS, PEOPLE, COMPONENTS } from "../shared/dict"
 
 export const initializeDictionaries = (cfg) =>
 {
@@ -47,7 +48,7 @@ const determineRandomComponentSet = (cfg) =>
     const numPlanetsAlreadyPicked = Array.from(planetSet).length;
     for(let i = numPlanetsAlreadyPicked; i < cfg.maxPlanetSetSize; i++) {
         if(planets.length <= 0) { break; }
-        const randIdx = Math.floor(Math.random() * planets.length);
+        const randIdx = Math.floor(rand() * planets.length);
         planetSet.add( planets.splice(randIdx, 1)[0] );
     }
 

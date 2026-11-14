@@ -1,4 +1,5 @@
-import Timer from "./timer"
+
+import { rand } from "lib/pq-games";import Timer from "./timer"
 import Interface from "./interface"
 
 export default class Events {
@@ -47,17 +48,17 @@ export default class Events {
         if(this.eventIsActive()) {
             var minLength = this.activeEvent.lengthMax || 30;
 			var maxLength = this.activeEvent.lengthMax || 45;
-			newTime = Math.random() * (maxLength - minLength) + minLength;
+			newTime = rand() * (maxLength - minLength) + minLength;
         } else {
             // if playing without player ranks, just distribute randomly
 			// (on average, one event per two minutes, give some extra margin on edges)
 			if(cfg.playerRank == 0) {
-				newTime = (cfg.playerCount * Math.random() * 180 - 90) + 90;
+				newTime = (cfg.playerCount * rand() * 180 - 90) + 90;
 
 			// if playing WITH player ranks, distribute evenly
 			// (each event falls into some two minute interval only available to this player)
 			} else {
-				newTime = (cfg.playerRank - 1) * 180 + Math.random()*90;
+				newTime = (cfg.playerRank - 1) * 180 + rand()*90;
 			}
         }
 
@@ -78,7 +79,7 @@ export default class Events {
     fillInValues(event: { desc: any; })
     {
 		let eventString = event.desc;
-		const randomNumber = Math.floor(Math.random()*4)+2;
+		const randomNumber = Math.floor(rand()*4)+2;
 
         this.activeCity = this.interface.getRandomCity();
         this.activeGood = this.interface.getRandomGood()

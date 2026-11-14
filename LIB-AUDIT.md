@@ -104,6 +104,22 @@ Generate button and feedback node. It is the file every settings bug lands in.
 
 `RendererPixi` has it, the base `Renderer` did not, so every place that accepts a `Renderer` (visualizers, config `_game.renderer`, `getMaterialDataForRulebook`) rejected a `RendererPixi` and the mask effect called it through an `any`. The base class now declares it. The wider point: a renderer's optional capabilities are invisible until something calls them, which is how `maskEffect` shipped a call to a method no type knew about.
 
+### A-11. `vis.get("typo")` only errors where the config's literal type reaches the visualizer
+
+`MaterialVisualizer<TConfig extends GameConfig>` and `DrawingPaths<T>` (in `settings/configuration.ts`) now
+make `get()` take exactly the dotted paths a literal `_drawing` tree offers — `vis.get("typo")` is a compile
+error, `vis.get("tokens.numPerCard")` still compiles, and a plain `GameConfig` collapses the parameter back
+to `string` so nothing existing broke. What is left is adoption: a page that declares
+`draw(vis: MaterialVisualizer)` gets the default `GameConfig`, so the tightening only fires in the ~13 places
+that build a visualizer from a literal config. Threading `MaterialVisualizer<typeof CONFIG>` through every
+project's `draw()`/picker signatures (≈1800 `vis.get` call sites) is mechanical but touches every project, so
+it is an author-run batch, not a library change.
+
+`_settings` keys stay strings for a different reason: a settings leaf is a `CVal`-like object whose
+"interesting" keys are the user-facing ones, so flattening the *type* yields `input`/`val`/`getInput` and a
+`${string}` tail — noise, not keys. Typed settings need a schema (a `defineSetting` that records its own
+path), not a type trick.
+
 ---
 
 ## B. pq-rulebook

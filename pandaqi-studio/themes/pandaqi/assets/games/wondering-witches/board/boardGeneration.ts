@@ -1,7 +1,8 @@
-import { SPECIAL_CELLS } from "../shared/dict"
+
+import { rand } from "lib/pq-games";import { SPECIAL_CELLS } from "../shared/dict"
 import Section from "./section"
 import { CONFIG } from "../shared/config"
-import { MaterialVisualizer, shuffle, ResourceGroup, LayoutOperation, ResourceShape, Line, Vector2, Circle, Color, TextConfig, StrokeAlign, ResourceText } from "lib/pq-games"
+import { MaterialVisualizer, shuffle, ResourceGroup, LayoutOperation, ResourceShape, Line, Vector2, Circle, Color, TextConfig, StrokeAlign, ResourceText, getSetting } from "lib/pq-games"
 import Cell from "./cell"
 
 interface GenData
@@ -41,11 +42,10 @@ export default class BoardGeneration
 	createConfig(vis:MaterialVisualizer)
 	{
 		const userConfig = CONFIG;
-		// this page swaps in the board generator's own settings at load, so the declared game settings type
-		// does not describe what is here at generation time
-		const settings = userConfig._settings as Record<string,any>;
+		// this page swaps in the board generator's own settings at load, so read them through the library
+		// accessor rather than the game's declared settings type
 		const cfg : Record<string,any> = {};
-		cfg.numPlayers = parseInt(settings.numPlayers.value);
+		cfg.numPlayers = parseInt(getSetting("numPlayers", userConfig));
 		Object.assign(cfg, userConfig);
 
 		console.log(cfg);
@@ -74,7 +74,7 @@ export default class BoardGeneration
 		cfg.recipeLength = 4;
 		cfg.maxGardenSize = cfg.recipeLength;
 		cfg.minGardensOfPotionLength = 2; // how many gardens should exist (at least) that can contain the final potion
-		cfg.useBackPage = settings.pageBack.value;
+		cfg.useBackPage = getSetting("pageBack", userConfig);
 
 		cfg.fullWidth = vis.size.x;
 		cfg.fullHeight = vis.size.y;
@@ -156,7 +156,7 @@ export default class BoardGeneration
 		if(this.cfg.numPlayers <= 2) { min++; max++; }
 		if(this.cfg.numPlayers <= 1) { min++; max++; }
 
-		let numWanted = Math.floor(Math.random() * (max - min)) + min;
+		let numWanted = Math.floor(rand() * (max - min)) + min;
 		const nothingPlacedYet = this.gen.specialCells.length <= 0;
 		if(nothingPlacedYet && numWanted == 0) { numWanted++; }
 
@@ -167,13 +167,13 @@ export default class BoardGeneration
 			if(hitMaximum || outOfOptions) { break; }
 
 			// slightly favor good ( = type 0) over bad cells
-			let idx = Math.floor(Math.random() * this.cfg.numSpecialCells);
+			let idx = Math.floor(rand() * this.cfg.numSpecialCells);
 			let name = this.cfg.specialCellNames[idx];
 
 			const isBadType = SPECIAL_CELLS[name].type == 1
 			if(isBadType) 
 			{ 
-				idx = Math.floor(Math.random() * this.cfg.numSpecialCells); 
+				idx = Math.floor(rand() * this.cfg.numSpecialCells); 
 				name = this.cfg.specialCellNames[idx];
 			}
 
@@ -190,7 +190,7 @@ export default class BoardGeneration
 		let max = this.cfg.numIngredientBounds.max;
 		if(this.cfg.numPlayers <= 2) { min++; max++; }
 		if(this.cfg.numPlayers <= 1) { min++; max++; }
-		let numWanted = Math.floor(Math.random() * (max - min)) + min;
+		let numWanted = Math.floor(rand() * (max - min)) + min;
 		
 		const nothingPlacedYet = this.gen.ingredients.length;
 		if(nothingPlacedYet && numWanted == 0) { numWanted++; }
@@ -201,7 +201,7 @@ export default class BoardGeneration
 			const outOfOptions = tiles.length <= 0
 			if(hitMaximum || outOfOptions) { break; }
 
-			const randIngredient = Math.floor(Math.random()*this.cfg.recipeLength); 
+			const randIngredient = Math.floor(rand()*this.cfg.recipeLength); 
 			const cell = tiles.pop();
 			cell.setIngredient(randIngredient);
 			this.gen.ingredients.push(cell);
@@ -239,7 +239,7 @@ export default class BoardGeneration
 					// but always ensure we have a few gardens of "potion" length
 					const doSizeCheck = (this.gen.numGardensOfPotionLength >= this.cfg.minGardensOfPotionLength);
 					const probCutoff = 1.0 / (1.5*garden.length);
-					if(doSizeCheck && Math.random() > probCutoff) { continue; }
+					if(doSizeCheck && rand() > probCutoff) { continue; }
 
 					nb.setGarden(garden);
 					garden.push(nb);

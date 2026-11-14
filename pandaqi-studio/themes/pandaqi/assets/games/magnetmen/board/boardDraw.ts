@@ -1,5 +1,5 @@
 
-import { Vector2, MaterialVisualizer, ResourceGroup, fillResourceGroup, getPositionsCenteredAround, Rectangle, LayoutOperation, ResourceShape, Color, TextConfig, TextAlign, RectangleRounded, fromArray, ResourceText, colorDarken } from "lib/pq-games";
+import { Vector2, MaterialVisualizer, ResourceGroup, fillResourceGroup, getPositionsCenteredAround, Rectangle, LayoutOperation, ResourceShape, Color, TextConfig, TextAlign, RectangleRounded, fromArray, ResourceText, colorDarken, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { MISC } from "../shared/dict";
 import BoardState from "./boardState";
@@ -128,7 +128,7 @@ export default class BoardDraw
         const bgColorLightness = vis.get("cells.bgColorLightness");
         const bgColorDarken = vis.get("cells.bgColorDarken");
         const bgColorSaturation = vis.inkFriendly ? 0 : 100;
-        const bgColor = new Color(Math.random()*360, bgColorSaturation, bgColorLightness);
+        const bgColor = new Color(rand()*360, bgColorSaturation, bgColorLightness);
 
         // for each cell, simply draw its rectangle (boundaries/cell) and its icon
         const cellStrokeWidth = vis.get("cells.strokeWidth") * this.cellSizeUnit;

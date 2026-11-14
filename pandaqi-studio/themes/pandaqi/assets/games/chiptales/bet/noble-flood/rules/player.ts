@@ -1,4 +1,4 @@
-import { convertCanvasToImageMultiple } from "lib/pq-games";
+import { convertCanvasToImageMultiple, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator } from "lib/pq-rulebook";
 import Card from "../game/card";
 import Board from "./board";
@@ -33,7 +33,7 @@ export default class Player
     
     removeCardRandom() 
     { 
-        const randIdx = Math.floor(Math.random() * this.count());
+        const randIdx = Math.floor(rand() * this.count());
         return this.removeCardAtIndex(randIdx); 
     }
 

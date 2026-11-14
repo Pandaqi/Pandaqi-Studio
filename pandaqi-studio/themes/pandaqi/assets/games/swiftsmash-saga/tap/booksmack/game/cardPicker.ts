@@ -11,9 +11,8 @@ export const cardPicker = () : Card[] =>
     for(const [set,entry] of Object.entries(CONFIG.generation.symbolsPerSet))
     {
         if(!CONFIG._settings.sets[set].value) { continue; }
-        const data = typeof entry === "string" ? entry.split("") : entry;
-        const dataFinal = (data as any[]).map((x) => x.toString());
-        allSymbols.push(...dataFinal);
+        const data : Array<string|number> = typeof entry === "string" ? entry.split("") : entry;
+        for(const symbol of data) { allSymbols.push(symbol.toString()); }
     }
 
     // then simply create them all

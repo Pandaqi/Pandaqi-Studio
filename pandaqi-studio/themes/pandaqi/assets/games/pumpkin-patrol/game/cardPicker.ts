@@ -1,5 +1,5 @@
 
-import { seedRandom, shuffleAll, shuffle, rangeInteger, clamp, Bounds, getSettingDefault } from "lib/pq-games";
+import { seedRandom, shuffleAll, shuffle, rangeInteger, clamp, Bounds, getSettingDefault, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { createRandomSet } from "../shared/createRandomSet";
 import { CardData, ReqType, SETS, Type } from "../shared/dict";
@@ -150,7 +150,7 @@ export const cardPicker = () : Card[] =>
 
         // randomly flip cards to say "at most", if allowed
         const canFlip = !data.forbidFlip && numDecoration <= maxDecosForFlip;
-        const wantToFlip = numFlipped < maxFlipsPerSet && Math.random() <= flipProb;
+        const wantToFlip = numFlipped < maxFlipsPerSet && rand() <= flipProb;
         const shouldFlip = canFlip && wantToFlip;
         if(shouldFlip) { numFlipped++; }
 

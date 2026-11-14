@@ -1,4 +1,4 @@
-import { shuffle } from "lib/pq-games";
+import { shuffle, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import { KEEBBLE_TYPES } from "../../../shared/dict";
 
@@ -75,9 +75,9 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         let scrambledLetters : string[] = shuffle(words[i].split(""));
 
         const startPlayer = (i == 0);
-        const padHand = Math.random() <= 0.5;
+        const padHand = rand() <= 0.5;
         if(!startPlayer && padHand) { 
-            const numExtraLetters = Math.min(Math.floor(Math.random() * 3), handLimit - scrambledLetters.length);
+            const numExtraLetters = Math.min(Math.floor(rand() * 3), handLimit - scrambledLetters.length);
             const extraLetters = e.getRandomFromList(alphabet.split(""), numExtraLetters);
             scrambledLetters = scrambledLetters.concat(extraLetters);
         }
@@ -92,7 +92,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     const pName = names[0];
     const pWord = words[0];
     const pHand = hands[0];
-    const playWord = Math.random() <= 0.75;
+    const playWord = rand() <= 0.75;
 
     if(!playWord) {
         o.addParagraph(pName + " decides not to play a word.");
@@ -115,9 +115,9 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     for(let i = 1; i < numPlayers; i++)
     {
         const name = names[i];
-        const wantedLetter = newLetters[Math.floor(Math.random() * newLetters.length)];
+        const wantedLetter = newLetters[Math.floor(rand() * newLetters.length)];
         const handFull = hands[i].length >= handLimit;
-        const stealLetter = Math.random() <= 0.67 && !handFull;
+        const stealLetter = rand() <= 0.67 && !handFull;
         
         if(stealLetter) {
             o.addParagraph(name + " likes the letter " + wantedLetter + " and adds it to their hand.");

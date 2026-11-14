@@ -1,4 +1,5 @@
-// Epic Medics is a hand-written widget, not a material generator: it reads its own controls from the
+
+import { rand } from "lib/pq-games";// Epic Medics is a hand-written widget, not a material generator: it reads its own controls from the
 // page markdown (#playerCount, #eventButton, #curEventDisplay) and uses nothing from pq-games.
 import Event from "./event"
 import allEvents from "./dict"
@@ -7,7 +8,7 @@ const shuffle = (arr:any[]) =>
 {
     for(let i = arr.length - 1; i > 0; i--)
     {
-        const j = Math.floor(Math.random() * (i + 1));
+        const j = Math.floor(rand() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
 }
@@ -29,7 +30,7 @@ const buildEventList = () : Event[] =>
 
     // generate the list of events
     // (do not allow duplicates, split events evenly across virus and medics)
-    let curTeam = Math.round(Math.random());
+    let curTeam = Math.round(rand());
     let counter = -1;
     let numTries = 0;
     const maxTries = 500;

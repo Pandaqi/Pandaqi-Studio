@@ -1,7 +1,7 @@
 
 import { TileType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
-import { Vector2, MaterialVisualizer, fromArray, shuffle, rangeInteger, createContext, ResourceGroup, ResourceImage, LayoutOperation, convertCanvasToImage, fillCanvas } from "lib/pq-games";
+import { Vector2, MaterialVisualizer, fromArray, shuffle, rangeInteger, createContext, ResourceGroup, ResourceImage, LayoutOperation, convertCanvasToImage, fillCanvas, rand } from "lib/pq-games";
 import { InteractiveExample } from "lib/pq-rulebook";
 
 
@@ -358,7 +358,7 @@ export default class RandomNaivigationSetupGenerator
         const isDiagonal = Math.abs(vector.x) > 0 && Math.abs(vector.y) > 0;
         if(this.ruleNoDiagonals && isDiagonal)
         {
-            if(Math.random() <= 0.5) { vector.x = 0; } else { vector.y = 0; }
+            if(rand() <= 0.5) { vector.x = 0; } else { vector.y = 0; }
         }
 
         return vector;

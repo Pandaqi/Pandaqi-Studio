@@ -1,5 +1,5 @@
 
-import { lerp, shuffle, clamp } from "lib/pq-games";
+import { lerp, shuffle, clamp, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { SPECIAL_CARDS } from "../shared/dict";
 import Card from "./card";
@@ -64,7 +64,7 @@ const getNotesForNumber = (num:number) =>
 {
     const middleNum = 0.5 * (1 + CONFIG.generation.defaultMaxNumOnCard);
     const fractionRaw = 1.0 - Math.abs( num - middleNum ) / (middleNum - 1);
-    const randomness = (Math.random() - 0.5) * 0.2;
+    const randomness = (rand() - 0.5) * 0.2;
     const fraction = clamp(fractionRaw + randomness, 0.0, 1.0);
     return Math.round( CONFIG.generation.noteBounds.lerp(fraction) );
 }

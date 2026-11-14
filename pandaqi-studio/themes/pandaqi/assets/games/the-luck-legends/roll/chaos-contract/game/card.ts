@@ -1,5 +1,5 @@
 
-import { fromArray, MaterialVisualizer, Color, createContext, fillCanvas, ResourceGroup, ResourceShape, Rectangle, Vector2, LayoutOperation, TintEffect, TextConfig, getRectangleCornersWithOffset, ResourceText, GlowEffect, BlurEffect, getPositionsCenteredAround, colorDarken } from "lib/pq-games";
+import { fromArray, MaterialVisualizer, Color, createContext, fillCanvas, ResourceGroup, ResourceShape, Rectangle, Vector2, LayoutOperation, TintEffect, TextConfig, getRectangleCornersWithOffset, ResourceText, GlowEffect, BlurEffect, getPositionsCenteredAround, colorDarken, rand } from "lib/pq-games";
 import { CARD_ACTIONS, CardType, ContractType, MISC, NUMBERS, TEMPLATES } from "../shared/dict";
 import Contract from "./contracts/contract";
 
@@ -370,7 +370,7 @@ export default class Card
             const subpos = getPositionsCenteredAround({ pos: posRews[i], size: sizeRews, num: ct.length, dir: Vector2.DOWN });
             for(let a = 0; a < subpos.length; a++)
             {
-                const randRot = (Math.random() - 0.5) * 0.125 * Math.PI;
+                const randRot = (rand() - 0.5) * 0.125 * Math.PI;
                 const opIcon = new LayoutOperation({
                     pos: subpos[a],
                     size: sizeRews,

@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, Vector2, TextConfig, ResourceText, fromArray, TextStyle, shuffle, DropShadowEffect, getRectangleCornersWithOffset, StrokeAlign } from "lib/pq-games";
+import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, Vector2, TextConfig, ResourceText, fromArray, TextStyle, shuffle, DropShadowEffect, getRectangleCornersWithOffset, StrokeAlign, rand } from "lib/pq-games";
 import { CardMovement, CardType, FishType, MAP_SPECIAL, MISC, MOVEMENT_CARDS, MOVEMENT_SPECIAL, TILE_ACTIONS, TileAction } from "../shared/dict";
 
 export default class Card
@@ -211,7 +211,7 @@ export default class Card
         for(const fish of this.fishes)
         {
             const angleRaw = anglesAvailable.pop();
-            const angle = (angleRaw + Math.random()*0.5) * (2.0 * Math.PI / numAngles);
+            const angle = (angleRaw + rand()*0.5) * (2.0 * Math.PI / numAngles);
             const randRadius = fishRadiusBounds.random() * vis.size.x;
             const pos = vis.center.clone().add( new Vector2(Math.cos(angle), Math.sin(angle)).scaleFactor(randRadius) );
 
@@ -332,7 +332,7 @@ export default class Card
             const specialData = MAP_SPECIAL[this.specialAction] ?? {};
             let str = specialData.desc;
             // @NOTE: this just gets a random number between -3 and 3, while disallowing 0
-            const randNum = (Math.random() <= 0.5 ? -1 : 1) * (Math.floor(Math.random() * 3) + 1);
+            const randNum = (rand() <= 0.5 ? -1 : 1) * (Math.floor(rand() * 3) + 1);
             str = str.replace("%num%", randNum.toString());
 
             const resText = new ResourceText({ text: str, textConfig: textConfig });

@@ -1,4 +1,4 @@
-import { MaterialVisualizer, createContext, Color, Vector2, ResourceGroup, LayoutOperation, TintEffect, Rectangle, ResourceShape, Line, ResourceText, TextConfig } from "lib/pq-games";
+import { MaterialVisualizer, createContext, Color, Vector2, ResourceGroup, LayoutOperation, TintEffect, Rectangle, ResourceShape, Line, ResourceText, TextConfig, rand } from "lib/pq-games";
 import { CONFIG } from "./config";
 import { CELLS, DOMINO_COLORS, LETTERS } from "./dict";
 import DominoPart from "./dominoPart";
@@ -39,7 +39,7 @@ export default class Domino
 
     setEmptySideTo(type: any, value: any)
     {
-        let idx = Math.floor(Math.random() * 2);
+        let idx = Math.floor(rand() * 2);
         if(this.sideEmpty(idx))
         {
             this.setSideTo(idx, type, value);
@@ -136,7 +136,7 @@ export default class Domino
     drawDomino(vis:MaterialVisualizer, group:ResourceGroup, params)
     {
         // the basics
-        params.background.colorIndex = Math.floor(Math.random() * DOMINO_COLORS.length);
+        params.background.colorIndex = Math.floor(rand() * DOMINO_COLORS.length);
         params.background.color = DOMINO_COLORS[params.background.colorIndex].clone();
         if(params.inkFriendly) { params.background.color = new Color(0, 0, 100); }
 
@@ -189,7 +189,7 @@ export default class Domino
 
         const dict:any = isLetter ? LETTERS : CELLS;
 
-        const randRotationInt = Math.floor(Math.random() * 4);
+        const randRotationInt = Math.floor(rand() * 4);
         const randRotation = randRotationInt * 0.5 * Math.PI;
         const partSize = cs.y;
 
@@ -223,7 +223,7 @@ export default class Domino
         }
 
         // add background image
-        const randRotationBG = Math.floor(Math.random() * 4) * 0.5 * Math.PI;
+        const randRotationBG = Math.floor(rand() * 4) * 0.5 * Math.PI;
         if(!params.inkFriendly && params.background.include)
         {
             const bgResource = vis.getResource("decorations");
@@ -251,8 +251,8 @@ export default class Domino
         
         if(params.innerSquare.include)
         {
-            const randRotationInnerSquare = Math.floor(Math.random() * 4) * 0.5 * Math.PI;
-            const randBGFrame = 2 + Math.floor(Math.random() * 2);
+            const randRotationInnerSquare = Math.floor(rand() * 4) * 0.5 * Math.PI;
+            const randBGFrame = 2 + Math.floor(rand() * 2);
             const squareSize = partSize * params.innerSquare.scale;
             const decorationResource = vis.getResource("decorations");
             const squareOp = new LayoutOperation({
@@ -280,8 +280,8 @@ export default class Domino
         const wallPositions = [];
         for(let i = 0; i < params.walls.max; i++)
         {
-            if(Math.random() > params.walls.prob) { break; }
-            let randIndex = Math.floor(Math.random() * 4);
+            if(rand() > params.walls.prob) { break; }
+            let randIndex = Math.floor(rand() * 4);
             wallPositions.push(randIndex);
         }
 

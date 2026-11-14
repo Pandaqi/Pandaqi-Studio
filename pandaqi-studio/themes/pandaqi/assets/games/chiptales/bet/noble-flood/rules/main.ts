@@ -1,4 +1,4 @@
-import { clamp, lerp, getMaterialDataForRulebook, shuffle, fromArray } from "lib/pq-games";
+import { clamp, lerp, getMaterialDataForRulebook, shuffle, fromArray, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import { CONFIG } from "../shared/config";
 import { CardType } from "../shared/dict";
@@ -113,7 +113,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         for(const player of players)
         {
             player.addCards(cardsRegular.splice(0, numCardsPerPlayer));
-            const drawContract = Math.random() <= (CONFIG.rulebook.drawContractProb ?? 0.8);
+            const drawContract = rand() <= (CONFIG.rulebook.drawContractProb ?? 0.8);
             if(!drawContract) 
             { 
                 player.addContract(null); 

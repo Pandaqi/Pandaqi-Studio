@@ -1,4 +1,5 @@
-import { CITY_NAMES, COOL_WORD_TEMPLATES, DIFFICULTY_LEVELS, GOODS, JUNGLE_NAME_TEMPLATES, PLAYERCOUNT_TO_CITYCOUNT, PLAYER_COLORS, PathType, TerrainType } from "../shared/dict"
+
+import { rand } from "lib/pq-games";import { CITY_NAMES, COOL_WORD_TEMPLATES, DIFFICULTY_LEVELS, GOODS, JUNGLE_NAME_TEMPLATES, PLAYERCOUNT_TO_CITYCOUNT, PLAYER_COLORS, PathType, TerrainType } from "../shared/dict"
 import calculateRoute from "./pathfinder"
 // @ts-ignore
 import { noise } from "./perlin"
@@ -211,7 +212,7 @@ export default class BoardGeneration
 	{
 		// Used this noise library: https://github.com/josephg/noisejs
 		// All noise generators return values between -1 and 1
-		noise.seed(Math.random());
+		noise.seed(rand());
 	}
 
 	createTerrain() 
@@ -270,7 +271,7 @@ export default class BoardGeneration
 		}
 
 		// second noise map: special terrain types, like forests
-		noise.seed(Math.random());
+		noise.seed(rand());
 
 		const forestLine = 0.5;
 		for(let x = 1; x < this.cfg.widthInCells; x++) 
@@ -356,7 +357,7 @@ export default class BoardGeneration
 
 			do {
 
-				const mustBeLand = Math.random() <= this.cfg.landCityProbability || this.dockLocations.length <= 0;
+				const mustBeLand = rand() <= this.cfg.landCityProbability || this.dockLocations.length <= 0;
 				const cannotBeLand = this.landLocations.length <= 0;
 
 				if(mustBeLand && cannotBeLand) { break; }
@@ -515,7 +516,7 @@ export default class BoardGeneration
 
 				// then check if there is a path over land
 				// (either regular road or railroad)
-				let pathType = Math.random() < 0.5 ? PathType.ROAD : PathType.RAIL;
+				let pathType = rand() < 0.5 ? PathType.ROAD : PathType.RAIL;
 				if(planesAndTrainsDisabled) { pathType = PathType.ROAD; }
 
 				let pathLand = this.getPath(TerrainType.LAND, pathType, curCity, otherCity);
@@ -529,7 +530,7 @@ export default class BoardGeneration
 			// if we have NO possible connections (at the moment or in the future)
 			if(this.cfg.allowRelocating) 
 			{
-				if(possibleConnections.length <= 0 && curCity.connections.length <= 0 && Math.random() <= this.cfg.relocateProbability) 
+				if(possibleConnections.length <= 0 && curCity.connections.length <= 0 && rand() <= this.cfg.relocateProbability) 
 				{
 					// move this city somewhere else and try again
 					const res = this.moveCity(i, curCity);
@@ -552,7 +553,7 @@ export default class BoardGeneration
 			// always place the first one, others have 50% probability
 			for(let c = 0; c < possibleConnections.length; c++) 
 			{
-				if(c > 0 && Math.random() > tempConnectionProbability) 
+				if(c > 0 && rand() > tempConnectionProbability) 
 				{
 					break;
 				}
@@ -650,7 +651,7 @@ export default class BoardGeneration
 				for(let i = 0; i < numAirportsToPlace; i++) {
 					let randIndex
 					do {
-						randIndex = Math.floor(Math.random() * this.cities.length);
+						randIndex = Math.floor(rand() * this.cities.length);
 					} while(randIndex == prevIndex || this.cities[randIndex].airport)
 
 					prevIndex = randIndex;
@@ -725,7 +726,7 @@ export default class BoardGeneration
 	{
 		let routeConfig : RouteConfig
 		let allowOverlap = false
-		if(Math.random() <= 0.5 || overrideOverlap) { allowOverlap = true; }
+		if(rand() <= 0.5 || overrideOverlap) { allowOverlap = true; }
 
 		if(terrainType == TerrainType.WATER) {
 			routeConfig = 
@@ -756,12 +757,12 @@ export default class BoardGeneration
 
 	getRandomGood(total) 
 	{
-		const rand = Math.random()
+		const randValue = rand()
 		let sum = 0
 		for(const name in this.goodsDict) {
 			sum += (this.goodsDict[name].prob / total)
 
-			if(sum >= rand) {
+			if(sum >= randValue) {
 				return name;
 			}
 		}
@@ -819,7 +820,7 @@ export default class BoardGeneration
 			if(this.cityHasRoomForGood(counter, good)) 
 			{
 				const data = GOODS[good];
-				const value = Math.floor(Math.random()*(data.pointMax + 1 - data.pointMin)) + data.pointMin;
+				const value = Math.floor(rand()*(data.pointMax + 1 - data.pointMin)) + data.pointMin;
 
 				const goodData : GoodData = { name: good, value: value };
 				this.cities[counter].wantedGoods.push(goodData);
@@ -950,8 +951,8 @@ export default class BoardGeneration
 				{
 					const frame = this.checkNeighbourForestFrame(pos);
 					const imageKey = this.cfg.inkFriendly ? "forest_printfriendly" : "forest";
-					const randSizeChange = Math.random()*8 - 4;
-					const randOffsetChangeX = Math.random()*0.2-0.1, randOffsetChangeY = Math.random()*0.2-0.1;
+					const randSizeChange = rand()*8 - 4;
+					const randOffsetChangeX = rand()*0.2-0.1, randOffsetChangeY = rand()*0.2-0.1;
 					const forestWidth = cs + randSizeChange;
 
 					const res = vis.getResource(imageKey);
@@ -960,7 +961,7 @@ export default class BoardGeneration
 						pos: new Vector2(rectPos.x + 0.5*cs, rectPos.y + 0.5*cs),
 						size: new Vector2(forestWidth, forestWidth*2.0),
 						pivot: new Vector2(0.5 + randOffsetChangeX, 1.0 + randOffsetChangeY),
-						flipX: Math.random() <= 0.5,
+						flipX: rand() <= 0.5,
 						frame: frame,
 						depth: y
 					});
@@ -1356,8 +1357,8 @@ export default class BoardGeneration
 
 	getRandomJungleName() 
 	{
-		const randTemplate = JUNGLE_NAME_TEMPLATES[Math.floor(Math.random() * JUNGLE_NAME_TEMPLATES.length)];
-		const randWord = COOL_WORD_TEMPLATES[Math.floor(Math.random() * COOL_WORD_TEMPLATES.length)];
+		const randTemplate = JUNGLE_NAME_TEMPLATES[Math.floor(rand() * JUNGLE_NAME_TEMPLATES.length)];
+		const randWord = COOL_WORD_TEMPLATES[Math.floor(rand() * COOL_WORD_TEMPLATES.length)];
 		return randTemplate.replace("X", randWord);
 	}
 
@@ -1542,7 +1543,7 @@ export default class BoardGeneration
 
 		// otherwise, return a random frame
 		const myCell = this.getCell(pos);
-		myCell.forestFrame = Math.floor(Math.random()*4)
+		myCell.forestFrame = Math.floor(rand()*4)
 		return myCell.forestFrame;
 	}
 

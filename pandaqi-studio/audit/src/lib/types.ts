@@ -21,6 +21,8 @@ export interface ManifestEntry
     isDraftProject: boolean;
     legacyPath: boolean;
     missing: boolean;
+    // the page says it is hand-written (`customWidget: true`): never a generator, never framework-mounting
+    customWidget: boolean;
 
     sourceMd: string;
     htmlPath: string;

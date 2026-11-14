@@ -3,6 +3,7 @@ import { NetworkType, TerrainType, TileType } from "games/naivigation/shared/dic
 import { MATERIAL } from "./dict";
 import { cardPicker, tilePicker } from "../game/generators";
 import { SettingType, Vector2, CVal, mergeObjects } from "lib/pq-games";
+import type { GameConfigGame } from "lib/pq-games";
 
 export const CONFIG = 
 {
@@ -100,11 +101,11 @@ export const CONFIG =
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
+    // typed so the entry can attach the resource loader it builds (a rulebook page has no loadGame to do it)
     _game:
     {
         fileName: "Naivigation: Troublesome Trains",
-        resLoader: null as any, // filled by the entry: a rulebook page builds its own
-    },
+    } as GameConfigGame,
 
     // assets
     _resources:

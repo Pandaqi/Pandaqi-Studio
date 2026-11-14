@@ -1,4 +1,5 @@
-import Option from "./option"
+
+import { rand } from "lib/pq-games";import Option from "./option"
 import { OPTIONS } from "./dict"
 import { CONFIG } from "./config"
 
@@ -266,7 +267,7 @@ export default class Options
 		const typesObject = obj;
 		const totalProb = this.getTotalForKey(typesObject, key);
 		const probFraction = 1.0 / totalProb;
-		const targetRand = Math.random();
+		const targetRand = rand();
 		
         let runningSum = 0.0;
 		let counter = 0;
@@ -287,7 +288,7 @@ export default class Options
     shuffle(array) 
     {
 		for (let i = array.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
+			const j = Math.floor(rand() * (i + 1));
 			[array[i], array[j]] = [array[j], array[i]];
 		}
 	}
@@ -317,8 +318,8 @@ export default class Options
         if(optionSize == 2) { questionMarkProb *= 0.5; }
         if(optionSize == 2) { exclamationMarkProb *= 0.5; }
 
-        if(Math.random() <= questionMarkProb) { return "?"; }
-        if(Math.random() <= exclamationMarkProb) { return "!"; }
+        if(rand() <= questionMarkProb) { return "?"; }
+        if(rand() <= exclamationMarkProb) { return "!"; }
         return letter;
     }
 

@@ -2,6 +2,7 @@ import { PandaqiWords } from "lib/pq-words";
 import { CONFIG } from "../shared/config";
 import { MaterialType } from "../shared/dict";
 import { Card } from "./card";
+import { rand } from "lib/pq-games";
 
 export const getRandomTypeData = (dict) =>
 {
@@ -11,11 +12,11 @@ export const getRandomTypeData = (dict) =>
 		totalProb += dict[key].prob || 1;
 	}
 
-	let rand = Math.random();
+	let randValue = rand();
 	let sum = 0;
 	let icons = Object.keys(dict);
 	let counter = -1;
-	while(sum < rand)
+	while(sum < randValue)
 	{
 		counter += 1;
 
@@ -74,7 +75,7 @@ export const cardPicker = async () : Promise<Card[]> =>
             let tempWordsPerCard = wordsPerCard;
             if(CONFIG._settings.varyWordCount.value) 
             { 
-                tempWordsPerCard = Math.floor(Math.random() * (wordsPerCard-1)) + 1; 
+                tempWordsPerCard = Math.floor(rand() * (wordsPerCard-1)) + 1; 
             }
             tempWordsPerCard = Math.min(tempWordsPerCard, wordList.length);
 

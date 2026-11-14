@@ -1,5 +1,5 @@
 
-import { getMaterialDataForRulebook, shuffle, Vector2 } from "lib/pq-games";
+import { getMaterialDataForRulebook, shuffle, Vector2, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -71,7 +71,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     let continueTheGame = true;
     let numTurns = 0;
     let winningPlayer : Player = null;
-    let counterPlayer = Math.floor(Math.random() * numPlayers);
+    let counterPlayer = Math.floor(rand() * numPlayers);
 
     // pre-fill some moves for a more interesting interactive example
     // we ignore anything we don't need here (for simplicity and speed), such as throwing cards to others

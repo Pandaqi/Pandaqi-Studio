@@ -2,7 +2,7 @@ import drawEggToken from "games/easter-eggventures/shared/drawEggToken";
 import drawPawnsEaster from "games/easter-eggventures/shared/drawPawnsEaster";
 import MaterialEaster from "games/easter-eggventures/shared/materialEaster";
 import { MATERIAL, MISC_UNIQUE, SPECIAL_SCORE_RULES, TILES, TYPE_DATA, TileCustomData, TileType } from "../shared/dict";
-import { MaterialVisualizer, createContext, ResourceGroup, LayoutOperation, Vector2, TextConfig, TextWeight, ResourceText, Color, fillResourceGroup, ResourceShape, Line, rangeInteger, InvertEffect, colorRandomize } from "lib/pq-games";
+import { MaterialVisualizer, createContext, ResourceGroup, LayoutOperation, Vector2, TextConfig, TextWeight, ResourceText, Color, fillResourceGroup, ResourceShape, Line, rangeInteger, InvertEffect, colorRandomize, rand } from "lib/pq-games";
 
 export default class Tile extends MaterialEaster
 {
@@ -279,7 +279,7 @@ export default class Tile extends MaterialEaster
                         size: size,
                         frame: decData.frame,
                         pivot: Vector2.CENTER,
-                        flipX: Math.random() <= 0.5,
+                        flipX: rand() <= 0.5,
                         effects: vis.inkFriendlyEffect
                     })
 

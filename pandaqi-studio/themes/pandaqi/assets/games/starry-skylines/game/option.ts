@@ -1,4 +1,5 @@
-import Component from "./component"
+
+import { rand } from "lib/pq-games";import Component from "./component"
 
 export default class Option
 {
@@ -83,9 +84,9 @@ export default class Option
 
     // use a simple distribution for #components: 50% chance of getting 2, 25% of getting 1 or 3
     getRandomNumComponents() {
-        const rand = Math.random()
-        if(rand <= 0.25) { return 1 }
-        else if (rand <= 0.75) { return 2 }
+        const randValue = rand()
+        if(randValue <= 0.25) { return 1 }
+        else if (randValue <= 0.75) { return 2 }
         else { return 3 }
     }
 }

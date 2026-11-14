@@ -5,7 +5,7 @@ import { CONFIG } from "../shared/config";
 import { CUSTOM } from "../shared/dict";
 import Type from "./type";
 import TypeManager from "./typeManager";
-import { getWeighted, MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, TextConfig, TextAlign, ResourceText, StrokeAlign, rangeInteger, shuffle } from "lib/pq-games";
+import { getWeighted, MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, TextConfig, TextAlign, ResourceText, StrokeAlign, rangeInteger, shuffle, rand } from "lib/pq-games";
 
 class Recipe
 {
@@ -159,7 +159,7 @@ export default class RecipeBook
             if(this.recipeIsDuplicate(r)) { continue; }
             r.score(types);
             this.recipes.push(r);
-            if(this.recipes.length > 1 && Math.random() <= CONFIG._drawing.recipes.forbiddenRecipeProb)
+            if(this.recipes.length > 1 && rand() <= CONFIG._drawing.recipes.forbiddenRecipeProb)
             {
                 r.forbidden = true;
             }

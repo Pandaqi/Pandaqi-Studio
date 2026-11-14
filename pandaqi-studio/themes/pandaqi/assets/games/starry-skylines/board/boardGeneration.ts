@@ -1,4 +1,5 @@
 
+import { rand } from "lib/pq-games";
 import { PLANET_MAP } from "../shared/dict"
 import { initializeDictionaries } from "./configurator"
 import { CONFIG } from "../shared/config"
@@ -131,8 +132,8 @@ export default class BoardGeneration
 			let x: number, y: number 
 
 			do {
-				x = Math.floor(Math.random() * (this.cfg.gridWidth - 2)) + 1;
-				y = Math.floor(Math.random() * (this.cfg.gridHeight - 2)) + 1;
+				x = Math.floor(rand() * (this.cfg.gridWidth - 2)) + 1;
+				y = Math.floor(rand() * (this.cfg.gridHeight - 2)) + 1;
 			} while(this.grid[x][y] != null)
 
 			let obj = { x: x, y: y }
@@ -154,8 +155,8 @@ export default class BoardGeneration
 			if(randType == 'effects') { randType = 'path' }
 
 			do {
-				x = Math.floor(Math.random() * this.cfg.gridWidth);
-				y = Math.floor(Math.random() * this.cfg.gridHeight);
+				x = Math.floor(rand() * this.cfg.gridWidth);
+				y = Math.floor(rand() * this.cfg.gridHeight);
 			} while(this.grid[x][y] != null || (randType == 'resource' && this.edgeCell(x,y)))
 
 			let obj = { x: x, y: y, type: randType }
@@ -167,7 +168,7 @@ export default class BoardGeneration
 
 	getRandom(list) 
 	{
-		const rand = Math.random();
+		const randValue = rand();
 		let totalProb = 0;
 		for(const key of Object.keys(list))
 		{
@@ -179,7 +180,7 @@ export default class BoardGeneration
 		for(const key of Object.keys(list)) 
 		{
 			sum += list[key].prob * fractionProb;
-			if(sum >= rand) { return key; }
+			if(sum >= randValue) { return key; }
 		}
 	}
 
@@ -211,13 +212,13 @@ export default class BoardGeneration
 			}
 		}
 
-		const numFlowers = Math.floor(Math.random() * 16) + 15;
+		const numFlowers = Math.floor(rand() * 16) + 15;
 		for(let i = 0; i < numFlowers; i++)
 		{
-			const randX = Math.random()*vis.size.x;
-			const randY = Math.random()*vis.size.y;
-			const randSize = (Math.random()*0.5 + 0.5)*this.cfg.minSizeCell;
-			const randRot = Math.random()*2*Math.PI;
+			const randX = rand()*vis.size.x;
+			const randY = rand()*vis.size.y;
+			const randSize = (rand()*0.5 + 0.5)*this.cfg.minSizeCell;
+			const randRot = rand()*2*Math.PI;
 
 			const res = vis.getResource("flower_icon");
 			const op = new LayoutOperation({
@@ -278,7 +279,7 @@ export default class BoardGeneration
 			const t = obj.type;
 
 			if(t == "path") {
-				const randNum = Math.floor(Math.random() * 15) + 1
+				const randNum = Math.floor(rand() * 15) + 1
 				const resText = new ResourceText({ text: randNum.toString(), textConfig: textConfig });
 				const opText = new LayoutOperation({
 					pos: new Vector2(x,y),
@@ -310,7 +311,7 @@ export default class BoardGeneration
 			
 			} else if(t == "buildings") {
 				const terrainTypes = this.cfg.terrainTypes;
-				const randType = terrainTypes[Math.floor(Math.random() * terrainTypes.length)]
+				const randType = terrainTypes[Math.floor(rand() * terrainTypes.length)]
 
 				if(!inkFriendly)
 				{
@@ -339,7 +340,7 @@ export default class BoardGeneration
 				// random direction (horizontal or vertical)
 				let startX = obj.x*this.cfg.cellWidth, startY = obj.y*this.cfg.cellHeight
 				let newX = startX + this.cfg.cellWidth, newY = startY
-				const makeVertical = Math.random() >= 0.5;
+				const makeVertical = rand() >= 0.5;
 				if(makeVertical) 
 				{
 					newX = startX

@@ -1,6 +1,7 @@
 import { KEEBBLE_TYPES } from "games/keebble-games/shared/dict";
 import { OPTIONS } from "../game/dict";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
+import { rand } from "lib/pq-games";
 
 const KEEBBLE_LETTER_VALUES = 
 {
@@ -65,11 +66,11 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     // select a random array of options
-    const numOptions = 1 + (1 + Math.floor(Math.random() * numPlayers));
+    const numOptions = 1 + (1 + Math.floor(rand() * numPlayers));
     const options : OptionData[] = [];
     for(let i = 0; i < numOptions; i++)
     {
-        const randIdx = Math.floor(Math.random() * allOptions.length);
+        const randIdx = Math.floor(rand() * allOptions.length);
         const randOption = allOptions[randIdx];
         const obj : OptionData = { 
             type: randOption,
@@ -79,18 +80,18 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 
         if(randOption == "Letter")
         {
-            obj.num = Math.floor(Math.random() * 3) + 1;
+            obj.num = Math.floor(rand() * 3) + 1;
             obj.letters = e.getRandomFromList(alphabet.split(""), obj.num);
         }
 
         if(randOption == "Wall")
         {
-            obj.num = Math.floor(Math.random() * 3) + 2;
+            obj.num = Math.floor(rand() * 3) + 2;
         }
 
         if(randOption == "Points")
         {
-            obj.num = Math.floor(Math.random() * 5) + 2;
+            obj.num = Math.floor(rand() * 5) + 2;
         }
 
         const singleUseOption = (randOption == "Start Player" || randOption == "Points")
@@ -124,7 +125,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     o.addParagraphListNumbered(list);
     
     // pick something
-    const randOptionIdx = Math.floor(Math.random() * options.length);
+    const randOptionIdx = Math.floor(rand() * options.length);
     o.addParagraph("You pick option " + (randOptionIdx + 1) + ".");
 
     // handle it => basic info
@@ -155,7 +156,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     //@IMPROV: randomly decide that you form words or not, then hand out points based on that
     if(placedLetters)
     {
-        const randLetter = optionPicked.letters[Math.floor(Math.random() * optionPicked.letters.length)];
+        const randLetter = optionPicked.letters[Math.floor(rand() * optionPicked.letters.length)];
         let wordPlaced : string = "";
         for(const word of wordOptions)
         {
@@ -168,7 +169,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
             o.addParagraph("You were able to form a new word: " + wordPlaced + ".");
             o.addParagraph("You score " + getWordScoreText(wordPlaced) + " points. (Tap your name in the interface to add points.)");
 
-            const numOthers = Math.floor(Math.random() * (wordPlaced.length - 1));
+            const numOthers = Math.floor(rand() * (wordPlaced.length - 1));
             if(numOthers == 0) { o.addParagraph("All letters used were yours, so no other players get points."); }
             else if(numOthers == 1) {
                 o.addParagraph("Of those letters, 1 was from another player, so they also score points for that.");

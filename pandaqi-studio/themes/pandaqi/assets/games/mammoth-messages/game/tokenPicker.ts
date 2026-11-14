@@ -1,5 +1,5 @@
 
-import { initNumberRange } from "lib/pq-games";
+import { initNumberRange, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { COLORS } from "../shared/dict";
 import Token from "./token";
@@ -28,7 +28,7 @@ export const tokenPicker = () : Token[] =>
     const hardCap = CONFIG._drawing.tokens.generation.hardCap;
     while(tokens.length > hardCap)
     {
-        const idx = Math.floor(Math.random() * tokens.length);
+        const idx = Math.floor(rand() * tokens.length);
         tokens.splice(idx, 1);
     }
 

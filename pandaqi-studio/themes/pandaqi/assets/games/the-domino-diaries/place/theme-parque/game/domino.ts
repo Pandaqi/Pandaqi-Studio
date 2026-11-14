@@ -1,4 +1,4 @@
-import { fromArray, MaterialVisualizer, createContext, fillCanvas, ResourceGroup, Vector2, LayoutOperation, TextConfig, ResourceText, StrokeAlign } from "lib/pq-games";
+import { fromArray, MaterialVisualizer, createContext, fillCanvas, ResourceGroup, Vector2, LayoutOperation, TextConfig, ResourceText, StrokeAlign, rand } from "lib/pq-games";
 import { CHALLENGES, ChallengeType, DYNAMIC_REPLACEMENTS, DominoType, EVENTS, EventVibe, MISC } from "../shared/dict";
 import DominoSide from "./dominoSide";
 
@@ -37,7 +37,7 @@ export default class Domino
     {
         const challengeData = CHALLENGES[ch];
         const numScale = challengeData.numScale ?? [0];
-        const chooseNum = Math.floor(Math.random() * numScale.length);
+        const chooseNum = Math.floor(rand() * numScale.length);
         
         // fill in dynamic values
         let textConverted = challengeData.desc;

@@ -5,7 +5,7 @@ import Interface from "./interface";
 import Puzzle from "./puzzle";
 import { INGREDIENTS, EVENTS } from "../shared/dict"
 import { CONFIG } from "../shared/config";
-import { loadSettings } from "lib/pq-games";
+import { loadSettings, rand } from "lib/pq-games";
 
 export default class Game 
 {
@@ -33,7 +33,7 @@ export default class Game
 		let maxEffects = config.recipeLength*0.5;
 		if(userConfig._settings.competitive.value) { maxEffects *= 0.5; }
 
-		config.numEffects = Math.floor(Math.random() * (maxEffects - minEffects) + minEffects);
+		config.numEffects = Math.floor(rand() * (maxEffects - minEffects) + minEffects);
 
 		config.oneEffectPerIngredient = true;
 		config.scrollToNewIngredient = false;
@@ -72,7 +72,7 @@ export default class Game
 		{
 			var j, x, i;
 			for (i = a.length - 1; i > 0; i--) {
-				j = Math.floor(Math.random() * (i + 1));
+				j = Math.floor(rand() * (i + 1));
 				x = a[i];
 				a[i] = a[j];
 				a[j] = x;
@@ -82,7 +82,7 @@ export default class Game
 		
 		config.getRandomSecretNum = () =>
 		{
-			return Math.floor(Math.random() * config.numSecretIngredients) + 1;
+			return Math.floor(rand() * config.numSecretIngredients) + 1;
 		}
 		
 		return config;

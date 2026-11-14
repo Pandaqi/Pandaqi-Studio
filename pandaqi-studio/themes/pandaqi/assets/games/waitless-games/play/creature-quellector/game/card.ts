@@ -1,4 +1,5 @@
 
+import { rand } from "lib/pq-games";
 import { CATEGORIES, ELEMENTS } from "../shared/dict"
 import { CONFIG } from "../shared/config"
 import ElementIcon from "./elementIcon"
@@ -86,7 +87,7 @@ export default class Card
         this.creatureName = this.getCreatureName(vis);
 
         this.rootPadding = 0.0425*this.sizeUnit;
-        this.creatureFlipX = Math.random() <= 0.5;
+        this.creatureFlipX = rand() <= 0.5;
         this.strokeWidth = vis.get("cards.stroke.width") * this.sizeUnit;
         this.strokeColor = vis.inkFriendly ? vis.get("cards.stroke.colorInkFriendly") : this.getIconColorDark(this.getMainIcon());
         this.dropShadowOffset = new Vector2(0, vis.get("cards.dropShadowOffset") * this.cornerIconSize);
@@ -211,7 +212,7 @@ export default class Card
             size: backgroundImageSize,
             frame: this.getBackgroundFrame(),
             effects: effects,
-            flipX: Math.random() <= 0.5,
+            flipX: rand() <= 0.5,
             clip: clipPath,
             pivot: new Vector2(0.5, 1)
         });
@@ -386,8 +387,8 @@ export default class Card
             for(let i = 0; i < 2; i++)
             {
                 let part = fromArray(specificNames);
-                if(Math.random() <= 0.33) { part = fromArray(typeNames); }
-                if(Math.random() <= 0.1) { part = fromArray(genericNames); }
+                if(rand() <= 0.33) { part = fromArray(typeNames); }
+                if(rand() <= 0.1) { part = fromArray(genericNames); }
                 parts.push(part);
             }
 
@@ -396,8 +397,8 @@ export default class Card
         
 
         let joiner = "";
-        if(Math.random() <= 0.3) { joiner = " "; }
-        if(Math.random() <= 0.075) { joiner = "-"; }
+        if(rand() <= 0.3) { joiner = " "; }
+        if(rand() <= 0.075) { joiner = "-"; }
 
         return parts.join(joiner);
     }

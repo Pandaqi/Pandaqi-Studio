@@ -1,4 +1,4 @@
-import { shuffle, loadSettings } from "lib/pq-games";
+import { shuffle, loadSettings, rand } from "lib/pq-games";
 import { ADDERTJES, Q, ROLVOORDELEN, Task, TASKS } from "./dict";
 import { CONFIG } from "./config";
 
@@ -80,19 +80,19 @@ const pickRandomTaskOfType = (roundNum:number, type:string) =>
 const getRandomAddertje = () => 
 {
 	if(ADDERTJES.length <= 0) { return "Geen" }
-	return ADDERTJES.splice(Math.floor(Math.random()*ADDERTJES.length), 1)[0];
+	return ADDERTJES.splice(Math.floor(rand()*ADDERTJES.length), 1)[0];
 }
 
 const getRandomRolVoordeel = () => 
 {
 	if(ROLVOORDELEN.length <= 0) { return "Geen" }
-	return ROLVOORDELEN.splice(Math.floor(Math.random() * ROLVOORDELEN.length), 1)[0];
+	return ROLVOORDELEN.splice(Math.floor(rand() * ROLVOORDELEN.length), 1)[0];
 }
 
 //
 // Preparation for each game (list of tasks, give actions to buttons, pick a mole, etc.)
 //
-const pickMole = () => { moleIndex = Math.floor(Math.random() * numPlayers); }
+const pickMole = () => { moleIndex = Math.floor(rand() * numPlayers); }
 
 const prepareTaskList = () => 
 {
@@ -150,7 +150,7 @@ const prepareTaskList = () =>
 	// while we don't have enough leftover tasks yet, keep adding random ones
 	while(leftoverTasks.length < numRounds) 
 	{
-		leftoverTasks.push( taskTypes[Math.floor(Math.random() * taskTypes.length)] )
+		leftoverTasks.push( taskTypes[Math.floor(rand() * taskTypes.length)] )
 	}
 
 	shuffle(leftoverTasks)
@@ -289,7 +289,7 @@ const inputButtonPressed = () =>
 			playersThatTookTest++;
 
 			// plan to display a hint at a random question
-			curQuestionHintIndex = Math.floor(Math.random() * questionList.length);
+			curQuestionHintIndex = Math.floor(rand() * questionList.length);
 
 			toggleInputInterface('none');
 			displayNextQuestion();
@@ -481,11 +481,11 @@ const toggleTaskReminder = (btn:HTMLButtonElement, taskName:string) =>
 const getRandomMoneyValue = () =>
 {
 	const moneyValues = [10, 20, 50, 100];
-	const randNumBriefjes = Math.floor(Math.random() * 3) + 3;
+	const randNumBriefjes = Math.floor(rand() * 3) + 3;
 
 	let total = 0;
 	for(let m = 0; m < randNumBriefjes; m++) {
-		total += moneyValues[Math.floor(Math.random() * moneyValues.length)];
+		total += moneyValues[Math.floor(rand() * moneyValues.length)];
 	}
 
 	return total;
@@ -496,7 +496,7 @@ const displayRandomOffer = () => {
 	// 		  (Maybe also some things that don't require taking a lot of money out of the shared money jar)
 
 	const offerTypes = ['moneyToJokers', 'moneyToFreePass', 'moneyToCards', 'moneyToMisc'];
-	const randType = offerTypes[Math.floor(Math.random() * offerTypes.length)]
+	const randType = offerTypes[Math.floor(rand() * offerTypes.length)]
 
 	let msg = '<strong>Aanbieding! </strong>';
 	let reward:number|string;
@@ -506,19 +506,19 @@ const displayRandomOffer = () => {
 	{
 		case 'moneyToJokers':
 			geldBedrag = getRandomMoneyValue();
-			reward = Math.floor(Math.random() * 2) + 2
+			reward = Math.floor(rand() * 2) + 2
 			msg += `Haal <strong>${geldBedrag} euro</strong> uit de pot in ruil voor <strong>${reward} jokers</strong>`;
 			break;
 
 		case 'moneyToFreePass':
 			geldBedrag = getRandomMoneyValue();
-			reward = Math.random() <= 0.5 ? "vrijstelling" : "zwarte vrijstelling";
+			reward = rand() <= 0.5 ? "vrijstelling" : "zwarte vrijstelling";
 			msg += `Haal <strong>${geldBedrag} euro</strong> uit de pot in ruil voor een <strong>${reward}</strong>`;
 			break;
 
 		case 'moneyToCards':
 			geldBedrag = getRandomMoneyValue();
-			reward = Math.floor(Math.random() * 5) + 5;
+			reward = Math.floor(rand() * 5) + 5;
 			msg += `Haal <strong>${geldBedrag} euro</strong> uit de pot in ruil voor <strong>${reward} kaarten</strong>`
 			break;
 
@@ -528,8 +528,8 @@ const displayRandomOffer = () => {
 			if(CONFIG._settings.expansions.eigenschappen.value) { possibleRewards.push('eigenschappen'); }
 
 			geldBedrag = getRandomMoneyValue();
-			const rewardType = possibleRewards[Math.floor(Math.random() * possibleRewards.length)];
-			reward = Math.floor(Math.random() * 3) + 1;
+			const rewardType = possibleRewards[Math.floor(rand() * possibleRewards.length)];
+			reward = Math.floor(rand() * 3) + 1;
 
 			msg += `Haal <strong>${geldBedrag} euro</strong> uit de pot`;
 
@@ -656,10 +656,10 @@ const displayMoleHint = (mole = true, fixedHint = null, fixedIndex = -1) =>
 	let hintTypes = ['Categories', 'Task', 'Money', 'Treasurer', 'Leader', 'TaskType', 'Snitch'];
 	if(!mole) { hintTypes = ['Categories', 'Money', 'Treasurer', 'Leader']; }
 
-	const randomHintType = fixedHint != null ? fixedHint : hintTypes[Math.floor(Math.random() * hintTypes.length)];
+	const randomHintType = fixedHint != null ? fixedHint : hintTypes[Math.floor(rand() * hintTypes.length)];
 	let hintText = '<strong>Hint! </strong>';
 
-	const randTaskIndex = fixedIndex >= 0 ? fixedIndex : Math.floor(Math.random() * numTasksPerRound);
+	const randTaskIndex = fixedIndex >= 0 ? fixedIndex : Math.floor(rand() * numTasksPerRound);
 
 	// NOTE: At this time, the previous tasks have alread been removed from the system
 	// So going from 0-numTasksPerRound already looks at the upcoming tasks
@@ -726,10 +726,10 @@ const displayMoleHint = (mole = true, fixedHint = null, fixedIndex = -1) =>
 			if(correctMoleVotersNow.length <= 0 && correctMoleVotersHistory.length <= 0) {
 				hintText += `Gefeliciteerd! Niemand heeft (tot nog toe) op jou gestemd bij deze en de vorige test!`;
 			} else if(correctMoleVotersNow.length > 0) {
-				const randomMoleVoter = correctMoleVotersNow[Math.floor(Math.random() * correctMoleVotersNow.length)]
+				const randomMoleVoter = correctMoleVotersNow[Math.floor(rand() * correctMoleVotersNow.length)]
 				hintText += `Oh nee! De speler <em>${randomMoleVoter}</em> heeft jou als trol aangewezen bij deze test`;
 			} else {
-				const randomMoleVoter = correctMoleVotersHistory[Math.floor(Math.random() * correctMoleVotersHistory.length)]
+				const randomMoleVoter = correctMoleVotersHistory[Math.floor(rand() * correctMoleVotersHistory.length)]
 				hintText += `Oh nee! De speler <em>${randomMoleVoter}</em> heeft jou als trol aangewezen bij de vorige test`;
 			}
 			break;
@@ -737,7 +737,7 @@ const displayMoleHint = (mole = true, fixedHint = null, fixedIndex = -1) =>
 		case 'KnownAnswers':
 			let splitText = [];
 			// if we display the true answers by the mole, we can easily give away the secret, so make these random
-			const randomMoleAnswer = moleIndex == 0 ? 1 : Math.floor(Math.random() * moleIndex);
+			const randomMoleAnswer = moleIndex == 0 ? 1 : Math.floor(rand() * moleIndex);
 			for(let i = 0; i < players.length; i++) 
 			{
 				if(!players[i].takenTest) { continue; }
@@ -788,10 +788,10 @@ const createQuestionList = () =>
 			const questions = task.questions;
 
 			// add one question out of the total (for this particular task)
-			addQuestionToList(questions[Math.floor(Math.random() * questions.length)], task.name);
+			addQuestionToList(questions[Math.floor(rand() * questions.length)], task.name);
 
 			// sometimes, randomly, skip a task completely
-			i += Math.floor(Math.random() * 2);
+			i += Math.floor(rand() * 2);
 		}
 	}
 
@@ -832,9 +832,9 @@ const getPlayerWithWorstTestResult = () =>
 		// If mole choses to self-destruct, just fill the test statistics with random values
 		for(let i = 0; i < players.length - 1; i++) 
 		{
-			testStatistics.allResults.push(Math.floor(Math.random() * questionList.length));
+			testStatistics.allResults.push(Math.floor(rand() * questionList.length));
 
-			const obfuscateCorrectMoleVoters = Math.random() <= 1.0/(players.length - 1);
+			const obfuscateCorrectMoleVoters = rand() <= 1.0/(players.length - 1);
 			if(obfuscateCorrectMoleVoters) 
 			{
 				testStatistics.numberCorrectMoleVoters++;
@@ -1072,7 +1072,7 @@ const displayRandomTestStatistic = () =>
 		statistics.push('shame')
 	}
 
-	const randStatistic = statistics[Math.floor(Math.random() * statistics.length)]
+	const randStatistic = statistics[Math.floor(rand() * statistics.length)]
 	const res = testStatistics.allResults
 
 	switch(randStatistic) {
@@ -1221,7 +1221,7 @@ const startGameOverPhase= () =>
 	// NOTE: I insert the mole here (because they aren't in that list by default), with a random score between 0 and number of questions
 	msg = `<p>Hier zijn wat leuke statistieken over de laatste test:</p><ul>`;
 
-	testStatistics.resultsWithPlayerAttached.push({ playerIndex: moleIndex, score: Math.floor(Math.random()*questionList.length) })
+	testStatistics.resultsWithPlayerAttached.push({ playerIndex: moleIndex, score: Math.floor(rand()*questionList.length) })
 	testStatistics.resultsWithPlayerAttached.sort((a,b) => { return a.score - b.score });
 
 	for(let i = 0; i < testStatistics.resultsWithPlayerAttached.length; i++) 

@@ -1,4 +1,5 @@
-import Card from "./card"
+
+import { rand } from "lib/pq-games";import Card from "./card"
 import { CONFIG } from "../shared/config"
 import ElementIcon from "./elementIcon"
 import { TypeStats } from "../shared/dict"
@@ -88,7 +89,7 @@ export default class Pack
         const lowerBoundType = apt.min * (numIcons / numUniqueTypes);
         if(numActionIconsType <= lowerBoundType) { return true; }
 
-        return Math.random() <= CONFIG.gameplay.actionProbability;
+        return rand() <= CONFIG.gameplay.actionProbability;
     }
     
     getDefaultElement()
@@ -121,7 +122,7 @@ export default class Pack
         const isAction = icon.action; // action types can't be multitype
         if(!CONFIG._settings.multiType.value || isAction) { return ""; }
         
-        let shouldAdd = Math.random() <= CONFIG.gameplay.multiTypeProbability;
+        let shouldAdd = rand() <= CONFIG.gameplay.multiTypeProbability;
         if(!shouldAdd) { return ""; }
 
         const allTypes = Object.values(CONFIG.elements);
@@ -143,7 +144,7 @@ export default class Pack
         let finalType = fromArray(options);
 
         // picking our main type (for this card) again has a higher probability
-        const pickSubType = Math.random() <= CONFIG._drawing.cards.generator.subTypeExtraProb;
+        const pickSubType = rand() <= CONFIG._drawing.cards.generator.subTypeExtraProb;
         if(pickSubType) { finalType = this.subtype; }
 
         // if one element is used WAAAY too little, always pick that

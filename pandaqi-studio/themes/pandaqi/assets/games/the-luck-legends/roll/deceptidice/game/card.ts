@@ -1,5 +1,5 @@
 
-import { createContext, DropShadowEffect, fillCanvas, getRectangleCornersWithOffset, InvertEffect, LayoutOperation, MaterialVisualizer, Rectangle, ResourceGroup, ResourceShape, ResourceText, TextConfig, TintEffect, Vector2 } from "lib/pq-games";
+import { createContext, DropShadowEffect, fillCanvas, getRectangleCornersWithOffset, InvertEffect, LayoutOperation, MaterialVisualizer, Rectangle, ResourceGroup, ResourceShape, ResourceText, TextConfig, TintEffect, Vector2, rand } from "lib/pq-games";
 import { MISC, SPECIAL_BIDS, SUITS, Suit, TEMPLATES } from "../shared/dict";
 
 export default class Card
@@ -206,7 +206,7 @@ export default class Card
             pos: vis.center,
             size: vis.get("cards.mainNumber.circleDims"),
             frame: MISC.center_circle.frame,
-            rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
+            rot: Math.floor(rand() * 4) * 0.5 * Math.PI,
             pivot: Vector2.CENTER
         });
         group.add(resMisc, opCircle);

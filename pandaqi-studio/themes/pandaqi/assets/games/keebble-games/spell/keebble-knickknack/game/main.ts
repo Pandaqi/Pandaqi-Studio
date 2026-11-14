@@ -1,4 +1,5 @@
-import Players from "./players"
+
+import { rand } from "lib/pq-games";import Players from "./players"
 import Header from "./header"
 import Score from "./score"
 import GameOver from "./gameOver"
@@ -215,7 +216,7 @@ export default class Game
         if(letterDoesntExist)
         {
             if(letter == "!") { return 0; }
-            if(letter == "?") { return Math.floor(Math.random()*4) + 1; }
+            if(letter == "?") { return Math.floor(rand()*4) + 1; }
             return 0;
         }
 

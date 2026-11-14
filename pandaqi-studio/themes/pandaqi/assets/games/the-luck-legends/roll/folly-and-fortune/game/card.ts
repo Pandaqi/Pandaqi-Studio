@@ -1,5 +1,5 @@
 
-import { fromArray, MaterialVisualizer, DropShadowEffect, createContext, fillCanvas, ResourceGroup, LayoutOperation, Vector2, TextConfig, ResourceText, StrokeAlign } from "lib/pq-games";
+import { fromArray, MaterialVisualizer, DropShadowEffect, createContext, fillCanvas, ResourceGroup, LayoutOperation, Vector2, TextConfig, ResourceText, StrokeAlign, rand } from "lib/pq-games";
 import { ACTIONS, ACTION_PREFIXES, ACTION_REPLACEMENTS, ActionType, MISC, NUMBERS_WRITTEN } from "../shared/dict";
 
 
@@ -16,7 +16,7 @@ export default class Card
     {
         this.num = num;
         this.health = health;
-        this.arrowRight = Math.random() <= 0.5;
+        this.arrowRight = rand() <= 0.5;
         this.keys = keys;
 
         this.fillInDynamicStrings();

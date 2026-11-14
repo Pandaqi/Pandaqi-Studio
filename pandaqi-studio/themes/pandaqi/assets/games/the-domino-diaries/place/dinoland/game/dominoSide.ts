@@ -1,7 +1,7 @@
 
 import { TerrainType, DinoType, TERRAINS, DINOS, MISC } from "../shared/dict"
 import { CONFIG } from "../shared/config";
-import { MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText, drawBlurryRectangle } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText, drawBlurryRectangle, rand } from "lib/pq-games";
 
 export default class DominoSide
 {
@@ -18,7 +18,7 @@ export default class DominoSide
 
         const disableTerrain = vis.inkFriendly && this.terrain == TerrainType.LAVA;
         const resTerrain = vis.getResource("terrains");
-        const randRotation = Math.floor(Math.random() * 4) * 0.5 * Math.PI;
+        const randRotation = Math.floor(rand() * 4) * 0.5 * Math.PI;
         const opTerrain = new LayoutOperation({
             frame: TERRAINS[this.terrain].frame,
             size: new Vector2(vis.sizeUnit),
@@ -37,7 +37,7 @@ export default class DominoSide
             const resDino = vis.getResource("dinosaurs");
             const dinoData = DINOS[this.dino];
             const shadow = new DropShadowEffect({ color: vis.get("dominoes.dino.shadowColor"), blurRadius: vis.get("dominoes.dino.shadowBlur") });
-            let wiggleRotation = this.dino == DinoType.EGG ? (Math.random()-0.5)*0.1*Math.PI : 0;
+            let wiggleRotation = this.dino == DinoType.EGG ? (rand()-0.5)*0.1*Math.PI : 0;
 
             const opDino = new LayoutOperation({
                 frame: dinoData.frame,

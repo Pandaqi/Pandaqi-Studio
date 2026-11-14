@@ -1,7 +1,7 @@
 import Card from "../game/card";
 import Player from "./player";
 import Hand from "./hand";
-import { shuffle } from "lib/pq-games";
+import { shuffle, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator } from "lib/pq-rulebook";
 
 
@@ -24,7 +24,7 @@ export default class PointingProcess
     async resolve(sim:InteractiveExampleSimulator) : Promise<PointingProcess[]>
     {
         // create piles
-        const numPiles = this.numPiles == -1 ? 2 + Math.floor(Math.random() * (this.count() - 2)) : this.numPiles;
+        const numPiles = this.numPiles == -1 ? 2 + Math.floor(rand() * (this.count() - 2)) : this.numPiles;
         const piles : Hand[] = [];
         for(let i = 0; i < numPiles; i++)
         {
@@ -45,7 +45,7 @@ export default class PointingProcess
         const nonPointingPlayers : Player[]  = [];
         for(const player of this.players)
         {
-            const pileIndex = Math.floor(Math.random() * (numPiles + 1)) - 1;
+            const pileIndex = Math.floor(rand() * (numPiles + 1)) - 1;
             pilePointedAtBy[player.num] = pileIndex;
             if(pileIndex == -1) {
                 nonPointingPlayers.push(player);

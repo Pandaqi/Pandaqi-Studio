@@ -1,4 +1,4 @@
-import { getMaterialDataForRulebook, shuffle, fromArray } from "lib/pq-games";
+import { getMaterialDataForRulebook, shuffle, fromArray, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -100,7 +100,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
             player.hand.addCard(regularCards.pop());
             
             const canBid = !player.hasBid();
-            const wannaBid = Math.random() <= CONFIG.rulebook.bidProb;
+            const wannaBid = rand() <= CONFIG.rulebook.bidProb;
             if(!(canBid && wannaBid)) { continue; }
             playersBidding.push(player.num + 1);
         }

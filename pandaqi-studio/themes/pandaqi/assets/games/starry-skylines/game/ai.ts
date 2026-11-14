@@ -1,4 +1,5 @@
-// in solo mode, this keeps track of what the AI knows
+
+import { rand } from "lib/pq-games";// in solo mode, this keeps track of what the AI knows
 // @IMPROV: Expand with more metrics, like where paths are and what their numbers are (to know where we can place them)        
 import Component from "./component"
 import Option from "./option"
@@ -124,7 +125,7 @@ export default class AI
         const weNeedBuildings = type == 'people';
         const weHaveBuildings = (locs.length > 0);
         if(weNeedBuildings && weHaveBuildings) {
-            const randIdx = Math.floor(Math.random() * locs.length);
+            const randIdx = Math.floor(rand() * locs.length);
             return locs[randIdx];							
         }
     
@@ -141,8 +142,8 @@ export default class AI
     getRandomLocation()
     {
         const cfg = this.game.getConfig();
-        const xPos = Math.floor(Math.random() * cfg.width);
-        const yPos = Math.floor(Math.random() * cfg.height);
+        const xPos = Math.floor(rand() * cfg.width);
+        const yPos = Math.floor(rand() * cfg.height);
         return { x: xPos, y: yPos };
     }
     

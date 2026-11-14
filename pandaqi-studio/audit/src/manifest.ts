@@ -56,11 +56,21 @@ const all = (html:string, re:RegExp) =>
 
 const uniq = <T,>(arr:T[]) => Array.from(new Set(arr));
 
-const classify = (kind:Kind, bundleText:string) : Contract =>
+// The libraries are a shared vendor bundle now, so `downloadPDF` lives in /lib/vendor/pq-games.js, not in
+// the page bundle: classifying on it (or on any library text) made every page look like a generator. What
+// a page's OWN code says is `loadGame` — the generator entry, whose default callback generates material —
+// or an explicit `generateMaterial` call. A page that mounts its own UI declares `customWidget: true` and
+// is never a generator, whatever its bundle mentions.
+const classify = (kind:Kind, bundleText:string, customWidget:boolean) : Contract =>
 {
     if(kind === "rules") { return "rulebook"; }
+    if(customWidget) { return "digital"; }
     if(kind === "board") { return "generator"; }
-    if(kind === "game") { return bundleText.includes("downloadPDF") ? "generator" : "digital"; }
+    if(kind === "game")
+    {
+        const generates = /\bloadGame\b|\bgenerateMaterial\b/.test(bundleText);
+        return generates ? "generator" : "digital";
+    }
     return "none";
 }
 
@@ -86,8 +96,10 @@ export const buildManifest = (opts:ManifestOptions) : ManifestEntry[] =>
     for(const mdPath of walk(contentDir))
     {
         const text = readFileSync(mdPath, "utf8");
-        const kind = typeOf(frontmatter(text));
+        const fm = frontmatter(text);
+        const kind = typeOf(fm);
         if(!kind) { continue; }
+        const customWidget = /^\s*customWidget:\s*true\s*$/m.test(fm);
 
         const { url, legacyPath } = urlForMarkdown(contentDir, mdPath);
         const htmlPath = join(opts.siteDir, url, "index.html");
@@ -105,7 +117,7 @@ export const buildManifest = (opts:ManifestOptions) : ManifestEntry[] =>
                 url, kind, contract: "none", scripts: [], links: [], examples: [], tables: [],
                 bodyClass: "", hasRulebookContent: false, bundleText: "",
                 isDraftProject: isDraftProject(opts.studioDir, projectRoot),
-                legacyPath, missing: true,
+                legacyPath, missing: true, customWidget,
                 sourceMd: mdPath.slice(resolve(contentDir).length + 1).replace(/\\/g, "/"),
                 htmlPath,
             });
@@ -124,6 +136,8 @@ export const buildManifest = (opts:ManifestOptions) : ManifestEntry[] =>
         for(const src of scripts)
         {
             if(!/\/(games|lib)\//.test(src) && !src.endsWith("/rulebook-default.js")) { continue; }
+            // shared framework code is not this page's code (§4.2)
+            if(/^\/lib\/vendor\//.test(src)) { continue; }
             const file = join(opts.siteDir, src.replace(/^\//, ""));
             if(existsSync(file)) { bundleParts.push(readFileSync(file, "utf8")); }
         }
@@ -132,7 +146,7 @@ export const buildManifest = (opts:ManifestOptions) : ManifestEntry[] =>
         entries.push({
             url,
             kind,
-            contract: classify(kind, bundleText),
+            contract: classify(kind, bundleText, customWidget),
             scripts,
             links,
             examples,
@@ -143,6 +157,7 @@ export const buildManifest = (opts:ManifestOptions) : ManifestEntry[] =>
             isDraftProject: isDraftProject(opts.studioDir, projectRoot),
             legacyPath,
             missing: false,
+            customWidget,
             sourceMd: mdPath.slice(resolve(contentDir).length + 1).replace(/\\/g, "/"),
             htmlPath,
         });

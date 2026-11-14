@@ -9,6 +9,14 @@ import { getRandomSeedString } from "../tools/random/values";
 
 export const PROTECTED_CONFIGURATION_PROPERTIES = ["_game", "_settings", "_generation", "_drawing", "_material", "_resources", "_debug", "_translation"];
 
+// Every path a `_drawing` tree offers, written the way `vis.get()` addresses it. A nested object also
+// contributes its own key, so both `tokens` and `tokens.numPerCard` type-check. `GameConfig`'s `_drawing`
+// is `Record<string, any>`, which collapses this to `string`: a visualizer built from a literal config
+// rejects a typo, a visualizer typed as the plain `GameConfig` accepts any string.
+export type DrawingPaths<T> = T extends object
+    ? { [K in keyof T & string]: K | `${K}.${DrawingPaths<T[K]>}` }[keyof T & string]
+    : never;
+
 export interface GameConfigMaterialSubset
 {
     _resources?: GameConfigResources,

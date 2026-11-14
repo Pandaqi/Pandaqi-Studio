@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, Vector2, TextConfig, LayoutOperation, StrokeAlign, ResourceText, Color, Rectangle, Path, roundPath, ResourceShape, rangeInteger, getSettingDefault } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, Vector2, TextConfig, LayoutOperation, StrokeAlign, ResourceText, Color, Rectangle, Path, roundPath, ResourceShape, rangeInteger, getSettingDefault, rand } from "lib/pq-games";
 import { CELLS, COLOR_GROUPS, CORNER_OFFSETS, GENERAL } from "../shared/dict";
 import BoardDisplay from "./boardDisplay";
 import Cell from "./cell";
@@ -83,7 +83,7 @@ export default class CellDisplay
             pos: pos,
             pivot: Vector2.CENTER,
             size: size,
-            flipX: (Math.random() <= 0.5),
+            flipX: (rand() <= 0.5),
             frame: frame
         });
         group.add(res, op);

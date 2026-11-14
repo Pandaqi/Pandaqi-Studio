@@ -1,4 +1,4 @@
-import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, getRectangleCornersWithOffset, TextConfig, ResourceText, Vector2, DropShadowEffect } from "lib/pq-games";
+import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, getRectangleCornersWithOffset, TextConfig, ResourceText, Vector2, DropShadowEffect, rand } from "lib/pq-games";
 import { CardType, Suit, MISC, BID_CARDS, TEMPLATES, NUMBER_ARRANGEMENTS, NUMBER_INDICES } from "../shared/dict";
 
 export default class Card
@@ -238,8 +238,8 @@ export default class Card
             size: vis.size,
             frame: TEMPLATES.overlay.frame,
             effects: vis.inkFriendlyEffect,
-            flipX: Math.random() <= 0.5,
-            flipY: Math.random() <= 0.5,
+            flipX: rand() <= 0.5,
+            flipY: rand() <= 0.5,
             composite: "overlay",
             alpha: vis.get("cards.overlay.alpha")
         })

@@ -1,6 +1,6 @@
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
 import { loadRulebook } from "lib/pq-rulebook";
-import { ResourceLoader } from "lib/pq-games";
+import { ResourceLoader, rand } from "lib/pq-games";
 import RandomNaivigationSetupGenerator from "games/naivigation/shared/randomNaivigationSetupGenerator";
 import RandomNaivigationTurnGenerator from "games/naivigation/shared/randomNaivigationTurnGenerator";
 import { cardPicker, tilePicker } from "../game/generators";
@@ -22,8 +22,8 @@ const setup = new RandomNaivigationSetupGenerator({
 
 const setupCallback = (setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) =>
 {
-    turn.gameData.wind = Math.floor(Math.random() * 4);
-    turn.gameData.compass = new Vector2().fromAngle(Math.floor(Math.random() * 4) * 0.5 * Math.PI);
+    turn.gameData.wind = Math.floor(rand() * 4);
+    turn.gameData.compass = new Vector2().fromAngle(Math.floor(rand() * 4) * 0.5 * Math.PI);
 }
 
 // given the card and current map/round state, what happens?
@@ -37,7 +37,7 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
     {
         const turnDir = card.customData.turnDirection;
         const str = (turnDir == 1) ? "right" : "left";
-        const rotateShip = Math.random() <= 0.5;
+        const rotateShip = rand() <= 0.5;
 
         if(rotateShip) {
             setup.rotatePlayer(0, turnDir);
@@ -62,7 +62,7 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
 
     if(key == "wind")
     {
-        const windDir = Math.random() <= 0.5 ? 1 : -1;
+        const windDir = rand() <= 0.5 ? 1 : -1;
         const str = (windDir == 1) ? "+1" : "-1";
 
         const newWind = turn.gameData.wind + windDir

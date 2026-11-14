@@ -1,4 +1,5 @@
-export default class Score 
+
+import { rand } from "lib/pq-games";export default class Score 
 {
     game: any;
     scores:Record<string,number>;
@@ -117,7 +118,7 @@ export default class Score
     {
         for(const name of Object.keys(this.scores))
         {
-            this.scores[name] = Math.floor(Math.random()*20) + 1;
+            this.scores[name] = Math.floor(rand()*20) + 1;
         }
     }
 }

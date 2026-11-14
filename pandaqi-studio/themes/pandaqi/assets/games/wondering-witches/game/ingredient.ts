@@ -1,4 +1,5 @@
-import { INGREDIENTS, DECOY_NAMES, EFFECT_DICT } from "../shared/dict"
+
+import { rand } from "lib/pq-games";import { INGREDIENTS, DECOY_NAMES, EFFECT_DICT } from "../shared/dict"
 
 // holds one ingredient
 export default class Ingredient 
@@ -54,14 +55,14 @@ export default class Ingredient
 	isImposter() { return this.decoy == 2; }
 	makeDecoy(type = -1) 
 	{ 
-		let rand = Math.random();
+		let randValue = rand();
 		let decoyStatus = 0;
 		let newNum = this.num;
 
         const dramaDecoysNotEnabled = !this.config.dramaDecoys;
-		if(rand <= 0.45 || dramaDecoysNotEnabled) {
+		if(randValue <= 0.45 || dramaDecoysNotEnabled) {
 			decoyStatus = 0;
-		} else if(rand <= 0.8) {
+		} else if(randValue <= 0.8) {
 			decoyStatus = 1;
 		} else {
 			decoyStatus = 2;
@@ -69,7 +70,7 @@ export default class Ingredient
 
         if(type >= 0) { decoyStatus = type; }
         if(decoyStatus == 1) { 
-			newNum = Math.random() <= 0.5 ? 0 : (this.config.numSecretIngredients + 1);
+			newNum = rand() <= 0.5 ? 0 : (this.config.numSecretIngredients + 1);
         } else if(decoyStatus == 2) {
             newNum = this.config.getRandomSecretNum();
 			this.addEffect("Imposter");

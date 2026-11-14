@@ -1,4 +1,4 @@
-import { fromArray, Vector2, assignGridNeighbors, GridNeighborType, rangeInteger, shuffle, createContext, Rectangle, LayoutOperation, ResourceShape, Line, isApprox, Bounds, getMaterialDataForRulebook } from "lib/pq-games";
+import { fromArray, Vector2, assignGridNeighbors, GridNeighborType, rangeInteger, shuffle, createContext, Rectangle, LayoutOperation, ResourceShape, Line, isApprox, Bounds, getMaterialDataForRulebook, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Cell from "../board/cell";
 import { CONFIG } from "../shared/config";
@@ -10,7 +10,7 @@ class Collection
 
     constructor(num:number, options:string[])
     {
-        const makeSame = Math.random() <= 0.33;
+        const makeSame = rand() <= 0.33;
         const sameOption = fromArray(options);
         const arr = [];
         for(let i = 0; i < num; i++)

@@ -1,4 +1,4 @@
-import { getMaterialDataForRulebook, shuffle } from "lib/pq-games";
+import { getMaterialDataForRulebook, shuffle, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import { CONFIG } from "../shared/config";
 import { PACKS } from "../shared/dict";
@@ -86,8 +86,8 @@ class Card
     }
 }
 
-const getRandomNum = () => { return 1 + Math.floor(Math.random()*6); }
-const getRandomHands = () => { return Math.random() <= 0.33; };
+const getRandomNum = () => { return 1 + Math.floor(rand()*6); }
+const getRandomHands = () => { return rand() <= 0.33; };
 const printCardList = (o, arr) =>
 {
     const list : any[] = [];
@@ -279,7 +279,7 @@ export const generateForRulebook = async (sim:InteractiveExampleSimulator, inclu
             continue;
         }
 
-        const randPile = piles[Math.floor(Math.random() * piles.length)];
+        const randPile = piles[Math.floor(rand() * piles.length)];
         const randPileNum = randPile.getNum();
 
         let txt = "The <strong>" + myNum + "</strong> card fits nowhere!";

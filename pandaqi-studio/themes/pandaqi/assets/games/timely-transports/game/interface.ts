@@ -1,4 +1,5 @@
-import { CITY_NAMES, PLAYERCOUNT_TO_CITYCOUNT, GOODS, EVENTS, DIFFICULTY_LEVELS } from "../shared/dict"
+
+import { rand } from "lib/pq-games";import { CITY_NAMES, PLAYERCOUNT_TO_CITYCOUNT, GOODS, EVENTS, DIFFICULTY_LEVELS } from "../shared/dict"
 import GlobalTimer from "./globalTimer"
 import Score from "./score"
 import Buttons from "./buttons"
@@ -159,7 +160,7 @@ export default class Interface {
     getRandomCity() 
     {
         const cities = this.config.cityNames;
-		return cities[Math.floor(Math.random() * cities.length)];
+		return cities[Math.floor(rand() * cities.length)];
 	}
 
 	getRandomGood() 

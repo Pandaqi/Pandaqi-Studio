@@ -1,5 +1,5 @@
 
-import { Vector2, MaterialVisualizer } from "lib/pq-games";
+import { Vector2, MaterialVisualizer, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import Map from "./map"
 
@@ -55,7 +55,7 @@ class HintVisualizer
 		for(let i = 0; i < layers.length; i++)
 		{
 			if(!("shuffle" in layers[i])) { continue; }
-			if(Math.random() <= 0.5) { continue; }
+			if(rand() <= 0.5) { continue; }
 
 			for(let j = 0; j < layers.length; j++) {
 				if(i == j) { continue; }

@@ -1,5 +1,5 @@
 
-import { BalancedFrequencyPickerWithMargin, shuffle, fromArray, getWeighted } from "lib/pq-games";
+import { BalancedFrequencyPickerWithMargin, shuffle, fromArray, getWeighted, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIONS, FOOD, GeneralData, MaterialType, Recipe, RecipeList, RecipeRewardType, VICTIMS } from "../shared/dict";
 import Card from "./card";
@@ -164,14 +164,14 @@ const createMultiFoodRecipe = (pickers:BalancedFrequencyPickerWithMargin[], maxT
     if(customProb >= 0) { prob = customProb; }
 
     const roomForMoreMulti = (recipeData.multi / recipeData.total) < CONFIG.generation.multiFoodMaxPercentage;
-    const shouldCreateMulti = Math.random() <= prob && roomForMoreMulti;
+    const shouldCreateMulti = rand() <= prob && roomForMoreMulti;
     if(!shouldCreateMulti) { return [recipe]; }
 
-    const targetRecipeLength = (Math.random() <= CONFIG.generation.multiFoodRecipeLengthThreeProb) ? 3 : 2;
+    const targetRecipeLength = (rand() <= CONFIG.generation.multiFoodRecipeLengthThreeProb) ? 3 : 2;
     const maxRecipeValue = CONFIG.generation.maxRecipeValue;
     while(recipe.length < targetRecipeLength)
     {
-        const pickerToUse = Math.floor(Math.random() * maxTier);
+        const pickerToUse = Math.floor(rand() * maxTier);
         recipe.push(pickers[pickerToUse].pickNext());
         const value = countRecipeValue({ cost: [recipe], reward: null });
         if(value >= maxRecipeValue) { break; }
@@ -200,7 +200,7 @@ const countRecipeValue = (recipe:Recipe) =>
 
 const getActionsOfValue = (val:number, availableActions:Record<string, GeneralData>, exclude:string[] = []) =>
 {
-    const giveFoodReward = Math.random() <= CONFIG.generation.foodRewardProb;
+    const giveFoodReward = rand() <= CONFIG.generation.foodRewardProb;
     const foodRewardError = CONFIG.generation.foodRewardErrorBounds;
     if(giveFoodReward)
     {

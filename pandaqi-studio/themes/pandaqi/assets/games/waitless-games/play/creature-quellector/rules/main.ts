@@ -1,5 +1,5 @@
 
-import { rangeInteger, fromArray, Vector2, createCanvas } from "lib/pq-games";
+import { rangeInteger, fromArray, Vector2, createCanvas, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import { CONFIG } from "../shared/config";
 import { CATEGORIES, ELEMENTS } from "../shared/dict";
@@ -25,7 +25,7 @@ class Card
         for(let i = 0; i < numTypes; i++)
         {
             this.types.push(fromArray(CONFIG.types));
-            this.actions.push(CONFIG.includeActions && Math.random() <= CONFIG.actionProb);
+            this.actions.push(CONFIG.includeActions && rand() <= CONFIG.actionProb);
         }
     }
 

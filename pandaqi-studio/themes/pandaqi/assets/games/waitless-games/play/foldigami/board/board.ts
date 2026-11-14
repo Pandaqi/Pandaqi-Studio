@@ -1,4 +1,5 @@
 
+import { rand } from "lib/pq-games";
 import BoardState from "./boardState"
 import Cell from "./cell"
 import { CONFIG } from "../shared/config"
@@ -130,7 +131,7 @@ export default class Board
 
         let myRot = 0;
         if(data.allowAllRotations) {
-            myRot = Math.floor(Math.random() * 4);
+            myRot = Math.floor(rand() * 4);
             changeRotation = true;
         } else {
             myRot = params.lastTutorialRotation;

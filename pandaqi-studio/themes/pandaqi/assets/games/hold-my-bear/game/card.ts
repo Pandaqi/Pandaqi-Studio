@@ -1,5 +1,5 @@
 
-import { Vector2, MaterialVisualizer, createContext, ResourceGroup, fillResourceGroup, LayoutOperation, rangeInteger, ResourceImage, TextConfig, ResourceText, ColorLike, DropShadowEffect, getPositionsCenteredAround, TextAlign } from "lib/pq-games";
+import { Vector2, MaterialVisualizer, createContext, ResourceGroup, fillResourceGroup, LayoutOperation, rangeInteger, ResourceImage, TextConfig, ResourceText, ColorLike, DropShadowEffect, getPositionsCenteredAround, TextAlign, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ANIMALS, AnimalData, COLORS } from "../shared/dict";
 
@@ -68,13 +68,13 @@ export default class Card
         const resSplat = vis.getResource("decoration");
         
         let angleJumps = 2 * Math.PI / numSplats;
-        let startAngle = Math.random() * 2 * Math.PI;
+        let startAngle = rand() * 2 * Math.PI;
 
         for(let i = 0; i < numSplats; i++)
         {
             const frame = rangeInteger(1,3);
             const randAlpha = vis.get("cards.illustration.splatAlphaBounds").random();
-            const randRotation = Math.random() * 2 * Math.PI;
+            const randRotation = rand() * 2 * Math.PI;
 
             const ang = startAngle + i*angleJumps;
             const randRadius = vis.get("cards.illustration.splatRadiusBounds").random() * this.sizeUnit;

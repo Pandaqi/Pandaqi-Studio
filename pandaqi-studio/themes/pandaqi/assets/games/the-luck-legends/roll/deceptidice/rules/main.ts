@@ -1,5 +1,5 @@
 
-import { getMaterialDataForRulebook, shuffle, fromArray } from "lib/pq-games";
+import { getMaterialDataForRulebook, shuffle, fromArray, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -117,7 +117,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
             const certainlyCorrect = curGuess.matchesDiceResults(curPlayer.hand); // if we are certain the guess is correct from our hand alone, don't stop guessing of course
 
             const mustGuess = curGuess.isEmpty() || counterTurns < CONFIG.rulebook.minTurnsBeforeChallenge;
-            const wannaGuess = Math.random() <= CONFIG.rulebook.keepGuessingProb || certainlyCorrect;
+            const wannaGuess = rand() <= CONFIG.rulebook.keepGuessingProb || certainlyCorrect;
             const cantGuess = newGuess.isEmpty() || counterTurns >= CONFIG.rulebook.maxTurnsBeforeChallenge;
             const hasGuessed = (mustGuess || wannaGuess) && !cantGuess;
             const hasChallenged = !hasGuessed;

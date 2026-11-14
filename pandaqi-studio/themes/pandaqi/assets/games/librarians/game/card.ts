@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, Vector2, Rectangle, ResourceGroup, fillResourceGroup, LayoutOperation, TintEffect, BlurEffect, ResourceShape, TextConfig, ResourceText, getRectangleCornersWithOffset, InvertEffect, TextWeight, TextAlign, StrokeAlign } from "lib/pq-games";
+import { MaterialVisualizer, Vector2, Rectangle, ResourceGroup, fillResourceGroup, LayoutOperation, TintEffect, BlurEffect, ResourceShape, TextConfig, ResourceText, getRectangleCornersWithOffset, InvertEffect, TextWeight, TextAlign, StrokeAlign, rand } from "lib/pq-games";
 import { ACTIONS, ACTIONS_THRILL, AGE_RANGES, AUTHORS, BOOK_TITLES, COLORS, CardType, GENRES, MISC } from "../shared/dict";
 
 export default class Card
@@ -217,7 +217,7 @@ export default class Card
             pos: arrowPos,
             size: vis.get("cards.bookShelf.arrow.size"),
             frame: MISC.bookshelf_arrow.frame,
-            flipX: Math.random() <= 0.5,
+            flipX: rand() <= 0.5,
             pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         });

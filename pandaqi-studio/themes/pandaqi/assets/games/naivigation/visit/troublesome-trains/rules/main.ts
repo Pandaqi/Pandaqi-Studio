@@ -1,6 +1,6 @@
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
 import { loadRulebook } from "lib/pq-rulebook";
-import { ResourceLoader } from "lib/pq-games";
+import { ResourceLoader, rand } from "lib/pq-games";
 import RandomNaivigationSetupGenerator, { TileData } from "games/naivigation/shared/randomNaivigationSetupGenerator";
 import RandomNaivigationTurnGenerator from "games/naivigation/shared/randomNaivigationTurnGenerator";
 import { cardPicker, tilePicker } from "../game/generators";
@@ -70,16 +70,16 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
 
     if(key == "switch")
     {
-        turn.gameData.switchTile = Math.floor(Math.random() * 4);
+        turn.gameData.switchTile = Math.floor(rand() * 4);
         fb.push("The Switch card rotated the Switch tile to a new side pointing up. (This side determines where trains must go when moving over a tile that splits in multiple directions.)");
     }
 
     // only relevant in EXPANSION now, so basically ignored here
     if(key == "power")
     {
-        const randomTrain = Math.floor(Math.random() * 5);
+        const randomTrain = Math.floor(rand() * 5);
         const tileTypeString = MATERIAL[TileType.VEHICLE]["vehicle_" + randomTrain].label;
-        const newValue = Math.random() <= 0.33 ? 1 : (Math.random() <= 0.5 ? -1 : 0);
+        const newValue = rand() <= 0.33 ? 1 : (rand() <= 0.5 ? -1 : 0);
         turn.gameData.trainTiles[randomTrain] = newValue;
         const outcomeString = ["Backward", "Stand Still", "Forward"][newValue + 1];
         fb.push("The Power card rotated a Train Tile (" + tileTypeString + "). Now that Train is set to " + outcomeString + ".");
@@ -88,7 +88,7 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
     if(key == "map")
     {
         const cell = setup.getCellRandom();
-        const randRot = 1 + Math.floor(Math.random() * 3);
+        const randRot = 1 + Math.floor(rand() * 3);
         cell.rot = (cell.rot + randRot) % 4;
         fb.push("The Map card rotated a tile on the map. (At position " + cell.position.x + ", " + cell.position.y +  ".)");
     }

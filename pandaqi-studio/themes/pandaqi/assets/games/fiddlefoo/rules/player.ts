@@ -2,7 +2,7 @@ import Card from "../game/card";
 import Board, { Move } from "./board";
 import Pair from "./pair";
 import { CONFIG } from "../shared/config";
-import { fromArray, convertCanvasToImageMultiple } from "lib/pq-games";
+import { fromArray, convertCanvasToImageMultiple, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator } from "lib/pq-rulebook";
 
 export default class Player
@@ -25,7 +25,7 @@ export default class Player
     
     removeCardRandom() 
     { 
-        const randIdx = Math.floor(Math.random() * this.count());
+        const randIdx = Math.floor(rand() * this.count());
         return this.removeCardAtIndex(randIdx); 
     }
 
@@ -74,7 +74,7 @@ export default class Player
         for(const card of this.cards)
         {
             // randomly decide to throw out a few if we have too many/or just randomly?
-            if(Math.random() > CONFIG.rulebook.throwCardProb) { continue; }
+            if(rand() > CONFIG.rulebook.throwCardProb) { continue; }
 
             // otherwise, save options divided by match criteria
             const inRange = pair.inRange(card.num) && (card.color == pair.getColor());
@@ -85,7 +85,7 @@ export default class Player
 
         // distance / music note matches only allow giving ONE card at most
         // @NOTE: if we can give away LOADS of numbers, though, do that instead
-        const giveDistFit = arrDist.length > 0 && (Math.random() <= 0.25 || arrRange.length <= 0) && arrRange.length < 3;
+        const giveDistFit = arrDist.length > 0 && (rand() <= 0.25 || arrRange.length <= 0) && arrRange.length < 3;
         if(giveDistFit)
         {
             return [fromArray(arrDist)];

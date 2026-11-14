@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray, getWeighted, Bounds, SettingType } from "lib/pq-games";
+import { shuffle, fromArray, getWeighted, Bounds, SettingType, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIONS_THRILL, AGE_RANGES, AUTHORS, BOOK_TITLES, COLORS, CardType, SHELF_POWERS } from "../shared/dict";
 import Card from "./card";
@@ -264,7 +264,7 @@ const convertActionTemplateToShelfAction = (desc:string) =>
 
     if(desc.includes("%side%"))
     {
-        const str = Math.random() <= 0.5 ? "left" : "right";
+        const str = rand() <= 0.5 ? "left" : "right";
         desc = desc.replace("%side%", str);
     }
 

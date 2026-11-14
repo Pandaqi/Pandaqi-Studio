@@ -1,6 +1,6 @@
 import { CardType, MaterialNaivigationData, MaterialNaivigationType, NetworkType, TerrainType, TileType } from "games/naivigation/shared/dictShared";
 import MaterialNaivigation from "./materialNaivigation";
-import { shuffle, fromArray, getSetting } from "lib/pq-games";
+import { shuffle, fromArray, getSetting, rand } from "lib/pq-games";
 
 interface DictData
 {
@@ -85,7 +85,7 @@ export default class GeneralPickerNaivigation
         {
             for(const value of Object.values(TerrainType))
             {
-                td[value] = { prob: Math.round(1 + 4*Math.random()) }
+                td[value] = { prob: Math.round(1 + 4*rand()) }
             }
         }
 
@@ -101,7 +101,7 @@ export default class GeneralPickerNaivigation
         {
             for(const value of Object.values(NetworkType))
             {
-                nd[value] = { prob: Math.round(1 + 4*Math.random()) }
+                nd[value] = { prob: Math.round(1 + 4*rand()) }
             }
         }
 
@@ -175,7 +175,7 @@ export default class GeneralPickerNaivigation
             {
                 for(let i = 0; i < num; i++)
                 {
-                    if(Math.random() <= data.prob) { continue; }
+                    if(rand() <= data.prob) { continue; }
                     numOfType++;
                 }    
             } 

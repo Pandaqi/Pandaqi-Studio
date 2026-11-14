@@ -1,4 +1,5 @@
-import Timer from "./timer"
+
+import { rand } from "lib/pq-games";import Timer from "./timer"
 import Interface from "./interface"
 
 export default class Goods 
@@ -74,7 +75,7 @@ export default class Goods
         let newTime = cfg.goodRunoutTime;
 
         if(!this.goodIsActive()) {
-            newTime = Math.random() * (cfg.maxGoodTimer - cfg.minGoodTimer) + cfg.minGoodTimer;
+            newTime = rand() * (cfg.maxGoodTimer - cfg.minGoodTimer) + cfg.minGoodTimer;
         }
 
         this.timer.resetTo(newTime);

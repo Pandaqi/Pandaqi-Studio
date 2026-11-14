@@ -1,6 +1,6 @@
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
 import { loadRulebook } from "lib/pq-rulebook";
-import { ResourceLoader } from "lib/pq-games";
+import { ResourceLoader, rand } from "lib/pq-games";
 import RandomNaivigationSetupGenerator from "games/naivigation/shared/randomNaivigationSetupGenerator";
 import RandomNaivigationTurnGenerator from "games/naivigation/shared/randomNaivigationTurnGenerator";
 import { cardPicker, tilePicker } from "../game/generators";
@@ -22,7 +22,7 @@ const setup = new RandomNaivigationSetupGenerator({
 
 const setupCallback = (setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) =>
 {
-    turn.gameData.elevation = 1 + Math.floor(Math.random() * 4)
+    turn.gameData.elevation = 1 + Math.floor(rand() * 4)
 }
 
 
@@ -35,7 +35,7 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
 
     if(key == "turn")
     {
-        const turnDir = Math.random() <= 0.5 ? 1 : -1;
+        const turnDir = rand() <= 0.5 ? 1 : -1;
         const str = (turnDir == 1) ? "right" : "left";
         setup.rotatePlayer(0, turnDir);
         fb.push("The Turn card rotated the airplane to the " + str + ". (That's the direction the start player chose in the moment, without discussion.)");

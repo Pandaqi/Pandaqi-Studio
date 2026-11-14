@@ -1,4 +1,4 @@
-import { Vector2, fromArray, Bounds, createContext, ResourceGroup, ResourceShape, Circle, LayoutOperation, getPositionsCenteredAround, ResourceImage, convertCanvasToImage } from "lib/pq-games";
+import { Vector2, fromArray, Bounds, createContext, ResourceGroup, ResourceShape, Circle, LayoutOperation, getPositionsCenteredAround, ResourceImage, convertCanvasToImage, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator } from "lib/pq-rulebook";
 import Tile from "../game/tile";
 import { CONFIG } from "../shared/config";
@@ -198,7 +198,7 @@ export default class Board
         {
             let str = "Step " + (i+1) + ") ";
 
-            const canLeapfrog = g.curPlayer.leapfrog && Math.random() <= CONFIG.rulebook.leapFrogUseProb;
+            const canLeapfrog = g.curPlayer.leapfrog && rand() <= CONFIG.rulebook.leapFrogUseProb;
             if(canLeapfrog) { g.curPlayer.leapfrog = false; }
 
             // if no moves are returned, all options are BLOCKED
@@ -214,7 +214,7 @@ export default class Board
             // pick a random move
             // with some probability, prefer picking a move that makes us STAY on te board
             let randMove = fromArray(moves);
-            const stayOnBoard = Math.random() <= CONFIG.rulebook.preferStayingOnBoardProb;
+            const stayOnBoard = rand() <= CONFIG.rulebook.preferStayingOnBoardProb;
 
             if(!this.hasTile(randMove) && stayOnBoard)
             {

@@ -1,5 +1,5 @@
 
-import { convertCanvasToImageMultiple, getMaterialDataForRulebook, shuffle, rangeInteger, fromArray } from "lib/pq-games";
+import { convertCanvasToImageMultiple, getMaterialDataForRulebook, shuffle, rangeInteger, fromArray, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -156,7 +156,7 @@ const drawMatchingSuitsWithProb = (options:Card[], suits:string[], num:number, p
             newCard = options.pop();
             leadingSuit = newCard.suit;
         } else {
-            const findMatch = Math.random() <= prob;
+            const findMatch = rand() <= prob;
             if(!findMatch) { newCard = options.pop(); }
             else {
                 for(let a = 0; a < options.length; a++)
@@ -181,7 +181,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 
     const possibleCards : Card[] = shuffle(sim.getPicker("cards")().slice());
     const possibleSuits = Object.keys(CONFIG._settings.suits.value);
-    const includeTrumpAndBid = Math.random() <= 0.25;
+    const includeTrumpAndBid = rand() <= 0.25;
 
     const numTableCards = rangeInteger(2,4);
     const tableCards = drawMatchingSuitsWithProb(possibleCards, possibleSuits, numTableCards, 0.4);

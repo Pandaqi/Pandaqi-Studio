@@ -1,5 +1,6 @@
 ---
 type: "game"
+customWidget: true
 ---
 
 <div id="events-container">

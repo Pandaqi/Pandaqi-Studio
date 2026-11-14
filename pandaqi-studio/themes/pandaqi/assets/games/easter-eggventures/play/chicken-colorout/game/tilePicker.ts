@@ -1,4 +1,4 @@
-import { rangeInteger, shuffle, getWeighted, Vector2, Rectangle } from "lib/pq-games";
+import { rangeInteger, shuffle, getWeighted, Vector2, Rectangle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { REQUIREMENTS, SPECIAL_SCORE_RULES, SlotRequirement, TILES, TileCustomData, TileGridCell, TileType } from "../shared/dict";
 import Tile from "./tile";
@@ -34,7 +34,7 @@ const generatePawns = (tiles) =>
 
 const generateRandomSlotRequirement = (type:string, options:Record<string,any>) : SlotRequirement[] =>
 {
-    const invert = Math.random() <= CONFIG.generation.requirementNegationProb;
+    const invert = rand() <= CONFIG.generation.requirementNegationProb;
     const data = options[type];
 
     const list = [];
@@ -255,7 +255,7 @@ const fillTileGrid = (data:TileCustomData) =>
     if(data.slotReq)
     {
         const squaresNeeded = data.slotReq.length;
-        const square = Math.random() <= 0.5 ? new Vector2(squaresNeeded, 1) : new Vector2(1, squaresNeeded);
+        const square = rand() <= 0.5 ? new Vector2(squaresNeeded, 1) : new Vector2(1, squaresNeeded);
         const { anchor, cells } = placeSquareInGrid(grid, square);
         for(let i = 0; i < cells.length; i++)
         {

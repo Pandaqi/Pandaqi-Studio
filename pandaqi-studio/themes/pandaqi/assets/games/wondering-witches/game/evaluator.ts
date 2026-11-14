@@ -1,4 +1,5 @@
 import Cauldron from "./cauldron";
+import { rand } from "lib/pq-games";
 import { EFFECT_DICT } from "../shared/dict"
 
 export default class PotionEvaluator 
@@ -223,7 +224,7 @@ export default class PotionEvaluator
             const numbersNotPresent = this.cauldron.getNumbersPresent(false);
 			params.feedbackValue = 'nothing to say';
 			if(numbersNotPresent.length > 0) {
-				const randNum = numbersNotPresent[Math.floor(Math.random()*numbersNotPresent.length)];
+				const randNum = numbersNotPresent[Math.floor(rand()*numbersNotPresent.length)];
 				params.feedbackValue = 'number ' + randNum;
 			}
         
@@ -272,7 +273,7 @@ export default class PotionEvaluator
 
         } else if(e == "Joker") {
 			var validFakeEffects = ["Liar", "Detective", "General", "Inspector", "Calculator", "Revealer", "Blessing", "Hugger"];
-			var randEffect = validFakeEffects[Math.floor(Math.random()*validFakeEffects.length)];
+			var randEffect = validFakeEffects[Math.floor(rand()*validFakeEffects.length)];
 
             params.effect = randEffect;
             params.obscureName = true;

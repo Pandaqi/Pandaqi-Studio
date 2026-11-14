@@ -1,4 +1,4 @@
-import { Color, MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, Vector2, TintEffect, clamp, lerp, getRectangleCornersWithOffset, TextConfig, ResourceText, colorDarken } from "lib/pq-games";
+import { Color, MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, Vector2, TintEffect, clamp, lerp, getRectangleCornersWithOffset, TextConfig, ResourceText, colorDarken, rand } from "lib/pq-games";
 import { EXPANSION } from "../shared/dict";
 
 export default class Card
@@ -53,7 +53,7 @@ export default class Card
             pos: vis.center,
             frame: 2,
             pivot: Vector2.CENTER,
-            rot: Math.random() * 2 * Math.PI,
+            rot: rand() * 2 * Math.PI,
         })
         group.add(res, opTexture);
 

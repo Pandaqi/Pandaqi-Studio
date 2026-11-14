@@ -1,5 +1,5 @@
 
-import { shuffle, Bounds, fromArray } from "lib/pq-games";
+import { shuffle, Bounds, fromArray, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { DominoType, FloorType, ItemType, MISSIONS, OBJECTS, TENANTS, TenantProperties, UtilityType, WISHES, WishType } from "../shared/dict";
 import Domino from "./domino";
@@ -278,7 +278,7 @@ const generateTenants = (dominoes:Domino[], set:string) =>
             // because exact numbers are not certain, we might exceed the wishes list and need to draw from backup
             if(wishes.length <= 0)
             {
-                wishes = wishOptionsBackup.splice(Math.floor(Math.random() * (wishOptionsBackup.length - numWishesInt)), numWishesInt);
+                wishes = wishOptionsBackup.splice(Math.floor(rand() * (wishOptionsBackup.length - numWishesInt)), numWishesInt);
             }
 
             const d = new Domino(DominoType.TENANT);

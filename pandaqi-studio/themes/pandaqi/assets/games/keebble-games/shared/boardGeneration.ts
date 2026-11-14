@@ -1,4 +1,5 @@
-import { Color, MaterialVisualizer, Vector2, TextConfig, shuffle, getWeighted, Rectangle, ResourceGroup, LayoutOperation, ResourceShape, Line, ResourceText, StrokeAlign, DropShadowEffect } from "lib/pq-games"
+
+import { rand } from "lib/pq-games";import { Color, MaterialVisualizer, Vector2, TextConfig, shuffle, getWeighted, Rectangle, ResourceGroup, LayoutOperation, ResourceShape, Line, ResourceText, StrokeAlign, DropShadowEffect } from "lib/pq-games"
 import Cell from "./cell"
 import { CONFIG } from "./config"
 import { KEEBBLE_TYPES } from "./dict"
@@ -34,7 +35,7 @@ export class BoardGeneration
 		const group = vis.prepareDraw();
 
 		const cfg = CONFIG;
-		this.baseCellBackgroundHue = Math.random() * 360;
+		this.baseCellBackgroundHue = rand() * 360;
 		cfg.cellSizeX = vis.size.x / cfg.numCellsX;
 		cfg.cellSizeY = vis.size.y / cfg.numCellsY;
 		cfg.cellSize = new Vector2(cfg.cellSizeX, cfg.cellSizeY);
@@ -177,7 +178,7 @@ export class BoardGeneration
 		shuffle(edges);
 		const min = CONFIG.numWalls.min * edges.length;
 		const max = CONFIG.numWalls.max * edges.length;
-		const numWalls = Math.floor( Math.random() * (max - min) + min);
+		const numWalls = Math.floor( rand() * (max - min) + min);
 		
 		for(let i = 0; i < numWalls; i++)
 		{
@@ -311,7 +312,7 @@ export class BoardGeneration
 	{
 		const max = this.scaleToBoardSize(CONFIG.numLetters.max);
 		const min = this.scaleToBoardSize(CONFIG.numLetters.min);
-		const numLetters = Math.floor(Math.random() * (max - min) + min);
+		const numLetters = Math.floor(rand() * (max - min) + min);
 		const letters = [];
 		for(let i = 0; i < numLetters; i++)
 		{
@@ -334,7 +335,7 @@ export class BoardGeneration
 
 		const max = this.scaleToBoardSize(CONFIG.numSpecial.max);
 		const min = this.scaleToBoardSize(CONFIG.numSpecial.max);
-		const numCells = Math.floor(Math.random() * (max - min) + min);
+		const numCells = Math.floor(rand() * (max - min) + min);
 		const types = [];
 		for(let i = 0; i < numCells; i++)
 		{
@@ -380,7 +381,7 @@ export class BoardGeneration
 
 		const min = CONFIG.startHandSize.min;
 		const max = CONFIG.startHandSize.max;
-		const size = Math.floor(Math.random() * (max - min) + min);
+		const size = Math.floor(rand() * (max - min) + min);
 
 		const numPlayers = CONFIG._settings.numPlayers.value;
 		const hands = [];
@@ -427,7 +428,7 @@ export class BoardGeneration
 		}
 		
 		const baseHue = this.baseCellBackgroundHue;
-		const hue = baseHue + (Math.random()-0.5)*CONFIG.cellBackgroundHueVariation;
+		const hue = baseHue + (rand()-0.5)*CONFIG.cellBackgroundHueVariation;
 		return new Color(hue, 30, 80);
 	}
 
@@ -437,7 +438,7 @@ export class BoardGeneration
 
 		const cells = this.gen.cellsFlat.slice();
 		shuffle(cells);
-		const rand = CONFIG.baseCellBackgroundRandomness * CONFIG.cellSizeUnit;
+		const randOffset = CONFIG.baseCellBackgroundRandomness * CONFIG.cellSizeUnit;
 
 		const bgRect = new Rectangle().fromTopLeft(Vector2.ZERO, vis.size);
 		const op = new LayoutOperation({
@@ -447,7 +448,7 @@ export class BoardGeneration
 		
 		for(const cell of cells)
 		{
-			const rect = this.cellToRect(cell, rand);
+			const rect = this.cellToRect(cell, randOffset);
 			const col = this.getCellBackgroundColor(cell);
 			const op = new LayoutOperation({
 				fill: col
@@ -523,9 +524,9 @@ export class BoardGeneration
 
 	getWonkyOffset(maxOffset = 100, cutoff = 0.66) : Vector2
 	{
-		let randAngle = Math.random() * 2 * Math.PI;
-		let rand = cutoff + Math.random()*(1.0 - cutoff);
-		let dist = rand * maxOffset;
+		let randAngle = rand() * 2 * Math.PI;
+		let randValue = cutoff + rand()*(1.0 - cutoff);
+		let dist = randValue * maxOffset;
 		return new Vector2(
 			Math.cos(randAngle) * dist,
 			Math.sin(randAngle) * dist

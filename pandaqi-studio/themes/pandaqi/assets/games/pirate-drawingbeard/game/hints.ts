@@ -3,6 +3,7 @@ import HintBuilder from "./hintBuilder"
 import Map from "./map"
 import { DISCRETE_LISTS, HINT_CATEGORIES, HINT_DICT } from "./dict"
 import { CONFIG } from "../shared/config";
+import { rand } from "lib/pq-games";
 
 export default {
 
@@ -246,7 +247,7 @@ export default {
 			if(noHintsInCategory) { continue; }
 
 			// let fewHintsInCategory = (availableHints.length <= 3);
-			// if(fewHintsInCategory && Math.random() <= 0.5) { continue; }
+			// if(fewHintsInCategory && rand() <= 0.5) { continue; }
 
 			let prevNumSolutions = validLocations.length;
 			let oldValidLocations = validLocations.slice();

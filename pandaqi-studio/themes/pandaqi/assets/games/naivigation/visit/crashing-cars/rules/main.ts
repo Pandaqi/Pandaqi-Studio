@@ -1,6 +1,6 @@
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
 import { loadRulebook } from "lib/pq-rulebook";
-import { ResourceLoader } from "lib/pq-games";
+import { ResourceLoader, rand } from "lib/pq-games";
 import RandomNaivigationSetupGenerator, { TileData } from "games/naivigation/shared/randomNaivigationSetupGenerator";
 import RandomNaivigationTurnGenerator from "games/naivigation/shared/randomNaivigationTurnGenerator";
 import { cardPicker, tilePicker } from "../game/generators";
@@ -71,7 +71,7 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
     if(key == "gear")
     {
         const cardIndex = turn.getCardIndex(card);
-        const changeDir = Math.random() <= 0.5 ? +1 : -1;
+        const changeDir = rand() <= 0.5 ? +1 : -1;
         const totalChange = changeDir * (cardIndex + 1);
         const totalChangeStr = (totalChange >= 0) ? "+" + totalChange : totalChange.toString();
 
@@ -83,14 +83,14 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
 
     if(key == "cruise_control")
     {
-        const pickDrive = Math.random() <= 0.5;
+        const pickDrive = rand() <= 0.5;
         if(pickDrive) {
-            const dir = Math.random() <= 0.5 ? 1 : -1;
+            const dir = rand() <= 0.5 ? 1 : -1;
             const str = (dir > 1) ? "forward" : "backward";
             setup.movePlayerForward(0, dir, true);
             fb.push("The Cruise card moved the car 1 tile " + str + ". (Start player chose this movement for this card.)");
         } else {
-            const dir = Math.random() <= 0.5 ? 1 : -1;
+            const dir = rand() <= 0.5 ? 1 : -1;
             const str = (dir > 1) ? "right" : "left";
             setup.rotatePlayer(0, dir);
             fb.push("The Cruise card rotated the car to the " + str + ". (Start player chose this movement for this card.)");

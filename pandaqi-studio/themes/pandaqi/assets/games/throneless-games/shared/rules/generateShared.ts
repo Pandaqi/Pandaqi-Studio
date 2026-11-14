@@ -1,7 +1,7 @@
 
 import GameState from "./gameState";
 import CardThroneless from "../cardThroneless";
-import { getMaterialDataForRulebook, shuffle, fromArray } from "lib/pq-games";
+import { getMaterialDataForRulebook, shuffle, fromArray, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator } from "lib/pq-rulebook";
 
 export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
@@ -45,7 +45,7 @@ export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
         let counterClockwise = false;
         if(CONFIG.rulebook.decideDirectionBeforeRound)
         {
-            counterClockwise = Math.random() <= 0.5;
+            counterClockwise = rand() <= 0.5;
             const dirString = counterClockwise ? "counter-clockwise" : "clockwise";
             sim.print("The " + CONFIG.rulebook.leaderNaming + " decides this round will be in <strong>" + dirString + "</strong> direction.");
         }
@@ -125,7 +125,7 @@ export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
 
             const unfavorableLeaderSwap = (CONFIG.rulebook.leaderSwapHasRestrictions && board.isPlayerKingseat(p));
             const hasSwapTarget = p2 != null;
-            const swapPlaces = Math.random() <= swapProb && hasSwapTarget && !CONFIG.rulebook.swappingForbidden && !unfavorableLeaderSwap;
+            const swapPlaces = rand() <= swapProb && hasSwapTarget && !CONFIG.rulebook.swappingForbidden && !unfavorableLeaderSwap;
 
             let str = "<strong>" + p.getName() + "</strong> executes the action on their card.";
 

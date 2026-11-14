@@ -1,5 +1,5 @@
 
-import { getMaterialDataForRulebook, shuffle } from "lib/pq-games";
+import { getMaterialDataForRulebook, shuffle, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -93,7 +93,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         tempZooPlayer.addCard(zooCard);
         await sim.listImages(tempZooPlayer, "draw");
 
-        const opponentPlayerNum = (curPlayerNum + 1 + Math.floor(Math.random() * (players.length-1))) % players.length;
+        const opponentPlayerNum = (curPlayerNum + 1 + Math.floor(rand() * (players.length-1))) % players.length;
         const opponentPlayer = players[opponentPlayerNum];
         sim.print("Then they pick an opponent: <b>Player " + (opponentPlayerNum + 1) + ".</b>");
 
@@ -113,7 +113,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         {
             sim.stats.numTies += 1;
 
-            const zooReceiver = Math.random() <= 0.5 ? curPlayer : opponentPlayer;
+            const zooReceiver = rand() <= 0.5 ? curPlayer : opponentPlayer;
             const discarder = (zooReceiver == curPlayer) ? opponentPlayer : curPlayer;
 
             scores[zooReceiver.num].addCard(zooCard);

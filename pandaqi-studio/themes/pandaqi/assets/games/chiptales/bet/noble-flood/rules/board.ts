@@ -2,7 +2,7 @@ import Card from "../game/card";
 import Player from "./player";
 import { CONFIG } from "../shared/config";
 import { DYNAMIC_OPTIONS } from "../shared/dict";
-import { Vector2, fromArray, createContext, fillCanvas, ResourceShape, Rectangle, LayoutOperation, ResourceImage, convertCanvasToImage } from "lib/pq-games";
+import { Vector2, fromArray, createContext, fillCanvas, ResourceShape, Rectangle, LayoutOperation, ResourceImage, convertCanvasToImage, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator } from "lib/pq-rulebook";
 
 const NBS = [Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP];
@@ -225,7 +225,7 @@ export default class Board
         this.suitWildcard = null;
         this.numberWildcard = null;
         
-        const pickSuit = Math.random() <= 0.66;
+        const pickSuit = rand() <= 0.66;
         if(pickSuit)
         {
             this.suitWildcard = fromArray(suitsInGame);

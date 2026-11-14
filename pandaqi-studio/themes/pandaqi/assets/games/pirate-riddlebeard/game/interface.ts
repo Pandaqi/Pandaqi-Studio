@@ -1,4 +1,5 @@
-const messages = 
+
+import { rand } from "lib/pq-games";const messages = 
 {
 	welcome: `<p>Welcome to a new treasure hunt!</p>
 	<p><strong>Step 1:</strong> grab some papers and pens.</p>
@@ -338,20 +339,20 @@ export default class Interface
 		// "random fact" hint will give a regular response some of the time, but randomly pick something completely different
 		// (a hint category, a fixed "propose" result)
 		var randProb = 0.75
-		if("randomFact" in data && Math.random() <= randProb) {
+		if("randomFact" in data && rand() <= randProb) {
 			
 			var responses = ['category', 'count', 'other', 'aggregate'];
-			var responseType = responses[Math.floor(Math.random() * responses.length)];
+			var responseType = responses[Math.floor(rand() * responses.length)];
 
 			var tilesLeft = this.config.tilesLeftPerPlayer[this.config.tilesLeftPerPlayer.length - 1];
 
 			if(responseType == 'category') {
 				var cats = this.config.botData.categories
-				responseString = 'one of my hints has category <strong>' + cats[Math.floor(Math.random() * cats.length)] + '</strong>';
+				responseString = 'one of my hints has category <strong>' + cats[Math.floor(rand() * cats.length)] + '</strong>';
 			} else if(responseType == 'count') {
 				responseString = 'my hints leave ' + tilesLeft.length + ' possible tiles';
 			} else if(responseType == 'other') {
-				var tile = tilesLeft[Math.floor(Math.random() * tilesLeft.length)];
+				var tile = tilesLeft[Math.floor(rand() * tilesLeft.length)];
 				responseString = 'the tile ' + this.convertToStringPos(tile) + ' could possibly contain the treasure';
 			} else if(responseType == 'aggregate') {
 				

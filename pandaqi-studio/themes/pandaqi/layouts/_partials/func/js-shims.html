@@ -1,0 +1,3 @@
+{{/* The shared framework bundles (§4.2): a page bundle imports the shim (a few lines) instead of carrying its
+      own ~800 KB copy of pq-games/pq-rulebook. Every js.Build call that touches library code must pass this. */}}
+{{ return (dict "lib/pq-games" "js/shims/pq-games.js" "lib/pq-rulebook" "js/shims/pq-rulebook.js") }}

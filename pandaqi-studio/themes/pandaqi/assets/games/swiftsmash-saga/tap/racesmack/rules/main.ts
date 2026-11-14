@@ -1,5 +1,5 @@
 
-import { getMaterialDataForRulebook, shuffle, fromArray } from "lib/pq-games";
+import { getMaterialDataForRulebook, shuffle, fromArray, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -171,7 +171,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         sim.print("Everyone draws a new hand card. Check if anybody won. Next round!");
 
         // then players draw a new hand card (if possible)
-        if(Math.random() <= 0.1) { shuffle(allCards); } // randomization but at low-cost
+        if(rand() <= 0.1) { shuffle(allCards); } // randomization but at low-cost
         for(const player of players)
         {
             if(allCards.length <= 0) { break; }

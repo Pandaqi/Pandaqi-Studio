@@ -1,4 +1,5 @@
-import { VEHICLE_MAP } from "../shared/dict"
+
+import { rand } from "lib/pq-games";import { VEHICLE_MAP } from "../shared/dict"
 import Timer from "./timer"
 import Interface from "./interface"
 
@@ -110,7 +111,7 @@ export default class Button {
 	startTimer() {
 		const data = this.getVehicleData();
 		const min = data.timerMin || 10, max = data.timerMax || 30
-		const duration = Math.random()*(max - min) + min;
+		const duration = rand()*(max - min) + min;
         this.node.classList.add("vehicle-button-timer-active");
         this.timer.resetTo(duration);
         this.timer.setDirection("ltr");

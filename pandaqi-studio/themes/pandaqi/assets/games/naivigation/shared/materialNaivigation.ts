@@ -1,6 +1,7 @@
 import { TEMPLATES } from "./dict";
 import { MaterialNaivigationType, NetworkType, TERRAINS, TerrainType } from "./dictShared";
 import { TileData } from "./randomNaivigationSetupGenerator";
+import { rand } from "lib/pq-games";
 
 export default class MaterialNaivigation
 {
@@ -57,7 +58,7 @@ export default class MaterialNaivigation
     addCustomData(cd:Record<string,any> = {}) { Object.assign(this.customData, cd); }
     getCustomData() { return structuredClone(this.customData); }
 
-    generateRandomSeed() { this.randomSeed = Math.floor(Math.random()*128); }
+    generateRandomSeed() { this.randomSeed = Math.floor(rand()*128); }
     getSeed() { return this.randomSeed }
 
     async drawForRules(vis) : Promise<HTMLCanvasElement> { return this.draw(vis); }

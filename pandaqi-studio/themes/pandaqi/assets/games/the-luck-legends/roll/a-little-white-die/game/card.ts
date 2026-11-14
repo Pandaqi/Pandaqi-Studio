@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, TextConfig, ResourceText, LayoutOperation, Vector2, Color, DropShadowEffect, StrokeAlign, TintEffect, Bounds, colorDarken } from "lib/pq-games";
+import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, TextConfig, ResourceText, LayoutOperation, Vector2, Color, DropShadowEffect, StrokeAlign, TintEffect, Bounds, colorDarken, rand } from "lib/pq-games";
 import { DICE_ARRANGEMENTS, DICE_POSITIONS, MISC, POWER_CARDS, WILDCARD_DATA } from "../shared/dict";
 
 export default class Card
@@ -148,7 +148,7 @@ export default class Card
             const opBox = new LayoutOperation({
                 pos: pos,
                 size: boxDims,
-                rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
+                rot: Math.floor(rand() * 4) * 0.5 * Math.PI,
                 frame: MISC["wacky_box_" + randBox].frame,
                 effects: [tintEffect],
                 pivot: Vector2.CENTER,

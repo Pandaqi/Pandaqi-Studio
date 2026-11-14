@@ -1,4 +1,4 @@
-import { fromArray, shuffle, ResourceGroup, ResourceImage, LayoutOperation, Vector2, ResourceText } from "lib/pq-games";
+import { fromArray, shuffle, ResourceGroup, ResourceImage, LayoutOperation, Vector2, ResourceText, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator } from "lib/pq-rulebook";
 import CardThroneless from "../cardThroneless";
 
@@ -81,7 +81,7 @@ export default class Player
         let numVotesMeansDone = CONFIG.rulebook.numVotesMeansDone ?? 0;
         if(validVotes.length <= numVotesMeansDone) { return null; }
 
-        const disobeysRestrictions = allowDisobey && Math.random() <= CONFIG.rulebook.tellerTypeDisobeyProb;
+        const disobeysRestrictions = allowDisobey && rand() <= CONFIG.rulebook.tellerTypeDisobeyProb;
         const typeRestrictionsApply = typesAllowed.length > 0 && !disobeysRestrictions;
         if(typeRestrictionsApply)
         {

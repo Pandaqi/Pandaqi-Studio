@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, LayoutOperation, TextConfig, ResourceText, Vector2, StrokeAlign, Rectangle, Line, shuffle, fromArray, ResourceShape, Circle } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, LayoutOperation, TextConfig, ResourceText, Vector2, StrokeAlign, Rectangle, Line, shuffle, fromArray, ResourceShape, Circle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIONS, DECORATION, GATES, GEMSTONES, MISC, TileType, WaterFlow } from "../shared/dict";
 
@@ -291,7 +291,7 @@ export default class Tile
                 size: gemDims,
                 frame: GEMSTONES[gemType].frame,
                 pivot: Vector2.CENTER,
-                rot: Math.random() * 2 * Math.PI
+                rot: rand() * 2 * Math.PI
             })
             group.add(resGemstones, opGem);
         }
@@ -432,7 +432,7 @@ export default class Tile
         {
             for(const line of lines)
             {
-                const placeBoulderBehind = Math.abs(line.angle()) <= 0.03 && Math.random() <= CONFIG.generation.boulderDecorationProbability;
+                const placeBoulderBehind = Math.abs(line.angle()) <= 0.03 && rand() <= CONFIG.generation.boulderDecorationProbability;
                 if(placeBoulderBehind)
                 {
                     const op = new LayoutOperation({
@@ -444,12 +444,12 @@ export default class Tile
                     group.add(resDecoration, op);
                 }
     
-                const placeDecoration = Math.random() <= CONFIG.generation.randomDecorationProbability;
+                const placeDecoration = rand() <= CONFIG.generation.randomDecorationProbability;
                 if(!placeDecoration) { continue; }
     
                 const pos = line.getRandomPositionInside();
                 let rotation = line.angle();
-                if(Math.random() <= 0.5) { rotation += Math.PI; }
+                if(rand() <= 0.5) { rotation += Math.PI; }
     
                 const randKey = "decoration_" + CONFIG.generation.decorationFrameBounds.randomInteger();
                 const op = new LayoutOperation({
@@ -491,7 +491,7 @@ export default class Tile
                 const isVert = Math.abs(line.angle() - 0.5*Math.PI) <= 0.03;
                 if(!isHoriz && !isVert) { continue; }
                 
-                const placeBoulder = Math.random() <= CONFIG.generation.boulderDecorationProbability;
+                const placeBoulder = rand() <= CONFIG.generation.boulderDecorationProbability;
                 if(!placeBoulder) { continue; }
     
                 if(isHoriz)
@@ -510,8 +510,8 @@ export default class Tile
                     const leftPos = line.getRandomPositionInside(boulderLineDownscale).add(new Vector2(-boulderOffset, 0));
                     const rightPos = line.getRandomPositionInside(boulderLineDownscale).add(new Vector2(boulderOffset, 0));
     
-                    let positions = Math.random() <= 0.5 ? [leftPos] : [rightPos];
-                    if(Math.random() <= CONFIG.generation.boulderDoubleProbability) { positions = [leftPos, rightPos]; }
+                    let positions = rand() <= 0.5 ? [leftPos] : [rightPos];
+                    if(rand() <= CONFIG.generation.boulderDoubleProbability) { positions = [leftPos, rightPos]; }
     
                     for(const position of positions)
                     {

@@ -3,7 +3,7 @@ import { CONFIG } from "./config";
 import equidistantColorsBetweenOpposites from "../game/tools/equidistantColorsBetweenOpposites";
 import createWavyRect from "../game/tools/createWavyRect";
 import { ACTIONS, PROPERTIES, RANDOM_SHAPE_LIST, SLIDERS } from "./dict";
-import { Rectangle, ResourceShape, getWeighted, MaterialVisualizer, createContext, Vector2, Color, LayoutOperation, RectangleRounded, TextConfig, ResourceText, shuffle, TextAlign, rangeInteger, Dims, range, scalePath, fitPath, Path, GrayScaleEffect, ResourceImage, colorDarken, getColorContrastHighest, createRandomShape } from "lib/pq-games";
+import { Rectangle, ResourceShape, getWeighted, MaterialVisualizer, createContext, Vector2, Color, LayoutOperation, RectangleRounded, TextConfig, ResourceText, shuffle, TextAlign, rangeInteger, Dims, range, scalePath, fitPath, Path, GrayScaleEffect, ResourceImage, colorDarken, getColorContrastHighest, createRandomShape, rand } from "lib/pq-games";
 
 export default class Slider
 {
@@ -198,7 +198,7 @@ export default class Slider
 
     getRandomWord(vis:MaterialVisualizer) : string
     {
-        const useRealWord = Math.random() <= vis.get("sliderCards.words.useRealWordProb");
+        const useRealWord = rand() <= vis.get("sliderCards.words.useRealWordProb");
         if(useRealWord) 
         { 
             const realWord = CONFIG.pandaqiWords.getRandom(true).getWord(); 
@@ -216,7 +216,7 @@ export default class Slider
 
     getRandomLetter() : string
     {
-        return String.fromCharCode(97 + Math.floor(Math.random() * 26));
+        return String.fromCharCode(97 + Math.floor(rand() * 26));
     }
 
     // just draw the full color wheel from top to bottom
@@ -262,7 +262,7 @@ export default class Slider
         {
             const randShapeKey = shapeList[i % shapeList.length];
             let randShape = shapes[randShapeKey];
-            let useRandomShape = Math.random() <= randShapeProb;
+            let useRandomShape = rand() <= randShapeProb;
             if(useRandomShape) {
                 const randShapeParams = {
                     corners: rangeInteger(4, 8),
@@ -302,7 +302,7 @@ export default class Slider
         const numColorSteps = colors.length;
         const actionIconSize = new Vector2(vis.get("sliderCards.actionIconSize") * blockHeight);
         const actionBGColor = vis.get("sliderCards.actionBGColor");
-        let placeLeft = Math.random() <= 0.5;
+        let placeLeft = rand() <= 0.5;
 
         const grayscaleEffect = new GrayScaleEffect();
 

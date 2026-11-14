@@ -1,5 +1,5 @@
 
-import { Vector2, range, createContext, convertCanvasToImage, getMaterialDataForRulebook, shuffle, fromArray } from "lib/pq-games";
+import { Vector2, range, createContext, convertCanvasToImage, getMaterialDataForRulebook, shuffle, fromArray, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Tile from "../game/tile";
 import { CONFIG } from "../shared/config";
@@ -444,7 +444,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     // check what we can do with our tile
     const validPlacements = board.getValidPlacements(tileToPlace);
     const validSleighMoves = board.getValidSleighMoves();
-    const moveSleigh = (validPlacements.length <= 0 || Math.random() <= CONFIG.rulebook.moveSleighProb) && validSleighMoves.length > 0;
+    const moveSleigh = (validPlacements.length <= 0 || rand() <= CONFIG.rulebook.moveSleighProb) && validSleighMoves.length > 0;
     const o = sim.getOutputBuilder();
 
     if(moveSleigh) {

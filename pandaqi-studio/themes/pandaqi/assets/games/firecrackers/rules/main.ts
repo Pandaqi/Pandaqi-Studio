@@ -1,4 +1,4 @@
-import { Bounds, Vector2, convertCanvasToImageMultiple, getMaterialDataForRulebook, shuffle } from "lib/pq-games";
+import { Bounds, Vector2, convertCanvasToImageMultiple, getMaterialDataForRulebook, shuffle, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { getStarterDecks, setNumPacks } from "../game/cardPicker";
@@ -257,7 +257,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         const curDeck = round.getCurrentDeck();
         const curRevealed = round.getCurrentRevealed();
         const numRevealed = curRevealed.count();
-        let stop = Math.random() <= STOP_PROBS[Math.min(numRevealed, STOP_PROBS.length-1)]; // probability raises with each card
+        let stop = rand() <= STOP_PROBS[Math.min(numRevealed, STOP_PROBS.length-1)]; // probability raises with each card
         if(numRevealed <= 0) { stop = false; }
         if(numRevealed >= MAX_REVEAL_PER_ROUND) { stop = true; }
         if(SIMULATE) { stop = false; } // simulation always continues until explosion, as that's what we're interested in

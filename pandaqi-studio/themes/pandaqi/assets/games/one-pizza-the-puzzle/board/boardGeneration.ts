@@ -3,7 +3,7 @@ import Building from "./building";
 import Cell, { Order } from "./cell";
 import Obstacle from "./obstacle";
 import { CONFIG } from "../shared/config";
-import { Vector2, MaterialVisualizer, seedRandom, shuffle, Line, ResourceGroup, LayoutOperation, ResourceShape, TextConfig, Rectangle, StrokeAlign, ResourceText, Color, getWeighted } from "lib/pq-games";
+import { Vector2, MaterialVisualizer, seedRandom, shuffle, Line, ResourceGroup, LayoutOperation, ResourceShape, TextConfig, Rectangle, StrokeAlign, ResourceText, Color, getWeighted, rand } from "lib/pq-games";
 
 type RandomizerFunction = () => number;
 type TrafficSign = { pos: Vector2, type: string, side: number, ind: number };
@@ -2393,7 +2393,7 @@ export default class BoardGeneration
 							size: new Vector2(0.2*cs),
 							frame: 2,
 							pivot: Vector2.CENTER,
-							rot: Math.random()*0.5*Math.PI - 0.25*Math.PI,
+							rot: rand()*0.5*Math.PI - 0.25*Math.PI,
 							depth: 7
 						})
 						group.add(resGeneral, opGate);

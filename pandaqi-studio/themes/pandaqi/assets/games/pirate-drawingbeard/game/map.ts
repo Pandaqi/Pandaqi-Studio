@@ -2,7 +2,7 @@ import Hints from "./hints"
 import { TILE_DICT, DISCRETE_LISTS, BEARING_CONDITIONS, FIXED_MAP_TILES } from "./dict"
 import Cell from "./cell";
 import { CONFIG } from "../shared/config";
-import { Vector2 } from "lib/pq-games";
+import { Vector2, rand } from "lib/pq-games";
 
 class MapClass
 {
@@ -62,8 +62,8 @@ class MapClass
 
 	seed()
 	{
-		const randomSeedLength = Math.floor(Math.random() * 6) + 3;
-		const randomSeed = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, randomSeedLength);
+		const randomSeedLength = Math.floor(rand() * 6) + 3;
+		const randomSeed = rand().toString(36).replace(/[^a-z]+/g, '').substr(0, randomSeedLength);
 
 		if(CONFIG.seed == '') { CONFIG.seed = randomSeed; }
 		const finalSeed = CONFIG.seed + "_" + CONFIG.numGens + "_" + this.numMapGens;
@@ -723,10 +723,10 @@ class MapClass
 
 	getRandomTileType()
 	{
-		let rand = CONFIG.rng.map();
+		let randValue = CONFIG.rng.map();
 		let sum = 0.0;
 		let counter = -1;
-		while(sum < rand)
+		while(sum < randValue)
 		{
 			counter += 1;
 			sum += TILE_DICT[this.possibleTypes[counter]].prob / (this.typeSummedProb + 0.0);

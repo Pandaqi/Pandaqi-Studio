@@ -4,7 +4,7 @@ import { TileData } from "games/naivigation/shared/randomNaivigationSetupGenerat
 import tileDrawerNaivigation from "games/naivigation/shared/tileDrawerNaivigation";
 import vehicleDrawerNaivigation from "games/naivigation/shared/vehicleDrawerNaivigation";
 import { GAME_DATA, MATERIAL, MISC, VEHICLE_TILES } from "../shared/dict";
-import { MaterialVisualizer, ResourceGroup, fillResourceGroup, LayoutOperation, Vector2, DropShadowEffect, getRectangleCornersWithOffset } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, fillResourceGroup, LayoutOperation, Vector2, DropShadowEffect, getRectangleCornersWithOffset, rand } from "lib/pq-games";
 
 export default class Tile extends MaterialNaivigation
 {
@@ -27,15 +27,15 @@ export default class Tile extends MaterialNaivigation
         // create random starry background
         const numStars = vis.get("tiles.map.stars.numBounds").randomInteger();
         const resStar = vis.getResource("misc");
-        const starFrame = MISC.star_0.frame + Math.floor(Math.random()*2);
+        const starFrame = MISC.star_0.frame + Math.floor(rand()*2);
         const baseStarDims = vis.get("tiles.map.stars.baseDims");
         for(let i = 0; i < numStars; i++)
         {
             const op = new LayoutOperation({
-                pos: new Vector2(Math.random(), Math.random()).scale(vis.size),
+                pos: new Vector2(rand(), rand()).scale(vis.size),
                 frame: starFrame,
                 size: baseStarDims.clone().scale(vis.get("tiles.map.stars.sizeRand").random()),
-                rot: Math.random() * 2 * Math.PI,
+                rot: rand() * 2 * Math.PI,
                 pivot: Vector2.CENTER,
                 alpha: vis.get("tiles.map.stars.alphaBounds").random()
             })

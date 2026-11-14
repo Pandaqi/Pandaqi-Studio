@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray, getWeighted } from "lib/pq-games";
+import { shuffle, fromArray, getWeighted, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardType, Color, SPECIAL_ACTIONS, Shape } from "../shared/dict";
 import Card from "./card";
@@ -96,8 +96,8 @@ const getRankings = (num: number) =>
     for(let i = 0; i < num; i++)
     {
         const newRanking = prevRanking.slice();
-        const idxA = Math.floor(Math.random() * 0.5 * newRanking.length);
-        const idxB = Math.floor((0.5 + Math.random() * 0.5) * newRanking.length);
+        const idxA = Math.floor(rand() * 0.5 * newRanking.length);
+        const idxB = Math.floor((0.5 + rand() * 0.5) * newRanking.length);
         const tempA = newRanking[idxA];
 
         newRanking[idxA] = newRanking[idxB];

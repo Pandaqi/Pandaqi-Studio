@@ -1,5 +1,5 @@
 
-import { Vector2, Path, movePath, rangeInteger, Line, range, subdividePath, ResourceGroup, ResourceShape, LayoutOperation } from "lib/pq-games";
+import { Vector2, Path, movePath, rangeInteger, Line, range, subdividePath, ResourceGroup, ResourceShape, LayoutOperation, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 
 export default class WonkyRectangle
@@ -48,7 +48,7 @@ export default class WonkyRectangle
 
         for(const idx of indices)
         {
-            let useLine = Math.random() <= 0.25;
+            let useLine = rand() <= 0.25;
 
             const endPoint = (idx == path.length - 1) || idx == 0;
             const outwardPoint = idx % 2 == 1;
@@ -116,7 +116,7 @@ export default class WonkyRectangle
             let dirY = (i % 2 == 0) ? 1 : -1;
             if(reverse) { dirY *= -1; }
             dirY *= offsetFromCenter;
-            let dirX = xScalar * (Math.random() - 0.5) * (1.0 - offsetFromCenter);
+            let dirX = xScalar * (rand() - 0.5) * (1.0 - offsetFromCenter);
 
             // to make the edges go down more / create a semi-circular shape
             let yOffset = offsetFromCenter

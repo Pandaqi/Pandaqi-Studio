@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray, convertCanvasToImageMultiple, getMaterialDataForRulebook, Bounds } from "lib/pq-games";
+import { shuffle, fromArray, convertCanvasToImageMultiple, getMaterialDataForRulebook, Bounds, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -109,11 +109,11 @@ class Hand
         }
 
         let finalCard : Card;
-        const useMatchingOption = (optionsMatching.length > 0) && Math.random() > noProbIfMatch;
+        const useMatchingOption = (optionsMatching.length > 0) && rand() > noProbIfMatch;
         if(useMatchingOption) {
             finalCard = fromArray(optionsMatching);
         } else {
-            let voteSubType = (Math.random() <= yesProbIfNoMatch) ? VoteType.YES : VoteType.NO;
+            let voteSubType = (rand() <= yesProbIfNoMatch) ? VoteType.YES : VoteType.NO;
             if(dontHaveNoVotes) { voteSubType = VoteType.YES; }
             if(dontHaveYesVotes) { voteSubType = VoteType.NO; }
 

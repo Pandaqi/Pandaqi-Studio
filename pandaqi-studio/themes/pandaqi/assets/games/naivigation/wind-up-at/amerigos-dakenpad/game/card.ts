@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, LayoutOperation, DropShadowEffect, getPositionsCenteredAround, Vector2, TextConfig, TextStyle, ResourceText, ResourceShape, Circle } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, LayoutOperation, DropShadowEffect, getPositionsCenteredAround, Vector2, TextConfig, TextStyle, ResourceText, ResourceShape, Circle, rand } from "lib/pq-games";
 import { CARD_TEMPLATES, CardType, GiftType, KAARTEN, MISC, ROUTEKAARTEN } from "../shared/dict";
 
 export default class Card
@@ -136,7 +136,7 @@ export default class Card
 
             if(frame < 0)
             {
-                const randHomeIndex = Math.floor(Math.random() * 4);
+                const randHomeIndex = Math.floor(rand() * 4);
                 frame = MISC["home_" + randHomeIndex].frame;
             }
 

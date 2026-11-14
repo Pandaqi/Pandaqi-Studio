@@ -1,6 +1,6 @@
 
 
-import { MaterialVisualizer, ResourceGroup, fillResourceGroup, rangeInteger, Vector2, Color, LayoutOperation, TintEffect, TextConfig, ResourceText, DropShadowEffect, StrokeAlign, ResourceShape, Rectangle, getRectangleCornersWithOffset, colorRotate, colorDarken, colorSaturate } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, fillResourceGroup, rangeInteger, Vector2, Color, LayoutOperation, TintEffect, TextConfig, ResourceText, DropShadowEffect, StrokeAlign, ResourceShape, Rectangle, getRectangleCornersWithOffset, colorRotate, colorDarken, colorSaturate, rand } from "lib/pq-games";
 import { GPS_PENALTIES, GPS_REWARDS } from "./dict";
 import { CardType, GPS_ICONS } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
@@ -39,7 +39,7 @@ const drawCardBackground = (vis, group, card) =>
             pos: pos,
             size: size,
             rot: randRotationBlob,
-            flipX: Math.random() <= 0.5,
+            flipX: rand() <= 0.5,
             frame: blobFrame,
             effects: [new TintEffect({ color: blobsCol })],
             //alpha: vis.get("cards.background.blobAlpha"),

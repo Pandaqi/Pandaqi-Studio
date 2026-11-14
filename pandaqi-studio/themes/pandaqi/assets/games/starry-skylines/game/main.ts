@@ -1,4 +1,4 @@
-import { loadSettings } from "lib/pq-games";
+import { loadSettings, rand } from "lib/pq-games";
 import AI from "./ai"
 import Events from "./events"
 import Options from "./options"
@@ -157,7 +157,7 @@ export default class Game
     {
         if(this.curRound < 0) { return false; }
         if(this.lastClickWasEvent) { return false; }
-        if(Math.random() > this.config.eventProbability) { return false; }
+        if(rand() > this.config.eventProbability) { return false; }
         if(this.roundIsComputerTurn()) { return false; }
         return true;
     }
@@ -176,14 +176,14 @@ export default class Game
     }
 
     getRandom(type) {
-        const rand = Math.random();
+        const randValue = rand();
         const total = this.config.totalProbabilities[type];
         const list = this.config.lists[type];
     
         let sum = 0;
         for(const key of Object.keys(list)) {
             sum += (list[key].prob / total);
-            if(sum >= rand) { return key; }
+            if(sum >= randValue) { return key; }
         }
     }
 

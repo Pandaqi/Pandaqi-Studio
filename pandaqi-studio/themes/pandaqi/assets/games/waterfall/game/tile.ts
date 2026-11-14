@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, DropShadowEffect, LayoutOperation, TextConfig, ResourceText, Vector2, StrokeAlign } from "lib/pq-games";
+import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, DropShadowEffect, LayoutOperation, TextConfig, ResourceText, Vector2, StrokeAlign, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIONS, GEMSTONES, MISC, TileType } from "../shared/dict";
 
@@ -144,7 +144,7 @@ export default class Tile
             size: vis.get("tiles.gemstones.size"),
             frame: GEMSTONES[this.gemstone].frame,
             pivot: Vector2.CENTER,
-            rot: Math.random() * 2 * Math.PI,
+            rot: rand() * 2 * Math.PI,
             effects: vis.custom.glowEffect
         })
         group.add(res, opGem);

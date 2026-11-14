@@ -1,5 +1,5 @@
 
-import { shuffle, getWeighted } from "lib/pq-games";
+import { shuffle, getWeighted, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { TILE_TYPES } from "../shared/dict";
 import Tile from "./tile";
@@ -54,7 +54,7 @@ export const tilePicker = () : Tile[] =>
     for(let i = 0; i < numRandom; i++)
     {
         const key = getWeighted(randomExtras);
-        const sheep = Math.random() <= 0.5 ? 1 : 0;
+        const sheep = rand() <= 0.5 ? 1 : 0;
         const newTile = new Tile(key, sheep);
         tiles.push(newTile);
     }

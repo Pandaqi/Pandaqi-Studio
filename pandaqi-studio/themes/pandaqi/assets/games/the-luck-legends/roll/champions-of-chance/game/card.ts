@@ -1,4 +1,4 @@
-import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, TintEffect, getRectangleCornersWithOffset, TextConfig, ResourceText, Vector2, DropShadowEffect, getPositionsCenteredAround } from "lib/pq-games";
+import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, TintEffect, getRectangleCornersWithOffset, TextConfig, ResourceText, Vector2, DropShadowEffect, getPositionsCenteredAround, rand } from "lib/pq-games";
 import { MISC, SPECIAL_CARDS, TEMPLATES } from "../shared/dict";
 
 export default class Card
@@ -155,7 +155,7 @@ export default class Card
                     pos: anchorPos,
                     size: iconDims,
                     frame: MISC.cup_icon.frame,
-                    rot: (-0.075 + 0.15*Math.random()) * 2 * Math.PI,
+                    rot: (-0.075 + 0.15*rand()) * 2 * Math.PI,
                     pivot: Vector2.CENTER,
                     effects: [shadowEffect, vis.inkFriendlyEffect].flat()
                 });

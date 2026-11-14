@@ -1,13 +1,23 @@
 import { boardPicker } from "games/kangaruse/board/boardPicker";
 import { SettingType, MapperPreset, Vector2 } from "lib/pq-games";
+import type { GameConfig, GameConfigGame } from "lib/pq-games";
 
-export const CONFIG =
+// The board page swaps in a different settings block at load, so `_settings` is typed as a settings bag
+// (and the rest of the config keeps its custom fields through the index signature).
+interface WonderingWitchesConfig
 {
+    _settings: GameConfig["_settings"],
+    _game: GameConfigGame,
+    [key: string]: any,
+}
+
+export const CONFIG : WonderingWitchesConfig =
+{
+    // typed so the page entry can attach the renderer it builds
     _game:
     {
         fileName: "Wondering Witches",
-        renderer: null as any,
-    },
+    } as GameConfigGame,
 
     numPlayers: 4,
     recipeLength: 4,

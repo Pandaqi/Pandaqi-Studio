@@ -45,8 +45,9 @@ export const runDigital = async (session:Session, entry:ManifestEntry, opts:Digi
         checker.ok(text.length > 200, "DG_EMPTY_BODY",
             `document.body.innerText is only ${text.length} characters (want > 200)`);
 
-        // DG-3
-        if(entry.bundleText.includes("Reset to Defaults"))
+        // DG-3: the settings panel lives in the framework vendor, so the page bundle can only show that the
+        // page asked for it (= it calls loadSettings)
+        if(/\bloadSettings\b/.test(entry.bundleText))
         {
             const hasSettings = await page.locator("div.settings").count() > 0;
             if(checker.ok(hasSettings, "DG_NO_SETTINGS",

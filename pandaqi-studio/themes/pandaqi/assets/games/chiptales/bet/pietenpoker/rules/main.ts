@@ -1,4 +1,4 @@
-import { getMaterialDataForRulebook, shuffle } from "lib/pq-games";
+import { getMaterialDataForRulebook, shuffle, rand } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import Card from "../game/card";
 import { CONFIG } from "../shared/config";
@@ -60,7 +60,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     const numCardsRevealed = CONFIG.rulebook.numCardsRevealed ?? 3;
 
     let continueTheGame = true;
-    let sintIndex = Math.floor(Math.random() * numPlayers);
+    let sintIndex = Math.floor(rand() * numPlayers);
     while(continueTheGame)
     {
         sim.print("<b>Nieuwe ronde!</b> Speler " + (sintIndex + 1) + " is Sint. Iedereen pakt 3 kaarten uit eigen winst (als mogelijk), en trekt dan bij tot ze in totaal " + numStartingCards + " handkaarten hebben.");
@@ -121,7 +121,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
                 }
 
                 const mustRaise = player.getTotalBid() < highestBid;
-                const wantsToRaise = Math.random() <= CONFIG.rulebook.raiseProbability;
+                const wantsToRaise = rand() <= CONFIG.rulebook.raiseProbability;
                 const canRaise = player.hand.count() > 1;
                 const WILL_RAISE = mustRaise || (canRaise && wantsToRaise);
 
@@ -129,7 +129,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
                 const cantRaiseBidEnough = bidDiff > player.getTotalHandValue();
 
                 const mustStop = mustRaise && cantRaiseBidEnough;
-                const wantsToStop = Math.random() <= CONFIG.rulebook.stopProbability;
+                const wantsToStop = rand() <= CONFIG.rulebook.stopProbability;
                 const canStop = players.filter((p:Player) => !p.stopped).length > 1;
                 const WILL_STOP = mustStop || (canStop && wantsToStop);
                 

@@ -191,7 +191,7 @@ A page passes only if every applicable requirement passes for every configured r
 |---|---|
 | DG-1 | Bundle executes; zero errors/unhandled rejections; no 404s. |
 | DG-2 | `document.body.innerText.length > 200`. |
-| DG-3 | If the bundle contains `Reset to Defaults` (it calls `loadSettings` to configure the *digital* game): `div.settings` exists with an `h1`, ≥1 control, and an enabled primary button. Do not click. |
+| DG-3 | If the page bundle calls `loadSettings` (it configures the *digital* game): `div.settings` exists with an `h1`, ≥1 control, and an enabled primary button. Do not click. |
 | DG-4 | Report the URL under "needs manual pass". No interaction testing. |
 
 ### 2.4 Static checks (source level)
@@ -215,15 +215,18 @@ Implemented in `audit/src/static.ts` (`bun run static`, `--filter <project>` to 
 ### 2.5 Classification (in this order)
 
 1. `type: rules` → rulebook. If it has no examples/tables and only `/rulebook-default.js`, still run RB-1..RB-4, RB-9.
-2. `type: board` → generator.
-3. `type: game` and bundle contains literal `downloadPDF` → generator.
-4. otherwise → digital game.
+2. frontmatter says `customWidget: true` → digital game. A hand-written widget, never a generator.
+3. `type: board` → generator.
+4. `type: game` whose own bundle mentions `loadGame` or `generateMaterial` → generator.
+5. otherwise → digital game.
 
-`downloadPDF` is emitted by `generateMaterial.ts` and survives minification: measured 73 of 80 game bundles, and the 7 without it are exactly the digital games. Do **not** use `Reset to Defaults` (slippery-slopes-trippy-touches, timely-transports and wondering-witches are digital games that call `loadSettings`) or `generateMaterial` (does not survive minification). If a page classified as generator has no `div.settings`, fail `GEN_NO_SETTINGS`.
+The signal has to come from the page's OWN code, so `bundleText` skips `/lib/vendor/` (§4.2). Since the libraries became one shared bundle, everything library-level (`downloadPDF`, `Reset to Defaults`) sits in *every* page's script list and says nothing about the page. `loadGame` is the entry a generator hands its `generateMaterial` callback to and survives minification; `generateMaterial` is matched as well for a page that calls it directly. A page that mounts its own UI says so itself, with `customWidget: true` — `SC-3` honours the same flag, so the two checks can never disagree.
 
-What a page can *print* is not what it *is*, and `loadGame` says nothing either way: generators are built on `loadGame` too (firecrackers is a generator), and digital games print PDFs as well (the pirate games). Keep the classifier as it is — the page's scripts, vendor included, mention `downloadPDF` or they do not — and do not "fix" it by reading the entry source or by guessing from `loadGame`/`loadSettings`.
+Custom widgets today (all `type: game`): epic-medics, keebble-games/spell/keebble-knickknack, pirate-drawingbeard, pirate-riddlebeard, slippery-slopes-trippy-touches, starry-skylines, timely-transports, wie-is-de-trol, wondering-witches. They still import the framework (`shuffle`, `MaterialVisualizer`, `loadSettings`) — what they do not do is mount the standard generator.
 
-Baseline counts: 92 `game`+`board` → **85 generators** + 7 digital games; 75 rulebooks.
+Two pages are hand-written but out of scope: `/starry-skylines/library-of-components/` has no `type`, and `/tools/dictionary/` is a `tool`, so neither is in the manifest at all.
+
+Baseline counts: 92 `game`+`board` → **83 generators** + 9 custom widgets; 74 rulebooks; 4 other pages.
 
 ### 2.6 Test-suite budget (deliberate)
 
@@ -580,7 +583,9 @@ Print a table and fail if a budget regresses: markdown ≤2 s, asset ≤10 s (af
 
 A full build processes ~117 images and `show-image` costs ~24 s cumulative.
 
-The remaining page-render cost is per-page template work (`project/list.html`, `rules/list.html`, `home.html` — see the profile in §3.7 and R-13). Re-profile before touching it:
+Profile of the audit build after R-13 (29 s wall, 170 pages): `load-assets.html` 36.6 s cumulative, **2.3 s** max; `game/single.html` 1.65 s max; `rules/list.html` 2.27 s max; `board/single.html` 1.42 s max; `project/list.html` 1.33 s max; `home.html` 0.77 s max. Every template is now under ~2.5 s per render, and the remaining time is esbuild for ~170 page bundles plus 117 images — not template logic. The one page that reports 9.7 s is `starry-skylines/library-of-components`, a 213-byte HTML page: that is a wait on a shared resource build, not content work.
+
+The template that *was* egregious was the categorizer's `load-assets-custom` shortcode, 18.4 s on its own: it called `js.Build` without the shim map (§4.2), so it bundled the whole pq-games library into a tool page (and the vendor bundle on top). It now shares `func/js-shims.html` and `func/vendor-bundles.html` with `load-assets.html`; that one call dropped to 1.2 s and the cumulative `load-assets` cost fell from 112 s to 37 s. Re-profile with:
 
 ```bash
 hugo -d audit-artifacts/tm --templateMetrics --templateMetricsHints
@@ -729,19 +734,13 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 ### P1 — make the codebase verify itself
 
 
-**R-7. `defineConfig` generic** so `_drawing`/`_settings` keys are inferred and `vis.get("typo")` is a compile error. The structural fix for the whole "wrong settings" class; do it after R-6.
-
 **R-8. Delete dead things**: `content/fiddlefoo/rules/_index.old/`, `content/naivigation-old/`, `layouts/_shortcodes/rules/rules-table*.html`, `hasty-accusations/shared/dict.v1.ts`, `pirate-drawingbeard/game/jszip.min.js` (bundle it instead).
 
 **R-9. Enforce SC-8 in CI** — a moved asset folder is otherwise invisible until a blank card appears.
 
 ### P2 — speed and determinism
 
-**R-11. Codemod `Math.random()`.** `tools/random/rng.ts` now seeds every generation from `_settings.defaults.seed` (it installs a seeded `Math.random`, so existing pickers are already reproducible). The remaining work is to move picks onto `rand()`/`pick()` in batches, starting with green games, so they stay seeded if the global patch is ever removed.
-
 **R-12. Library unit tests** in the pq-games / pq-rulebook repos (Vitest + jsdom), including the three V2-default tests: centre pivot, centre text alignment, and `_settings.<path>.value` reads. The copy in this repo is a net, not the home.
-
-**R-13. What is left of page-render cost.** Taxonomies are already excluded from the audit build and images are no longer processed per card (§4.4). The rest is per-page template work — `rules/list.html` and the navigation partials are the hotspots in the last profile. Re-profile with `hugo --templateMetrics --templateMetricsHints` before touching anything, and only fix what shows up at the top.
 
 **R-14. Pre-commit hook**: `bun run static --filter <project>` for the projects a commit touches — 2 s, and it prevents a 4-minute wait to discover a typo.
 
@@ -754,7 +753,6 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 | Phase | Work | Exit criterion |
 |---|---|---|
 | 4. Structural (1–2 weeks) | `--runs 2` on `[~~]` games, generator kind | `--runs 1` green for every non-draft project except documented exceptions; `--runs 2` spot-checked on whatever was touched |
-| 6. Durability (ongoing) | R-7, R-11, R-13 | budgets of §4.3 hold |
 | 7. Optional | §10: contact sheet per project, fix pivot/alignment, re-baseline | nothing depends on it |
 
 ---

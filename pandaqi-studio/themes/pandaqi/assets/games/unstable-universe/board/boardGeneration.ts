@@ -1,4 +1,5 @@
 
+import { rand } from "lib/pq-games";
 import {
 	EXPEDITION_NODES_DICT,
 	LANDMARKS,
@@ -244,7 +245,7 @@ export default class BoardGeneration
 
 				if(noValidOptions)
 				{
-					p = edge[Math.floor(Math.random() * edge.length)];
+					p = edge[Math.floor(rand() * edge.length)];
 				}
 
 				this.convertToMissionNode(p);
@@ -1872,7 +1873,7 @@ export default class BoardGeneration
 					pos: opMissionNode.pos.clone(),
 					size: new Vector2(2*halfSize*outlineMarginFactor),
 					pivot: Vector2.CENTER,
-					frame: 4 + Math.floor(Math.random() * 4),
+					frame: 4 + Math.floor(rand() * 4),
 					depth: 3
 				})
 
@@ -1936,7 +1937,7 @@ export default class BoardGeneration
 				// frame 8 and 9 are two different outlines to mark a node as special
 				// the center node gets the seed
 				// (@NOTE (21-02-2023): the energy expansion adds an energy number, but that's correctly handled elsewhere in the code)
-				let frameOutline = Math.floor(Math.random() * 4);
+				let frameOutline = Math.floor(rand() * 4);
 				if(p.type == 'Center') 
 				{
 					frameOutline = 8;
@@ -2165,7 +2166,7 @@ export default class BoardGeneration
 					const op = new LayoutOperation({
 						pos: circ.center,
 						size: new Vector2(2*expeditionSlotRadius),
-						frame: Math.floor(Math.random() * 4),
+						frame: Math.floor(rand() * 4),
 						pivot: Vector2.CENTER,
 						rot: this.getRandomRotation(),
 						depth: 3
@@ -2304,6 +2305,6 @@ export default class BoardGeneration
 
 	getRandomRotation() : number
 	{
-		return Math.random() * 2 * Math.PI;
+		return rand() * 2 * Math.PI;
 	}
 }

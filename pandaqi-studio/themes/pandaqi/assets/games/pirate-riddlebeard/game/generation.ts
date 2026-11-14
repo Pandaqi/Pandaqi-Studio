@@ -3,7 +3,7 @@ import Cell from "./cell";
 import { HINTS, HINT_ICONS, LANDMARKS, LISTS, NATURE, QUADRANTS, ROADS, STONES, TERRAINS, TERRAIN_DATA, alphabet } from "../shared/dict";
 import Interface from "./interface";
 import { CONFIG } from "../shared/config";
-import { MaterialVisualizer, PdfBuilder, PageOrientation, convertCanvasToImage, Vector2, seedRandom, ResourceGroup, Rectangle, LayoutOperation, ResourceShape, TextConfig, ResourceText, StrokeAlign, Line, TextAlign, getSetting } from "lib/pq-games";
+import { MaterialVisualizer, PdfBuilder, PageOrientation, convertCanvasToImage, Vector2, seedRandom, ResourceGroup, Rectangle, LayoutOperation, ResourceShape, TextConfig, ResourceText, StrokeAlign, Line, TextAlign, getSetting, rand } from "lib/pq-games";
 type Hint = { final_text?: string, html_text?: string }
 
 export default class BoardGeneration
@@ -46,7 +46,7 @@ export default class BoardGeneration
 		container.insertBefore(div, container.firstChild);
 
     	let algo = 'forward';
-    	if(Math.random() <= 0.1) { algo = 'backward'; }
+    	if(rand() <= 0.1) { algo = 'backward'; }
     	if(this.cfg.expansions.theLostRiddles) { algo = 'forward'; }
 
     	this.cfg.algorithm = algo; 
@@ -237,50 +237,50 @@ export default class BoardGeneration
 		let proposalExtraChangeProb = 0.55;
 		for(let i = 0; i < numProposeChecks; i++)
 		{
-			const tileA = this.mapList[Math.floor(Math.random() * this.mapList.length)];
+			const tileA = this.mapList[Math.floor(rand() * this.mapList.length)];
 			const oldTileA = structuredClone(tileA);
 			const otherPos = new Vector2(tileA.x, tileA.y);
-			otherPos.x = Math.max(Math.min(otherPos.x - 2 + Math.floor(Math.random()*5), this.cfg.width-1), 0);
-			otherPos.y = Math.max(Math.min(otherPos.y - 2 + Math.floor(Math.random()*5), this.cfg.height-1), 0);
+			otherPos.x = Math.max(Math.min(otherPos.x - 2 + Math.floor(rand()*5), this.cfg.width-1), 0);
+			otherPos.y = Math.max(Math.min(otherPos.y - 2 + Math.floor(rand()*5), this.cfg.height-1), 0);
 
 			let tileB = this.map[otherPos.x][otherPos.y];
 			const posAsString = this.convertToStringCoordinates(otherPos);
 			const alreadyCheckedThisTileAndItsTrue = (posAsString in tileA.proposeData) && tileA.proposeData[posAsString].changed;
-			const pickExtremeTileB = (Math.random() <= 0.1) || (alreadyCheckedThisTileAndItsTrue);
+			const pickExtremeTileB = (rand() <= 0.1) || (alreadyCheckedThisTileAndItsTrue);
 			if(pickExtremeTileB) {
-				tileB = this.mapList[Math.floor(Math.random() * this.mapList.length)];
+				tileB = this.mapList[Math.floor(rand() * this.mapList.length)];
 			}
 
 			const proposal : Record<string,any> = {};
 			const originalAnswer = tileB.botPositive;
 			const list = [tileB];
 
-			if(Math.random() <= 0.66) 
+			if(rand() <= 0.66) 
 			{
 				tileA.nature = this.getRandomNature([tileA.nature]);
 				proposal.nature = tileA.nature;
 			}
 
-			if(this.cfg.elements.stones && Math.random() <= proposalExtraChangeProb) 
+			if(this.cfg.elements.stones && rand() <= proposalExtraChangeProb) 
 			{
 				tileA.stones = this.getRandomStones([tileA.stones]);
 				proposal.stones = tileA.stones;
 			}
 
-			if(this.cfg.elements.landmarks && Math.random() <= proposalExtraChangeProb) 
+			if(this.cfg.elements.landmarks && rand() <= proposalExtraChangeProb) 
 			{
 				tileA.landmark = this.getRandomLandmark([tileA.landmark]);
 				proposal.landmark = tileA.landmark;
 			}
 			
-			if(this.cfg.elements.roads && Math.random() <= proposalExtraChangeProb) 
+			if(this.cfg.elements.roads && rand() <= proposalExtraChangeProb) 
 			{
 				tileA.road = this.getRandomRoad([tileA.road]);
 				proposal.road = tileA.road;
 			}
 
 			let nothingChangedYet = (Object.keys(proposal).length == 0);
-			if(nothingChangedYet || Math.random() <= 0.66) 
+			if(nothingChangedYet || rand() <= 0.66) 
 			{
 				tileA.terrain = this.getRandomTerrain([tileA.terrain]);
 				proposal.terrain = tileA.terrain;
@@ -682,8 +682,8 @@ export default class BoardGeneration
 
 	determineSeed() 
 	{
-		const randomSeedLength = Math.floor(Math.random() * 10) + 2;
-		const randomSeed = Math.random().toString(36).replace(/[^a-z]+/g, '').slice(0, randomSeedLength);
+		const randomSeedLength = Math.floor(rand() * 10) + 2;
+		const randomSeed = rand().toString(36).replace(/[^a-z]+/g, '').slice(0, randomSeedLength);
 
 		if(this.cfg.seed == '') { this.cfg.seed = randomSeed; }
 		const finalSeed = this.cfg.seed;
@@ -1859,7 +1859,7 @@ export default class BoardGeneration
 						"value": cell.terrain,
 					})
 				} else {
-					bool = Math.random() <= 0.75
+					bool = rand() <= 0.75
 				}
 
 				values[0] = this.createNotString(bool);
@@ -1893,7 +1893,7 @@ export default class BoardGeneration
 					}
 
 				} else {
-					bool = Math.random() <= 0.5;
+					bool = rand() <= 0.5;
 				}
 
 				values[0] = this.createNotString(bool);
@@ -2095,7 +2095,7 @@ export default class BoardGeneration
 						"value": cell.nature,
 					})
 				} else {
-					bool = Math.random() <= 0.75
+					bool = rand() <= 0.75
 				}
 
 				values[0] = this.createNotString(bool);
@@ -2373,7 +2373,7 @@ export default class BoardGeneration
 						"value": cell.stones,
 					})
 				} else {
-					bool = Math.random() <= 0.75
+					bool = rand() <= 0.75
 				}
 
 				values[0] = this.createNotString(bool);
@@ -2844,7 +2844,7 @@ export default class BoardGeneration
 						"value": cell.road,
 					})
 				} else {
-					bool = Math.random() <= 0.75
+					bool = rand() <= 0.75
 				}
 
 				values[0] = this.createNotString(bool);

@@ -1,5 +1,6 @@
 import Card from "./card"
 import { CONFIG } from "../shared/config";
+import { rand } from "lib/pq-games";
 
 let handsPerNumber = [];
 
@@ -45,10 +46,10 @@ export default class Pack
         }
 
         if(arr.length <= 0) { 
-            return CONFIG.numberList[Math.floor(Math.random() * CONFIG.numberList.length)];
+            return CONFIG.numberList[Math.floor(rand() * CONFIG.numberList.length)];
         }
 
-        return arr[Math.floor(Math.random() * arr.length)];
+        return arr[Math.floor(rand() * arr.length)];
     }
 
     setupHands()

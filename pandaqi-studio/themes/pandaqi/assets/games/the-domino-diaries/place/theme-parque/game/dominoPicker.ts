@@ -1,5 +1,5 @@
 
-import { getWeighted, shuffle } from "lib/pq-games";
+import { getWeighted, shuffle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ATTRACTIONS, CHALLENGES, COASTER_PARTS, DECORATIONS, DominoType, EVENTS, ITEMS, ItemType, PATHS, PathType, STALLS } from "../shared/dict";
 import Domino from "./domino";
@@ -183,7 +183,7 @@ const generateDominoes = (dominoes:Domino[], set:string) =>
         // we want a few more dominoes to not match, even if they COULD, for more variety
         const oneSideCompletelyOpen = sideA.isCompletelyOpen() || sideB.isCompletelyOpen();
         const twoPaths = (sideA.hasPath() && sideB.hasPath());
-        const randomNonMatchPaths = Math.random() <= 0.25 && (twoPaths && !oneSideCompletelyClosed && !oneSideCompletelyOpen);
+        const randomNonMatchPaths = rand() <= 0.25 && (twoPaths && !oneSideCompletelyClosed && !oneSideCompletelyOpen);
 
         const attractionAndNonQueuePath = [sideA.type, sideB.type].includes(ItemType.ATTRACTION) && [sideA.typePath, sideB.typePath].includes(PathType.REGULAR);
         const coasterPartAndSomethingElse = (sideA.isCoaster() || sideB.isCoaster()) && (sideA.typePath != sideB.typePath);
