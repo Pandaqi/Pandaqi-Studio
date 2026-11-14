@@ -2,19 +2,17 @@
 
 ## Important
 
-The source for the website's libraries are in the [PQ-Games](https://github.com/Pandaqi/pq-games) and [PQ-Rulebook](https://github.com/Pandaqi/pq-rulebook) folders. Do _not_ update these libraries directly within this project. Make updates **to the libraries**---they are always the latest version. Then simply update/refresh to their latest version in `pandaqi-studio`.
+The source for the website's libraries are in the [PQ-Games](https://github.com/Pandaqi/pq-games) and [PQ-Rulebook](https://github.com/Pandaqi/pq-rulebook) folders. 
 
-@TODO (temporary): MOVE THESE FROM PANDAQI-STUDIO BACK TO PANDAQI-STUDIO-DEV:
+* Do _not_ update these libraries directly within this project. 
+* Make updates **to the libraries**---they are always the latest version. 
+* Then simply update/refresh to their latest version in `pandaqi-studio`.
 
-* ALL OF pq-games and pq-rulebook, `functionality.ts`
-* UPDATE BACK LAYOUTS TOO => `show-video.html`, `head.html`, `load-assets.html`, `footer-dynamic.html`, `load-assets-custom.html`, `project-buttons.html`, `support.html`
-
+The `pandaqi-studio-dev` folder is never up-to-date or canonical. It's a loose playground with half-finished projects and it should never be treated as the true source of libraries, coding style, folder structure, or anything else.
 
 ## V1 -> V2 visual review
 
-The migration is finished; what is left is human judgement. The automated checks catch crashes, blanks,
-orphans and 404s, but they cannot judge "40 px too high because of the pivot". Nothing depends on the
-items below: do them when you want to, project by project.
+The migration is finished, except for manual review by a human (me!). Automated checks catch a lot, except if the final product is actually what I intended.
 
 1. `cd pandaqi-studio/audit && bun run audit --update-baselines --filter <project>` — writes
    `audit/baselines/<slug>/{page,render,example-*}.png` (480 px). One measured render per page, so the
@@ -25,10 +23,6 @@ items below: do them when you want to, project by project.
    the top-left corner), text alignment defaults to the middle (V1 was left), and settings are read as
    `_settings.<path>.value` (or through `_drawing`/`CVal` when the value is derived from the item size).
    Then re-run that project and look again.
-
-The project grids and the notes about individual games (the digital-only ones, Keebble Domino, That's
-Amorphe, the pirates, Naivigation) live in the commit history of this file, and in the `[~~]`/`[x]` marks
-that the migration's checklist ended with.
 
 ## Website / Marketing
 
