@@ -131,6 +131,25 @@ const drawItems = async (config: GameConfig, feedbackNode:HTMLElement, drawCalls
     if(drawCalls.length <= 0) { return; }
     await letDomUpdate();
 
+    // The audit only ever looks at a couple of pages. Drawing the rest of the deck anyway meant every sweep
+    // paid full price (and full memory) for cards it then threw away at PDF time, so cap the work here, where
+    // it is actually spent. Production never sets this.
+    const pageLimit = (((window as any).__auditPdf ?? {}) as { maxPages?:number }).maxPages ?? 0;
+    if(pageLimit > 0)
+    {
+        const kept:MaterialDrawCall[] = [];
+        const drawnPerMapper = new Map<GridMapper, number>();
+        for(const call of drawCalls)
+        {
+            const perPage = Math.max(1, call.mapper.getElementsPerPage());
+            const drawn = drawnPerMapper.get(call.mapper) ?? 0;
+            if(drawn >= pageLimit * perPage) { continue; }
+            drawnPerMapper.set(call.mapper, drawn + 1);
+            kept.push(call);
+        }
+        drawCalls = kept;
+    }
+
     let batchSize = (renderer.customBatchSize ?? config._generation.batchSize) ?? DEFAULT_BATCH_SIZE;
 
     // because we draw them in small batches to prevent overloading the browser
@@ -199,6 +218,7 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
     const auditPdf = ((window as any).__auditPdf ?? {}) as { maxPages?:number, compression?:PdfCompression };
 
     const pdfBuilders:PdfBuilder[] = [];
+    let lastProgressUpdate = 0;
     for(const [key,mapper] of Object.entries(mappers))
     {
         const pageParams:PdfPageConfig = {
@@ -221,16 +241,25 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
             // most expensive step here, so a capped run must skip it, not just skip the addImage
             if(pdfBuilder.isFull) { break; }
 
-            const infoText = "Adding page " + (i+1) + " / " + numPages + " to PDF";
-            console.log(infoText);
-
-            sendProgressInfoSignal(feedbackNode, infoText);
-            await letDomUpdate();
+            // a DOM update + console line per page is real work (layout, plus a console message the audit
+            // serialises); nobody reads every one of them
+            const now = performance.now();
+            if(now - lastProgressUpdate > 250 || i === numPages - 1)
+            {
+                lastProgressUpdate = now;
+                sendProgressInfoSignal(feedbackNode, "Adding page " + (i+1) + " / " + numPages + " to PDF");
+                await letDomUpdate();
+            }
 
             // jsPDF takes a canvas directly (it encodes it itself, see the CANVAS branch in jspdf's
             // addImage_image), so handing over the canvas skips an entire toDataURL → <img> → decode
             // round-trip and never holds a decoded 300 DPI bitmap in memory
             pdfBuilder.addImage(canvases[i]);
+
+            // release the page bitmap immediately: one 300 DPI A4 page is ~34 MB of RGBA, and holding a whole
+            // deck of them alive is what turned long generations into an out-of-memory crash
+            canvases[i].width = 0;
+            canvases[i].height = 0;
         }
     }
 

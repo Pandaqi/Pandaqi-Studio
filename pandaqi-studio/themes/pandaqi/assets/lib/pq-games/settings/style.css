@@ -85,7 +85,9 @@ button:disabled
 .settings-element
 {
     display: flex;
-    gap: 1em;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5em 1em;
     width: 100%;
 }
 
@@ -97,6 +99,55 @@ button:disabled
 .settings-element input, .settings-element select
 {
     width: 100%;
+}
+
+/* a lone checkbox has no content of its own to fill a row with; stretching it just centres the box */
+.settings-element > input[type="checkbox"]
+{
+    width: auto;
+    align-self: flex-start;
+}
+
+/* A multi-select is a whole list of checkboxes, not a single value: its label takes its own row and
+   the list becomes an evenly divided grid instead of one very thin column. */
+.settings-element-multi > label
+{
+    flex: 1 0 100%;
+    width: 100%;
+}
+
+.settings-element-multi > .settings-input-multi
+{
+    flex: 1 0 100%;
+    width: 100%;
+}
+
+.settings-input-multi
+{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.25em 1em;
+}
+
+.settings-input-multi > div
+{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    min-width: 0;
+}
+
+.settings-input-multi label
+{
+    flex: 1 1 auto;
+    width: auto;
+    overflow-wrap: anywhere;
+}
+
+.settings-input-multi input
+{
+    flex: 0 0 auto;
+    width: auto;
 }
 
 .settings-remark

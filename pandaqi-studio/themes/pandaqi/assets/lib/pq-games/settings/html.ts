@@ -167,6 +167,9 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
     {
         elem = document.createElement("div");
         elem.classList.add("settings-input-multi");
+        // marks the parent too, so the label and the whole checkbox grid can each take their own row
+        // without relying on :has() support
+        container.classList.add("settings-element-multi");
 
         // MULTI settings usually declare `value`, not `default`; without this fallback every
         // checkbox starts unchecked and the setting reads back as an empty list

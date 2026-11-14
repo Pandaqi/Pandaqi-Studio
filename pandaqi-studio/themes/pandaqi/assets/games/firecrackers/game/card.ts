@@ -273,11 +273,15 @@ export default class Card
             }
         }
 
-        const sizeBig = new Vector2(3 * vis.get("cards.corners.starScaleBig") * vis.sizeUnit);
-        const sizeSmall = new Vector2(3 * vis.get("cards.corners.starScaleSmall") * vis.sizeUnit);
-
         const fontSizeBig = vis.get("cards.corners.fontSizeBig") * vis.sizeUnit;
         const fontSizeSmall = vis.get("cards.corners.fontSizeSmall") * vis.sizeUnit;
+
+        // The star is the badge *around* the number, so it is sized from the number. Sizing it from a fixed
+        // slice of the card (the old `3 * starScale * sizeUnit`, a 0.75×sizeUnit diameter) made it dwarf the
+        // digit it holds, because the digit is a fraction of the same unit (fontSizeBig = 0.15).
+        const RADIUS_PER_FONT_SIZE = 0.85;
+        const radiusBig = RADIUS_PER_FONT_SIZE * fontSizeBig;
+        const radiusSmall = RADIUS_PER_FONT_SIZE * fontSizeSmall;
 
         const text = this.num.toString();
         const textConfig = new TextConfig({
@@ -297,10 +301,10 @@ export default class Card
 
             const rot = (i <= 1 || !isAction) ? 0 : Math.PI;
             const pos = isBig ? positionsBig[i] : positionsSmall[i];
-            const size = isBig ? sizeBig : sizeSmall;
+            const radius = isBig ? radiusBig : radiusSmall;
             const fontSize = isBig ? fontSizeBig : fontSizeSmall;
 
-            const starShape = new Star({ center: pos, radiusOutside: size.x, radiusInside: 0.66*size.x, rotation: rot - 0.5*Math.PI });
+            const starShape = new Star({ center: pos, radiusOutside: radius, radiusInside: 0.66*radius, rotation: rot - 0.5*Math.PI });
             const resStar = new ResourceShape(starShape);
             const starColor = isBig ? colorMid : colorDark;
 
@@ -324,7 +328,7 @@ export default class Card
 
             const opText = new LayoutOperation({
                 pos: pos.clone().move(posOffset),
-                size: size,
+                size: new Vector2(2 * radius),
                 pivot: Vector2.CENTER,
                 fill: textColor,
                 stroke: textStrokeColor,

@@ -187,8 +187,7 @@ export const CONFIG =
             {
                 edgeOffsetBig: new Vector2(0.15), // ~sizeUnit
                 edgeOffsetSmall: new Vector2(0.08), // ~sizeUnit
-                starScaleBig: 0.125, // ~sizeUnit
-                starScaleSmall: 0.06, // ~sizeUnit
+                // star badges are sized from the number they hold; see card.ts drawCorners
                 fontSizeBig: 0.15, // ~sizeUnit
                 fontSizeSmall: 0.055, // ~sizeUnit
                 strokeWidth: 0.075, // ~fontSize

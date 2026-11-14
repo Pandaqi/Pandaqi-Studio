@@ -14,6 +14,11 @@ class TextChunk
 
 const PUNCTUATION = [".", "?", "!", "-", "+"]
 
+// `measureText` is called for every word of every line of every card, and the same words ("Attack", "+2",
+// "Move") repeat hundreds of times across a deck. The answer only depends on the font and the string.
+const METRICS_CACHE = new Map<string, TextMetrics>()
+const METRICS_CACHE_LIMIT = 20000
+
 class TextChunkText extends TextChunk
 {
     text:string
@@ -28,7 +33,15 @@ class TextChunkText extends TextChunk
     isPunctuation() { return PUNCTUATION.includes(this.text); }
     getMetrics(ctx) : TextMetrics
     {
-        return ctx.measureText(this.text);
+        const key = ctx.font + "\u0000" + this.text;
+        let metrics = METRICS_CACHE.get(key);
+        if(!metrics)
+        {
+            metrics = ctx.measureText(this.text);
+            if(METRICS_CACHE.size > METRICS_CACHE_LIMIT) { METRICS_CACHE.clear(); }
+            METRICS_CACHE.set(key, metrics);
+        }
+        return metrics;
     }
 
     getSize(ctx)
