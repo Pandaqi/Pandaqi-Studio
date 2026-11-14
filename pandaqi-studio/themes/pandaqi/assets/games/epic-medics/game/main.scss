@@ -1,7 +1,8 @@
 
 $header-font: "woodcutter";
 $body-font: "ptserif";
-$base-fonts: "fonts/";
+// the bundle lives at /games/<url>/bundle.css, while the fonts are content assets of the project
+$base-fonts: "/epic-medics/assets/fonts/";
 
 @font-face {
     font-family: $header-font;

@@ -74,7 +74,7 @@ if no JS and url contains "/rules/" → include /rulebook-default.js
 
 Both are built per page (`js.Build` → `/<url>/bundle.js`, `css.Sass` → `/<url>/bundle.css`). The two shared libraries are **not** part of a page bundle: they are built once into `/lib/vendor/pq-games.js` and `/lib/vendor/pq-rulebook.js`, and `lib/pq-games` / `lib/pq-rulebook` are `js.Build` shims that read those globals, so a page bundle is ~20 KB instead of ~480 KB. A `game`/`board` page with no entry file now **fails the build** (`errorf`); a `rules` page that falls back to the default rulebook while containing `rules-example` shortcodes gets a `warnf`.
 
-Gating: `game/single.html` needs `enableGameJS`, `board/single.html` needs `enableBoardJS`, `rules/list.html` needs `enableRulesJS` (true), `tool/single.html` always. Current config has both generator flags `false`: generator pages still exist by URL but ship **no JavaScript**. That is the "hidden generators" state.
+Gating: `game/single.html` needs `enableGameJS`, `board/single.html` needs `enableBoardJS`, `rules/list.html` needs `enableRulesJS` (true), `tool/single.html` always. All three flags are `true`; on top of that each page honours a per-project kill switch — `hideGame` / `hideBoard` / `hideRules` on the project's `_index.md` — so one broken part stays offline without taking every generator down. The same frontmatter removes the project's button (`project-buttons.html`), and the button never shows without the JS.
 
 Override without editing `config.toml` (verified):
 
@@ -464,7 +464,6 @@ The same sweep forced these smaller fixes: `drawTextToCanvas` walked into `calcu
 First generator and digital runs:
 
 * `/chiptales/bet/noble-flood/game/` passes MG-1..MG-7 with a 2-profile run.
-* `/epic-medics/game/` requests `/games/epic-medics/game/fonts/woodcutter.woff2`, which 404s; the file exists at `/epic-medics/assets/fonts/`. Its CSS resolves the font relative to the bundle, so this only ever broke once generator CSS was compiled.
 
 `bun run perf` (cold destination, so the numbers mean something): segment build 3.9 s (budget 90 s), markdown edit 1.4 s (2 s), game-code edit 0.5 s (10 s), full build 32.1 s (budget 150 s). Every budget green. The full build was 193.9 s before §4.2 and §4.4. Repeat cold builds of the same tree measured 32 s, 64 s and once 217 s (fresh `resources/_gen` and a cold disk), so read the budget, not the best number — warm rebuilds are 15 s.
 
@@ -492,7 +491,7 @@ Giving the five visit rulebooks a working entry (D-6) showed how much of the old
 * The pickers are plain functions again (`export const cardPicker = () : MaterialNaivigation[] => ...`), so a config imports them and writes `picker: () => cardPicker`, exactly like every other project. Nothing reads `CONFIG` until the function is called, so the config↔generator cycle is harmless and no registry is needed.
 * Two config defects that blocked generation: the shared `_material.pawns` preset had no picker (no Naivigation game produces pawn material, so it is gone), and the `expansions` blocks were missing `type: SettingType.GROUP` — without it the whole Expansions group never rendered.
 
-Checked in a browser: all five visit rulebooks with their examples, plus generation on `/naivigation/visit/crashing-cars/game/` twice — once on defaults, once with Taxis & Cargo, Fuel & Fear and Terrain & Tripplanning switched on (13.8 MB PDF, no console errors). No full audit run on Naivigation yet — that is the Phase 4 entry check.
+Checked in a browser: all five visit rulebooks with their examples, plus generation on `/naivigation/visit/crashing-cars/game/` twice — once on defaults, once with Taxis & Cargo, Fuel & Fear and Terrain & Tripplanning switched on (13.8 MB PDF, no console errors). No full audit run on Naivigation yet.
 
 ### 3.9 Throneless config + Keebble Domino drawing (2026-11-14)
 
@@ -728,8 +727,6 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 
 **R-4. One pre-merge gate** (`.github/workflows/audit.yml`). Nothing scheduled, no nightly job: (1) `hugo` with generators enabled must exit 0; (2) `bun run static` reports no errors; (3) `bun run audit --runs 1` on the projects the PR touches. Upload `audit-artifacts/` on failure. Never merge a PR that turns a green page red.
 
-**R-5. Per-project kill switch.** Replace global `enableGameJS`/`enableBoardJS` with a data file (`data/disabled-projects.yaml`) plus the existing `hideGame`/`hideBoard`/`hideRules` frontmatter, generated from `report.json` (`--emit-disabled`). One broken game must not force every generator offline.
-
 ### P1 — make the codebase verify itself
 
 **R-6. Type checking.** Add `themes/pandaqi/assets/tsconfig.json` (reusing the `paths` from the existing `jsconfig.json`), run `bunx tsc -p themes/pandaqi/assets --noEmit`. Expect many errors; fix by project, starting with `lib/` and the `[x]` games. `js.Build` never type-checks, which is why D-9 shipped.
@@ -759,7 +756,6 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 | Phase | Work | Exit criterion |
 |---|---|---|
 | 4. Structural (1–2 weeks) | `--runs 2` on `[~~]` games, generator kind | `--runs 1` green for every non-draft project except documented exceptions; `--runs 2` spot-checked on whatever was touched |
-| 5. Re-enable (1 h) | `enableBoardJS`/`enableGameJS` true (or R-5), deploy, spot-check 5 games | links visible in production; the pre-merge gate is green |
 | 6. Durability (ongoing) | R-4, R-6, R-7, R-11, R-13 | budgets of §4.3 hold |
 | 7. Optional | §10: contact sheet per project, fix pivot/alignment, re-baseline | nothing depends on it |
 

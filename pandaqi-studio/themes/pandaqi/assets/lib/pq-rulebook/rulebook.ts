@@ -34,6 +34,14 @@ export interface RulebookParams
     _sectionRoot?: RulebookSection
 }
 
+// A bundle can be evaluated after the window already fired `load` (a late/dynamic script); waiting for
+// `load` alone then never calls back and the rulebook silently stays unrendered.
+const onWindowLoad = (callback:() => void) =>
+{
+    if(document.readyState === "complete") { callback(); return; }
+    window.addEventListener("load", callback, { once: true });
+}
+
 export const resetRulebook = (params:RulebookParams, node:HTMLElement) =>
 {
     document.body.innerHTML = "";
@@ -55,22 +63,19 @@ export const loadRulebookCallback = (params:RulebookParams) =>
     if(!params._rulebook)
     {
         // register and activate special tools => things to do only ONCE
-        const rulesTables = createRulebookTableHTML(params, node);
-        const rulesIcons = createRulebookIconHTML(params, node);
-        const rulesExamples = createRulebookExampleHTML(params, node);
-        console.log("[Rulebook] Tables, Icons & Examples", rulesTables, rulesIcons, rulesExamples);
+        createRulebookTableHTML(params, node);
+        createRulebookIconHTML(params, node);
+        createRulebookExampleHTML(params, node);
 
         // divide into sections hierarchy
         const sectionRoot = createRootSection(params);
         findSections(node, sectionRoot);
         node.innerHTML = "";
         node.appendChild(makeSectionInteractiveRecursively(sectionRoot, undefined, params));
-        console.log("[Rulebook] Sections", sectionRoot);
 
         // add basic qol interactivity
         // @NOTE: we _clone_ nodes in the previous section, but then we never clone them again, so we only need to do this ONCe here and the interactivity remains
-        const interactiveExamples = makeExamplesInteractive(params, node);
-        console.log("[Rulebook] Interactive Examples", interactiveExamples);
+        makeExamplesInteractive(params, node);
 
         makeTablesInteractive(node);
         makeImagesClickable(node);
@@ -98,7 +103,7 @@ export const loadRulebook = (params:RulebookParams = {}) =>
         };
     }
 
-    window.addEventListener("load", () => 
+    onWindowLoad(() => 
     {
         loadRulebookCallback(params);
     })

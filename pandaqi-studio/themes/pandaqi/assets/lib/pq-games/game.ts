@@ -1,5 +1,6 @@
 import { generateMaterial } from "./generateMaterial";
 import { loadSettings } from "./settings/nodes";
+import { onWindowLoad } from "./tools/dom/tools";
 
 export const defaultGameCallback = async (config) =>
 {
@@ -11,7 +12,7 @@ export const defaultGameCallback = async (config) =>
 
 export const loadGame = (config:Record<string,any>) =>
 {
-    window.addEventListener("load", () => 
+    onWindowLoad(() => 
     {
         loadSettings(config, defaultGameCallback);
     });

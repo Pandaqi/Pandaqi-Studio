@@ -9,6 +9,21 @@ export interface TranslateParams
     delimitersTranslate: { pre?: string, post?: string }
 }
 
+// One compiled pattern per delimiter pair: this runs for every piece of text that gets drawn.
+const TRANSLATE_REGEXES = new Map<string, RegExp>();
+const getTranslateRegex = (pre:string, post:string) =>
+{
+    const id = `${pre}\u0000${post}`;
+    let regex = TRANSLATE_REGEXES.get(id);
+    if(!regex)
+    {
+        // replaceAll() throws on a non-global regex, so nested keys used to crash the whole generation
+        regex = new RegExp(`${pre}(.+)${post}`, "g");
+        TRANSLATE_REGEXES.set(id, regex);
+    }
+    return regex;
+}
+
 export const translate = (params:TranslateParams) =>
 {
     const dict = params.language ? params.dict[params.language] : params.dict;
@@ -26,7 +41,7 @@ export const translate = (params:TranslateParams) =>
     const suffixTranslate = dlst.post ?? "`";
 
     // recursively translate stuff inside
-    const regex = new RegExp(`${prefixTranslate}(.+)${suffixTranslate}`);
+    const regex = getTranslateRegex(prefixTranslate, suffixTranslate);
     stringOutput = stringOutput.replaceAll(regex, (fullMatch, captureGroup1) => {
         const newParams = Object.assign({}, params);
         newParams.key = captureGroup1;

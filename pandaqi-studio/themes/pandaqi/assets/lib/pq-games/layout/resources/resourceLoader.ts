@@ -251,6 +251,7 @@ export class ResourceLoader
 
     setCustomResources(data:FileList)
     {
-        this.resourcesCustom = Array.from(data);
+        // a config without the (Custom) Assets setting passes nothing at all
+        this.resourcesCustom = data ? Array.from(data) : [];
     }
 }

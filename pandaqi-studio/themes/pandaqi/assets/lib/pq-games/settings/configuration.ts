@@ -74,8 +74,17 @@ export const getVisualizer = (key:string, config:GameConfig) =>
 
 export const addConfigFromLocalStorage = (config:GameConfig) =>
 {
-    if(!config._game.localStorageKey) { return; }
-    const userConfig = JSON.parse(window.localStorage[config._game.localStorageKey] ?? "{}");
+    const key = config._game.localStorageKey;
+    if(!key) { return; }
+
+    // a corrupt or hand-edited entry used to throw here and kill the whole generation before it started
+    let userConfig = {};
+    try {
+        userConfig = JSON.parse(window.localStorage[key] ?? "{}");
+    } catch(e) {
+        console.warn(`[Config] Ignoring unreadable settings in localStorage["${key}"]; using the declared defaults.`);
+        window.localStorage.removeItem(key);
+    }
     mergeObjects(config, userConfig);
 }
 

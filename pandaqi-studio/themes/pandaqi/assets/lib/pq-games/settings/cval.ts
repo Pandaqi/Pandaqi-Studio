@@ -23,8 +23,8 @@ export class CVal
         const values = Array.isArray(this.val) ? this.val : [this.val];
         const results = [];
 
-        const inputsHavePoint = inputs.filter((x) => { return x instanceof Vector2 }).length > 0;
-        const inputsHaveNumber = inputs.filter((x) => { return typeof x === "number" }).length > 0;
+        const inputsHavePoint = inputs.some((x) => { return x instanceof Vector2 });
+        const inputsHaveNumber = inputs.some((x) => { return typeof x === "number" });
 
         // any type of class or object must currently be handled separately (as we don't know what multiplication MEANS for it)
         for(const value of values)

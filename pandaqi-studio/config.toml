@@ -27,8 +27,8 @@ enableRobotsTXT = true
   noJSConfigInAssets = true
 
 [params]
-  enableBoardJS = false
-  enableGameJS = false
+  enableBoardJS = true
+  enableGameJS = true
   enableRulesJS = true
 
   simpleBanners = false

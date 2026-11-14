@@ -1,5 +1,13 @@
 import { Vector2 } from "../../geometry/vector2";
 
+// A bundle can be evaluated after the window already fired `load` (a script injected by an example, a
+// module imported late). Waiting for `load` alone then never calls back and the page silently stays empty.
+export const onWindowLoad = (callback:() => void) =>
+{
+    if(document.readyState === "complete") { callback(); return; }
+    window.addEventListener("load", callback, { once: true });
+}
+
 export const elem = (type:string, classes:string[] = [], inner = "") =>
 {
     const elem = document.createElement(type);

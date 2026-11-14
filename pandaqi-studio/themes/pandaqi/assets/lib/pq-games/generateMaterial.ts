@@ -43,7 +43,7 @@ const loadResources = async (config:GameConfig, feedbackNode:HTMLElement, render
         console.error(`[Resources] ${txt}`);
         sendProgressInfoSignal(feedbackNode, txt); 
     };
-    resLoader.setCustomResources(config._settings.defaults.resources.value)
+    resLoader.setCustomResources((config._settings.defaults.resources ?? {}).value)
 
     if(!config._debug.onlyGenerate) { resLoader.planLoadMultiple(resourcesToLoad, config); }
     await resLoader.loadPlannedResources();
@@ -260,7 +260,7 @@ export const generateMaterial = async (config:GameConfig) =>
     if(!seedSetting.value) { seedSetting.value = getRandomSeedString(); }
     setSeed(String(seedSetting.value));
 
-    console.log(config);
+    if(config._debug.profile) { console.log(`[Debug] Generation config`, config); }
 
     // register elements needed
     const generators = {};
@@ -268,6 +268,11 @@ export const generateMaterial = async (config:GameConfig) =>
     const material:Record<string,MaterialConfig> = config._material ?? {};
     for(const [key,value] of Object.entries(material))
     {
+        if(typeof value.picker != "function")
+        {
+            throw new Error(`Material "${key}" has no picker(): every _material entry must produce its items. Add a picker or remove the entry.`);
+        }
+
         generators[key] = value.picker();
         mappers[key] = createGridMapperFromConfig(config, value.mapper);
     }

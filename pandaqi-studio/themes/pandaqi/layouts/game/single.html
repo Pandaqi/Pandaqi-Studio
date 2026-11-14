@@ -19,7 +19,8 @@
 {{- end -}}
 
 {{ define "footer" }}
-{{ if .Site.Params.enableGameJS }}
+<!--- site-wide switch AND per-project kill switch: hideGame on the project page keeps one broken generator offline instead of all of them --->
+{{ if and .Site.Params.enableGameJS (not .Parent.Params.hideGame) }}
     {{ partial "func/load-assets.html" . }}
 {{ end }}
 {{ end }}

@@ -145,7 +145,7 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
     if(type == SettingType.ENUM)
     {
         elem = document.createElement("select");
-        for(const value of data.values)
+        for(const value of (data.values ?? []))
         {
             const option = document.createElement("option");
             option.value = value;
@@ -188,6 +188,9 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
             inp.type = "checkbox";
             inp.checked = defaultValues.includes(value);
             inp.dataset.value = String(value);
+            // `dataset.default` is what `Reset to Defaults` restores; without it every checkbox of a MULTI
+            // group was reset to unchecked instead of to the value the setting declared
+            inp.dataset.default = inp.checked ? "true" : "false";
             MULTI_VALUES.set(inp, value);
         }
     }
@@ -216,6 +219,12 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
         elem.type = "file";
         elem.multiple = true;
         elem.accept = "audio/*,video/*,image/*,.woff2,.woff,.otf,.ttf";
+    }
+
+    if(!elem)
+    {
+        console.error(`[Settings] Unknown setting type "${type}" for "${path}"; this control cannot be rendered.`);
+        return container;
     }
 
     elem.dataset.default = defaultValue;
@@ -257,7 +266,7 @@ export const readSettingsFromHTML = (node:HTMLElement) =>
             const list = [];
             for(const input of subInputs)
             {
-		if(!input.checked) { continue; }
+                if(!input.checked) { continue; }
                 list.push(MULTI_VALUES.has(input) ? MULTI_VALUES.get(input) : input.dataset.value);
             }
             value = list;
