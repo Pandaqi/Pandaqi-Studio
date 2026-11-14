@@ -1,6 +1,6 @@
 # MIGRATION — V1 → V2 recovery, audit and test harness
 
-> **Status:** what is left is §3.4 (remaining defects), §3.7 (what the audit found) and §8 (phases). The library work (D-11..D-13, D-15, D-16) still belongs in the pq-games / pq-rulebook repos first.
+> **Status:** what is left is §3.4 (remaining defects), §3.7 (what the audit found) and §8 (phases). Library changes are made in place in `lib/pq-games` and `lib/pq-rulebook`.
 > **Companion to:** `ROADMAP.md` (human checklist). This file is the engineering plan: what is broken, what "working" means, how to test it, in what order, and how to make the build fast enough to work with.
 > **Scope:** `pandaqi-studio/` only. `pandaqi-studio-dev/` is out of scope.
 
@@ -24,10 +24,18 @@ Read §1 and §2 first; everything later refers to them.
 
 **Rules for the implementer**
 
-1. Library changes (`lib/pq-games`, `lib/pq-rulebook`) are fine. `ROADMAP.md` states they go to their own repos first, but that is slow and not practical for this migration work. So just make adjustments in place and I will copy the updates to the other repos myself. Library defects are marked **[LIB]** with the owning repo.
+1. Library changes (`lib/pq-games`, `lib/pq-rulebook`) are fine, in place. `ROADMAP.md` states they go to their own repos first, but that is slow and not practical for this migration work. Copy the updates to the other repos yourself afterwards. Library defects are marked **[LIB]** with the owning repo.
 2. Never weaken a test to make it pass. If a test is wrong, fix it and say why in the commit.
 3. Work in the order of §8; do not start a phase before the previous exit criterion is met.
 4. A missing decision here is a bug in this document: stop and ask instead of guessing.
+5. **This document only describes what is still open.** When a defect, recipe, recommendation or phase is finished, delete it in the same commit. No "done", "implemented" or "we already did this" sections stay behind.
+
+**Machine rules (they exist because two of these checks crashed a computer twice)**
+
+1. **Never run two heavy things at once.** A build, an audit and `bun run perf` all take `audit-artifacts/.audit.lock` and refuse to start while another holds it (exit 4). Do not delete the lock to force it.
+2. **Never edit templates, layouts, assets or content while Hugo is building**, and never leave a `hugo server` running outside the deliberate dev workflow. Hugo reads the files, then renders; an edit in between gives half-old output and errors that are not in your code.
+3. **Leave the expensive checks for the very end** of a session — full build, audit, `bun run perf`. While working, use the one-project dev server (§4.1) and a filtered audit; never start a full sweep between edits.
+4. **Dev/audit builds use `audit/lean.toml`** (`--config config.toml,audit/lean.toml`). It leaves out `static/blog/` and `static/tutorials/` (separate subdomains, 2 761 of the 2 811 static files), which is the difference between a 5 s and a 120 s build and between 1 MB and 149 MB of output.
 
 ---
 
@@ -60,7 +68,7 @@ CSS: assets/games/<url>.scss else assets/games/<url>main.scss
 if no JS and url contains "/rules/" → include /rulebook-default.js
 ```
 
-Both are built per page (`js.Build` → `/<url>/bundle.js`, `css.Sass` → `/<url>/bundle.css`). **When neither file exists the partial emits nothing**, so a page can look fine and be dead — root cause of this mess (§7 R-1).
+Both are built per page (`js.Build` → `/<url>/bundle.js`, `css.Sass` → `/<url>/bundle.css`). The two shared libraries are **not** part of a page bundle: they are built once into `/lib/vendor/pq-games.js` and `/lib/vendor/pq-rulebook.js`, and `lib/pq-games` / `lib/pq-rulebook` are `js.Build` shims that read those globals, so a page bundle is ~20 KB instead of ~480 KB. A `game`/`board` page with no entry file now **fails the build** (`errorf`); a `rules` page that falls back to the default rulebook while containing `rules-example` shortcodes gets a `warnf`.
 
 Gating: `game/single.html` needs `enableGameJS`, `board/single.html` needs `enableBoardJS`, `rules/list.html` needs `enableRulesJS` (true), `tool/single.html` always. Current config has both generator flags `false`: generator pages still exist by URL but ship **no JavaScript**. That is the "hidden generators" state.
 
@@ -88,7 +96,7 @@ Testing consequences: ids that don't match JS fail **silently**; a throwing exam
 `loadGame(config)` → `loadSettings(config, defaultGameCallback)`:
 
 1. `div.settings` > `h1`, `div.settings-tools` (`Reset to Defaults`, `Fold All Groups`, `Unfold All Groups`), and the settings container (`.settings-container`) holding all controls + the `Generate!` button + `div.feedback-node-sub`.
-2. Click → `readSettingsFromHTML(container)` merged into `config._settings` → `await callback(config)`; the button is disabled for the duration and **never gets its label back** (D-15).
+2. Click → `readSettingsFromHTML(container)` merged into `config._settings` → `await callback(config)`; the button is disabled for the duration and is restored (label + enabled) in a `finally`, so a throwing callback leaves it usable and still surfaces the error.
 
 `generateMaterial(config)`: settings/localStorage → `_material` pickers + grid mappers → renderer → `loadResources` → `generateItems` → `generateDrawCalls` (item size from mapper; `MaterialVisualizer`) → `drawItems` (canvas per batch, `splitCanvas`, `mapper.addElement`) → `downloadPDF` (per page size: `PdfBuilder`, `convertCanvasToImage` = `canvas.toDataURL`, save).
 
@@ -153,7 +161,7 @@ A page passes only if every applicable requirement passes for every configured r
 | RB-4 | `Fold All` sets `display:none` on every `.rulebook-section:not([data-nofold]) .rulebook-section-content`; `Unfold All` clears it. |
 | RB-5 | Every `[data-rulebook-example="ID"]` has `.rulebook-example`, one `.rulebook-example-ui`, one generate button, one close button, one `.rulebook-example-content`. **No orphans**: every declared id gets a UI (catches markdown↔JS id mismatch). |
 | RB-6 | Clicking each example: within `EXAMPLE_TIMEOUT` the button is enabled again with its original label and `.rulebook-example-content` has ≥1 child element; no error recorded. |
-| RB-7 | One random canvas the example produced is non-blank: ink ratio ≥ 0.5 % (pixels differing from the dominant colour) or canvas ≤ 16 px. |
+| RB-7 | One random canvas the example produced is non-blank: ink ratio ≥ 0.5 % (pixels differing from the dominant colour) or canvas ≤ 16 px. Exactly one canvas is measured; nothing else is decoded. |
 | RB-8 | Every `[data-rulebook-table="ID"]` contains ≥1 `.rulebook-table-entry` with non-empty heading and exactly one icon container; clicking the first entry toggles `…-folded`/`…-unfolded`. No orphans (markdown↔JS mismatch). |
 | RB-9 | Every `<img>` inside the content has `naturalWidth > 0`. |
 | RB-10 | If the example declares settings, `.rulebook-settings` exists with ≥1 `.rulebook-settings-input`. |
@@ -164,12 +172,12 @@ A page passes only if every applicable requirement passes for every configured r
 | ID | Requirement |
 |---|---|
 | MG-1 | `div.settings` exists with non-empty `h1`, 3 tool buttons and `.settings-container`; zero errors/404s during load. |
-| MG-2 | Every control in `.settings-container` has a unique non-empty `id` equal to its dotted path (catches D-11). |
-| MG-3 | On a freshly loaded page the Generate button (`div.settings-container > button`) is enabled and labelled `Generate!` — first run only, see D-15. |
+| MG-2 | Every control in `.settings-container` has a unique non-empty `id` equal to its dotted path; a `MULTI` group counts as one control (its path id lives on the `div.settings-input-multi`, its checkboxes are values). |
+| MG-3 | On a freshly loaded page the Generate button (`div.settings-container > button`) is enabled and labelled `Generate!` — first run only; the label is restored after every later run. |
 | MG-4 | After clicking it: `.feedback-node-sub` contains `PDF Downloaded!` and the button is enabled again, within `GEN_TIMEOUT` (240 s). **Never wait for the label `Generate!`.** |
 | MG-5 | ≥1 download event, filename ending `.pdf`, ≥5 000 bytes. |
 | MG-6 | Zero errors/404s during generation. |
-| MG-7 | ≥1 canvas captured through `toDataURL`, at least one with ink ratio ≥ 0.1 %. |
+| MG-7 | ≥1 canvas captured through `toDataURL`; exactly **one** of them, chosen at random, has ink ratio ≥ 0.1 %. |
 | MG-8 | All configured profiles pass MG-1..MG-7. |
 | MG-9 | *(warning only)* `--inert`: a profile that changed settings but produced identical renders lists those controls as possibly ignored. |
 
@@ -213,10 +221,11 @@ Baseline counts: 92 `game`+`board` → **85 generators** + 7 digital games; 75 r
 
 Keep the suite lean; it may take at most an hour, never full day(s).
 
-* Generators: **2 profiles** by default (`default`, `invert`), `--runs N` for nightly stress. No per-setting combinatorial testing.
+* Generators: **1 profile** by default; `--runs 2` when you want the `invert` profile too. No per-setting combinatorial testing.
+* One worker by default, two is the ceiling. One canvas measured per example / per generation (the instrument measures at most two, at capture time). Never all of them.
 * Rulebooks: one example click per example, one table toggle. No repeated runs.
 * No retries on assertion failures. One retry only for timeouts (`RB-1`, MG-1, MG-4), reported as `flaky` with both artifact sets.
-* Static checks run in seconds; the library suite in under a minute.
+* Static checks run in seconds.
 * Target: rulebooks ≤ 10 min, full generator suite (2 runs) ≤ 1 h, per-project filtered run ≤ 3 min.
 
 ---
@@ -225,12 +234,13 @@ Keep the suite lean; it may take at most an hour, never full day(s).
 
 ### 3.1 Build state with generators enabled
 
-Green as of this batch:
+The build is green:
 
 ```
 $ HUGO_PARAMS_ENABLEGAMEJS=true HUGO_PARAMS_ENABLEBOARDJS=true \
-    hugo -d audit-artifacts/site --cleanDestinationDir --disableKinds taxonomy,term,rss,sitemap
-exit code 0        (294 pages, 158 s warm; 166 game/board/rules content pages, zero NOT_BUILT)
+    hugo -d audit-artifacts/site --cleanDestinationDir --disableKinds taxonomy,term,rss,sitemap \
+    --config config.toml,audit/lean.toml
+exit code 0        (294 pages, 33 static files, 166 game/board/rules content pages, zero NOT_BUILT)
 ```
 
 Timings and the iteration workflow are in §4.
@@ -425,18 +435,6 @@ Legend — Framework: `loadGame` = V2 generator, `custom JS` = hand-written entr
 **D-9 — Pirates pass the wrong second argument to `MaterialVisualizer`.**
 `pirate-riddlebeard/game/main.ts:14` and `pirate-drawingbeard/game/main.ts:14`: `new MaterialVisualizer(CONFIG, { resLoader, renderer })`; the signature is `(config, customItemSize: Vector2)` → `customItemSize.clone is not a function`. Both projects are drafts, so no user impact today, but they can never be published.
 
-**D-11 — [LIB pq-games] Multi-select settings are never read.**
-`settings/nodes.ts`: `convertSettingToHTML` renders `MULTI` as `div.settings-input-multi` (that div gets `id = path`) containing checkboxes that carry `dataset.value` but **no `id`**; `readSettingsFromHTML` queries `"input,select"` only, so the dead branch `elem.classList.contains("settings-input-multi")` never runs and every checkbox writes to `obj[""]`. Net effect: **every `SettingType.MULTI` control in every generator is inert** (firecrackers packs, hold-my-bear animals, thats-amorphe categories, …). Nothing errors.
-
-**D-12 — [LIB pq-games] Seeding is inert.**
-`_settings.defaults.seed` is generated and shown, but `generateMaterial` never uses it; games call `Math.random()`. `seedRandom()` exists and is used by only a few boards. No reproducible generations, no stable screenshot tests.
-
-**D-13 — [LIB] Silent failures.**
-`ResourceLoader` sets `img.src` and `FontFace` with no `onerror`; `MaterialVisualizer.get("typo")` returns `undefined`; `load-assets.html` emits nothing when no bundle exists. This is how "looks fine, is broken" pages were produced.
-
-**D-15 — [LIB pq-games] The Generate button label is never restored.**
-`sendProgressPhaseSignal` writes the phase into the button itself (`FeedbackNode.nodeMain` *is* the button), so after a run the label stays `Done!`; the click handler restores only `btn.disabled`. Fix: set `btn.innerHTML = "Generate!"` after `await callback(config)` inside `try/finally` (an error currently leaves the button disabled *and* labelled with the failing phase). Until fixed, never use the label as a completion signal (MG-4).
-
 **D-16 — [LIB pq-rulebook] `InteractiveExample` can pass `undefined` where a node is required.**
 `examples/interactiveExample.ts:120`: `if(this.node.innerHTML.trim().length <= 0) { createExampleHTMLForNode(params, params.node); }` — `params.node` is `undefined` when the node was found by `querySelector`, and the helper calls `node.appendChild(...)` → `TypeError`. Only for empty programmatic nodes (markdown always emits text, so no live page hits it today; the §6.7 refactor would). Fix: pass `this.node`, return early when absent.
 
@@ -448,7 +446,7 @@ These multiply raw `_drawing` values manually (`vis.get("x") * vis.sizeUnit`). C
 
 * `[x]` (Noble Flood, I Bid You Not, Magnetmen): Noble Flood and I Bid You Not are structurally clean; Magnetmen's flags are advisory (its shape ops legitimately omit `pivot`) and it has no confirmed defect.
 * `[~~]` ("updated, untested") is unverified by definition — the harness turns it into fact.
-* Fiddlefoo's "examples use wrong rules" is not detectable automatically; it is a review item on example screenshots (§5.10).
+* Fiddlefoo's "examples use wrong rules" is not detectable automatically; it is an optional review item on example screenshots (§10).
 * Naivigation is worse than ROADMAP suggests (D-6); Hasty Accusations is confirmed (D-2).
 
 ---
@@ -472,44 +470,40 @@ First generator and digital runs:
 * `/chiptales/bet/noble-flood/game/` passes MG-1..MG-7 with a 2-profile run.
 * `/epic-medics/game/` requests `/games/epic-medics/game/fonts/woodcutter.woff2`, which 404s; the file exists at `/epic-medics/assets/fonts/`. Its CSS resolves the font relative to the bundle, so this only ever broke once generator CSS was compiled.
 
-`bun run perf` (warm cache): segment build 54.2 s (budget 90 s), markdown edit 1.3 s (2 s), game-code edit 2.4 s (10 s), **full build 193.9 s (budget 150 s — OVER)**. That last one is the §4.4 image-resizing work, not the harness; the exit code is 1 until it is fixed.
+`bun run perf`: segment build 3.0 s (budget 90 s), markdown edit 1.2 s (2 s), game-code edit 0.3 s (10 s), full build 107.8 s (budget 150 s). Every budget green.
 
 ## 4. Build speed (measured — read before touching anything)
 
-All timings on the author's machine, Hugo 0.153.4 extended, Windows, `resources/_gen` populated unless stated.
+All timings on the author's machine, Hugo 0.153.4 extended, Windows. `bun run perf` is the source of truth (`audit-artifacts/perf.json`); run it after touching anything in the build.
 
 | Command | Measured |
 |---|---|
-| full build, generators on, **cold** cache | **>15 min** (measured when it aborted on a Dart Sass error) |
-| full build, generators on, warm cache | **5 min 42 s** |
-| + `--disableKinds taxonomy,term,rss,sitemap` | **3 min 55 s** |
-| + generators **off** too (no game JS at all, same flags) | **3 min 48 s** |
-| one project: `--renderSegments` + `--disableKinds` | **1 min 23 s** (exit 0) |
-| `hugo server` + segment, edit page **markdown** | **1 s** |
-| `hugo server` + segment, edit game **`main.ts`** | **45 s** |
+| full build, generators on, `audit/lean.toml` | **107.8 s** |
+| one project (`--renderSegments` + `--disableKinds` + lean) | **3.0 s** |
+| `hugo server` + segment, edit page **markdown** | **1.2 s** |
+| `hugo server` + segment, edit a game **`main.ts`** | **0.3 s** |
+| static tree without `lean.toml` (2 811 files, 149 MB instead of 33 files) | +31 s of pure copying |
 | pages written by a full build | ~1 940 |
 
-Two different problems, two different fixes:
-
-1. **Full builds are dominated by page rendering, not by esbuild.** With generators *off* and taxonomy kinds disabled the build still takes 228 s versus 235 s with all game bundles — game JS costs ~7 s of a warm build. Taxonomies cost ~107 s (342 s → 235 s). The remaining ~228 s is per-page template work over ~500 pages, which is absurdly slow and must be profiled (§4.4) before anything else is tuned.
-2. **Iterating on one game is dominated by that page's re-bundle: 45 s** for a `.ts` edit versus 1 s for a markdown edit. A bundle is **829 KB unminified**, of which **340 KB is the vendored `lib/pq-games/tools/pdf/jspdf.js`**, identical in all 84 generator bundles. Cached full builds hide this cost; a single-file edit exposes it.
+What is left in the full build is esbuild building one bundle per page (`load-assets.html` is the biggest line in the profile) plus the per-page templates. §4.2 and §4.4 explain the two things that used to dominate it.
 
 ### 4.1 The workflow (mandatory from now on)
 
 Never run a full build while working on a game.
 
 ```bash
-# 1. long-lived dev server, one project, no taxonomy noise (first build ~80 s, then incremental)
+# 1. long-lived dev server, one project, no taxonomy noise, no subdomain static trees
 HUGO_PARAMS_ENABLEGAMEJS=true HUGO_PARAMS_ENABLEBOARDJS=true \
 hugo server --port 1399 --disableKinds taxonomy,term,rss,sitemap \
-  --config config.toml,audit/segment.toml --renderSegments one
+  --config config.toml,audit/lean.toml,audit/segment.toml --renderSegments one
 
 # 2. audit against the running output, no rebuild at all
 bun run audit --skip-build --base-url http://127.0.0.1:1399 --filter chiptales
 
-# 3. full audit build (CI / before a commit), still segmented + lean
+# 3. full audit build (before a commit), lean and with that same lock as everything else
 HUGO_PARAMS_ENABLEGAMEJS=true HUGO_PARAMS_ENABLEBOARDJS=true \
-hugo -d audit-artifacts/site --disableKinds taxonomy,term,rss,sitemap
+hugo -d audit-artifacts/site --disableKinds taxonomy,term,rss,sitemap \
+  --config config.toml,audit/lean.toml
 ```
 
 `audit/segment.toml` is generated per run (one file, one section):
@@ -521,19 +515,20 @@ hugo -d audit-artifacts/site --disableKinds taxonomy,term,rss,sitemap
 ```
 
 Rules:
-* `--ignoreCache` is banned; `--gc` only in the nightly CI job.
-* Keep `resources/_gen` between runs (it is the 3× speedup) and cache it in CI keyed on `themes/pandaqi/assets/**` + `config.toml`.
+* `--ignoreCache` is banned. Keep `resources/_gen` between runs: it is the 3–4× speedup, and deleting it turns a 67 s build into a 5 min one.
+* Never clean the audit destination between runs; writing 2 811 static files (149 MB) to a fresh directory costs 31 s by itself.
 * `-e development` (which `hugo server` uses) disables minification and source maps for page bundles → cheaper esbuild.
-* A markdown edit must be visible in ≤2 s, a game-code edit in ≤10 s after §4.2. If not, the workflow is broken, not the game.
+* A markdown edit must be visible in ≤2 s, a game-code edit in ≤10 s. If not, the workflow is broken, not the game.
 
-### 4.2 Make game-code edits cheap (the 45 s problem)
+### 4.2 Shared libraries
 
-The 45 s is esbuild re-bundling 829 KB, mostly shared. Extract the shared code once:
+`assets/lib/vendor/pq-games-global.ts` and `pq-rulebook-global.ts` are built once in `load-assets.html` into `/lib/vendor/pq-games.js` (531 KB) and `/lib/vendor/pq-rulebook.js` (69 KB), emitted **before** the page bundle (deferred scripts keep document order). `js.Build`'s `shims` option maps `lib/pq-games` / `lib/pq-rulebook` to `assets/js/shims/*.js`, i.e. `module.exports = window.PQ_GAMES` / `window.PQ_RULEBOOK`. Page code is unchanged.
 
-1. `assets/lib/vendor/pq-games-global.ts`: `import * as pq from "../pq-games/index"; (window as any).PQ_GAMES = pq;` — same for `pq-rulebook` and for `tools/pdf/jspdf.js` (`window.jspdf`).
-2. In `head.html`, build each once (`js.Build` `format: "iife"`, `minify` in production, `targetPath: "/lib/vendor/pq-games.js"`) and emit the tags **before** the page bundle (deferred scripts keep document order).
-3. Shim the specifiers so page code is unchanged: `js.Build`'s `shims` option maps `"lib/pq-games"` → `assets/js/shims/pq-games.js` containing `module.exports = window.PQ_GAMES;`. (If `shims` does not intercept path-resolved imports, rename the specifier to the bare `pq-games` across entries with a one-line sed and pass `externals: ["pq-games"]` plus an import map in `head.html`.)
-4. Measure before/after with `bun run perf` (§4.3). Expected: page bundles drop to ≈150 KB and a `.ts` edit to a few seconds. Do jspdf first — one import, one shim, 340 KB less per page.
+A page bundle is ~21 KB instead of ~480 KB, and a `main.ts` edit lands in **0.2 s**.
+
+Two consequences to remember:
+* The vendor file is not tree-shaken (it is a namespace on `window`), so one generator page loads ~550 KB instead of ~480 KB. It is cached across the whole site, so every other page pays nothing.
+* `load-assets.html` only emits a vendor a page provably needs: it looks for the import in the entry source, so a rulebook that never touches pq-games does not load it.
 
 ### 4.3 Keep it honest: `bun run perf`
 
@@ -546,41 +541,23 @@ Add `pandaqi-studio/audit/src/perf.ts` (script `bun run perf`) that runs, timed:
 
 Print a table and fail if a budget regresses: markdown ≤2 s, asset ≤10 s (after §4.2), full ≤150 s, segment build ≤90 s. Store results in `audit-artifacts/perf.json` so trends are visible.
 
-### 4.4 Where the 228 s goes (profiled)
+### 4.4 Images and the card partial
+
+`show-image.html` processes **one** 500 px variant (CSS shrinks it; there is no 250 px file). `project-summary.html` calls it through `partialCached` — correct only because the cache key includes the **project page's permalink**: on a cache hit `partialCached` ignores the context dict, so keying on the src alone (which is `"header"` for every game) would put one game's header on every card. `config.toml` sets `[imaging] resampleFilter = "box"`, `quality = 75`.
+
+A full build processes ~117 images and `show-image` costs ~24 s cumulative.
+
+The remaining page-render cost is per-page template work (`project/list.html`, `rules/list.html`, `home.html` — see the profile in §3.7 and R-13). Re-profile before touching it:
 
 ```bash
-hugo -d .audit-tm --disableKinds taxonomy,term,rss,sitemap --templateMetrics --templateMetricsHints
+hugo -d audit-artifacts/tm --templateMetrics --templateMetricsHints
 ```
-
-Measured, generators off (so no esbuild at all):
-
-| cumulative | calls | avg | template |
-|---|---|---|---|
-| 2 m 20 s | 889 | 157 ms | `_partials/content/show-image.html` |
-| 2 m 16 s | 125 | 1.09 s | `_partials/navigation/project-summary.html` (calls show-image) |
-| 1 m 46 s | 74 | 1.43 s | `rules/list.html` |
-| 1 m 39 s | 120 | 827 ms | `project/list.html` |
-| 1 m 26 s | 78 | 1.10 s | `_partials/func/load-assets.html` (nested: bundles) |
-| 1 m 17 s | 8 | 9.58 s | `home.html` |
-| 1 m 13 s | 9 | 8.12 s | `_partials/navigation/games-list.html` |
-| 1 m 3 s | 15 | 4.23 s | `_partials/navigation/collection-list.html` |
-
-**Conclusion: the build is an image-resizing build.** `show-image.html` runs `$img.Process "resize 500x"` **and** `"resize 250x"` for every card on every page (≈900 calls), and Hugo reports `cached count = 0` — nothing is reused. The list partials (`games-list`, `collection-list`, `project-summary`) call it for every game, so the home/list pages each take 4–10 s.
-
-Fixes, in this order, each measured with `bun run perf`:
-
-1. **`partialCached`** around the whole partial in `project-summary.html` / `games-list.html`: `partialCached "content/show-image.html" $ctx $src $class`. Its output depends only on the image and the class (the `srcset` URLs are site-absolute), so one image is processed once per build instead of ~900 times. Verify by diffing the generated HTML of 3 list pages before/after — it must be byte-identical apart from ordering.
-2. **One variant instead of two**: drop the 250 px `Process` and let CSS shrink the 500 px image (or keep 250 px only for cards). Halves the image work immediately.
-3. **`[imaging] resampleFilter = "box"`, `quality = 75`** in `config.toml`; box is the cheapest filter and the quality is invisible at card size.
-4. **Stop rendering every game on list pages**: `games-list`/`collection-list` render all 92 games (and their images) on the home page and on every section list. Paginate or cap them; they are navigation aids, not the product.
-
-Expected: full audit build well under 90 s once (1) and (2) land, since image work is ~60 % of the 228 s. Do not touch §4.2 until this is done — it is the cheaper win.
 
 ---
 
 ## 5. The harness
 
-### 5.1 Implemented: `pandaqi-studio/audit/`
+### 5.1 `pandaqi-studio/audit/`
 
 Bun + `playwright-core` driving system Chrome (`CHROME_PATH` overrides). No browser download; there is no Node on the author's machine.
 
@@ -597,15 +574,23 @@ audit/
   allowlist.json          http failures to ignore
 ```
 
-Pipeline: build (or reuse, hashed on `content/**`, `themes/pandaqi/{assets,layouts}/**`, `config.toml`) -> manifest -> static server -> one instrumented page per URL -> the §2 checks -> `audit-artifacts/{build.log,manifest.json,report.json,report.md,perf.json,index.html}` plus screenshots and render thumbnails under `audit-artifacts/artifacts/<slug>/<profile>/`.
+Pipeline: build (or reuse, hashed on `content/**`, `themes/pandaqi/{assets,layouts}/**`, `config.toml`) -> manifest -> static server -> one instrumented page per URL -> the §2 checks -> `audit-artifacts/{build.log,manifest.json,report.json,report.md,perf.json,index.html}` plus a screenshot and **one** measured render per page under `audit-artifacts/artifacts/<slug>/<profile>/`.
 
-Instrumentation: `unhandledrejection` and `error` capture, seeded `Math.random` from `?auditSeed=` (appendix B), and a wrapped `toDataURL` that records `{w, h, inkRatio, thumb}` for every canvas. Rulebook examples additionally measure the canvases currently in the DOM, so a blank render is caught even when the page never calls `toDataURL`.
+Instrumentation: `unhandledrejection` and `error` capture, seeded `Math.random` from `?auditSeed=` (appendix B), and a wrapped `toDataURL` that only **records** each canvas. Exactly one canvas is then measured (`inkRatio` + 480 px thumb): a random page for generators, a random canvas of the example for rulebooks (falling back to the canvases currently in the DOM, so a blank render is caught even when the page never calls `toDataURL`). Reading pixels for every canvas was the most expensive thing the harness did and found nothing extra.
 
 Simulators are not driven. The entry source is read, every `simulator: { ... }` block's `enabled` is resolved against the file's `const` declarations, and a page whose simulator cannot be shown to be off reports `SIMULATION_ENABLED` and is not clicked at all. A *disabled* simulator is configuration only, so those examples are still clicked normally — which is every one of the 25 declarations in the tree today. An example that produces no canvas is a warning, not a failure: plenty of examples are text-only by design.
 
 One failed resource is reported once (`console.error: Failed to load resource…` and `net::ERR_ABORTED` duplicates are collapsed onto the matching HTTP status).
 
-**Not implemented yet:** baselines and pixel diffs (§5.10), static checks (§2.4), the library contract suite (§5.8). `--deep`/`splitDims` is unspecified in this document and is not implemented; the profiles are `default`, `invert` and `--runs N` seeded ones.
+**Machine guard (mandatory, `src/lib/govern.ts`).** Every entry point uses it:
+
+* `acquireLock()` writes `audit-artifacts/.audit.lock`; a second build/audit/perf refuses to start. One heavy thing at a time is not a suggestion.
+* `waitForMemory()` refuses to open a page or start a build below ~1.2 GB free, waits up to two minutes for memory to come back, and reports `MEMORY_LOW` for a page it still cannot run.
+* One worker and one profile are the defaults (`--workers 2`, `--runs 2` are opt-in, two workers is the ceiling), with a pause between pages so each finished page is collected first.
+* Chrome runs with one renderer, no GPU, a 512 MB JS heap and a 64 MB disk cache.
+* The instrument holds **no canvas references**: it measures at most two canvases while they are being captured, so a generator with dozens of full-page canvases cannot pin gigabytes.
+
+The profiles are `default`, `invert` and `--runs N` seeded ones. Static checks (§2.4) are specified but not written yet; `--deep`/`splitDims` is unspecified and does not exist.
 
 Usage:
 
@@ -616,14 +601,9 @@ bun run audit --filter chiptales --skip-build --base-url http://127.0.0.1:1399
 bun run perf            # --fast skips the full build
 ```
 
-### 5.10 Baselines and human review
+### 5.10 Human review (optional)
 
-Automated checks catch crashes, blanks, orphans and 404s; they cannot judge "40 px too high because of the pivot". That judgement is made once per project, fast:
-
-1. `bun run audit --update-baselines` → `audit/baselines/<slug>/{page,render-1,example-*}.png` (480 px) + `baselines/seeds.json`.
-2. Review the contact sheet; tick `audit/baselines/review.json` (`{"<slug>": {"status":"ok"|"broken","note":"…"}}`). The report lists unreviewed projects.
-3. After a fix, regenerate and review only diffs (`pixelmatch`, >1 % pixels flagged).
-4. Commit baselines: they are the regression net for future library updates.
+Automated checks catch crashes, blanks, orphans and 404s; they cannot judge "40 px too high because of the pivot". That judgement is optional, belongs at the very end of the work (§10), and nothing gates on it.
 
 ### 5.11 What the harness will not tell you
 
@@ -635,11 +615,10 @@ Whether the rules text matches the game (Fiddlefoo), whether material is balance
 
 ### 6.1 Order
 
-1. D-11..D-13 + R-3. 
-2. D-6. 
-3. D-2, D-9. 
-4. Whatever the harness reports red. 
-5. §3.5 canonicalisation on its own branch.
+1. D-6. 
+2. D-2, D-9, D-16. 
+3. Whatever the harness reports red. 
+4. §3.5 canonicalisation on its own branch.
 
 ### 6.2 Setting read
 
@@ -730,10 +709,9 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 
 ### 6.9 Definition of done for a project
 
-1. `bun run static --filter <project>` → no error rows.
-2. `bun run audit --filter <project> --runs 2` → all pages pass.
-3. No unexplained `SETTINGS_INERT` warning (document intentional cosmetic controls in `allowlist.json`).
-4. `ROADMAP.md` entry set to `[x]`.
+1. `bun run audit --filter <project>` → all pages pass.
+2. No unexplained `SETTINGS_INERT` warning (document intentional cosmetic controls in `allowlist.json`).
+3. `ROADMAP.md` entry set to `[x]`.
 
 ---
 
@@ -741,20 +719,7 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 
 ### P0 — stops this class of failure
 
-**R-1. A missing bundle must fail the build.** In `load-assets.html`, after resolving the JS:
-
-```go
-{{ $needs_js := or (eq .Type "game") (eq .Type "board") }}
-{{ if and $needs_js (not $res_js) }}{{ errorf "No JS entry for %s (looked for %s.ts and %smain.ts)" .RelPermalink ... }}{{ end }}
-```
-
-Also `warnf` when a `rules` page contains `rules-example` but falls back to `rulebook-default.js` — always a bug. This guard alone would have caught D-8 and D-13.
-
-**R-2. [LIB] Fix `readSettingsFromHTML` (D-11)**; guard with LIB-4.
-
-**R-3. [LIB] Fail loudly.** `MaterialVisualizer.get()` warns once per unknown path; `ResourceLoader` attaches `img.onerror` / `FontFace` rejection handlers that surface in the feedback node; the visualizer logs every `LayoutOperation` without an explicit `pivot` and every text `TextConfig` without explicit alignment under `_debug.strict`. That last log replaces SC-6/SC-7 guessing with facts.
-
-**R-4. CI gate.** `.github/workflows/audit.yml`: (1) `hugo` with generators enabled must exit 0; (2) `bun run static` (errors only); (3) `bun run lib`; (4) `bun run perf` (budgets of §4.3); (5) `bun run audit --runs 1 --filter $CHANGED`; (6) nightly `--runs 2` full suite. Upload `audit-artifacts/` on failure. Never merge a PR that turns a green page red.
+**R-4. One pre-merge gate** (`.github/workflows/audit.yml`). Nothing scheduled, no nightly job: (1) `hugo` with generators enabled must exit 0; (2) the static checks report no errors; (3) `bun run audit --runs 1` on the projects the PR touches. Upload `audit-artifacts/` on failure. Never merge a PR that turns a green page red.
 
 **R-5. Per-project kill switch.** Replace global `enableGameJS`/`enableBoardJS` with a data file (`data/disabled-projects.yaml`) plus the existing `hideGame`/`hideBoard`/`hideRules` frontmatter, generated from `report.json` (`--emit-disabled`). One broken game must not force every generator offline.
 
@@ -770,19 +735,15 @@ Also `warnf` when a `rules` page contains `rules-example` but falls back to `rul
 
 ### P2 — speed and determinism
 
-**R-10. Shared vendor bundles** (§4.2): the single biggest iteration win, plus smaller pages and faster first paint.
+**R-11. Codemod `Math.random()`.** `tools/random/rng.ts` now seeds every generation from `_settings.defaults.seed` (it installs a seeded `Math.random`, so existing pickers are already reproducible). The remaining work is to move picks onto `rand()`/`pick()` in batches, starting with green games, so they stay seeded if the global patch is ever removed.
 
-**R-11. Real seeding (D-12).** Add `tools/random/rng.ts` (`setSeed`, `rand`, `pick`) to pq-games, seed from `_settings.defaults.seed` inside `generateMaterial`, and let the harness seed it. Then generations are reproducible, user bug reports become testable, and render baselines stop flapping. Codemod `Math.random()` in batches, starting with green games.
+**R-12. Library unit tests** in the pq-games / pq-rulebook repos (Vitest + jsdom), including the three V2-default tests: centre pivot, centre text alignment, and `_settings.<path>.value` reads. The copy in this repo is a net, not the home.
 
-**R-12. Library unit tests** in the pq-games / pq-rulebook repos (Vitest + jsdom), including the three defaults tests (LIB-1..LIB-3). The copy in this repo is a net, not the home.
-
-**R-13. Cut page-render cost (the 228 s floor).** 13 taxonomies × terms × `pagerSize = 5` add ~1 400 pages and ~107 s; `--disableKinds taxonomy,term,rss,sitemap` in the audit build removes them for free. The rest is per-page template work — profile it with `hugo --templateMetrics --templateMetricsHints` (see §4.4 for the current hotspot list) and fix the top partials; render term pages only in a deploy-only segment. Target: full audit build ≤90 s.
+**R-13. What is left of page-render cost.** Taxonomies are already excluded from the audit build and images are no longer processed per card (§4.4). The rest is per-page template work — `rules/list.html` and the navigation partials are the hotspots in the last profile. Re-profile with `hugo --templateMetrics --templateMetricsHints` before touching anything, and only fix what shows up at the top.
 
 **R-14. Pre-commit hook**: `bun run static --staged` on changed `assets/games/**` — seconds, and it prevents a 4-minute wait to discover a typo.
 
 **R-15. Audit ergonomics**: `--filter`, `--skip-build`, `--base-url` against the dev server, `bun run audit:watch <project>` (hugo server + single-page audit on save). Note plainly: nothing notifies you when a background job finishes; wait for it in the foreground or check `perf.json`/`report.json`.
-
-**R-16. Performance budgets in CI** (§4.3) so slowness is caught like any other regression.
 
 ---
 
@@ -790,12 +751,11 @@ Also `warnf` when a `rules` page contains `rules-example` but falls back to `rul
 
 | Phase | Work | Exit criterion |
 |---|---|---|
-| 2. Libraries (1 day) | D-11..D-13, R-1, R-3, §4.2 | `bun run lib` green (LIB-1..LIB-8); `bun run static` error-free except known D-2/D-6; game `.ts` edit ≤10 s |
 | 3. Mechanical fixes | full `--runs 1` sweep and every one-liner it surfaces | ≥80 % of generators and all custom rulebooks green |
-| 4. Structural (1–2 weeks) | D-2 port, D-6 Naivigation, D-9 pirates, remaining reds, `--runs 2` on `[~~]` games | `--runs 2` green for every non-draft project except documented exceptions |
-| 5. Visual review (1 day, batched) | contact sheet per project; fix pivot/alignment; re-baseline | `review.json` `ok` for every non-draft project |
-| 6. Re-enable (1 h) | `enableBoardJS`/`enableGameJS` true (or R-5), deploy, spot-check 5 games | links visible in production; CI green; nightly audit scheduled |
-| 7. Durability (ongoing) | R-4, R-6, R-7, R-11, R-13, R-16 | budgets hold for 4 weeks |
+| 4. Structural (1–2 weeks) | D-2 port, D-6 Naivigation, D-9 pirates, remaining reds, `--runs 2` on `[~~]` games | `--runs 1` green for every non-draft project except documented exceptions; `--runs 2` spot-checked on whatever was touched |
+| 6. Re-enable (1 h) | `enableBoardJS`/`enableGameJS` true (or R-5), deploy, spot-check 5 games | links visible in production; the pre-merge gate is green |
+| 7. Durability (ongoing) | R-4, R-6, R-7, R-11, R-13 | budgets of §4.3 hold |
+| 8. Optional | §10: contact sheet per project, fix pivot/alignment, re-baseline | nothing depends on it |
 
 ---
 
@@ -814,7 +774,7 @@ Also `warnf` when a `rules` page contains `rules-example` but falls back to `rul
 | `SIMULATION_ENABLED` | a debug simulator is switched on | that page's `SIMULATION_ENABLED` constant |
 | `RB_BROKEN_IMAGE` | `naturalWidth == 0` | SC-8, `_resources.base` |
 | `GEN_NO_SETTINGS` | settings never mounted | entry file, imports, `ReferenceError` |
-| `GEN_NO_ID` | control without an id (MULTI) | D-11 |
+| `GEN_NO_ID` | control without an id | `settings/nodes.ts` (`convertSettingToHTML`) |
 | `GEN_STALLED` | button stayed disabled | captured rejection; picker/pivot |
 | `GEN_NO_DOWNLOAD` | finished without a PDF | `_debug.omitFile`, `PdfBuilder` |
 | `GEN_BLANK_PAGE` | page canvas blank | mapper config, `itemSize`, empty picker |
@@ -845,8 +805,18 @@ Math.random = () => {
 
 ### D. Glossary
 
-* **Bundle** — the per-page ES module Hugo builds from `assets/games/<url>/main.ts`.
+* **Bundle** — the per-page ES module Hugo builds from `assets/games/<url>/main.ts`. The libraries are not in it; they are `/lib/vendor/*.js`, loaded once per page.
 * **Default rulebook** — `/rulebook-default.js`, i.e. `lib/rulebook-default.ts` with no examples/tables.
 * **Generator** — a page whose bundle mounts `div.settings` via `loadSettings` and produces a PDF.
 * **Profile** — a deterministic set of settings changes applied before a generation run.
 * **Render** — one canvas captured through `toDataURL`, i.e. one page of material.
+
+---
+
+## 10. Optional: visual review
+
+Nothing depends on this section. Automated checks catch crashes, blanks, orphans and 404s; they cannot judge "40 px too high because of the pivot". Do it at the very end, only if you want to:
+
+1. `bun run audit --update-baselines --filter <project>` → `audit/baselines/<slug>/{page,render,example-*}.png` (480 px). One measured render per page (§5.1), so the contact sheet is small.
+2. Look at `audit-artifacts/index.html`. Tick `audit/baselines/review.json` (`{"<slug>": {"status":"ok"|"broken","note":"…"}}`) if you want to remember the verdict. No test, phase or exit criterion reads it.
+3. Fix pivot/alignment with §6.3 and §6.4, re-run that project, look again.

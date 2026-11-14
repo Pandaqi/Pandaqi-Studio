@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
+import { freeMemoryMb, waitForMemory } from "./lib/govern";
 
 export interface BuildOptions
 {
@@ -67,7 +68,10 @@ export const writeSegment = (studioDir:string, project:string) : string =>
 const hugoArgs = (dest:string, project?:string) : string[] =>
 {
     const args = ["-d", dest, "--disableKinds", "taxonomy,term,rss,sitemap", "--logLevel", "warn"];
-    if(project) { args.push("--config", "config.toml,audit/segment.toml", "--renderSegments", "one"); }
+    // lean.toml leaves out static/blog + static/tutorials (separate subdomains, 98 % of the static tree)
+    const configs = ["config.toml", "audit/lean.toml"];
+    if(project) { configs.push("audit/segment.toml"); args.push("--renderSegments", "one"); }
+    args.push("--config", configs.join(","));
     return args;
 }
 
@@ -103,6 +107,15 @@ export const buildSite = async (opts:BuildOptions) : Promise<BuildResult> =>
     }
 
     if(opts.project) { writeSegment(opts.studioDir, opts.project); }
+
+    // a build on a machine that is already full is how it ends up swapping for ten minutes
+    if(!(await waitForMemory(1500, 120000)))
+    {
+        return {
+            exitCode: 1, durationMs: 0, cached: false, log: opts.log,
+            stdout: `memory guard: only ${freeMemoryMb()} MB free, refusing to start a build`,
+        };
+    }
 
     const proc = Bun.spawn(["hugo", ...hugoArgs(dest, opts.project)], {
         cwd: opts.studioDir,

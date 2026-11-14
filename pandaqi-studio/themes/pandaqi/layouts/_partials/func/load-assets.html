@@ -1,6 +1,10 @@
 {{ $url := .RelPermalink }}
 {{ $url_prefixed := printf "games%s" $url }}
 
+<!--- Shared framework code (pq-games, pq-rulebook) is built ONCE for the whole site and emitted before the
+      page bundle. Page bundles therefore only reference it instead of carrying their own ~800 KB copy. --->
+{{ $shims := dict "lib/pq-games" "js/shims/pq-games.js" "lib/pq-rulebook" "js/shims/pq-rulebook.js" }}
+
 <!--- Find JS on standard path, build + include if found --->
 {{ $url_js_direct := printf "%s.ts" (trim $url_prefixed "/") }}
 {{ $res_js := resources.Get $url_js_direct }} <!--- /gamename/game/ => /gamename/game.ts --->
@@ -10,9 +14,26 @@
     {{ $res_js = resources.Get $url_js_folder }}
 {{ end }}
 
+<!--- A game/board page without an entry file silently renders a dead page; that must never ship again. --->
+{{ if and (or (eq .Type "game") (eq .Type "board")) (not $res_js) }}
+    {{ errorf "No JS entry for %s: looked for assets/%s.ts and assets/%smain.ts" .RelPermalink (trim $url_prefixed "/") $url_prefixed }}
+{{ end }}
+
 {{ if $res_js }}
+    {{ $vendor_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-games.js" }}
+    {{ if strings.Contains $res_js.Content "lib/pq-games" }}
+        {{ $vendor := resources.Get "/lib/vendor/pq-games-global.ts" | js.Build $vendor_opts }}
+        <script defer src="{{ $vendor.RelPermalink }}"></script>
+    {{ end }}
+
+    {{ $vendor_rulebook_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-rulebook.js" }}
+    {{ if strings.Contains $res_js.Content "lib/pq-rulebook" }}
+        {{ $vendor_rulebook := resources.Get "/lib/vendor/pq-rulebook-global.ts" | js.Build $vendor_rulebook_opts }}
+        <script defer src="{{ $vendor_rulebook.RelPermalink }}"></script>
+    {{ end }}
+
     {{ $output_url := printf "%s/bundle.js" $url_prefixed }}
-    {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url }}
+    {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url "shims" $shims }}
     {{ $script := $res_js | js.Build $opts }}
     {{ $script.Publish }}
     <script defer src="{{ $script.RelPermalink }}"></script>
@@ -37,8 +58,17 @@
 <!--- Default rulebook system, which will be enough for at least half of them --->
 {{ $is_rulebook := strings.Contains $url_prefixed "/rules/" }}
 {{ if and (not $res_js) $is_rulebook }}
+    <!--- A rulebook with interactive examples cannot work on the default rulebook: always a bug. --->
+    {{ if .HasShortcode "rules-example" }}
+        {{ warnf "%s has rules-example shortcodes but falls back to the default rulebook (no entry file)" .RelPermalink }}
+    {{ end }}
+
+    {{ $vendor_rulebook_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-rulebook.js" }}
+    {{ $vendor_rulebook := resources.Get "/lib/vendor/pq-rulebook-global.ts" | js.Build $vendor_rulebook_opts }}
+    <script defer src="{{ $vendor_rulebook.RelPermalink }}"></script>
+
     {{ $output_url := "/rulebook-default.js" }}
-    {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url }}
+    {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url "shims" $shims }}
     {{ $script_default := resources.Get "/lib/rulebook-default.ts" | js.Build $opts }}
     <script defer src="{{ $script_default.RelPermalink }}"></script>
 {{ end }}

@@ -9,6 +9,11 @@ enableRobotsTXT = true
 [pagination]
   pagerSize = 5
 
+[imaging]
+  # box is the cheapest resample filter; at card size the difference is invisible
+  resampleFilter = "box"
+  quality = 75
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]

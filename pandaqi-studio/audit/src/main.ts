@@ -8,6 +8,7 @@ import { runRulebook } from "./pages/rulebook";
 import { runGenerator } from "./pages/generator";
 import { runDigital } from "./pages/digital";
 import { copyBaseline, failureCounts, writeReports } from "./lib/report";
+import { acquireLock, breathe, freeMemoryMb, waitForMemory } from "./lib/govern";
 import type { ManifestEntry, PageResult, ReportData } from "./lib/types";
 
 const argv = process.argv.slice(2);
@@ -37,8 +38,10 @@ const seed = argValue("seed", "audit-1") as string;
 const timeoutMs = argNumber("timeout", 30000);
 const genTimeoutMs = 240000;
 const exampleTimeoutMs = 90000;
-const workers = Math.max(1, argNumber("workers", 2));
-const runs = Math.max(1, argNumber("runs", 2));
+// one page at a time by default; two is the hard ceiling, because each worker is a whole browser page
+// with full-page canvases in it
+const workers = Math.min(2, Math.max(1, argNumber("workers", 1)));
+const runs = Math.max(1, argNumber("runs", 1));
 const kindFilter = argValue("kind");
 const filter = argValue("filter");
 const segment = argValue("segment");
@@ -73,6 +76,10 @@ const main = async () : Promise<number> =>
 {
     mkdirSync(outDir, { recursive: true });
     mkdirSync(artifactsRoot, { recursive: true });
+
+    // one build/audit at a time: two of these together is what actually takes a computer down
+    try { acquireLock(outDir, `audit ${argv.join(" ")}`.trim()); }
+    catch(e:any) { console.error(e.message); return 4; }
 
     if(segment) { writeSegment(studioDir, segment); }
 
@@ -138,6 +145,22 @@ const main = async () : Promise<number> =>
                 const index = cursor++;
                 const entry = queue[index];
                 const started = Date.now();
+
+                // machine guard: never open a page while memory is low, and give each finished page a
+                // moment to be collected before the next one starts
+                if(!(await waitForMemory()))
+                {
+                    results.push({
+                        url: entry.url, kind: entry.kind, contract: entry.contract, status: "skip",
+                        durationMs: 0, failures: [],
+                        warnings: [`MEMORY_LOW: only ${freeMemoryMb()} MB free, page skipped`],
+                        artifacts: [], skippedReason: "memory guard",
+                    });
+                    console.warn(`SKIP ${entry.url} (memory guard)`);
+                    continue;
+                }
+                await breathe();
+
                 try
                 {
                     const result = await runEntry(entry);
@@ -156,6 +179,7 @@ const main = async () : Promise<number> =>
                     });
                     console.error(`FAIL ${entry.url} (internal: ${e?.message ?? e})`);
                 }
+                await breathe(1000);
             }
         };
 

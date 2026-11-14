@@ -74,8 +74,18 @@ export class AuditedPage
 
     async collect()
     {
-        return await this.page.evaluate(() => (window as any).__audit) as
+        // canvases are never held by the harness: the instrument measures at most two of them while
+        // they still exist and returns metadata only
+        return await this.page.evaluate(() => (window as any).__auditCollect()) as
             { rejects:string[], errors:string[], renders:RenderInfo[] };
+    }
+
+    async measureCanvasIn(selector:string, index:number) : Promise<RenderInfo|null>
+    {
+        return await this.page.evaluate(
+            ({ sel, idx }) => (window as any).__auditMeasureIn(sel, idx),
+            { sel: selector, idx: index },
+        ) as RenderInfo|null;
     }
 
     async clearAudit()
@@ -154,7 +164,19 @@ export class Session
         self.allowlist = opts.allowlist ?? DEFAULT_ALLOWLIST;
         self.headed = !!opts.headed;
 
-        const launchOpts:any = { headless: !opts.headed, args: ["--disable-dev-shm-usage"] };
+        // keep Chrome small and predictable: one renderer, no GPU, a capped JS heap, a small disk cache
+        const launchOpts:any = {
+            headless: !opts.headed,
+            args: [
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--disable-extensions",
+                "--disable-background-networking",
+                "--renderer-process-limit=1",
+                "--js-flags=--max-old-space-size=512",
+                "--disk-cache-size=67108864",
+            ],
+        };
         if(process.env.CHROME_PATH) { launchOpts.executablePath = process.env.CHROME_PATH; }
         else { launchOpts.channel = "chrome"; }
 

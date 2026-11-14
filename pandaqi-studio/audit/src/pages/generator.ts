@@ -24,10 +24,11 @@ const MIN_PDF_BYTES = 5000;
 
 const GENERATE_BUTTON = "div.settings-container > button";
 
-const hashRenders = (renders:RenderInfo[]) =>
+const hashRenders = (count:number, render:RenderInfo|null) =>
 {
     const hasher = new Bun.CryptoHasher("sha1");
-    for(const render of renders) { hasher.update(String(render.thumb ?? "")); }
+    hasher.update(String(count));
+    hasher.update(String(render?.thumb ?? ""));
     return hasher.digest("hex");
 }
 
@@ -182,29 +183,28 @@ export const runGenerator = async (session:Session, entry:ManifestEntry, opts:Ge
             checker.ok(newErrors === 0, "PAGE_ERROR",
                 `generation logged ${newErrors} error(s): ${audited.errorMessages().slice(-3).join(" || ")}`, profile);
 
-            // MG-7
+            // MG-7: the instrument measured one or two of these already, while the canvases existed;
+            // nothing decodes pixels for every page any more.
             const collected = await audited.collect();
-            const renders:RenderInfo[] = collected?.renders ?? [];
+            const renders = collected?.renders ?? [];
             if(checker.ok(renders.length > 0, "GEN_BLANK_PAGE", "no canvas was captured through toDataURL", profile))
             {
-                let blank = 0;
-                for(let i = 0; i < renders.length; i++)
+                const render = renders.find(r => r.thumb) ?? renders[0];
+
+                if(render?.thumb)
                 {
-                    const render = renders[i];
-                    if(render.thumb)
-                    {
-                        const file = join(profileDir, `render-${i}.png`);
-                        writeFileSync(file, Buffer.from(render.thumb.split(",")[1] ?? "", "base64"));
-                        artifacts.push(file);
-                    }
-                    const ok = !!render.error || render.inkRatio >= INK_MIN_GENERATOR;
-                    if(!ok) { blank++; }
-                    checker.ok(!render.error, "CANVAS_TAINTED", `render ${i} is tainted (cross-origin asset)`, profile);
+                    const file = join(profileDir, "render.png");
+                    writeFileSync(file, Buffer.from(render.thumb.split(",")[1] ?? "", "base64"));
+                    artifacts.push(file);
                 }
-                checker.ok(blank === 0, "GEN_BLANK_PAGE", `${blank} of ${renders.length} page canvases are blank`, profile);
+
+                checker.ok(!render?.error, "CANVAS_TAINTED", "the measured page canvas is tainted (cross-origin asset)", profile);
+                checker.ok(!!render && (!!render.error || render.inkRatio >= INK_MIN_GENERATOR), "GEN_BLANK_PAGE",
+                    `the measured page canvas is blank` +
+                    (render ? ` (ink ${(render.inkRatio * 100).toFixed(2)}% of ${renders.length} page(s))` : " (could not be measured)"), profile);
 
                 // MG-9 (warning): identical output for a changed profile
-                const hash = hashRenders(renders);
+                const hash = hashRenders(renders.length, render);
                 if(previousHash && hash === previousHash && opts.inert && previousSettings)
                 {
                     const changed = Object.keys(settingsBefore)

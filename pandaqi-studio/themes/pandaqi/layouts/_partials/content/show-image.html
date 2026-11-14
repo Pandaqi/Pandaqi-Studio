@@ -8,13 +8,10 @@
 {{- $img_data := .context.Resources.Get $url_relative -}}
 {{- if and $img_data $should_resize }}
 	{{ $img_data_small := $img_data.Process "resize 500x" }}
-	{{ $img_data_smallest := $img_data.Process "resize 250x" }}
 <picture class="{{ $class }}">
 	<img class="position-relative margin-vertical-s shadow-border-s" 
-		srcset="{{ $img_data_smallest.RelPermalink }} {{ $img_data_smallest.Width -}}w, {{ $img_data_small.RelPermalink }} {{ $img_data_small.Width -}}w,  {{ $img_data.RelPermalink }} {{ $img_data.Width -}}w"
-		sizes="(width <= 500px) {{ $img_data_smallest.Width -}}px,
-				(width <= 1500px) {{- $img_data_small.Width -}}px,
-				{{- $img_data.Width -}}px"
+		srcset="{{ $img_data_small.RelPermalink }} {{ $img_data_small.Width -}}w, {{ $img_data.RelPermalink }} {{ $img_data.Width -}}w"
+		sizes="{{ $img_data_small.Width }}px"
 		loading="lazy" decoding="async" 
 		src="{{ $img_data_small.RelPermalink }}" 
 		alt="{{ $alt }}"

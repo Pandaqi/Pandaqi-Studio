@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { writeSegment } from "./build";
+import { acquireLock, waitForMemory } from "./lib/govern";
 
 const auditDir = resolve(import.meta.dir, "..");
 const studioDir = resolve(auditDir, "..");
@@ -24,6 +25,22 @@ const hugoEnv = () => ({
 });
 
 const sleep = (ms:number) => new Promise(r => setTimeout(r, ms));
+
+// proc.kill() alone leaves the hugo server running on Windows, where it keeps watching the tree and
+// rebuilding on every later edit — turning every measurement of this script into a lie.
+const killServer = async (proc:any) =>
+{
+    if(!proc) { return; }
+    try { proc.kill(); } catch(e) {}
+    if(process.platform === "win32")
+    {
+        try {
+            const child = Bun.spawn(["taskkill", "/F", "/T", "/PID", String(proc.pid)], { stdout: "ignore", stderr: "ignore" });
+            await child.exited;
+        } catch(e) {}
+    }
+    try { await proc.exited; } catch(e) {}
+};
 
 const waitForMtimeChange = async (file:string, previous:number, timeoutMs:number) : Promise<number|null> =>
 {
@@ -55,6 +72,11 @@ const run = async () =>
     }
 
     mkdirSync(outDir, { recursive: true });
+    // one heavy thing at a time, on a machine that has room for it
+    try { acquireLock(outDir, "perf"); }
+    catch(e:any) { console.error(e.message); process.exit(4); }
+    if(!(await waitForMemory(1500, 120000))) { console.error("perf: not enough free memory to measure"); process.exit(2); }
+
     // a cold destination, so "segment build" really measures a first build
     rmSync(perfSite, { recursive: true, force: true });
     mkdirSync(perfSite, { recursive: true });
@@ -70,7 +92,7 @@ const run = async () =>
         "hugo", "server",
         "--port", String(PORT),
         "--disableKinds", "taxonomy,term,rss,sitemap",
-        "--config", "config.toml,audit/segment.toml",
+        "--config", "config.toml,audit/lean.toml,audit/segment.toml",
         "--renderSegments", "one",
         "-d", perfSite,
         "--logLevel", "warn",
@@ -103,7 +125,7 @@ const run = async () =>
             console.error(`expected: ${OUT_HTML}`);
             const err = await new Response(server.stderr).text().catch(() => "");
             console.error(err.trimEnd().split(/\r?\n/).slice(-30).join("\n"));
-            server.kill();
+            await killServer(server);
             process.exit(2);
         }
         timings.segmentMs = Date.now() - serverStart;
@@ -125,8 +147,7 @@ const run = async () =>
     }
     finally
     {
-        try { server.kill(); } catch(e) {}
-        try { await server.exited; } catch(e) {}
+        await killServer(server);
     }
 
     // 4. full audit build
@@ -134,9 +155,11 @@ const run = async () =>
     {
         console.log("full audit build …");
         const start = Date.now();
+        await waitForMemory(1500, 120000);
         const build = Bun.spawn([
             "hugo", "-d", join(outDir, "perf-full"),
             "--disableKinds", "taxonomy,term,rss,sitemap",
+            "--config", "config.toml,audit/lean.toml",
             "--logLevel", "warn",
         ], { cwd: studioDir, env: hugoEnv(), stdout: "pipe", stderr: "pipe" });
         const [stdout, stderr] = await Promise.all([

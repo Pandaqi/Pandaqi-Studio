@@ -1,0 +1,13 @@
+# Development and audit builds only; pass it as
+#   hugo --config config.toml,audit/lean.toml [--config config.toml,audit/lean.toml,audit/segment.toml]
+#
+# static/blog/ (1 078 files) and static/tutorials/ (1 683 files) are separate subdomains. They are
+# 98 % of the static tree and would otherwise be copied into every audit output directory, which is
+# the whole reason a build writes 149 MB and takes half a minute before it renders a single page.
+#
+# Defining a mount for a component in the project config only replaces that component's default
+# mount, so content/layouts/assets/data keep their defaults.
+[[module.mounts]]
+  source = "static"
+  target = "static"
+  files = ["!**/blog/**", "!**/tutorials/**"]

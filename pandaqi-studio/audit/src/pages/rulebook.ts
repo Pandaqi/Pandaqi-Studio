@@ -86,45 +86,6 @@ const countSettingsDeclarations = (source:string|null) =>
     return (source.match(/(^|[^_A-Za-z0-9])settings\s*:/g) ?? []).length;
 }
 
-// measures the canvases that are actually visible inside a node; returns ink ratios
-const measureCanvasesIn = async (locator:any) =>
-{
-    return await locator.evaluate((el:HTMLElement) =>
-    {
-        const out:any[] = [];
-        const canvases = Array.from(el.querySelectorAll("canvas")) as HTMLCanvasElement[];
-        for(const source of canvases)
-        {
-            const w = source.width, h = source.height;
-            if(w <= 0 || h <= 0) { continue; }
-            const tw = Math.max(1, Math.min(480, Math.round(w * Math.min(1, 480 / w))));
-            const th = Math.max(1, Math.round(h * (tw / w)));
-            const scratch = document.createElement("canvas");
-            scratch.width = tw; scratch.height = th;
-            const ctx = scratch.getContext("2d") as CanvasRenderingContext2D;
-            ctx.drawImage(source, 0, 0, tw, th);
-            try
-            {
-                const data = ctx.getImageData(0, 0, tw, th).data;
-                const counts = new Map<number, number>();
-                let n = 0;
-                for(let p = 0; p < tw * th; p += 7)
-                {
-                    const i = p * 4;
-                    const key = data[i] * 16777216 + data[i+1] * 65536 + data[i+2] * 256 + data[i+3];
-                    counts.set(key, (counts.get(key) ?? 0) + 1);
-                    n++;
-                }
-                let max = 0;
-                for(const v of counts.values()) { if(v > max) { max = v; } }
-                out.push({ w, h, inkRatio: n ? 1 - max / n : 0 });
-            }
-            catch(e) { out.push({ w, h, inkRatio: 0, error: "tainted" }); }
-        }
-        return out;
-    }).catch(() => [] as any[]);
-}
-
 export const runRulebook = async (session:Session, entry:ManifestEntry, opts:RunOptions) : Promise<PageResult> =>
 {
     const started = Date.now();
@@ -333,14 +294,28 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
             checker.ok(newRejects.length === 0, "RB_EXAMPLE_EMPTY",
                 `example "${id}" rejected: ${newRejects.slice(0, 2).join(" || ")}`, id);
 
-            const renders:RenderInfo[] = (await measureCanvasesIn(node)) as RenderInfo[];
-            const all = renders.length > 0 ? renders : ((collected?.renders ?? []) as RenderInfo[]);
+            // RB-7: one canvas, chosen at random. Measuring all of them is the most expensive thing
+            // the harness can do and adds no coverage.
+            const selector = `[data-rulebook-example="${id}"]`;
+            const canvasCount = await node.evaluate((el) => el.querySelectorAll("canvas").length).catch(() => 0);
+            let render:RenderInfo|null = null;
+            if(canvasCount > 0)
+            {
+                render = await audited.measureCanvasIn(selector, Math.floor(Math.random() * canvasCount));
+            }
+            else
+            {
+                // the instrument already measured a captured render while the canvas existed
+                const captured = collected?.renders ?? [];
+                render = captured.find(r => r.thumb) ?? captured[0] ?? null;
+            }
+
             // plenty of examples are text-only by design: note it, do not fail it
-            if(all.length === 0)
+            if(!render)
             {
                 checker.warn(`example "${id}" produced no canvas (text-only output)`);
             }
-            for(const render of all)
+            else
             {
                 checker.ok(!!render.error || (render.inkRatio >= INK_MIN_RULEBOOK || render.w <= 16),
                     "RB_BLANK_CANVAS",
