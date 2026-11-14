@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "audit": "bun run src/main.ts",
+    "static": "bun run src/static.ts",
     "perf": "bun run src/perf.ts"
   },
   "devDependencies": {

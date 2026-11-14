@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync, writeFileSync, mkdirSync } from 
 import { basename, dirname, join, resolve } from "node:path";
 import type { Contract, Kind, ManifestEntry } from "./lib/types";
 
-const walk = (dir:string, out:string[] = []) : string[] =>
+export const walk = (dir:string, out:string[] = []) : string[] =>
 {
     if(!existsSync(dir)) { return out; }
     for(const item of readdirSync(dir, { withFileTypes: true }))
@@ -14,7 +14,7 @@ const walk = (dir:string, out:string[] = []) : string[] =>
     return out;
 }
 
-const frontmatter = (text:string) =>
+export const frontmatter = (text:string) =>
 {
     if(!text.startsWith("---")) { return ""; }
     const end = text.indexOf("\n---", 3);
@@ -22,7 +22,7 @@ const frontmatter = (text:string) =>
     return text.slice(0, end);
 }
 
-const typeOf = (fm:string) : Kind|null =>
+export const typeOf = (fm:string) : Kind|null =>
 {
     const m = fm.match(/^\s*type:\s*["']?([a-zA-Z]+)["']?\s*$/m);
     if(!m) { return null; }

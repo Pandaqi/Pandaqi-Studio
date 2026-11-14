@@ -9,6 +9,7 @@ import { runGenerator } from "./pages/generator";
 import { runDigital } from "./pages/digital";
 import { copyBaseline, failureCounts, writeReports } from "./lib/report";
 import { acquireLock, breathe, freeMemoryMb, waitForMemory } from "./lib/govern";
+import { runStaticChecks } from "./static";
 import type { ManifestEntry, PageResult, ReportData } from "./lib/types";
 
 const argv = process.argv.slice(2);
@@ -80,6 +81,18 @@ const main = async () : Promise<number> =>
     // one build/audit at a time: two of these together is what actually takes a computer down
     try { acquireLock(outDir, `audit ${argv.join(" ")}`.trim()); }
     catch(e:any) { console.error(e.message); return 4; }
+
+    // §2.4: source-level checks cost seconds and catch what a browser run can only describe; an
+    // error here means the page cannot work, so do not spend a build and a minute per page on it
+    if(!hasFlag("skip-static"))
+    {
+        const statics = runStaticChecks({ filter });
+        if(statics.counts.error > 0)
+        {
+            console.error(`\nSTATIC_ERRORS (${statics.counts.error}) — fix these first, or pass --skip-static`);
+            return 5;
+        }
+    }
 
     if(segment) { writeSegment(studioDir, segment); }
 

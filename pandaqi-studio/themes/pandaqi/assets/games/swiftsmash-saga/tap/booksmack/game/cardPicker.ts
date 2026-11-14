@@ -10,7 +10,7 @@ export const cardPicker = () : Card[] =>
     const allSymbols : string[] = [];
     for(let [set,data] of Object.entries(CONFIG.generation.symbolsPerSet))
     {
-        if(!CONFIG._settings.sets[set]) { continue; }
+        if(!CONFIG._settings.sets[set].value) { continue; }
         if(typeof data === "string") { data = data.split(""); }
         const dataFinal = (data as any[]).map((x) => x.toString());
         allSymbols.push(...dataFinal);

@@ -117,7 +117,7 @@ export class InteractiveExample
         if(!this.node) { console.error(`Interactive example cannot find its button/node with id ${this.id}`); return; }
 
         // if you create this object directly, this creates the necessary HTML for it ...
-        if(this.node.innerHTML.trim().length <= 0) { createExampleHTMLForNode(params, params.node); }
+        if(this.node.innerHTML.trim().length <= 0) { createExampleHTMLForNode(params, this.node); }
 
         // ... because THIS expects that HTML to already exists and makes it interactive
         this.makeButtonsInteractive();

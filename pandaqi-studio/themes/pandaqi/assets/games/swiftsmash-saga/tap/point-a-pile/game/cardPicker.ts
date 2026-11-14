@@ -12,7 +12,7 @@ export const cardPicker = () : Card[] =>
     for(const [cardType,data] of Object.entries(MATERIAL))
     {
         const setName = CONFIG.generation.setNameForCardType[cardType];
-        if(!CONFIG._settings.sets[setName]) { continue; }
+        if(!CONFIG._settings.sets[setName].value) { continue; }
 
         const num = CONFIG.generation.numCardsPerSet[setName] ?? 25;
         for(let i = 0; i < num; i++)

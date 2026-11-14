@@ -114,9 +114,11 @@ export const CONFIG =
                 frames: new Vector2(8,1)
             },
 
+            // the ink-friendly sheet was never added, so this pointed at a 404 and every icon in
+            // ink-friendly mode came out blank; use the normal sheet until the art exists
             icons_special_inkfriendly:
             {
-                path: "icons_special_inkfriendly.webp",
+                path: "icons_special.webp",
                 frames: new Vector2(8,1)
             },
 

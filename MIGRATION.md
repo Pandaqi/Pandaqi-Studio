@@ -206,6 +206,8 @@ Errors block; warnings/info only report.
 
 SC-6 resolution: absolute path (`/x/y`) → `content/x/y`, else `static/x/y`, else `themes/pandaqi/static/x/y`; relative → `content/<base without leading slash>/<path>`. Hugo never opens these files, so nothing else catches a moved asset folder.
 
+Implemented in `audit/src/static.ts` (`bun run static`, `--filter <project>` to scope it), 2 s for the whole tree. `bun run audit` runs it first and stops with exit 5 on any error (`--skip-static` to bypass). A page's graph is its entry plus every module it reaches relatively or through the `games/` alias; `lib/*` is the framework and is never part of the page.
+
 ### 2.5 Classification (in this order)
 
 1. `type: rules` → rulebook. If it has no examples/tables and only `/rulebook-default.js`, still run RB-1..RB-4, RB-9.
@@ -428,17 +430,14 @@ Legend — Framework: `loadGame` = V2 generator, `custom JS` = hand-written entr
 
 ### 3.4 Confirmed defects (fix in this order)
 
-**D-2 — `hasty-accusations` still uses the V1 generator.**
+**D-2 — `hasty-accusations` still uses the V1 generator.** (`SC-2` and `SC-3` report it.)
 `games/hasty-accusations/game/main.ts` has no imports, uses globals (`ProgressBar`, `PdfBuilder`, `GridMapper`, `Visualizer`, `PageOrientation`, `PageFormat`), reads an undefined `vis` (line 84), and uses V1 settings (`CONFIG.cardSet`, `CONFIG.includeCards`, `CONFIG.includeCharacters`, `CONFIG.itemSize`, `CONFIG[type].size`, `CONFIG.debugOnlyGenerate`). Its `shared/config.ts` is already fully V2, so only the entry must be replaced (§6.5). Same file, second bug: the asset filter (`data.cardSet && key != CONFIG.cardSet`, `data.suspectsOnly && !CONFIG.includeCharacters`) reads undefined values, so suspect assets never load.
 
-**D-6 — Naivigation "visit" rulebooks never initialise.**
+**D-6 — Naivigation "visit" rulebooks never initialise.** (`SC-4` and `SC-5` report all five.)
 `games/naivigation/visit/*/rules/main.ts` (5 pages) contain no `loadRulebook(...)`. No toolbar, no sections, no tables, and the `naivigation-setup` example is never created. Compare `naivigation/wind-up-at/boot-op-stoom/rules/main.ts`.
 
 **D-9 — Pirates pass the wrong second argument to `MaterialVisualizer`.**
 `pirate-riddlebeard/game/main.ts:14` and `pirate-drawingbeard/game/main.ts:14`: `new MaterialVisualizer(CONFIG, { resLoader, renderer })`; the signature is `(config, customItemSize: Vector2)` → `customItemSize.clone is not a function`. Both projects are drafts, so no user impact today, but they can never be published.
-
-**D-16 — [LIB pq-rulebook] `InteractiveExample` can pass `undefined` where a node is required.**
-`examples/interactiveExample.ts:120`: `if(this.node.innerHTML.trim().length <= 0) { createExampleHTMLForNode(params, params.node); }` — `params.node` is `undefined` when the node was found by `querySelector`, and the helper calls `node.appendChild(...)` → `TypeError`. Only for empty programmatic nodes (markdown always emits text, so no live page hits it today; the §6.7 refactor would). Fix: pass `this.node`, return early when absent.
 
 ### 3.5 Non-canonical but working (separate branch)
 
@@ -481,6 +480,8 @@ Filtered runs of the reworked harness (1 worker, 1 profile, `audit/lean.toml`), 
 * `/hold-my-bear/game/` **pass** (29.1 s), `/hold-my-bear/rules/` **pass** (2.7 s).
 
 `report.md` now lists each failure's message under **Failure details**: a code alone does not say what to open, and for `/hasty-accusations/game/` it is what names the actual cause.
+
+`bun run static` (2 s, §2.4): **20 errors, 0 warnings, 70 info**. The errors are exactly D-2 (6) and D-6 (14). The info is §3.5's non-`CVal` projects plus ~50 modules no entry imports (`chiptales/shared/config.ts` is a stale duplicate of the per-game configs).
 
 That is the shape a full sweep takes — do it in one go, at the end.
 
@@ -731,7 +732,7 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 
 ### P0 — stops this class of failure
 
-**R-4. One pre-merge gate** (`.github/workflows/audit.yml`). Nothing scheduled, no nightly job: (1) `hugo` with generators enabled must exit 0; (2) the static checks report no errors; (3) `bun run audit --runs 1` on the projects the PR touches. Upload `audit-artifacts/` on failure. Never merge a PR that turns a green page red.
+**R-4. One pre-merge gate** (`.github/workflows/audit.yml`). Nothing scheduled, no nightly job: (1) `hugo` with generators enabled must exit 0; (2) `bun run static` reports no errors; (3) `bun run audit --runs 1` on the projects the PR touches. Upload `audit-artifacts/` on failure. Never merge a PR that turns a green page red.
 
 **R-5. Per-project kill switch.** Replace global `enableGameJS`/`enableBoardJS` with a data file (`data/disabled-projects.yaml`) plus the existing `hideGame`/`hideBoard`/`hideRules` frontmatter, generated from `report.json` (`--emit-disabled`). One broken game must not force every generator offline.
 
@@ -753,7 +754,7 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 
 **R-13. What is left of page-render cost.** Taxonomies are already excluded from the audit build and images are no longer processed per card (§4.4). The rest is per-page template work — `rules/list.html` and the navigation partials are the hotspots in the last profile. Re-profile with `hugo --templateMetrics --templateMetricsHints` before touching anything, and only fix what shows up at the top.
 
-**R-14. Pre-commit hook**: `bun run static --staged` on changed `assets/games/**` — seconds, and it prevents a 4-minute wait to discover a typo.
+**R-14. Pre-commit hook**: `bun run static --filter <project>` for the projects a commit touches — 2 s, and it prevents a 4-minute wait to discover a typo.
 
 **R-15. Audit ergonomics**: `--filter`, `--skip-build`, `--base-url` against the dev server, `bun run audit:watch <project>` (hugo server + single-page audit on save). Note plainly: nothing notifies you when a background job finishes; wait for it in the foreground or check `perf.json`/`report.json`.
 
