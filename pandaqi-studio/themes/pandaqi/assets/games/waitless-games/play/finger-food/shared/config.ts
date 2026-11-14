@@ -1,7 +1,7 @@
 
 import { RendererPixi } from "lib/pq-games";
 import { boardPicker } from "../board/boardPicker";
-import { SettingType, MapperPreset, Bounds, Vector2 } from "lib/pq-games";
+import { CVal, SettingType, MapperPreset, Bounds, Vector2 } from "lib/pq-games";
 
 export const CONFIG =
 {
@@ -120,13 +120,55 @@ export const CONFIG =
         }
     },
 
+    // how generation/balancing happens
+    generation:
+    {
+        board:
+        {
+            size: new Vector2(8, 6)
+        },
+
+        types:
+        {
+            globalMaxPerType: 0.225, // percentage of total cells, NO type can have more than this
+            ingredientBoundsBaseGame: new Bounds(4, 6),
+            ingredientBoundsWithMachines: new Bounds(3, 4),
+            machineBounds: new Bounds(2, 4),
+            numPlaced: {
+                machine: new Bounds(0.1, 0.3),
+                money: new Bounds(0.135, 0.215)
+            },
+
+            moneyTypeBounds: new Bounds(0.25, 0.5), // what percentage of all types should be bought for MONEY
+            moneyPercentagePayable: new Bounds(0.5, 0.75), // what percentage of TOTAL money is available as cells on the board
+            maxPower: 3, // so, 0-2
+            maxMoney: 7,
+            maxValueForMoneyCell: 5, // should be lower than maxMoney, otherwise you can buy anything with ONE square,
+            fixedFingerBounds: new Bounds(0.25, 0.5),
+            sheetData: { frameWidth: 256, frameHeight: 256 }
+        },
+
+        recipes:
+        {
+            bounds: new Bounds(3, 5),
+            recipeLength: new Bounds(2, 4),
+            maxScoreMostValuableIngredient: 5,
+            forbiddenRecipeProb: 0.3 // you are PENALIZED for getting this recipe (with inverted score)
+        },
+
+        evaluator:
+        {
+            timerRelevantCellsMinimum: 4
+        }
+    },
+
+    // how to draw stuff
     _drawing:
     {
         board: 
         {
-            size: new Vector2(8, 6),
             resolutionPerCell: 5,
-            maxGridLineVariation: 0.1,
+            maxGridLineVariation: new CVal(0.1, "cellSizeUnit"),
 
             useWobblyLines: true,
             smoothingResolution: 8,
@@ -135,21 +177,20 @@ export const CONFIG =
             {
                 lines: 
                 {
-                    width: 0.05, // fraction of CellSizeUnit
+                    width: new CVal(0.05, "cellSizeUnit"),
                     color: "#FFFFFF",
                     alpha: 0.66
                 },
                 linesInkfriendly: 
                 {
-                    width: 0.025,
+                    width: new CVal(0.025, "cellSizeUnit"),
                     color: "#333333",
                     alpha: 1.0
                 }
-                
             },
             outerEdge: 
             {
-                lineWidth: 0.02,
+                lineWidth: new CVal(0.02, "cellSizeUnit"),
                 lineColor: "#333333",
                 lineAlpha: 1.0
             },
@@ -176,36 +217,11 @@ export const CONFIG =
             }
         },
 
-        types: 
+        recipes:
         {
-            globalMaxPerType: 0.225, // percentage of total cells, NO type can have more than this 
-            ingredientBoundsBaseGame: new Bounds(4, 6),
-            ingredientBoundsWithMachines: new Bounds(3, 4),
-            machineBounds: new Bounds(2, 4),
-            numPlaced: {
-                machine: new Bounds(0.1, 0.3),
-                money: new Bounds(0.135, 0.215)
-            },
-
-            moneyTypeBounds: new Bounds(0.25, 0.5), // what percentage of all types should be bought for MONEY
-            moneyPercentagePayable: new Bounds(0.5, 0.75), // what percentage of TOTAL money is available as cells on the board
-            maxPower: 3, // so, 0-2
-            maxMoney: 7,
-            maxValueForMoneyCell: 5, // should be lower than maxMoney, otherwise you can buy anything with ONE square,
-            fixedFingerBounds: new Bounds(0.25, 0.5),
-            sheetData: { frameWidth: 256, frameHeight: 256 }
-        },
-
-        recipes: 
-        {
-            bounds: new Bounds(3, 5),
-            recipeLength: new Bounds(2, 4),
-            maxScoreMostValuableIngredient: 5,
-            forbiddenRecipeProb: 0.3, // you are PENALIZED for getting this recipe (with inverted score)
-            
-            paddingWithinRecipe: 0.025,
-            paddingBetweenRecipes: 0.025,
-            marginAroundRecipeBook: 0.02,
+            paddingWithinRecipe: new CVal(0.025, "cellSizeUnit"),
+            paddingBetweenRecipes: new CVal(0.025, "cellSizeUnit"),
+            marginAroundRecipeBook: new CVal(0.02, "cellSizeUnit"),
 
             textConfig: 
             {
@@ -216,19 +232,14 @@ export const CONFIG =
             }
         },
 
-        tutorials: 
+        tutorials:
         {
-            cornerIconSize: 0.175 // relative to CELL size (of the tutorial on which it's placed)
+            cornerIconSize: 0.175 // relative to CELL size (of the tutorial on which it is placed)
         },
 
-        evaluator: 
+        fixedFingers:
         {
-            timerRelevantCellsMinimum: 4
-        },
-
-        fixedFingers: 
-        {
-            handScale: 0.35, // relative to entire height of the "extra data frame"
+            handScale: 0.35 // relative to entire height of the "extra data frame"
         }
     }
 }

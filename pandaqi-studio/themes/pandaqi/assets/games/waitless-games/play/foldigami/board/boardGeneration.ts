@@ -2,7 +2,7 @@
 import Board from "./board"
 import { CONFIG } from "../shared/config"
 import Evaluator from "./evaluator"
-import { MaterialVisualizer, ResourceGroup } from "lib/pq-games"
+import { MaterialVisualizer } from "lib/pq-games"
 import { prepareCorrectCellTypes } from "./types"
 
 
@@ -14,14 +14,8 @@ export default class BoardGeneration
 
     async draw(vis:MaterialVisualizer) 
     {
-        // @TODO: no vis.config anymore!
-        Object.assign(CONFIG, vis.config);
         this.setup(vis);
-        await this.generate();
-        const group = new ResourceGroup();
-        this.board.draw(vis, group);
-        this.evaluator.draw(vis, group, this.board);
-        return [group];
+        return await this.board.draw(vis);
     }
 
     setup(vis:MaterialVisualizer)

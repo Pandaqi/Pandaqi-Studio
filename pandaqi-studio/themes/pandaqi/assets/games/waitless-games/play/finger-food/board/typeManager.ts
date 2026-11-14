@@ -1,5 +1,5 @@
 
-import { rangeInteger, getWeighted, shuffle, range, distributeDiscrete } from "lib/pq-games";
+import { rangeInteger, getWeighted, shuffle, range, distributeDiscrete, getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { INGREDIENTS, MACHINES, MAIN_TYPES } from "../shared/dict";
 import Type from "./type";
@@ -60,7 +60,7 @@ export default class TypeManager
 
         // NOTE: tutorial and money are handled separately (not part of type list)
         // get ingredients
-        const ingredientBounds = CONFIG._settings.expansions.machines.value ? CONFIG._drawing.types.ingredientBoundsWithMachines : CONFIG._drawing.types.ingredientBoundsBaseGame;
+        const ingredientBounds = getSetting("expansions.machines", CONFIG) ? CONFIG.generation.types.ingredientBoundsWithMachines : CONFIG.generation.types.ingredientBoundsBaseGame;
         const numIngredients = rangeInteger(ingredientBounds.min, ingredientBounds.max);
         while(this.types.length < numIngredients)
         {
@@ -81,9 +81,9 @@ export default class TypeManager
         }
         
         // get machines (if applicable)
-        if(CONFIG._settings.expansions.machines.value)
+        if(getSetting("expansions.machines", CONFIG))
         {
-            const machineBounds = CONFIG._drawing.types.machineBounds;
+            const machineBounds = CONFIG.generation.types.machineBounds;
             const numMachines = rangeInteger(machineBounds.min, machineBounds.max);
             const targetNumTypes = this.types.length + numMachines;
             while(this.types.length < targetNumTypes)
@@ -104,7 +104,7 @@ export default class TypeManager
         {
             for(const expansionName of data.requiredExpansions)
             {
-                if(!CONFIG._settings.expansions[expansionName].value) { return false; }
+                if(!getSetting("expansions." + expansionName, CONFIG)) { return false; }
             }
         }
 
@@ -199,18 +199,18 @@ export default class TypeManager
 
     determineExtraDataForTypes()
     {
-        if(!CONFIG._settings.expansions.money.value && !CONFIG._settings.expansions.fixedFingers.value) { return; }
+        if(!getSetting("expansions.money", CONFIG) && !getSetting("expansions.fixedFingers", CONFIG)) { return; }
 
         // sort types by power (HIGHEST power comes first, so descending)
         this.types.sort((a,b) => { 
             return b.getPower() - a.getPower();
         })
 
-        const numTypesWithMoney = CONFIG._settings.expansions.money.value ? Math.floor(range(CONFIG._drawing.types.moneyTypeBounds) * this.types.length) : 0;
-        const numTypesWithFixedFingers = CONFIG._settings.expansions.fixedFingers.value ? Math.floor(range(CONFIG._drawing.types.fixedFingerBounds) * this.types.length) : 0;
+        const numTypesWithMoney = getSetting("expansions.money", CONFIG) ? Math.floor(range(CONFIG.generation.types.moneyTypeBounds) * this.types.length) : 0;
+        const numTypesWithFixedFingers = getSetting("expansions.fixedFingers", CONFIG) ? Math.floor(range(CONFIG.generation.types.fixedFingerBounds) * this.types.length) : 0;
 
-        const maxPower = CONFIG._drawing.types.maxPower;
-        const maxMoney = CONFIG._drawing.types.maxMoney;
+        const maxPower = CONFIG.generation.types.maxPower;
+        const maxMoney = CONFIG.generation.types.maxMoney;
 
         // the highest X types get a (semi-random) money value permanently attached
         const totalTypesToAssign = Math.min(numTypesWithMoney + numTypesWithFixedFingers, this.types.length);
@@ -248,8 +248,8 @@ export default class TypeManager
         }
 
         // calculate exactly how much cells we want to devote to each type
-        const numMachines = CONFIG._settings.expansions.machines.value ? Math.round(range(CONFIG._drawing.types.numPlaced.machine) * numCellsToFill) : 0;
-        const numMoney = CONFIG._settings.expansions.money.value ? Math.round(range(CONFIG._drawing.types.numPlaced.money) * numCellsToFill) : 0;
+        const numMachines = getSetting("expansions.machines", CONFIG) ? Math.round(range(CONFIG.generation.types.numPlaced.machine) * numCellsToFill) : 0;
+        const numMoney = getSetting("expansions.money", CONFIG) ? Math.round(range(CONFIG.generation.types.numPlaced.money) * numCellsToFill) : 0;
         const numIngredients = numCellsToFill - numMachines - numMoney;
 
         console.log("== Num Ingredients, Machines and Money ===");
@@ -281,8 +281,8 @@ export default class TypeManager
         {
             // for money, we calculate the distribution of values beforehand
             // (which we can do now, as machines+ingredients have all been placed)
-            const moneyTarget = Math.round(this.counters.moneyToPay * range(CONFIG._drawing.types.moneyPercentagePayable));
-            const moneyDistribution = distributeDiscrete(moneyTarget, numMoney, 1, CONFIG._drawing.types.maxValueForMoneyCell);
+            const moneyTarget = Math.round(this.counters.moneyToPay * range(CONFIG.generation.types.moneyPercentagePayable));
+            const moneyDistribution = distributeDiscrete(moneyTarget, numMoney, 1, CONFIG.generation.types.maxValueForMoneyCell);
             for(let i = 0; i < numMoney; i++)
             {
                 const typeObject = new Type("money", "money");
@@ -301,24 +301,24 @@ export default class TypeManager
 
     getTutorialsNeeded()
     {
-        if(!CONFIG._settings.includeRules.value) { return []; }
+        if(!getSetting("includeRules", CONFIG)) { return []; }
 
         let tutorials = [
             new Type("tutorial", "howtoplay", null, true), 
             new Type("tutorial", "objective", null, true)
         ];
 
-        if(CONFIG._settings.expansions.money.value) 
+        if(getSetting("expansions.money", CONFIG)) 
         { 
             tutorials.push(new Type("tutorial", "money", null, true)); 
         }
 
-        if(CONFIG._settings.expansions.fixedFingers.value) 
+        if(getSetting("expansions.fixedFingers", CONFIG)) 
         { 
             tutorials.push(new Type("tutorial", "fixedFingers", null, true)); 
         }
 
-        if(CONFIG._settings.expansions.recipeBook.value) 
+        if(getSetting("expansions.recipeBook", CONFIG)) 
         { 
             tutorials.push(new Type("tutorial", "recipeBook", null, true)); 
         }

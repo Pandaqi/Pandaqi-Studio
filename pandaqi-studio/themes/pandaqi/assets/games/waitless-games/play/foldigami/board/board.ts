@@ -6,7 +6,7 @@ import { CONFIG } from "../shared/config"
 import { TUTORIAL_DATA } from "../shared/dict"
 import { prepareCorrectCellTypes } from "./types"
 import Evaluator from "./evaluator"
-import { Color, colorLighten, fromArray, getWeighted, LayoutOperation, Line, MaterialVisualizer, range, rangeInteger, Rectangle, ResourceGroup, ResourceShape, ResourceText, shuffle, StrokeAlign, TextConfig, Vector2 } from "lib/pq-games"
+import { Color, colorLighten, fromArray, getSetting, getWeighted, LayoutOperation, Line, MaterialVisualizer, range, rangeInteger, Rectangle, ResourceGroup, ResourceShape, ResourceText, shuffle, StrokeAlign, TextConfig, Vector2 } from "lib/pq-games"
 
 export default class Board
 {
@@ -34,7 +34,7 @@ export default class Board
         let finalPos = new Vector2();
 
         const boardPos = vis.get("board.position");
-        const boardSize = vis.get("board.size");
+        const boardSize = CONFIG.generation.board.size;
         if(boardPos == "right" || boardPos == "left") 
         {
             finalSize = new Vector2(squareSize);
@@ -45,7 +45,7 @@ export default class Board
         this.outerRect = new Rectangle().fromTopLeft(finalPos, finalSize);
         this.rect = new Rectangle().fromTopLeft(finalPos.clone().add(margin), finalSize.clone().sub(margin.clone().scale(2)));
 
-        const fullSizeForCells = vis.get("board.modifyEdgeCells") ? this.outerRect : this.rect;
+        const fullSizeForCells = CONFIG.generation.board.modifyEdgeCells ? this.outerRect : this.rect;
 
         const cellX = fullSizeForCells.getSize().x / boardSize.x;
         const cellY = fullSizeForCells.getSize().y / boardSize.y;
@@ -54,6 +54,9 @@ export default class Board
 
         this.cellSize = new Vector2(cellX, cellY);
         this.cellSizeSquare = Math.min(cellX, cellY);
+
+        // so `_drawing` can be written relative to the board's own units
+        vis.configurator.set("cellSizeUnit", this.cellSizeSquare);
 
         // top left should be the smallest cell, so save that as the measurement for everything
         const topLeftCell = this.getRectForCell(new Cell(0,0));
@@ -120,7 +123,7 @@ export default class Board
 
             if(!data.keepTeamEachPick)
             {
-                const newTeam = (myTeam + 1) % CONFIG._drawing.teams.num;
+                const newTeam = (myTeam + 1) % CONFIG.generation.teams.num;
                 params.lastTeam = newTeam;
             }
 
@@ -136,7 +139,7 @@ export default class Board
         } else {
             myRot = params.lastTutorialRotation;
             let newRot = (params.lastTutorialRotation + 2) % 4;
-            if(CONFIG._settings.noRotation.value) { myRot = 0; newRot = 0; }
+            if(getSetting("noRotation", CONFIG)) { myRot = 0; newRot = 0; }
             params.lastTutorialRotation = newRot;
         }
 
@@ -149,7 +152,7 @@ export default class Board
         const totalNumCells = cells.length;
         shuffle(cells);
 
-        const placeTutorials = CONFIG._settings.includeRules.value;
+        const placeTutorials = getSetting("includeRules", CONFIG);
 
         // add tutorial cells
         if(placeTutorials)
@@ -232,7 +235,7 @@ export default class Board
             }
         }
 
-        const percentageEmpty = CONFIG._drawing.board.percentageEmpty[CONFIG._settings.difficulty.value];
+        const percentageEmpty = CONFIG.generation.board.percentageEmpty[getSetting("difficulty", CONFIG)];
         const numEmptyCells = Math.round( range(percentageEmpty.min*totalNumCells, percentageEmpty.max*totalNumCells) );
 
         // fill up the remaining empty space with random types
@@ -248,10 +251,10 @@ export default class Board
             const randType = getWeighted(typesDict);
             const data = typesDict[randType];
 
-            const typeMax = data.num ? data.num.max : CONFIG._drawing.types.generalMaxPerType;
+            const typeMax = data.num ? data.num.max : CONFIG.generation.types.generalMaxPerType;
             const placedTooMany = cellParams.numPerType[randType] >= typeMax;
 
-            const teamMax = data.numPerTeam ? data.numPerTeam.max : CONFIG._drawing.types.generalMaxPerTeam;
+            const teamMax = data.numPerTeam ? data.numPerTeam.max : CONFIG.generation.types.generalMaxPerTeam;
             const placedTooManyForTeam = cellParams.numPerTeam[cellParams.lastTeam][randType] >= teamMax;
 
             if(placedTooMany || placedTooManyForTeam)
@@ -282,8 +285,10 @@ export default class Board
         this.generationSuccess = true;
     }
 
-    async draw(vis:MaterialVisualizer, group:ResourceGroup) : Promise<HTMLCanvasElement>
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
+        const group = vis.prepareDraw();
+
         // old code, so drawing + generation was intertwined and I decided to keep it that way for now
         this.setupOuterRectangle(vis);
         prepareCorrectCellTypes(); // this is stupid code from old me, making permanent changes on config like this every draw, but we'll accept it for now
@@ -318,13 +323,13 @@ export default class Board
 
     getRotationForCell(c:Cell)
     {
-        const rotPerTeam = CONFIG._drawing.teams.num == 2 ? 2 : 1;
+        const rotPerTeam = CONFIG.generation.teams.num == 2 ? 2 : 1;
         let rot = c.getRotation();
         const data = c.hasType() ? CONFIG.typeDict[c.getType()] : {};
         if(c.hasTeam() && !data.allowAllRotations)
         {
             rot = (c.getTeam() * rotPerTeam) % 4;
-            if(CONFIG._settings.noRotation.value) { rot = 0; }
+            if(getSetting("noRotation", CONFIG)) { rot = 0; }
         }
 
         return rot * 0.5 * Math.PI;
@@ -351,13 +356,13 @@ export default class Board
         let pos = this.convertGridToRealPos(c.getPos());
         let size = this.cellSize.clone();
 
-        const isHorizontalEdge = (c.x == 0 || c.x == (CONFIG._drawing.board.size.x-1));
-        const isVerticalEdge = (c.y == 0 || c.y == (CONFIG._drawing.board.size.y-1));
+        const isHorizontalEdge = (c.x == 0 || c.x == (CONFIG.generation.board.size.x-1));
+        const isVerticalEdge = (c.y == 0 || c.y == (CONFIG.generation.board.size.y-1));
         const isHorizontalTopEdge = (c.x == 0);
         const isVerticalTopEdge = (c.y == 0);
 
         const isEdgeCell = (isHorizontalEdge || isVerticalEdge)
-        if(CONFIG._drawing.board.modifyEdgeCells && isEdgeCell)
+        if(CONFIG.generation.board.modifyEdgeCells && isEdgeCell)
         {
             if(isHorizontalEdge) { size.x -= this.outerMargin.x; }
             if(isVerticalEdge) { size.y -= this.outerMargin.y; }
@@ -398,7 +403,7 @@ export default class Board
         }
 
         // vertical lines
-        const size = vis.get("board.size");
+        const size = CONFIG.generation.board.size;
         for(let x = 1; x < size.x; x++)
         {
             this.drawLineVertical(vis, group, x, size);
@@ -448,11 +453,9 @@ export default class Board
         }
 
         const line = new Line(pos1, pos2);
-        const gridParams = vis.get("board.grid");
-        const lineWidth = gridParams.lineWidth * this.cellSizeSquare;
         const op = new LayoutOperation({
-            stroke: gridParams.lineColor,
-            strokeWidth: lineWidth
+            stroke: vis.get("board.grid.lineColor"),
+            strokeWidth: vis.get("board.grid.lineWidth")
         });
         group.add(new ResourceShape(line), op);
     }
@@ -467,12 +470,10 @@ export default class Board
         const gapLength = 10;
         const stepsNeeded = Math.floor( (vectorLength / (dashLength + gapLength)) * 2 );
 
-        const gridParams = vis.get("board.grid");
-        const halfLineWidth = gridParams.halfLineWidth * this.cellSizeSquare;
         const op = new LayoutOperation({
-            stroke: gridParams.halfLineColor,
-            alpha: gridParams.halfLineAlpha,
-            strokeWidth: halfLineWidth
+            stroke: vis.get("board.grid.halfLineColor"),
+            alpha: vis.get("board.grid.halfLineAlpha"),
+            strokeWidth: vis.get("board.grid.halfLineWidth")
         });
 
         let curPos = pos1.clone();
@@ -503,10 +504,9 @@ export default class Board
         const cells = this.state.getGridFlat();
         const inkFriendly = vis.inkFriendly;
 
-        const fontCfg = vis.get("board.font");
         const textConfig = new TextConfig({
-            font: fontCfg.family,
-            size: (fontCfg.size * this.cellSizeSquare),
+            font: vis.get("board.font.family"),
+            size: vis.get("board.font.size"),
         }).alignCenter();
 
         for(const c of cells)
@@ -544,7 +544,7 @@ export default class Board
             if(hasTeam)
             {
                 const anchorPos = this.getCornerFromRotation(rect, rot);
-                const teamIconScale = iconSize * CONFIG._drawing.teams.iconScale;
+                const teamIconScale = iconSize * vis.get("teams.iconScale");
 
                 const offset = new Vector2(
                     -Math.cos(rot + 0.25*Math.PI) * teamIconScale,
@@ -589,12 +589,12 @@ export default class Board
                 const resText = new ResourceText({ text: text, textConfig: textConfig });
                 const opText = new LayoutOperation({
                     pos: center,
-                    size: new Vector2(2*textConfig.size),
+                    size: new Vector2(2*textConfig.size, 2*textConfig.size),
                     pivot: Vector2.CENTER,
                     rot: rot,
-                    fill: fontCfg.color,
-                    stroke: fontCfg.strokeColor,
-                    strokeWidth: (fontCfg.strokeWidth * this.cellSizeSquare),
+                    fill: vis.get("board.font.color"),
+                    stroke: vis.get("board.font.strokeColor"),
+                    strokeWidth: vis.get("board.font.strokeWidth"),
                     strokeAlign: StrokeAlign.OUTSIDE
                 });
                 group.add(resText, opText);
@@ -604,7 +604,7 @@ export default class Board
 
     drawOutline(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const lineWidth = vis.get("board.outline.width") * this.cellSizeSquare;
+        const lineWidth = vis.get("board.outline.width");
         const lineColor = vis.get("board.outline.color") ?? "#000000";
 
         const op = new LayoutOperation({

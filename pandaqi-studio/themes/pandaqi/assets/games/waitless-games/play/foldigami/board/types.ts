@@ -1,6 +1,6 @@
 import { CELL_TYPES, BASE_TYPES } from "../shared/dict"
 import { CONFIG } from "../shared/config"
-import { getWeighted, rangeInteger } from "lib/pq-games";
+import { getSetting, getWeighted, rangeInteger } from "lib/pq-games";
 
 export const prepareCorrectCellTypes = () =>
 {
@@ -14,7 +14,7 @@ export const prepareCorrectCellTypes = () =>
 
 const hasInvalidTypeDictionary = () =>
 {
-    const maxTypes = CONFIG._drawing.types.maxPerDifficulty[CONFIG._settings.difficulty.value];
+    const maxTypes = CONFIG.generation.types.maxPerDifficulty[getSetting("difficulty", CONFIG)];
 
     // the -1 is for the "scroll" type which is ALWAYS added
     const numTypes = Object.keys(CONFIG.typeDict).length - 1;
@@ -102,7 +102,7 @@ const setup = () =>
     // remove any invalid types
     const typesDict = {}
     const difficulties = ["easy", "medium", "hard"];
-    const gameDiffNum = difficulties.indexOf(CONFIG._settings.difficulty.value);
+    const gameDiffNum = difficulties.indexOf(getSetting("difficulty", CONFIG));
     for(const [type,data] of Object.entries(fullTypesDict))
     {
         const diffNum = difficulties.indexOf(data.difficulty || "easy");
@@ -135,7 +135,7 @@ const setup = () =>
 
     // pick our first types following the set template (which types must surely have ONE in there)
     let types = [];
-    const setTemplate = CONFIG._drawing.types.setTemplate;
+    const setTemplate = CONFIG.generation.types.setTemplate;
     for(const type of setTemplate)
     {
         const options = getAllOfType(typesDict, type);
@@ -173,7 +173,7 @@ const setup = () =>
     }
 
     // fill up the list of types as needed
-    const setBounds = CONFIG._drawing.types.maxSetSize;
+    const setBounds = CONFIG.generation.types.maxSetSize;
     const setMax = rangeInteger(setBounds.min, setBounds.max);
     while(types.length < setMax)
     {
@@ -196,7 +196,7 @@ const setup = () =>
     }
 
     // this should always be LAST, as the debug types override the rest
-    const debugTypes = CONFIG._drawing.types.debug;
+    const debugTypes = CONFIG.generation.types.debug;
     if(debugTypes.length > 0)
     {
         types = debugTypes.slice();
@@ -215,7 +215,7 @@ const setup = () =>
     // some generation parameters (for types) change based on other user-input settings
     // In this case: if we place no tutorials, still place some SCROLLS because we need their "rot" mechanic still
     // And a good benchmark is the number of types included
-    const placeTutorials = CONFIG._settings.includeRules.value;
+    const placeTutorials = getSetting("includeRules", CONFIG);
     if(!placeTutorials)
     {
         // @ts-ignore

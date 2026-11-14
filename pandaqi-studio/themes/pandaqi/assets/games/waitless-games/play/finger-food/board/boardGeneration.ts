@@ -1,7 +1,6 @@
 
 import BoardDisplay from "./boardDisplay"
 import BoardState from "./boardState"
-import { CONFIG } from "../shared/config"
 import Evaluator from "./evaluator"
 import TypeManager from "./typeManager"
 import { MaterialVisualizer, ResourceGroup } from "lib/pq-games"
@@ -16,7 +15,6 @@ export default class BoardGeneration
     async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
         this.visualizer = vis;
-        Object.assign(CONFIG, vis.config);
         this.setup()
         await this.generate();
         return this.visualize(vis);

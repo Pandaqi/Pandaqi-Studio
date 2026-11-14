@@ -4,7 +4,7 @@ import { CONFIG } from "../shared/config"
 import { CUSTOM } from "../shared/dict"
 import FixedFingers from "./fixedFingers"
 import RecipeBook from "./recipeBook"
-import { Vector2, MaterialVisualizer, Vector2Graph, smoothPath, ResourceGroup, LayoutOperation, ResourceShape, Path, Color, GlowEffect, DropShadowEffect, TextConfig, StrokeAlign, ResourceText, Rectangle } from "lib/pq-games"
+import { Vector2, MaterialVisualizer, Vector2Graph, smoothPath, ResourceGroup, LayoutOperation, ResourceShape, Path, Color, GlowEffect, DropShadowEffect, TextConfig, StrokeAlign, ResourceText, Rectangle, getSetting } from "lib/pq-games"
 
 interface Lines {
     x: Vector2[][],
@@ -47,11 +47,16 @@ export default class BoardDisplay
         );
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
+        // so `_drawing` can be written relative to the board's own units
+        vis.configurator.set("cellSizeUnit", this.cellSizeUnit);
+
         // draws the grid and fills in the squares
         const lines = this.createGridLines();
         const linesRandomized = this.randomizeGridLines(vis, lines);
         const linesSmoothed = this.smoothLines(vis, linesRandomized);
-        this.fillInCells(vis, group, linesSmoothed);
+        // cells take their outline from the unsmoothed lines: only those keep one point per grid step, which is what the
+        // index arithmetic below relies on. The smoothed version is purely cosmetic, so only the strokes use it.
+        this.fillInCells(vis, group, linesRandomized);
         this.strokeLines(vis, group, linesSmoothed);
 
         // draws the custom images or properties of each cell
@@ -126,7 +131,7 @@ export default class BoardDisplay
     {
         if(!vis.get("board.useWobblyLines")) { return lines; }
 
-        const maxVariation = vis.get("board.maxGridLineVariation") * this.cellSizeUnit;
+        const maxVariation = vis.get("board.maxGridLineVariation");
         for(const [axis,linesAxis] of Object.entries(lines))
         {
             for(const line of linesAxis)
@@ -202,11 +207,11 @@ export default class BoardDisplay
 
     strokeLines(vis:MaterialVisualizer, group:ResourceGroup, lines:Lines)
     {
-        const data = vis.inkFriendly ? vis.get("board.grid.linesInkfriendly") : vis.get("board.grid.lines");
+        const prefix = vis.inkFriendly ? "board.grid.linesInkfriendly" : "board.grid.lines";
 
-        const lineWidth = data.width * this.cellSizeUnit;
-        const lineColor = data.color;
-        const lineAlpha = data.alpha;
+        const lineWidth = vis.get(prefix + ".width");
+        const lineColor = vis.get(prefix + ".color");
+        const lineAlpha = vis.get(prefix + ".alpha");
 
         const opLine = new LayoutOperation({
             stroke: lineColor,
@@ -225,10 +230,7 @@ export default class BoardDisplay
 
     fillInCells(vis:MaterialVisualizer, group:ResourceGroup, lines:Lines)
     {
-        let smoothingResolution = vis.get("board.smoothingResolution");
-        if(!vis.get("board.useWobblyLines")) { smoothingResolution = 1; }
-
-        const distBetweenAnchors = smoothingResolution * this.resolutionPerCell;
+        const distBetweenAnchors = this.resolutionPerCell;
 
         for(let x = 0; x < this.size.x; x++)
         {
@@ -369,7 +371,7 @@ export default class BoardDisplay
             if(cell.hasExtraData())
             {
                 const displayMoney = cell.hasNum();
-                const displayFixedFingers = cell.hasFixedFingers() && CONFIG._settings.expansions.fixedFingers.value;
+                const displayFixedFingers = cell.hasFixedFingers() && getSetting("expansions.fixedFingers", CONFIG);
                 const contentPos = realPos.clone().move(new Vector2(0.35*w, 0.75*h));
 
                 const extraFrameScale = vis.get("board.extraFrameScale");
@@ -479,7 +481,9 @@ export default class BoardDisplay
         const chunk = [];
         for(let i = start; i <= end; i++)
         {
-            chunk.push(line[i]);
+            const p = line[i];
+            if(!p) { continue; }
+            chunk.push(p);
         }
 
         if(isReversed) { chunk.reverse(); }
@@ -496,7 +500,7 @@ export default class BoardDisplay
     {
         if(!this.hasOuterMargin()) { return; }
 
-        const lineWidth = vis.get("board.outerEdge.lineWidth") * this.cellSizeUnit;
+        const lineWidth = vis.get("board.outerEdge.lineWidth");
         const lineColor = vis.get("board.outerEdge.lineColor");
         const lineAlpha = vis.get("board.outerEdge.lineAlpha");
 

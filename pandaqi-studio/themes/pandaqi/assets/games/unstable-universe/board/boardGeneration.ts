@@ -14,7 +14,7 @@ import GraphElement from "./graphElement"
 import GraphNode from "./graphNode"
 import Obstacle from "./obstacle"
 import { CONFIG } from "../shared/config"
-import { Vector2, Line, MaterialVisualizer, seedRandom, getWeighted, shuffle, ResourceGroup, LayoutOperation, Color, ResourceShape, TextConfig, Rectangle, Circle, ResourceText, StrokeAlign, Path, colorRandomize } from "lib/pq-games"
+import { Vector2, Line, MaterialVisualizer, seedRandom, getWeighted, shuffle, ResourceGroup, LayoutOperation, Color, ResourceShape, TextConfig, Rectangle, Circle, ResourceText, StrokeAlign, Path, colorRandomize, getSetting } from "lib/pq-games"
 
 const DEBUG_FILL_AREAS = false;
 const ENERGETIC_NODES = ['Oil', 'Fire', 'Wood', 'Sun', 'Moon', 'Wind', 'Biomass', 'Electricity', 'Battery'];
@@ -45,6 +45,7 @@ interface EdgePointData
 
 export default class BoardGeneration
 {
+	vis: MaterialVisualizer
 	cfg: Record<string,any>
 	map: GraphElement[][][]
 	centerNode: GraphNode
@@ -70,6 +71,15 @@ export default class BoardGeneration
 	iteratingTimer: any
 
 	// user-input settings should be passed through config
+
+	// drawing values live in `_drawing`; the visualizer resolves them against the page and cell size
+	get nodeRadius() { return this.vis.get("nodes.radius"); }
+	get naturalResourceRadius() { return this.vis.get("naturalResources.radiusRatio") * this.nodeRadius; }
+	get naturalResourceAlpha() { return this.vis.get("naturalResources.alpha"); }
+	get powerDotRadius() { return this.vis.get("powerDotRadius"); }
+	get seedTextOffset() { return this.vis.get("seedTextOffset"); }
+	get lineWidth() { return this.vis.get("lineWidth"); }
+
 	async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
 	{
 		this.setup(vis)
@@ -79,22 +89,29 @@ export default class BoardGeneration
 
 	setup(vis:MaterialVisualizer)
 	{
-		this.cfg = CONFIG;
+		this.vis = vis;
 
-		const canvasWidth = vis.size.x;
-		const scaleFactorDPI = (canvasWidth/1160.0); // this was a one-time crutch needed to rescale all values when I switched to modern system; should be removed one day and replaced with the actual correct values for all config stuff
-		const baseRes = new Vector2(10,7);
-		
-		this.cfg.numPlayers = parseInt(this.cfg.playerCount);
-		this.cfg.scaleFactorDPI = scaleFactorDPI;
-		this.cfg.resolutionX = 10; // number of points across the width of the paper
+		// all the generation constants come from the config, this object only adds what the settings and the page size imply
+		this.cfg = { ...CONFIG.generation };
+
+		this.cfg.seed = getSetting("defaults.seed", CONFIG);
+		this.cfg.numPlayers = getSetting("playerCount", CONFIG) ?? 4;
+		this.cfg.firstGame = !!getSetting("firstGame", CONFIG);
+		this.cfg.expansions = {
+			nastyNodes: !!getSetting("expansions.nastyNodes", CONFIG),
+			theElectricExpansion: !!getSetting("expansions.theElectricExpansion", CONFIG),
+			extremeExpeditions: !!getSetting("expansions.extremeExpeditions", CONFIG),
+			sharpScissors: !!getSetting("expansions.sharpScissors", CONFIG),
+		}
+
+		const baseRes = this.cfg.baseGrid;
+		this.cfg.resolutionX = baseRes.x;
 
 		// TEST: more nodes + edges on higher player counts (~0.5 resolution extra per player)
 		// Works fine, although now we might have TOO MUCH space (and some icons get quite tiny)
-		const extraResolution = { 2: 0, 3: 0, 4: 0, 5: 1, 6: 1, 7: 2, 8: 2, 9: 3 }
-		this.cfg.resolutionX += extraResolution[this.cfg.numPlayers];
-		
-		this.cfg.resolutionY = Math.floor((210/297.0) * this.cfg.resolutionX); // number of points across the height of the paper
+		this.cfg.resolutionX += this.cfg.extraResolutionPerPlayer[this.cfg.numPlayers] ?? 0;
+
+		this.cfg.resolutionY = Math.floor(this.cfg.resolutionAspect * this.cfg.resolutionX); // number of points across the height of the paper
 		this.cfg.cellSizeX = vis.size.x / this.cfg.resolutionX;
 		this.cfg.cellSizeY = vis.size.y / this.cfg.resolutionY;
 
@@ -104,24 +121,15 @@ export default class BoardGeneration
 		if(needExtraNodes) {
 			const extraNodes = (this.cfg.resolutionX - baseRes.x) * this.cfg.resolutionY + (this.cfg.resolutionY - baseRes.y) * this.cfg.resolutionX - (this.cfg.resolutionX - baseRes.x)*(this.cfg.resolutionY - baseRes.y);
 
-			this.cfg.nodeSettingScaleFactor = Math.max( extraNodes / 15, 1.0);
+			this.cfg.nodeSettingScaleFactor = Math.max( extraNodes / this.cfg.nodeSettingScaleDivisor, 1.0);
 			this.cfg.distanceScaleFactor = Math.max( Math.min( (this.cfg.resolutionX - baseRes.x), (this.cfg.resolutionY - baseRes.y) ), 1.0);
 		} else {
 			this.cfg.nodeSettingScaleFactor = 1.0;
 			this.cfg.distanceScaleFactor = 1.0;
 		}
 
-		this.cfg.nodeRadius = 0.3;
-		this.cfg.naturalResourceRadius = 0.3 * this.cfg.nodeRadius;
-		this.cfg.powerDotRadius = 12 * scaleFactorDPI;
-		this.cfg.lineWidth = 2 * scaleFactorDPI;
-		this.cfg.seedTextOffset = 16*2 * scaleFactorDPI;
-		this.cfg.maxIterations = 60;
-
-		this.cfg.naturalResourceAlpha = 0.66;
-
-		this.cfg.minPowerDots = 1 + Math.floor(this.cfg.numPlayers / 4.0);
-		this.cfg.maxPowerDots = 2 + Math.floor(this.cfg.numPlayers / 4.0);
+		this.cfg.minPowerDots = this.cfg.minPowerDotsBase + Math.floor(this.cfg.numPlayers / 4.0);
+		this.cfg.maxPowerDots = this.cfg.maxPowerDotsBase + Math.floor(this.cfg.numPlayers / 4.0);
 
 		this.mainGraphics = null;
 		this.connectionsToDraw = [];
@@ -985,7 +993,7 @@ export default class BoardGeneration
 		let PD:PowerDot = { x: dx, y: dy, angle: angle }
 
 		// hacky way: check if it's out of bounds; if so, disallow it
-		let radius = this.cfg.nodeRadius * Math.min(this.cfg.cellSizeX, this.cfg.cellSizeY)
+		let radius = this.nodeRadius * Math.min(this.cfg.cellSizeX, this.cfg.cellSizeY)
 		let realPos = new Vector2(p.x + dx, p.y + dy);
 
 		if(this.outOfBounds(realPos) && checkBoundaries) { return false; }
@@ -1160,8 +1168,8 @@ export default class BoardGeneration
 
 	findSuitableAreas() 
 	{
-		const radius = this.cfg.nodeRadius;
-		const expeditionRadius = this.cfg.nodeRadius;
+		const radius = this.nodeRadius;
+		const expeditionRadius = this.nodeRadius;
 
 		this.suitableAreas = [];
 
@@ -1616,7 +1624,7 @@ export default class BoardGeneration
 
 			// randomly place points within bounding box
 			// if they are also inside the polygon, yay! Save it!
-			let nodeRadius = this.cfg.nodeRadius, naturalResourceRadius = this.cfg.naturalResourceRadius, margin = 0.075;
+			let nodeRadius = this.nodeRadius, naturalResourceRadius = this.naturalResourceRadius, margin = 0.075;
 			let tempResourceList = [];
 			const maxTries = 200;
 
@@ -1741,7 +1749,7 @@ export default class BoardGeneration
 
 		const w = vis.size.x, h = vis.size.y
 		const csX = this.cfg.cellSizeX, csY = this.cfg.cellSizeY, cs = Math.min(csX, csY)
-		const radius = this.cfg.nodeRadius
+		const radius = this.nodeRadius
 
 		//
 		// draw the quadrant lines across the board
@@ -1791,17 +1799,17 @@ export default class BoardGeneration
 			{
 				const op = new LayoutOperation({
 					pos: this.getRealPos(nr),
-					size: new Vector2(2*this.cfg.naturalResourceRadius*cs),
+					size: new Vector2(2*this.naturalResourceRadius*cs),
 					pivot: Vector2.CENTER,
 					frame: NATURAL_RESOURCES[nr.type].iconFrame,
 					rot: this.getRandomRotation(),
-					alpha: this.cfg.naturalResourceAlpha
+					alpha: this.naturalResourceAlpha
 				})
 				backgroundGroup.add(resNatRes, op);
 			}
 		}
 
-		const fontSize = 24 * this.cfg.scaleFactorDPI;
+		const fontSize = this.vis.get("fontSize");
 		const smallerFontSize = 0.66 * fontSize;
 		const strokeWidth = 0.125 * fontSize;
 
@@ -1834,7 +1842,7 @@ export default class BoardGeneration
 
 			// if the inkFriendly setting is enabled,
 			// we just remove all color and turn all backgrounds/accents into white
-			if(this.cfg.inkFriendly) 
+			if(this.vis.inkFriendly) 
 			{
 				color = "#FFFFFF";
 				lightColor = "#FFFFFF";
@@ -1842,7 +1850,7 @@ export default class BoardGeneration
 
 			// Start nodes are rectangular, all other nodes are circular
 			let obj:Rectangle|Circle = null;
-			const powerDotRadius = this.cfg.powerDotRadius;
+			const powerDotRadius = this.powerDotRadius;
 
 			const outlineMarginFactor = 1.2
 			const objectCenter = this.getRealPos(p);
@@ -1942,7 +1950,7 @@ export default class BoardGeneration
 				{
 					frameOutline = 8;
 
-					const offset = this.cfg.seedTextOffset;
+					const offset = this.seedTextOffset;
 
 					const opTextMetadata = new LayoutOperation({
 						pos: new Vector2(opRegular.pos.x, opRegular.pos.y + opRegular.size.y * 0.5 + offset),

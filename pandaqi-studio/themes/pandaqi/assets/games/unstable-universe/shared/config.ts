@@ -1,5 +1,5 @@
 
-import { SettingType, MapperPreset, Vector2 } from "lib/pq-games";
+import { CVal, SettingType, MapperPreset, Vector2 } from "lib/pq-games";
 import { RendererPixi } from "lib/pq-games";
 import { boardPicker } from "../board/boardPicker";
 
@@ -61,6 +61,45 @@ export const CONFIG =
                 value: false
             },
         }
+    },
+
+    // how generation/balancing happens
+    generation:
+    {
+        baseGrid: new Vector2(10,7), // number of points across the width/height of the paper
+        resolutionAspect: (210/297.0), // the paper's aspect ratio, keeps points square on the page
+        extraResolutionPerPlayer: { 2: 0, 3: 0, 4: 0, 5: 1, 6: 1, 7: 2, 8: 2, 9: 3 },
+
+        maxIterations: 60, // relaxing the point positions
+        nodeSettingScaleDivisor: 15, // extra nodes on the board, divided by this, become the scale factor for node counts
+
+        minPowerDotsBase: 1,
+        maxPowerDotsBase: 2
+    },
+
+    // how to draw stuff
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "scifly"
+        },
+
+        nodes:
+        {
+            radius: 0.3 // ratio of a cell's size
+        },
+
+        naturalResources:
+        {
+            radiusRatio: 0.3, // of a node's radius
+            alpha: 0.66
+        },
+
+        powerDotRadius: new CVal(12/1160, "sizeX"),
+        lineWidth: new CVal(2/1160, "sizeX"),
+        seedTextOffset: new CVal(32/1160, "sizeX"),
+        fontSize: new CVal(24/1160, "sizeX")
     },
 
     _material:

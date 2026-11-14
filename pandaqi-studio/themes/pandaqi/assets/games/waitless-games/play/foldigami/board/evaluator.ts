@@ -71,7 +71,7 @@ export default class Evaluator
         // Step 2) calculate raw scores
         //
         const scores = [];
-        for(let i = 0; i < CONFIG._drawing.teams.num; i++)
+        for(let i = 0; i < CONFIG.generation.teams.num; i++)
         {
             const score = this.calculateScoreForTeam(state, i);
             scores.push(score);
@@ -96,8 +96,8 @@ export default class Evaluator
 
         this.scores = scores;
 
-        isValid = maxDiffBetweenScores <= CONFIG._drawing.teams.maxStartingScoreDifference;
-        if(CONFIG._drawing.evaluator.forbidNegativeScores && hasNegativeScore) { isValid = false; }
+        isValid = maxDiffBetweenScores <= CONFIG.generation.teams.maxStartingScoreDifference;
+        if(CONFIG.generation.evaluator.forbidNegativeScores && hasNegativeScore) { isValid = false; }
 
         return isValid;
     }
@@ -278,27 +278,24 @@ export default class Evaluator
 
     draw(vis:MaterialVisualizer, group:ResourceGroup, board:Board)
     {
-        const fontCfg = vis.get("evaluator.font");
-        const cs = board.cellSizeSquare;
-
         const txt = "Start dragons: " + this.scores.join(", ");
-        const margin = fontCfg.margin * cs;
+        const margin = vis.get("evaluator.font.margin");
         const textX = vis.size.x - margin;
         const textY = vis.size.y - margin;
 
         const textConfig = new TextConfig({
             font: "jockey",
-            size: (fontCfg.size * cs),
+            size: vis.get("evaluator.font.size"),
             alignHorizontal: TextAlign.END,
             alignVertical: TextAlign.END
         });
         const resText = new ResourceText({ text: txt, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: new Vector2(textX, textY),
-            fill: fontCfg.color,
+            fill: vis.get("evaluator.font.color"),
             size: new Vector2(10*textConfig.size),
-            stroke: fontCfg.strokeColor,
-            strokeWidth: fontCfg.strokeThickness,
+            stroke: vis.get("evaluator.font.strokeColor"),
+            strokeWidth: vis.get("evaluator.font.strokeThickness"),
             pivot: new Vector2(1,1),
             strokeAlign: StrokeAlign.OUTSIDE
         })

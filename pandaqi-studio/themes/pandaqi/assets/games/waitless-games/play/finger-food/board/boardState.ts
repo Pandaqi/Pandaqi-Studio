@@ -4,7 +4,7 @@ import { CONFIG } from "../shared/config"
 import RecipeBook from "./recipeBook";
 import { NB_OFFSETS } from "../shared/dict"
 import Type from "./type";
-import { Vector2, shuffle } from "lib/pq-games";
+import { Vector2, shuffle, getSetting } from "lib/pq-games";
 
 export default class BoardState
 {
@@ -28,7 +28,7 @@ export default class BoardState
     createGrid()
     {
         this.grid = [];
-        const size = CONFIG._drawing.board.size;
+        const size = CONFIG.generation.board.size;
         for(let x = 0; x < size.x; x++)
         {
             this.grid[x] = [];
@@ -42,7 +42,7 @@ export default class BoardState
     assignTypes(typeManager:TypeManager)
     {
         const numCells = this.countCells();
-        typeManager.globalMaxPerType = Math.round(CONFIG._drawing.types.globalMaxPerType * numCells);
+        typeManager.globalMaxPerType = Math.round(CONFIG.generation.types.globalMaxPerType * numCells);
 
         let cellsLeft = shuffle(this.getGridFlat());
         this.reserveSpaceForRecipeBook(cellsLeft);
@@ -103,7 +103,7 @@ export default class BoardState
 
     reserveSpaceForRecipeBook(cells:Cell[])
     {
-        if(!CONFIG._settings.expansions.recipeBook.value) { return; }
+        if(!getSetting("expansions.recipeBook", CONFIG)) { return; }
 
         const b = new RecipeBook();
         this.recipeBook = b;
@@ -122,7 +122,7 @@ export default class BoardState
 
     addRecipeBook(typeManager:TypeManager)
     {
-        if(!CONFIG._settings.expansions.recipeBook.value) { return; }
+        if(!getSetting("expansions.recipeBook", CONFIG)) { return; }
         this.recipeBook.createRecipes(typeManager);
     }
 
