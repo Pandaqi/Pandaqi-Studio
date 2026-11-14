@@ -10,7 +10,7 @@ export default class Evaluator
 
         // CHECK: If too many score types slipped in anyway
         const scoreTypes = board.getTypesWithProperty("score");
-        if(scoreTypes.length > CONFIG.maxScoreTypes) { return false; }
+        if(scoreTypes.length > CONFIG.generation.maxScoreTypes) { return false; }
 
         // CHECK: Ensure that score squares are distributed properly. (Count how many exist in each _quarter_ of the field. This number should be > 2 and not too far from the others.)
         const scoreCells = board.getCellsWithProperty("score");
@@ -21,7 +21,7 @@ export default class Evaluator
             cellsPerQuadrant[quadrant]++;
         }
 
-        let minPerQ = CONFIG.evaluator.minScoreCellsPerQuadrant;
+        let minPerQ = CONFIG.generation.evaluator.minScoreCellsPerQuadrant;
         if(scoreCells.length < minPerQ*4) { minPerQ = 0; } // for very tiny boards
 
         let maxDist = 0;
@@ -34,7 +34,7 @@ export default class Evaluator
             }
         }
 
-        if(maxDist > CONFIG.evaluator.maxScoreDifferencePerQuadrant) { return false; }
+        if(maxDist > CONFIG.generation.evaluator.maxScoreDifferencePerQuadrant) { return false; }
         
         // CHECK: Make sure starting positions (if enabled) are reasonably spread out
         const startingPositions = board.getCellsOfType("starting_position");
@@ -49,7 +49,7 @@ export default class Evaluator
             }
         }
 
-        if(closestDist < CONFIG.evaluator.minDistBetweenStartingPositions) { return false; }
+        if(closestDist < CONFIG.generation.evaluator.minDistBetweenStartingPositions) { return false; }
 
         // CHECK: Find the _biggest_ connected group of holes. This may not be too large. (It means holes have clumped up, looks and plays badly)
         const holeClumps = board.getHoleClumps();
@@ -59,12 +59,12 @@ export default class Evaluator
             biggestHoleClump = Math.max(biggestHoleClump, clump.length);
         }
 
-        if(biggestHoleClump > CONFIG.evaluator.maxHoleClumpSize) { return false; }
+        if(biggestHoleClump > CONFIG.generation.evaluator.maxHoleClumpSize) { return false; }
 
         // CHECK: make sure we don't have too many river cells
         const numRiverCells = board.getCellsOfType("river").length;
         const numCells = board.getGridFlat().length;
-        const maxRiverCells = CONFIG.evaluator.maxRiverCells * numCells;
+        const maxRiverCells = CONFIG.generation.evaluator.maxRiverCells * numCells;
         if(numRiverCells > maxRiverCells) { return false; }
 
         // CHECK: If all areas are reachable

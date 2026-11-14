@@ -1,4 +1,4 @@
-import { shuffle, distributeDiscrete, range, rangeInteger, floodFill, rand } from "lib/pq-games";
+import { shuffle, distributeDiscrete, range, rangeInteger, floodFill, rand, getSetting } from "lib/pq-games";
 import BoardHole from "./boardHole";
 import BoardRiver from "./boardRiver";
 import Cell from "./cell";
@@ -35,7 +35,7 @@ export default class BoardState
     }
 
     getIncludedTypes() { return this.typeManager.getPossibleTypes(); }
-    getDimensions() { return CONFIG.board.sizePerSize[CONFIG._settings.boardSize.value]; }
+    getDimensions() { return CONFIG.generation.board.sizePerSize[getSetting("boardSize", CONFIG)]; }
     getGrid() { return this.grid; }
     getGridFlat() { return this.grid.flat(); }
     getNumCells() { return this.getGridFlat().length; }
@@ -94,11 +94,11 @@ export default class BoardState
     cutHolesOutOfGrid()
     {
         this.holes = []
-        if(!CONFIG.board.holes.enable) { return; }
+        if(!CONFIG.generation.board.holes.enable) { return; }
 
-        const numHoleCells = Math.round(CONFIG.board.holes.percentageOfBoard * this.getNumCells())
+        const numHoleCells = Math.round(CONFIG.generation.board.holes.percentageOfBoard * this.getNumCells())
         var totalHoleCells = 0
-        const bounds = CONFIG.board.holes.sizeBounds;
+        const bounds = CONFIG.generation.board.holes.sizeBounds;
 
         var dict = this.getCellsPerEdgeType();
         for(const cellList of Object.values(dict))
@@ -153,13 +153,13 @@ export default class BoardState
     growRivers()
     {
         this.rivers = [];
-        if(!CONFIG.board.rivers.enable) { return; }
+        if(!CONFIG.generation.board.rivers.enable) { return; }
 
-        const riverConfig = CONFIG.board.rivers;
+        const riverConfig = CONFIG.generation.board.rivers;
         const numRiverPercentage = range(riverConfig.percentageBounds.min, riverConfig.percentageBounds.max);
         const numRiverCells = Math.round(numRiverPercentage * this.getNumCells());
 
-        var bounds = structuredClone(CONFIG.board.rivers.sizeBounds);
+        var bounds = structuredClone(CONFIG.generation.board.rivers.sizeBounds);
         bounds.min = 1;
         bounds.max = Math.ceil(1.3 * this.longestSide);
 
@@ -181,7 +181,7 @@ export default class BoardState
         const mainRiverCells = river.getCells();
         shuffle(mainRiverCells);
 
-        bounds = structuredClone(CONFIG.board.rivers.sizeBounds);
+        bounds = structuredClone(CONFIG.generation.board.rivers.sizeBounds);
         bounds.min = Math.ceil(bounds.min * this.longestSide);
         bounds.max = Math.ceil(bounds.max * this.longestSide);
 
@@ -203,8 +203,8 @@ export default class BoardState
     {
         const size = this.getDimensions();
 
-        let numbersAxis = CONFIG.board.numbers.axis;
-        if(CONFIG.board.randomizeAxes)
+        let numbersAxis = CONFIG.generation.board.numbers.axis;
+        if(CONFIG.generation.board.randomizeAxes)
         {
             numbersAxis = rand() <= 0.5 ? "column" : "row"
         }
@@ -222,7 +222,7 @@ export default class BoardState
     getRandomNumbers(num)
     {
         var allNumbers = []
-        var bounds = CONFIG.board.numbers.bounds
+        var bounds = CONFIG.generation.board.numbers.bounds
         for(let i = bounds.min; i <= bounds.max; i++)
         {
             allNumbers.push(i);
@@ -240,7 +240,7 @@ export default class BoardState
 
     getRandomDirs(num)
     {
-        var allDirs = CONFIG.board.dirs.options.slice();
+        var allDirs = CONFIG.generation.board.dirs.options.slice();
         var list = [];
         while(list.length < num)
         {
@@ -296,12 +296,12 @@ export default class BoardState
         shuffle(scoreCells);
         
         const numScoreCells = scoreCells.length;
-        const scoreBounds = CONFIG.types.scoreBounds;
+        const scoreBounds = CONFIG.generation.types.scoreBounds;
         const desiredAvailableScore = rangeInteger(scoreBounds.min, scoreBounds.max);
         const distribution = distributeDiscrete(desiredAvailableScore, numScoreCells);
 
-        const negBounds = CONFIG.negativeScoreBounds;
-        const numNegativeCells = CONFIG.allowNegativePoints ? Math.round(range(negBounds) * numScoreCells) : 0;
+        const negBounds = CONFIG.generation.negativeScoreBounds;
+        const numNegativeCells = CONFIG.generation.allowNegativePoints ? Math.round(range(negBounds) * numScoreCells) : 0;
 
         let counter = 0;
         for(const cell of scoreCells)

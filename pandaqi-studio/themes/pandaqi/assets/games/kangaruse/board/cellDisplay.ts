@@ -1,5 +1,4 @@
-
-import { MaterialVisualizer, ResourceGroup, Vector2, TextConfig, LayoutOperation, StrokeAlign, ResourceText, Color, Rectangle, Path, roundPath, ResourceShape, rangeInteger, getSettingDefault, rand } from "lib/pq-games";
+import { MaterialVisualizer, ResourceGroup, Vector2, TextConfig, LayoutOperation, StrokeAlign, ResourceText, Color, Rectangle, Path, roundPath, ResourceShape, rangeInteger, rand } from "lib/pq-games";
 import { CELLS, COLOR_GROUPS, CORNER_OFFSETS, GENERAL } from "../shared/dict";
 import BoardDisplay from "./boardDisplay";
 import Cell from "./cell";
@@ -16,7 +15,7 @@ export default class CellDisplay
         this.boardDisplay = null;
     }
 
-    showBackground() { return this.getColorGroup() != null && !getSettingDefault("inkFriendly", CONFIG); }
+    showBackground(vis:MaterialVisualizer) { return this.getColorGroup() != null && !vis.inkFriendly; }
     showBorder() { return !this.cell.isHole(); }
     showType() { return this.cell.type; }
     showNum() { return this.cell.hasNum(); }
@@ -30,24 +29,23 @@ export default class CellDisplay
     {
         if(!this.showNum()) { return null; }
 
-        const txtCfg = CONFIG.types.textConfig;
-        const fontSize = (txtCfg.fontScaleFactor * this.boardDisplay.cellSizeUnit);
-        const strokeThickness = (txtCfg.strokeScaleFactor * fontSize);
+        const fontSize = vis.get("types.fontSize");
+        const strokeThickness = vis.get("types.strokeWidth");
 
         const size = new Vector2(2*fontSize);
-        const pos = this.placeAtCorner(size, corner);
+        const pos = this.placeAtCorner(vis, size, corner);
 
         const str = this.cell.getNum().toString();
         const textConfig = new TextConfig({
-            font: txtCfg.fontFamily,
+            font: vis.get("fonts.heading"),
             size: fontSize
         }).alignCenter();
         const opText = new LayoutOperation({
             pos: pos,
             size: size,
             pivot: Vector2.CENTER,
-            fill: txtCfg.color,
-            stroke: txtCfg.stroke,
+            fill: vis.get("types.color"),
+            stroke: vis.get("types.strokeColor"),
             strokeWidth: strokeThickness,
             strokeAlign: StrokeAlign.OUTSIDE
         });
@@ -60,7 +58,7 @@ export default class CellDisplay
     {
         const res = vis.getResource("general_spritesheet");
         const alpha = this.showWritingSpace() ? 1.0 : 0.0;
-        const pos = this.placeAtCorner(size, corner);
+        const pos = this.placeAtCorner(vis, size, corner);
         const op = new LayoutOperation({
             pos: pos,
             size: size,
@@ -78,7 +76,7 @@ export default class CellDisplay
 
         const frame = CELLS[this.cell.type].frame;
         const res = vis.getResource(CONFIG.cellTexture);
-        const pos = this.placeAtCorner(size, corner);
+        const pos = this.placeAtCorner(vis, size, corner);
         const op = new LayoutOperation({
             pos: pos,
             pivot: Vector2.CENTER,
@@ -90,13 +88,12 @@ export default class CellDisplay
         return true;
     }
 
-    placeAtCorner(size:Vector2, corner:string) : Vector2
+    placeAtCorner(vis: MaterialVisualizer, size:Vector2, corner:string) : Vector2
     {
         const centerPos = this.getRealPosition();
 
         const cs = this.boardDisplay.cellSize;
-        const csu = this.boardDisplay.cellSizeUnit;
-        const margin = CONFIG.board.cellDisplay.cornerMargin * csu;
+        const margin = vis.get("board.cellDisplay.cornerMargin");
 
         const cornerOffset = CORNER_OFFSETS[corner].clone();
         const offsetX = cornerOffset.x * 0.5 * (cs.x - size.x - margin);
@@ -131,14 +128,13 @@ export default class CellDisplay
         const size = this.boardDisplay.cellSize
         const rect = new Rectangle({ center: this.getRealPosition(), extents: size });
 
-        const cfg = CONFIG.board.cellDisplay;
-        const borderRadius = CONFIG.board.cellDisplay.borderRadius * this.boardDisplay.cellSizeUnit;
-        const maxOffsetBG = CONFIG.board.cellDisplay.maxOffsetBG * this.boardDisplay.cellSizeUnit;
-        const scaleBG = CONFIG.board.cellDisplay.scaleBG;
+        const borderRadius = vis.get("board.cellDisplay.borderRadius");
+        const maxOffsetBG = vis.get("board.cellDisplay.maxOffsetBG");
+        const scaleBG = vis.get("board.cellDisplay.scaleBG");
 
-        const strokeData = vis.inkFriendly ? cfg.strokeInkfriendly : cfg.stroke;
+        const strokePrefix = vis.inkFriendly ? "board.cellDisplay.strokeInkfriendly" : "board.cellDisplay.stroke";
 
-        if(this.showBackground())
+        if(this.showBackground(vis))
         {   
             const pos = this.getRealPosition();
             pos.sub(size.clone().scale(0.5*scaleBG));
@@ -161,11 +157,10 @@ export default class CellDisplay
 
         if(this.showBorder())
         {
-            const lineWidth = strokeData.width * this.boardDisplay.cellSizeUnit;
             const op = new LayoutOperation({
-                stroke: strokeData.color,
-                strokeWidth: lineWidth,
-                alpha: strokeData.alpha
+                stroke: vis.get(strokePrefix + ".color"),
+                strokeWidth: vis.get(strokePrefix + ".width"),
+                alpha: vis.get(strokePrefix + ".alpha")
             })
             group.add(new ResourceShape(rect), op);
         }
@@ -173,19 +168,18 @@ export default class CellDisplay
 
     drawInnerConfiguration(vis: MaterialVisualizer, group:ResourceGroup)
     {
-        const data = CONFIG.board.cellDisplay;
         const csu = this.boardDisplay.cellSizeUnit;
         let multiPosition = false;
 
         // place icon that reveals cell type
-        const iconSize = new Vector2(data.icon.scale * csu);
-        const icon = this.createTypeIcon(vis, group, iconSize, data.icon.corner);
+        const iconSize = new Vector2(vis.get("board.cellDisplay.icon.scale") * csu);
+        const icon = this.createTypeIcon(vis, group, iconSize, vis.get("board.cellDisplay.icon.corner"));
         if(icon) { multiPosition = CELLS[this.cell.getType()].multiPosition; }
 
         // place the space for writing your symbol/marking where you've been
         if(this.showWritingSpace())
         {
-            let corners = [data.space.corner];
+            let corners = [vis.get("board.cellDisplay.space.corner")];
             
             if(multiPosition) 
             { 
@@ -196,12 +190,12 @@ export default class CellDisplay
 
             for(const corner of corners)
             {
-                const size = new Vector2(data.space.scale * csu);
+                const size = new Vector2(vis.get("board.cellDisplay.space.scale") * csu);
                 this.createWritingSpace(vis, group, size, corner);
             }
         }
 
         // add a number on top (only used by score at the moment)
-        this.createNumText(vis, group, data.text.corner);
+        this.createNumText(vis, group, vis.get("board.cellDisplay.text.corner"));
     }
 }

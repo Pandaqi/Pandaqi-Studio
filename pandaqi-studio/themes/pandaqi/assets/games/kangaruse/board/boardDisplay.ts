@@ -1,5 +1,4 @@
-
-import { Vector2, MaterialVisualizer, fillResourceGroup, ResourceGroup, Color, LayoutOperation, smoothPath, Path, ResourceShape, TextConfig, StrokeAlign, ResourceText } from "lib/pq-games";
+import { Vector2, MaterialVisualizer, fillResourceGroup, ResourceGroup, Color, LayoutOperation, smoothPath, Path, ResourceShape, TextConfig, StrokeAlign, ResourceText, getSetting } from "lib/pq-games";
 import { GENERAL } from "../shared/dict";
 import BoardState from "./boardState";
 import CellDisplay from "./cellDisplay";
@@ -12,6 +11,9 @@ export default class BoardDisplay
     gapToSidebar:number
     outerMargin:Vector2
     boardDimensions:Vector2
+
+    sideBarAnchor:Vector2
+    sideBarDimensions:Vector2
 
     cellSize:Vector2
     cellSizeUnit:number
@@ -27,7 +29,7 @@ export default class BoardDisplay
 
     needSideBar()
     {
-        return CONFIG._settings.sideBarType.value != "no";
+        return getSetting("sideBarType", CONFIG) != "no";
     }
 
     convertToRealUnits(pos:Vector2)
@@ -35,24 +37,26 @@ export default class BoardDisplay
         return pos.clone().scale(this.cellSize).move(this.getAnchorPos());
     }
 
-    async draw(vis: MaterialVisualizer)
-    {        
+    // everything that only depends on the page size, so the `_drawing` values can be read relative to it
+    prepare(vis: MaterialVisualizer)
+    {
         this.originalPaperDimensions = vis.size;
-        this.paperDimensions = this.originalPaperDimensions.clone();
+        this.paperDimensions = vis.size.clone();
 
+        this.gapToSidebar = 0;
         if(this.needSideBar())
         {
-            this.gapToSidebar = CONFIG.sideBar.gap * this.originalPaperDimensions.x;
-            this.paperDimensions.x *= (1.0 - CONFIG.sideBar.percentageOfBoardWidth);
+            this.gapToSidebar = vis.get("sideBar.gap");
+            this.paperDimensions.x *= (1.0 - vis.get("sideBar.percentageOfBoardWidth"));
         }
 
-        const outerMarginFactor = CONFIG.board.outerMarginFactor;
+        const outerMarginFactor = vis.get("board.outerMarginFactor");
         this.outerMargin = new Vector2(
             this.paperDimensions.x * outerMarginFactor.x, 
             this.paperDimensions.y * outerMarginFactor.y 
         );
 
-        const padding = CONFIG.board.padding * Math.min(this.originalPaperDimensions.x, this.originalPaperDimensions.y);
+        const padding = vis.get("board.padding");
         this.boardPadding = new Vector2(padding);
 
         this.boardDimensions = new Vector2(
@@ -67,9 +71,28 @@ export default class BoardDisplay
         );
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
+        this.sideBarAnchor = new Vector2(
+            this.getAnchorPos().x + this.boardDimensions.x + this.gapToSidebar, 
+            this.outerMargin.y 
+        );
+
+        this.sideBarDimensions = new Vector2( 
+            this.originalPaperDimensions.x - this.getAnchorPos().x - this.sideBarAnchor.x, 
+            this.originalPaperDimensions.y - this.outerMargin.y*2 
+        );
+
+        vis.configurator.set("cellSizeUnit", this.cellSizeUnit);
+        vis.configurator.set("sideBarWidth", this.sideBarDimensions.x);
+        vis.configurator.set("sideBarHeight", this.sideBarDimensions.y);
+    }
+
+    async draw(vis: MaterialVisualizer)
+    {        
+        this.prepare(vis);
+
         const group = vis.prepareDraw();
 
-        const colBG = vis.inkFriendly ? "#FFFFFF" : CONFIG.board.backgroundColor;
+        const colBG = vis.inkFriendly ? "#FFFFFF" : vis.get("board.backgroundColor");
         fillResourceGroup(vis.size, group, colBG);
 
         this.drawRivers(vis, group);
@@ -83,10 +106,9 @@ export default class BoardDisplay
     drawRivers(vis: MaterialVisualizer, group: ResourceGroup)
     {
         const rivers = this.board.rivers;
-        const cfg = CONFIG.board.rivers;
-        const lw = cfg.lineWidth * this.cellSizeUnit;
-        const col = vis.inkFriendly ? cfg.colorInkfriendly : cfg.color;
-        const alpha = cfg.alpha;
+        const lw = vis.get("board.rivers.lineWidth");
+        const col = vis.inkFriendly ? vis.get("board.rivers.colorInkfriendly") : vis.get("board.rivers.color");
+        const alpha = vis.get("board.rivers.alpha");
 
         const colorMod = new Color(col);
         colorMod.a = alpha;
@@ -120,7 +142,7 @@ export default class BoardDisplay
     drawRowColumnCommands(vis: MaterialVisualizer, group: ResourceGroup)
     {
         const size = this.board.getDimensions();
-        const colOffset = CONFIG.board.numbers.offsetFromGrid * this.cellSizeUnit;
+        const colOffset = vis.get("board.numbers.offsetFromGrid");
         const colData = this.board.columnData;
         const anchorPos = this.getAnchorPos();
         for(let i = 0; i < size.x; i++)
@@ -134,7 +156,7 @@ export default class BoardDisplay
         }
 
         // ROWS = Directions
-        const rowOffset = CONFIG.board.dirs.offsetFromGrid * this.cellSizeUnit;
+        const rowOffset = vis.get("board.dirs.offsetFromGrid");
         const rowData = this.board.rowData;
         for(let i = 0; i < size.y; i++)
         {
@@ -171,11 +193,10 @@ export default class BoardDisplay
 
     drawNumberAt(vis: MaterialVisualizer, group: ResourceGroup, num:number, pos:Vector2, side:number)
     {
-        const txtCfg = CONFIG.board.numbers.textConfig;
-        const fontSize = (CONFIG.board.numbers.scaleFactor * this.cellSizeUnit);
+        const fontSize = vis.get("board.numbers.fontSize");
 
         const textConfig = new TextConfig({
-            font: txtCfg.fontFamily,
+            font: vis.get("fonts.heading"),
             size: fontSize
         }).alignCenter();
 
@@ -183,9 +204,9 @@ export default class BoardDisplay
         const opText = new LayoutOperation({
             pos: pos,
             size: new Vector2(3*fontSize),
-            fill: txtCfg.color,
-            stroke: txtCfg.stroke,
-            strokeWidth: 0.5*txtCfg.strokeThickness,
+            fill: vis.get("board.numbers.color"),
+            stroke: vis.get("board.numbers.strokeColor"),
+            strokeWidth: vis.get("board.numbers.strokeWidth"),
             strokeAlign: StrokeAlign.OUTSIDE,
             rot: rot,
             pivot: Vector2.CENTER
@@ -197,10 +218,10 @@ export default class BoardDisplay
 
     drawDirAt(vis: MaterialVisualizer, group: ResourceGroup, dir:string, pos:Vector2)
     {
-        const dirInt = CONFIG.board.dirs.options.indexOf(dir);
+        const dirInt = CONFIG.generation.board.dirs.options.indexOf(dir);
         const rot = dirInt * 0.5 * Math.PI;
 
-        const size = CONFIG.board.dirs.scaleFactor * this.cellSizeUnit;
+        const size = vis.get("board.dirs.size");
         const res = vis.getResource("general_spritesheet");
         const op = new LayoutOperation({
             pos: pos,

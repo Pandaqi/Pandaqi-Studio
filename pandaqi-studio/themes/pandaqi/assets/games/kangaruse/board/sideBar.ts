@@ -1,5 +1,4 @@
-
-import { Vector2, MaterialVisualizer, ResourceGroup, LayoutOperation, Rectangle, Path, roundPath, ResourceShape, TextConfig, TextAlign, ResourceText, Color } from "lib/pq-games";
+import { Vector2, MaterialVisualizer, ResourceGroup, LayoutOperation, Rectangle, Path, roundPath, ResourceShape, TextConfig, TextAlign, ResourceText, Color, getSetting } from "lib/pq-games";
 import { CELLS, COLOR_GROUPS, GENERAL } from "../shared/dict";
 import BoardDisplay from "./boardDisplay";
 import BoardState from "./boardState";
@@ -13,21 +12,13 @@ export default class SideBar
 
     constructor(boardDisplay:BoardDisplay, boardState:BoardState)
     {
-        this.anchorPos = new Vector2(
-            boardDisplay.getAnchorPos().x + boardDisplay.boardDimensions.x + boardDisplay.gapToSidebar, 
-            boardDisplay.outerMargin.y 
-        );
-
-        this.dimensions = new Vector2( 
-            boardDisplay.originalPaperDimensions.x - boardDisplay.getAnchorPos().x - this.anchorPos.x, 
-            boardDisplay.originalPaperDimensions.y - boardDisplay.outerMargin.y*2 
-        );
-
-        this.padding = CONFIG.sideBar.padding * this.dimensions.x;
+        this.anchorPos = boardDisplay.sideBarAnchor.clone();
+        this.dimensions = boardDisplay.sideBarDimensions.clone();
     }
 
     draw(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, boardState:BoardState)
     {
+        this.padding = vis.get("sideBar.padding");
         this.drawBackground(vis, group, boardDisplay);
         this.drawTutorials(vis, group, boardDisplay, boardState);
         this.drawScoreSheets(vis, group, boardDisplay);
@@ -35,8 +26,8 @@ export default class SideBar
 
     drawBackground(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
     {
-        const borderRadius = CONFIG.sideBar.borderRadius * this.dimensions.x;
-        const col = vis.inkFriendly ? "#EDEDED" : CONFIG.sideBar.backgroundColor;
+        const borderRadius = vis.get("sideBar.borderRadius");
+        const col = vis.inkFriendly ? "#EDEDED" : vis.get("sideBar.backgroundColor");
 
         const op = new LayoutOperation({ fill: col });
         const rectPath = new Rectangle().fromTopLeft(this.anchorPos, this.dimensions);
@@ -46,7 +37,7 @@ export default class SideBar
 
     drawTutorials(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, boardState:BoardState)
     {
-        if(CONFIG._settings.sideBarType.value != "rules") { return; }
+        if(getSetting("sideBarType", CONFIG) != "rules") { return; }
 
         this.anchorPos.move(this.padding);
 
@@ -64,7 +55,7 @@ export default class SideBar
         this.anchorPos.y += tutSizeY;
 
         const types = boardState.getIncludedTypes();
-        const tutorialHeight = CONFIG.sideBar.tutorialSpriteHeight * this.dimensions.y;
+        const tutorialHeight = vis.get("sideBar.tutorialHeight");
         for(const type of types)
         {
             this.drawTutorial(vis, group, boardDisplay, tutorialHeight, type);
@@ -102,11 +93,10 @@ export default class SideBar
         const gapBetween = 0.05*this.dimensions.x;
         const leftoverWidth = this.dimensions.x - tutorialWidth - gapBetween - 2*this.padding;
         const explanation = CELLS[type].desc;
-        const txtCfg = CONFIG.sideBar.tutorialTextConfig;
-        const fontSize = (txtCfg.fontScaleFactor * this.dimensions.x);
+        const fontSize = vis.get("sideBar.tutorialFontSize");
         
         const textConfig = new TextConfig({
-            font: txtCfg.fontFamily,
+            font: vis.get("fonts.body"),
             size: fontSize,
             alignHorizontal: TextAlign.START,
             alignVertical: TextAlign.MIDDLE,
@@ -117,7 +107,7 @@ export default class SideBar
         const opText = new LayoutOperation({
             pos: textPos,
             size: new Vector2(leftoverWidth, tutorialHeight),
-            fill: txtCfg.color,
+            fill: vis.get("sideBar.tutorialFontColor"),
             pivot: new Vector2(0, 0.5)
         })
         const resText = new ResourceText({ text: explanation, textConfig: textConfig });
@@ -128,9 +118,9 @@ export default class SideBar
 
     drawScoreSheets(vis: MaterialVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
     {
-        if(CONFIG._settings.sideBarType.value != "score") { return; }
+        if(getSetting("sideBarType", CONFIG) != "score") { return; }
 
-        const maxNumPlayers = CONFIG.maxNumPlayers;
+        const maxNumPlayers = CONFIG.generation.maxNumPlayers;
         for(let i = 0; i < maxNumPlayers; i++)
         {
             this.drawScoreSheet(vis, group, boardDisplay);
@@ -160,10 +150,9 @@ export default class SideBar
         const NUM_ICONS = 10;
         const iconSize = (this.dimensions.x - 2*this.padding) / (NUM_ICONS + 1);
 
-        const txtCfg = CONFIG.sideBar.scoreTextConfig;
-        const fontSize = txtCfg.fontScaleFactor * this.dimensions.x;
+        const fontSize = vis.get("sideBar.scoreFontSize");
         const textConfig = new TextConfig({
-            font: txtCfg.fontFamily,
+            font: vis.get("fonts.heading"),
             size: fontSize
         }).alignCenter();
 
@@ -171,7 +160,7 @@ export default class SideBar
         {
             let xPos = this.anchorPos.x + this.padding;
 
-            const alpha = CONFIG.sideBar.scoreTextAlpha;
+            const alpha = vis.get("sideBar.scoreTextAlpha");
 
             const colorHex = COLOR_GROUPS[CELLS[type].colorGroup];
             const borderRadius = 10;
@@ -218,7 +207,7 @@ export default class SideBar
                     const opText = new LayoutOperation({
                         pos: new Vector2(opBox.pos.x + 0.5*iconSize, opBox.pos.y + 0.5*iconSize),
                         size: new Vector2(iconSize),
-                        fill: txtCfg.color,
+                        fill: vis.get("sideBar.scoreFontColor"),
                         pivot: Vector2.CENTER,
                         alpha: alpha
                     });

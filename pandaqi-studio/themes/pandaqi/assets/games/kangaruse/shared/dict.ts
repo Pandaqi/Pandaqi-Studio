@@ -1,6 +1,8 @@
 
 import { Vector2 } from "lib/pq-games"
-import { CONFIG } from "../board/config"
+
+// lives here (not on CONFIG) so this dictionary can be imported by the config without a cycle
+export const MAX_NUM_PLAYERS = 5;
 
 // This is an easy reminder/link what every frame stands for in the general spritesheet
 export const GENERAL = {
@@ -12,7 +14,7 @@ export const GENERAL = {
 
 export const CELLS = {
     "tree": { frame: 0, desc: "Can't jump on or over it.", unpickable: true, colorGroup: "green" },
-    "starting_position": { frame: 1, desc: "A player can start here.", unpickable: true, minAbs: CONFIG.maxNumPlayers, maxAbs: (CONFIG.maxNumPlayers + 1), colorGroup: "brown" },
+    "starting_position": { frame: 1, desc: "A player can start here.", unpickable: true, minAbs: MAX_NUM_PLAYERS, maxAbs: (MAX_NUM_PLAYERS + 1), colorGroup: "brown" },
     "score": { frame: 2, desc: "Scores the number of points shown.", minRel: 0.2, maxRel: 0.33, score: true, colorGroup: "yellow", prob: 1.5 },
     "kangaroo": { frame: 3, desc: "Immediately jump again.", colorGroup: "yellow", prob: 1.5 },
     "crocodile": { frame: 4, desc: "While here, nobody can score from squares in the same row or column.", colorGroup: "blue", prob: 1.25, maxRel: 0.133 },

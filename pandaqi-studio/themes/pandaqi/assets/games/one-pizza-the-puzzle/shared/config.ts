@@ -1,5 +1,5 @@
 
-import { SettingType, MapperPreset, Vector2 } from "lib/pq-games";
+import { CVal, SettingType, MapperPreset, Vector2 } from "lib/pq-games";
 import { RendererPixi } from "lib/pq-games";
 import { boardPicker } from "../board/boardPicker";
 
@@ -70,6 +70,52 @@ export const CONFIG =
         {
             picker: () => boardPicker,
             mapper: MapperPreset.FULL_PAGE
+        }
+    },
+
+    // how generation/balancing happens
+    generation:
+    {
+        ingredientBuildingProbability: 0.6, // 60% of the map are ingredient buildings, rest is reserved or order
+        buildingMinSize: 2,
+        buildingMaxSize: 5,
+        buildingGrowthChance: 0.6,
+        maxEntrancesPerBuildingBase: 1, // + 20% of the player count, rounded
+
+        minDistancePoliceIcons: 6,
+        minDistanceTrafficSigns: 2,
+        trafficSignsPerPlayer: 5,
+
+        roundaboutProbability: 0.25,
+        roundaboutProbabilityPreposterous: 0.75,
+
+        // the rectangle of squares reserved for the movement shapes, picked at random per board
+        shapeConfigurations: [
+            new Vector2(4,1), new Vector2(3,1), new Vector2(2,2),
+            new Vector2(3,1), new Vector2(1,4)
+        ]
+    },
+
+    // how to draw stuff
+    _drawing:
+    {
+        fonts:
+        {
+            heading: "leckerli"
+        },
+
+        board:
+        {
+            borderWidth: 0.075, // ratio of a cell's size
+            ingredientSpriteScale: 0.8, // ratio of a cell's size
+
+            seedFontSize: new CVal(16/1160, "sizeX"),
+            labelFontSize: new CVal(20/1160, "sizeX"),
+
+            buildingColors: [
+                "#FFAAAA", "#FFFF50", "#FFECCF", "#FFECB2", "#CEFFAB", "#FFC1DC", "#FFD8D0", // regular ingredients
+                "#FFDAD4", "#F0ECCB", "#FFEEE7", "#FFD4B9", "#DEFDC7", "#FFECF4", "#E0EDDB" // special ingredients
+            ]
         }
     },
 

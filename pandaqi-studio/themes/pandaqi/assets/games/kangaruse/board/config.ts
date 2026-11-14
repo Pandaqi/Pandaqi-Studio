@@ -1,7 +1,7 @@
-
-import { SettingType, MapperPreset, Vector2, Bounds } from "lib/pq-games";
+import { CVal, SettingType, MapperPreset, Vector2, Bounds } from "lib/pq-games";
 import { RendererPixi } from "lib/pq-games";
 import { boardPicker } from "./boardPicker";
+import { MAX_NUM_PLAYERS } from "../shared/dict";
 
 export const CONFIG = 
 {
@@ -104,176 +104,187 @@ export const CONFIG =
         renderer: new RendererPixi()
     },
 
-    mainFont: "mailray",
-    bodyFont: "poppins",
-    maxNumPlayers: 5,
+    cellTexture: "cell_types", // changed to the inkfriendly/simplified version when needed
 
-    minScoreTypes: 2,
-    maxScoreTypes: 3,
-
-    negativeScoreBounds: new Bounds(0.05, 0.2), // relative to total number of score cells
-    allowNegativePoints: true,
-
-    cellTexture: "cell_types", // changed to inkfriendly version if needed
-
-    sideBar: 
+    // how generation/balancing happens
+    generation:
     {
-        backgroundColor: "#FFCCAA",
-        borderRadius: 0.03, // relative to WIDTH of sidebar
-        padding: 0.025, // relative to WIDTH of sidebar
+        maxNumPlayers: MAX_NUM_PLAYERS,
 
-        gap: 0.05, // gap between board and sidebar, relative to WIDTH of entire page
-        percentageOfBoardWidth: 0.3,
-        scoreSheetRatio: (977/729.0),
-        scoreSheetTexture: "score_sheet",
-        tutorialSpriteHeight: 0.066, // relative to HEIGHT of sidebar
-        tutorialTextConfig: 
-        { 
-            fontFamily: 'poppins',
-            fontScaleFactor: 0.041,
-            color: '#000000',
+        minScoreTypes: 2,
+        maxScoreTypes: 3,
+
+        negativeScoreBounds: new Bounds(0.05, 0.2), // relative to total number of score cells
+        allowNegativePoints: true,
+
+        types:
+        {
+            numUniqueTypes: new Bounds(5, 7),
+            scoreBounds: new Bounds(30, 50), // when the regular "score cell" is added, how high should the summed score numbers be from all those cells?
         },
 
-        scoreTextAlpha: 0.35,
-        scoreTextConfig: 
-        { 
-            fontFamily: "mailray",
-            fontSize: null,
-            fontScaleFactor: 0.05, // relative to WIDTH of sidebar
-            color: '#000000',
-        } 
+        board:
+        {
+            sizePerSize: 
+            {
+                tiny: new Vector2(6, 5),
+                small: new Vector2(8, 6),
+                regular: new Vector2(12, 8),
+                large: new Vector2(14, 10),
+                huge: new Vector2(16, 12)
+            },
+
+            randomizeAxes: true, // numbers are given to columns 50% of the time, to rows the other 50%
+
+            holes: 
+            {
+                enable: true,
+                percentageOfBoard: 0.0866,
+                sizeBounds: new Bounds(1, 4)
+            },
+
+            rivers: 
+            {
+                enable: true,
+                percentageBounds: new Bounds(0.125, 0.2),
+                sizeBounds: new Bounds(0.2, 0.5), // relative to longest side of grid
+            },
+
+            numbers: 
+            {
+                axis: "column",
+                bounds: new Bounds(1, 4),
+            },
+
+            dirs: 
+            {
+                options: ["right", "down", "left", "up"],
+            }
+        },
+
+        evaluator: 
+        {
+            minDistBetweenStartingPositions: 3,
+            minScoreCellsPerQuadrant: 2,
+            maxScoreDifferencePerQuadrant: 5,
+            maxHoleClumpSize: 5,
+            maxRiverCells: 0.166 // percentage of total # cells
+        }
     },
 
-    board: 
+    // how to draw stuff
+    _drawing:
     {
-        backgroundColor: "#461F09",
-        padding: 0.0, // relative to shortest axis of full paper size
-        randomizeAxes: true, // numbers are given to columns 50% of the time, to rows the other 50%
-
-        cellDisplay: 
+        fonts:
         {
-            icon: 
-            {
-                corner: "center center",
-                scale: 0.8
-            },
-
-            space: 
-            {
-                corner: "bottom center",
-                scale: 0.385
-            },
-
-            text: 
-            {
-                corner: "center center",
-                scale: 0.4
-            },
-
-            stroke: 
-            {
-                width: 0.035, // relative to cell size
-                color: "#EEEEEE",
-                alpha: 0.05
-            },
-
-            strokeInkfriendly: 
-            {
-                width: 0.035, // relative to cell size
-                color: "#333333",
-                alpha: 0.66
-            },
-
-            maxOffsetBG: 0.0, // 0.075, // relative to cell size
-            scaleBG: 0.95, // 1.0 for doing nothing
-            borderRadius: 0.1, // relative to cell size
-
-            cornerMargin: 0.1, // relative to cell size
-            color: "#FFFFFF",
-            alpha: 1.0,
-            
+            heading: "mailray",
+            body: "poppins"
         },
 
-        sizePerSize: 
+        sideBar: 
         {
-            tiny: new Vector2(6, 5),
-            small: new Vector2(8, 6),
-            regular: new Vector2(12, 8),
-            large: new Vector2(14, 10),
-            huge: new Vector2(16, 12)
+            backgroundColor: "#FFCCAA",
+            borderRadius: new CVal(0.03, "sideBarWidth"),
+            padding: new CVal(0.025, "sideBarWidth"),
+
+            gap: new CVal(0.05, "sizeX"), // gap between board and sidebar
+            percentageOfBoardWidth: 0.3,
+            scoreSheetRatio: (977/729.0),
+            scoreSheetTexture: "score_sheet",
+            tutorialHeight: new CVal(0.066, "sideBarHeight"),
+            tutorialFontSize: new CVal(0.041, "sideBarWidth"),
+            tutorialFontColor: "#000000",
+
+            scoreTextAlpha: 0.35,
+            scoreFontSize: new CVal(0.05, "sideBarWidth"),
+            scoreFontColor: "#000000"
         },
 
-        holes: 
+        board: 
         {
-            enable: true,
-            percentageOfBoard: 0.0866,
-            sizeBounds: new Bounds(1, 4)
-        },
+            backgroundColor: "#461F09",
+            padding: new CVal(0.0, "sizeUnit"),
 
-        rivers: 
-        {
-            enable: true,
-            percentageBounds: new Bounds(0.125, 0.2),
-            sizeBounds: new Bounds(0.2, 0.5), // relative to longest side of grid
-            lineWidth: 0.1, // relative to cell size
-            color: "#BBAAFF",
-            colorInkfriendly: "#2211FF",
-            alpha: 1.0  
-        },
+            outerMarginFactor: new Vector2(0.08, 0.08), // empty space around the board, fraction of total paper size
 
-        numbers: 
-        {
-            axis: "column",
-            bounds: new Bounds(1, 4),
-            offsetFromGrid: 0.25,
-            scaleFactor: 0.375,
-            textConfig: { 
-                fontFamily: "mailray",
-                fontSize: 16,
+            cellDisplay: 
+            {
+                icon: 
+                {
+                    corner: "center center",
+                    scale: 0.8
+                },
+
+                space: 
+                {
+                    corner: "bottom center",
+                    scale: 0.385
+                },
+
+                text: 
+                {
+                    corner: "center center",
+                    scale: 0.4
+                },
+
+                stroke: 
+                {
+                    width: new CVal(0.035, "cellSizeUnit"),
+                    color: "#EEEEEE",
+                    alpha: 0.05
+                },
+
+                strokeInkfriendly: 
+                {
+                    width: new CVal(0.035, "cellSizeUnit"),
+                    color: "#333333",
+                    alpha: 0.66
+                },
+
+                cornerMargin: new CVal(0.1, "cellSizeUnit"),
+                maxOffsetBG: new CVal(0.0, "cellSizeUnit"),
+                scaleBG: 0.95,
+                borderRadius: new CVal(0.1, "cellSizeUnit"),
+            },
+
+            rivers: 
+            {
+                lineWidth: new CVal(0.1, "cellSizeUnit"),
+                color: "#BBAAFF",
+                colorInkfriendly: "#2211FF",
+                alpha: 1.0  
+            },
+
+            numbers: 
+            {
+                offsetFromGrid: new CVal(0.25, "cellSizeUnit"),
+                fontSize: new CVal(0.375, "cellSizeUnit"),
                 color: "#332211",
-                stroke: "#FFDDBB",
-                strokeThickness: 10
-            } 
+                strokeColor: "#FFDDBB",
+                strokeWidth: 5, // absolute pixels, a text stroke of a few pixels is plenty at any size
+            },
+
+            dirs: 
+            {
+                offsetFromGrid: new CVal(0.275, "cellSizeUnit"),
+                size: new CVal(0.4, "cellSizeUnit")
+            },
+
+            grid: 
+            {
+                lineWidth: new CVal(0.05, "cellSizeUnit"),
+                lineColor: "#FFFFFF",
+                lineAlpha: 0.66
+            },
         },
 
-        dirs: 
+        types: 
         {
-            options: ["right", "down", "left", "up"],
-            offsetFromGrid: 0.275,
-            scaleFactor: 0.4
-        },
-
-        outerMarginFactor: new Vector2(0.08, 0.08), // empty space around the board, fraction of total paper size
-        grid: 
-        {
-            lineWidth: 0.05, // fraction of CellSizeUnit
-            lineColor: "#FFFFFF",
-            lineAlpha: 0.66
-        },
-    },
-
-    types: 
-    {
-        iconScale: 0.8,
-        numUniqueTypes: new Bounds(5, 7),
-        scoreBounds: new Bounds(30, 50), // when the regular "score cell" is added, how high should the summed score numbers be from all those cells?
-        textScaleFactor: 0.35,
-        textConfig: 
-        { 
-            fontFamily: "mailray",
-            fontScaleFactor: 0.35,
-            strokeScaleFactor: 0.1,
-            color: '#ffffff',
-            stroke: '#000000',
-        } 
-    },
-
-    evaluator: 
-    {
-        minDistBetweenStartingPositions: 3,
-        minScoreCellsPerQuadrant: 2,
-        maxScoreDifferencePerQuadrant: 5,
-        maxHoleClumpSize: 5,
-        maxRiverCells: 0.166 // percentage of total # cells
+            iconScale: new CVal(0.8, "cellSizeUnit"),
+            fontSize: new CVal(0.35, "cellSizeUnit"),
+            strokeWidth: new CVal(0.035, "cellSizeUnit"),
+            color: "#FFFFFF",
+            strokeColor: "#000000",
+        }
     }
 }

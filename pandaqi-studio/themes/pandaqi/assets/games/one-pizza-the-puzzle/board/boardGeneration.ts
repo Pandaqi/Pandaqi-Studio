@@ -3,7 +3,7 @@ import Building from "./building";
 import Cell, { Order } from "./cell";
 import Obstacle from "./obstacle";
 import { CONFIG } from "../shared/config";
-import { Vector2, MaterialVisualizer, seedRandom, shuffle, Line, ResourceGroup, LayoutOperation, ResourceShape, TextConfig, Rectangle, StrokeAlign, ResourceText, Color, getWeighted, rand } from "lib/pq-games";
+import { Vector2, MaterialVisualizer, seedRandom, shuffle, Line, ResourceGroup, LayoutOperation, ResourceShape, TextConfig, Rectangle, StrokeAlign, ResourceText, Color, getWeighted, rand, getSetting } from "lib/pq-games";
 
 type RandomizerFunction = () => number;
 type TrafficSign = { pos: Vector2, type: string, side: number, ind: number };
@@ -25,6 +25,7 @@ type Border = Vector2[]
 export default class BoardGeneration
 {
 	canvas: HTMLCanvasElement
+	vis: MaterialVisualizer
 	cfg: Record<string,any>
 	map: Cell[][]
 	mapList: Cell[]
@@ -69,10 +70,22 @@ export default class BoardGeneration
 	// user-input settings should be passed through config
 	async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
 	{
-		this.cfg = CONFIG;
+		this.vis = vis;
 
-		this.cfg.visualizer = vis;
-		this.cfg.numPlayers = parseInt(this.cfg.playerCount);
+		// all the generation constants come from the config, this object only adds the values derived from the
+		// settings and the page size below
+		this.cfg = { ...CONFIG.generation };
+
+		this.cfg.seed = getSetting("defaults.seed", CONFIG);
+		this.cfg.size = vis.size;
+		this.cfg.numPlayers = getSetting("playerCount", CONFIG) ?? 4;
+
+		this.cfg.expansions = {
+			pizzaPolice: !!getSetting("expansions.pizzaPolice", CONFIG),
+			treacherousTraffic: !!getSetting("expansions.treacherousTraffic", CONFIG),
+			ingeniousIngredients: !!getSetting("expansions.ingeniousIngredients", CONFIG),
+			preposterousPlaces: !!getSetting("expansions.preposterousPlaces", CONFIG),
+		};
 
 		// number of cells along width of the paper
 		this.cfg.resX = 10 + Math.floor(this.cfg.numPlayers*1.5);
@@ -83,45 +96,16 @@ export default class BoardGeneration
 		// ... determines resolution along height of paper
 		this.cfg.resY = Math.floor(this.cfg.size.y / this.cfg.cellSize);
 
-		//
-		// purely visual settings
-		//
-
-		// border width as percentage of the total cell size (used for placements and margins that look good and scale with board size)
-		this.cfg.borderWidth = 0.075
-
-		// these colors correspond with ingredient frames
-		this.cfg.buildingColorDict = 
-		[
-			"#FFAAAA", "#FFFF50", "#FFECCF", "#FFECB2", "#CEFFAB", "#FFC1DC", "#FFD8D0", // regular ingredients
-			"#FFDAD4", "#F0ECCB", "#FFEEE7", "#FFD4B9", "#DEFDC7", "#FFECF4", "#E0EDDB" // special ingredients
-		];
-		
-		this.cfg.ingredientSpriteScale = 0.8;
-
-		//
-		// some other general settings
-		//
-		this.cfg.ingredientBuildingProbability = 0.6; // 60% of the map are ingredient buildings, rest is reserved or order
 		this.cfg.ingredientBuildingMinimumDistance = (1.0 - this.cfg.ingredientBuildingProbability) * this.cfg.resX; // how far ingredient buildings must be apart
-
-		this.cfg.buildingMinSize = Math.round(this.cfg.numPlayers*0.33); // when growing buildings, minimum size required (at 4 players = 2)
-		this.cfg.buildingMaxSize = Math.round(this.cfg.numPlayers); // when growing buildings, maximum size allowed (at 4 players = 6)
-		this.cfg.buildingGrowthChance = 0.6 + 0.033 * this.cfg.numPlayers; // between min-max, probability of continuing growth (at 4 players = 0.8)
-
-		this.cfg.maxEntrancesPerBuilding = 2 + Math.round(this.cfg.numPlayers*0.2) // when placing extra entrances (after dead-ends), average cutoff used for ignoring buildings that already have X entrances
-
-		this.cfg.buildingMinSize = 2;
-		this.cfg.buildingMaxSize = 5;
-		this.cfg.buildingGrowthChance = 0.6;
-		this.cfg.maxEntrancesPerBuilding = 1 + Math.round(this.cfg.numPlayers*0.2);
+		this.cfg.maxEntrancesPerBuilding = this.cfg.maxEntrancesPerBuildingBase + Math.round(this.cfg.numPlayers*0.2); // when placing extra entrances (after dead-ends), average cutoff used for ignoring buildings that already have X entrances
 
 		//
 		// settings for creating more varied streets (instead of only straight ones)
 		//
 
 		// variation runs from 0->4, none to extreme
-		const variation = parseInt(this.cfg.boardVariation) ?? 0;
+		const variationNames = ["none", "small", "medium", "large", "extreme"];
+		const variation = Math.max(0, variationNames.indexOf(getSetting<string>("boardVariation", CONFIG) ?? "medium"));
 
 		this.cfg.streetCornerProbability = variation/4.0; // whether to create a bend/corner in the road when we can
 		this.cfg.forbidFirstStepProbability = variation/4.0; // whether to forbid the first extension of a crossing if it creates a 2x2 blob
@@ -134,17 +118,9 @@ export default class BoardGeneration
 
 		// if the "preposterous places" expansion is enabled, we want more roundabouts, as we can use them for the special buildings
 		// otherwise, we usually want more hedges
-		this.cfg.roundaboutProbability = 0.25
-		if(this.cfg.expansions.preposterousPlaces) { this.cfg.roundaboutProbability = 0.75; }
+		this.cfg.roundaboutProbability = this.cfg.expansions.preposterousPlaces ? this.cfg.roundaboutProbabilityPreposterous : this.cfg.roundaboutProbability;
 
-		//
-		// settings for the expansions
-		//
-
-		this.cfg.minDistancePoliceIcons = 6
-		this.cfg.minDistanceTrafficSigns = 2
-
-		this.cfg.numTrafficSigns = this.cfg.numPlayers*5;
+		this.cfg.numTrafficSigns = this.cfg.numPlayers * this.cfg.trafficSignsPerPlayer;
 
 		//this.cfg.numPizzaPolice = 1 + Math.floor(this.cfg.resX / 6.0)
 
@@ -246,10 +222,7 @@ export default class BoardGeneration
 		// What to do with these?
 		// hard configurations (only 2 shapes): [1,2], [2,1]
 		// easy configurations (6 shapes): [2,3], [3,2]
-		const possibleConfigurations = [
-			new Vector2(4,1), new Vector2(3,1), new Vector2(2,2), 
-			new Vector2(3,1), new Vector2(1,4)
-		];
+		const possibleConfigurations = CONFIG.generation.shapeConfigurations;
 		this.cfg.shapeRectSize = possibleConfigurations[Math.floor(CONFIG_RNG() * possibleConfigurations.length)]
 
 		for(let x = 0; x < this.cfg.shapeRectSize.x; x++) 
@@ -1996,11 +1969,11 @@ export default class BoardGeneration
 				const posRect = new Vector2(x*cs,y*cs);
 				const rect = new Rectangle().fromTopLeft(posRect, new Vector2(cs));
 
-				let color = this.cfg.inkFriendly ? "#FFFFFF" : "#EEEEEE";
+				let color = this.vis.inkFriendly ? "#FFFFFF" : "#EEEEEE";
 				if(obj.type == 'road') 
 				{
 					let orient = this.getOrientationFromNeighbours(pos);
-					const resRoad = this.cfg.visualizer.getResource("roadmarks");
+					const resRoad = this.vis.getResource("roadmarks");
 					const opRoad = new LayoutOperation({
 						pos: new Vector2(posRect.x+0.5*cs, posRect.y+0.5*cs),
 						size: new Vector2(cs),
@@ -2015,13 +1988,13 @@ export default class BoardGeneration
 					roadGroup.add(new ResourceShape(rect), opRect);
 
 					// If this has a subway, place its sprite
-					const margin = this.cfg.borderWidth
+					const margin = this.vis.get("board.borderWidth")
 					if(obj.hasSubway()) 
 					{
 						const subwayPos = this.getSquarePositionOnCell(pos, obj.subway.positionIndex, true);
 						const subwayPosReal = new Vector2(subwayPos.x*cs, subwayPos.y*cs);
 
-						const resDec = this.cfg.visualizer.getResource("decorations");
+						const resDec = this.vis.getResource("decorations");
 						const opDec = new LayoutOperation({
 							pos: subwayPosReal,
 							size: new Vector2((0.5-margin)*cs),
@@ -2052,7 +2025,7 @@ export default class BoardGeneration
 					{
 						console.log("PLACING POLICE");
 						const policePos = this.getSquarePositionOnCell(new Vector2(x,y), obj.police.positionIndex, true);
-						const resPolice = this.cfg.visualizer.getResource("general_icons");
+						const resPolice = this.vis.getResource("general_icons");
 						const opPolice = new LayoutOperation({
 							pos: new Vector2(policePos.x*cs, policePos.y*cs),
 							size: new Vector2((0.5-margin)*cs),
@@ -2069,7 +2042,7 @@ export default class BoardGeneration
 					let buildingObj = this.buildings[obj.buildingIndex]
 
 					if(buildingObj.type == 'ingredient') {
-						color = this.cfg.buildingColorDict[buildingObj.ingredient]
+						color = this.vis.get("board.buildingColors")[buildingObj.ingredient]
 					} else if(buildingObj.type == 'order') {
 						color = "#91ACFF"
 					} else if(buildingObj.type == 'reserved' || buildingObj.type == 'bank') {
@@ -2081,7 +2054,7 @@ export default class BoardGeneration
 					}
 					
 					if(!buildingObj.streetConnection) { color = "#666666" }
-					if(this.cfg.inkFriendly) { color = "#FFFFFF"; }
+					if(this.vis.inkFriendly) { color = "#FFFFFF"; }
 
 					const opRect = new LayoutOperation({ fill: color });
 					buildingGroup.add(new ResourceShape(rect), opRect);
@@ -2093,20 +2066,20 @@ export default class BoardGeneration
 					{
 						const isCenterCell = (x == buildingObj.centerCellData.cell.x && y == buildingObj.centerCellData.cell.y);
 
-						if(!this.cfg.inkFriendly || isCenterCell) 
+						if(!this.vis.inkFriendly || isCenterCell) 
 						{
 							const opSprite = new LayoutOperation({
 								pos: new Vector2(posRect.x+0.5*cs, posRect.y+0.5*cs),
-								size: new Vector2(cs * this.cfg.ingredientSpriteScale),
+								size: new Vector2(cs * this.vis.get("board.ingredientSpriteScale")),
 								pivot: Vector2.CENTER,
 								depth: 15,
 								frame: buildingObj.ingredient
 							})
 
-							let resSprite = this.cfg.visualizer.getResource("ingredients");
+							let resSprite = this.vis.getResource("ingredients");
 							if(buildingObj.type != "ingredient")
 							{
-								resSprite = this.cfg.visualizer.getResource("special_buildings");
+								resSprite = this.vis.getResource("special_buildings");
 								opSprite.frame = SPECIAL_BUILDINGS[buildingObj.special].iconFrame
 							}
 							group.add(resSprite, opSprite);
@@ -2114,12 +2087,12 @@ export default class BoardGeneration
 					}
 
 					// draw a shadow by moving the rect slightly off
-					if(!this.cfg.inkFriendly) 
+					if(!this.vis.inkFriendly) 
 					{
 						const shadowCol = new Color("#000000");
 						shadowCol.a = 0.3;
 
-						const shadowOffset = new Vector2(this.cfg.borderWidth*this.cfg.cellSize);
+						const shadowOffset = new Vector2(this.vis.get("board.borderWidth")*this.cfg.cellSize);
 						const shadowRect = rect.clone(true);
 						shadowRect.move(shadowOffset);
 
@@ -2135,7 +2108,7 @@ export default class BoardGeneration
 		//
 		// Draw all building borders
 		//
-		const borderWidth = this.cfg.borderWidth*this.cfg.cellSize;
+		const borderWidth = this.vis.get("board.borderWidth")*this.cfg.cellSize;
 		const opLineBorder = new LayoutOperation({
 			stroke: "#000000",
 			strokeWidth: borderWidth
@@ -2168,17 +2141,17 @@ export default class BoardGeneration
 		const randTile = obj.cell;
 		const randNeighbour = obj.buildingCellsAround[Math.floor(this.RANDOM_DRAW_RNG() * obj.buildingCellsAround.length)]
 
-		const resGeneral = this.cfg.visualizer.getResource("general_icons");
+		const resGeneral = this.vis.getResource("general_icons");
 		const opBank = new LayoutOperation({
 			pos: new Vector2((randTile.x+0.5)*cs, (randTile.y+0.5)*cs),
 			frame: 0,
-			size: new Vector2(cs * this.cfg.ingredientSpriteScale),
+			size: new Vector2(cs * this.vis.get("board.ingredientSpriteScale")),
 			pivot: Vector2.CENTER,
 			depth: 15
 		});
 		group.add(resGeneral, opBank);
 
-		const seedFontSize = 16 * (this.cfg.size.x / 1160.0);
+		const seedFontSize = this.vis.get("board.seedFontSize");
 		const textConfigSeed = new TextConfig({
 			font: this.fontFamily,
 			size: seedFontSize
@@ -2213,13 +2186,13 @@ export default class BoardGeneration
 		const opBGRect = new LayoutOperation({
 			fill: "#FFCCCC",
 			stroke: "#330000",
-			strokeWidth: this.cfg.borderWidth*cs
+			strokeWidth: this.vis.get("board.borderWidth")*cs
 		});
 		overlayGroup.add(new ResourceShape(rect), opBGRect);
 
 		// Draw shapes individually
 		let moveShapeSize = new Vector2(0.8*cs);
-		const resShapes = this.cfg.visualizer.getResource("shapes");
+		const resShapes = this.vis.getResource("shapes");
 		for(let i = 0; i < this.shapes.length; i++) 
 		{
 			const row = Math.floor(i / this.cfg.shapeRectSize.x)
@@ -2237,7 +2210,7 @@ export default class BoardGeneration
 		}
 
 		// draw hint about picking UNIQUE shapes
-		const resHint = this.cfg.visualizer.getResource("unique_shapes_hint");
+		const resHint = this.vis.getResource("unique_shapes_hint");
 		const hintMargin = 4;
 		const posHint = new Vector2(rectStartReal.x + 0.5*rect.getSize().x, rectStartReal.y + rect.getSize().y - hintMargin);
 		const hintX = 0.6*moveShapeSize.x;
@@ -2269,7 +2242,7 @@ export default class BoardGeneration
 		// NOTE: Ingredients can be changed on buildings, so this value is NOT necessarily the same as entData.ingredient
 		let color = "#CCCCFF";
 		let realIngredient = connectedBuilding.ingredient
-		if(realIngredient != null) { color = this.cfg.buildingColorDict[realIngredient] }
+		if(realIngredient != null) { color = this.vis.get("board.buildingColors")[realIngredient] }
 		
 		if(connectedBuilding.type == 'reserved') { color = "#FFEEDA"; } // restaurants get a light brown/beige-ish tint
 		if(connectedBuilding.type == 'bank') { color = "#C5C1C1"; } // banks get a light gray
@@ -2280,11 +2253,11 @@ export default class BoardGeneration
 		const opEntrance = new LayoutOperation({ fill: color });
 		roadGroup.add(new ResourceShape(rectEntrance), opEntrance);
 
-		const resGeneral = this.cfg.visualizer.getResource("general_icons");
-		const resIng = this.cfg.visualizer.getResource("ingredients");
+		const resGeneral = this.vis.getResource("general_icons");
+		const resIng = this.vis.getResource("ingredients");
 		const opSprite = new LayoutOperation({
 			pos: new Vector2(rectPos.x + 0.5*rectSize.x, rectPos.y + 0.5*rectSize.y),
-			size: new Vector2(rectSize.x * this.cfg.ingredientSpriteScale),
+			size: new Vector2(rectSize.x * this.vis.get("board.ingredientSpriteScale")),
 			pivot: Vector2.CENTER,
 			alpha: 0.75
 		})
@@ -2315,7 +2288,7 @@ export default class BoardGeneration
 
 		const cs = this.cfg.cellSize;
 
-		const fontSize = 20 * (this.cfg.size.x / 1160.0);
+		const fontSize = this.vis.get("board.labelFontSize");
 		//const textColor = "#AAAAAA"; => somehow didn't use this one, but want to keep it just in case
 
 		const textConfigGate = new TextConfig({
@@ -2323,7 +2296,7 @@ export default class BoardGeneration
 			size: fontSize
 		}).alignCenter();
 
-		const resTrafficSigns = this.cfg.visualizer.getResource("traffic_signs");
+		const resTrafficSigns = this.vis.getResource("traffic_signs");
 
 		for(let i = 0; i < this.trafficSigns.length; i++) 
 		{
@@ -2374,7 +2347,7 @@ export default class BoardGeneration
 						randIngredient = this.specialIngredientsIncluded[Math.floor(this.TRAFFIC_SIGN_RNG()*this.specialIngredientsIncluded.length)];
 					}
 
-					const resIng = this.cfg.visualizer.getResource("ingredients");
+					const resIng = this.vis.getResource("ingredients");
 					const opIng = new LayoutOperation({
 						pos: posReal,
 						size: new Vector2(0.35*cs),
@@ -2387,7 +2360,7 @@ export default class BoardGeneration
 					// If smuggler, add (small, randomly rotated) cross icon on top
 					if(obj.type == 'Smuggler Gate') 
 					{
-						const resGeneral = this.cfg.visualizer.getResource("general_icons");
+						const resGeneral = this.vis.getResource("general_icons");
 						const opGate = new LayoutOperation({
 							pos: new Vector2(posReal.x + 0.075*cs, posReal.y - 0.075*cs),
 							size: new Vector2(0.2*cs),
@@ -2422,7 +2395,7 @@ export default class BoardGeneration
 
 			// NOT A GATE; just a regular sign, display inside the designated square
 			} else {
-				const margin = this.cfg.borderWidth
+				const margin = this.vis.get("board.borderWidth")
 				const pos = this.getSquarePositionOnCell(obj.pos, obj.ind, true);
 				const posReal = new Vector2(pos.x*cs, pos.y*cs); // @TODO: I should just replace AAAALL of these calls with one .toRealPosition() function
 
@@ -2444,7 +2417,7 @@ export default class BoardGeneration
 	{
 		const cs = this.cfg.cellSize;
 
-		const resDecs = this.cfg.visualizer.getResource("decorations");
+		const resDecs = this.vis.getResource("decorations");
 
 		let DECORATION_RNG = seedRandom(this.cfg.seed + "-decorations");
 		let numRoundaboutDecorations = 4;
@@ -2470,7 +2443,7 @@ export default class BoardGeneration
 
 				const opLine = new LayoutOperation({
 					stroke: "#006600",
-					strokeWidth: this.cfg.borderWidth*cs
+					strokeWidth: this.vis.get("board.borderWidth")*cs
 				});
 				buildingGroup.add(new ResourceShape(line), opLine);
 			
@@ -2492,9 +2465,9 @@ export default class BoardGeneration
 				let resFinal = resDecs;
 				if(o.specialBuilding != null) {
 					const buildingType = o.specialBuilding
-					resFinal = this.cfg.visualizer.getResource("special_buildings");
+					resFinal = this.vis.getResource("special_buildings");
 					opRoundabout.frame = SPECIAL_BUILDINGS[buildingType].iconFrame;
-					opRoundabout.size = new Vector2(this.cfg.ingredientSpriteScale * cs);
+					opRoundabout.size = new Vector2(this.vis.get("board.ingredientSpriteScale") * cs);
 					color = SPECIAL_BUILDINGS[buildingType].color;
 					strokeColor = "#000000";
 
@@ -2512,7 +2485,7 @@ export default class BoardGeneration
 				// otherwise we get a LIGHT GREEN + DARK GREEN combo
 				let fillColor = "#FFFFFF";
 				let stroke = "#CCCCCC";
-				if(!this.cfg.inkFriendly) {
+				if(!this.vis.inkFriendly) {
 					fillColor = color;
 					stroke = strokeColor
 				}
@@ -2522,7 +2495,7 @@ export default class BoardGeneration
 
 				const opLineBorder = new LayoutOperation({
 					stroke: stroke,
-					strokeWidth: this.cfg.borderWidth*cs
+					strokeWidth: this.vis.get("board.borderWidth")*cs
 				})
 
 				// draw borders individually (because it's ugly to get borders between two adjacent decoration elements)
@@ -2538,7 +2511,7 @@ export default class BoardGeneration
 	visualizeOrders(group:ResourceGroup) 
 	{
 		const cs = this.cfg.cellSize;
-		const fontSize = 16 * (this.cfg.size.x / 1160.0);
+		const fontSize = this.vis.get("board.seedFontSize");
 		const textConfigPrice = new TextConfig({
 			font: this.fontFamily,
 			size: fontSize
@@ -2546,8 +2519,8 @@ export default class BoardGeneration
 
 		this.cfg.bankBuilding = null;
 
-		const resCrust = this.cfg.visualizer.getResource("crust");
-		const resIng = this.cfg.visualizer.getResource("ingredients");
+		const resCrust = this.vis.getResource("crust");
+		const resIng = this.vis.getResource("ingredients");
 
 		let DRAW_RNG = seedRandom(this.cfg.seed + '-drawStuff')
 		for(let i = 0; i < this.buildings.length; i++) 
@@ -2571,7 +2544,7 @@ export default class BoardGeneration
 			{
 				const op = new LayoutOperation({
 					pos: midVector2,
-					size: new Vector2(this.cfg.ingredientSpriteScale * cs),
+					size: new Vector2(this.vis.get("board.ingredientSpriteScale") * cs),
 					pivot: Vector2.CENTER,
 					depth: 15,
 					frame: ingNumber + 1
@@ -2629,7 +2602,7 @@ export default class BoardGeneration
 			group.add(resTextPrice, opTextPrice);
 
 			// place a courier icon underneath THAT (to remind players they get a new courier for delivering)
-			const resCourier = this.cfg.visualizer.getResource("general_icons");
+			const resCourier = this.vis.getResource("general_icons");
 			const opCourier = new LayoutOperation({
 				pos: new Vector2(posText.x, posText.y + 8 - 0.13*cs),
 				size: new Vector2(0.5*cs),
