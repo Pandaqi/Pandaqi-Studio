@@ -99,10 +99,7 @@ export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
             }
         }
 
-        // stats are only initialised for a full simulation; a plain example still writes into them
-        // (and writing into a missing counter is what threw on every Throneless rulebook)
-        sim.stats.numWinningCardsDist = sim.stats.numWinningCardsDist ?? {};
-        sim.stats.numWinningCardsDist[numWinningCards] = (sim.stats.numWinningCardsDist[numWinningCards] ?? 0) + 1;
+        sim.stats.numWinningCardsDist[numWinningCards]++;
 
         const leaderWins = winningCards.includes( board.cardsPlayed.getCardAtIndex(board.kingseat) );
         if(leaderWins) { sim.stats.leaderPartOfWinningSequence++; }

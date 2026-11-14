@@ -1,4 +1,4 @@
-import { MapperPreset, SettingType } from "lib/pq-games";
+import { MapperPreset, SettingType, Vector2 } from "lib/pq-games";
 import { dominoPicker } from "./dominoPicker";
 
 export const CONFIG =
@@ -6,6 +6,33 @@ export const CONFIG =
     _resources:
     {    
         base: "/keebble-games/spell/keebble-domino/assets/",
+
+        files:
+        {
+            arbutus:
+            {
+                path: "/keebble-games/assets/fonts/ArbutusSlab-Regular.woff2",
+                useAbsolutePath: true,
+            },
+
+            decorations:
+            {
+                path: "domino_decorations.webp",
+                frames: new Vector2(8,1)
+            },
+
+            cell:
+            {
+                path: "special_cells.webp",
+                frames: new Vector2(8,2)
+            },
+
+            letter:
+            {
+                path: "ambigram_letters.webp",
+                frames: new Vector2(8,6)
+            },
+        }
     },
 
     _settings:

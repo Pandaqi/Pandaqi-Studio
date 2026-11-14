@@ -3,6 +3,7 @@ import generateShared from "games/throneless-games/shared/rules/generateShared";
 import { CONFIG } from "../shared/config";
 import { PACKS } from "../shared/dict";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
+import { callbackInitStats, callbackFinishStats } from "games/throneless-games/shared/rules/callbackStats";
 
 const SIMULATION_ENABLED = false;
 const SIMULATION_ITERATIONS = 1000;
@@ -15,10 +16,16 @@ const CONFIG_RULEBOOK =
     {
         "turn-kaizerseat":
         {
-            enabled: SIMULATION_ENABLED,
-            iterations: SIMULATION_ITERATIONS,
-            showFullGame: SHOW_FULL_GAME,
+            buttonText: "Give me an example round!",
             callback: callback,
+            simulator:
+            {
+                enabled: SIMULATION_ENABLED,
+                iterations: SIMULATION_ITERATIONS,
+                showFullGame: SHOW_FULL_GAME,
+                callbackInitStats,
+                callbackFinishStats,
+            }
         }
     }
 }

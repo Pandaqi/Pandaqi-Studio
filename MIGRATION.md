@@ -1,6 +1,8 @@
 # MIGRATION — V1 → V2 recovery, audit and test harness
 
-> **Status:** the `rules` sweep is green (§3.7: 74/74); what is left is §8 (phases). Library changes are made in place in `lib/pq-games` and `lib/pq-rulebook`.
+> **Status:** the `rules` sweep is green (§3.7: 74/74); what is left is §8 (phases).
+>
+> **A coding agent must never run an audit or a sweep on its own.** Not to "check the last change", not "quickly", not with `--filter`. A sweep takes ~15 minutes, holds the machine lock and is the slowest thing in this project; the author runs it when the author wants it. The commands are in §5.1 — run them **only when explicitly asked**. Library changes are made in place in `lib/pq-games` and `lib/pq-rulebook`.
 > **Companion to:** `ROADMAP.md` (human checklist). This file is the engineering plan: what is broken, what "working" means, how to test it, in what order, and how to make the build fast enough to work with.
 > **Scope:** `pandaqi-studio/` only. `pandaqi-studio-dev/` is out of scope.
 
@@ -26,6 +28,8 @@ Read §1 and §2 first; everything later refers to them.
 
 1. Library changes (`lib/pq-games`, `lib/pq-rulebook`) are fine, in place. `ROADMAP.md` states they go to their own repos first, but that is slow and not practical for this migration work. Copy the updates to the other repos yourself afterwards. Library defects are marked **[LIB]** with the owning repo.
 2. Never weaken a test to make it pass. If a test is wrong, fix it and say why in the commit.
+2b. **Do not run the audit suites (`audit`, `--kind`, `--filter`) unless the author asks for it in that message.** Verify a change with `bun run static`, a transpile check (`bun build <file> --no-bundle`) or the dev server; the author triggers the sweeps. §5.1 has the commands.
+2c. **No workarounds.** If a project does not fit the framework, migrate the project (or the library) properly — do not bolt a post-processing step onto a config, re-assign fields after the fact, or special-case a page in the harness. If the proper fix is too big for the moment, write it down here instead of doing it the hacky way.
 3. Work in the order of §8; do not start a phase before the previous exit criterion is met.
 4. A missing decision here is a bug in this document: stop and ask instead of guessing.
 5. **This document only describes what is still open.** When a defect, recipe, recommendation or phase is finished, delete it in the same commit. No "done", "implemented" or "we already did this" sections stay behind.
@@ -230,6 +234,7 @@ Keep the suite lean; it may take at most an hour, never full day(s).
 * Rulebooks: one example click per example, one table toggle. No repeated runs.
 * No retries on assertion failures. One retry only for timeouts (`RB-1`, MG-1, MG-4), reported as `flaky` with both artifact sets.
 * Static checks run in seconds.
+* Hard ceilings, not targets: one rulebook example must finish inside **10 s** and one material generation inside **30 s** (`exampleTimeoutMs` / `genTimeoutMs` in `audit/src/main.ts`). A page that needs longer is a defect; the ceiling does not move for it.
 * Target: rulebooks ≤ 10 min, full generator suite (2 runs) ≤ 1 h, per-project filtered run ≤ 3 min.
 
 ---
@@ -489,6 +494,18 @@ Giving the five visit rulebooks a working entry (D-6) showed how much of the old
 
 Checked in a browser: all five visit rulebooks with their examples, plus generation on `/naivigation/visit/crashing-cars/game/` twice — once on defaults, once with Taxis & Cargo, Fuel & Fear and Terrain & Tripplanning switched on (13.8 MB PDF, no console errors). No full audit run on Naivigation yet — that is the Phase 4 entry check.
 
+### 3.9 Throneless config + Keebble Domino drawing (2026-11-14)
+
+**Throneless** is a normal V2 project now, with no repair step after the fact:
+
+* `CONFIG_SHARED` writes `_resources.files` directly (it used to keep a top-level `files` and have it copied into `_resources` and deleted again at the end of the file). `mergeObjects(CONFIG, CONFIG_SHARED)` puts those files next to each game's `_resources.base`, like every other project.
+* The dead `_rulebook` block (nothing read `CONFIG._rulebook`) is gone. Each rules entry declares its simulator the canonical way — `simulator: { enabled, iterations, showFullGame, callbackInitStats, callbackFinishStats }` — so the stats object exists for a plain example too, and `generateShared` increments `stats.numWinningCardsDist` without a guard.
+* A rulebook example without `buttonText` now uses the default label instead of the string "undefined" (§3.7).
+
+**Keebble Domino** (never updated since V1) draws through `ResourceGroup` + `LayoutOperation` in both the generator card (`game/domino.ts`) and the rulebook example (`rules/main.ts`): shapes are `ResourceShape(Rectangle/Line)` with `fill`/`stroke`, symbols are `ResourceImage` frames on `ambigram_letters.webp`, text is `ResourceText`, and shadows are `DropShadowEffect`. Nothing writes to a 2D context any more; `createContext` is only the canvas a finished group is rendered onto. Its config gained the `_resources.files` it was missing (`arbutus` font, `domino_decorations`, `special_cells`, `ambigram_letters`). Two latent bugs in the old code fell out with it: the draw parameters referenced `params.cardSize`/`params.domino` without ever setting them, and colours were HSL strings, which `Color` cannot parse — they are stored as HEX now.
+
+**Harness ceilings** dropped to what a working page actually needs: `exampleTimeoutMs` 90 s → **10 s**, `genTimeoutMs` 240 s → **30 s** (§2.6).
+
 ## 4. Build speed (measured — read before touching anything)
 
 All timings on the author's machine, Hugo 0.153.4 extended, Windows. `bun run perf` is the source of truth (`audit-artifacts/perf.json`); run it after touching anything in the build.
@@ -610,14 +627,18 @@ One failed resource is reported once (`console.error: Failed to load resource…
 
 The profiles are `default`, `invert` and `--runs N` seeded ones. Static checks live in `src/static.ts` (§2.4) and run before the build; `--deep`/`splitDims` is unspecified and does not exist.
 
-Usage:
+Usage — **the author runs these, not the coding agent** (§0, rule 2b):
 
 ```bash
 cd pandaqi-studio/audit
-bun run audit --kind rules --workers 2
+bun run static                                        # 2 s, source checks only
+bun run audit --kind rules --workers 2                # all 74 rulebooks, ~15 min
+bun run audit --kind generator --workers 2             # the material generators
 bun run audit --filter chiptales --skip-build --base-url http://127.0.0.1:1399
 bun run perf            # --fast skips the full build
 ```
+
+`--filter <substring>` narrows a run to the pages whose URL contains it (`--filter keebble-domino`, `--filter throneless-games`); that is the only form worth running while working. A run rebuilds Hugo unless `--skip-build` is passed, writes `audit-artifacts/report.md`, and holds `audit-artifacts/.audit.lock` while it lives, so two runs never overlap.
 
 ### 5.10 Human review (optional)
 

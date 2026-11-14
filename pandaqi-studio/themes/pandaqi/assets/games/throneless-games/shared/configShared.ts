@@ -1,236 +1,89 @@
-
 import { Vector2, TextConfig, TextStyle, TextWeight, Bounds, CVal } from "lib/pq-games";
-import { callbackFinishStats, callbackInitStats } from "./rules/callbackStats";
 
 export const CONFIG_SHARED =
 {
-    _rulebook:
+    _resources:
     {
-        examples:
+        // every project merges its own `_resources.base` on top of this
+        files:
         {
-            "turn-smallseat":
+            crests_full: 
             {
-                buttonText: "Give me an example round!",
-                simulator:
-                {
-                    callbackInitStats,
-                    callbackFinishStats,
-                }
+                path: "crests_full.webp",
+                frames: new Vector2(6, 2), // @NOTE: used to be (12,1) on Kingseat
             },
 
-            "turn-kingseat":
+            crests_simple: 
             {
-                buttonText: "Give me an example round!",
-                simulator:
-                {
-                    callbackInitStats,
-                    callbackFinishStats,
-                }
+                path: "crests_simplified.webp",
+                frames: new Vector2(6, 2)
             },
 
-            "turn-queenseat":
+            unifraktur: 
             {
-                buttonText: "Give me an example round!",
-                simulator:
-                {
-                    callbackInitStats,
-                    callbackFinishStats,
-                }
+                path: "/throneless-games/assets/fonts/UnifrakturCook-Bold.woff2",
+                useAbsolutePath: true
             },
 
-            "turn-kaizerseat":
+            modernefraktur: 
             {
-                buttonText: "Give me an example round!",
-                simulator:
-                {
-                    callbackInitStats,
-                    callbackFinishStats,
-                }
+                path: "/throneless-games/assets/fonts/ModerneFraktur.woff2",
+                useAbsolutePath: true
+            },
+
+            gothic: 
+            {
+                path: "/throneless-games/assets/fonts/GothicUltraOT.woff2",
+                useAbsolutePath: true
+            },
+
+            brygada: 
+            {
+                path: "/throneless-games/assets/fonts/Brygada1918-Regular.woff2",
+                useAbsolutePath: true
+            },
+
+            brygada_italic: 
+            {
+                key: "brygada",
+                path: "/throneless-games/assets/fonts/Brygada1918-Italic.woff2",
+                textConfig: new TextConfig({ style: TextStyle.ITALIC }),
+                useAbsolutePath: true
+            },
+
+            brygada_bold: 
+            {
+                key: "brygada",
+                path: "/throneless-games/assets/fonts/Brygada1918-Bold.woff2",
+                textConfig: new TextConfig({ weight: TextWeight.BOLD }),
+                useAbsolutePath: true
+            },
+
+            gradient_overlay: 
+            {
+                path: "/throneless-games/assets/gradient_overlay.webp",
+                useAbsolutePath: true
+            },
+
+            kingseat_icon: 
+            {
+                path: "/throneless-games/assets/kingseat_icon.webp",
+                useAbsolutePath: true
+            },
+
+            multicolor_bg: 
+            {
+                path: "/throneless-games/assets/multicolor_bg.webp",
+                frames: Vector2.ONE,
+                useAbsolutePath: true
+            },
+
+            decoration_icons: 
+            {
+                path: "/throneless-games/assets/decoration_icons.webp",
+                frames: new Vector2(2,1),
+                useAbsolutePath: true
             }
-        },
-
-        icons:
-        {
-            smallseat:
-            {
-                config:
-                {
-                    sheetURL: "crests_full.webp",
-                    sheetWidth: 6,
-                    base: "/throneless-games/conquer/smallseat/assets/",
-                },
-                icons:
-                {
-                    "karate-chicks": { frame: 0 },
-                    pricklypettes: { frame: 1 },
-                    sleepersippies: { frame: 2 },
-                    "chewy-carrots": { frame: 3 },
-                    "tree-of-hainut": { frame: 4 },
-                    curlysnouts: { frame: 5 },
-                    tinybears: { frame: 6 },
-                    purplepaws: { frame: 7 },
-                    ottermother: { frame: 8 },
-                    sealalater: { frame: 9 },
-                    snufflesniff: { frame: 10 },
-                    poinytailors: { frame: 11 }
-                }
-            },
-
-            kingseat:
-            {
-                config:
-                {
-                    sheetURL: "crests_full.webp",
-                    sheetWidth: 6,
-                    base: "/throneless-games/conquer/kingseat/assets/",
-                },
-                icons:
-                {
-                    lionsyre: { frame: 0 },
-                    slydefox: { frame: 1 },
-                    woolfhall: { frame: 2 },
-                    hornseeker: { frame: 3 },
-                    brownbeards: { frame: 4 },
-                    monarchrys: { frame: 5 },
-                    crassclamps: { frame: 6 },
-                    gulliballistas: { frame: 7 },
-                    "hardshell-hero": { frame: 8 },
-                    squlofish: { frame: 9 },
-                    smugwing: { frame: 10 },
-                    "salsa-salamanda": { frame: 11 }
-                }
-            },
-
-            queenseat:
-            {
-                config:
-                {
-                    sheetURL: "crests_full.webp",
-                    sheetWidth: 6,
-                    base: "/throneless-games/conquer/queenseat/assets/",
-                },
-                icons:
-                {
-                    "stingers-hive": { frame: 0 },
-                    "galloping-sun": { frame: 1 },
-                    trunktrumpets: { frame: 2 },
-                    featherdancer: { frame: 3 },
-                    "whistley-wine": { frame: 4 },
-                    "edibus-eggsnatcher": { frame: 5 },
-                    "feared-flame": { frame: 6 },
-                    "eyrie-feyle": { frame: 7 },
-                    "chattered-fins": { frame: 8 },
-                    galaksea: { frame: 9 },
-                    venomfruit: { frame: 10 },
-                    colorcoats: { frame: 11 }
-                }
-            },
-
-            kaizerseat:
-            {
-                config:
-                {
-                    sheetURL: "crests_full.webp",
-                    sheetWidth: 6,
-                    base: "/throneless-games/conquer/kaizerseat/assets/",
-                },
-                icons:
-                {
-                    solongnecks: { frame: 0 },
-                    "boardom-thieves": { frame: 1 },
-                    "longsword-fins": { frame: 2 },
-                    atheneyes: { frame: 3 },
-                    gallopeers: { frame: 4 },
-                    candlesticks: { frame: 5 },
-                    taredtula: { frame: 6 },
-                    "sonar-and-sons": { frame: 7 },
-                    "sirens-of-seatongue": { frame: 8 },
-                    cracktapus: { frame: 9 },
-                    ravenletters: { frame: 10 },
-                    twistertoots: { frame: 11 }
-                }
-            },
-        }
-    },
-
-    files: 
-    {
-        crests_full: 
-        {
-            path: "crests_full.webp",
-            frames: new Vector2(6, 2), // @NOTE: used to be (12,1) on Kingseat
-        },
-
-        crests_simple: 
-        {
-            path: "crests_simplified.webp",
-            frames: new Vector2(6, 2)
-        },
-
-        unifraktur: 
-        {
-            path: "/throneless-games/assets/fonts/UnifrakturCook-Bold.woff2",
-            useAbsolutePath: true
-        },
-
-        modernefraktur: 
-        {
-            path: "/throneless-games/assets/fonts/ModerneFraktur.woff2",
-            useAbsolutePath: true
-        },
-
-        gothic: 
-        {
-            path: "/throneless-games/assets/fonts/GothicUltraOT.woff2",
-            useAbsolutePath: true
-        },
-
-        brygada: 
-        {
-            path: "/throneless-games/assets/fonts/Brygada1918-Regular.woff2",
-            useAbsolutePath: true
-        },
-
-        brygada_italic: 
-        {
-            key: "brygada",
-            path: "/throneless-games/assets/fonts/Brygada1918-Italic.woff2",
-            textConfig: new TextConfig({ style: TextStyle.ITALIC }),
-            useAbsolutePath: true
-        },
-
-        brygada_bold: 
-        {
-            key: "brygada",
-            path: "/throneless-games/assets/fonts/Brygada1918-Bold.woff2",
-            textConfig: new TextConfig({ weight: TextWeight.BOLD }),
-            useAbsolutePath: true
-        },
-
-        gradient_overlay: 
-        {
-            path: "/throneless-games/assets/gradient_overlay.webp",
-            useAbsolutePath: true
-        },
-
-        kingseat_icon: 
-        {
-            path: "/throneless-games/assets/kingseat_icon.webp",
-            useAbsolutePath: true
-        },
-
-        multicolor_bg: 
-        {
-            path: "/throneless-games/assets/multicolor_bg.webp",
-            frames: Vector2.ONE,
-            useAbsolutePath: true
-        },
-
-        decoration_icons: 
-        {
-            path: "/throneless-games/assets/decoration_icons.webp",
-            frames: new Vector2(2,1),
-            useAbsolutePath: true
         }
     },
 
@@ -304,9 +157,3 @@ export const CONFIG_SHARED =
         }
     },
 }
-
-// the framework only reads `_resources.files`, so the shared sheets and fonts must live there
-// (they used to sit at the top level as `files`, where no resource loader ever looked)
-CONFIG_SHARED._resources = CONFIG_SHARED._resources ?? {};
-CONFIG_SHARED._resources.files = Object.assign(CONFIG_SHARED._resources.files ?? {}, CONFIG_SHARED.files);
-delete CONFIG_SHARED.files;

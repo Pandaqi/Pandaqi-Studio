@@ -37,8 +37,9 @@ const baselinesRoot = join(auditDir, "baselines");
 
 const seed = argValue("seed", "audit-1") as string;
 const timeoutMs = argNumber("timeout", 30000);
-const genTimeoutMs = 240000;
-const exampleTimeoutMs = 90000;
+// these are hard ceilings: a page that needs longer is a defect, not a slow machine
+const genTimeoutMs = 30000;
+const exampleTimeoutMs = 10000;
 // one page at a time by default; two is the hard ceiling, because each worker is a whole browser page
 // with full-page canvases in it
 const workers = Math.min(2, Math.max(1, argNumber("workers", 1)));

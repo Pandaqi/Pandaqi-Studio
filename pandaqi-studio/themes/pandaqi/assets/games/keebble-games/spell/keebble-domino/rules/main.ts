@@ -1,5 +1,4 @@
-
-import { shuffle, Vector2 } from "lib/pq-games";
+import { shuffle, Vector2, Color, ResourceGroup, ResourceShape, Rectangle, Line, LayoutOperation, ResourceImage, createContext, convertCanvasToImage, DropShadowEffect } from "lib/pq-games";
 import { InteractiveExampleSimulator, loadRulebook } from "lib/pq-rulebook";
 import { CONFIG } from "../game/config"
 import { CELLS } from "../game/dict";
@@ -35,32 +34,25 @@ const LETTER_DICTIONARY =
     "Q": { frame: 19 },
 }
 
-const visualizeSymbol = (params) =>
+// every symbol comes from one sheet (ambigram_letters.webp), so a frame on that sheet is all we need
+const addSymbolToGroup = (group:ResourceGroup, params) =>
 {
     if(!params.value) { return; }
 
-    const ctx = params.ctx;
     const cs = params.cs;
-
-    const img = params.sprites;
-    const frame = LETTER_DICTIONARY[params.value].frame || 0;
-    const rotIndex = LETTER_DICTIONARY[params.value].rot || 0;
-    const rotRadians = rotIndex * 0.5 * Math.PI;
-    const spriteSize = 256
-    const sourceX = (frame % 8) * spriteSize;
-    const sourceY = Math.floor(frame / 8) * spriteSize;
+    const data = LETTER_DICTIONARY[params.value];
+    const frame = data.frame || 0;
+    const rotIndex = data.rot || 0;
     const scale = params.scale || 1.0;
-    
-    ctx.save();
-    ctx.translate((params.x + 0.5) * cs, (params.y + 0.5) * cs);
-    ctx.rotate(rotRadians);
-    ctx.drawImage(
-        img,
-        sourceX, sourceY, spriteSize, spriteSize,
-        -0.5*scale*cs, -0.5*scale*cs, scale*cs, scale*cs 
-    );
 
-    ctx.restore();
+    const op = new LayoutOperation({
+        frame: frame,
+        pos: new Vector2((params.x + 0.5) * cs, (params.y + 0.5) * cs),
+        rot: rotIndex * 0.5 * Math.PI,
+        size: new Vector2(scale * cs),
+        pivot: Vector2.CENTER
+    });
+    group.add(params.sprites, op);
 }
 
 // orient = 0 means wide (2x1), 1 means tall (1x2)
@@ -104,11 +96,12 @@ class Domino
     setRandomColor()
     {
         const DOMINO_COLORS = [
-            "hsl(86,100%,40%)", "hsl(171,80%,39%)", 
-            "hsl(231,100%,57%)", "hsl(290,100%,51%)", 
-            "hsl(4,88%,56%)"
+            new Color(86,100,40), new Color(171,80,39), 
+            new Color(231,100,57), new Color(290,100,51), 
+            new Color(4,88,56)
         ];
-        this.color = DOMINO_COLORS[Math.floor(Math.random() * DOMINO_COLORS.length)];
+        // NOTE: stored as HEX, because layout operations parse colors from strings
+        this.color = DOMINO_COLORS[Math.floor(Math.random() * DOMINO_COLORS.length)].toHEXA();
     }
 
     setHighlight(val)
@@ -211,51 +204,44 @@ class Domino
         return this.x == x && this.y == y && this.orient == orient;
     }
 
-    visualize(params)
+    visualize(group:ResourceGroup, params)
     {
-        const ctx = params.ctx;
         const cs = params.cs;
         const rect = this.getRect(cs);
 
         const w = rect.x2 - rect.x1;
         const h = rect.y2 - rect.y1;
 
-        const col = this.color;
-        const shadowCol = this.highlight ? "#663333" : "#000000";
         const strokeCol = this.highlight ? "#000000" : "#CCCCCC";
         const lineWidth = this.highlight ? 0.1*cs : 0.05*cs;
         const blurSize = this.highlight ? 0.2*cs : 0.1*cs;
 
-        ctx.fillStyle = col;
-        ctx.shadowBlur = blurSize;
-        ctx.shadowColor = shadowCol;
-        ctx.fillRect(rect.x1, rect.y1, w, h);
-        
-        ctx.shadowBlur = 0;
-        ctx.strokeStyle = strokeCol;
-        ctx.lineWidth = lineWidth;
-        ctx.strokeRect(rect.x1, rect.y1, w, h);
+        const shape = new ResourceShape(new Rectangle().fromTopLeft(new Vector2(rect.x1, rect.y1), new Vector2(w, h)));
+        const op = new LayoutOperation({
+            fill: this.color,
+            stroke: strokeCol,
+            strokeWidth: lineWidth,
+            effects: [
+                new DropShadowEffect({ color: this.highlight ? "#663333" : "#000000", blurRadius: blurSize })
+            ]
+        });
+        group.add(shape, op);
     }
 
-    visualizeStandalone(board) : Promise<HTMLImageElement>
+    async visualizeStandalone(board) : Promise<HTMLImageElement>
     {
-        const canv = document.createElement('canvas');
-        canv.width = 256;
-        canv.height = 512;
-        
-        const ctx = canv.getContext("2d") as CanvasRenderingContext2D;
+        const size = new Vector2(256, 512);
+        const group = new ResourceGroup();
 
-        // background
-        ctx.fillStyle = this.color;
-        ctx.fillRect(0, 0, canv.width, canv.height);
-
-        ctx.strokeStyle = "#000000";
-        ctx.lineWidth = 0.05*canv.width;
-        ctx.strokeRect(0, 0, canv.width, canv.height);
+        const background = new ResourceShape(new Rectangle().fromTopLeft(Vector2.ZERO, size));
+        group.add(background, new LayoutOperation({
+            fill: this.color,
+            stroke: "#000000",
+            strokeWidth: 0.05*size.x
+        }));
 
         // symbols
         const params = {
-            ctx: ctx,
             cs: 256, // cellsize
             scale: 0.8,
             x: 0,
@@ -263,19 +249,15 @@ class Domino
             value: this.valuesDisplayed[0],
             sprites: board.spriteSheet
         }
-        visualizeSymbol(params);
+        addSymbolToGroup(group, params);
 
         params.value = this.valuesDisplayed[1];
         params.y = 1;
-        visualizeSymbol(params);
+        addSymbolToGroup(group, params);
 
-        return new Promise((resolve, reject) => {
-            const img = document.createElement("img");
-            img.onload = () => resolve(img)
-            img.onerror = reject
-            img.src = canv.toDataURL();
-            return img;
-        })
+        const ctx = createContext({ size: size });
+        group.toCanvas(ctx);
+        return convertCanvasToImage(ctx.canvas);
     }
 }
 
@@ -319,14 +301,14 @@ class Cell
         return this.value != null && this.value != "";
     }
 
-    visualize(params)
+    visualize(group:ResourceGroup, params)
     {
         params.value = this.value;
         if(this.valueDisplayed) { params.value = this.valueDisplayed; }
 
         params.x = this.x;
         params.y = this.y;
-        visualizeSymbol(params);
+        addSymbolToGroup(group, params);
     }
 }
 
@@ -733,47 +715,38 @@ class Board
     async visualize() : Promise<HTMLImageElement>
     {
         const spriteSheet = await this.loadSpriteSheet();
-        this.spriteSheet = spriteSheet;
+        this.spriteSheet = new ResourceImage(spriteSheet, { frames: new Vector2(8,6) });
 
-        const canv = document.createElement('canvas');
-        canv.width = this.widthPixel;
-        canv.height = this.heightPixel;
-        
-        const ctx = canv.getContext("2d") as CanvasRenderingContext2D;
+        const size = new Vector2(this.widthPixel, this.heightPixel);
         const cellSize = Math.min(this.widthPixel / this.width, this.heightPixel / this.height);
         const params = {
-            ctx: ctx,
             cs: cellSize,
-            sprites: spriteSheet,
+            sprites: this.spriteSheet,
             scale: 0.8
         }
 
-        // background and grid
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillRect(0, 0, canv.width, canv.height);
+        const group = new ResourceGroup();
 
-        ctx.strokeStyle = "#CCCCCC";
-        ctx.lineWidth = 0.01 * canv.width;
+        // background and grid
+        const background = new ResourceShape(new Rectangle().fromTopLeft(Vector2.ZERO, size));
+        group.add(background, new LayoutOperation({ fill: "#FFFFFF" }));
+
         for(let x = 0; x < this.width; x++)
         {
-            ctx.beginPath();
-            ctx.moveTo(x*cellSize, 0);
-            ctx.lineTo(x*cellSize, canv.height);
-            ctx.stroke();
+            const line = new ResourceShape(new Line(new Vector2(x*cellSize, 0), new Vector2(x*cellSize, size.y)));
+            group.add(line, new LayoutOperation({ stroke: "#CCCCCC", strokeWidth: 0.01 * size.x }));
         }
 
         for(let y = 0; y < this.height; y++)
         {
-            ctx.beginPath();
-            ctx.moveTo(0, y*cellSize);
-            ctx.lineTo(canv.width, y*cellSize);
-            ctx.stroke();
+            const line = new ResourceShape(new Line(new Vector2(0, y*cellSize), new Vector2(size.x, y*cellSize)));
+            group.add(line, new LayoutOperation({ stroke: "#CCCCCC", strokeWidth: 0.01 * size.x }));
         }
 
         // use the domino array for correct overlapping of backgrounds
         for(const domino of this.dominoes)
         {
-            domino.visualize(params);
+            domino.visualize(group, params);
         }
 
         // print the symbols inside the dominoes
@@ -781,17 +754,13 @@ class Board
         {
             for(let y = 0; y < this.height; y++)
             {
-                this.grid[x][y].visualize(params);
+                this.grid[x][y].visualize(group, params);
             }
         }
 
-        return new Promise((resolve, reject) => {
-            const img = document.createElement("img");
-            img.onload = () => resolve(img)
-            img.onerror = reject
-            img.src = canv.toDataURL();
-            return img;
-        })
+        const ctx = createContext({ size: size });
+        group.toCanvas(ctx);
+        return convertCanvasToImage(ctx.canvas);
     }
 }
 
