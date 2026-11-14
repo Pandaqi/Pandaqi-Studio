@@ -1,5 +1,5 @@
 
-import { RendererPixi } from "lib/pq-games/renderers/pixi/rendererPixi";
+import { RendererPixi } from "lib/pq-games";
 import { boardPicker } from "../board/boardPicker";
 import { SettingType, MapperPreset, Bounds, Vector2 } from "lib/pq-games";
 

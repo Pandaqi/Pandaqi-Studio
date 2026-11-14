@@ -1,6 +1,6 @@
 
 import { ResourceLoader, MaterialVisualizer, loadSettings } from "lib/pq-games";
-import { RendererPixi } from "lib/pq-games/renderers/pixi/rendererPixi";
+import { RendererPixi } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import BoardGeneration from "./generation";
 

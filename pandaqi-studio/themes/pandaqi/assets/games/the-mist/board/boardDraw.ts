@@ -1,5 +1,5 @@
 
-import { Vector2, LayoutEffect, MaterialVisualizer, GrayScaleEffect, ResourceGroup, fillResourceGroup, LayoutOperation, Color, closePath, Path, ResourceShape, Rectangle, Circle, rangeInteger, fromArray, TextConfig, TextAlign, RectangleRounded, ResourceText, DropShadowEffect, getPositionsCenteredAround, colorDarken, rand } from "lib/pq-games";
+import { Vector2, LayoutEffect, MaterialVisualizer, GrayScaleEffect, ResourceGroup, fillResourceGroup, LayoutOperation, Color, closePath, Path, ResourceShape, Rectangle, Circle, rangeInteger, fromArray, TextConfig, TextAlign, RectangleRounded, ResourceText, DropShadowEffect, getPositionsCenteredAround, colorDarken, rand, fitTextSizeToBox } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { COLORS, MISC } from "../shared/dict";
 import BoardState from "./boardState";
@@ -77,7 +77,6 @@ export default class BoardDraw
         if(vis.inkFriendly) { this.defaultEffects.push(new GrayScaleEffect()); }
 
         let requiresMetadata = false;
-        console.log("UNIQUE TYPES: ", this.board.uniqueTypes);
         for(const type of this.board.uniqueTypes)
         {
             if(CONFIG.allTypes[type].requiresMetadata) { requiresMetadata = true; break; }
@@ -334,11 +333,15 @@ export default class BoardDraw
 
             // add the text explaining how it scores
             const text = "<sc>" + data.label + "</sc>: " + data.desc;
-            const textRes = new ResourceText({ text: text, textConfig: textConfig });
             const textPos = new Vector2(iconPos.x + 0.5*iconDims.x + xPadding, pos.y + 0.5*textDims.y);
             
             const innerTextPos = textPos.clone().move(new Vector2(xPadding*2, 0));
             const innerTextDims = textDims.clone().sub(new Vector2(xPadding*4, 0)); 
+
+            // descriptions vary wildly in length, so shrink the font until this one fits its box
+            const entryTextConfig = textConfig.clone();
+            entryTextConfig.size = fitTextSizeToBox(text, entryTextConfig, innerTextDims);
+            const textRes = new ResourceText({ text: text, textConfig: entryTextConfig });
 
             const textOp = new LayoutOperation({
                 fill: "#000000",

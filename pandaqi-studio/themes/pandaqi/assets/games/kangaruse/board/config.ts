@@ -1,6 +1,6 @@
 
 import { SettingType, MapperPreset, Vector2, Bounds } from "lib/pq-games";
-import { RendererPixi } from "lib/pq-games/renderers/pixi/rendererPixi";
+import { RendererPixi } from "lib/pq-games";
 import { boardPicker } from "./boardPicker";
 
 export const CONFIG = 

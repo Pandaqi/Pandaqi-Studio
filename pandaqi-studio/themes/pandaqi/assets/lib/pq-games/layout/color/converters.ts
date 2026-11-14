@@ -84,10 +84,10 @@ export const RGBAToHSLA = (r = 0, g = 0, b = 0, a = 1.0) =>
 // the HEXNumber does NOT have the alpha component; this is typical for all programs that require this format, e.g. Phaser
 export const HEXNumberToHEXA = (num:number) =>
 {
-    return `#${num.toString(16)}FF`;
+    return `#${num.toString(16).padStart(6, "0")}FF`;
 }
-
+// a plain number (0xRRGGBB), no alpha, no "0x" string: renderers need the numeric form
 export const HEXAToHEXNumber = (hex:string) =>
 {
-    return `0x${parseInt(hex.slice(1,-2), 16)}`;
+    return parseInt(hex.slice(1,-2), 16);
 }

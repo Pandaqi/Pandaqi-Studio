@@ -2,7 +2,7 @@
 import BoardGeneration from "./generation"
 import { CONFIG } from "../shared/config";
 import { ResourceLoader, MaterialVisualizer, loadSettings } from "lib/pq-games";
-import { RendererPixi } from "lib/pq-games/renderers/pixi/rendererPixi";
+import { RendererPixi } from "lib/pq-games";
 
 // @NOTE: The `BoardGeneration` starts the interface AND contains completely custom code for creating the PDF
 // (I initially thought about splitting the code into `board` and `game`, but that isn't really useful. Because the game NEEDS a board too, and the board NEEDS the hint images too)

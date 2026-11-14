@@ -5,7 +5,7 @@ import { ResourceText } from "../resources/resourceText"
 import { LineData } from "./lineData"
 import { parseText } from "./parser"
 import { TextChunk, TextChunkBreak, TextChunkStyle } from "./textChunk"
-import { TextAlign } from "./textConfig"
+import { TextAlign, TextConfig } from "./textConfig"
 import { hasVisibleText } from "./tools"
 
 export interface TextBoxMetrics
@@ -14,6 +14,25 @@ export interface TextBoxMetrics
     dimsUsed: Dims, // a box around the actual visible text and nothing else
     textParsed: TextChunk[],
     lines: LineData[],
+}
+
+// Shrinks the font size of `cfg` until `text` fits inside `boxDims` on the Y-axis.
+// For text whose length is not known up front (e.g. generated sidebar explanations), so it does not clip.
+export const fitTextSizeToBox = (text:string, cfg:TextConfig, boxDims:Vector2, minSize = 4) =>
+{
+    const fitCfg = cfg.clone();
+    const resource = new ResourceText({ text: text, textConfig: fitCfg });
+    for(let i = 0; i < 10; i++)
+    {
+        const metrics = calculateTextMetrics(resource, boxDims, Vector2.ZERO, false);
+        if(!metrics) { break; }
+        const linesHeight = fitCfg.lineHeight * fitCfg.size * metrics.lines.length;
+        if(linesHeight <= boxDims.y) { break; }
+        const newSize = fitCfg.size * (boxDims.y / linesHeight);
+        fitCfg.size = Math.max(Math.min(newSize, fitCfg.size * 0.95), minSize);
+        if(fitCfg.size <= minSize) { break; }
+    }
+    return fitCfg.size;
 }
 
 // if no size set, we need a really huge canvas to make sure whatever we draw will likely fit so it can be measured
@@ -29,7 +48,7 @@ const getMeasureContext = () =>
     return measureContext;
 }
 
-export const calculateTextMetrics = (resource:ResourceText, size:Vector2 = DEFAULT_SIZE, offset:Vector2 = Vector2.ZERO) =>
+export const calculateTextMetrics = (resource:ResourceText, size:Vector2 = DEFAULT_SIZE, offset:Vector2 = Vector2.ZERO, reportOverflow = true) =>
 {
     // a measuring context never draws, so the box size only matters for wrapping (which takes it as a number)
     const ctx = getMeasureContext();
@@ -117,15 +136,15 @@ export const calculateTextMetrics = (resource:ResourceText, size:Vector2 = DEFAU
     const tooHigh = (realHeight > boxHeight);
     if(tooHigh)
     {
-        console.error("Textbox overflows on Y-axis!", boxHeight, realHeight, textParsed);
+        if(reportOverflow) { console.error("Textbox overflows on Y-axis!", boxHeight, realHeight, textParsed); }
         textDims.size.y = Math.min(textDims.size.y, boxHeight);
     }
 
     const tooWide = (realWidth > boxWidth);
     if(tooWide)
     {
-        console.error("Textbox overflows on X-axis!", boxWidth, realWidth, textParsed);
-        textDims.size.x = Math.min(textDims.size.x, boxHeight);
+        if(reportOverflow) { console.error("Textbox overflows on X-axis!", boxWidth, realWidth, textParsed); }
+        textDims.size.x = Math.min(textDims.size.x, boxWidth);
     }
 
     //

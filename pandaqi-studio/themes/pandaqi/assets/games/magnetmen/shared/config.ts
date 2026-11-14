@@ -1,5 +1,5 @@
 import { CVal, SettingType, TextConfig, TextWeight, TextStyle, Vector2, Bounds, MapperPreset } from "lib/pq-games"
-import { RendererPixi } from "lib/pq-games/renderers/pixi/rendererPixi"
+import { RendererPixi } from "lib/pq-games"
 import { boardPicker } from "../board/boardPicker"
 
 export const CONFIG = 

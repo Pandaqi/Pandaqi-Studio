@@ -1,5 +1,5 @@
 
-import { RendererPixi } from "lib/pq-games/renderers/pixi/rendererPixi";
+import { RendererPixi } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { SettingType, loadGame } from "lib/pq-games";
 import type { GameConfig } from "lib/pq-games";
