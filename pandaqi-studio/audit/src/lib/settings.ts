@@ -12,13 +12,19 @@ export interface ControlInfo
     checked: boolean | null;
 }
 
-export const CONTROL_SELECTOR = ".settings-container input, .settings-container select";
+export const CONTROL_SELECTOR = ".settings-container input, .settings-container select, .settings-container .settings-input-multi";
+
+// A MULTI setting is ONE control (the div that carries the dotted path id); its checkboxes are its values, not controls.
+const isMultiGroup = (el:any) => !!el.classList?.contains("settings-input-multi");
+const belongsToMultiGroup = (el:any) => !isMultiGroup(el) && !!el.closest(".settings-input-multi");
 
 export const readControls = async (page:Page) : Promise<ControlInfo[]> =>
 {
     return await page.$$eval(CONTROL_SELECTOR, (els) =>
     {
-        return els.map((el:any) =>
+        return els
+        .filter((el:any) => !!el.classList?.contains("settings-input-multi") || !el.closest(".settings-input-multi"))
+        .map((el:any) =>
         {
             const tag = el.tagName.toLowerCase();
             return {
@@ -112,6 +118,18 @@ export const settingsSnapshot = async (page:Page) : Promise<Record<string,string
         const out:Record<string,string> = {};
         for(const el of els as any[])
         {
+            const isMultiGroup = !!el.classList?.contains("settings-input-multi");
+
+            // one stable key per MULTI control, listing the ticked values
+            if(isMultiGroup)
+            {
+                out[el.id || "unnamed"] = Array.from(el.querySelectorAll("input"))
+                    .map((input:any) => input.checked ? input.dataset.value : "")
+                    .join(",");
+                continue;
+            }
+
+            if(el.closest(".settings-input-multi")) { continue; }
             if(el.type === "file") { continue; }
             const key = el.id || el.name || "unnamed";
             out[key] = el.type === "checkbox" ? String(el.checked) : String(el.value);

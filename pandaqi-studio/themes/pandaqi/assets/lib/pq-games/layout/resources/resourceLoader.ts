@@ -44,6 +44,7 @@ export class ResourceLoader
 
     loadInSequence = false
     onResourceLoaded = (txt:string) => {}
+    onResourceFailed = (txt:string) => { console.error("[ResourceLoader] " + txt); }
 
     fallbackImage : ResourceImage
     fallbackFont : ResourceFont
@@ -186,10 +187,20 @@ export class ResourceLoader
         if(this.isImage(pathOriginal))
         {
             const img = new Image();
-            img.src = path;
-            await this.cacheLoadedImage(key, params, img);
-            this.onResourceLoaded("Image (" + fileName + ")");
-            if(!this.fallbackImage) { this.fallbackImage = this.resourcesLoaded[id] as ResourceImage; }
+            const loaded = await new Promise<boolean>((resolve) =>
+            {
+                img.onload = () => { resolve(true); };
+                img.onerror = () => { this.onResourceFailed("Image (" + fileName + ") at " + path); resolve(false); };
+                img.src = path;
+            });
+
+            // a broken image must not silently draw as a blank/fallback image
+            if(loaded)
+            {
+                await this.cacheLoadedImage(key, params, img);
+                this.onResourceLoaded("Image (" + fileName + ")");
+                if(!this.fallbackImage) { this.fallbackImage = this.resourcesLoaded[id] as ResourceImage; }
+            }
         }
 
         // load fonts as needed
@@ -197,7 +208,14 @@ export class ResourceLoader
         {
             const textConfig = params.textConfig ? params.textConfig.getFontFaceDescriptors() : {};
             const fontFile = new FontFace(key, "url('" + path + "')", textConfig);
-            const f = await fontFile.load()
+            let f : FontFace;
+            try {
+                f = await fontFile.load();
+            } catch(err:any) {
+                // drawing text with a silent fallback font would corrupt every card, so this stays fatal
+                this.onResourceFailed("Font (" + fileName + ") at " + path + ": " + (err?.message ?? err));
+                throw err;
+            }
             this.cacheLoadedFont(key, params, f);
             this.onResourceLoaded("Font (" + fileName + ")");
             if(!this.fallbackFont) { this.fallbackFont = this.resourcesLoaded[id] as ResourceFont; }

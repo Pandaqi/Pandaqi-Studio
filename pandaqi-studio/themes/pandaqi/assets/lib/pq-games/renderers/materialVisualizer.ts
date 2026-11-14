@@ -5,6 +5,7 @@ import { ResourceGroup } from "../layout/resources/resourceGroup";
 import { ResourceLoader } from "../layout/resources/resourceLoader";
 import { Vector2 } from "../geometry/vector2";
 import { Configurator } from "../settings/configurator";
+import { CVal } from "../settings/cval";
 import { ensureConfigProperties, GameConfig, getSettingDefault } from "../settings/configuration";
 import { translate } from "../layout/text/translation";
 
@@ -27,10 +28,12 @@ export class MaterialVisualizer
 
     translation: Record<string,any>
     language: string
+    warnedDrawingPaths: Set<string>
 
     constructor(config:GameConfig, customItemSize:Vector2 = null)
     {
         ensureConfigProperties(config);
+        this.warnedDrawingPaths = new Set();
         
         this.renderer = config._game.renderer ?? new RendererPandaqi();
         this.resLoader = config._game.resLoader;
@@ -61,7 +64,21 @@ export class MaterialVisualizer
 
     get(s:string|string[])
     {
-        return this.configurator.get(s);
+        const val = this.configurator.get(s);
+
+        // a typo in a _drawing path is otherwise invisible: it simply returns undefined and draws nothing
+        if(val === undefined || val instanceof CVal)
+        {
+            const key = this.configurator.keyToPath(s);
+            if(!this.warnedDrawingPaths.has(key))
+            {
+                this.warnedDrawingPaths.add(key);
+                const reason = val === undefined ? "does not exist in _drawing" : "could not be resolved (one of its inputs is missing)";
+                console.warn(`[MaterialVisualizer] _drawing path "${key}" ${reason}.`);
+            }
+        }
+
+        return val;
     }
 
     getTranslated(s:string, params:Record<string,any>)

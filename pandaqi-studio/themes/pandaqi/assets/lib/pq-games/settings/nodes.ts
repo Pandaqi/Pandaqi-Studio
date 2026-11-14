@@ -35,6 +35,10 @@ export interface SettingConfig
     step?: number,
 }
 
+// Multi-select controls are a div of checkboxes, so their individual checkboxes carry no id (the div carries the path).
+// Remember the declared value for each checkbox, because `dataset.value` would turn numbers/booleans into strings.
+const MULTI_VALUES = new WeakMap<HTMLInputElement, any>();
+
 const convertRecursive = (config:Record<string,any>, path:string, container:HTMLElement) =>
 {
     for(const [key,data] of Object.entries(config))
@@ -180,7 +184,8 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
             cont.appendChild(inp);
             inp.type = "checkbox";
             inp.checked = defaultValues.includes(value);
-            inp.dataset.value = value;
+            inp.dataset.value = String(value);
+            MULTI_VALUES.set(inp, value);
         }
     }
 
@@ -220,7 +225,8 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
 
 export const readSettingsFromHTML = (node:HTMLElement) =>
 {
-    const settingsElements = Array.from(node.querySelectorAll("input,select"));
+    // MULTI settings are a div (which holds the path id) with id-less checkboxes inside; everything else is a real input/select
+    const settingsElements = Array.from(node.querySelectorAll("input[id],select[id],div.settings-input-multi[id]"));
     const obj = {};
     for(const elem of settingsElements)
     {
@@ -249,7 +255,7 @@ export const readSettingsFromHTML = (node:HTMLElement) =>
             for(const input of subInputs)
             {
 		if(!input.checked) { continue; }
-                list.push(input.dataset.value);
+                list.push(MULTI_VALUES.has(input) ? MULTI_VALUES.get(input) : input.dataset.value);
             }
             value = list;
         }
@@ -354,11 +360,15 @@ export const loadSettings = (config:GameConfig, callback: Function, parent = doc
 
         btn.disabled = true;
 
-        const settings = readSettingsFromHTML(container);
-        Object.assign(config._settings, settings);
-        await callback(config);
-
-        btn.disabled = false;
+        try {
+            const settings = readSettingsFromHTML(container);
+            Object.assign(config._settings, settings);
+            await callback(config);
+        } finally {
+            // the button is also the progress display, so its label must be restored even if the callback threw
+            btn.innerHTML = "Generate!";
+            btn.disabled = false;
+        }
         if(config._settings.meta.selfDestroy) { container.remove(); }
     });
 

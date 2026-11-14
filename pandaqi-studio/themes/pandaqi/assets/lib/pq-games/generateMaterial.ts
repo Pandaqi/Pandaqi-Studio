@@ -10,6 +10,9 @@ import { addConfigFromLocalStorage, ensureConfigProperties, type GameConfig, typ
 import { sendProgressInfoSignal, sendProgressPhaseSignal } from "./tools/dom/feedbackNode";
 import { PdfBuilder, PdfPageConfig } from "./tools/pdf/pdfBuilder";
 import { getSplitDimsAsPoint, makeSizeSplittable } from "./tools/pdf/tools";
+import { setSeed } from "./tools/random/rng";
+import { getRandomSeedString } from "./tools/random/values";
+import { setStrictWarnings } from "./tools/debug/warnings";
 
 const DEFAULT_BATCH_SIZE = 10;
 const DEFAULT_SLEEP_DURATION = 33 // ms
@@ -36,6 +39,10 @@ const loadResources = async (config:GameConfig, feedbackNode:HTMLElement, render
     const resourcesToLoad = resourceFilter(config._resources.files ?? {});
     const resLoader = new ResourceLoader({ base: config._resources.base, renderer: renderer });
     resLoader.onResourceLoaded = (txt:string) => { sendProgressInfoSignal(feedbackNode, txt); };
+    resLoader.onResourceFailed = (txt:string) => { 
+        console.error(`[Resources] ${txt}`);
+        sendProgressInfoSignal(feedbackNode, txt); 
+    };
     resLoader.setCustomResources(config._settings.defaults.resources.value)
 
     if(!config._debug.onlyGenerate) { resLoader.planLoadMultiple(resourcesToLoad, config); }
@@ -234,6 +241,7 @@ const setupRenderer = (config:GameConfig) =>
     config._game.renderer = renderer;
     renderer.debugLayoutOperation = config._debug.layoutOperation;
     renderer.debugText = config._debug.text;
+    setStrictWarnings(config._debug.strict ?? false);
     return renderer; 
 }
 
@@ -246,6 +254,12 @@ export const generateMaterial = async (config:GameConfig) =>
     // prepare config
     addConfigFromLocalStorage(config);
     ensureConfigProperties(config);
+
+    // seeding: the same settings + seed must yield the same material (an empty seed means "new random one")
+    const seedSetting = config._settings.defaults.seed;
+    if(!seedSetting.value) { seedSetting.value = getRandomSeedString(); }
+    setSeed(String(seedSetting.value));
+
     console.log(config);
 
     // register elements needed

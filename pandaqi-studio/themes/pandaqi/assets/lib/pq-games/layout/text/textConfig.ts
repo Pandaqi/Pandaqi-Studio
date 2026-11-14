@@ -1,6 +1,7 @@
 import { ColorLike } from "../color/colorLike"
 import { LayoutOperation } from "../layoutOperation"
 import { ResourceLoader } from "../resources/resourceLoader"
+import { reportDefaultTextAlignment } from "../../tools/debug/warnings"
 
 export enum TextAlign {
     START,
@@ -121,6 +122,12 @@ export class TextConfig
         this.useSimpleDims = params.useSimpleDims ?? false;
         this.heightToSizeRatio = params.heightToSizeRatio ?? DEF_HEIGHT_TO_SIZE_RATIO;
         this.history = {};
+
+        const horizontalExplicit = (params.align ?? params.alignHorizontal) != null;
+        if(!horizontalExplicit || params.alignVertical == null)
+        {
+            reportDefaultTextAlignment(this, { horizontal: horizontalExplicit, vertical: params.alignVertical != null });
+        }
     }
 
     clone(deep = true) : TextConfig

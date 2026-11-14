@@ -18,6 +18,7 @@ import { Color } from "./color/color"
 import { isColorTransparent } from "./color/mixing"
 import { StrokeAlign, StrokeType } from "./values"
 import { Path } from "../geometry/path"
+import { reportDefaultPivot } from "../tools/debug/warnings"
 
 export type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox|ResourceGroup
 export interface MaskData
@@ -87,6 +88,7 @@ export class LayoutOperation
     sizeAuto : boolean // fits the resource within the `size` given, maintaining original aspect ratio
     sizeResult : Vector2 // set dynamically on every apply
     pivot : Vector2
+    pivotExplicit : boolean // false if the default (centre) pivot was used, which is what the V1->V2 migration flipped
     pivotOffset : Vector2 // final calculated offset because of pivot
     flipX : boolean
     flipY : boolean
@@ -130,6 +132,7 @@ export class LayoutOperation
         this.scale = params.scale ?? new Vector2(1,1);
         if(!(this.scale instanceof Vector2)) { console.error(`Invalid scale ${this.scale} set in LayoutOperation`, this); }
 
+        this.pivotExplicit = params.pivot != null;
         this.pivot = params.pivot ?? Vector2.CENTER;
         if(!(this.pivot instanceof Vector2)) { console.error(`Invalid pivot ${this.pivot} set in LayoutOperation`, this); }
 
@@ -254,6 +257,9 @@ export class LayoutOperation
 
     calculateTransformationMatrix()
     {
+        // shapes are exempt: they are centred regardless of the pivot (see below)
+        if(!this.pivotExplicit && !this.isShape()) { reportDefaultPivot(this); }
+
         const trans = this.parentOperation ? this.parentOperation.transformResult.clone() : new TransformationMatrix();
         trans.translate(this.posResult); 
         trans.rotate(this.rot);

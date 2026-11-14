@@ -135,6 +135,7 @@ export interface GameConfig
         mapper?: boolean, // if true, outlines from GridMapper show how it's placing stuff
         visualizer?: boolean, // if true, toggles debugging in the MaterialVisualizer (mostly logging the exact values it calculated)
         layoutOperation?: boolean, // @TODO: implemented, but what should we actually debug/report? Does it assign a unique ID to each operation-resource combo + do a more expensive check on its validity?
+        strict?: boolean, // if true, logs every operation/text that relies on a default that V1->V2 changed (pivot, text alignment)
     },
 
     _resources?: GameConfigResources,
