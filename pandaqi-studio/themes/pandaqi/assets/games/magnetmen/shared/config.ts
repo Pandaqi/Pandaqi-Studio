@@ -1,4 +1,4 @@
-import { SettingType, TextConfig, TextWeight, TextStyle, Vector2, Bounds, MapperPreset } from "lib/pq-games"
+import { CVal, SettingType, TextConfig, TextWeight, TextStyle, Vector2, Bounds, MapperPreset } from "lib/pq-games"
 import { RendererPixi } from "lib/pq-games/renderers/pixi/rendererPixi"
 import { boardPicker } from "../board/boardPicker"
 
@@ -190,13 +190,13 @@ export const CONFIG =
             body: "urbanist"
         },
 
-        edgeMargin: new Vector2(0.05), // ~pageSizeUnit
+        edgeMargin: new CVal(new Vector2(0.05), "sizeUnit"),
         bgColor: "#020823",
         
         sidebar:
         {
             width: 0.3, // ~innerPageSizeX
-            extraMargin: 0.03, // ~pageSizeX; padding between board and sidebar
+            extraMargin: new CVal(0.03, "sizeUnit"), // padding between board and sidebar
             tutImageRatio: 639.0/572.0,
             fontSize: 0.3, // ~entrySizeY
             maxFontSize: 42, // an absolute maximum, anything higher is too large and unnecessary
@@ -209,23 +209,23 @@ export const CONFIG =
 
         cells:
         {
-            strokeWidth: 0.03, // ~cellSizeUnit
-            iconSize: 0.75, // ~cellSizeUnit
+            strokeWidth: new CVal(0.03, "cellSizeUnit"),
+            iconSize: new CVal(0.75, "cellSizeUnit"),
             bgColorLightness: 97,
             bgColorDarken: 9
         },
 
         inventories:
         {
-            height: 0.05, // ~boardSizeUnit
-            strokeWidth: 0.03, // ~cellSizeUnit
+            height: new CVal(0.05, "boardSizeY"),
+            strokeWidth: new CVal(0.03, "cellSizeUnit"),
             numSlots: {
                 small: 9, 
                 regular: 14,
                 big: 18,
                 huge: 20
             },
-            extraMargin: 0.0175, // ~pageSizeUnit
+            extraMargin: new CVal(0.0175, "sizeUnit"),
         }
     }
 }

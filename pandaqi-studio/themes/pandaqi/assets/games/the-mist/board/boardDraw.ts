@@ -47,12 +47,12 @@ export default class BoardDraw
     {
         const fullSize = vis.size;
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
-        const edgeMargin = vis.get("edgeMargin").clone().scale(fullSizeUnit);
+        const edgeMargin = vis.get("edgeMargin").clone();
 
         const innerSize = fullSize.clone().sub(edgeMargin.clone().scale(2));
 
         const sidebarSize = new Vector2(innerSize.x * vis.get("sidebar.width"), innerSize.y);
-        let extraSidebarMargin = vis.get("sidebar.extraMargin") * fullSizeUnit;
+        let extraSidebarMargin = vis.get("sidebar.extraMargin");
         if(!CONFIG._settings.includeRules.value) { sidebarSize.x = 0; extraSidebarMargin = 0; }
 
         const boardSize = new Vector2(innerSize.x - sidebarSize.x - extraSidebarMargin, innerSize.y);
@@ -69,6 +69,9 @@ export default class BoardDraw
         this.cellSize = boardSize.clone().div(this.board.size);
         this.cellSizeHalf = this.cellSize.clone().scale(0.5);
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
+
+        // so `_drawing` can be written relative to this board's own units, like it already is for `sizeUnit`
+        vis.configurator.set("cellSizeUnit", this.cellSizeUnit);
 
         this.defaultEffects = [];
         if(vis.inkFriendly) { this.defaultEffects.push(new GrayScaleEffect()); }
@@ -114,9 +117,9 @@ export default class BoardDraw
         const bgColorSaturation = vis.inkFriendly ? 0 : 100;
         const bgColor = new Color(rand()*360, bgColorSaturation, bgColorLightness);
 
-        const dotRadius = vis.get("cells.dotRadius") * this.cellSizeUnit;
-        const iconDims = new Vector2(vis.get("cells.iconSize") * this.cellSizeUnit);
-        const iconOffset = vis.get("cells.iconOffsetFromCenter") * 0.5 * this.cellSizeUnit;
+        const dotRadius = vis.get("cells.dotRadius");
+        const iconDims = new Vector2(vis.get("cells.iconSize"));
+        const iconOffset = vis.get("cells.iconOffsetFromCenter") * 0.5;
         const positions = [
             Vector2.UP.clone().scale(iconOffset),
             Vector2.RIGHT.clone().scale(iconOffset),
@@ -130,13 +133,13 @@ export default class BoardDraw
             effects: this.defaultEffects
         })
 
-        const cellStrokeWidth = vis.get("cells.strokeWidth") * this.cellSizeUnit;
+        const cellStrokeWidth = vis.get("cells.strokeWidth");
         const rectOp = new LayoutOperation({
             stroke: vis.inkFriendly ? "#000000" : vis.get("cells.strokeColor"),
         })
 
-        const dotStrokeWidth = vis.get("cells.dotStrokeWidth") * this.cellSizeUnit;
-        const triangleStrokeWidth = vis.get("cells.triangleStrokeWidth") * this.cellSizeUnit;
+        const dotStrokeWidth = vis.get("cells.dotStrokeWidth");
+        const triangleStrokeWidth = vis.get("cells.triangleStrokeWidth");
         const triangleStrokeColor = vis.inkFriendly ? "#666666" : vis.get("cells.triangleStrokeColor");
 
         const startPosColor = vis.get("cells.fillColorStart");
@@ -306,7 +309,7 @@ export default class BoardDraw
         const rectOp = new LayoutOperation({
             fill: "#FFFFFF",
             stroke: "#000000",
-            strokeWidth: vis.get("sidebar.rectStrokeWidth") * this.sizeUnit
+            strokeWidth: vis.get("sidebar.rectStrokeWidth")
         });
         const borderRadius = 0.1*iconDims.x;
 

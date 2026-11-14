@@ -44,19 +44,22 @@ export default class BoardDraw
     {
         const fullSize = vis.size;
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
-        const edgeMargin = vis.get("edgeMargin").clone().scale(fullSizeUnit);
+        const edgeMargin = vis.get("edgeMargin").clone();
 
         const innerSize = fullSize.clone().sub(edgeMargin.clone().scale(2));
 
         const sidebarSize = new Vector2(innerSize.x * vis.get("sidebar.width"), innerSize.y);
-        let extraSidebarMargin = vis.get("sidebar.extraMargin") * fullSizeUnit;
+        let extraSidebarMargin = vis.get("sidebar.extraMargin");
         if(!CONFIG._settings.includeRules.value) { sidebarSize.x = 0; extraSidebarMargin = 0; }
 
         const boardSize = new Vector2(innerSize.x - sidebarSize.x - extraSidebarMargin, innerSize.y);
         const boardSizeUnit = Math.min(boardSize.x, boardSize.y);
 
-        const inventoryHeight = vis.get("inventories.height") * boardSize.y;
-        const extraInventoryMargin = vis.get("inventories.extraMargin") * fullSizeUnit;
+        // registered before it is used below: `_drawing` is written relative to this board's own units
+        vis.configurator.set("boardSizeY", boardSize.y);
+
+        const inventoryHeight = vis.get("inventories.height");
+        const extraInventoryMargin = vis.get("inventories.extraMargin");
         const inventorySize = new Vector2(boardSizeUnit - 2*inventoryHeight -2*extraInventoryMargin, inventoryHeight); // this is for horizontal variant; verticals are just flipped = rotated
         const inventoryMargin = new Vector2(inventorySize.y + extraInventoryMargin)
         const gridSize = boardSize.clone().sub(inventoryMargin.clone().scale(2));
@@ -75,6 +78,8 @@ export default class BoardDraw
         this.cellSize = gridSize.clone().div(this.board.size);
         this.cellSizeHalf = this.cellSize.clone().scale(0.5);
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
+
+        vis.configurator.set("cellSizeUnit", this.cellSizeUnit);
     }
 
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
@@ -91,7 +96,7 @@ export default class BoardDraw
     drawBoard(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // draw the inventories
-        const invStrokeWidth = vis.get("inventories.strokeWidth") * this.cellSizeUnit;
+        const invStrokeWidth = vis.get("inventories.strokeWidth");
         const inventoryCenters = [
             new Vector2(this.originBoard.x + 0.5*this.boardSize.x, this.originBoard.y + 0.5*this.inventorySize.y),
             new Vector2(this.originBoard.x + this.boardSize.x - 0.5*this.inventorySize.y, this.originBoard.y + 0.5 * this.boardSize.y),
@@ -131,7 +136,7 @@ export default class BoardDraw
         const bgColor = new Color(rand()*360, bgColorSaturation, bgColorLightness);
 
         // for each cell, simply draw its rectangle (boundaries/cell) and its icon
-        const cellStrokeWidth = vis.get("cells.strokeWidth") * this.cellSizeUnit;
+        const cellStrokeWidth = vis.get("cells.strokeWidth");
         for(const cell of this.board.cells)
         {
             const pos = this.convertGridPosToRealPos(cell.pos);
@@ -152,7 +157,7 @@ export default class BoardDraw
 
             const iconData = CONFIG.allTypes[cell.type];
             const icon = vis.getResource(iconData.textureKey);
-            const iconDims = new Vector2(vis.get("cells.iconSize") * this.cellSizeUnit);
+            const iconDims = new Vector2(vis.get("cells.iconSize"));
             const iconOp = new LayoutOperation({
                 frame: iconData.frame,
                 pos: posCenter,

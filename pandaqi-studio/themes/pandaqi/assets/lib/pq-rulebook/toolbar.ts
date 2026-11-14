@@ -139,8 +139,7 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
     {
         buttonPrintPaged.disabled = true;
 
-        let pagedJS;
-        try { pagedJS = await loadPagedJS(); }
+        try { await loadPagedJS(); }
         catch(err)
         {
             buttonPrintPaged.disabled = false;
@@ -156,14 +155,14 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
         renderRoot.appendChild(flat); // paged.js needs the content it paginates to be part of the document
         document.body.appendChild(renderRoot);
 
-        const headStylesBefore = new Set(Array.from(document.head.querySelectorAll("style")));
-        let addedStyles:HTMLElement[] = [];
-        const scrollY = window.scrollY;
-
-        // The live rulebook is hidden only for the print itself, through print media. Toggling its style on
+        // paged.js copies the ancestors of everything it splits across a page into that page, including a
+        // <html> and <body> clone. The site's `html, body { height: 100% }` then makes that clone as tall as
+        // the page, so only one block fits per page and a 4-page rulebook becomes a 47-page one.
+        // The live rulebook is hidden only for the print itself, through print media: toggling its style on
         // screen would collapse the page, and the browser throws the reader's scroll position away with it.
         const printStyle = document.createElement("style");
         printStyle.textContent = [
+            ".rulebook-paged-output :is(html, body) { height: auto !important; min-height: 0 !important; }",
             "@media print {",
             "    body.rulebook-paged-print > main > article,",
             "    body.rulebook-paged-print > main > .rulebook-toolbar { display: none !important; }",
@@ -183,58 +182,21 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
             document.body.classList.remove("rulebook-paged-print");
             printStyle.remove();
             renderRoot.remove();
-            for(const style of addedStyles) { style.remove(); }
-
-            // paged.js' own styles scroll the document to the top, so put the reader back where they were;
-            // the removal above only takes effect after a layout pass, hence the retries
-            window.scrollTo(0, scrollY);
-            requestAnimationFrame(() => {
-                window.scrollTo(0, scrollY);
-                setTimeout(() => { window.scrollTo(0, scrollY); }, 150);
-            });
+            for(const style of Array.from(document.querySelectorAll("style[data-pagedjs-inserted-styles]"))) { style.remove(); }
         }
         window.addEventListener("afterprint", restoreLivePage, { once: true });
 
-        // paged.js removes every stylesheet it is given, so hand it copies instead of the live nodes: a URL for a
-        // <link>, and the matching `{ href: css }` object for an inline <style> (a bare string is fetched as a
-        // URL by paged's polisher). Screen-only sheets are skipped, exactly like paged.js does itself.
-        const isScreenOnly = (elem:Element) => { return (elem.getAttribute("media") ?? "").includes("screen"); }
-        const stylesheets:any[] = [];
-        for(const link of Array.from(document.querySelectorAll('link[rel="stylesheet"]')))
-        {
-            if(isScreenOnly(link)) { continue; }
-            const href = (link as HTMLLinkElement).href;
-            if(href) { stylesheets.push(href); }
-        }
-        for(const style of Array.from(headStylesBefore) as HTMLStyleElement[])
-        {
-            if(isScreenOnly(style)) { continue; }
-            stylesheets.push({ [window.location.href]: style.textContent ?? "" });
-        }
-
-        const Previewer = (window as any).Paged?.Previewer;
-        if(!Previewer)
-        {
-            // older paged builds only offer `preview()` on the polyfill object, which paginates the whole body
-            console.error("[Rulebook] Paged.js did not expose its Previewer; relying on a page reload after printing.");
-            window.removeEventListener("afterprint", restoreLivePage);
-            window.addEventListener("afterprint", () => { window.location.reload(); }, { once: true });
-            renderRoot.remove();
-            node.remove();
-            document.body.appendChild(flat);
-            await pagedJS.preview();
-            print();
-            return;
-        }
-
-        try { await new Previewer().preview(flat, stylesheets, renderRoot); }
+        // paged.js removes every stylesheet it is handed, so hand it none: the page's own CSS is already in the
+        // document and still applies to the copy
+        try { await new (window as any).Paged.Previewer().preview(flat, [], renderRoot); }
         catch(err)
         {
             restoreLivePage();
             return console.error("[Rulebook] Paged.js could not build the print preview!", err);
         }
 
-        addedStyles = Array.from(document.head.querySelectorAll("style")).filter((style) => { return !headStylesBefore.has(style); });
+        // paged.js copies the source into its pages, so the source itself would otherwise be printed as well
+        flat.remove();
         print();
     });
 

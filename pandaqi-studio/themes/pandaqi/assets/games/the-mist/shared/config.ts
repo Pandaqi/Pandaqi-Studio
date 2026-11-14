@@ -1,4 +1,5 @@
 
+import { CVal } from "lib/pq-games"
 import { ActionType } from "./dict"
 import { boardPicker } from "../board/boardPicker"
 import { SettingType, TextConfig, TextWeight, Vector2, Bounds, MapperPreset } from "lib/pq-games"
@@ -171,7 +172,7 @@ export const CONFIG =
             body: "inika"
         },
 
-        edgeMargin: new Vector2(0.05), // ~pageSizeUnit
+        edgeMargin: new CVal(new Vector2(0.05), "sizeUnit"),
         bgColor: "#fffdc9", //"#040404",
 
         bg:
@@ -182,9 +183,9 @@ export const CONFIG =
         
         sidebar:
         {
-            rectStrokeWidth: 0.0015, // ~pageSizeUnit
+            rectStrokeWidth: new CVal(0.0015, "sizeUnit"),
             width: 0.3, // ~innerPageSizeX
-            extraMargin: 0.03, // ~pageSizeX; padding between board and sidebar
+            extraMargin: new CVal(0.03, "sizeUnit"), // padding between board and sidebar
             tutImageRatio: 565.0/572.0,
             fontSize: 0.3, // ~entrySizeY
             maxFontSize: 42, // an absolute maximum, anything higher is too large and unnecessary
@@ -199,20 +200,20 @@ export const CONFIG =
 
         cells:
         {
-            strokeWidth: 0.01, // ~cellSizeUnit
+            strokeWidth: new CVal(0.01, "cellSizeUnit"),
             strokeColor: "#332211", // "#FFFFFF",
             strokeWidthMultiplierStart: 6, // ~strokeWidth
             fillColorStart: "#FFFEFE",
             strokeColorStart: "#663311",
-            triangleStrokeWidth: 0.01, // ~cellSizeUnit
+            triangleStrokeWidth: new CVal(0.01, "cellSizeUnit"),
             triangleStrokeColor: "#886633", //"#DCDCDC",
-            iconSize: 0.3, // ~cellSizeUnit
+            iconSize: new CVal(0.3, "cellSizeUnit"),
             bgColorLightness: 97,
             bgColorDarken: 9,
 
-            dotRadius: 0.115, // ~cellSizeUnit
-            dotStrokeWidth: 0.01, // as thin as triangles, should be visible yet leave loads of space
-            iconOffsetFromCenter: 0.6125, // ~cellSizeUnit
+            dotRadius: new CVal(0.115, "cellSizeUnit"),
+            dotStrokeWidth: new CVal(0.01, "cellSizeUnit"), // as thin as triangles, should be visible yet leave loads of space
+            iconOffsetFromCenter: new CVal(0.6125, "cellSizeUnit"),
         },
     }
 }
