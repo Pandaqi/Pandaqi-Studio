@@ -1,5 +1,5 @@
 
-import { Vector2, shuffle, BalancedDictionaryPicker, fromArray, Bounds, assignGridNeighbors, GridNeighborType, initNumberRange, floodFill } from "lib/pq-games";
+import { Vector2, shuffle, BalancedDictionaryPicker, fromArray, Bounds, assignGridNeighbors, GridNeighborType, initNumberRange, floodFill, getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { SETS } from "../shared/dict";
 import BoardDraw from "./boardDraw";
@@ -15,8 +15,7 @@ export const boardPicker = () =>
     const sets = Object.keys(CONFIG._settings.sets);
     for(const setKey of sets)
     {
-        const isIncluded = CONFIG._settings.sets[setKey].value;
-        if(!isIncluded) { continue; }
+        if(!getSetting("sets." + setKey, CONFIG)) { continue; }
         const setData = SETS[setKey];
         setsIncluded.push(setKey);
         allPowers = Object.assign(allPowers, setData);
@@ -31,7 +30,7 @@ export const boardPicker = () =>
     console.log(allPowers);
 
     // prepare and cache whatever we can
-    const size = CONFIG.generation.size[CONFIG._settings.boardSize.value];
+    const size = CONFIG.generation.size[getSetting("boardSize", CONFIG)];
     const iconDistribution = determineIconDistribution(size);
     const cells = createCells(size, iconDistribution);
     assignTypes(cells);

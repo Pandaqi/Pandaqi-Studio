@@ -4,19 +4,16 @@ import { SETS } from "../shared/dict";
 import BoardState from "./boardState";
 import Cell from "./cell";
 import BoardDraw from "./boardDraw";
-import { Vector2, BalancedDictionaryPicker, shuffle } from "lib/pq-games";
+import { Vector2, BalancedDictionaryPicker, shuffle, getSetting } from "lib/pq-games";
 
 export const boardPicker = () =>
 {
     // easy reference for all powers enabled
     let allPowers = {};
     const includedSets = [];
-    for(const [setKey,setConfig] of Object.entries(CONFIG._settings.sets))
+    for(const setKey of Object.keys(CONFIG._settings.sets))
     {
-        if(!setConfig || typeof setConfig !== "object" || !setConfig.value) { continue; }
-        
-        const included = setConfig.value == true;
-        if(!included) { continue; }
+        if(!getSetting("sets." + setKey, CONFIG)) { continue; }
         const setData = SETS[setKey];
         allPowers = Object.assign(allPowers, setData);
         includedSets.push(setKey);
@@ -32,7 +29,7 @@ export const boardPicker = () =>
     CONFIG.beginnerMode = includedSets.length <= 1 && includedSets.includes("base");
 
     // create board state
-    const size = CONFIG.generation.size[CONFIG._settings.boardSize.value];
+    const size = CONFIG.generation.size[getSetting("boardSize", CONFIG)];
 
     const typeList = determineTypes(size);
     const cells = createCells(typeList, size);

@@ -1,5 +1,5 @@
 
-import { Vector2, LayoutEffect, MaterialVisualizer, GrayScaleEffect, ResourceGroup, fillResourceGroup, LayoutOperation, Color, closePath, Path, ResourceShape, Rectangle, Circle, rangeInteger, fromArray, TextConfig, TextAlign, RectangleRounded, ResourceText, DropShadowEffect, getPositionsCenteredAround, colorDarken, rand, fitTextSizeToBox } from "lib/pq-games";
+import { Vector2, LayoutEffect, MaterialVisualizer, GrayScaleEffect, ResourceGroup, fillResourceGroup, LayoutOperation, Color, closePath, Path, ResourceShape, Rectangle, Circle, rangeInteger, fromArray, TextConfig, TextAlign, RectangleRounded, ResourceText, DropShadowEffect, getPositionsCenteredAround, colorDarken, rand, fitTextSizeToBox, getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { COLORS, MISC } from "../shared/dict";
 import BoardState from "./boardState";
@@ -53,7 +53,7 @@ export default class BoardDraw
 
         const sidebarSize = new Vector2(innerSize.x * vis.get("sidebar.width"), innerSize.y);
         let extraSidebarMargin = vis.get("sidebar.extraMargin");
-        if(!CONFIG._settings.includeRules.value) { sidebarSize.x = 0; extraSidebarMargin = 0; }
+        if(!getSetting("includeRules", CONFIG)) { sidebarSize.x = 0; extraSidebarMargin = 0; }
 
         const boardSize = new Vector2(innerSize.x - sidebarSize.x - extraSidebarMargin, innerSize.y);
         const boardSizeUnit = Math.min(boardSize.x, boardSize.y);
@@ -264,7 +264,7 @@ export default class BoardDraw
 
     drawSidebar(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        if(!CONFIG._settings.includeRules.value) { return; }
+        if(!getSetting("includeRules", CONFIG)) { return; }
 
         // tutorial image at the top
         const tut = vis.getResource("sidebar");

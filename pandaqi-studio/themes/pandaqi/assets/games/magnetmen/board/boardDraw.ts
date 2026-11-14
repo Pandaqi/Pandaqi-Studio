@@ -1,5 +1,5 @@
 
-import { Vector2, MaterialVisualizer, ResourceGroup, fillResourceGroup, getPositionsCenteredAround, Rectangle, LayoutOperation, ResourceShape, Color, TextConfig, TextAlign, RectangleRounded, fromArray, ResourceText, colorDarken, rand } from "lib/pq-games";
+import { Vector2, MaterialVisualizer, ResourceGroup, fillResourceGroup, getPositionsCenteredAround, Rectangle, LayoutOperation, ResourceShape, Color, TextConfig, TextAlign, RectangleRounded, fromArray, ResourceText, colorDarken, rand, getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { MISC } from "../shared/dict";
 import BoardState from "./boardState";
@@ -50,7 +50,7 @@ export default class BoardDraw
 
         const sidebarSize = new Vector2(innerSize.x * vis.get("sidebar.width"), innerSize.y);
         let extraSidebarMargin = vis.get("sidebar.extraMargin");
-        if(!CONFIG._settings.includeRules.value) { sidebarSize.x = 0; extraSidebarMargin = 0; }
+        if(!getSetting("includeRules", CONFIG)) { sidebarSize.x = 0; extraSidebarMargin = 0; }
 
         const boardSize = new Vector2(innerSize.x - sidebarSize.x - extraSidebarMargin, innerSize.y);
         const boardSizeUnit = Math.min(boardSize.x, boardSize.y);
@@ -104,7 +104,7 @@ export default class BoardDraw
             new Vector2(this.originBoard.x + 0.5 * this.inventorySize.y, this.originBoard.y + 0.5*this.boardSize.y),
         ];
 
-        const numInventorySlots = vis.get("inventories.numSlots")[CONFIG._settings.boardSize.value];
+        const numInventorySlots = vis.get("inventories.numSlots")[getSetting("boardSize", CONFIG)];
         const slotDims = new Vector2(this.inventorySize.x / numInventorySlots, this.inventorySize.y);
         for(let i = 0; i < 4; i++)
         {
@@ -197,7 +197,7 @@ export default class BoardDraw
 
     drawSidebar(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        if(!CONFIG._settings.includeRules.value) { return; }
+        if(!getSetting("includeRules", CONFIG)) { return; }
 
         // tutorial image at the top
         const tut = vis.getResource("sidebar");
