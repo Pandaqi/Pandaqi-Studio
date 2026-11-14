@@ -39,8 +39,6 @@ export default class GeneralPickerNaivigation
         this.data = [];
     }
 
-    // easy bridge to the new Pandaqi system where all pickers are just plain functions (inside functions)
-    asFunction() { return () => () => this.generate(); }
 
     get() { return this.elements; }
     generate()

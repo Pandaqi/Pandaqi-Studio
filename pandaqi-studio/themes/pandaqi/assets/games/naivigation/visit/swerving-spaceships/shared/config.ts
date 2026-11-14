@@ -1,5 +1,5 @@
 import { CONFIG_NAIVIGATION_SHARED } from "games/naivigation/shared/configShared"
-import { PICKER_REGISTRY } from "games/naivigation/shared/pickerRegistry";
+import { cardPicker, tilePicker } from "../game/generators";
 import { planetPropertiesPicker } from "../game/planetPropertiesPicker";
 import { SettingType, Vector2, MapperPreset, CVal, Bounds, mergeObjects } from "lib/pq-games";
 
@@ -59,6 +59,8 @@ export const CONFIG =
         
         expansions:
         {
+            type: SettingType.GROUP,
+
             shields:
             {
                 type: SettingType.CHECK,
@@ -133,12 +135,12 @@ export const CONFIG =
     {
         cards:
         {
-            picker: () => PICKER_REGISTRY.cards
+            picker: () => cardPicker
         },
 
         tiles: 
         {
-            picker: () => PICKER_REGISTRY.tiles
+            picker: () => tilePicker
         },
 
         planetProperties:

@@ -1,7 +1,6 @@
 
 import MaterialNaivigation from "./materialNaivigation";
 import { CardType } from "./dictShared";
-import GeneralPickerNaivigation from "./generalPickerNaivigation";
 import { MaterialVisualizer, rangeInteger, shuffle, createContext, fillCanvas, convertCanvasToImage } from "lib/pq-games";
 import { InteractiveExample } from "lib/pq-rulebook";
 import RandomNaivigationSetupGenerator from "./randomNaivigationSetupGenerator";
@@ -9,7 +8,7 @@ import RandomNaivigationSetupGenerator from "./randomNaivigationSetupGenerator";
 interface NaivigationTurnParams
 {
     setup?: RandomNaivigationSetupGenerator
-    cardPicker?: GeneralPickerNaivigation,
+    cardPicker?: () => MaterialNaivigation[],
     movementCallback?: MovementCallbackFunction
     roundCallback?: RoundCallbackFunction,
     setupCallback?: RoundCallbackFunction,
@@ -32,7 +31,7 @@ type SetupCallbackFunction = (setup:RandomNaivigationSetupGenerator, turn:Random
 export default class RandomNaivigationTurnGenerator
 {
     setup: RandomNaivigationSetupGenerator
-    cardPicker: GeneralPickerNaivigation
+    cardPicker: () => MaterialNaivigation[]
     cards: MaterialNaivigation[] // all possible cards to use
     cardsPlayed: MaterialNaivigation[] // cards played during this specific turn example
     setupCallback: SetupCallbackFunction // called once when the example is being set up
@@ -60,7 +59,7 @@ export default class RandomNaivigationTurnGenerator
     {
         if(this.cards.length > 0) { return; }
 
-        const allCards = this.cardPicker.generate();
+        const allCards = this.cardPicker();
         const validCards = [];
         for(const card of allCards)
         {

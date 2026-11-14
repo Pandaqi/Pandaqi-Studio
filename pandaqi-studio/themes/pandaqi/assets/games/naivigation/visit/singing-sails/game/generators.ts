@@ -1,15 +1,11 @@
 import GeneralPickerNaivigation from "games/naivigation/shared/generalPickerNaivigation";
 import { CONFIG } from "../shared/config";
-import { registerPicker } from "games/naivigation/shared/pickerRegistry";
 import { MATERIAL, TREASURE_BONUSES, TREASURE_CONDITIONS, WEATHER_CARDS } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";
 import { CardType, TerrainType, TileType } from "games/naivigation/shared/dictShared";
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
 import { shuffle, fromArray, getSetting } from "lib/pq-games";
-
-export const cardPicker = registerPicker("cards", new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL));
-export const tilePicker = registerPicker("tiles", new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist));
 
 // special card types that need some modification
 const cardCustomCallback = (key, data) =>
@@ -47,23 +43,33 @@ const cardCustomCallback = (key, data) =>
 
     return null;
 }
-cardPicker.setCustomCallback(cardCustomCallback);
 
-
-// special tile types
-tilePicker.generateCallback = () =>
+export const cardPicker = () : MaterialNaivigation[] =>
 {
+    const picker = new GeneralPickerNaivigation(CONFIG, Card)
+        .addMaterialData("card", MATERIAL)
+        .setCustomCallback(cardCustomCallback);
+    return picker.generate();
+}
+
+export const tilePicker = () : MaterialNaivigation[] =>
+{
+    const picker = new GeneralPickerNaivigation(CONFIG, Tile)
+        .addMaterialData("tile", MATERIAL)
+        .addTerrainData(CONFIG.generation.terrainDist);
+    const tiles = picker.generate();
+
     // Add these tiles TWICE in case people play with 2 boats
     if(getSetting("sets.mapTiles", CONFIG))
     {
-        tilePicker.addSingle(new Tile(TileType.CUSTOM, "compass"));
-	tilePicker.addSingle(new Tile(TileType.CUSTOM, "compass"));
+        picker.addSingle(new Tile(TileType.CUSTOM, "compass"));
+        picker.addSingle(new Tile(TileType.CUSTOM, "compass"));
 
         const bounds = CONFIG.generation.tiles.custom.windBounds;
         for(let i = bounds.min; i <= bounds.max; i++)
         {
-            tilePicker.addSingle(new Tile(TileType.CUSTOM, "wind", { num: i }));
-	    tilePicker.addSingle(new Tile(TileType.CUSTOM, "wind", { num: i }));
+            picker.addSingle(new Tile(TileType.CUSTOM, "wind", { num: i }));
+            picker.addSingle(new Tile(TileType.CUSTOM, "wind", { num: i }));
         }
     }
 
@@ -81,12 +87,12 @@ tilePicker.generateCallback = () =>
                 condition: randCondOrder.pop(),
                 bonus: randBonusOrder.pop(),
             };
-            tilePicker.addSingle(new Tile(TileType.CUSTOM, "treasure", customData));
+            picker.addSingle(new Tile(TileType.CUSTOM, "treasure", customData));
         }
     }
   
     // general pass applied to all (map) tiles
-    const mapTiles = shuffle(tilePicker.get().filter((e:MaterialNaivigation) => e.type == TileType.MAP));
+    const mapTiles = shuffle(tiles.filter((e:MaterialNaivigation) => e.type == TileType.MAP));
     const waterTiles = shuffle(mapTiles.filter((e:MaterialNaivigation) => e.terrain == TerrainType.SEA));
     
     const numEnemy = Math.round(CONFIG.generation.percentageEnemyIcon * mapTiles.length);
@@ -102,4 +108,6 @@ tilePicker.generateCallback = () =>
         const randStrength = 1; // 1 + Math.floor(Math.random() * 2)
         waterTiles[i].customData.waterCurrent = { dir: randDir, strength: randStrength }
     }
+
+    return tiles;
 }

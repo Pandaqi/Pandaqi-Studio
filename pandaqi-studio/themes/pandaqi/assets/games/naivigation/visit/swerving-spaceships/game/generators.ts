@@ -1,14 +1,12 @@
 import { CardType, TileType } from "games/naivigation/shared/dictShared";
 import GeneralPickerNaivigation from "games/naivigation/shared/generalPickerNaivigation";
 import { CONFIG } from "../shared/config";
-import { registerPicker } from "games/naivigation/shared/pickerRegistry";
 import { MATERIAL } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";
+import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
 import { shuffle } from "lib/pq-games";
 
-export const cardPicker = registerPicker("cards", new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL));
-export const tilePicker = registerPicker("tiles", new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL));
 const cardCustomCallback = (key, data) =>
 {
     if(key != "steer") { return; }
@@ -46,7 +44,6 @@ const cardCustomCallback = (key, data) =>
 
     return cards;
 }
-cardPicker.setCustomCallback(cardCustomCallback);
 
 let resourceBalancer = 0;
 const mapCallback = (key, data) => 
@@ -64,4 +61,19 @@ const mapCallback = (key, data) =>
     }
     return arr;
 }
-tilePicker.setCustomCallback(mapCallback);
+
+export const cardPicker = () : MaterialNaivigation[] =>
+{
+    const picker = new GeneralPickerNaivigation(CONFIG, Card)
+        .addMaterialData("card", MATERIAL)
+        .setCustomCallback(cardCustomCallback);
+    return picker.generate();
+}
+
+export const tilePicker = () : MaterialNaivigation[] =>
+{
+    const picker = new GeneralPickerNaivigation(CONFIG, Tile)
+        .addMaterialData("tile", MATERIAL)
+        .setCustomCallback(mapCallback);
+    return picker.generate();
+}

@@ -1,6 +1,6 @@
 import { CONFIG_NAIVIGATION_SHARED } from "games/naivigation/shared/configShared";
 import { PASSENGERS, TerrainType } from "games/naivigation/shared/dictShared";
-import { PICKER_REGISTRY } from "games/naivigation/shared/pickerRegistry";
+import { cardPicker, tilePicker } from "../game/generators";
 import { SettingType, Vector2, CVal, Bounds, mergeObjects } from "lib/pq-games";
 
 export const CONFIG = 
@@ -59,6 +59,8 @@ export const CONFIG =
         
         expansions:
         {
+            type: SettingType.GROUP,
+
             fuelFalling:
             {
                 type: SettingType.CHECK,
@@ -189,12 +191,12 @@ export const CONFIG =
     {
         cards:
         {
-            picker: () => PICKER_REGISTRY.cards
+            picker: () => cardPicker
         },
 
         tiles: 
         {
-            picker: () => PICKER_REGISTRY.tiles
+            picker: () => tilePicker
         }
     },
 

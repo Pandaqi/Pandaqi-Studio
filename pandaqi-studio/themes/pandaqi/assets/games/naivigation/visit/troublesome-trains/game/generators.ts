@@ -1,19 +1,18 @@
 import { TileType } from "games/naivigation/shared/dictShared";
 import GeneralPickerNaivigation from "games/naivigation/shared/generalPickerNaivigation";
 import { CONFIG } from "../shared/config";
-import { registerPicker } from "games/naivigation/shared/pickerRegistry";
 import { MATERIAL } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
 import { shuffle, getSetting } from "lib/pq-games";
 
-export const cardPicker = registerPicker("cards", new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL));
-export const tilePicker = registerPicker("tiles", new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution));
-
-cardPicker.generateCallback = () =>
+export const cardPicker = () : MaterialNaivigation[] =>
 {
-    const trainCards = cardPicker.get().filter((e:MaterialNaivigation) => e.key == "train");
+    const picker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
+    const cards = picker.generate();
+
+    const trainCards = cards.filter((e:MaterialNaivigation) => e.key == "train");
     const numTrainCards = trainCards.length;
     if(numTrainCards > 0)
     {
@@ -58,17 +57,24 @@ cardPicker.generateCallback = () =>
             card.customData.trainKeys = pickedOptions;
         }
     }
+
+    return cards;
 }
 
-
-tilePicker.generateCallback = () =>
+export const tilePicker = () : MaterialNaivigation[] =>
 {
+    const picker = new GeneralPickerNaivigation(CONFIG, Tile)
+        .addMaterialData("tile", MATERIAL)
+        .addTerrainData(CONFIG.generation.terrainDist)
+        .addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution);
+    const tiles = picker.generate();
+
     if(getSetting("sets.mapTiles", CONFIG))
     {
         // the switch tiles
         for(let i = 0; i < CONFIG.generation.tiles.custom.numSwitchTemplates; i++)
         {
-            tilePicker.addSingle(new Tile(TileType.CUSTOM, "switch", { num: i }));
+            picker.addSingle(new Tile(TileType.CUSTOM, "switch", { num: i }));
         }
     }
 
@@ -77,7 +83,9 @@ tilePicker.generateCallback = () =>
         // the train tile for each possible vehicle
         for(const [key,data] of Object.entries(MATERIAL[TileType.VEHICLE]))
         {
-            tilePicker.addSingle(new Tile(TileType.CUSTOM, "train", { vehicleKey: key }));
+            picker.addSingle(new Tile(TileType.CUSTOM, "train", { vehicleKey: key }));
         }
     }
+
+    return tiles;
 }

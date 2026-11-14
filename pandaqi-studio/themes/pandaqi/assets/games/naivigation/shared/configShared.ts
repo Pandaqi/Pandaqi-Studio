@@ -91,12 +91,6 @@ export const CONFIG_NAIVIGATION_SHARED =
         {
             itemSize: new Vector2(512, 512),
             mapper: MapperPreset.TILE
-        },
-        
-        pawns:
-        {
-            itemSize: new Vector2(512, 512),
-            mapper: MapperPreset.TILE
         }
     },
 

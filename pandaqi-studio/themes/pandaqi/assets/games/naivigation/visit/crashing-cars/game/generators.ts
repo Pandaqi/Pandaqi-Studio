@@ -1,18 +1,17 @@
 import { CardType, TileType } from "games/naivigation/shared/dictShared";
 import GeneralPickerNaivigation from "games/naivigation/shared/generalPickerNaivigation";
 import { CONFIG } from "../shared/config";
-import { registerPicker } from "games/naivigation/shared/pickerRegistry";
 import { MATERIAL, PASSENGER_BONUSES, PASSENGER_CURSES } from "../shared/dict";
 import Card from "./card";
 import Tile from "./tile";
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
 import { shuffle, fromArray, getSetting } from "lib/pq-games";
 
-export const cardPicker = registerPicker("cards", new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL));
-export const tilePicker = registerPicker("tiles", new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution));
-
-cardPicker.generateCallback = () =>
+export const cardPicker = () : MaterialNaivigation[] =>
 {
+    const picker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
+    const cards = picker.generate();
+
     if(getSetting("expansions.taxisCargo", CONFIG))
     {
         const shops = Object.keys(MATERIAL[TileType.MAP]).filter((key:string) => MATERIAL[TileType.MAP][key].collectible);
@@ -27,7 +26,7 @@ cardPicker.generateCallback = () =>
                 bonus: randBonusOrder.pop(),
                 curse: randCurseOrder.pop()
             };
-            cardPicker.addSingle(new Card(CardType.PASSENGER, fromArray(passengersPossible), customData));
+            picker.addSingle(new Card(CardType.PASSENGER, fromArray(passengersPossible), customData));
         }
     }
 
@@ -36,26 +35,33 @@ cardPicker.generateCallback = () =>
         const num = CONFIG.generation.cards.numFuelCards;
         for(let i = 0; i < num; i++)
         {
-            cardPicker.addSingle(new Card(CardType.FUEL, "fuel"));
+            picker.addSingle(new Card(CardType.FUEL, "fuel"));
         }
     }
+
+    return cards;
 }
 
-
-tilePicker.generateCallback = () =>
+export const tilePicker = () : MaterialNaivigation[] =>
 {
+    const picker = new GeneralPickerNaivigation(CONFIG, Tile)
+        .addMaterialData("tile", MATERIAL)
+        .addTerrainData(CONFIG.generation.terrainDist)
+        .addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution);
+    const tiles = picker.generate();
+
     // Add these tiles twice in case people play with TWO cars
     if(getSetting("sets.mapTiles", CONFIG))
     {
         const bounds = CONFIG.generation.tiles.custom.gearBounds;
         for(let i = bounds.min; i <= bounds.max; i++)
         {
-            tilePicker.addSingle(new Tile(TileType.CUSTOM, "gear", { num: i }));
-	        tilePicker.addSingle(new Tile(TileType.CUSTOM, "gear", { num: i }));
+            picker.addSingle(new Tile(TileType.CUSTOM, "gear", { num: i }));
+            picker.addSingle(new Tile(TileType.CUSTOM, "gear", { num: i }));
         }
     }
 
-    const mapTiles = shuffle(tilePicker.get().filter((e:MaterialNaivigation) => e.type == TileType.MAP));
+    const mapTiles = shuffle(tiles.filter((e:MaterialNaivigation) => e.type == TileType.MAP));
 
     // assign unique numbers (but make sure there are some duplicates) to collectible tiles
     const collectibleTiles = shuffle(mapTiles.filter((e:MaterialNaivigation) => e.isCollectible()));
@@ -79,4 +85,5 @@ tilePicker.generateCallback = () =>
         tile.customData.carOrientation = Math.floor(Math.random() * 4);
     }
 
+    return tiles;
 }

@@ -1,7 +1,7 @@
 import { CONFIG_NAIVIGATION_SHARED } from "games/naivigation/shared/configShared";
 import { NetworkType, TerrainType, TileType } from "games/naivigation/shared/dictShared";
 import { MATERIAL } from "./dict";
-import { PICKER_REGISTRY } from "games/naivigation/shared/pickerRegistry";
+import { cardPicker, tilePicker } from "../game/generators";
 import { SettingType, Vector2, CVal, mergeObjects } from "lib/pq-games";
 
 export const CONFIG = 
@@ -60,6 +60,8 @@ export const CONFIG =
         
         expansions:
         {
+            type: SettingType.GROUP,
+
             leadersFollowers:
             {
                 type: SettingType.CHECK,
@@ -206,12 +208,12 @@ export const CONFIG =
     {
         cards:
         {
-            picker: () => PICKER_REGISTRY.cards
+            picker: () => cardPicker
         },
 
         tiles: 
         {
-            picker: () => PICKER_REGISTRY.tiles
+            picker: () => tilePicker
         }
     },
 

@@ -486,8 +486,10 @@ Giving the five visit rulebooks a working entry (D-6) showed how much of the old
 * `CONFIG_NAIVIGATION_SHARED.files` became `_resources.files`, so merging the shared config feeds the resource loader; `loadIf` entries that pointed at `sets.<expansion>` now point at `expansions.<expansion>`.
 * The shared Naivigation config renamed its `_generation` block to `_settings`; `game/cardPicker.ts` reads `generation.cards`, and its `required` loop now actually skips a material instead of `continue`-ing inside a loop that ends anyway.
 * Each visit rules entry loads the resources it planned (`loadPlannedResources`) before an example runs, and the debug `console.log`s in the setup generator are gone.
+* The pickers are plain functions again (`export const cardPicker = () : MaterialNaivigation[] => ...`), so a config imports them and writes `picker: () => cardPicker`, exactly like every other project. Nothing reads `CONFIG` until the function is called, so the config↔generator cycle is harmless and no registry is needed.
+* Two config defects that blocked generation: the shared `_material.pawns` preset had no picker (no Naivigation game produces pawn material, so it is gone), and the `expansions` blocks were missing `type: SettingType.GROUP` — without it the whole Expansions group never rendered.
 
-Checked by loading all five visit rulebooks and their examples in a browser: no page errors, no console warnings, examples render. No full audit run on Naivigation yet — that is the Phase 4 entry check.
+Checked in a browser: all five visit rulebooks with their examples, plus generation on `/naivigation/visit/crashing-cars/game/` twice — once on defaults, once with Taxis & Cargo, Fuel & Fear and Terrain & Tripplanning switched on (13.8 MB PDF, no console errors). No full audit run on Naivigation yet — that is the Phase 4 entry check.
 
 ## 4. Build speed (measured — read before touching anything)
 

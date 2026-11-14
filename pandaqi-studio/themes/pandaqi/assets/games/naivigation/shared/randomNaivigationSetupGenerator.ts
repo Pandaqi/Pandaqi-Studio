@@ -1,7 +1,6 @@
 
 import { TileType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
-import TilePickerNaivigation from "./generalPickerNaivigation";
 import { Vector2, MaterialVisualizer, fromArray, shuffle, rangeInteger, createContext, ResourceGroup, ResourceImage, LayoutOperation, convertCanvasToImage, fillCanvas } from "lib/pq-games";
 import { InteractiveExample } from "lib/pq-rulebook";
 
@@ -19,7 +18,7 @@ export interface NaivigationSetupParams
 {
     size?: Vector2,
     numVehicles?: number,
-    tilePicker?: TilePickerNaivigation,
+    tilePicker?: () => MaterialNaivigation[],
     validPlacementCallback?: TilePlacementFunction,
     vehicleStartCallback?: VehicleStartCallback,
     visualizer?: MaterialVisualizer,
@@ -58,7 +57,7 @@ export default class RandomNaivigationSetupGenerator
     cells: TileData[]
 
     size: Vector2
-    tilePicker: TilePickerNaivigation
+    tilePicker: () => MaterialNaivigation[]
     tiles: MaterialNaivigation[] // The specific game is responsible for handing a list of valid Tile/Token objects for that game
     tilesAll: MaterialNaivigation[]
     numVehicles: number
@@ -95,7 +94,7 @@ export default class RandomNaivigationSetupGenerator
     {
         if(this.tilesAll.length > 0 && this.vehicleTokensAll.length > 0) { return; }
 
-        const allTiles = this.tilePicker.generate();
+        const allTiles = this.tilePicker();
         const mapTiles = [];
         const playerTokens = [];
         const vehiclesAlreadyPicked = [];
