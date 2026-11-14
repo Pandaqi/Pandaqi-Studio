@@ -12,6 +12,8 @@ export interface DigitalOptions
     timeoutMs: number;
     seed: string;
     allowlist: string[];
+    // full-page screenshots are for a human to look at; off unless asked for
+    screenshots: boolean;
 }
 
 export const runDigital = async (session:Session, entry:ManifestEntry, opts:DigitalOptions) : Promise<PageResult> =>
@@ -72,7 +74,7 @@ export const runDigital = async (session:Session, entry:ManifestEntry, opts:Digi
             }
         }
 
-        artifacts.push((await audited.screenshot("page.png")) as string);
+        if(opts.screenshots) { artifacts.push((await audited.screenshot("page.png")) as string); }
     }
     catch(e:any)
     {

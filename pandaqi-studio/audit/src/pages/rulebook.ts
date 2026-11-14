@@ -17,6 +17,8 @@ export interface RunOptions
     exampleTimeoutMs: number;
     seed: string;
     allowlist: string[];
+    // full-page screenshots are for a human to look at; off unless asked for
+    screenshots: boolean;
 }
 
 const headingsOf = (html:string) : string[] =>
@@ -123,7 +125,7 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
             const loadErrors = audited.errorMessages();
             checker.fail("RB_NO_TOOLBAR", "the bundle never ran: .rulebook-toolbar never appeared" +
                 (loadErrors.length > 0 ? ` (${loadErrors.slice(0, 2).join(" || ")})` : ""), entry.url);
-            artifacts.push((await audited.screenshot("page.png")) as string);
+            if(opts.screenshots) { artifacts.push((await audited.screenshot("page.png")) as string); }
             return {
                 url: entry.url, kind: entry.kind, contract: "rulebook", status: "fail",
                 durationMs: Date.now() - started, failures: checker.failures, warnings: checker.warnings, artifacts,
@@ -382,7 +384,7 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
     }
     finally
     {
-        artifacts.push((await audited.screenshot("page.png")) as string);
+        if(opts.screenshots) { artifacts.push((await audited.screenshot("page.png")) as string); }
         await page.close().catch(() => {});
     }
 

@@ -114,7 +114,7 @@ export default class Card
     drawScoreRule(vis:MaterialVisualizer, group)
     {
         const data = SCORING_RULES[this.action];
-        const titleFontSize = vis.get("cards.scoreRule.titleFontSize") * vis.sizeUnit;
+        const titleFontSize = vis.get("cards.scoreRule.titleFontSize");
         const titleTextConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: titleFontSize,
@@ -125,7 +125,7 @@ export default class Card
         const title = data.label;
         const resTextTitle = new ResourceText({ text: title, textConfig: titleTextConfig });
 
-        const titlePos = new Vector2(vis.center.x, vis.get("cards.scoreRule.yPosTitle") * vis.size.y);
+        const titlePos = new Vector2(vis.center.x, vis.get("cards.scoreRule.yPosTitle"));
         const titleDims = new Vector2(vis.size.x, 2*titleFontSize);
         const opTitle = new LayoutOperation({
             pos: titlePos,
@@ -144,9 +144,9 @@ export default class Card
 
         // the actual scoring rule
         const text = data.desc;
-        const textPos = new Vector2(vis.center.x, vis.get("cards.scoreRule.yPosRule") * vis.size.y);
-        const textFontSize = vis.get("cards.scoreRule.ruleFontSize") * vis.sizeUnit;
-        const textDims = vis.get("cards.scoreRule.textDims").clone().scale(vis.size);
+        const textPos = new Vector2(vis.center.x, vis.get("cards.scoreRule.yPosRule"));
+        const textFontSize = vis.get("cards.scoreRule.ruleFontSize");
+        const textDims = vis.get("cards.scoreRule.textDims").clone();
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: textFontSize,
@@ -183,9 +183,8 @@ export default class Card
     {
         // draw rectangle behind it
         const yPos = vis.get("cards.coins.yPos");
-        const anchorPos = new Vector2(vis.center.x, yPos * vis.size.y);
-        const rectDimsRaw = this.hasAction() ? vis.get("cards.coins.rectDimsAction") : vis.get("cards.coins.rectDims");
-        const rectDims = rectDimsRaw.clone().scale(vis.size);
+        const anchorPos = new Vector2(vis.center.x, yPos);
+        const rectDims = this.hasAction() ? vis.get("cards.coins.rectDimsAction").clone() : vis.get("cards.coins.rectDims").clone();
         const pointyOffset = this.hasAction() ? vis.get("cards.coins.rectDimsOffsetAction") : vis.get("cards.coins.rectDimsOffset");
         const pointyRect = getPointyRect(anchorPos, rectDims, pointyOffset);
         const typeData = this.getTypeData();
@@ -198,7 +197,7 @@ export default class Card
 
         // @DEBUGGING?
         // draw a reminder that the coins are the card's COST when buying, not its purchase value/worth
-        const fontSize = vis.get("cards.coins.fontSize") * vis.sizeUnit;
+        const fontSize = vis.get("cards.coins.fontSize");
         const anchorPosCost = new Vector2(anchorPos.x, anchorPos.y - 0.5*rectDims.y);
         const rectDimsCost = new Vector2(7*fontSize, 1.2*fontSize);
         const pointyRect2 = getPointyRect(anchorPosCost, rectDimsCost);
@@ -230,7 +229,7 @@ export default class Card
 
         // draw actual coins
         const cost = this.getPurchaseCost();
-        const coinDims = new Vector2(vis.get("cards.coins.scale") * vis.sizeUnit);
+        const coinDims = new Vector2(vis.get("cards.coins.scale"));
         const positions = getPositionsCenteredAround({ pos: anchorPos, num: cost, size: coinDims, dir: Vector2.RIGHT });
         const coinDimsDisplayed = coinDims.clone().scale(vis.get("cards.coins.displayDownScale"));
 
@@ -251,30 +250,30 @@ export default class Card
 
     drawCorners(vis:MaterialVisualizer, group)
     {
-        const glowRadius = vis.get("cards.shared.glowRadius") * vis.sizeUnit;
+        const glowRadius = vis.get("cards.shared.glowRadius");
         const glowColor = vis.get("cards.shared.glowColor");
         const visEffects = [new DropShadowEffect({ blurRadius: glowRadius, color: glowColor })];
 
         const typeData = this.getTypeData();
         const isAction = this.hasAction();
 
-        const offsetBig = vis.get("cards.corners.edgeOffsetBig").clone().scale(vis.sizeUnit);
-        const offsetSmall = vis.get("cards.corners.edgeOffsetSmall").clone().scale(vis.sizeUnit);
+        const offsetBig = vis.get("cards.corners.edgeOffsetBig").clone();
+        const offsetSmall = vis.get("cards.corners.edgeOffsetSmall").clone();
         const positionsBig = getRectangleCornersWithOffset(vis.size, offsetBig);
         const positionsSmall = getRectangleCornersWithOffset(vis.size, offsetSmall)
 
         // @EXCEPTION: on action cards, we move the small numbers to the title pos, to make room for cost at bottom
         if(vis.get("cards.corners.moveSmallStarsToTitle"))
         {
-            const titlePos = new Vector2(vis.center.x, vis.get("cards.title.yPos") * vis.size.y);
+            const titlePos = new Vector2(vis.center.x, vis.get("cards.title.yPos"));
             for(const elem of positionsSmall)
             {
                 elem.y = titlePos.y
             }
         }
 
-        const fontSizeBig = vis.get("cards.corners.fontSizeBig") * vis.sizeUnit;
-        const fontSizeSmall = vis.get("cards.corners.fontSizeSmall") * vis.sizeUnit;
+        const fontSizeBig = vis.get("cards.corners.fontSizeBig");
+        const fontSizeSmall = vis.get("cards.corners.fontSizeSmall");
 
         // The star is the badge *around* the number, so it is sized from the number. Sizing it from a fixed
         // slice of the card (the old `3 * starScale * sizeUnit`, a 0.75×sizeUnit diameter) made it dwarf the
@@ -343,12 +342,12 @@ export default class Card
 
     drawMainIllustration(vis:MaterialVisualizer, group)
     {
-        const pos = new Vector2(vis.center.x, vis.get("cards.illustration.yPos") * vis.size.y);
-        let size = new Vector2(vis.get("cards.illustration.scale") * vis.sizeUnit);
+        const pos = new Vector2(vis.center.x, vis.get("cards.illustration.yPos"));
+        let size = new Vector2(vis.get("cards.illustration.scale"));
 
         if(this.hasAction())
         {
-            pos.y = vis.get("cards.illustration.yPosAction") * vis.size.y;
+            pos.y = vis.get("cards.illustration.yPosAction");
             size = size.clone().scale(vis.get("cards.illustration.actionScaleDown"));
         }
 
@@ -392,8 +391,8 @@ export default class Card
         
         const actionData = this.getActionData();
         const title = actionData.label;
-        const titlePos = new Vector2(vis.center.x, vis.get("cards.title.yPos") * vis.size.y);
-        const titleFontSize = vis.get("cards.title.fontSize") * vis.sizeUnit;
+        const titlePos = new Vector2(vis.center.x, vis.get("cards.title.yPos"));
+        const titleFontSize = vis.get("cards.title.fontSize");
         const titleDims = new Vector2(vis.size.x, 2*titleFontSize);
 
         const colorMid = vis.inkFriendly ? vis.get("cards.shared.colorMidInkFriendly") : typeData.colorMid;
@@ -408,7 +407,7 @@ export default class Card
         group.add(new ResourceShape(rect), opRect.clone());
 
         // the inner rectangle with padding at left/right edge, lighter bg for readability
-        const coinPos = new Vector2(vis.center.x, vis.get("cards.coins.yPos") * vis.size.y);
+        const coinPos = new Vector2(vis.center.x, vis.get("cards.coins.yPos"));
         const innerHeight = coinPos.y - titlePos.y;
         const rectInner = new Rectangle().fromTopLeft(new Vector2(0, titlePos.y), new Vector2(vis.size.x, innerHeight));
         rectInner.extents.x *= vis.get("cards.action.innerRectDownScale");
@@ -449,9 +448,9 @@ export default class Card
 
         // then the actual action text
         const text = actionData.desc;
-        const textPos = new Vector2(vis.center.x, vis.get("cards.action.yPos") * vis.size.y);
-        const textFontSize = vis.get("cards.action.fontSize") * vis.sizeUnit;
-        const textDims = vis.get("cards.action.textDims").clone().scale(vis.size);
+        const textPos = new Vector2(vis.center.x, vis.get("cards.action.yPos"));
+        const textFontSize = vis.get("cards.action.fontSize");
+        const textDims = vis.get("cards.action.textDims").clone();
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: textFontSize,

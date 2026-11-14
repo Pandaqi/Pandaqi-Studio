@@ -19,7 +19,6 @@ export interface RulebookParams
     fontHeader?: string,
     headerIcons?: string[],
     hideHeaderIcons?: boolean,
-    usePagedForPrint?: boolean,
 
     // special elements (examples, rules tables, etc)
     exampleClass?: string,
@@ -139,18 +138,8 @@ export const loadRulebookCallback = (params:RulebookParams) =>
 
 export const loadRulebook = (params:RulebookParams = {}) =>
 {
-    if(params.usePagedForPrint)
-    {
-        // this prevents paged from running automatically upon load; we only want to use it when we print
-        // we want to do this absolutely as early as possible to make sure we're on time
-        // @ts-ignore
-        window.PagedConfig = 
-        {
-            auto: false,
-            after: (flow) => { console.log("[Rulebook] Paged.js preview done", flow) },
-        };
-    }
-
+    // paged.js is not loaded here at all: only the "Print (Advanced)" button needs it, and it pulls the
+    // script in on click (see `loadPagedJS` in toolbar.ts)
     onWindowLoad(() => 
     {
         loadRulebookCallback(params);

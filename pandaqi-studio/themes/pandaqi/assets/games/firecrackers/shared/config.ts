@@ -1,5 +1,5 @@
 
-import { SettingType, TextConfig, TextWeight, Vector2 } from "lib/pq-games"
+import { CVal, SettingType, TextConfig, TextWeight, Vector2 } from "lib/pq-games"
 import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
@@ -125,7 +125,7 @@ export const CONFIG =
         {            
             shared:
             {
-                glowRadius: 0.015,
+                glowRadius: new CVal(0.015, "sizeUnit"),
                 glowColor: "#FFFFFFCC",
                 colorDarkInkFriendly: "#FFFFFF",
                 colorLightInkFriendly: "#111111",
@@ -134,9 +134,9 @@ export const CONFIG =
 
             illustration:
             {
-                yPos: 0.5, // ~sizeY
-                yPosAction: 0.33,
-                scale: 0.775, // ~sizeUnit
+                yPos: new CVal(0.5, "sizeY"),
+                yPosAction: new CVal(0.33, "sizeY"),
+                scale: new CVal(0.775, "sizeUnit"),
                 actionScaleDown: 0.75,
                 bgAlpha: 0.1,
                 bgScale: 1.66,
@@ -146,19 +146,19 @@ export const CONFIG =
 
             coins:
             {
-                yPos: 0.925,
-                scale: 0.125, // ~sizeUnit
+                yPos: new CVal(0.925, "sizeY"),
+                scale: new CVal(0.125, "sizeUnit"),
                 displayDownScale: 0.875,
-                rectDims: new Vector2(0.46, 0.1),
+                rectDims: new CVal(new Vector2(0.46, 0.1), "size"),
                 rectDimsOffset: 0.8,
-                rectDimsAction: new Vector2(0.7, 0.1), // ~size, X should match innerRectDownScale too
+                rectDimsAction: new CVal(new Vector2(0.7, 0.1), "size"), // X should match innerRectDownScale too
                 rectDimsOffsetAction: 0.9,
 
                 shadowBlur: 0.01, // ~coinSize
                 shadowOffset: new Vector2(0.0), // ~coinSize
                 shadowColor: "#000000FF",
 
-                fontSize: 0.0395, // ~sizeUnit
+                fontSize: new CVal(0.0395, "sizeUnit"),
                 textColor: "#FDFDFD",
                 textAlpha: 1.0,
                 textRectDarken: 30,
@@ -166,16 +166,16 @@ export const CONFIG =
 
             title:
             {
-                yPos: 0.575, // ~sizeY
-                fontSize: 0.06, // ~sizeUnit
+                yPos: new CVal(0.575, "sizeY"),
+                fontSize: new CVal(0.06, "sizeUnit"),
                 rectDims: new Vector2(0.925, 1.16), // X should generally match innerRectDownScale right?
             },
 
             action:
             {
-                yPos: 0.74, // ~sizeY
-                fontSize: 0.0735, // ~sizeUnit
-                textDims: new Vector2(0.8, 0.35), // ~size
+                yPos: new CVal(0.74, "sizeY"),
+                fontSize: new CVal(0.0735, "sizeUnit"),
+                textDims: new CVal(new Vector2(0.8, 0.35), "size"),
                 innerRectDownScale: 0.925, 
                 strokeWidth: 0.02, // ~fontSize
 
@@ -185,22 +185,22 @@ export const CONFIG =
 
             corners:
             {
-                edgeOffsetBig: new Vector2(0.15), // ~sizeUnit
-                edgeOffsetSmall: new Vector2(0.08), // ~sizeUnit
+                edgeOffsetBig: new CVal(new Vector2(0.15), "sizeUnit"),
+                edgeOffsetSmall: new CVal(new Vector2(0.08), "sizeUnit"),
                 // star badges are sized from the number they hold; see card.ts drawCorners
-                fontSizeBig: 0.15, // ~sizeUnit
-                fontSizeSmall: 0.055, // ~sizeUnit
+                fontSizeBig: new CVal(0.15, "sizeUnit"),
+                fontSizeSmall: new CVal(0.055, "sizeUnit"),
                 strokeWidth: 0.075, // ~fontSize
                 moveSmallStarsToTitle: false
             },
 
             scoreRule:
             {
-                yPosTitle: 0.15, // ~sizeY
-                yPosRule: 0.5, // ~sizeY
-                titleFontSize: 0.0735, // ~sizeUnit
-                ruleFontSize: 0.06, // ~sizeUnit
-                textDims: new Vector2(0.8, 0.6), // ~size
+                yPosTitle: new CVal(0.15, "sizeY"),
+                yPosRule: new CVal(0.5, "sizeY"),
+                titleFontSize: new CVal(0.0735, "sizeUnit"),
+                ruleFontSize: new CVal(0.06, "sizeUnit"),
+                textDims: new CVal(new Vector2(0.8, 0.6), "size"),
             },
 
             outline:

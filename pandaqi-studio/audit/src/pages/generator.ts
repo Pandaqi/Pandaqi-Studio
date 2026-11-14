@@ -17,6 +17,9 @@ export interface GeneratorOptions
     runs: number;
     inert: boolean;
     allowlist: string[];
+    // full-page screenshots are for a human to look at; the sweep does not need them and on a slow machine
+    // they are real time and memory (one PNG per page per run)
+    screenshots: boolean;
     auditPdf?: { maxPages?: number, compression?: string };
 }
 
@@ -226,7 +229,7 @@ export const runGenerator = async (session:Session, entry:ManifestEntry, opts:Ge
             }
         }
 
-        artifacts.push((await audited.screenshot("page.png")) as string);
+        if(opts.screenshots) { artifacts.push((await audited.screenshot("page.png")) as string); }
     }
     catch(e:any)
     {

@@ -14,6 +14,7 @@ import { ResourceText } from "../../layout/resources/resourceText";
 import { Renderer, RendererDrawFinishParams } from "../renderer";
 import { drawTextToCanvas } from "../../layout/text/drawing";
 import { getCanvasContextState, resetCanvasContextState } from "../../layout/canvas/operations";
+import { StrokeAlign } from "../../layout/values";
 
 export class RendererPandaqi extends Renderer
 {
@@ -132,18 +133,32 @@ export class RendererPandaqi extends Renderer
             let frameResource:ResourceImage = (op.resource as ResourceImage).getImageFrameAsResource(op.frame, size.clone());
             frameResource = effOp.applyToDrawable(frameResource);
 
-            const box = new Dims(new Vector2(), size.clone());
-            const boxPath = box.toPath2D();
-
             const drawImageCallback = () =>
             {
                 ctxTemp.drawImage(
                     frameResource.getImage(), 
-                    box.position.x, box.position.y, box.size.x, box.size.y
+                    0, 0, size.x, size.y
                 );
             }
 
-            op.applyFillAndStrokeToPath(ctxTemp, boxPath, drawImageCallback);
+            // The box is always a rectangle, so the common case does not need a Path2D at all: fill/stroke
+            // it with the rect primitives. Only an INSIDE stroke actually needs a path (to clip).
+            if(op.strokeAlign !== StrokeAlign.INSIDE)
+            {
+                const hasFill = op.hasFill();
+                const hasStroke = op.hasStroke();
+                const strokeFirst = op.strokeAlign === StrokeAlign.OUTSIDE && hasStroke;
+
+                if(strokeFirst) { ctxTemp.strokeRect(0, 0, size.x, size.y); }
+                if(hasFill) { ctxTemp.fillRect(0, 0, size.x, size.y); }
+                drawImageCallback();
+                if(hasStroke && !strokeFirst) { ctxTemp.strokeRect(0, 0, size.x, size.y); }
+            }
+            else
+            {
+                const boxPath = new Dims(new Vector2(), size.clone()).toPath2D();
+                op.applyFillAndStrokeToPath(ctxTemp, boxPath, drawImageCallback);
+            }
         }
 
         const ctxFinal = effOp.applyToCanvasPost(ctxTemp);

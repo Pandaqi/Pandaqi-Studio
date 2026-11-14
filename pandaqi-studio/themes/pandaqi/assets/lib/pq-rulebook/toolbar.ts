@@ -6,6 +6,42 @@ export const isLocalFile = () =>
     return window.location.protocol == "file:";
 }
 
+// paged.js is a big polyfill that only the advanced print path uses, so it is not part of the page at all
+// until somebody actually presses that button. `PagedConfig.auto = false` must be in place *before* the
+// script runs, otherwise paged.js starts paginating the rulebook the moment it loads.
+const PAGED_SCRIPT_URL = "/lib/paged.polyfill.js";
+let pagedLoader:Promise<any>|null = null;
+export const loadPagedJS = () : Promise<any> =>
+{
+    const alreadyThere = (window as any).PagedPolyfill;
+    if(alreadyThere) { return Promise.resolve(alreadyThere); }
+    if(pagedLoader) { return pagedLoader; }
+
+    // @ts-ignore
+    window.PagedConfig = 
+    {
+        auto: false,
+        after: (flow) => { console.log("[Rulebook] Paged.js preview done", flow) },
+    };
+
+    pagedLoader = new Promise((resolve, reject) =>
+    {
+        const script = document.createElement("script");
+        script.src = PAGED_SCRIPT_URL;
+        script.onload = () =>
+        {
+            const polyfill = (window as any).PagedPolyfill;
+            if(polyfill) { resolve(polyfill); return; }
+            pagedLoader = null;
+            reject(new Error("script loaded but PagedPolyfill is missing"));
+        };
+        script.onerror = () => { pagedLoader = null; reject(new Error(`could not load ${PAGED_SCRIPT_URL}`)); };
+        document.head.appendChild(script);
+    });
+
+    return pagedLoader;
+}
+
 export const toggleSectionFold = (node:HTMLElement, folded = true) =>
 {
     if(node.dataset.nofold) { return; }
@@ -101,9 +137,15 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
     buttonPrintPaged.title = "More correct and pretty, but can completely crash on specific devices/browsers/sizes.";
     buttonPrintPaged.addEventListener("click", async () => 
     {
-        // @ts-ignore
-        const pagedJS = window.PagedPolyfill;
-        if(!pagedJS) { buttonPrintPaged.disabled = true; return console.error("[Rulebook] Paged.js could not be found! Can't print advanced."); }
+        buttonPrintPaged.disabled = true;
+
+        let pagedJS;
+        try { pagedJS = await loadPagedJS(); }
+        catch(err)
+        {
+            buttonPrintPaged.disabled = false;
+            return console.error("[Rulebook] Paged.js could not be loaded! Can't print advanced.", err);
+        }
 
         window.onafterprint = () =>
         {

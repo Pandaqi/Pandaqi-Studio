@@ -65,6 +65,9 @@ const updateBaselines = hasFlag("update-baselines");
 // a full sweep is a long job on a machine that is also being used: report and take a short break every few
 // minutes, and let an interrupted run continue instead of starting the first page again
 const resume = hasFlag("resume");
+// Screenshots only feed the contact sheet a human opens afterwards. They cost a full-page PNG capture per
+// page per run (and the memory that goes with encoding it), so a sweep does not take them unless asked.
+const screenshots = hasFlag("screenshots");
 const reportEveryMs = Math.max(1, argNumber("report-every", 3)) * 60000;
 const pauseMs = Math.max(0, argNumber("pause", 10)) * 1000;
 const allowlist = loadAllowlist();
@@ -348,19 +351,19 @@ const main = async () : Promise<number> =>
         {
             return await runRulebook(session, entry, {
                 baseUrl, studioDir, artifactsRoot, baselinesRoot, updateBaselines,
-                timeoutMs, exampleTimeoutMs, seed, allowlist,
+                timeoutMs, exampleTimeoutMs, seed, allowlist, screenshots,
             });
         }
         if(entry.contract === "generator")
         {
             return await runGenerator(session, entry, {
                 baseUrl, artifactsRoot, timeoutMs, genTimeoutMs, seed, runs,
-                inert: hasFlag("inert"), allowlist, auditPdf,
+                inert: hasFlag("inert"), allowlist, auditPdf, screenshots,
             });
         }
         if(entry.contract === "digital")
         {
-            return await runDigital(session, entry, { baseUrl, artifactsRoot, timeoutMs, seed, allowlist });
+            return await runDigital(session, entry, { baseUrl, artifactsRoot, timeoutMs, seed, allowlist, screenshots });
         }
         return {
             url: entry.url, kind: entry.kind, contract: entry.contract, status: "skip",

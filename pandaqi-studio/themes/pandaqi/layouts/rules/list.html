@@ -27,6 +27,6 @@
 {{ define "footer" }}
 {{ if and .Site.Params.enableRulesJS (not .Parent.Params.hideRules) }}
     {{ partial "func/load-assets.html" . }}
-    <script defer src="/lib/paged.polyfill.js"></script>
+    {{/* paged.js is loaded on demand by the "Print (Advanced)" button: nothing else uses it */}}
 {{ end }}
 {{ end }}
