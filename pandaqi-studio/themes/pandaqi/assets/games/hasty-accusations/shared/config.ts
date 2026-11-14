@@ -57,8 +57,7 @@ export const CONFIG =
 
             caslon:
             {
-                path: "fonts/LibreCaslonText-Regular.woff2",
-                cardsOnly: true
+                path: "fonts/LibreCaslonText-Regular.woff2"
             },
 
             caslon_bold:
@@ -67,32 +66,25 @@ export const CONFIG =
                 path: "fonts/LibreCaslonText-Bold.woff2",
                 textConfig: new TextConfig({
                     weight: TextWeight.BOLD
-                }),
-                cardsOnly: true
+                })
             },
 
             base:
             {
                 path: "base.webp",
-                frames: new Vector2(8,2),
-                cardSet: true,
-                cardsOnly: true
+                frames: new Vector2(8,2)
             },
 
             advanced:
             {
                 path: "advanced.webp",
-                frames: new Vector2(8,2),
-                cardSet: true,
-                cardsOnly: true
+                frames: new Vector2(8,2)
             },
 
             expert:
             {
                 path: "expert.webp",
-                frames: new Vector2(8,2),
-                cardSet: true,
-                cardsOnly: true
+                frames: new Vector2(8,2)
             },
 
             misc:
@@ -104,27 +96,23 @@ export const CONFIG =
             suspects:
             {
                 path: "suspects.webp",
-                frames: new Vector2(11,1),
-                //suspectsOnly: true
+                frames: new Vector2(11,1)
             },
 
             suspect_powers:
             {
                 path: "suspect_powers.webp",
-                frames: new Vector2(11,1),
-                suspectsOnly: true
+                frames: new Vector2(11,1)
             },
 
             papers:
             {
-                path: "papers.webp",
-                cardsOnly: true
+                path: "papers.webp"
             },
 
             fingerprints:
             {
-                path: "fingerprints.webp",
-                suspectsOnly: true
+                path: "fingerprints.webp"
             },
         },
     },

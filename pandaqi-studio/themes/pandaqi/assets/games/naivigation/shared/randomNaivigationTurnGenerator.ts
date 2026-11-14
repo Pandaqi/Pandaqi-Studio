@@ -13,7 +13,8 @@ interface NaivigationTurnParams
     movementCallback?: MovementCallbackFunction
     roundCallback?: RoundCallbackFunction,
     setupCallback?: RoundCallbackFunction,
-    visualizer?: MaterialVisualizer
+    visualizer?: MaterialVisualizer,
+    attachToRules?: boolean // false when the rulebook hosts the example itself (see the visit rulebooks)
 }
 
 interface MovementResult
@@ -51,7 +52,8 @@ export default class RandomNaivigationTurnGenerator
         this.setupCallback = params.setupCallback ?? DEF_ROUND_CALLBACK;
         this.movementCallback = params.movementCallback ?? DEF_MOVEMENT_CALLBACK;
         this.roundCallback = params.roundCallback ?? DEF_ROUND_CALLBACK;
-        this.attachToRules();
+        // see randomNaivigationSetupGenerator: a self-attached example does not survive loadRulebook
+        if(params.attachToRules !== false) { this.attachToRules(); }
     }
 
     generateAndSanitizeCards()
@@ -82,9 +84,10 @@ export default class RandomNaivigationTurnGenerator
         return this.cardsPlayed.indexOf(c) ?? 0;
     }
 
-    async generate()
+    async generate(customOutput = null)
     {
-        const o = this.example.getOutputBuilder();
+        const o = customOutput ?? this.example?.getOutputBuilder();
+        if(!o) { return; }
         o.addParagraph("The map currently looks like this:");
         await this.setup.onSetupRequested(o);
 

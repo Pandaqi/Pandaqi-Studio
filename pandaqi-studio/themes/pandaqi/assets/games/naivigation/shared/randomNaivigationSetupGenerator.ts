@@ -22,7 +22,8 @@ export interface NaivigationSetupParams
     tilePicker?: TilePickerNaivigation,
     validPlacementCallback?: TilePlacementFunction,
     vehicleStartCallback?: VehicleStartCallback,
-    visualizer?: MaterialVisualizer
+    visualizer?: MaterialVisualizer,
+    attachToRules?: boolean // false when the rulebook hosts the example itself (see the visit rulebooks)
 }
 
 const numberRange = (a:number, b:number) : number[] =>
@@ -85,7 +86,9 @@ export default class RandomNaivigationSetupGenerator
         this.vehicleTokensAll = [];
         this.vehicleStartCallback = params.vehicleStartCallback ?? DEF_START_CALLBACK;
         this.validPlacementCallback = params.validPlacementCallback ?? DEF_PLACEMENT_CALLBACK;
-        this.attachToRules();
+        // an example created here is wiped when loadRulebook rebuilds the content, so pages that host
+        // their own examples pass false and drive the generator from the rulebook callback
+        if(params.attachToRules !== false) { this.attachToRules(); }
     }
 
     generateAndSanitizeTiles()
@@ -254,7 +257,8 @@ export default class RandomNaivigationSetupGenerator
     async onSetupRequested(customOutput = null)
     {
         this.generate();
-        const o = customOutput ?? this.example.getOutputBuilder();
+        const o = customOutput ?? this.example?.getOutputBuilder();
+        if(!o) { return; }
         await this.visualizeToOutput(o)
     }
 

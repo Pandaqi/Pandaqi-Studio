@@ -131,7 +131,7 @@ new CVal(new Vector2(0.5, 0.585), "size")   // → (0.5*w, 0.585*h)
 new CVal(0.075, "sizeUnit")                 // → 0.075 * min(w,h)
 ```
 
-`vis.get("path")` returns the resolved value; **raw numbers and `Vector2`s pass through unchanged** (no multiplication). So raw numbers + manual `* vis.sizeUnit` in draw code is *not broken*, only non-canonical — see §6.6 before converting anything.
+`vis.get("path")` returns the resolved value; **raw numbers and `Vector2`s pass through unchanged** (no multiplication). So raw numbers + manual `* vis.sizeUnit` in draw code is *not broken*, only non-canonical — see §6.5 before converting anything.
 
 ### 1.7 Inventory (measured)
 
@@ -199,7 +199,7 @@ Errors block; warnings/info only report.
 | SC-1 | No `_settings` chain without `.value` (skip `.defaults`, `.meta`, and `Object.keys/entries/values(_settings…)`). | warn |
 | SC-2 | No legacy framework globals in game code: `new ProgressBar(`, `new PdfBuilder(`, `new GridMapper(`, `new Visualizer(`, `PageFormat`. | **error** |
 | SC-3 | Every `game`/`board` entry calls `loadGame(` or `loadSettings(`. | **error** |
-| SC-4 | Every `rules` entry with examples/tables calls `loadRulebook(`. Constructing `InteractiveExample` / `RandomNaivigation*Generator` does **not** count (D-6). | **error** |
+| SC-4 | Every `rules` entry with examples/tables calls `loadRulebook(`. Constructing `InteractiveExample` / `RandomNaivigation*Generator` does **not** count. | **error** |
 | SC-5 | Every `data-rulebook-example`/`data-rulebook-table` id in markdown exists as a key in the entry's import graph, unless the graph uses a computed key pattern (`[expr + "-…"]`). | **error** |
 | SC-6 | Every `_resources.files[*].path` exists on disk (§2.4 resolution). | **error** |
 | SC-7 | Info only: `_drawing` without `CVal`; stray `*.old`, `_index.old`, `*.v1.ts`, unimported `.ts`. | info |
@@ -270,7 +270,7 @@ Legend — Framework: `loadGame` = V2 generator, `custom JS` = hand-written entr
 | `/feed-the-beast/game/` | game | loadGame | ok | yes | pivot:6 |
 | `/fiddlefoo/game/` | game | loadGame | ok | yes | pivot:1 |
 | `/firecrackers/game/` | game | loadGame | ok | no | — |
-| `/hasty-accusations/game/` | game | LEGACY | ok | no | pivot:3 |
+| `/hasty-accusations/game/` | game | loadGame | ok | no | pivot:3 |
 | `/hold-my-bear/game/` | game | loadGame | ok | no | align:1 |
 | `/i-bid-you-not/game/` | game | loadGame | ok | yes | — |
 | `/kangaruse/board/` | board | loadGame | ok | no | pivot:2 |
@@ -384,11 +384,11 @@ Legend — Framework: `loadGame` = V2 generator, `custom JS` = hand-written entr
 | `/meadowmight/rules/` | default | — | 0 / 0 |
 | `/mountain-miners/rules/` | custom | yes | 0 / 1 |
 | `/naivigation/rules/` | default | — | 0 / 0 |
-| `/naivigation/visit/crashing-cars/rules/` | custom | **NO** | 0 / 0 |
-| `/naivigation/visit/frightening-flights/rules/` | custom | **NO** | 0 / 0 |
-| `/naivigation/visit/singing-sails/rules/` | custom | **NO** | 0 / 2 |
-| `/naivigation/visit/swerving-spaceships/rules/` | custom | **NO** | 0 / 1 |
-| `/naivigation/visit/troublesome-trains/rules/` | custom | **NO** | 0 / 0 |
+| `/naivigation/visit/crashing-cars/rules/` | custom | yes | 0 / 0 |
+| `/naivigation/visit/frightening-flights/rules/` | custom | yes | 0 / 0 |
+| `/naivigation/visit/singing-sails/rules/` | custom | yes | 0 / 2 |
+| `/naivigation/visit/swerving-spaceships/rules/` | custom | yes | 0 / 1 |
+| `/naivigation/visit/troublesome-trains/rules/` | custom | yes | 0 / 0 |
 | `/naivigation/wind-up-at/amerigos-dakenpad/rules/` | default | — | 0 / 0 |
 | `/naivigation/wind-up-at/boot-op-stoom/rules/` | custom | yes | 0 / 0 |
 | `/pumpkin-patrol/rules/` | default | — | 0 / 0 |
@@ -430,25 +430,18 @@ Legend — Framework: `loadGame` = V2 generator, `custom JS` = hand-written entr
 
 ### 3.4 Confirmed defects (fix in this order)
 
-**D-2 — `hasty-accusations` still uses the V1 generator.** (`SC-2` and `SC-3` report it.)
-`games/hasty-accusations/game/main.ts` has no imports, uses globals (`ProgressBar`, `PdfBuilder`, `GridMapper`, `Visualizer`, `PageOrientation`, `PageFormat`), reads an undefined `vis` (line 84), and uses V1 settings (`CONFIG.cardSet`, `CONFIG.includeCards`, `CONFIG.includeCharacters`, `CONFIG.itemSize`, `CONFIG[type].size`, `CONFIG.debugOnlyGenerate`). Its `shared/config.ts` is already fully V2, so only the entry must be replaced (§6.5). Same file, second bug: the asset filter (`data.cardSet && key != CONFIG.cardSet`, `data.suspectsOnly && !CONFIG.includeCharacters`) reads undefined values, so suspect assets never load.
-
-**D-6 — Naivigation "visit" rulebooks never initialise.** (`SC-4` and `SC-5` report all five.)
-`games/naivigation/visit/*/rules/main.ts` (5 pages) contain no `loadRulebook(...)`. No toolbar, no sections, no tables, and the `naivigation-setup` example is never created. Compare `naivigation/wind-up-at/boot-op-stoom/rules/main.ts`.
-
 **D-9 — Pirates pass the wrong second argument to `MaterialVisualizer`.**
 `pirate-riddlebeard/game/main.ts:14` and `pirate-drawingbeard/game/main.ts:14`: `new MaterialVisualizer(CONFIG, { resLoader, renderer })`; the signature is `(config, customItemSize: Vector2)` → `customItemSize.clone is not a function`. Both projects are drafts, so no user impact today, but they can never be published.
 
 ### 3.5 Non-canonical but working (separate branch)
 
-These multiply raw `_drawing` values manually (`vis.get("x") * vis.sizeUnit`). Converting to `CVal` is a refactor that can break working games; §6.6. List: firecrackers, hold-my-bear, sleighwell, magnetmen, the-mist, pumpkin-patrol, split-the-foody, the-game-of-dilemmas, the-game-of-happiness, mammoth-messages, meadowmight, kangaruse, the-outnumbered-series/*, waitless-games/* boards, swiftsmash-saga/tap/cookie-smasher, keebble-domino, thats-amorphe, pirates, wondering-witches, starry-skylines, timely-transports, one-pizza-the-puzzle, unstable-universe, slippery-slopes*.
+These multiply raw `_drawing` values manually (`vis.get("x") * vis.sizeUnit`). Converting to `CVal` is a refactor that can break working games; §6.5. List: firecrackers, hold-my-bear, sleighwell, magnetmen, the-mist, pumpkin-patrol, split-the-foody, the-game-of-dilemmas, the-game-of-happiness, mammoth-messages, meadowmight, kangaruse, the-outnumbered-series/*, waitless-games/* boards, swiftsmash-saga/tap/cookie-smasher, keebble-domino, thats-amorphe, pirates, wondering-witches, starry-skylines, timely-transports, one-pizza-the-puzzle, unstable-universe, slippery-slopes*.
 
 ### 3.6 Cross-check against `ROADMAP.md`
 
 * `[x]` (Noble Flood, I Bid You Not, Magnetmen): Noble Flood and I Bid You Not are structurally clean; Magnetmen's flags are advisory (its shape ops legitimately omit `pivot`) and it has no confirmed defect.
 * `[~~]` ("updated, untested") is unverified by definition — the harness turns it into fact.
 * Fiddlefoo's "examples use wrong rules" is not detectable automatically; it is an optional review item on example screenshots (§10).
-* Naivigation is worse than ROADMAP suggests (D-6); Hasty Accusations is confirmed (D-2).
 
 ---
 
@@ -459,7 +452,6 @@ Codes: `RB_EXAMPLE_EMPTY` 22, `RB_EXAMPLE_TIMEOUT` 15, `RB_EXAMPLE_LABEL` 15, `P
 
 What the reds actually are:
 
-* **D-6 confirmed** on all five `naivigation/visit/*/rules/` — no `.rulebook-toolbar` at all.
 * `swiftsmash-saga/tap/smackshapes/rules/` — the bundle exists and calls `loadRulebook`, yet no toolbar appears. New; not root-caused.
 * The four Throneless rulebooks (`kaizerseat`, `kingseat`, `queenseat`, `smallseat`) throw `TypeError: Cannot convert undefined or null to object` in `planLoadMultiple`: the example loads resources that do not exist yet.
 * `keebble-domino/rules/` throws `TypeError: r.pos is not a function` inside the visualizer — a `pos`/pivot migration defect — and one heading (`Werewalls`) never becomes a section header.
@@ -481,7 +473,7 @@ Filtered runs of the reworked harness (1 worker, 1 profile, `audit/lean.toml`), 
 
 `report.md` now lists each failure's message under **Failure details**: a code alone does not say what to open, and for `/hasty-accusations/game/` it is what names the actual cause.
 
-`bun run static` (2 s, §2.4): **20 errors, 0 warnings, 70 info**. The errors are exactly D-2 (6) and D-6 (14). The info is §3.5's non-`CVal` projects plus ~50 modules no entry imports (`chiptales/shared/config.ts` is a stale duplicate of the per-game configs).
+`bun run static` (2 s, §2.4): **0 errors, 0 warnings, 70 info** — the info is §3.5's non-`CVal` projects plus ~50 modules no entry imports (`chiptales/shared/config.ts` is a stale duplicate of the per-game configs).
 
 That is the shape a full sweep takes — do it in one go, at the end.
 
@@ -576,12 +568,13 @@ Bun + `playwright-core` driving system Chrome (`CHROME_PATH` overrides). No brow
 
 ```
 audit/
-  package.json            scripts: audit, perf
+  package.json            scripts: audit, static, perf
   src/main.ts             CLI, exit codes 0/1/2/3, the flags of §5.9
   src/perf.ts             §4.3 budgets
   src/build.ts            hugo build, reuse by input hash, project segments
   src/serve.ts            static server, real 404s, no-store
   src/manifest.ts         content frontmatter + built HTML -> manifest
+  src/static.ts           §2.4 source checks (SC-1..SC-7)
   src/pages/{rulebook,generator,digital}.ts
   src/lib/{browser,instrument,settings,assert,wait,report,types}.ts
   allowlist.json          http failures to ignore
@@ -603,7 +596,7 @@ One failed resource is reported once (`console.error: Failed to load resource…
 * Chrome runs with one renderer, no GPU, a 512 MB JS heap and a 64 MB disk cache.
 * The instrument holds **no canvas references**: it measures at most two canvases while they are being captured, so a generator with dozens of full-page canvases cannot pin gigabytes.
 
-The profiles are `default`, `invert` and `--runs N` seeded ones. Static checks (§2.4) are specified but not written yet; `--deep`/`splitDims` is unspecified and does not exist.
+The profiles are `default`, `invert` and `--runs N` seeded ones. Static checks live in `src/static.ts` (§2.4) and run before the build; `--deep`/`splitDims` is unspecified and does not exist.
 
 Usage:
 
@@ -628,10 +621,9 @@ Whether the rules text matches the game (Fiddlefoo), whether material is balance
 
 ### 6.1 Order
 
-1. D-6. 
-2. D-2, D-9, D-16. 
-3. Whatever the harness reports red. 
-4. §3.5 canonicalisation on its own branch.
+1. D-9.
+2. Whatever the harness reports red.
+3. §3.5 canonicalisation on its own branch.
 
 ### 6.2 Setting read
 
@@ -671,19 +663,7 @@ Verify visually against the approved baseline.
 | Left-aligned paragraph (rules on a card) | `.alignTopLeft()`. |
 | Multi-line block centred vertically | already default; remove any V1 `pos` shift that compensated. |
 
-### 6.5 Port a V1 generator (`hasty-accusations`)
-
-`shared/config.ts` is already V2. Replace `game/main.ts` entirely:
-
-```ts
-import { loadGame } from "lib/pq-games";
-import { CONFIG } from "../shared/config";
-loadGame(CONFIG);
-```
-
-Then drop the V1-only filter fields the old entry used (`cardSet`, `cardsOnly`, `suspectsOnly`) from `_resources.files` so everything loads. If conditional loading is wanted, use the supported `loadIf: ["includeCharacters"]` (reads `_settings.<path>.value`); never re-implement filtering in the entry. Confirm each `_material` entry has `picker`, `mapper` and (when the material is also drawn in the rulebook) `itemSize`, then run the harness: remaining failures will be V1 reads inside `cardPicker.ts` / `suspectPicker.ts`, listed by SC-1.
-
-### 6.6 CVal canonicalisation (optional, last)
+### 6.5 CVal canonicalisation (optional, last)
 
 Only per file, only after its page is green, and re-run the audit afterwards.
 
@@ -698,29 +678,11 @@ Only per file, only after its page is green, and re-run the audit afterwards.
 
 Never convert a scalar to `"size"` (returns a `Vector2` and breaks arithmetic) — the most likely way to break a working game here.
 
-### 6.7 Naivigation rulebooks
-
-The five `visit/*/rules/main.ts` build generators that construct `new InteractiveExample({ id: "naivigation-turn" | "naivigation-setup" })` at module evaluation (`shared/randomNaivigationTurnGenerator.ts:74`, `randomNaivigationSetupGenerator.ts:114`). That runs before `window.load`, so the UI is written into the pre-rebuild node and is discarded when `loadRulebook` clones the article. Adding `loadRulebook` alone therefore shows nothing.
-
-Required pattern — the rulebook owns registration:
-
-```ts
-let turn: RandomNaivigationTurnGenerator;
-loadRulebook({
-  examples: {
-    "naivigation-turn":  { buttonText: "Give me an example turn!",   callback: () => (turn ??= buildTurnGenerator()).generate() },
-    "naivigation-setup": { buttonText: "Give me an example setup!",  callback: () => (turn ??= buildTurnGenerator()).generateSetupExample() }
-  }
-});
-```
-
-Remove the constructor-time `InteractiveExample` from those shared classes (expose `generate()` / `generateSetupExample()` instead). Accept when RB-5..RB-8 are green on all five pages.
-
-### 6.8 Example/table id mismatch
+### 6.6 Example/table id mismatch
 
 Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 must then be silent.
 
-### 6.9 Definition of done for a project
+### 6.7 Definition of done for a project
 
 1. `bun run audit --filter <project>` → all pages pass.
 2. No unexplained `SETTINGS_INERT` warning (document intentional cosmetic controls in `allowlist.json`).
@@ -765,7 +727,7 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 | Phase | Work | Exit criterion |
 |---|---|---|
 | 3. Mechanical fixes | full `--runs 1` sweep and every one-liner it surfaces | ≥80 % of generators and all custom rulebooks green |
-| 4. Structural (1–2 weeks) | D-2 port, D-6 Naivigation, D-9 pirates, remaining reds, `--runs 2` on `[~~]` games | `--runs 1` green for every non-draft project except documented exceptions; `--runs 2` spot-checked on whatever was touched |
+| 4. Structural (1–2 weeks) | D-9 pirates, remaining reds, `--runs 2` on `[~~]` games | `--runs 1` green for every non-draft project except documented exceptions; `--runs 2` spot-checked on whatever was touched |
 | 6. Re-enable (1 h) | `enableBoardJS`/`enableGameJS` true (or R-5), deploy, spot-check 5 games | links visible in production; the pre-merge gate is green |
 | 7. Durability (ongoing) | R-4, R-6, R-7, R-11, R-13 | budgets of §4.3 hold |
 | 8. Optional | §10: contact sheet per project, fix pivot/alignment, re-baseline | nothing depends on it |
@@ -793,7 +755,7 @@ Markdown is the source of truth: rename the JS key (or the markdown id). SC-5 mu
 | `GEN_BLANK_PAGE` | page canvas blank | mapper config, `itemSize`, empty picker |
 | `SETTINGS_INERT` | setting changed, output identical | that setting's consumer |
 | `HTTP_404` | asset missing | `_resources`, `content/<project>/assets` |
-| `PAGE_ERROR … appendChild` | empty example node | D-16 |
+| `PAGE_ERROR … appendChild` | empty example node | `createExampleHTMLForNode` and the node the example resolved |
 
 ### B. Seeded RNG (injected by the harness)
 

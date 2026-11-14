@@ -1,4 +1,6 @@
 import MaterialNaivigation from "games/naivigation/shared/materialNaivigation";
+import { loadRulebook } from "lib/pq-rulebook";
+import { ResourceLoader } from "lib/pq-games";
 import RandomNaivigationSetupGenerator, { TileData } from "games/naivigation/shared/randomNaivigationSetupGenerator";
 import RandomNaivigationTurnGenerator from "games/naivigation/shared/randomNaivigationTurnGenerator";
 import { cardPicker, tilePicker } from "../game/generators";
@@ -18,8 +20,14 @@ const validPlacementCallback = (cell:TileData, setup:RandomNaivigationSetupGener
     return { tile: tileFinal }
 }
 
+// a rulebook page never calls loadGame, so nothing has created the resource loader the visualizer reads
+const resLoader = new ResourceLoader({ base: CONFIG._resources.base });
+resLoader.planLoadMultiple(CONFIG._resources.files);
+CONFIG._game.resLoader = resLoader;
+
 const visualizerTiles = new MaterialVisualizer(CONFIG, new Vector2(256,256));
 const setup = new RandomNaivigationSetupGenerator({
+    attachToRules: false,
     tilePicker: tilePicker,
     validPlacementCallback: validPlacementCallback,
     visualizer: visualizerTiles
@@ -117,9 +125,27 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
 
 const visualizerCards = new MaterialVisualizer(CONFIG, new Vector2(256,360));
 const turn = new RandomNaivigationTurnGenerator({
+    attachToRules: false,
     setup: setup,
     cardPicker: cardPicker,
     setupCallback: setupCallback,
     movementCallback: movementCallback,
     visualizer: visualizerCards
 })
+
+loadRulebook({
+    examples:
+    {
+        "naivigation-setup":
+        {
+            buttonText: "Give me a random setup!",
+            callback: (sim) => setup.onSetupRequested(sim.getOutputBuilder())
+        },
+
+        "naivigation-turn":
+        {
+            buttonText: "Give me an example turn!",
+            callback: (sim) => turn.generate(sim.getOutputBuilder())
+        }
+    }
+});
