@@ -66,13 +66,9 @@ export class MaterialVisualizer<TConfig extends GameConfig = GameConfig>
 
         // this is just for very easy access through the configurator later; must come first though to ensure we have it for everything else
         this.configurator = new Configurator();
+        // `sizeUnit`, `sizeX` and `sizeY` are derived from `size` by the configurator itself
         this.configurator.calculate({
             size: this.size,
-            sizeUnit: this.sizeUnit,
-            // single-axis versions, so a config can say `new CVal(0.925, "sizeY")` and get a plain number
-            // back instead of a vector whose `.y` the drawing code has to remember to read
-            sizeX: this.size.x,
-            sizeY: this.size.y,
             center: this.center,
             inkFriendly: this.inkFriendly
         })

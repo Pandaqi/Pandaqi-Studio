@@ -96,7 +96,7 @@ export default class Card
 
         // draw the actual image
         const res : ResourceImage = vis.getResource(key);
-        const spriteSize = vis.get("cards.illustration.sizeFactor") * this.sizeUnit;
+        const spriteSize = vis.get("cards.illustration.sizeFactor");
         const frame = this.data.frame;
 
         const op = new LayoutOperation({
@@ -111,8 +111,7 @@ export default class Card
 
     drawCornerIcons(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const baseOffset = vis.get("cards.icons.offset").clone();
-        const offset = baseOffset.scaleFactor(this.sizeUnit);
+        const offset = vis.get("cards.icons.offset").clone();
         const positions = [
             offset.clone(), // first one is top left corner
             new Vector2(this.size.x-offset.x, offset.y),
@@ -120,7 +119,7 @@ export default class Card
             new Vector2(offset.x, this.size.y-offset.y)
         ]
 
-        const bgOffset = vis.get("cards.icons.bgOffset").clone().scaleFactor(this.sizeUnit);
+        const bgOffset = vis.get("cards.icons.bgOffset").clone();
         const bgPositions = [
             bgOffset.clone(), // first one is top left corner
             new Vector2(this.size.x-bgOffset.x, bgOffset.y),
@@ -132,13 +131,13 @@ export default class Card
         if(this.data.expansion) { spriteKey += "_expansion"; }
 
         const textColor = "#FFFFFF";
-        const fontSize = vis.get("cards.icons.fontSize") * this.sizeUnit;
+        const fontSize = vis.get("cards.icons.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
         })
 
-        const iconSize = vis.get("cards.icons.scaleFactor") * this.sizeUnit;
+        const iconSize = vis.get("cards.icons.scaleFactor");
         const bgSize = vis.get("cards.icons.bgScaleFactor") * iconSize;
 
         const bgRes = vis.getResource("decoration");
@@ -193,10 +192,10 @@ export default class Card
         if(this.type != "bear") { return; }
         if(!CONFIG._settings.addBearIcons.value) { return; }
 
-        const yPos = vis.get("cards.bearIcons.yPos") * this.size.y;
+        const yPos = vis.get("cards.bearIcons.yPos");
         const xPos = 0.5 * this.size.x;
         const pos = new Vector2(xPos, yPos);
-        const size = new Vector2(vis.get("cards.bearIcons.size") * this.sizeUnit);
+        const size = new Vector2(vis.get("cards.bearIcons.size"));
         const positions = getPositionsCenteredAround({ pos: pos, num: 4, dir: Vector2.RIGHT, size: size });
         const res = vis.getResource("bear_icons");
         const sizeWithPadding = size.clone().scale(1.0 - vis.get("cards.bearIcons.padding"));
@@ -238,7 +237,7 @@ export default class Card
         res.toCanvas(this.ctx, op);
 
         // the actual text
-        const fontSize = vis.get("cards.power.fontSize") * this.sizeUnit;
+        const fontSize = vis.get("cards.power.fontSize");
         const textConfig = new TextConfig({
             size: fontSize,
             font: vis.get("fonts.body"),

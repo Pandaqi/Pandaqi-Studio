@@ -1,4 +1,4 @@
-import { SettingType, Vector2, TextConfig, TextStyle, Bounds } from "lib/pq-games";
+import { CVal, SettingType, Vector2, TextConfig, TextStyle, Bounds } from "lib/pq-games";
 import { ELEMENTS } from "./dict"
 import { generateForRulebook } from "../rules/main";
 import { cardPicker } from "../game/cardPicker";
@@ -209,7 +209,7 @@ export const CONFIG =
                 purple: "#F2E3FF"
             },
 
-            textSize: 0.08, // relative to card size
+            textSize: new CVal(0.08, "sizeUnit"),
             textSizeFineprint: 0.02, // relative to card size
 
             icon: 
@@ -222,7 +222,7 @@ export const CONFIG =
             actionIconPatternAlpha: 0.4,
             dropShadowOffset: 0.08, // relative to (corner) icon size
             
-            backgroundScale: 2.0,
+            backgroundScale: new CVal(2.0, "sizeUnit"),
             backgroundAlpha: 0.125,
             generator: 
             {
@@ -233,7 +233,7 @@ export const CONFIG =
             {
                 color: "#614100",
                 colorInkFriendly: "#999999",
-                width: 0.01
+                width: new CVal(0.01, "sizeUnit")
             },
             outline: 
             {

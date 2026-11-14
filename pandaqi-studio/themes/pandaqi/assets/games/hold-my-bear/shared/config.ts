@@ -1,5 +1,5 @@
 
-import { SettingType, Vector2, Bounds } from "lib/pq-games"
+import { CVal, SettingType, Vector2, Bounds } from "lib/pq-games"
 import { cardPicker } from "../game/cardPicker"
 
 export const CONFIG = 
@@ -149,24 +149,24 @@ export const CONFIG =
         {
             icons:
             {
-                offset: new Vector2(0.135, 0.135), // relative to sizeUnit
-                fontSize: 0.2, // relative to sizeUnit
-                scaleFactor: 0.18, // relative to sizeUnit
+                offset: new CVal(new Vector2(0.135, 0.135), "sizeUnit"),
+                fontSize: new CVal(0.2, "sizeUnit"),
+                scaleFactor: new CVal(0.18, "sizeUnit"),
                 bgScaleFactor: 2.6, // relative to icon scaleFactor (above)
-                bgOffset: new Vector2(0.135, 0.18), 
+                bgOffset: new CVal(new Vector2(0.135, 0.18), "sizeUnit"),
                 textShadow: true, // (shadow is SLOW, but looks much better/more legible)
             },
 
             bearIcons:
             {
-                yPos: 0.72, // ~sizeY
-                size: 0.215, // ~sizeUnit
+                yPos: new CVal(0.72, "sizeY"),
+                size: new CVal(0.215, "sizeUnit"),
                 padding: 0.035, // ~bearIconSize
             },
 
             illustration:
             {
-                sizeFactor: 0.8, // relative to sizeUnit
+                sizeFactor: new CVal(0.8, "sizeUnit"),
                 splatNum: new Bounds(6, 9),
                 splatAlphaBounds: new Bounds(0.05, 0.1),
                 splatRadiusBounds: new Bounds(0.05, 0.2), // relative to sizeUnit; basically sphere around center card
@@ -177,7 +177,7 @@ export const CONFIG =
             {
                 width: 0.915, // relative to width of card
                 yPos: 0.72, // relative to height of card
-                fontSize: 0.055, // relative to sizeUnit
+                fontSize: new CVal(0.055, "sizeUnit"),
                 textBoxSidePadding: 0.875, // size of text box relative to full width of bg
             },
 

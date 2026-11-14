@@ -1,3 +1,4 @@
+import { Vector2 } from "../geometry/vector2";
 import { anyMatch } from "../tools/collections/checkers";
 import { CVal } from "./cval";
 
@@ -47,6 +48,7 @@ export class Configurator
             this.set(key, item);
         }
 
+        if(item === undefined) { item = this.getDerivedDimension(path); }
         return item;
     }
 
@@ -54,6 +56,20 @@ export class Configurator
     {
         const path = this.keyToPath(key);
         this.itemsCalculated.set(path, value);
+    }
+
+    // Whatever registers `size` (the material/board being drawn) also gets the size-relative keys for free, so a
+    // config can say `new CVal(0.925, "sizeY")` without every visualizer registering those variants by hand.
+    getDerivedDimension(path:string)
+    {
+        if(path != "sizeUnit" && path != "sizeX" && path != "sizeY") { return undefined; }
+
+        const size = this.itemsCalculated.get("size");
+        if(!(size instanceof Vector2)) { return undefined; }
+
+        if(path == "sizeX") { return size.x; }
+        if(path == "sizeY") { return size.y; }
+        return Math.min(size.x, size.y);
     }
 
     keyToPath(key:string|string[])

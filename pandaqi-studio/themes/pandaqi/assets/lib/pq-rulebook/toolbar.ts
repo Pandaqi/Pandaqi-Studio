@@ -147,15 +147,94 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
             return console.error("[Rulebook] Paged.js could not be loaded! Can't print advanced.", err);
         }
 
-        const div = getSectionAsFlatHTML(params._sectionRoot, params);
-        node.remove();
-        document.body.appendChild(div);
+        // paged.js is asked to paginate a copy of the rulebook into a container of its own. That leaves the real
+        // page untouched, so the reader's folded sections, listeners and scroll position all survive a print:
+        // only the paged output is visible while printing, and all of it is thrown away afterwards.
+        const flat = getSectionAsFlatHTML(params._sectionRoot, params);
+        const renderRoot = document.createElement("div");
+        renderRoot.className = "rulebook-paged-output";
+        renderRoot.appendChild(flat); // paged.js needs the content it paginates to be part of the document
+        document.body.appendChild(renderRoot);
 
-        // paged.js does not merely read the page, it rebuilds the entire body, so undoing that by hand is
-        // fiddly and easy to get wrong. A reload rebuilds the rulebook exactly as it was, from the source.
-        window.addEventListener("afterprint", () => { window.location.reload(); }, { once: true });
+        const headStylesBefore = new Set(Array.from(document.head.querySelectorAll("style")));
+        let addedStyles:HTMLElement[] = [];
+        const scrollY = window.scrollY;
 
-        await pagedJS.preview();
+        // The live rulebook is hidden only for the print itself, through print media. Toggling its style on
+        // screen would collapse the page, and the browser throws the reader's scroll position away with it.
+        const printStyle = document.createElement("style");
+        printStyle.textContent = [
+            "@media print {",
+            "    body.rulebook-paged-print > main > article,",
+            "    body.rulebook-paged-print > main > .rulebook-toolbar { display: none !important; }",
+            "}"
+        ].join("\n");
+        document.head.appendChild(printStyle);
+        document.body.classList.add("rulebook-paged-print");
+
+        let restored = false;
+        const restoreLivePage = () =>
+        {
+            if(restored) { return; }
+            restored = true;
+            window.removeEventListener("afterprint", restoreLivePage);
+            buttonPrintPaged.disabled = false;
+
+            document.body.classList.remove("rulebook-paged-print");
+            printStyle.remove();
+            renderRoot.remove();
+            for(const style of addedStyles) { style.remove(); }
+
+            // paged.js' own styles scroll the document to the top, so put the reader back where they were;
+            // the removal above only takes effect after a layout pass, hence the retries
+            window.scrollTo(0, scrollY);
+            requestAnimationFrame(() => {
+                window.scrollTo(0, scrollY);
+                setTimeout(() => { window.scrollTo(0, scrollY); }, 150);
+            });
+        }
+        window.addEventListener("afterprint", restoreLivePage, { once: true });
+
+        // paged.js removes every stylesheet it is given, so hand it copies instead of the live nodes: a URL for a
+        // <link>, and the matching `{ href: css }` object for an inline <style> (a bare string is fetched as a
+        // URL by paged's polisher). Screen-only sheets are skipped, exactly like paged.js does itself.
+        const isScreenOnly = (elem:Element) => { return (elem.getAttribute("media") ?? "").includes("screen"); }
+        const stylesheets:any[] = [];
+        for(const link of Array.from(document.querySelectorAll('link[rel="stylesheet"]')))
+        {
+            if(isScreenOnly(link)) { continue; }
+            const href = (link as HTMLLinkElement).href;
+            if(href) { stylesheets.push(href); }
+        }
+        for(const style of Array.from(headStylesBefore) as HTMLStyleElement[])
+        {
+            if(isScreenOnly(style)) { continue; }
+            stylesheets.push({ [window.location.href]: style.textContent ?? "" });
+        }
+
+        const Previewer = (window as any).Paged?.Previewer;
+        if(!Previewer)
+        {
+            // older paged builds only offer `preview()` on the polyfill object, which paginates the whole body
+            console.error("[Rulebook] Paged.js did not expose its Previewer; relying on a page reload after printing.");
+            window.removeEventListener("afterprint", restoreLivePage);
+            window.addEventListener("afterprint", () => { window.location.reload(); }, { once: true });
+            renderRoot.remove();
+            node.remove();
+            document.body.appendChild(flat);
+            await pagedJS.preview();
+            print();
+            return;
+        }
+
+        try { await new Previewer().preview(flat, stylesheets, renderRoot); }
+        catch(err)
+        {
+            restoreLivePage();
+            return console.error("[Rulebook] Paged.js could not build the print preview!", err);
+        }
+
+        addedStyles = Array.from(document.head.querySelectorAll("style")).filter((style) => { return !headStylesBefore.has(style); });
         print();
     });
 

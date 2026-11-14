@@ -88,7 +88,7 @@ export default class Card
 
         this.rootPadding = 0.0425*this.sizeUnit;
         this.creatureFlipX = rand() <= 0.5;
-        this.strokeWidth = vis.get("cards.stroke.width") * this.sizeUnit;
+        this.strokeWidth = vis.get("cards.stroke.width");
         this.strokeColor = vis.inkFriendly ? vis.get("cards.stroke.colorInkFriendly") : this.getIconColorDark(this.getMainIcon());
         this.dropShadowOffset = new Vector2(0, vis.get("cards.dropShadowOffset") * this.cornerIconSize);
 
@@ -183,7 +183,7 @@ export default class Card
 
         if(vis.inkFriendly) { return; }
 
-        const size = this.sizeUnit * vis.get("cards.backgroundScale");
+        const size = vis.get("cards.backgroundScale");
         const res = vis.getResource(this.creatureSpritesheet);
         const canvOp = new LayoutOperation({
             pos: this.size.clone().scale(0.5),
@@ -355,7 +355,7 @@ export default class Card
         // the text with the name of the creature
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
-            size: vis.get("cards.textSize")*this.sizeUnit,
+            size: vis.get("cards.textSize"),
         }).alignCenter();
 
         const resText = new ResourceText({ text: this.creatureName, textConfig: textConfig })
