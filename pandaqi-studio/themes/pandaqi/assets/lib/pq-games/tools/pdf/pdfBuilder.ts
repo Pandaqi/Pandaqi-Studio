@@ -30,6 +30,35 @@ export interface PdfPageConfig
     splitDims?: Vector2,
 }
 
+// jsPDF turns canvas pages into opaque JPEGs (no alpha), so transparent margins would become black. A
+// destination-over white fill keeps the page canvas itself as the single copy: the caller discards it
+// right after this, and repeating the fill is harmless.
+const flattenOnWhite = (img:HTMLImageElement|HTMLCanvasElement) : HTMLCanvasElement =>
+{
+    if(img instanceof HTMLCanvasElement)
+    {
+        const ctx = img.getContext("2d");
+        if(ctx)
+        {
+            ctx.save();
+            ctx.globalCompositeOperation = "destination-over";
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0, 0, img.width, img.height);
+            ctx.restore();
+        }
+        return img;
+    }
+
+    const canvas = document.createElement("canvas");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+    return canvas;
+}
+
 // One PDF per material. Pages are added to the jsPDF document as they arrive instead of being collected
 // first: a full A4 page at 300 DPI is a ~35 MB decoded bitmap, so keeping every page alive until "save"
 // meant a 40-page document held well over a gigabyte (and made whole audit sweeps crawl). jsPDF keeps the
@@ -111,16 +140,12 @@ export class PdfBuilder
         if(!this.doc) { this.doc = new this.jsPDF(this.getPDFConfig()); }
         if(this.pageCount > 0) { this.doc.addPage(); }
 
-        // Paper is white. A generated page canvas is transparent (it contains only the material), and
-        // transparent PDF pages are rendered black by some viewers and print drivers. This vector rectangle
-        // costs a single PDF operator per page and keeps the direct canvas -> jsPDF path (no conversion).
         const pageSizeInches = convertPixelsToInches(this.sizeSinglePage);
-        this.doc.setFillColor(255, 255, 255);
-        this.doc.rect(0, 0, pageSizeInches.x, pageSizeInches.y, "F");
+        const pageImage = flattenOnWhite(img);
 
         // DOC: addImage(imageData, format, x, y, width, height, alias, compression, rotation)
         // compression values = NONE, FAST, MEDIUM, SLOW; NONE creates 100+ mb files, so it is opt-in
-        this.doc.addImage(img, 'png', 0, 0, pageSizeInches.x, pageSizeInches.y, this.aliasOf(img), this.compression);
+        this.doc.addImage(pageImage, 'png', 0, 0, pageSizeInches.x, pageSizeInches.y, this.aliasOf(img), this.compression);
         this.pageCount++;
     }
 
