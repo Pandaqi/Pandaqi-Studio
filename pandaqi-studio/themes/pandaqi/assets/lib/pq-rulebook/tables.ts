@@ -28,48 +28,121 @@ export interface RulebookTableParams
     data?: Record<string,RulebookEntryData>
 }
 
-export const foldAllTables = (node:HTMLElement) =>
+export const TABLE_ENTRY_CLASS = "rulebook-table-entry";
+export const TABLE_WRAPPER_CLASS = "rulebook-table-wrapper";
+export const TABLE_DETAIL_CLASS = "rulebook-table-detail";
+export const TABLE_EXPANDED_CLASS = "rulebook-table-expanded";
+
+const entriesOf = (node:HTMLElement) => Array.from(node.getElementsByClassName(TABLE_ENTRY_CLASS)) as HTMLElement[];
+const wrapperOf = (entry:HTMLElement) => entry.closest(`.${TABLE_WRAPPER_CLASS}`) as HTMLElement | null;
+const detailOf = (wrapper:HTMLElement | null) => (wrapper?.getElementsByClassName(TABLE_DETAIL_CLASS)[0] ?? null) as HTMLElement | null;
+
+export const setTableEntryFolded = (entry:HTMLElement, folded:boolean) =>
 {
-    const elems = Array.from(node.getElementsByClassName("rulebook-table-entry")) as HTMLElement[];
-    for(const elem of elems)
-    {
-        if(elem.dataset.folded == "true") { continue; }
-        toggleTableEntry(elem);
-    }
+    entry.dataset.folded = folded ? "true" : "false";
+    entry.classList.toggle(`${TABLE_ENTRY_CLASS}-folded`, folded);
+    entry.classList.toggle(`${TABLE_ENTRY_CLASS}-unfolded`, !folded);
+    entry.setAttribute("aria-expanded", String(!folded));
 }
 
-export const unfoldAllTables = (node:HTMLElement) =>
+// Clicking an entry opens it in a single detail panel under the table. The table itself never changes
+// size, so opening one entry cannot shove the rest of the page around.
+export const updateTableDetail = (wrapper:HTMLElement | null, entry:HTMLElement | null) =>
 {
-    const elems = Array.from(node.getElementsByClassName("rulebook-table-entry")) as HTMLElement[];
-    for(const elem of elems)
+    const detail = detailOf(wrapper);
+    if(!detail) { return; }
+
+    const desc = entry?.querySelector(".desc-container");
+    const hasDesc = !!desc && (desc.textContent ?? "").trim().length > 0;
+    if(!entry || !hasDesc)
     {
-        if(elem.dataset.folded == "false") { continue; }
-        toggleTableEntry(elem);
+        detail.hidden = true;
+        detail.innerHTML = "";
+        return;
     }
+
+    const icon = entry.querySelector(".icon-container")?.cloneNode(true) as HTMLElement | null;
+    const name = entry.querySelector(".heading-container")?.textContent?.trim() ?? "";
+
+    detail.innerHTML = "";
+    if(icon) { detail.appendChild(icon); }
+
+    const main = document.createElement("div");
+    main.classList.add("rulebook-table-detail-main");
+    detail.appendChild(main);
+
+    const heading = document.createElement("div");
+    heading.classList.add("rulebook-table-detail-name");
+    heading.textContent = name;
+    main.appendChild(heading);
+
+    const body = document.createElement("div");
+    body.classList.add("rulebook-table-detail-body");
+    body.appendChild(desc.cloneNode(true));
+    main.appendChild(body);
+
+    detail.hidden = false;
 }
 
 export const toggleTableEntry = (entry:HTMLElement) =>
 {
-    const isFolded = entry.dataset.folded == "true";
-    if(isFolded) {
-        entry.dataset.folded = "false";
-        entry.classList.remove("rulebook-table-entry-folded");
-        entry.classList.add("rulebook-table-entry-unfolded");
-    } else {
-        entry.dataset.folded = "true";
-        entry.classList.add("rulebook-table-entry-folded");
-        entry.classList.remove("rulebook-table-entry-unfolded");
+    const wrapper = wrapperOf(entry);
+    if(wrapper?.classList.contains(TABLE_EXPANDED_CLASS)) { return; } // the list view has nothing to fold
+
+    const table = entry.closest(".rulebook-table") as HTMLElement | null;
+    const willOpen = entry.dataset.folded === "true";
+
+    if(willOpen && table)
+    {
+        for(const other of entriesOf(table))
+        {
+            if(other !== entry) { setTableEntryFolded(other, true); }
+        }
     }
+
+    setTableEntryFolded(entry, !willOpen);
+    updateTableDetail(wrapper, willOpen ? entry : null);
 }
+
+// `foldAllTables` / `unfoldAllTables` switch the whole table between compact cards and a plain list in
+// which every description is visible. Nothing left to click.
+export const toggleTablesExpanded = (node:HTMLElement, expanded:boolean) =>
+{
+    const wrappers = Array.from(node.getElementsByClassName(TABLE_WRAPPER_CLASS)) as HTMLElement[];
+    for(const wrapper of wrappers)
+    {
+        wrapper.classList.toggle(TABLE_EXPANDED_CLASS, expanded);
+        for(const entry of entriesOf(wrapper)) { setTableEntryFolded(entry, true); }
+        const detail = detailOf(wrapper);
+        if(detail) { detail.hidden = true; detail.innerHTML = ""; }
+    }
+    return expanded;
+}
+
+export const foldAllTables = (node:HTMLElement) => { toggleTablesExpanded(node, false); }
+export const unfoldAllTables = (node:HTMLElement) => { toggleTablesExpanded(node, true); }
 
 export const makeTablesInteractive = (node:HTMLElement) =>
 {
-    const elems = Array.from(node.getElementsByClassName("rulebook-table-entry")) as HTMLElement[];
-    for(const elem of elems)
+    const wrappers = Array.from(node.getElementsByClassName(TABLE_WRAPPER_CLASS)) as HTMLElement[];
+    for(const wrapper of wrappers)
     {
-        const needsInit = !elem.dataset.folded;
-        if(needsInit) { elem.dataset.folded = "true"; elem.classList.add("rulebook-table-entry-folded"); }
-        elem.addEventListener("click", () => toggleTableEntry(elem));
+        if(wrapper.dataset.interactive == "true") { continue; }
+        wrapper.dataset.interactive = "true";
+
+        for(const entry of entriesOf(wrapper))
+        {
+            setTableEntryFolded(entry, true);
+            entry.setAttribute("role", "button");
+            entry.setAttribute("tabindex", "0");
+            entry.addEventListener("click", () => toggleTableEntry(entry));
+            entry.addEventListener("keydown", (ev) =>
+            {
+                if(ev.key !== "Enter" && ev.key !== " ") { return; }
+                ev.preventDefault();
+                toggleTableEntry(entry);
+            });
+        }
     }
 }
 
@@ -77,6 +150,7 @@ export const convertRulesTableDictToHTML = (params:RulebookTableParams = {}) =>
 {
     params.config = params.config ?? {};
     const cont = document.createElement("div"); 
+    cont.classList.add(TABLE_WRAPPER_CLASS);
 
     const table = document.createElement("section");
     table.classList.add("rulebook-table");
@@ -85,14 +159,14 @@ export const convertRulesTableDictToHTML = (params:RulebookTableParams = {}) =>
 
     const uiHint = document.createElement("div");
     uiHint.classList.add("rulebook-table-ui-hint");
-    uiHint.innerHTML = `Click an item to inspect.`;
+    uiHint.innerHTML = `Select an item for its description.`;
     cont.appendChild(uiHint);
 
-    const dict = params.data;
+    const dict = params.data ?? {};
     for(const [key,data] of Object.entries(dict))
     {
         const entry = document.createElement("div");
-        entry.classList.add("rulebook-table-entry");
+        entry.classList.add(TABLE_ENTRY_CLASS);
         if(data.class) { entry.classList.add(data.class); }
         table.appendChild(entry);
 
@@ -115,9 +189,14 @@ export const convertRulesTableDictToHTML = (params:RulebookTableParams = {}) =>
 
         const descCont = document.createElement("div");
         descCont.classList.add("desc-container");
-        descCont.innerHTML = desc;
+        descCont.innerHTML = desc ?? "";
         entry.appendChild(descCont);
     }
+
+    const detail = document.createElement("div");
+    detail.classList.add(TABLE_DETAIL_CLASS);
+    detail.hidden = true;
+    cont.appendChild(detail);
 
     return cont;
 }
@@ -136,7 +215,9 @@ export const createRulebookTableHTML = (params:RulebookParams, node:HTMLElement)
         const nodesMatching = Array.from(node.querySelectorAll(`[data-rulebook-table="${id}"]`)) as HTMLElement[];
         for(const nodeMatch of nodesMatching)
         {
-            nodeMatch.appendChild(convertRulesTableDictToHTML(tableData));
+            const table = convertRulesTableDictToHTML(tableData);
+            table.dataset.tableId = id;
+            nodeMatch.appendChild(table);
             tables.push(nodeMatch);
         }
     }

@@ -1,6 +1,6 @@
 import { findSheetForRulebookIcon, getAllRulebookIconKeys, getRulebookIconNode } from "./icons";
 import type { RulebookParams } from "./rulebook";
-import { ICONS } from "./theme/style";
+import { ICONS } from "./theme/applyStyles";
 import { toggleSectionFold } from "./toolbar";
 
 export const DEFAULT_SECTION_CLASS = "rulebook-section";
@@ -21,7 +21,7 @@ export class RulebookSection
     constructor(headingNode:HTMLHeadingElement)
     {
         this.headingNode = headingNode;
-        this.headingNode.id = getHeadingID(this.headingNode.innerHTML);
+        this.headingNode.id = getHeadingID(this.headingNode.textContent ?? "");
         this.level = this.headingNode ? parseInt(this.headingNode.tagName.slice(-1)) : 1;
         this.content = [];
     }
@@ -46,14 +46,93 @@ export const createRootSection = (params:RulebookParams) =>
     return sectionRoot;
 }
 
-export const getHeadingID = (s:string) => 
-{ 
-    let humanized = s.replaceAll(" ", "-").toLowerCase(); 
-    if(!humanized.charAt(0).match(/[a-z]/i)) { humanized = humanized.slice(-1); }
-    return humanized;
+// A readable, selector-safe anchor. The old version took the last character of anything that did not
+// start with a letter (an emoji heading became the id ">"), which produced anchors that no link could
+// ever target.
+export const getHeadingID = (s:string) : string =>
+{
+    const base = (s ?? "")
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/['’`]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+    if(!base) { return "section"; }
+    return /^[a-z]/.test(base) ? base : `section-${base}`;
+}
+
+// Two headings may share a title ("Example" appears more than once). Anchors must stay unique or the
+// table of contents would always jump to the first one.
+export const ensureUniqueHeadingIDs = (root:RulebookSection) =>
+{
+    const seen = new Set<string>();
+    const walk = (section:RulebookSection) =>
+    {
+        let id = section.headingNode.id || "section";
+        if(seen.has(id))
+        {
+            let counter = 2;
+            while(seen.has(`${id}-${counter}`)) { counter++; }
+            id = `${id}-${counter}`;
+            section.headingNode.id = id;
+        }
+        seen.add(id);
+
+        for(const child of section.content)
+        {
+            if(child instanceof RulebookSection) { walk(child); }
+        }
+    }
+    walk(root);
 }
 
 export const getAllSections = (node:HTMLElement) => { return Array.from(node.getElementsByClassName(DEFAULT_SECTION_CLASS)) as HTMLElement[]; }
+
+export const getSectionNodes = (root:RulebookSection) : HTMLElement[] =>
+{
+    const nodes:HTMLElement[] = [];
+    const walk = (section:RulebookSection) =>
+    {
+        if(section.node) { nodes.push(section.node); }
+        for(const child of section.content)
+        {
+            if(child instanceof RulebookSection) { walk(child); }
+        }
+    }
+    walk(root);
+    return nodes;
+}
+
+// Every section below the root, in reading order. Used by the public API (`PQRulebook`).
+export const flattenSections = (root:RulebookSection) : RulebookSection[] =>
+{
+    const sections:RulebookSection[] = [];
+    const walk = (section:RulebookSection) =>
+    {
+        for(const child of section.content)
+        {
+            if(!(child instanceof RulebookSection)) { continue; }
+            sections.push(child);
+            walk(child);
+        }
+    }
+    walk(root);
+    return sections;
+}
+
+export const findSectionByID = (root:RulebookSection, id:string) : RulebookSection | null =>
+{
+    if(root.headingNode.id === id) { return root; }
+    for(const child of root.content)
+    {
+        if(!(child instanceof RulebookSection)) { continue; }
+        const match = findSectionByID(child, id);
+        if(match) { return match; }
+    }
+    return null;
+}
 
 export const findSections = (node:HTMLElement, parentSection:RulebookSection) =>
 {
@@ -121,13 +200,29 @@ export const makeSectionHeader = (section:RulebookSection, indices = [], params:
     const header = document.createElement("header");
     div.appendChild(header);
     header.classList.add(DEFAULT_SECTION_HEADER_CLASS);
+    header.dataset.level = String(section.getLevel());
+    header.dataset.sectionId = section.headingNode.id;
 
     if(!flat)
     {
-        header.addEventListener("click", () => {
-            if(header.dataset.folded == "true") { toggleSectionFold(div, false); }
-            else { toggleSectionFold(div, true); }
-        })
+        // headers are clickable: give keyboard users the same affordance
+        header.setAttribute("role", "button");
+        header.setAttribute("tabindex", "0");
+        header.setAttribute("aria-expanded", "true");
+
+        const activate = () =>
+        {
+            const folded = header.dataset.folded == "true";
+            toggleSectionFold(div, !folded);
+        }
+
+        header.addEventListener("click", activate);
+        header.addEventListener("keydown", (ev) =>
+        {
+            if(ev.key !== "Enter" && ev.key !== " ") { return; }
+            ev.preventDefault();
+            activate();
+        });
     }
 
     const hierarchyDisplay = document.createElement("div");
@@ -151,11 +246,10 @@ export const makeSectionHeader = (section:RulebookSection, indices = [], params:
             icon = document.createElement("span");
         } else {
             icon = getRulebookIconNode(iconID, findSheetForRulebookIcon(iconID, params));
-            icon.style.width = "36px";
-            icon.style.height = "36px";
         }
 
         icon.classList.add(`rules-icon`,`rules-icon-${iconID}`);
+        icon.setAttribute("aria-hidden", "true");
         cont.appendChild(icon);
         cont.appendChild(section.headingNode.cloneNode(true));
 
@@ -169,6 +263,7 @@ export const makeSectionHeader = (section:RulebookSection, indices = [], params:
 
     const arrow = document.createElement("div");
     arrow.classList.add("rulebook-section-arrow");
+    arrow.setAttribute("aria-hidden", "true");
     header.appendChild(arrow);
     arrow.innerHTML = "&uarr;";
     if(flat) { arrow.innerHTML = "&darr;" }
@@ -205,6 +300,8 @@ export const makeSectionInteractiveRecursively = (section:RulebookSection, indic
     {
         node = document.createElement("div");
         node.classList.add(DEFAULT_SECTION_CLASS);
+        node.dataset.level = String(section.getLevel());
+        node.dataset.sectionId = section.headingNode.id;
         section.setRootNode(node);
  
         if(section.forbidFolding)
@@ -228,7 +325,7 @@ export const getSectionAsFlatHTML = (section:RulebookSection, params:RulebookPar
 
 export const unfoldAllSectionsAbove = (node: HTMLElement) =>
 {
-    let parentElement = node;
+    let parentElement: HTMLElement | null = node;
     while(parentElement)
     {
         if(parentElement.classList.contains(DEFAULT_SECTION_CLASS)) { toggleSectionFold(parentElement, false); }

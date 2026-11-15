@@ -42,9 +42,10 @@ export const getRulebookIconNode = (key:string|IconData, sheetData:IconSheetPara
     const icon = document.createElement("span");
     icon.classList.add(sheetData.class ?? DEFAULT_ICON_CLASS);
 
-    const base = sheetData.config.base ?? "";
-    const sheetURL = iconData.sheetURL ?? sheetData.config.sheetURL;
-    const sheetWidth = iconData.sheetWidth ?? (sheetData.config.sheetWidth ?? 8);
+    const config = sheetData.config ?? {};
+    const base = config.base ?? "";
+    const sheetURL = iconData.sheetURL ?? config.sheetURL;
+    const sheetWidth = iconData.sheetWidth ?? (config.sheetWidth ?? 8);
 
     if(sheetURL) { icon.style.backgroundImage = `url(${base}${sheetURL})`; }
     icon.style.backgroundSize = (sheetWidth*100) + "%";
@@ -56,6 +57,7 @@ export const getRulebookIconNode = (key:string|IconData, sheetData:IconSheetPara
     icon.style.backgroundPositionY = -(yPos * 100) + "%";
     icon.style.width = "1.1em"; // slightly larger than font size usually looks best
     icon.style.height = "1.1em";
+    icon.setAttribute("aria-hidden", "true");
     return icon;
 }
 
