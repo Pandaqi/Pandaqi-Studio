@@ -159,13 +159,21 @@ export default class Card
             tempTextConfig.size = fontSize;
             const resText = new ResourceText({ text: text, textConfig: tempTextConfig });
 
-            op.pivot = Vector2.ZERO;
-            op.fill = new ColorLike(fillColor);
-            op.stroke = new ColorLike(strokeColor);
-            op.strokeWidth = strokeWidth;
-            op.strokeAlign = StrokeAlign.OUTSIDE
-            op.effects = getMaterialVisualizerEffects(vis); 
-            resText.toCanvas(ctx, op);
+            // the number needs its own operation: the coin above wants the default centre pivot, the text
+            // keeps the top-left one the migration pass gave it
+            const opText = new LayoutOperation({
+                frame: frameCoin,
+                pos: pos,
+                size: size,
+                rot: rot,
+                pivot: Vector2.ZERO,
+                fill: fillColor,
+                stroke: strokeColor,
+                strokeWidth: strokeWidth,
+                strokeAlign: StrokeAlign.OUTSIDE,
+                effects: getMaterialVisualizerEffects(vis),
+            });
+            resText.toCanvas(ctx, opText);
 
         }
     }

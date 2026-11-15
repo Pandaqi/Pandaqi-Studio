@@ -3514,7 +3514,7 @@ export default class BoardGeneration
 		})
 	
 		const opText = new LayoutOperation({
-			pivot: Vector2.ZERO,
+			pivot: new Vector2(0.5, 0),
 			fill: "#111111",
 			stroke: "#FFFFFF",
 			strokeWidth: 1,
@@ -3554,7 +3554,6 @@ export default class BoardGeneration
 		textConfig.alignHorizontal = TextAlign.MIDDLE;
 		const resText = new ResourceText({ text: this.cfg.seed, textConfig: textConfig });
 		opText.pos = new Vector2(oX + 0.5*cs + margin, oY + margin + 12);
-		opText.pivot = new Vector2(0.5, 0);
 		group.add(resText, opText);
 
 		// draw a divider between squares with a different terrain

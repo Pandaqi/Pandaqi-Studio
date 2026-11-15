@@ -421,7 +421,6 @@ export default class Card
 
         op.pos = Vector2.ZERO;
         op.size = Vector2.ZERO;
-        op.pivot = Vector2.ZERO;
         resLine.toCanvas(ctx, op);
         
     }
