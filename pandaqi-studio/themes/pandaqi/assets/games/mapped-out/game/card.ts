@@ -121,7 +121,7 @@ export default class Card
         const textConfigHeading = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.heading.fontSize")
-        }).alignCenter();
+        });
         const resTextHeading = new ResourceText({ text: movementData.label, textConfig: textConfigHeading });
         const opTextHeading = new LayoutOperation({
             pos: headingPos,
@@ -137,7 +137,7 @@ export default class Card
             const textConfigAction = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: vis.get("cards.headingAction.fontSize")
-            }).alignCenter();
+            });
             const resTextAction = new ResourceText({ text: MOVEMENT_SPECIAL[this.specialAction].label, textConfig: textConfigAction });
             const opTextAction = new LayoutOperation({
                 pos: headingPos.clone().sub(offset),
@@ -165,7 +165,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: vis.get("cards.text.fontSize"),
             style: TextStyle.ITALIC
-        }).alignCenter();
+        });
         const specialData = MOVEMENT_SPECIAL[this.specialAction] ?? {};
         const text = this.hasSpecialAction() ? specialData.desc : movementData.desc;
         const resText = new ResourceText({ text: text, textConfig: textConfig });
@@ -236,7 +236,7 @@ export default class Card
         const textConfigAction = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("tiles.actions.fontSize")
-        }).alignCenter();
+        });
         const resTextAction = new ResourceText({ text: (this.tileActionNum + 1).toString(), textConfig: textConfigAction });
 
         const corners = getRectangleCornersWithOffset(vis.size, vis.get("tiles.actions.offset"));
@@ -289,7 +289,7 @@ export default class Card
         const textConfigHeading = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("tiles.heading.fontSize")
-        }).alignCenter();
+        });
         const resTextHeading = new ResourceText({ text: middleText, textConfig: textConfigHeading });
 
         const offset = this.hasSpecialAction() ? vis.get("tiles.heading.offsetSpecial") : vis.get("tiles.heading.offsetRegular");
@@ -317,7 +317,7 @@ export default class Card
                 font: vis.get("fonts.body"),
                 size: vis.get("tiles.text.fontSize"),
                 style: TextStyle.ITALIC
-            }).alignCenter();
+            });
             
             const specialData = MAP_SPECIAL[this.specialAction] ?? {};
             let str = specialData.desc;

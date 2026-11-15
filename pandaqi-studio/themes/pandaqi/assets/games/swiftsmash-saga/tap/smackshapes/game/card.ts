@@ -116,7 +116,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.action.text.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText(this.actionString, textConfig);
         const opText = new LayoutOperation({
             pos: vis.get("cards.action.text.pos"),

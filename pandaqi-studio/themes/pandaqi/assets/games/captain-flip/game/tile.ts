@@ -93,7 +93,7 @@ export default class Tile
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: text, textConfig: textConfig });
 
         const centerOffset = vis.get("tiles.type.numberOffsetFromCenter");
@@ -156,7 +156,7 @@ export default class Tile
             font: vis.get("fonts.body"),
             size: vis.get("tiles.action.fontSize"),
             lineHeight: vis.get("tiles.action.lineHeight")
-        }).alignCenter();
+        });
 
         const edgeOffset = vis.get("tiles.action.edgeOffsetForColor");
         const availableWidth = vis.size.x - 2*edgeOffset;

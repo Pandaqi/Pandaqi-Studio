@@ -108,7 +108,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.numbers.fontSize")
-        }).alignCenter();
+        });
 
         // modification for minus numbers because the minus symbol is SO BIG in this font.
         if(this.getNumber() < 0)
@@ -135,7 +135,7 @@ export default class Card
         const textConfigBig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: this.isExpansionCard() ? vis.get("cards.numberCenter.fontSizeSpecial") : vis.get("cards.numberCenter.fontSize")
-        }).alignCenter();
+        });
 
         if(this.getNumber() < 0)
         {
@@ -200,7 +200,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.special.fontSize")
-        }).alignCenter();
+        });
 
         const resText = new ResourceText({ text: this.getActionText(), textConfig: textConfig });
         const opText = new LayoutOperation({

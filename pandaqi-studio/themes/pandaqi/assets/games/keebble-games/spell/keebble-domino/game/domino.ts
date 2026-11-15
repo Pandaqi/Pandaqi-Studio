@@ -294,7 +294,7 @@ export default class Domino
         const letterTextConfig = new TextConfig({
             font: "arbutus",
             size: params.letterValues.fontSize
-        }).alignCenter();
+        });
 
         for(let i = 0; i < 4; i++)
         {

@@ -157,7 +157,7 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.contractDraw.card.fontSize") * scaleFactor
-        }).alignCenter();
+        });
 
         const anchor = vis.get("cards.contractDraw.card.numberPos");
         const size = vis.get("cards.contractDraw.card.numberDims").clone().scale(scaleFactor);

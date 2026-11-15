@@ -162,7 +162,7 @@ export default class Domino
             size: vis.get("dominoes.mission.fontSize"),
             lineHeight: 1.05,
             style: TextStyle.ITALIC
-        });
+        }).alignTopLeft();
         const resText = new ResourceText({ text: MISSION_TEXTS[this.missionText].desc, textConfig: textConfig });
         const opText = new LayoutOperation({
             pivot: Vector2.ZERO,
@@ -207,7 +207,7 @@ export default class Domino
                 size: vis.get("dominoes.mission.fontSize"),
                 lineHeight: 1.05,
                 style: TextStyle.ITALIC
-            }).alignCenter();
+            });
             const resText = new ResourceText({ text: text, textConfig: textConfigConseq });
             const opText = new LayoutOperation({
                 pos: vis.get("dominoes.mission.consequence.posText"),
@@ -249,7 +249,7 @@ export default class Domino
             font: vis.get("fonts.heading"),
             size: vis.get("dominoes.events.fontSizeHeader"),
             lineHeight: 1.05
-        }).alignCenter();
+        });
         const resTextHeader = new ResourceText({ text: data.label, textConfig: textConfigHeader });
         const opTextHeader = new LayoutOperation({
             pos: vis.get("dominoes.events.posHeader"),
@@ -262,7 +262,7 @@ export default class Domino
         const textConfigBody = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("dominoes.events.fontSizeBody"),
-        }).alignCenter();
+        });
         const resTextBody = new ResourceText({ text: data.desc, textConfig: textConfigBody });
         const opTextBody = new LayoutOperation({
             pos: vis.get("dominoes.events.posBody"),
@@ -295,7 +295,7 @@ export default class Domino
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("dominoes.setText.size")
-        })
+        }).alignTopLeft()
         const resText = new ResourceText({ text: ID, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: new Vector2(1.33*textConfig.size), 

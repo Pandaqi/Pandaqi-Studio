@@ -9,7 +9,7 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
         font: vis.get("fonts.heading"),
         size: vis.get("tiles.typeText.fontSize"),
         weight: TextWeight.BOLD
-    }).alignCenter();
+    });
 
     const resTypeText = new ResourceText({ text: typeData.label, textConfig: textConfig });
     const typeTextOffsetY = vis.get("tiles.typeText.edgeOffsetY");

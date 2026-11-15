@@ -35,7 +35,7 @@ export default class Card extends MaterialNaivigation
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.weather.fontSize")
-        }).alignCenter();
+        });
 
         const num = weatherData.num;
         const str = num > 0 ? "+" + num : num.toString();

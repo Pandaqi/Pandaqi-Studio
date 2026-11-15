@@ -30,7 +30,7 @@ export default class Card extends MaterialNaivigation
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.passengers.fontSize")
-        }).alignCenter();
+        });
 
         const textBoxDims = vis.get("cards.passengers.textBoxDims");
         const bonus = "REWARD: " + PASSENGER_BONUSES[this.customData.bonus].desc;

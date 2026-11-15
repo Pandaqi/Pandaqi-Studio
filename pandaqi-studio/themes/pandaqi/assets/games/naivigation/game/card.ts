@@ -40,7 +40,7 @@ export default class Card extends MaterialNaivigation
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.instruction.fontSize")
-        }).alignCenter();
+        });
 
         const pos = vis.get("cards.instruction.textPos");
         const textPositions = [

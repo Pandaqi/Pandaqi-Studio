@@ -114,7 +114,7 @@ export default class Card
                 font: vis.get("fonts.body"),
                 size: vis.get("cards.route.text.fontSize"),
                 style: TextStyle.ITALIC
-            }).alignCenter();
+            });
     
             const resText = new ResourceText(data.desc, textConfig);
             const opText = new LayoutOperation({
@@ -170,7 +170,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: vis.get("cards.varen.text.fontSize"),
             style: TextStyle.ITALIC
-        }).alignCenter();
+        });
 
         const resText = new ResourceText(data.desc, textConfig);
         const opText = new LayoutOperation({
@@ -233,7 +233,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.numbers.fontSize")
-        }).alignCenter();
+        });
 
         const textString = isWildcard ? "X" : this.num.toString();
         const resText = new ResourceText(textString, textConfig);

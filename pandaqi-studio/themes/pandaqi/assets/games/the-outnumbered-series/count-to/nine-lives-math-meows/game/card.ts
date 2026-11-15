@@ -287,7 +287,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: fontSize,
             resLoader: vis.resLoader
-        }).alignCenter();
+        });
 
         // some small vector magic to create a rectangle with the corners cut/beveled
         const yPos = vis.get("cards.power.yPos");
@@ -363,7 +363,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
-        }).alignCenter();
+        });
 
         const strokeWidth = vis.get("cards.sharedStrokeWidth");
         const shadowOffset = new Vector2(vis.get("cards.sharedShadowOffset"));

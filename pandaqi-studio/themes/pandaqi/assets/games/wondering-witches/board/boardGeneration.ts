@@ -439,7 +439,7 @@ export default class BoardGeneration
 		const textConfig = new TextConfig({
 			font: this.cfg.textConfig.fontFamily,
 			size: fontSize
-		}).alignCenter();
+		});
 
 		let playerNum = 0;
 		for(const section of this.cfg.sections)

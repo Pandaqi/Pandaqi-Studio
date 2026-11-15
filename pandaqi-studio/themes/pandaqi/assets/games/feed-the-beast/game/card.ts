@@ -140,7 +140,7 @@ export default class Card
         const textConfigName = new TextConfig({
             font: vis.get("fonts.special"),
             size: vis.get("beasts.name.fontSize")
-        }).alignCenter();
+        });
         const opName = new LayoutOperation({
             pos: vis.get("beasts.name.pos"),
             size: plaqueDims,
@@ -155,7 +155,7 @@ export default class Card
         const textConfigDetails = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("beasts.name.fontSizeLevel")
-        }).alignCenter();
+        });
         const resTextDetails = new ResourceText({ text: "Level " + ((beastData.tier ?? 0) + 1), textConfig: textConfigDetails });
         const opTextDetails = new LayoutOperation({
             pos: vis.get("beasts.name.posLevel"),
@@ -438,7 +438,7 @@ export default class Card
         const textConfigName = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.victims.fontSizeName"),
-        }).alignCenter();
+        });
 
         const resTextDetails = new ResourceText({ text: victimData.label, textConfig: textConfigName });
         const opTextDetails = new LayoutOperation({
@@ -457,7 +457,7 @@ export default class Card
             size: vis.get("cards.victims.fontSize"),
             style: TextStyle.ITALIC,
             resLoader: vis.resLoader
-        }).alignCenter();
+        });
 
         const str = this.fillInDynamicDetails(victimData.desc);
         const resText = new ResourceText({ text: str, textConfig });
@@ -483,7 +483,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: vis.get("cards.menu.fontSize"),
             style: TextStyle.ITALIC
-        }).alignCenter();
+        });
 
         const resMisc = vis.getResource("misc");
 

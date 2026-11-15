@@ -166,7 +166,7 @@ export default class Card
             const textConfig = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: vis.get("cards.shapes.custom.fontSizeNumber")
-            }).alignCenter();
+            });
             const resText = new ResourceText(num.toString(), textConfig);
             opLeft.setFill("#000000");
             group.add(resText, opLeft);
@@ -187,7 +187,7 @@ export default class Card
             const textConfig = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: vis.get("cards.shapes.custom.fontSizeRoman")
-            }).alignCenter();
+            });
             const resText = new ResourceText(this.convertToRoman(num), textConfig);
             opLeft.setFill("#000000");
             group.add(resText, opLeft);
@@ -226,7 +226,7 @@ export default class Card
         const textConfigID = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.rules.id.fontSize")
-        }).alignCenter();
+        });
         const resTextID = new ResourceText(this.uniqueNumber.toString(), textConfigID);
         const opTextID = new LayoutOperation({
             pos: vis.get("cards.rules.id.pos"),
@@ -240,7 +240,7 @@ export default class Card
             font: this.getBodyFont(vis),
             size: vis.get("cards.rules.fontSize"),
             resLoader: vis.resLoader
-        }).alignCenter();
+        });
         const resTextRule = new ResourceText(this.actionString, textConfig);
         const boxSize = vis.get("cards.rules.textBoxSize");
         const opTextRule = new LayoutOperation({

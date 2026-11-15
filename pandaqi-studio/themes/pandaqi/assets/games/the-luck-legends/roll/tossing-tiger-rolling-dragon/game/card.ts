@@ -204,7 +204,7 @@ export default class Card
         const textConfigHeading = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.strengths.fontSize")
-        }).alignCenter();
+        });
         const resTextHeading = new ResourceText({ text: "strengths", textConfig: textConfigHeading });
         const opTextHeading = new LayoutOperation({
             pos: textPos,
@@ -283,7 +283,7 @@ export default class Card
         const textConfigHeading = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.action.heading.fontSize")
-        }).alignCenter();
+        });
         const resTextHeading = new ResourceText({ text: data.label, textConfig: textConfigHeading });
         const opTextHeading = new LayoutOperation({
             pos: opHeadingBox.pos,
@@ -311,7 +311,7 @@ export default class Card
             const textConfig = new TextConfig({
                 font: vis.get("fonts.body"),
                 size: fontSize
-            }).alignCenter();
+            });
 
             const strMain = this.isRooster() ? this.getRoosterActionData().overall.desc : data.desc;
             const resText = new ResourceText({ text: strMain, textConfig: textConfig });
@@ -344,7 +344,7 @@ export default class Card
             const textConfig = new TextConfig({
                 font: vis.get("fonts.body"),
                 size: fontSize
-            }).alignCenter();
+            });
 
             const strSub = "<i>Rooster Change</i>: " + this.getRoosterActionData().action.desc;
             const resText = new ResourceText({ text: strSub, textConfig: textConfig });

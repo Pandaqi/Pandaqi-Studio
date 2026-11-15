@@ -67,7 +67,7 @@ export default class Tile extends MaterialEaster
                 font: vis.get("fonts.heading"),
                 size: fontSize,
                 weight: TextWeight.BOLD
-            }).alignCenter();
+            });
 
             const offset = vis.get("tiles.eggNumber.edgeOffset");
             const corners = getRectangleCornersWithOffset(vis.size, offset);

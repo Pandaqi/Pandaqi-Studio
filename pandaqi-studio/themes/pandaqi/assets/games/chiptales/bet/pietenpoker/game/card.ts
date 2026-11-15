@@ -78,6 +78,7 @@ export default class Card
             const textConfig = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: vis.get("cards.text.colorLabel.fontSize"),
+                alignHorizontal: TextAlign.START,
                 alignVertical: TextAlign.MIDDLE
             });
             const resText = new ResourceText(MISC[this.color].label, textConfig);
@@ -107,7 +108,7 @@ export default class Card
             const textConfig = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: vis.get("cards.action.label.fontSize")
-            }).alignCenter();
+            });
 
             const text = this.key == "small" ? "Small Sint" : "Big Sint";
             const resText = new ResourceText(text, textConfig);
@@ -141,7 +142,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.corners.fontSize")
-        }).alignCenter();
+        });
 
         for(let i = 0; i < 2; i++)
         {
@@ -318,7 +319,7 @@ export default class Card
         const textConfigDesc = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.action.desc.fontSize")
-        }).alignCenter();
+        });
         const resTextDesc = new ResourceText(data.desc, textConfigDesc);
         const opTextDesc = new LayoutOperation({
             pos: vis.get("cards.action.desc.pos"),
@@ -332,7 +333,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.action.label.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText(data.label, textConfig);
         const opText = new LayoutOperation({
             pos: vis.get("cards.action.label.pos"),

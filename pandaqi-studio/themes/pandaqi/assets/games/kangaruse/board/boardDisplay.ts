@@ -198,7 +198,7 @@ export default class BoardDisplay
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize
-        }).alignCenter();
+        });
 
         const rot = (side == 1) ? Math.PI : 0;
         const opText = new LayoutOperation({

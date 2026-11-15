@@ -36,7 +36,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: 256
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: vis.center,
@@ -92,7 +92,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
-        }).alignCenter();
+        });
         const txt = this.wildCard ? "?" : this.num.toString();
         const resText = new ResourceText({ text: txt, textConfig: textConfig });
         
@@ -219,7 +219,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.power.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: position,

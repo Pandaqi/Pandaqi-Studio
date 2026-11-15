@@ -96,7 +96,7 @@ export default class Card
             const textConfig = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: fontSize
-            }).alignCenter();
+            });
     
             const str = this.voteDetails.num.toString();
             const resText = new ResourceText({ text: str, textConfig: textConfig });
@@ -155,7 +155,7 @@ export default class Card
             size: vis.get("cards.movie.cost.fontSize"),
             resLoader: vis.resLoader,
             defaultImageOperation: defImgOp
-        }).alignCenter();
+        });
 
         // on top side, just display icons from left to right
         if(topSideIcons)
@@ -216,7 +216,7 @@ export default class Card
             const textConfig = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: fontSize
-            }).alignCenter();
+            });
 
             const str = this.movieDetails.profit.toString();
             const resText = new ResourceText({ text: str, textConfig: textConfig });
@@ -255,7 +255,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: fontSizeSub,
             style: TextStyle.ITALIC
-        }).alignCenter();
+        });
 
         const strSub = MAIN_TEXTS[this.textDetails.main].desc;
         const resTextSub = new ResourceText({ text: strSub, textConfig: textConfigSub });
@@ -272,7 +272,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: fontSize,
             weight: TextWeight.BOLD
-        }).alignCenter();
+        });
 
         const str = this.textDetails.option.toUpperCase();
         const resText = new ResourceText({ text: str, textConfig: textConfig });

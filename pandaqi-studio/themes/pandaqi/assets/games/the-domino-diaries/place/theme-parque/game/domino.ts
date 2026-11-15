@@ -141,7 +141,7 @@ export default class Domino
         const textConfigScore = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("dominoes.events.score.fontSize")
-        }).alignCenter();
+        });
         const resTextScore = new ResourceText(score.toString(), textConfigScore);
         const scoreOffset = vis.get("dominoes.events.score.offset");
         const positions = [scoreOffset.clone(), new Vector2(vis.size.x-scoreOffset.x, scoreOffset.y)];
@@ -163,7 +163,7 @@ export default class Domino
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("dominoes.events.fontSize")
-        }).alignCenter();
+        });
         const resTextEvent = new ResourceText("<i>" + this.getEventData().desc + "</i> " + this.getEventData().descPower, textConfig);
         const opTextEvent = new LayoutOperation({
             pos: vis.get("dominoes.events.posEvent"),
@@ -185,7 +185,7 @@ export default class Domino
         const textConfigExpansions = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("dominoes.events.expansions.fontSize")
-        }).alignCenter();
+        });
         const challengeSets = this.getChallengeData().sets ?? ["base"];
         const strExp = challengeSets.join(", ");
         const resTextExpansions = new ResourceText(strExp, textConfigExpansions);
@@ -224,7 +224,7 @@ export default class Domino
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("dominoes.setText.size")
-        })
+        }).alignTopLeft()
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
             pos: new Vector2(1.33*textConfig.size), 

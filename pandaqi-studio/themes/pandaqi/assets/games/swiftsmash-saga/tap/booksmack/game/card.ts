@@ -43,7 +43,7 @@ export default class Card
         const textConfigCorner = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.corners.fontSize")
-        }).alignCenter();
+        });
         const resTextCorner = new ResourceText({ text: this.symbol, textConfig: textConfigCorner });
 
         for(let i = 0; i < positions.length; i++)
@@ -63,7 +63,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.main.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.symbol, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: pos,
@@ -95,7 +95,7 @@ export default class Card
         const textConfigTitle = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.action.title.fontSize")
-        }).alignCenter();
+        });
         const resTextTitle = new ResourceText({ text: data.label, textConfig: textConfigTitle });
         const textColor = vis.inkFriendly ? "#111111" : vis.get("cards.action.textColor");
         const opTextTitle = new LayoutOperation({
@@ -109,7 +109,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.action.text.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: vis.get("cards.action.text.pos"),

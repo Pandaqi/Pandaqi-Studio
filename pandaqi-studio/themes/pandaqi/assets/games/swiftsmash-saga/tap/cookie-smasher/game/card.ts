@@ -167,7 +167,7 @@ export default class Card
         const textConfigMain = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSize,
-        }).alignCenter();
+        });
 
         const textPos = new Vector2(0.5*vis.size.x, 0.5*vis.size.y + 0.33*fontSize);
         const opMain = new LayoutOperation({
@@ -214,7 +214,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: descFontSize,
             lineHeight: 1.1
-        }).alignCenter();
+        });
 
         let desc = this.desc;
         desc = desc.replaceAll("$", "");
@@ -498,7 +498,7 @@ export default class Card
             size: vis.get("cards.power.fontSize"),
             lineHeight: vis.get("cards.power.lineHeight"),
             resLoader: vis.resLoader
-        }).alignCenter();
+        });
 
         const textOp = new LayoutOperation({
             pos: new Vector2(0.25*vis.center.x, 0),

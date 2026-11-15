@@ -82,7 +82,7 @@ export default class Tile extends MaterialEaster
                 font: vis.get("fonts.heading"),
                 size: fontSize,
                 weight: TextWeight.BOLD
-            }).alignCenter();
+            });
 
             const textDims = new Vector2(3*fontSize, 2*fontSize);
             const pos = vis.get("tiles.eggNumber.position")

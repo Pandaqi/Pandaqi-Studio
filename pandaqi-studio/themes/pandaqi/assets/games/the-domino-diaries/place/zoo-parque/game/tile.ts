@@ -69,7 +69,7 @@ export default class Tile
             font: vis.get("fonts.body"),
             size: vis.get("tiles.funFact.fontSize"),
             style: TextStyle.ITALIC
-        }).alignCenter();
+        });
         const text = "<b>Fun Fact!</b> " + data.funFact;
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const opText = new LayoutOperation({

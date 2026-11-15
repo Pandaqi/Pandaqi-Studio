@@ -98,7 +98,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSize
-        }).alignCenter();
+        });
 
         for(let i = 0; i < numMessages; i++)
         {
@@ -131,13 +131,13 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize
-        }).alignCenter();
+        });
 
         const fontSizeNumber = vis.get("cards.words.fontSizeNumber");
         const textConfigNumber = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSizeNumber
-        }).alignCenter();
+        });
 
         const textConfigLeft = textConfig.clone(true);
         textConfigLeft.alignHorizontal = TextAlign.START;

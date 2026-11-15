@@ -127,7 +127,7 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("tiles.general.text.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText(typeData.desc, textConfig);
         const textBoxDims = vis.get("tiles.general.text.boxDims");
         const textPos = vis.get("tiles.general.text.pos");

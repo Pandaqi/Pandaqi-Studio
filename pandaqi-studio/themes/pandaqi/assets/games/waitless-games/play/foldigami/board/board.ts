@@ -507,7 +507,7 @@ export default class Board
         const textConfig = new TextConfig({
             font: vis.get("board.font.family"),
             size: vis.get("board.font.size"),
-        }).alignCenter();
+        });
 
         for(const c of cells)
         {

@@ -354,7 +354,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.textSize"),
-        }).alignCenter();
+        });
 
         const resText = new ResourceText({ text: this.creatureName, textConfig: textConfig })
         const opText = new LayoutOperation({

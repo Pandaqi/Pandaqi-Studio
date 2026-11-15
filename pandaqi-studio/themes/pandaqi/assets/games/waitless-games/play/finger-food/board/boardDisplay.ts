@@ -389,7 +389,7 @@ export default class BoardDisplay
                     const textConfig = new TextConfig({
                         font: txcfg.fontFamily,
                         size: fontSize
-                    }).alignCenter();
+                    });
 
                     const opText = new LayoutOperation({
                         pos: contentPos,
@@ -441,7 +441,7 @@ export default class BoardDisplay
             const textConfig = new TextConfig({
                 font: txcfg.fontFamily,
                 size: fontSize
-            }).alignCenter();
+            });
 
             const opText = new LayoutOperation({
                 pos: new Vector2(centerPos.x, realPos.y + 0.7*h),

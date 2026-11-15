@@ -344,7 +344,7 @@ export default class Card
             const textConfig = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: fontSize,
-            }).alignCenter();
+            });
 
             const textDims = imageSize.clone().scale(4); // rough estimation for how large it should be
             const color = vis.inkFriendly ? "#000000" : vis.get("cards.details.rectTextColor");

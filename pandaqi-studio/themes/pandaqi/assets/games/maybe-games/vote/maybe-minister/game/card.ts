@@ -83,7 +83,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("votes.number.fontSize"),
-        }).alignCenter();
+        });
 
         const textColor = vis.inkFriendly ? "#000000" : vis.get("votes.number.textColors." + this.subType);
         const strokeColor = vis.inkFriendly ? "#FFFFFF" : vis.get("votes.number.colorStroke");
@@ -132,7 +132,7 @@ export default class Card
             style: TextStyle.ITALIC,
             resLoader: vis.resLoader,
             defaultImageOperation: defImgOp
-        }).alignCenter();
+        });
 
         const iconDims = vis.get("cards.sides.iconDims");
         const sides = ["good", "bad"];
@@ -202,7 +202,7 @@ export default class Card
             style: TextStyle.ITALIC,
             resLoader: vis.resLoader,
             defaultImageOperation: defImgOp
-        }).alignCenter();
+        });
 
         const str = this.law;
         const resText = new ResourceText({ text: str, textConfig: textConfig });
@@ -241,7 +241,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
-        }).alignCenter();
+        });
 
         const str = this.voteStorage.toString();
         const resText = new ResourceText({ text: str, textConfig: textConfig });

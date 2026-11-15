@@ -166,7 +166,7 @@ export default class DominoSide
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("dominoes.powerText.fontSize"),
-        }).alignCenter();
+        });
 
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({

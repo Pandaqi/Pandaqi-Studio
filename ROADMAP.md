@@ -51,7 +51,7 @@ Not essential, but might be nice.
 
 
 
-CLEANUP PROMPT? => Sweep every remaining game under themes/pandaqi/assets/games for old-style `CONFIG._settings.*.value` and `CONFIG._drawing.*` reads that bypass getSetting/vis.get, tell me which are real leftovers versus intentional, and migrate the clear leftovers.
+
 
 
 ## [x] MIGRATION CLEANUP
@@ -80,20 +80,36 @@ Check the custom text capabilities of `RendererPandaqi` in the `pq-games` librar
 Run the tests until all are green, and you are certain the text system is robust and functions as it should. Do NOT run any actual audits or build the website. It's too expensive and this work is PURELY focused on the framework, not the games that use it.
 
 
-## [ ] MIGRATION CLEANUP:
+## [x] MIGRATION CLEANUP:
 
 This website migrated to a new default voor text layout after commit `fc8deb9e`. `TextConfig`s used to default to top-left anchoring (if nothing set), but now they default to centering text. Unfortunately, not everything was properly migrated yet. So,
 
 * Find any text in games that used to have no special alignment set (it fell back to defaults), and still doesn't.
-  * They are wrong now. They should do `.alignTopLeft()` or set (alignHorizontal, alignVertical properties when creating config) to get back to how they were.
+  * They are wrong now. They should do `.alignTopLeft()` (or set alignHorizontal, alignVertical properties when creating config) to get back to how they were.
 * Find any text that used to center-align itself explicitly, and still does.
   * They can be optimized now: just remove that step, the default is center aligning!
 
-One crucial part here is to check if the new center-aligning default is actually a 1-to-1 copy of the old one, and whether the new text defaults don't subtly change behavior that might cause many games to break. (For example, I looked at some games and their text seems positioned weirdly, suggesting something else changed too.)
+One crucial part here is to check if the new center-aligning default is actually a 1-to-1 copy of the old one, and whether the new text defaults don't subtly change behavior that might cause many games to break. 
+
+* For example, I looked at some games and their text seems positioned weirdly, suggesting something else changed too.
+* The previous commit to this system happened to overhaul our text support code (though API should've stayed the same), so check that for any changes/the details of how exactly the system works now if unsure.
 
 Once done, check the cheap typecheck/static check, but do NOT run any other audits or sweeps. This is partial work; defer actually running anything until I allow it.
 
 
+
+
+
+## [ ] PROMPT
+
+Code Architecture Improvement: The `LayoutOperation` class is essential to `pq-games` (drawing capabilities). But it's one big monoclass now.
+
+* Break it down into smaller submodules (e.g. pos/rot/scale collected in one _transform_ thing). So we only initialize/create what we actually use and need, and applying/creating this operation isn't a huge single chunk of code.
+* Create an alternative "function chain/builder" type of constructor => `layoutOperation.pos(xx).rot(yy).pivot(zz)` (Maybe use a LayoutOperationBuilder object as in-between to keep this functionality nicely separated.)
+* IMPLEMENT the `_debug.layoutOperation` property for GameConfigs. When turned on, the LayoutOperation should be giving feedback (in logs and visual) about what it's doing, what it's calculated, where it think something should be placed, etcetera. This should help debugging a lot.
+* SMALL NOTE: RendererPixi renderer does not fully/properly implement `mask`. Fix that. There might be a few more tiny edge cases with a property not (fully) supported in `RendererPixi` or `RendererPandaqi`; find them and solve them.
+
+The public API for LayoutOperation should not be broken. (It shouldn't change except for the function chain builder _addition_.) All games using it should need no update and work just fine. This is purely an internal refactor to make it cleaner, faster, and more flexible/modular.
 
 
 FIXES:
@@ -102,6 +118,7 @@ FIXES:
 * (Also, check if PDF compression is turned on again in the public build. It's turned off when auditing/developing, but should be turned on at release website.)
 * Some generators create multiple PDFs. They currently use the same name, which leads to name collision while downloading. Make sure their names are differentiated meaningfully.
 
+CLEANUP PROMPT? => Sweep every remaining game under themes/pandaqi/assets/games for old-style `CONFIG._settings.*.value` and `CONFIG._drawing.*` reads that bypass getSetting/vis.get, tell me which are real leftovers versus intentional, and migrate the clear leftovers.
 
 * PIETENPOKER: Text in all the wrong places.
 * MAPPED OUT: Backgrounds (cards and tiles, everywhere) need their pivot reset to top left after default change.

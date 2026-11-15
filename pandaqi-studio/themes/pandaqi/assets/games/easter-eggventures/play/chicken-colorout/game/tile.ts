@@ -72,7 +72,7 @@ export default class Tile extends MaterialEaster
             font: vis.get("fonts.heading"),
             size: vis.get("eggs.victory.fontSize"),
             weight: TextWeight.BOLD
-        }).alignCenter();
+        });
         
         const text = this.customData.num + "";
         const textRes = new ResourceText({ text: text, textConfig: textConfig });
@@ -306,7 +306,7 @@ export default class Tile extends MaterialEaster
             font: vis.get("fonts.heading"),
             size: vis.get("tiles.scoreText.fontSize"),
             resLoader: vis.resLoader
-        }).alignCenter();
+        });
 
         // this is just a hint/reminder text that this is the added score
         const textHint = "<b>Added Score</b>";

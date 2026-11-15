@@ -57,6 +57,7 @@ export default class Card
             font: vis.get("fonts.heading"),
             size: fontSize,
             weight: TextWeight.BOLD,
+            alignHorizontal: TextAlign.START,
             alignVertical: TextAlign.MIDDLE,
         });
         const textDims = new Vector2(0.5 * vis.size.x, 2*fontSize);

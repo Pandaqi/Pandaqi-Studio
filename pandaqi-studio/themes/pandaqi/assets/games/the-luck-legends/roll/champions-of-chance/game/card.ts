@@ -87,7 +87,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.numbers.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
         for(let i = 0; i < 2; i++)
         {
@@ -116,7 +116,7 @@ export default class Card
         const textConfigWritten = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.numbers.writtenFontSize")
-        }).alignCenter();
+        });
         const resTextWritten = new ResourceText({ text: this.getData().label, textConfig: textConfigWritten });
         const opTextWritten = new LayoutOperation({
             pos: vis.get("cards.numbers.writtenPos"),
@@ -183,7 +183,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.power.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: vis.get("cards.power.textPos"),

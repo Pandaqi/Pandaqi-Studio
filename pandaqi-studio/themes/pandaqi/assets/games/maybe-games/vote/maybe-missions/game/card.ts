@@ -152,7 +152,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.randomText.fontSize"),
-        }).alignCenter();
+        });
 
         const textColor = vis.get("cards.randomText.color");
         const strokeColor = vis.get("cards.randomText.colorStroke");
@@ -179,7 +179,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("votes.number.fontSize"),
-        }).alignCenter();
+        });
 
         const side = (this.subType == VoteType.YES) ? "green" : "red";
         const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.shared.textColor." + side);
@@ -234,7 +234,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: vis.get("cards.master.fontSize"),
             resLoader: vis.resLoader
-        }).alignCenter();
+        });
 
         const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.master.textColor");
         const ruleString = MASTER_CARDS[this.rule].desc;
@@ -255,7 +255,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: vis.get("cards.identity.fontSize"),
             resLoader: vis.resLoader
-        }).alignCenter();
+        });
 
         const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.identity.textColor");
         for(let i = 0; i < 2; i++)
@@ -299,12 +299,12 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.shop.fontSize"),
-        }).alignCenter();
+        });
 
         const textConfigLabel = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.shop.fontSizeLabel"),
-        }).alignCenter();
+        });
 
         for(let i = 0; i < 2; i++)
         {

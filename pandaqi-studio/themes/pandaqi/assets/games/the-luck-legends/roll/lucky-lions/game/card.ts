@@ -140,7 +140,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.score.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.scoreValue.toString(), textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: vis.get("cards.score.textBoxPos"),
@@ -164,7 +164,7 @@ export default class Card
             const textConfig = new TextConfig({
                 font: vis.get("fonts.body"),
                 size: vis.get("cards.power.fontSize")
-            }).alignCenter();
+            });
             const resText = new ResourceText({ text: zooPower, textConfig: textConfig });
             const opText = new LayoutOperation({
                 pos: vis.get("cards.power.textBoxPos"),
@@ -221,7 +221,7 @@ export default class Card
             const textConfig = new TextConfig({
                 font: vis.get("fonts.body"),
                 size: vis.get("cards.power.fontSize")
-            }).alignCenter();
+            });
             const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
             const opText = new LayoutOperation({
                 pos: vis.get("cards.power.textBoxPos"),

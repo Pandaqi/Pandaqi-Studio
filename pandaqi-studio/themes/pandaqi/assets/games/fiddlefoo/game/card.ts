@@ -79,7 +79,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.numbers.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
         const textDims = new Vector2(3 * textConfig.size);
 
@@ -100,7 +100,7 @@ export default class Card
         const textConfigBig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.numberCenter.fontSize")
-        }).alignCenter();
+        });
         const resTextBig = new ResourceText({ text: this.num.toString(), textConfig: textConfigBig });
         const shadowEffect = new DropShadowEffect({ color: "#000000", blur: 0.05*textConfigBig.size });
         const opTextBig = new LayoutOperation({
@@ -131,7 +131,7 @@ export default class Card
         const textConfigWritten = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.typeWritten.fontSize")
-        }).alignCenter();
+        });
         const resTextWritten = new ResourceText({ text: this.getWrittenCardType(), textConfig: textConfigWritten });
         const positionsWritten = [
             new Vector2(0.5*vis.size.x, 0).add(offsetWritten),
@@ -229,7 +229,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.special.fontSize"),
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: desc, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: vis.get("cards.special.textPos"),

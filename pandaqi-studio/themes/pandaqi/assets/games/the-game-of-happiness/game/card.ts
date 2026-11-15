@@ -126,7 +126,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: fontSize,
             weight: TextWeight.BOLD
-        }).alignCenter();
+        });
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const textDims = vis.get("cards.text.size").clone();
@@ -155,7 +155,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
-        }).alignCenter();
+        });
 
         const textConfigLeft = textConfig.clone();
         textConfigLeft.alignHorizontal = TextAlign.START;

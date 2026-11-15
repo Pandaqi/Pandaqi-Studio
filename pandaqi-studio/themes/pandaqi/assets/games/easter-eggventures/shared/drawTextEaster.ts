@@ -23,7 +23,7 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     const textConfig = new TextConfig({
         font: vis.get("fonts.body"),
         size: vis.get("tiles.text.fontSize")
-    }).alignCenter();
+    });
 
     const textColor = "#000000";
     const resText = new ResourceText({ text: text, textConfig: textConfig });

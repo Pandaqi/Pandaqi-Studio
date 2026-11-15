@@ -231,7 +231,7 @@ export default class BoardGeneration
 		const textConfig = new TextConfig({
 			font: CONFIG.fontFamily,
 			size: 11
-		})
+		}).alignTopLeft()
 
 		const opText = new LayoutOperation({
 			pos: new Vector2(oX + 0.5*cs, oY + 0.05*cs),
@@ -322,7 +322,7 @@ export default class BoardGeneration
 		const textConfig = new TextConfig({
 			font: CONFIG.fontFamily,
 			size: 11
-		})
+		}).alignTopLeft()
 
 		for(let i = 0; i < CONFIG.playerCount; i++)
 		{

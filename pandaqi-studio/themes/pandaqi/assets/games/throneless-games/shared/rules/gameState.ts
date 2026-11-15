@@ -391,7 +391,7 @@ export default class GameState
         const textConfig = new TextConfig({
             font: sim.getVisualizer().get("fonts.textLegible"),
             size: 18
-        }).alignCenter();
+        });
 
         const groupOp = new LayoutOperation({
             pivot: Vector2.ZERO,

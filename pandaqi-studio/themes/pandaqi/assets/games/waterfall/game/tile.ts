@@ -106,7 +106,7 @@ export default class Tile
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("tiles.score.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.score.toString(), textConfig });
         const opText = new LayoutOperation({
             pos: vis.get("tiles.score.pos"),

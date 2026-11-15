@@ -97,7 +97,7 @@ export default class Tile
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize
-        }).alignCenter();
+        });
 
         const DIVIDING_LINES = 
         [

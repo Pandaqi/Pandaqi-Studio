@@ -1955,7 +1955,7 @@ export default class BoardGeneration
 		const textConfigSubway = new TextConfig({
 			font: this.fontFamily,
 			size: fontSize
-		}).alignCenter();
+		});
 
 		//
 		// Go through all cells, create a graphic based on what they are
@@ -2149,7 +2149,7 @@ export default class BoardGeneration
 		const textConfigSeed = new TextConfig({
 			font: this.fontFamily,
 			size: seedFontSize
-		}).alignCenter();
+		});
 		const opTextSeed = new LayoutOperation({
 			pos: new Vector2((randNeighbour.x + 0.5)*cs, (randNeighbour.y + 0.5)*cs),
 			size: new Vector2(cs),
@@ -2285,7 +2285,7 @@ export default class BoardGeneration
 		const textConfigGate = new TextConfig({
 			font: this.fontFamily,
 			size: fontSize
-		}).alignCenter();
+		});
 
 		const resTrafficSigns = this.vis.getResource("traffic_signs");
 
@@ -2499,7 +2499,7 @@ export default class BoardGeneration
 		const textConfigPrice = new TextConfig({
 			font: this.fontFamily,
 			size: fontSize
-		}).alignCenter();
+		});
 
 		this.cfg.bankBuilding = null;
 

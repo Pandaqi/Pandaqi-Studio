@@ -296,7 +296,7 @@ export default class CardThroneless
         const textConfig = new TextConfig({
             font: vis.get("fonts.textLegible"),
             size: fontSize,
-        }).alignCenter();
+        });
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const opText = new LayoutOperation({
@@ -339,7 +339,7 @@ export default class CardThroneless
             const textConfig = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: fontSize,
-            }).alignCenter();
+            });
             const resText = new ResourceText({ text: actionTypeData.label, textConfig });
             const opText = new LayoutOperation({
                 pos: pos,

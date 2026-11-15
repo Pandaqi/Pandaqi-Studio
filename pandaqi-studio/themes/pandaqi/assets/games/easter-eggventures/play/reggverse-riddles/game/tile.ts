@@ -93,7 +93,7 @@ export default class Tile extends MaterialEaster
             font: vis.get("fonts.heading"),
             size: vis.get("tiles.helperText.fontSize"),
             weight: TextWeight.BOLD
-        }).alignCenter();
+        });
 
         const yOffset = vis.get("tiles.helperText.yOffset");
         let positions = [new Vector2(vis.center.x, vis.center.y - yOffset), new Vector2(vis.center.x, vis.center.y + yOffset)];
@@ -224,7 +224,7 @@ export default class Tile extends MaterialEaster
             font: vis.get("fonts.heading"),
             size: fontSize,
             resLoader: vis.resLoader
-        }).alignCenter();
+        });
         
         const text = this.getData().desc;
 

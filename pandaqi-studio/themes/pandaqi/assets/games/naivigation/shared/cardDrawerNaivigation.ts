@@ -102,7 +102,7 @@ const drawCard = (vis, group, card) =>
     const textConfig = new TextConfig({
         font: vis.get("fonts.heading"),
         size: titleFontSize
-    }).alignCenter();
+    });
 
     const resText = new ResourceText(text, textConfig);
     let textPos = vis.get("cards.general.textPos");
@@ -138,7 +138,7 @@ const drawCard = (vis, group, card) =>
         const textConfigMeta = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.general.fontSizeMeta")
-        }).alignCenter();
+        });
         const resTextMeta = new ResourceText(textMeta, textConfigMeta);
         const textMetaOp = new LayoutOperation({
             pos: metaPos,
@@ -215,7 +215,7 @@ const drawGPSText = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialN
     const textConfigGPS = new TextConfig({
         size: vis.get("cards.general.gps.fontSize"),
         font: vis.get("fonts.body")
-    }).alignCenter();
+    });
 
     const iconOffsetX = vis.get("cards.general.gps.iconOffset");
     const resIcon = vis.getResource("misc_shared");

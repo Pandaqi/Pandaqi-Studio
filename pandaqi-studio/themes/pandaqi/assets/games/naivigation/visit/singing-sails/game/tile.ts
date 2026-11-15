@@ -95,7 +95,7 @@ export default class Tile extends MaterialNaivigation
                 const textConfig = new TextConfig({
                     font: vis.get("fonts.heading"),
                     size: vis.get("tiles.waterCurrent.fontSize")
-                }).alignCenter();
+                });
                 const resText = new ResourceText(strength.toString(), textConfig);
         
                 const opText = new LayoutOperation({
@@ -133,7 +133,7 @@ export default class Tile extends MaterialNaivigation
             const textConfig = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: vis.get("tiles.custom.fontSize")
-            }).alignCenter();
+            });
             const resText = new ResourceText(str, textConfig);
     
             const opText = new LayoutOperation({
@@ -154,7 +154,7 @@ export default class Tile extends MaterialNaivigation
             const textConfig = new TextConfig({
                 font: vis.get("fonts.body"),
                 size: vis.get("tiles.treasure.fontSize")
-            }).alignCenter();
+            });
 
             const textBoxDims = vis.get("tiles.treasure.textBoxDims");
             const condition = TREASURE_CONDITIONS[this.customData.condition].desc;

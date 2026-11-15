@@ -101,7 +101,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.suitNumber.fontSize")
-        }).alignCenter();
+        });
 
         const resText = new ResourceText({ text: this.getNumberAsString(), textConfig });
         const resSuits = vis.getResource("suits");
@@ -188,7 +188,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: vis.get("cards.action.fontSize"),
             style: TextStyle.ITALIC,
-        }).alignCenter();
+        });
 
         const resText = new ResourceText({ text: actionData.desc, textConfig });
         const opText = new LayoutOperation({
@@ -219,7 +219,7 @@ export default class Card
         const textConfigAction = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.shared.bannerFontSize") * scaleFactor
-        }).alignCenter();
+        });
 
         const resTextAction = new ResourceText({ text: txt, textConfig: textConfigAction });
         const opTextAction = new LayoutOperation({
@@ -252,7 +252,7 @@ export default class Card
         const textConfigScore = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.contract.score.fontSize")
-        }).alignCenter();
+        });
 
         for(let i = 0; i < 2; i++)
         {
@@ -276,7 +276,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: vis.get("cards.contract.fontSize"),
             resLoader: vis.resLoader,
-        }).alignCenter();
+        });
 
         const pos = contractHasRule ? vis.get("cards.contract.textBoxPosAlt") : vis.get("cards.contract.textBoxPos");
         const size = contractHasRule ? vis.get("cards.contract.textBoxDimsAlt") : vis.get("cards.contract.textBoxDims");

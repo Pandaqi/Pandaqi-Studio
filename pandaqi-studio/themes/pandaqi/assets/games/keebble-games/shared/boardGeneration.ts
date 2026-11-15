@@ -50,12 +50,12 @@ export class BoardGeneration
 		cfg.letterTextConfig = new TextConfig({
 			font: cfg.fontFamily,
 			size: cfg.letterFontSize
-		})
+		}).alignTopLeft()
 
 		cfg.handTextConfig = new TextConfig({
 			font: cfg.fontFamily,
 			size: cfg.handFontSize
-		})
+		}).alignTopLeft()
 
 		this.visualizeBackground(vis, group);
 		this.visualizeGrid(vis, group);

@@ -262,7 +262,7 @@ export default class DominoSide
                 font: vis.get("fonts.heading"),
                 size: vis.get("dominoes.tenant.score.fontSize"),
                 style: TextStyle.ITALIC
-            }).alignCenter();
+            });
     
             const resText = new ResourceText({ text: this.score.toString(), textConfig });
             const opText = new LayoutOperation({
@@ -333,7 +333,7 @@ export default class DominoSide
                 font: vis.get("fonts.body"),
                 size: vis.get("dominoes.text.fontSize"),
                 style: TextStyle.ITALIC
-            }).alignCenter();
+            });
     
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({

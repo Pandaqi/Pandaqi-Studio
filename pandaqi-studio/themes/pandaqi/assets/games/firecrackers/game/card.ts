@@ -42,7 +42,7 @@ export default class Card
         fillCanvas(ctx, bgCol);
 
         // huge number in center
-        const textConfig = new TextConfig().alignCenter();
+        const textConfig = new TextConfig();
         textConfig.size = 0.5*cfg.size.x;
         textConfig.font = CONFIG._drawing.fonts.heading;
 

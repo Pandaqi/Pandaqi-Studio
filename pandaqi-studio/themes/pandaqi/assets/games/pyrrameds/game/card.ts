@@ -110,7 +110,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.number.fontSize")
-        }).alignCenter();
+        });
 
         let col = (this.type != CardType.MEDICINE) ? vis.get("cards.number.defColor") : MEDICINE[this.key].textColor;
         if(vis.inkFriendly) { col = "#000000"; }
@@ -220,7 +220,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.special.fontSize")
-        }).alignCenter();
+        });
 
         const resText = new ResourceText({ text: this.special, textConfig });
         const opText = new LayoutOperation({

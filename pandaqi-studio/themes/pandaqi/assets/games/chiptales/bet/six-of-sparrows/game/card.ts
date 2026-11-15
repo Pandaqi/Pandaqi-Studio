@@ -82,7 +82,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.regular.fontSize") * scaleDown
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
 
         for(let i = 0; i < 2; i++)
@@ -132,7 +132,7 @@ export default class Card
         const textConfigScore = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.bid.score.fontSize")
-        }).alignCenter();
+        });
         const resTextScore = new ResourceText({ text: data.score.toString(), textConfig: textConfigScore });
         const opTextScore = new LayoutOperation({
             pos: vis.get("cards.bid.score.pos"),
@@ -167,7 +167,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.bid.textBox.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: vis.get("cards.bid.textBox.pos"),
@@ -184,7 +184,7 @@ export default class Card
         const textConfigSmall = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.token.small.fontSize")
-        }).alignCenter();
+        });
         const resTextSmall = new ResourceText({ text: this.num.toString(), textConfig: textConfigSmall });
         const anchorSmall = vis.get("cards.token.small.anchor")
         const offsetSmall = vis.get("cards.token.small.offset");
@@ -207,7 +207,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.token.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: vis.get("cards.token.pos"),

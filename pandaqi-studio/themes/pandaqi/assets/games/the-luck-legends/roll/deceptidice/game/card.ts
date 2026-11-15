@@ -61,7 +61,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: 256
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: vis.center,
@@ -142,7 +142,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.numbers.fontSize")
-        }).alignCenter();
+        });
         let txt = this.isWildCard() ? "?" : this.num.toString();
         if(this.hasSpecialPower())
         {
@@ -210,7 +210,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.mainNumber.fontSize")
-        }).alignCenter();
+        });
 
         // the actual numbers
         const offset = vis.get("cards.mainNumber.circleRadius");
@@ -275,7 +275,7 @@ export default class Card
             const textConfigHeading = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: vis.get("cards.bids.fontSizeHeading")
-            }).alignCenter();
+            });
             const shadowEffect = new DropShadowEffect({ color: "#000000", offset: new Vector2(0,0.05).scale(textConfigHeading.size) })
             const resTextHeading = new ResourceText({ text: "Power Card", textConfig: textConfigHeading });
             const opTextHeading = new LayoutOperation({
@@ -303,7 +303,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.bids.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: vis.get("cards.bids.textPos"),

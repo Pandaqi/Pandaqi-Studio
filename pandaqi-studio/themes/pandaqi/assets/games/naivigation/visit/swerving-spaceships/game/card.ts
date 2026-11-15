@@ -71,7 +71,7 @@ export default class Card extends MaterialNaivigation
                 font: vis.get("fonts.body"),
                 size: vis.get("cards.planetProperties.fontSize"),
                 resLoader: vis.resLoader
-            }).alignCenter();
+            });
 
             const textRes = new ResourceText({ text: prop.desc, textConfig: textConfig });
             const op = new LayoutOperation({

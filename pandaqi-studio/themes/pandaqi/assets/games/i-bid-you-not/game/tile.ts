@@ -112,7 +112,7 @@ export default class Tile
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("tiles.label.fontSize")
-        }).alignCenter();
+        });
         const resNameText = new ResourceText({ text: this.getTypeData().label, textConfig: textConfig });
         const opNameText = new LayoutOperation({
             pos: vis.get("tiles.label.pos"),
@@ -143,7 +143,7 @@ export default class Tile
         const textConfigPrice = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("tiles.priceTag.fontSize")
-        }).alignCenter();
+        });
         const priceText = "$" + this.price.toString();
 
         const priceOffset = new Vector2(1,0).scale( vis.get("tiles.priceTag.offset") );
@@ -211,7 +211,7 @@ export default class Tile
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("tiles.numbers.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
 
         const colData = this.getColorData(vis.inkFriendly);
@@ -251,7 +251,7 @@ export default class Tile
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("tiles.action.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.action, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: vis.get("tiles.action.pos"),

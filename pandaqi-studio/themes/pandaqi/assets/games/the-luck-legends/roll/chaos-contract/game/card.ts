@@ -157,7 +157,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.numbers.fontSize")
-        }).alignCenter();
+        });
 
         const otherNum = this.getOtherNumber();
         const positions = getRectangleCornersWithOffset(vis.size, vis.get("cards.numbers.offset"));
@@ -195,7 +195,7 @@ export default class Card
         const textConfigMain = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize
-        }).alignCenter();
+        });
 
         const shadowColor = this.isWildCard() ? "#000000" : "#ffffff";
         const mainEffects = vis.inkFriendly ? [] : [new GlowEffect({ color: shadowColor, blur: vis.get("cards.mainNumber.glowBlur") })]
@@ -229,7 +229,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.metadata.fontSize")
-        }).alignCenter();
+        });
         const textColor = (this.isWildCard() && !vis.inkFriendly) ? "#FFFFFF" : "#000000";
 
         // create a subgroup with the right text and distances
@@ -295,7 +295,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.action.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: this.actionText, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: vis.get("cards.action.textBoxPos"),
@@ -321,7 +321,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.contract.fontSize")
-        }).alignCenter();
+        });
         const textDims = vis.get("cards.contract.textDims");
 
         // display the three main parts of a contract

@@ -108,7 +108,7 @@ export default class Domino
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("dominoes.setText.size")
-        })
+        }).alignTopLeft()
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
             pos: new Vector2(1.33*textConfig.size), 
@@ -139,7 +139,7 @@ export default class Domino
             font: vis.get("fonts.body"),
             size: vis.get("dominoes.impact.fontSize"),
             style: TextStyle.ITALIC
-        }).alignCenter();
+        });
 
         const textColor = vis.inkFriendly ? "#111111" : "#FCFCFC";
         const resText = new ResourceText({ text, textConfig });
@@ -181,7 +181,7 @@ export default class Domino
                 font: vis.get("fonts.body"),
                 size: vis.get("dominoes.asteroid.fontSize"),
                 style: TextStyle.ITALIC
-            }).alignCenter();
+            });
     
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({

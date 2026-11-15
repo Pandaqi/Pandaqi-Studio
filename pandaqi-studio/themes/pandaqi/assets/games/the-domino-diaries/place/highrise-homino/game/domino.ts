@@ -88,7 +88,7 @@ export default class Domino
             font: vis.get("fonts.body"),
             size: vis.get("missions.fontSize"),
             style: TextStyle.ITALIC
-        })
+        }).alignTopLeft()
         const resTextTask = new ResourceText({ text: data.descTask, textConfig: textConfig });
         const textDims = vis.get("missions.textBoxDims");
         const opTextTask = new LayoutOperation({
@@ -114,7 +114,7 @@ export default class Domino
         const textConfigSet = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("missions.fontSizeSet")
-        }).alignCenter();
+        });
 
         const setText = "Set: " + (data.set ?? "Base");
         const resTextSet = new ResourceText({ text: setText, textConfig: textConfigSet });
@@ -135,7 +135,7 @@ export default class Domino
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("dominoes.setText.size")
-        })
+        }).alignTopLeft()
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
             pos: new Vector2(1.33*textConfig.size), 

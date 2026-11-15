@@ -1114,7 +1114,7 @@ export default class BoardGeneration
 		const textConfig = new TextConfig({
 			font: textCfg.fontFamily,
 			size: textCfg.fontSize
-		}).alignCenter();
+		});
 
 		const goodNumberCfg = 
 		{
@@ -1128,7 +1128,7 @@ export default class BoardGeneration
 		const textConfigGoodNumber = new TextConfig({
 			font: goodNumberCfg.fontFamily,
 			size: goodNumberCfg.fontSize
-		}).alignCenter();
+		});
 
 		const bonusTxtCfg = 
 		{
@@ -1142,7 +1142,7 @@ export default class BoardGeneration
 		const textConfigBonus = new TextConfig({
 			font: bonusTxtCfg.fontFamily,
 			size: bonusTxtCfg.fontSize
-		}).alignCenter();
+		});
 
 		for(let i = 0; i < this.cities.length; i++) 
 		{
@@ -1293,7 +1293,7 @@ export default class BoardGeneration
 		const textConfigDetails = new TextConfig({
 			font: "rowdies",
 			size: fontSize,
-		})
+		}).alignTopLeft()
 
 		const jungleNameString = '"' + this.cfg.jungleName + '"';
 		const anchorPos = new Vector2(oX + margin, oY + margin);

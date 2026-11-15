@@ -324,7 +324,7 @@ export class Card
             font: vis.get("fonts.body"),
             size: numberSize,
             lineHeight: 0.8,
-        })
+        }).alignTopLeft()
 
         const textOp = new LayoutOperation({
             pivot: Vector2.ZERO,
@@ -440,7 +440,7 @@ export class Card
             font: vis.get("fonts.body"),
             size: numFontSize,
             lineHeight: 0.8,
-        })
+        }).alignTopLeft()
 
         let numberOffset = new Vector2(75, 90 + 0.5*numFontSize); // @NOTE: might be incorrect after TextDrawer switch
         const textOp = new LayoutOperation({

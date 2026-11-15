@@ -214,7 +214,7 @@ export default class BoardGeneration
 		const textConfig = new TextConfig({
 			font: vis.get("fonts.heading"),
 			size: vis.get("path.fontSize")
-		}).alignCenter();
+		});
 
 		// draw random obstacles, buildings, numbers, stuff
 		for(const obj of this.obstacles) 
@@ -320,7 +320,7 @@ export default class BoardGeneration
 		const textConfig = new TextConfig({
 			font: vis.get("fonts.heading"),
 			size: vis.get("grid.fontSize")
-		}).alignCenter();
+		});
 
 		const inkFriendly = vis.inkFriendly;
 		const color = inkFriendly ? vis.get("grid.lineColorGray") : vis.get("grid.lineColor");

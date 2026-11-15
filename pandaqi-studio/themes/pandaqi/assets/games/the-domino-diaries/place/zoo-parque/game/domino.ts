@@ -158,7 +158,7 @@ export default class Domino
         const textConfigScore = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("dominoes.campaign.score.fontSize")
-        }).alignCenter();
+        });
         const resTextScore = new ResourceText(this.campaignScore.toString(), textConfigScore);
         const opTextScore = new LayoutOperation({
             pos: vis.get("dominoes.campaign.score.pos"),
@@ -173,7 +173,7 @@ export default class Domino
             font: vis.get("fonts.body"),
             size: vis.get("dominoes.campaign.fontSize"),
             resLoader: vis.resLoader
-        }).alignCenter();
+        });
         const resTextEvent = new ResourceText(this.campaignMissionText, textConfig);
         const opTextEvent = new LayoutOperation({
             pos: vis.get("dominoes.campaign.posMission"),
@@ -195,7 +195,7 @@ export default class Domino
         const textConfigExpansions = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("dominoes.campaign.expansions.fontSize")
-        }).alignCenter();
+        });
         const challengeSets = this.getMissionData().sets ?? ["base"];
         const strExp = challengeSets.join(", ");
         const resTextExpansions = new ResourceText(strExp, textConfigExpansions);
@@ -238,7 +238,7 @@ export default class Domino
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("dominoes.setText.fontSize")
-        })
+        }).alignTopLeft()
         const resText = new ResourceText({ text, textConfig });
         const textColor = vis.inkFriendly ? "#000000" : "#442200";
         const opText = new LayoutOperation({

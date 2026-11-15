@@ -227,7 +227,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.bookShelf.text.fontSize"),
-        }).alignCenter();
+        });
         const resText = new ResourceText({ text: actionText, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: textPos,
@@ -316,7 +316,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: fontSize,
             weight: TextWeight.BOLD
-        }).alignCenter();
+        });
 
         const resText = new ResourceText({ text: label, textConfig: textConfig });
 
@@ -441,7 +441,7 @@ export default class Card
         const textConfigDropCap = new TextConfig({
             font: vis.get("fonts.special"),
             size: dropCapSize
-        }).alignCenter();
+        });
         const resTextDropCap = new ResourceText({ text: initial, textConfig: textConfigDropCap });
         const opDropCap = new LayoutOperation({
             pos: dropCapPos,
@@ -453,7 +453,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.title.fontSize")
-        }).alignCenter();
+        });
 
         // the numbers for alphabet position to left and right (optional; behind toggle)
         const addNumbers = vis.get("addHelpNumbers");
@@ -553,7 +553,7 @@ export default class Card
         const textConfigExplanation = new TextConfig({
             font: vis.get("fonts.body"),
             size: fontSizeTitle,
-        }).alignCenter();
+        });
 
         const addActionExplanation = vis.get("addActionExplanation");
         if(addActionExplanation)

@@ -1815,12 +1815,12 @@ export default class BoardGeneration
 		const textConfig = new TextConfig({
 			font: "scifly",
 			size: fontSize
-		}).alignCenter();
+		});
 
 		const textConfigMetadata = new TextConfig({
 			font: "scifly",
 			size: smallerFontSize,
-		}).alignCenter();
+		});
 
 		// draw actual points you can move to
 		const missionNodeList = this.lists.missionNodes;

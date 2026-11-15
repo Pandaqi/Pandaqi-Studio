@@ -35,7 +35,7 @@ export default class Tile extends MaterialNaivigation
             const textConfig = new TextConfig({
                 font: vis.get("fonts.heading"),
                 size: vis.get("tiles.shop.fontSize")
-            }).alignCenter();
+            });
             const resText = new ResourceText(num, textConfig);
             const opText = new LayoutOperation({
                 pos: vis.center,
@@ -98,7 +98,7 @@ export default class Tile extends MaterialNaivigation
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("tiles.custom.fontSize")
-        }).alignCenter();
+        });
         const resText = new ResourceText(str, textConfig);
 
         const opText = new LayoutOperation({

@@ -3203,12 +3203,12 @@ export default class BoardGeneration
 		const textConfig = new TextConfig({
 			font: this.fontFamily,
 			size: 16
-		});
+		}).alignTopLeft();
 
 		const metadataConfig = new TextConfig({
 			font: this.fontFamily,
 			size: 11
-		});
+		}).alignTopLeft();
 
 		const cellSize = Math.floor((cardSize.x - margin.x*2) / this.cfg.width);
 		const gridHeight = this.cfg.height * cellSize;
@@ -3511,7 +3511,7 @@ export default class BoardGeneration
 		const textConfig = new TextConfig({
 			font: this.fontFamily,
 			size: fontSize,
-		})
+		}).alignTopLeft()
 	
 		const opText = new LayoutOperation({
 			pivot: new Vector2(0.5, 0),
@@ -3587,7 +3587,7 @@ export default class BoardGeneration
 			const textConfigDebug = new TextConfig({
 				font: this.fontFamily,
 				size: 16
-			});
+			}).alignTopLeft();
 
 			const margin = 12;
 			const lineHeight = 24;

@@ -201,7 +201,7 @@ export default class Card
                 font: vis.get("fonts.body"),
                 size: vis.get("cards.shared.text.fontSize"),
                 style: TextStyle.ITALIC
-            }).alignCenter();
+            });
     
             const resText = new ResourceText(data.desc, textConfig);
             const opText = new LayoutOperation({
@@ -255,7 +255,7 @@ export default class Card
             font: vis.get("fonts.heading"),
             size: vis.get("cards.kalender.label.fontSize"),
             style: TextStyle.ITALIC
-        }).alignCenter();
+        });
 
         const resTextLabel = new ResourceText(data.label, textConfigLabel);
         const opTextLabel = new LayoutOperation({
@@ -270,7 +270,7 @@ export default class Card
             font: vis.get("fonts.body"),
             size: vis.get("cards.kalender.text.fontSize"),
             style: TextStyle.ITALIC
-        }).alignCenter();
+        });
 
         const resText = new ResourceText(data.desc, textConfig);
         const opText = new LayoutOperation({
