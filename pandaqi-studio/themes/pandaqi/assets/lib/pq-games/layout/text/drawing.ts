@@ -8,13 +8,14 @@ import { LineData } from "./lineData";
 import { calculateTextMetrics, type TextBoxMetrics } from "./metrics";
 import { TextChunkImage, TextChunkStyle, TextChunkText } from "./textChunk";
 import type { TextConfig } from "./textConfig";
-import { hasVisibleLines } from "./tools";
+import { TextAnchor } from "./textConfig";
 
 export const drawTextFromResource = (resource:ResourceText) =>
 {
     const metrics = calculateTextMetrics(resource);
-    const ctx = createContext({ size: metrics.dimsUsed.getSize() });
-    const op = new LayoutOperation();
+    const size = metrics ? metrics.dimsUsed.getSize() : new Vector2(1, 1);
+    const ctx = createContext({ size: size });
+    const op = new LayoutOperation({ size: size });
     op.resource = resource;
     drawTextToCanvas(ctx, op);
     return ctx.canvas;
@@ -29,11 +30,10 @@ export const drawTextToCanvas = (canv:CanvasLike, op:LayoutOperation = new Layou
     // measuring returns nothing for text that has nothing visible in it (empty string, only breaks),
     // which is a valid thing to draw: it simply draws nothing
     const textMetrics = op.textMetrics;
-    if(!textMetrics) { return; }
+    if(!textMetrics || !textMetrics.lines || textMetrics.lines.length <= 0) { return; }
     const config = (op.resource as ResourceText).textConfig;
-    if(!hasVisibleLines(textMetrics.lines)) { return; }
 
-    const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
+    const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv as CanvasRenderingContext2D;
     const oldTextAlign = ctx.textAlign;
     const oldBaseline = ctx.textBaseline;
 
@@ -50,51 +50,73 @@ export const drawTextToCanvas = (canv:CanvasLike, op:LayoutOperation = new Layou
 
 const drawTextLines = (ctx:CanvasRenderingContext2D, op:LayoutOperation, lines:LineData[], cfg:TextConfig) =>
 {
-    const style = cfg.clone();
+    const style = cfg.clone(false);
     style.color = op.fill;
     style.applyToCanvas(ctx);
+    ctx.textBaseline = style.anchor ?? TextAnchor.ALPHABETIC;
+
+    const hasFill = op.hasFill();
+    const hasStroke = op.hasStroke();
+    const strokeBeforeFill = op.strokeAlign == StrokeAlign.OUTSIDE;
+
+    const pos = new Vector2();
 
     for(const line of lines)
     {
-        let pos = line.getPosition();
+        if(line.chunks.length <= 0) { continue; }
 
-        for(const elem of line.getChunks())
+        pos.x = line.pos.x;
+        pos.y = line.pos.y;
+
+        const chunks = line.chunks;
+        const widths = line.chunkWidths;
+
+        for(let i = 0; i < chunks.length; i++)
         {
-            const elemWidth = elem.getSize(ctx).x;
+            const elem = chunks[i];
 
             if(elem instanceof TextChunkText) {
                 const text = style.applyTextTransform(elem.text);
-                fillAndStrokeText(ctx, text, pos, op);
-                pos.x += elemWidth;
-                if(elem.isEmptySpace()) { pos.x += line.extraSpaceJustifyX; }
+                if(text.length > 0) { fillAndStrokeText(ctx, text, pos, hasFill, hasStroke, strokeBeforeFill); }
+                pos.x += widths[i];
+                if(line.extraSpaceJustifyX > 0 && elem.isEmptySpace()) { pos.x += line.extraSpaceJustifyX; }
             } else if(elem instanceof TextChunkImage) {
                 drawImageChunk(ctx, elem, pos, line, op, cfg);
-                pos.x += elemWidth;
+                pos.x += widths[i];
             } else if(elem instanceof TextChunkStyle) { 
                 elem.updateTextConfig(style); 
                 style.applyToCanvas(ctx);
+                ctx.textBaseline = style.anchor ?? TextAnchor.ALPHABETIC;
             }
         }
     }
 }
 
-export const fillAndStrokeText = (ctx:CanvasRenderingContext2D, txt:string, pos:Vector2, op:LayoutOperation) =>
+export const fillAndStrokeText = (ctx:CanvasRenderingContext2D, txt:string, pos:Vector2, opOrFill:LayoutOperation|boolean = null, hasStrokeIn = null, strokeFirstIn = null) =>
 {
-    const strokeBeforeFill = op.strokeAlign == StrokeAlign.OUTSIDE;
-    const clipStroke = op.strokeAlign == StrokeAlign.INSIDE;
+    // Accepts either a LayoutOperation (old signature) or precomputed flags (hot path)
+    let hasFill = true;
+    let hasStroke = false;
+    let strokeFirst = false;
+
+    if(typeof opOrFill === "boolean") {
+        hasFill = opOrFill;
+        hasStroke = hasStrokeIn === true;
+        strokeFirst = strokeFirstIn === true;
+    } else if(opOrFill) {
+        hasFill = opOrFill.hasFill();
+        hasStroke = opOrFill.hasStroke();
+        strokeFirst = opOrFill.strokeAlign == StrokeAlign.OUTSIDE;
+    }
 
     // @TODO: Clipping (for the inside stroke) NOT IMPLEMENTED YET
     // Clipping only works for paths, and text is not a path
     // Use secondary image and masking for this!
     // @SOURCE: https://stackoverflow.com/questions/7307430/html-canvas-clipping-and-text
 
-    if(strokeBeforeFill) {
-        ctx.strokeText(txt, pos.x, pos.y);
-        ctx.fillText(txt, pos.x, pos.y);
-    } else {
-        ctx.fillText(txt, pos.x, pos.y);
-        ctx.strokeText(txt, pos.x, pos.y);
-    }
+    if(strokeFirst) { ctx.strokeText(txt, pos.x, pos.y); }
+    if(hasFill) { ctx.fillText(txt, pos.x, pos.y); }
+    if(hasStroke && !strokeFirst) { ctx.strokeText(txt, pos.x, pos.y); }
 }
 
 const drawImageChunk = (ctx:CanvasRenderingContext2D, elem:TextChunkImage, pos:Vector2, line:LineData, opParent:LayoutOperation, cfg:TextConfig) =>
@@ -111,7 +133,8 @@ const drawImageChunk = (ctx:CanvasRenderingContext2D, elem:TextChunkImage, pos:V
     posImage.move(op.pos); // take any custom positioning into account
     op.pos = posImage;
     op.pivot = new Vector2(0, 0.5);
-    if(op.size.isZero()) { op.size = elem.getSize(); }
+    const dims = elem.getSize();
+    if(op.size.isZero() && dims) { op.size = dims.clone(); }
 
     // by giving it the parent operation, 
     // that relative location can now be transformed to the absolute location within the entire canvas
@@ -147,4 +170,3 @@ const drawTextDebug = (ctx:CanvasRenderingContext2D, metrics:TextBoxMetrics) =>
         metrics.dimsUsed.size.x, metrics.dimsUsed.size.y
     )
 }
-

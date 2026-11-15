@@ -69,6 +69,7 @@ export interface TextConfigParams
     useDynamicLineHeight?:boolean
     useSimpleDims?:boolean // if true, uses raw #lines * lineHeight for dimensions (faster, sometimes looks better)
     heightToSizeRatio?: number // for the default estimate on inline image size
+    maxLines?: number // if > 0, text that needs more lines is clipped to this many (nothing beyond is measured or drawn)
 }
 
 // By default, the HEIGHT of a font is roughly 50%-60% of the font SIZE ( = letter width)
@@ -98,6 +99,7 @@ export class TextConfig
     useDynamicLineHeight: boolean;
     useSimpleDims: boolean;
     heightToSizeRatio: number;
+    maxLines: number;
     history: Record<string,any>;
 
     constructor(params:TextConfigParams = {})
@@ -116,11 +118,13 @@ export class TextConfig
         this.weight = params.weight ?? TextWeight.REGULAR;
         this.variant = params.variant ?? TextVariant.NORMAL;
         this.transform = params.transform ?? TextTransform.NONE;
+        this.anchor = params.anchor ?? TextAnchor.ALPHABETIC;
 
         this.resLoader = params.resLoader ?? null;
         this.defaultImageOperation = params.defaultImageOperation ?? null;
         this.useSimpleDims = params.useSimpleDims ?? false;
         this.heightToSizeRatio = params.heightToSizeRatio ?? DEF_HEIGHT_TO_SIZE_RATIO;
+        this.maxLines = params.maxLines ?? 0;
         this.history = {};
 
         const horizontalExplicit = (params.align ?? params.alignHorizontal) != null;
@@ -132,16 +136,24 @@ export class TextConfig
 
     clone(deep = true) : TextConfig
     {
-        const tf = new TextConfig();
+        // deliberately not `new TextConfig()`: that re-runs the constructor (defaults, strict-mode
+        // reporting) for a pure copy, which is called several times per drawn text box
+        const tf = Object.create(TextConfig.prototype) as TextConfig;
         for(const prop in this)
         {
             // @ts-ignore
             tf[prop] = this[prop]
         }
 
+        // every clone gets its own style history, otherwise <b>…</b> pushes/pops would be shared with
+        // (and could pop values out of) the config it was cloned from
+        tf.history = {};
         if(deep)
         {
-            this.history = structuredClone(this.history);
+            for(const prop in this.history)
+            {
+                tf.history[prop] = this.history[prop].slice();
+            }
         }
 
         return tf;
@@ -255,9 +267,9 @@ export class TextConfig
 
     applyTextTransform(str:string)
     {
-        if(this.transform == TextTransform.NONE) { return str; }
         if(this.transform == TextTransform.LOWERCASE) { return str.toLowerCase(); }
         if(this.transform == TextTransform.UPPERCASE) { return str.toUpperCase(); }
+        return str;
     }
 
     /* Handy automatic functions for configurations I usually want */

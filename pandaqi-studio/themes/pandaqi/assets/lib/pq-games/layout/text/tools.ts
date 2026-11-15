@@ -21,9 +21,11 @@ export const hasVisibleText = (txt) =>
 
 export const hasVisibleLines = (lines:LineData[]) =>
 {
-    if(lines.length <= 0) { return false; }
-    if(!lineHasVisibleContent(lines[0].chunks)) { return false; }
-    return true;
+    for(const line of lines)
+    {
+        if(lineHasVisibleContent(line.chunks)) { return true; }
+    }
+    return false;
 }
 
 export const lineHasVisibleContent = (list:TextChunk[]) =>

@@ -1,18 +1,19 @@
 import { Vector2 } from "../../geometry/vector2";
 import type { TextConfig } from "./textConfig";
+import { TextTransform } from "./textConfig";
 import type { ResourceImage } from "../resources/resourceImage";
 import { LayoutOperation } from "../layoutOperation";
 
 class TextChunk
 {
-    getSize(ctx:CanvasRenderingContext2D = null) : Vector2 { return new Vector2(); }
+    getSize(ctx:CanvasRenderingContext2D = null, transform:TextTransform = TextTransform.NONE) : Vector2 { return new Vector2(); }
     break() : TextChunk[] { return [this]; }
     isEmptySpace() { return false; }
     isVisible() { return false; }
     isPunctuation() { return false; }
 }
 
-const PUNCTUATION = [".", "?", "!", "-", "+"]
+const PUNCTUATION = [".", ",", "?", "!", "-", "+", ":", ";", ")", "]", "}", "%"]
 
 // `measureText` is called for every word of every line of every card, and the same words ("Attack", "+2",
 // "Move") repeat hundreds of times across a deck. The answer only depends on the font and the string.
@@ -22,6 +23,8 @@ const METRICS_CACHE_LIMIT = 20000
 class TextChunkText extends TextChunk
 {
     text:string
+    upperCached:string = null
+    lowerCached:string = null
 
     constructor(txt:string)
     {
@@ -31,51 +34,53 @@ class TextChunkText extends TextChunk
 
     isVisible() { return !this.isEmptySpace(); }
     isPunctuation() { return PUNCTUATION.includes(this.text); }
-    getMetrics(ctx) : TextMetrics
+    isEmptySpace() { return this.text.trim().length <= 0; }
+
+    getTransformedText(transform:TextTransform = TextTransform.NONE)
     {
-        const key = ctx.font + "\u0000" + this.text;
+        if(transform == TextTransform.UPPERCASE) { return this.upperCached ??= this.text.toUpperCase(); }
+        if(transform == TextTransform.LOWERCASE) { return this.lowerCached ??= this.text.toLowerCase(); }
+        return this.text;
+    }
+
+    getMetrics(ctx:CanvasRenderingContext2D, transform:TextTransform = TextTransform.NONE) : TextMetrics
+    {
+        const txt = this.getTransformedText(transform);
+        const key = ctx.font + "\u0000" + txt;
         let metrics = METRICS_CACHE.get(key);
         if(!metrics)
         {
-            metrics = ctx.measureText(this.text);
+            metrics = ctx.measureText(txt);
             if(METRICS_CACHE.size > METRICS_CACHE_LIMIT) { METRICS_CACHE.clear(); }
             METRICS_CACHE.set(key, metrics);
         }
         return metrics;
     }
 
-    getSize(ctx)
+    getSize(ctx:CanvasRenderingContext2D, transform:TextTransform = TextTransform.NONE) : Vector2
     {
-        const metrics = this.getMetrics(ctx);
+        const metrics = this.getMetrics(ctx, transform);
         return new Vector2(
             metrics.width,
             Math.abs(metrics.actualBoundingBoxAscent) + Math.abs(metrics.actualBoundingBoxDescent)
         );
     }
 
-    isEmptySpace()
+    break() : TextChunk[]
     {
-        return this.text.trim().length <= 0;
-    }
+        const text = this.text;
+        if(text.length <= 0) { return [this]; }
 
-    break()
-    {
-        const regex = /\s/g; // cuts on spaces (@TODO: might add hyphens in the future, don't know how to distinguish from minus signs)
-        let text = this.text;
-        let chunks = [];
-        let match;
-        do {
-            match = regex.exec(text);
-            if(!match) { chunks.push(new TextChunkText(text)); break; }
+        // split into alternating word / whitespace runs (the capture group keeps the separators)
+        const parts = text.split(/(\s+)/);
+        if(parts.length <= 1) { return [this]; }
 
-            const key = match[0];
-            const idx = match.index;
-            let chunkString = (idx == 0) ? key : text.slice(0, idx);
-            const newChunk = new TextChunkText(chunkString);
-            chunks.push(newChunk);
-
-            text = (idx == 0) ? text.slice(key.length) : text.slice(idx);
-        } while (match);
+        const chunks : TextChunk[] = [];
+        for(const part of parts)
+        {
+            if(part.length <= 0) { continue; }
+            chunks.push(new TextChunkText(part));
+        }
         return chunks;
     }
 }
@@ -107,7 +112,15 @@ class TextChunkImage extends TextChunk
 
 class TextChunkBreak extends TextChunk
 {
+    // an implicit break is inserted by wrapping; an explicit one came from a `\n` in the source text.
+    // Justification needs the difference: the last line of a paragraph must not be stretched.
+    implicit: boolean
 
+    constructor(implicit = false)
+    {
+        super();
+        this.implicit = implicit;
+    }
 }
 
 class TextChunkStyle extends TextChunk

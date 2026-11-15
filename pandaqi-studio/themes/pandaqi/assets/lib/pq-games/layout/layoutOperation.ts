@@ -233,16 +233,28 @@ export class LayoutOperation
             const canBeSeen = this.hasFill() || this.hasStroke();
             if(!canBeSeen) { this.setFill(Color.BLACK); }
 
-            let forceSizeAuto = this.sizeAuto;
-            if(size.isZero()) { forceSizeAuto = true; }
+            // A box axis of 0 means "the text decides". Such an axis must not be measured inside a
+            // fake 2048px box and then aligned within it, or the text is drawn far outside itself.
+            const autoX = this.sizeAuto || size.x <= 0.0001;
+            const autoY = this.sizeAuto || size.y <= 0.0001;
 
-            const textBoxSizeInitial = forceSizeAuto ? new Vector2(2048, 2048) : size;
-            this.textMetrics = calculateTextMetrics(this.resource as ResourceText, textBoxSizeInitial);
+            this.textMetrics = calculateTextMetrics(
+                this.resource as ResourceText, 
+                new Vector2(autoX ? 2048 : size.x, autoY ? 2048 : size.y), 
+                Vector2.ZERO, 
+                true,
+                (autoX || autoY) ? { width: autoX, height: autoY } : null
+            );
 
-            if(forceSizeAuto)
+            if(autoX || autoY)
             {
-                size = this.textMetrics.dimsFull.getSize();
-                size.add(Vector2.ONE); // to prevent silly rounding errors making text boxes JUUUST too small
+                if(!this.textMetrics) { size = new Vector2(); }
+                else 
+                {
+                    const dims = this.textMetrics.dimsFull.getSize();
+                    if(autoX) { size.x = dims.x + 1; } // to prevent silly rounding errors making text boxes JUUUST too small
+                    if(autoY) { size.y = dims.y + 1; }
+                }
             }
         }
 

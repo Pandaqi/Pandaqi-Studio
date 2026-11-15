@@ -29,7 +29,7 @@ export default class ResourceText extends Resource
             return;
         }
 
-        this.text = params.text.toString() ?? "";
+        this.text = (params.text ?? "").toString();
         this.textConfig = params.textConfig ?? new TextConfig();
     }
     
@@ -40,7 +40,7 @@ export default class ResourceText extends Resource
     }
 
     /* The `to` functions */
-    toCanvas(canv:CanvasLike = null, op:LayoutOperation = null)
+    toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
         if(canv instanceof CanvasRenderingContext2D) { canv = canv.canvas; }
         op.resource = this;
