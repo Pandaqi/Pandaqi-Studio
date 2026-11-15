@@ -1,5 +1,5 @@
 
-import { shuffle, BalancedFrequencyPickerWithMargin } from "lib/pq-games";
+import { getSetting, shuffle, BalancedFrequencyPickerWithMargin } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardType, MEDICINE, PATIENTS, SPECIAL_ACTIONS } from "../shared/dict";
 import Card from "./card";
@@ -173,7 +173,7 @@ const generatePatientCards = (cards) =>
 
 const generateSpecialCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.operations.value) { return; }
+    if(!getSetting("sets.operations", CONFIG)) { return; }
 
     const defFreq = CONFIG.generation.defaultFrequencySpecialCards ?? 1;
     for(const [key,data] of Object.entries(SPECIAL_ACTIONS))

@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardType, VoteType } from "../shared/dict";
 import Card from "./card";
@@ -12,7 +13,7 @@ export const votePicker = () : Card[] =>
 
 const generateVotesBase = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     // then just add those to 50% YES and 50% NO cards
     const numCards = CONFIG.generation.numVoteCards;
@@ -40,7 +41,7 @@ const generateVotesBase = (cards) =>
 
 const generateVotesAbstain = (cards) =>
 {
-    if(!CONFIG._settings.sets.abstain.value) { return; }
+    if(!getSetting("sets.abstain", CONFIG)) { return; }
     
     // create abstain cards with unique, ascending numbers
     // (even unique when related to other YES/NO cards! => all multiples of 3)

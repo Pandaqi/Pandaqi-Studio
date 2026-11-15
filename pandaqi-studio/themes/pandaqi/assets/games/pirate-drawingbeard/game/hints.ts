@@ -3,7 +3,7 @@ import HintBuilder from "./hintBuilder"
 import Map from "./map"
 import { DISCRETE_LISTS, HINT_CATEGORIES, HINT_DICT } from "./dict"
 import { CONFIG } from "../shared/config";
-import { rand } from "lib/pq-games";
+import { getSetting, rand } from "lib/pq-games";
 
 export default {
 
@@ -72,19 +72,19 @@ export default {
 		this.availableHints = structuredClone(HINT_DICT);
 		this.categories = HINT_CATEGORIES.slice();
 
-		if(!CONFIG._settings.hints.rotation.value) { 
+		if(!getSetting("hints.rotation", CONFIG)) {
 			this.categories.splice(this.categories.indexOf("rotation"), 1);
 		}
 
-		if(!CONFIG._settings.hints.networks.value) { 
+		if(!getSetting("hints.networks", CONFIG)) {
 			this.categories.splice(this.categories.indexOf("network"), 1);
 		}
 
-		if(!CONFIG._settings.hints.symbols.value) { 
+		if(!getSetting("hints.symbols", CONFIG)) {
 			this.categories.splice(this.categories.indexOf("symbols"), 1);
 		}
 
-		if(!CONFIG._settings.hints.special.value) { 
+		if(!getSetting("hints.special", CONFIG)) {
 			this.categories.splice(this.categories.indexOf("special"), 1);
 		}
 	},
@@ -114,7 +114,7 @@ export default {
 			let expansionMissing = ("expansion" in originalHint) && !CONFIG._settings.hints[originalHint.expansion].value && !this.buildForDownload;
 			if(expansionMissing) { continue; }
 
-			let forbiddenBecauseAdvanced = ("advanced" in originalHint) && !CONFIG._settings.hints.advancedHints.value && !this.buildForDownload;
+			let forbiddenBecauseAdvanced = ("advanced" in originalHint) && !getSetting("hints.advancedHints", CONFIG) && !this.buildForDownload;
 			if(forbiddenBecauseAdvanced) { continue; }
 
 			// This is an array of arrays
@@ -275,7 +275,7 @@ export default {
 					continue; 
 				}
 
-				let checkRedundancy = !CONFIG._settings.fastGeneration.value;
+				let checkRedundancy = !getSetting("fastGeneration", CONFIG);
 				if(checkRedundancy)
 				{
 					// we only check against the hints we've already decided on
@@ -293,7 +293,7 @@ export default {
 
 			// in fast generation, we don't check sublists
 			// general hints are most likely to produce sublist redundancy, so only allow one of those hints at most
-			if(CONFIG._settings.fastGeneration.value && category == "general") { forbidGeneralHints = true; }
+			if(getSetting("fastGeneration", CONFIG) && category == "general") { forbidGeneralHints = true; }
 			if(isSwapResistant) { forbidSwapResistantHints = true; }
 
 			let tooManyHintsNeeded = totalNumHints > CONFIG.playerCount*CONFIG.maxHintsPerPlayer;
@@ -351,7 +351,7 @@ export default {
 	checkFairness()
 	{
 		let offset = 0;
-		if(CONFIG._settings.fastGeneration.value) { offset = Math.floor(0.15*CONFIG.totalTileCount); }
+		if(getSetting("fastGeneration", CONFIG)) { offset = Math.floor(0.15*CONFIG.totalTileCount); }
 
 		let minOptionsLeft = Math.round(0.4*CONFIG.totalTileCount) - offset; // min options is the more important number
 		let maxOptionsLeft = Math.round(0.8*CONFIG.totalTileCount) + offset;

@@ -1,5 +1,5 @@
 
-import { initArrayOfArrays, getAllPossibleCombinations, shuffle, rangeInteger, getWeighted, initNumberRange } from "lib/pq-games";
+import { getSetting, initArrayOfArrays, getAllPossibleCombinations, shuffle, rangeInteger, getWeighted, initNumberRange } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CATS, POWERS, Type } from "../shared/dict";
 import Card from "./card";
@@ -25,7 +25,7 @@ const countEntries = (a) =>
 
 const generateCatCards = (cards) =>
 {
-    if(!CONFIG._settings.includeCatCards.value) { return; }
+    if(!getSetting("includeCatCards", CONFIG)) { return; }
 
     const maxCatsOnComboCard = CONFIG.generation.numberCards.maxCatsOnComboCard; // @DEBUGGING: keep it low to prevent hanging/infinite loop issues
     const maxCatsOnRegularCard = CONFIG.generation.numberCards.maxCatsOnRegularCard;
@@ -191,7 +191,7 @@ const generateFullPowersDictionary = () =>
     const powerDict = structuredClone(POWERS);
     for(const [key,data] of Object.entries(powerDict))
     {
-        const notIncludedInSet = CONFIG._settings.limitedPowers.value && !data.core;
+        const notIncludedInSet = getSetting("limitedPowers", CONFIG) && !data.core;
         if(notIncludedInSet) { powersToRemove.push(key); continue; }
 
         const needsNoFurtherGeneration = !data.reqs || data.reqs.length <= 0;
@@ -245,7 +245,7 @@ const generateFullPowersDictionary = () =>
 
 const generateLifeCards = (cards) =>
 {
-    if(!CONFIG._settings.includeLifeCards.value) { return; }
+    if(!getSetting("includeLifeCards", CONFIG)) { return; }
 
     const powers = generateFullPowersDictionary();
     const numCards = CONFIG.generation.lifeCards.num;

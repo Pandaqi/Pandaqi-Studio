@@ -1,4 +1,4 @@
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardType, GiftType, ROUTEKAARTEN } from "../shared/dict";
 import Card from "./card";
@@ -16,7 +16,7 @@ export const cardPicker = () : Card[] =>
 
 const generateBaseCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     // create one pawn
     cards.push(new Card(CardType.PAWN));
@@ -142,7 +142,7 @@ const getFirstNumber = (list:number[], type = "odd") =>
 
 const generateGladdeDaken = (cards) =>
 {
-    if(!CONFIG._settings.sets.gladdeDaken.value) { return; }
+    if(!getSetting("sets.gladdeDaken", CONFIG)) { return; }
     
     const types = [];
     for(const [key,data] of Object.entries(ROUTEKAARTEN))
@@ -165,7 +165,7 @@ const generateGladdeDaken = (cards) =>
 
 const generatePaardenSprongen = (cards) =>
 {
-    if(!CONFIG._settings.sets.paardenSprongen.value) { return; }
+    if(!getSetting("sets.paardenSprongen", CONFIG)) { return; }
 
     // these cards just have a raw frequency + number=-1 means "no number" (choose yourself)
     const cardFreqs:Record<string,number> = CONFIG.generation.paardenSprongen.cardFrequencies;

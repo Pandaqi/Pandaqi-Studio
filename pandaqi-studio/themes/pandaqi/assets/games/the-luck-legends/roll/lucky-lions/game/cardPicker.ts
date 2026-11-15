@@ -1,4 +1,4 @@
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ANIMALS, AnimalType, CardType, ZOO_CARDS } from "../shared/dict";
 import Card from "./card";
@@ -16,7 +16,7 @@ export const cardPicker = () : Card[] =>
 
 const generateBaseCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     generateAnimalCards(cards, CONFIG.generation.animalFreqsBase, CONFIG.generation.animalFreqDefaultBase);
     generateZooCards(cards, CONFIG.generation.zooCardsNumBase, CONFIG.generation.zooCycleNumFreqsBase);
@@ -24,13 +24,13 @@ const generateBaseCards = (cards) =>
 
 const generateBusyZoo = (cards) =>
 {
-    if(!CONFIG._settings.sets.busyZoo.value) { return; }
+    if(!getSetting("sets.busyZoo", CONFIG)) { return; }
     generateZooCards(cards, CONFIG.generation.zooCardsNumBusy, CONFIG.generation.zooCycleNumFreqsBusy, Object.keys(ZOO_CARDS));
 }
 
 const generateWildAnimals = (cards) =>
 {
-    if(!CONFIG._settings.sets.wildAnimals.value) { return; }
+    if(!getSetting("sets.wildAnimals", CONFIG)) { return; }
     generateAnimalCards(cards, CONFIG.generation.animalFreqsWild, CONFIG.generation.animalFreqDefaultWild, true)
 }
 

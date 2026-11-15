@@ -1,5 +1,5 @@
 
-import { Color, DropShadowEffect, GrayScaleEffect, LayoutOperation, MaterialVisualizer, Path, Rectangle, ResourceShape, ResourceText, StrokeAlign, TextAlign, TextConfig, Vector2, bevelCorners, colorDarken, colorLighten, createContext, fillCanvas, getRectangleCornersWithOffset, patternizeGrid, strokeCanvas } from "lib/pq-games";
+import { getSetting, Color, DropShadowEffect, GrayScaleEffect, LayoutOperation, MaterialVisualizer, Path, Rectangle, ResourceShape, ResourceText, StrokeAlign, TextAlign, TextConfig, Vector2, bevelCorners, colorDarken, colorLighten, createContext, fillCanvas, getRectangleCornersWithOffset, patternizeGrid, strokeCanvas } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CATS, MISC, POWERS } from "../shared/dict";
 
@@ -172,7 +172,7 @@ export default class Card
     drawMainIllustration(vis:MaterialVisualizer, ctx)
     {
         const extentsRect = vis.get("cards.powers.rectSize").clone();
-        const offsetFactor = CONFIG._settings.includePowers.value ? vis.get("cards.illustration.offset") : 0.0;
+        const offsetFactor = getSetting("includePowers", CONFIG) ? vis.get("cards.illustration.offset") : 0.0;
         const offset = 0.5 * offsetFactor * extentsRect.y;
         const size = new Vector2(vis.get("cards.illustration.size"));
         const res = vis.resLoader.getResource("cats");
@@ -199,7 +199,7 @@ export default class Card
 
     drawPower(vis:MaterialVisualizer, ctx)
     {
-        if(!CONFIG._settings.includePowers.value) { return; }
+        if(!getSetting("includePowers", CONFIG)) { return; }
 
         // the background rectangle
         const extents = vis.get("cards.powers.rectSize").clone();

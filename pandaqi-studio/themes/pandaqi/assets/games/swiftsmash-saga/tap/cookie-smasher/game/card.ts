@@ -1,5 +1,6 @@
 
-import { fromArray, MaterialVisualizer, createContext, fillCanvas, TextConfig, Vector2, LayoutOperation, ResourceText, convertCanvasToImage, fillResourceGroup, ResourceGroup, ResourceImage, GrayScaleEffect, DropShadowEffect, ResourceShape, Path, Line, TintEffect, movePath, calculateCenter, calculateBoundingBox, TextAlign, Rectangle, rand } from "lib/pq-games";
+import { fromArray, MaterialVisualizer, createContext, fillCanvas, TextConfig, Vector2, LayoutOperation, ResourceText, convertCanvasToImage, fillResourceGroup, ResourceGroup, ResourceImage, GrayScaleEffect, DropShadowEffect, ResourceShape, Path, Line, TintEffect, movePath, calculateCenter, calculateBoundingBox, TextAlign, Rectangle, rand, getSetting } from "lib/pq-games";
+import { CONFIG } from "../shared/config";
 import { COLORS, CardData, SETS, TYPES, Type } from "../shared/dict";
 import WonkyRectangle from "./wonkyRectangle";
 
@@ -251,7 +252,7 @@ export default class Card
         // draw the random cutout background box
         const bgSize = vis.get("cards.illustration.bgSize").clone().scaleFactor(vis.sizeUnit);
         const bgCenter = vis.size.clone().scaleFactor(0.5);
-        const rect = new WonkyRectangle(bgCenter, bgSize);
+        const rect = new WonkyRectangle(vis, bgCenter, bgSize);
         const rectColor = vis.inkFriendly ? COLORS.grayLight : this.getColor();
         rect.generate();
         rect.draw(group, rectColor);
@@ -466,7 +467,7 @@ export default class Card
         ];
 
         // @NOTE: added after playtest that revealed text at bottom might be obscured by fingers and thus be annoying
-        if(vis.get("textPlacement") == "bottom")
+        if(getSetting("textPlacement", CONFIG) == "bottom")
         {
             id = (id + 1) % 2;
         }
@@ -512,8 +513,8 @@ export default class Card
         const descOutput = [];
         for(let str of descSplit)
         {
-            const isType = vis.get("possibleTypes").includes(str);
-            const isFood = vis.get("possibleCards").includes(str);
+            const isType = CONFIG.possibleTypes.includes(str);
+            const isFood = CONFIG.possibleCards.includes(str);
             const isSafe = (str == "safe");
             
             if(isType) {

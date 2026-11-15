@@ -1,12 +1,12 @@
 
-import { shuffle, getWeighted, rangeInteger } from "lib/pq-games";
+import { getSetting, shuffle, getWeighted, rangeInteger } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIONS, PROPERTIES, SLIDERS } from "../shared/dict";
 import Slider from "../shared/slider";
 
 export const sliderPicker = () : Slider[] =>
 {
-    if(!CONFIG._settings.generateSliders.value) { return []; }
+    if(!getSetting("generateSliders", CONFIG)) { return []; }
 
     let properties = Object.keys(PROPERTIES);
     shuffle(properties);
@@ -23,7 +23,7 @@ export const sliderPicker = () : Slider[] =>
     for(let i = 0; i < numSliders; i++)
     {
         let mainType = "property";
-        if(CONFIG._settings.expansions.crasheryCliffs.value) { mainType = getWeighted(sliderDict); }
+        if(getSetting("expansions.crasheryCliffs", CONFIG)) { mainType = getWeighted(sliderDict); }
         mainTypes.push(mainType);
         if(mainType == "property") { numPropertySliders++; }
     }
@@ -64,7 +64,7 @@ export const sliderPicker = () : Slider[] =>
         
         // determine actions
         let numActions = rangeInteger(CONFIG._drawing.sliderCards.numActionBounds);
-        if(!CONFIG._settings.expansions.glidyGifts.value) { numActions = 0; }
+        if(!getSetting("expansions.glidyGifts", CONFIG)) { numActions = 0; }
         if(data.actionsForbidden) { numActions = 0; }
 
         const actions = getRandomActions(numActions, actionDict);

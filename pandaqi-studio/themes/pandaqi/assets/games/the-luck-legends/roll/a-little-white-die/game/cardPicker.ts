@@ -1,5 +1,5 @@
 
-import { shuffle, Bounds, getWeighted } from "lib/pq-games";
+import { getSetting, shuffle, Bounds, getWeighted } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { POWER_CARDS } from "../shared/dict";
 import Card from "./card";
@@ -17,7 +17,7 @@ export const cardPicker = () : Card[]  =>
 
 const generateBaseCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     const baseNums = CONFIG.generation.baseNumbers;
     for(let i = baseNums.min; i <= baseNums.max; i++)
@@ -31,7 +31,7 @@ const generateBaseCards = (cards) =>
 
 const generateWildCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.wildCards.value) { return; }
+    if(!getSetting("sets.wildCards", CONFIG)) { return; }
 
     for(let i = 0; i < CONFIG.generation.wildCardsNum; i++)
     {
@@ -41,7 +41,7 @@ const generateWildCards = (cards) =>
 
 const generatePowerCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.powerCards.value) { return; }
+    if(!getSetting("sets.powerCards", CONFIG)) { return; }
 
     const keysRand = shuffle(Object.keys(POWER_CARDS));
     keysRand.splice(keysRand.indexOf("add_number"), 1);

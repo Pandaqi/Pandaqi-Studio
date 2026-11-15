@@ -1,5 +1,5 @@
 
-import { Vector2, MaterialVisualizer, createContext, ResourceGroup, fillResourceGroup, LayoutOperation, rangeInteger, ResourceImage, TextConfig, ResourceText, ColorLike, DropShadowEffect, getPositionsCenteredAround, TextAlign, rand } from "lib/pq-games";
+import { getSetting, Vector2, MaterialVisualizer, createContext, ResourceGroup, fillResourceGroup, LayoutOperation, rangeInteger, ResourceImage, TextConfig, ResourceText, ColorLike, DropShadowEffect, getPositionsCenteredAround, TextAlign, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ANIMALS, AnimalData, COLORS } from "../shared/dict";
 
@@ -185,7 +185,7 @@ export default class Card
     drawBearIcons(vis:MaterialVisualizer, group:ResourceGroup)
     {
         if(this.type != "bear") { return; }
-        if(!CONFIG._settings.addBearIcons.value) { return; }
+        if(!getSetting("addBearIcons", CONFIG)) { return; }
 
         const yPos = vis.get("cards.bearIcons.yPos");
         const xPos = 0.5 * this.size.x;

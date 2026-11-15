@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { DRAWINGS } from "../shared/dict";
 import Drawing from "./drawing";
@@ -5,7 +6,7 @@ import Drawing from "./drawing";
 export const drawingPicker = () : Drawing[] =>
 {
     const drawings = [];
-    if(!CONFIG._settings.sets.includeDrawings.value) { return; }
+    if(!getSetting("sets.includeDrawings", CONFIG)) { return; }
 
     const drawingsToInclude = Object.keys(DRAWINGS);
     for(const key of drawingsToInclude)

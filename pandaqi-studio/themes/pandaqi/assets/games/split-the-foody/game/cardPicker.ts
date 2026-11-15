@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { SETS } from "../shared/dict";
 import Card from "./card";
@@ -6,9 +7,9 @@ export const cardPicker = () : Card[] =>
 {
     const cards = [];
 
-    if(CONFIG._settings.sets.base.value) { generateSet(cards, "base"); }
-    if(CONFIG._settings.sets.appetite.value) { generateSet(cards, "appetite"); }
-    if(CONFIG._settings.sets.coins.value) { generateSet(cards, "coins"); }
+    if(getSetting("sets.base", CONFIG)) { generateSet(cards, "base"); }
+    if(getSetting("sets.appetite", CONFIG)) { generateSet(cards, "appetite"); }
+    if(getSetting("sets.coins", CONFIG)) { generateSet(cards, "coins"); }
 
     return cards;
 }

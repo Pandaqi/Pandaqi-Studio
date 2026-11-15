@@ -41,17 +41,19 @@ export const translate = (params:TranslateParams) =>
     const suffixTranslate = dlst.post ?? "`";
 
     // recursively translate stuff inside
+    // `replace` with a global regex is identical to `replaceAll` and exists in every browser we support
     const regex = getTranslateRegex(prefixTranslate, suffixTranslate);
-    stringOutput = stringOutput.replaceAll(regex, (fullMatch, captureGroup1) => {
+    stringOutput = stringOutput.replace(regex, (fullMatch, captureGroup1) => {
         const newParams = Object.assign({}, params);
         newParams.key = captureGroup1;
         return translate(newParams);
     });
     
-    // just flat replace any dynamic replacements
+    // just flat replace any dynamic replacements (split/join instead of replaceAll, which Safari only
+    // has from 13.1 onward)
     for(const [key,data] of Object.entries(params))
     {
-        stringOutput = stringOutput.replaceAll(`${prefixReplace}${key}${suffixReplace}`, data);
+        stringOutput = stringOutput.split(`${prefixReplace}${key}${suffixReplace}`).join(String(data));
     }
 
     return stringOutput;

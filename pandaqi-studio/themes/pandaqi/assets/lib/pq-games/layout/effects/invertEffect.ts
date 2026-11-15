@@ -1,3 +1,4 @@
+import { applyCanvasPixelEffect, canvasSupportsFilters } from "./canvasFilterSupport";
 import { EffectsOperation } from "./effectsOperation";
 import { LayoutEffect } from "./layoutEffect";
 
@@ -12,7 +13,22 @@ export class InvertEffect extends LayoutEffect
 
     applyToCanvas(ctx:CanvasRenderingContext2D, effOp = new EffectsOperation())
     {
-        effOp.addFilter(this.createFilterString());
+        // Safari ignores canvas filters; applyToCanvasPost() inverts the pixels there instead.
+        if(canvasSupportsFilters()) { effOp.addFilter(this.createFilterString()); }
+    }
+
+    needsTemporaryCanvas() { return !canvasSupportsFilters(); }
+
+    applyToCanvasPost(ctx:CanvasRenderingContext2D)
+    {
+        if(canvasSupportsFilters()) { return null; }
+        applyCanvasPixelEffect(ctx, (p, i) =>
+        {
+            p[i] = 255 - p[i];
+            p[i + 1] = 255 - p[i + 1];
+            p[i + 2] = 255 - p[i + 2];
+        });
+        return null;
     }
 
     applyToHTML(div:HTMLDivElement, effOp = new EffectsOperation())

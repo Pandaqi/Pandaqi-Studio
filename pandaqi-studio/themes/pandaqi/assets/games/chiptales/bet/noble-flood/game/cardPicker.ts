@@ -1,5 +1,5 @@
 
-import { toTextDrawerImageStrings, shuffle } from "lib/pq-games";
+import { getSetting, toTextDrawerImageStrings, shuffle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CONTRACTS, CardType, DYNAMIC_OPTIONS, NUMBERS, SPECIAL_CARDS, SUITS } from "../shared/dict";
 import Card from "./card";
@@ -34,7 +34,7 @@ export const cardPicker = () : Card[] =>
 
 const generatePlayingCards = (cards) =>
 {
-    if(!CONFIG._settings.generatePlayingCards.value) { return; }
+    if(!getSetting("generatePlayingCards", CONFIG)) { return; }
 
     const suitsUsed = DYNAMIC_OPTIONS["%suit%"].slice();
     const numbersUsed = DYNAMIC_OPTIONS["%number%"].slice();
@@ -52,19 +52,19 @@ const generatePlayingCards = (cards) =>
 
 const generateBaseContracts = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
     generateContracts("base", cards);
 }
     
 const generateStraightShakeContracts = (cards) =>
 {
-    if(!CONFIG._settings.sets.straightShake.value) { return; }
+    if(!getSetting("sets.straightShake", CONFIG)) { return; }
     generateContracts("straightShake", cards);
 }
 
 const generateContracts = (targetSet:string, cards) =>
 {
-    if(!CONFIG._settings.generateContracts.value) { return; }
+    if(!getSetting("generateContracts", CONFIG)) { return; }
 
     const defFreq = CONFIG.generation.defaultFrequencyContracts[targetSet] ?? 1;
     for(const [key,data] of Object.entries(CONTRACTS))
@@ -85,7 +85,7 @@ const generateContracts = (targetSet:string, cards) =>
 
 const generateFullFlood = (cards) =>
 {
-    if(!CONFIG._settings.sets.fullFlood.value) { return; }
+    if(!getSetting("sets.fullFlood", CONFIG)) { return; }
 
     const suitsUsed = DYNAMIC_OPTIONS["%suit%"].slice();
     const numbersUsed = DYNAMIC_OPTIONS["%number%"].slice();

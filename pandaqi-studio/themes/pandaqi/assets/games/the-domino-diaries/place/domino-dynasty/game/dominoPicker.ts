@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray, rand } from "lib/pq-games";
+import { getSetting, shuffle, fromArray, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { DominoType, EVENTS, GeneralData, ICONS, MISSION_PENALTIES, MISSION_REWARDS, MISSION_SCALARS, MISSION_TEXTS, ROLES, TERRAINS } from "../shared/dict";
 import Domino from "./domino";
@@ -36,7 +36,7 @@ const filterBySet = (dict:Record<string,any>, targetSet:string) =>
 
 const generateRoleTiles = (dominoes) =>
 {
-    if(!CONFIG._settings.sets.roles.value) { return; }
+    if(!getSetting("sets.roles", CONFIG)) { return; }
 
     const numStartingDominoes = CONFIG.generation.numStartingDominoesPerPlayer ?? 1;
     for(const [key,data] of Object.entries(ROLES))
@@ -69,7 +69,7 @@ const generateRoleTiles = (dominoes) =>
 
 const generateEventTiles = (dominoes) =>
 {
-    if(!CONFIG._settings.sets.proximity.value) { return; }
+    if(!getSetting("sets.proximity", CONFIG)) { return; }
 
     for(const [key,data] of Object.entries(EVENTS))
     {
@@ -240,7 +240,7 @@ const generateRegularDominoes = (dominoes: Domino[], set:string) =>
     shuffle(allPaths);
 
     const allPathDirections = [];
-    const numDirectedPaths = CONFIG._settings.sets.direction.value ? Math.round(CONFIG.generation.pathPercentageDirected * allPaths.length) : 0;
+    const numDirectedPaths = getSetting("sets.direction", CONFIG) ? Math.round(CONFIG.generation.pathPercentageDirected * allPaths.length) : 0;
     for(let i = 0; i < allPaths.length; i++)
     {
         allPathDirections.push(i < numDirectedPaths);

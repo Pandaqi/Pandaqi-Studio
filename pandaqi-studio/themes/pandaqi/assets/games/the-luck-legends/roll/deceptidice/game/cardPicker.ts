@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { SPECIAL_BIDS, SUITS, Suit } from "../shared/dict";
 import Card from "./card";
@@ -15,7 +16,7 @@ export const cardPicker = () : Card[] =>
 
 const generateBaseCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     const numBounds = CONFIG.generation.baseCardsPerSuit;
     const numCopies = CONFIG.generation.baseCopiesPerSuit;
@@ -33,7 +34,7 @@ const generateBaseCards = (cards) =>
 
 const generateWildCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.wildCards.value) { return; }
+    if(!getSetting("sets.wildCards", CONFIG)) { return; }
 
     for(let i = 0; i < CONFIG.generation.wildCardsNum; i++)
     {
@@ -43,7 +44,7 @@ const generateWildCards = (cards) =>
 
 const generatePowerCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.powerCards.value) { return; }
+    if(!getSetting("sets.powerCards", CONFIG)) { return; }
 
     for(const [key,data] of Object.entries(SPECIAL_BIDS))
     {

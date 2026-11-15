@@ -39,7 +39,9 @@ export class RendererPandaqi extends Renderer
 {
     async cacheLoadedImage(img:HTMLImageElement, params:ResourceLoadParams) : Promise<ResourceImage>
     {
-        await img.decode();
+        // decode() is only a "the bitmap is ready" hint, and Safari can reject it for an image that has
+        // already finished loading (also for SVG or very large bitmaps). It used to abort the generation.
+        try { await img.decode(); } catch(e) { /* the resource loader already waited for onload */ }
         const res = new ResourceImage(img, params);
         if(params.enableCaching) { await res.cacheFrames(); }
         return res;

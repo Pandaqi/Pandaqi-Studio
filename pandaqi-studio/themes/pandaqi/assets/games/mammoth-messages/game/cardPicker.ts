@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { PandaqiWords } from "lib/pq-words";
 import { CONFIG } from "../shared/config";
 import Card from "./card";
@@ -6,16 +7,16 @@ import { DRAWINGS } from "../shared/dict";
 export const cardPicker = async () : Promise<Card[]> =>
 {
     const cards = [];
-    if(!CONFIG._settings.sets.includeCards.value) { return; }
+    if(!getSetting("sets.includeCards", CONFIG)) { return; }
 
     const pqWords = new PandaqiWords();
     // the card drawing config holds its own generation block (the same place tokenPicker reads from)
     const params = structuredClone(CONFIG._drawing.cards.generation.pqWordsParams);
     params.wordExceptions = Object.keys(DRAWINGS);
 
-    if(CONFIG._settings.wordPreferences.includeDifficultWords.value) { params.levels.push("medium"); }
-    if(CONFIG._settings.wordPreferences.includeGeography.value) { params.types.push("geography"); }
-    if(CONFIG._settings.wordPreferences.includeNames.value) { params.types.push("names"); }
+    if(getSetting("wordPreferences.includeDifficultWords", CONFIG)) { params.levels.push("medium"); }
+    if(getSetting("wordPreferences.includeGeography", CONFIG)) { params.types.push("geography"); }
+    if(getSetting("wordPreferences.includeNames", CONFIG)) { params.types.push("names"); }
 
     await pqWords.loadWithParams(params);
 

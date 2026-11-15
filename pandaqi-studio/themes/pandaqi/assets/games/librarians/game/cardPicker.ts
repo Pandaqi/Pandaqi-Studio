@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray, getWeighted, Bounds, SettingType, rand } from "lib/pq-games";
+import { getSetting, shuffle, fromArray, getWeighted, Bounds, SettingType, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIONS_THRILL, AGE_RANGES, AUTHORS, BOOK_TITLES, COLORS, CardType, SHELF_POWERS } from "../shared/dict";
 import Card from "./card";
@@ -10,7 +10,7 @@ export const cardPicker = () : Card[] =>
 
     const validColors = Object.keys(COLORS);
     const bookTitles = getBookTitlesPerLetter();
-    if(CONFIG._settings.generateGenreCards.value)
+    if(getSetting("generateGenreCards", CONFIG))
     {
         for(const [color,setting] of Object.entries(CONFIG._settings.packs))
         {
@@ -21,13 +21,13 @@ export const cardPicker = () : Card[] =>
         }        
     }
     
-    if(CONFIG._settings.shelves.value)
+    if(getSetting("shelves", CONFIG))
     {
         generateBookShelves(cards);
     }
 
     const bookTitlesAgain = getBookTitlesPerLetter();
-    if(CONFIG._settings.actions.value)
+    if(getSetting("actions", CONFIG))
     {
         generateActionCards(cards, bookTitlesAgain);
     }

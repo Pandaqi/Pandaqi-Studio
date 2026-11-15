@@ -1,5 +1,5 @@
 
-import { shuffle, getWeighted, rand } from "lib/pq-games";
+import { getSetting, shuffle, getWeighted, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { TILE_TYPES } from "../shared/dict";
 import Tile from "./tile";
@@ -25,7 +25,7 @@ export const tilePicker = () : Tile[] =>
 
         // this _cycles_ through all special types, to make sure they're fairly distributed
         // across all fence configurations
-        const numSpecial = CONFIG._settings.wolf.value ? (data.numSpecial ?? CONFIG.generation.defaultNumSpecial) : 0;
+        const numSpecial = getSetting("wolf", CONFIG) ? (data.numSpecial ?? CONFIG.generation.defaultNumSpecial) : 0;
         const specialAllowed = data.allowedSpecial ?? CONFIG.generation.defaultSpecialAllowed;
         for(let i = 0; i < numSpecial; i++)
         {

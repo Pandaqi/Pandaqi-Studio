@@ -1,5 +1,5 @@
 
-import { initNumberRange, rand } from "lib/pq-games";
+import { getSetting, initNumberRange, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { COLORS } from "../shared/dict";
 import Token from "./token";
@@ -7,7 +7,7 @@ import Token from "./token";
 export const tokenPicker = () : Token[] =>
 {
     const tokens = [];
-    if(!CONFIG._settings.sets.includeTokens.value) { return; }
+    if(!getSetting("sets.includeTokens", CONFIG)) { return; }
 
     const colors = Object.keys(COLORS);
     const numbers = initNumberRange(1,colors.length);

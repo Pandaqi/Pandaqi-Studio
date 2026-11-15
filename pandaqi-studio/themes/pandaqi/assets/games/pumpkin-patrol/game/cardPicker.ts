@@ -1,5 +1,5 @@
 
-import { seedRandom, shuffleAll, shuffle, rangeInteger, clamp, Bounds, getSettingDefault, rand } from "lib/pq-games";
+import { getSetting, seedRandom, shuffleAll, shuffle, rangeInteger, clamp, Bounds, getSettingDefault, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { createRandomSet } from "../shared/createRandomSet";
 import { CardData, ReqType, SETS, Type } from "../shared/dict";
@@ -21,9 +21,9 @@ export const cardPicker = () : Card[] =>
     // save a nice reference with all cards available to use
     console.log(CONFIG);
 
-    const peopleDict = SETS["people_" + CONFIG._settings.sets.setPeople.value] ?? createRandomSet(Type.PERSON);
-    const decoDict = SETS["decorations_" + CONFIG._settings.sets.setDecorations.value] ?? createRandomSet(Type.DECORATION);
-    const treatDict = SETS["treats_" + CONFIG._settings.sets.setTreats.value] ?? createRandomSet(Type.TREAT);
+    const peopleDict = SETS["people_" + getSetting("sets.setPeople", CONFIG)] ?? createRandomSet(Type.PERSON);
+    const decoDict = SETS["decorations_" + getSetting("sets.setDecorations", CONFIG)] ?? createRandomSet(Type.DECORATION);
+    const treatDict = SETS["treats_" + getSetting("sets.setTreats", CONFIG)] ?? createRandomSet(Type.TREAT);
 
     console.log(decoDict);
 
@@ -274,7 +274,7 @@ export const cardPicker = () : Card[] =>
 
     for(const person of allPeopleCards)
     {
-        if(!CONFIG._settings.includePeopleCards.value) { break; }
+        if(!getSetting("includePeopleCards", CONFIG)) { break; }
 
         const data = allCards[person];
         const freq = allCards[person].freq;
@@ -312,7 +312,7 @@ export const cardPicker = () : Card[] =>
 
     for(let i = 0; i < numHandCards; i++)
     {
-        if(!CONFIG._settings.includeHandCards.value) { break; }
+        if(!getSetting("includeHandCards", CONFIG)) { break; }
 
         const c = new Card(Type.HAND);
         const data1 = sidesData.pop();

@@ -2,15 +2,15 @@
 import { CONFIG } from "../shared/config";
 import Tile from "./tile";
 import { SPECIAL_ACTIONS } from "../shared/dict";
-import { shuffle, fromArray, getAllPossibleCombinations, rangeInteger } from "lib/pq-games";
+import { getSetting, shuffle, fromArray, getAllPossibleCombinations, rangeInteger } from "lib/pq-games";
 
 export const tilePicker = () : Tile[] => 
 {
     const tiles = [];
 
-    if(CONFIG._settings.sets.base.value) { generateBaseGame(tiles); }
-    if(CONFIG._settings.sets.reindeerWay.value) { generateReindeerWay(tiles); }
-    if(CONFIG._settings.sets.toughTrees.value) { generateToughTrees(tiles); }
+    if(getSetting("sets.base", CONFIG)) { generateBaseGame(tiles); }
+    if(getSetting("sets.reindeerWay", CONFIG)) { generateReindeerWay(tiles); }
+    if(getSetting("sets.toughTrees", CONFIG)) { generateToughTrees(tiles); }
 
     return tiles;
 }

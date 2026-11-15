@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CATEGORIES, Category } from "../shared/dict";
 import Token from "./token";
@@ -6,7 +7,7 @@ export const tokenPicker = () : Token[] =>
 {
     const tokens = [];
 
-    if(!CONFIG._settings.includeTokens.value) { return []; }
+    if(!getSetting("includeTokens", CONFIG)) { return []; }
 
     const NUM_PER_TYPE = 2;
     for(let i = 0; i < NUM_PER_TYPE; i++)

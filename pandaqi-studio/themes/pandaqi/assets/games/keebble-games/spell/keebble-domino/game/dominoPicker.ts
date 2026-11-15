@@ -1,5 +1,5 @@
 
-import { rangeInteger, getWeighted, rand } from "lib/pq-games";
+import { getSetting, rangeInteger, getWeighted, rand } from "lib/pq-games";
 import { CONFIG } from "./config";
 import { CELLS, KEEBBLE_LETTER_VALUES, LETTERS, REAL_LETTER_FREQS } from "./dict";
 import Domino from "./domino";
@@ -62,7 +62,7 @@ export const dominoPicker = () : Domino[] =>
     const min = specialCellBounds.min*numDominoes;
     const max = specialCellBounds.max*numDominoes;
     let numSpecialCells = rangeInteger(min, max);
-    if(!CONFIG._settings.expansions.specialCells.value) { numSpecialCells = 0; }
+    if(!getSetting("expansions.specialCells", CONFIG)) { numSpecialCells = 0; }
 
     const finalDominoes = [];
     for(let i = 0; i < numSpecialCells; i++)
@@ -101,7 +101,7 @@ export const dominoPicker = () : Domino[] =>
     let emptyDominoProb = 0.085;
     // special cells are, kind of, empty already
     // so greatly lower their probability if special cells are enabled
-    if(CONFIG._settings.expansions.specialCells.value) { emptyDominoProb = 0.01; } 
+    if(getSetting("expansions.specialCells", CONFIG)) { emptyDominoProb = 0.01; }
     
     while(allDominoes.length > 0)
     {

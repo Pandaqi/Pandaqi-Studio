@@ -1,4 +1,4 @@
-import { shuffle, loadSettings, rand } from "lib/pq-games";
+import { getSetting, shuffle, loadSettings, rand } from "lib/pq-games";
 import { ADDERTJES, Q, ROLVOORDELEN, Task, TASKS } from "./dict";
 import { CONFIG } from "./config";
 
@@ -109,7 +109,7 @@ const prepareTaskList = () =>
 			continue;
 		}
 
-		const requiredExpansionMissing = (p.eigenschappen == true && !CONFIG._settings.expansions.eigenschappen.value) || (p.specialeKrachten == true && !CONFIG._settings.expansions.specialeKrachten.value) || (p.bondjes == true && !CONFIG._settings.expansions.bondjes.value)
+		const requiredExpansionMissing = (p.eigenschappen == true && !getSetting("expansions.eigenschappen", CONFIG)) || (p.specialeKrachten == true && !getSetting("expansions.specialeKrachten", CONFIG)) || (p.bondjes == true && !getSetting("expansions.bondjes", CONFIG))
 		// expansions not included
 		if(requiredExpansionMissing) 
 		{
@@ -129,19 +129,19 @@ const prepareTaskList = () =>
 	// to ensure we have enough of each type
 	const taskTypes = ['simple', 'money', 'help'];
 	const leftoverTasks = [];
-	if(CONFIG._settings.expansions.specialeKrachten.value) 
+	if(getSetting("expansions.specialeKrachten", CONFIG))
 	{
 		taskTypes.push('specialeKrachten')
 		leftoverTasks.push('specialeKrachten')
 	}
 
-	if(CONFIG._settings.expansions.eigenschappen.value) 
+	if(getSetting("expansions.eigenschappen", CONFIG))
 	{
 		taskTypes.push('eigenschappen')
 		leftoverTasks.push('eigenschappen')
 	}
 
-	if(CONFIG._settings.expansions.bondjes.value) 
+	if(getSetting("expansions.bondjes", CONFIG))
 	{
 		taskTypes.push('bondjes')
 		leftoverTasks.push('bondjes')
@@ -524,8 +524,8 @@ const displayRandomOffer = () => {
 
 		case 'moneyToMisc':
 			const possibleRewards = ['persoonlijke pot'];
-			if(CONFIG._settings.expansions.specialeKrachten.value) { possibleRewards.push('speciale krachten') }
-			if(CONFIG._settings.expansions.eigenschappen.value) { possibleRewards.push('eigenschappen'); }
+			if(getSetting("expansions.specialeKrachten", CONFIG)) { possibleRewards.push('speciale krachten') }
+			if(getSetting("expansions.eigenschappen", CONFIG)) { possibleRewards.push('eigenschappen'); }
 
 			geldBedrag = getRandomMoneyValue();
 			const rewardType = possibleRewards[Math.floor(rand() * possibleRewards.length)];
@@ -934,7 +934,7 @@ const getPlayerWithWorstTestResult = () =>
 
 	// SPECIALE KRACHT: Gokker
 	// sort all players by score (DESCENDING) => check if the Gokker is in the top 50%
-	if(CONFIG._settings.expansions.specialeKrachten.value) 
+	if(getSetting("expansions.specialeKrachten", CONFIG))
 	{
 		testStatistics.resultsWithPlayerAttached.sort((a,b) => { return a.score - b.score });
 
@@ -1285,23 +1285,23 @@ const allowBackButton = () =>
 
 const readConfiguration = () =>
 {
-	if(!CONFIG._settings.expansions.addertjes.value) 
+	if(!getSetting("expansions.addertjes", CONFIG))
 	{
 		document.getElementById('addertjeContainer').style.display = 'none';
 	}
 
-	if(!CONFIG._settings.expansions.specialeKrachten.value) 
+	if(!getSetting("expansions.specialeKrachten", CONFIG))
 	{
 		document.getElementById('setting-specialeKracht-label').style.display = 'none';
 		document.getElementById('setting-specialeKracht').style.display = 'none';
 	}
 
-	numPlayers = CONFIG._settings.playerCount.value ?? 3;
+	numPlayers = getSetting("playerCount", CONFIG) ?? 3;
 	numTasksPerRound = 3;
-	numQuestionsPerTask = Math.ceil((CONFIG._settings.numQuestions.value-1)/numTasksPerRound) ?? 3;
-	firstGame = CONFIG._settings.firstGame.value ?? false;
+	numQuestionsPerTask = Math.ceil((getSetting("numQuestions", CONFIG)-1)/numTasksPerRound) ?? 3;
+	firstGame = getSetting("firstGame", CONFIG) ?? false;
 
-	const numRoundsSetting = CONFIG._settings.numRounds.value;
+	const numRoundsSetting = getSetting("numRounds", CONFIG);
 	numRounds = (numRoundsSetting == "automatisch") ? Math.max(numPlayers - 2, 2) : parseInt(numRoundsSetting) ?? 3;
 }
 

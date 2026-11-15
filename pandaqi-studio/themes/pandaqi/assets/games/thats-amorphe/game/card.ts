@@ -1,4 +1,4 @@
-import { colorLighten, ColorLike, createContext, LayoutOperation, MaterialVisualizer, ResourceImage, ResourceText, TextAlign, TextConfig, TintEffect, Vector2, rand } from "lib/pq-games";
+import { getSetting, colorLighten, ColorLike, createContext, LayoutOperation, MaterialVisualizer, ResourceImage, ResourceText, TextAlign, TextConfig, TintEffect, Vector2, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ICONS, ICONS_PICTURES, ICONS_SPECIAL, MaterialType } from "../shared/dict";
 import { getRandomTypeData } from "./cardPicker";
@@ -32,7 +32,7 @@ export class Card
         const numberOffsetFromCenter = 0.265;
         const baseFontSize = cardSize.x*0.175;
 
-        const addActions = CONFIG._settings.addActions.value;
+        const addActions = getSetting("addActions", CONFIG);
         const ink = vis.inkFriendly;
 
         const addNumbersToWords = (CONFIG.expansion == "pictures");

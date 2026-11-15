@@ -10,6 +10,7 @@ export interface PdfConfig
     format: number[],
     userUnit?: number,
     hotfixes?: string[],
+    compress?: boolean, // flate-compress the PDF's own streams (not the page images)
 }
 
 export type PdfCompression = "NONE" | "FAST" | "MEDIUM" | "SLOW";
@@ -110,9 +111,15 @@ export class PdfBuilder
         if(!this.doc) { this.doc = new this.jsPDF(this.getPDFConfig()); }
         if(this.pageCount > 0) { this.doc.addPage(); }
 
+        // Paper is white. A generated page canvas is transparent (it contains only the material), and
+        // transparent PDF pages are rendered black by some viewers and print drivers. This vector rectangle
+        // costs a single PDF operator per page and keeps the direct canvas -> jsPDF path (no conversion).
+        const pageSizeInches = convertPixelsToInches(this.sizeSinglePage);
+        this.doc.setFillColor(255, 255, 255);
+        this.doc.rect(0, 0, pageSizeInches.x, pageSizeInches.y, "F");
+
         // DOC: addImage(imageData, format, x, y, width, height, alias, compression, rotation)
         // compression values = NONE, FAST, MEDIUM, SLOW; NONE creates 100+ mb files, so it is opt-in
-        const pageSizeInches = convertPixelsToInches(this.sizeSinglePage);
         this.doc.addImage(img, 'png', 0, 0, pageSizeInches.x, pageSizeInches.y, this.aliasOf(img), this.compression);
         this.pageCount++;
     }
@@ -141,6 +148,9 @@ export class PdfBuilder
             unit: 'in',
             format: [pageSizeInches.x, pageSizeInches.y],
             orientation: orientation,
+            // Flate-compress the PDF streams for the release build. The audit harness asks for "NONE" image
+            // compression (it tests the pipeline, not a print document), and that also skips this pass.
+            compress: this.compression !== "NONE",
             //hotfixes: ["px_scaling"]
         };
     }

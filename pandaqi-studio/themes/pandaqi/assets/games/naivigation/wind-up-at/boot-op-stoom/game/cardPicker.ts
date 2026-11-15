@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardType, GeneralData, KALENDER_KAARTEN, PAKJE_CARDS, STOOM_CARDS, VAAR_CARDS } from "../shared/dict";
 import Card from "./card";
@@ -72,6 +73,6 @@ const createFromFrequencies = (cards:Card[], dict:Record<string,GeneralData>, ty
 
 const generateCalenderCards = (cards:Card[]) =>
 {
-    if(!CONFIG._settings.sets.krappeKalender.value) { return; }
+    if(!getSetting("sets.krappeKalender", CONFIG)) { return; }
     createFromFrequencies(cards, KALENDER_KAARTEN, CardType.KALENDER, CONFIG.generation.kalenderKaarten.defaultFrequency, "kalenderKaarten");
 }

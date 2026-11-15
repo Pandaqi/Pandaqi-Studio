@@ -1,5 +1,5 @@
 
-import { rand } from "lib/pq-games";import Card from "./card"
+import { getSetting, rand } from "lib/pq-games";import Card from "./card"
 import { CONFIG } from "../shared/config"
 import ElementIcon from "./elementIcon"
 import { TypeStats } from "../shared/dict"
@@ -120,7 +120,7 @@ export default class Pack
     getMultiIconType(icon:ElementIcon, stats:TypeStats) : string
     {
         const isAction = icon.action; // action types can't be multitype
-        if(!CONFIG._settings.multiType.value || isAction) { return ""; }
+        if(!getSetting("multiType", CONFIG) || isAction) { return ""; }
         
         let shouldAdd = rand() <= CONFIG.gameplay.multiTypeProbability;
         if(!shouldAdd) { return ""; }

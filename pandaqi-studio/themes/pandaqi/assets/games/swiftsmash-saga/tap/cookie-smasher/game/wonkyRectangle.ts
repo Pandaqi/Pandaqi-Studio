@@ -1,16 +1,17 @@
 
-import { Vector2, Path, movePath, rangeInteger, Line, range, subdividePath, ResourceGroup, ResourceShape, LayoutOperation, rand } from "lib/pq-games";
-import { CONFIG } from "../shared/config";
+import { Vector2, Path, movePath, rangeInteger, Line, range, subdividePath, ResourceGroup, ResourceShape, LayoutOperation, rand, MaterialVisualizer } from "lib/pq-games";
 
 export default class WonkyRectangle
 {
+    vis: MaterialVisualizer
     pos: Vector2
     size : Vector2
     points: Vector2[]
     triangles: Path[];
 
-    constructor(pos, size)
+    constructor(vis:MaterialVisualizer, pos, size)
     {
+        this.vis = vis;
         this.pos = pos;
         this.size = size;
     }
@@ -42,8 +43,8 @@ export default class WonkyRectangle
         ];
 
         const sizeUnit = Math.min(this.size.x, this.size.y);
-        const gapToShape = CONFIG._drawing.cards.wonkyRect.triangleGap * sizeUnit;
-        const maxTriangleHeight = CONFIG._drawing.cards.wonkyRect.triangleSize.clone().scale(sizeUnit); // 30,50
+        const gapToShape = this.vis.get("cards.wonkyRect.triangleGap") * sizeUnit;
+        const maxTriangleHeight = this.vis.get("cards.wonkyRect.triangleSize").clone().scale(sizeUnit); // 30,50
         const pointyTriangleFactor = 1.66; // line triangles naturally look bigger than pointy ones, so compensate for visual balance
 
         for(const idx of indices)
@@ -106,7 +107,7 @@ export default class WonkyRectangle
         let arr = [Vector2.ZERO.clone(), end.clone()];
         arr = subdividePath({ path: arr, numChunks: 6 });
 
-        const offsetBounds = CONFIG._drawing.cards.wonkyRect.pointOffset;
+        const offsetBounds = this.vis.get("cards.wonkyRect.pointOffset");
         const scalar = this.size.y;
         const xScalar = 0.5; // control randomness on X axis
         const halfLength = 0.5*(arr.length - 1);

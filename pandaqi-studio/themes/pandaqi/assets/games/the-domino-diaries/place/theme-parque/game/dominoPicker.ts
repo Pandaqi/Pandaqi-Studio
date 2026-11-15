@@ -1,5 +1,5 @@
 
-import { getWeighted, shuffle, rand } from "lib/pq-games";
+import { getSetting, getWeighted, shuffle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ATTRACTIONS, CHALLENGES, COASTER_PARTS, DECORATIONS, DominoType, EVENTS, ITEMS, ItemType, PATHS, PathType, STALLS } from "../shared/dict";
 import Domino from "./domino";
@@ -37,7 +37,7 @@ const filterBySet = (dict:Record<string,any>, targetSet:string) =>
 
 const generateRollercooper = (dominoes:Domino[]) =>
 {
-    if(!CONFIG._settings.sets.rollercooper.value) { return; }
+    if(!getSetting("sets.rollercooper", CONFIG)) { return; }
 
     const num = CONFIG.generation.rollercooper.numCards;
     for(let i = 0; i < num; i++)
@@ -54,7 +54,7 @@ const generateRollercooper = (dominoes:Domino[]) =>
 
 const generatePawns = (dominoes:Domino[]) =>
 {
-    if(!CONFIG._settings.sets.pawns.value) { return; }
+    if(!getSetting("sets.pawns", CONFIG)) { return; }
 
     for(let i = 0; i < CONFIG.generation.numUniquePawns; i++)
     {

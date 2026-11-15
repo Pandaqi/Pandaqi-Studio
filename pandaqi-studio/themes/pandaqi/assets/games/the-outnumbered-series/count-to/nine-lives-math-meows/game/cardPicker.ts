@@ -1,5 +1,5 @@
 
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CATS, PClass, POWERS, SUITS, Type } from "../shared/dict";
 import Card from "./card";
@@ -14,7 +14,7 @@ export const cardPicker = () : Card[] =>
 
 const generateNumberCards = (cards) =>
 {
-    if(!CONFIG._settings.includeNumberCards.value) { return; }
+    if(!getSetting("includeNumberCards", CONFIG)) { return; }
 
     for(const [key, data] of Object.entries(SUITS))
     {
@@ -93,7 +93,7 @@ const generateFullPowerDictionary = () =>
 
 const generateLifeCards = (cards) =>
 {
-    if(!CONFIG._settings.includeLifeCards.value) { return; }
+    if(!getSetting("includeLifeCards", CONFIG)) { return; }
 
     const numCats = CONFIG.generation.lifeCards.numCats;
     const numLives = CONFIG.generation.lifeCards.numLives;

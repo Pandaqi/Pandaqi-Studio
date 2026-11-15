@@ -1,4 +1,4 @@
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardMainType, CardType, PACKS, SCORING_RULES } from "../shared/dict";
 import Card from "./card";
@@ -6,7 +6,7 @@ import Card from "./card";
 export const cardPicker = () : Card[] =>
 {
     const cards = [];
-    const packs = CONFIG._settings.packs.value;
+    const packs = getSetting("packs", CONFIG);
 
     // playing cards (per pack)
     for(const pack of packs)
@@ -33,7 +33,7 @@ export const cardPicker = () : Card[] =>
     }
 
     // scoreworks cards (if enabled)
-    if(CONFIG._settings.scoreCards.value)
+    if(getSetting("scoreCards", CONFIG))
     {
         for(const [key,data] of Object.entries(SCORING_RULES))
         {

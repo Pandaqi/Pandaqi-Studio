@@ -1,4 +1,4 @@
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardType, GeneralData, MAP_TILES, PAKJE_CARDS } from "../shared/dict";
 import Card from "./card";
@@ -92,7 +92,7 @@ const filterSet = (dict:Record<string,GeneralData>, setTarget:string) =>
 
 const generateRebelsePietjes = (cards) =>
 {
-    if(!CONFIG._settings.sets.rebelsePietjes.value) { return; }
+    if(!getSetting("sets.rebelsePietjes", CONFIG)) { return; }
     
     const numPietjes = CONFIG.generation.rebelsePietjes.number;
     for(let i = 0; i < numPietjes; i++)

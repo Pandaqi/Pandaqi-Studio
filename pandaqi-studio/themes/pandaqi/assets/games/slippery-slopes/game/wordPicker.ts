@@ -1,10 +1,11 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import loadPandaqiWords from "../shared/loadPandaqiWords";
 import WordCard from "../shared/wordCard";
 
 export const wordPicker = async () : Promise<WordCard[]> =>
 {
-    if(!CONFIG._settings.generateWords.value) { return []; }
+    if(!getSetting("generateWords", CONFIG)) { return []; }
 
     CONFIG.pandaqiWords = await loadPandaqiWords(CONFIG, true);
 

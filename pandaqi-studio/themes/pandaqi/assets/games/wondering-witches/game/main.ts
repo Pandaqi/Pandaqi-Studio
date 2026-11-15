@@ -5,7 +5,7 @@ import Interface from "./interface";
 import Puzzle from "./puzzle";
 import { INGREDIENTS, EVENTS } from "../shared/dict"
 import { CONFIG } from "../shared/config";
-import { loadSettings, rand } from "lib/pq-games";
+import { getSetting, loadSettings, rand } from "lib/pq-games";
 
 export default class Game 
 {
@@ -23,7 +23,7 @@ export default class Game
 	{
 		const config:Record<string,any> = {};
 		const userConfig = CONFIG;
-		userConfig.recipeLength = parseInt(userConfig._settings.recipeLength.value + "");
+		userConfig.recipeLength = parseInt(getSetting("recipeLength", userConfig) + "");
 		Object.assign(config, userConfig);
 
 		config.numSecretIngredients = 4;
@@ -31,7 +31,7 @@ export default class Game
 
 		let minEffects = 1;
 		let maxEffects = config.recipeLength*0.5;
-		if(userConfig._settings.competitive.value) { maxEffects *= 0.5; }
+		if(getSetting("competitive", userConfig)) { maxEffects *= 0.5; }
 
 		config.numEffects = Math.floor(rand() * (maxEffects - minEffects) + minEffects);
 

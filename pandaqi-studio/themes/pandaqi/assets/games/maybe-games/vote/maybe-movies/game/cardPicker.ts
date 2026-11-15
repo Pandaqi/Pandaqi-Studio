@@ -1,5 +1,5 @@
 
-import { getWeighted, shuffle, BalancedFrequencyPickerWithMargin, fromArray, toTextDrawerImageStrings } from "lib/pq-games";
+import { getSetting, getWeighted, shuffle, BalancedFrequencyPickerWithMargin, fromArray, toTextDrawerImageStrings } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { BLOCKBUSTERS, CardType, DYNAMIC_OPTIONS, ICONS, MAIN_TEXTS, MovieDetails, MovieType, TextDetails } from "../shared/dict";
 import Card from "./card";
@@ -60,7 +60,7 @@ const getIconOptions = (setTarget:string = "base") =>
 
 const generateBaseCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     const num = CONFIG.generation.numMovieCards;
     const mainTexts = {};
@@ -145,7 +145,7 @@ const drawBalancedDetailsBlockbuster = (pickerCost, pickerProfit) : MovieDetails
 
 const generateBlockbusterCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.blockbusterBudgets.value) { return; }
+    if(!getSetting("sets.blockbusterBudgets", CONFIG)) { return; }
 
     const iconOptions = getIconOptions("base");
     const iconOptionsDict = {};

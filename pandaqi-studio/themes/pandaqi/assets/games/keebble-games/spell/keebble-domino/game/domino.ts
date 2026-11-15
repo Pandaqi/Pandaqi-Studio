@@ -1,4 +1,4 @@
-import { MaterialVisualizer, createContext, Color, Vector2, ResourceGroup, LayoutOperation, TintEffect, Rectangle, ResourceShape, Line, ResourceText, TextConfig, rand } from "lib/pq-games";
+import { getSetting, MaterialVisualizer, createContext, Color, Vector2, ResourceGroup, LayoutOperation, TintEffect, Rectangle, ResourceShape, Line, ResourceText, TextConfig, rand } from "lib/pq-games";
 import { CONFIG } from "./config";
 import { CELLS, DOMINO_COLORS, LETTERS } from "./dict";
 import DominoPart from "./dominoPart";
@@ -82,7 +82,7 @@ export default class Domino
     
             walls: 
             {
-                include: CONFIG._settings.expansions.wereWalls.value,
+                include: getSetting("expansions.wereWalls", CONFIG),
                 scale: 0.825, // looks best if the same as positionFactor, and near textPositionFactor (see below)
                 max: 2,
                 prob: 0.35,
@@ -96,7 +96,7 @@ export default class Domino
                 fontSize: 0.075*cardSize.y,
                 width: 0.2*0.5*cardSize.x,
                 textPositionFactor: 0.85,
-                printLetterText: CONFIG._settings.showLetters.value
+                printLetterText: getSetting("showLetters", CONFIG)
             },
     
             ramps: 

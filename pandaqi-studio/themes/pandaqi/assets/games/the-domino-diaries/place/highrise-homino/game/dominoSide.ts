@@ -1,5 +1,5 @@
 
-import { shuffle, MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText, getPositionsCenteredAround, drawBlurryRectangle, rand } from "lib/pq-games";
+import { getSetting, shuffle, MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText, getPositionsCenteredAround, drawBlurryRectangle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { FloorType, GeneralData, ItemType, MISC, OBJECTS, TENANTS } from "../shared/dict";
 import TenantWish from "./tenantWish";
@@ -321,7 +321,7 @@ export default class DominoSide
         }
 
         // extra explanatory text when needed
-        if(data.desc && CONFIG._settings.addText.value)
+        if(data.desc && getSetting("addText", CONFIG))
         {
             const textPos = new Vector2(0, 0.3*partHeight);
             const textDims = new Vector2(0.885*vis.size.x, 0.25*partHeight);

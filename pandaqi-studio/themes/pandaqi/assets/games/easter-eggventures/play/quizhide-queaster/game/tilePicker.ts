@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ROOMS, TileType } from "../shared/dict";
 import Tile from "./tile";
@@ -14,7 +15,7 @@ export const tilePicker = () : Tile[] =>
 
 const generatePawns = (tiles) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     const maxNumPlayers = CONFIG.generation.maxNumPlayers;
     for(let i = 0; i < maxNumPlayers; i++)

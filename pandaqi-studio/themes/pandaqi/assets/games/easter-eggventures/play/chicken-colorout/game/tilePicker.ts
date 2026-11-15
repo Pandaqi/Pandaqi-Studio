@@ -1,4 +1,4 @@
-import { rangeInteger, shuffle, getWeighted, Vector2, Rectangle, rand } from "lib/pq-games";
+import { getSetting, rangeInteger, shuffle, getWeighted, Vector2, Rectangle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { REQUIREMENTS, SPECIAL_SCORE_RULES, SlotRequirement, TILES, TileCustomData, TileGridCell, TileType } from "../shared/dict";
 import Tile from "./tile";
@@ -16,13 +16,13 @@ export const tilePicker = () : Tile[] =>
 
 const generatePawns = (tiles) =>
 {
-    if(CONFIG._settings.sets.base.value)
+    if(getSetting("sets.base", CONFIG))
     {
         // the crucial required seeker pawn
         tiles.push(new Tile(TileType.PAWN, "seeker"));
     }
 
-    if(CONFIG._settings.sets.pawns.value)
+    if(getSetting("sets.pawns", CONFIG))
     {
         const maxNumPlayers = CONFIG.generation.maxNumPlayers ?? 6;
         for(let i = 0; i < maxNumPlayers; i++)
@@ -63,7 +63,7 @@ const generateRandomSlotRequirement = (type:string, options:Record<string,any>) 
 
 const generateBaseMapTiles = (tiles) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     // the crucial required starter tile
     tiles.push(new Tile(TileType.MAP, "starter", { num: 0 }));
@@ -89,7 +89,7 @@ const generateBaseMapTiles = (tiles) =>
 
 const generateTerrificMapTiles = (tiles) =>
 {
-    if(!CONFIG._settings.sets.score.value) { return; }
+    if(!getSetting("sets.score", CONFIG)) { return; }
 
     // add some more starter tile options
     for(let i = 0; i < CONFIG.generation.numExtraStarterTiles; i++)

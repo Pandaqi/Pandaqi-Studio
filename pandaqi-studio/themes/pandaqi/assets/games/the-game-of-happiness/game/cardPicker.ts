@@ -1,12 +1,13 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CARDS, Category, Pack } from "../shared/dict";
 import Card from "./card";
 
 export const cardPicker = () : Card[] =>
 {
-    if(!CONFIG._settings.includeCards.value) { return []; }
+    if(!getSetting("includeCards", CONFIG)) { return []; }
     const cards = [];
-    const packs = CONFIG._settings.packs.value;
+    const packs = getSetting("packs", CONFIG);
 
     const cardsPerPack:Record<string,any[]> = {};
     for(const [category,list] of Object.entries(CARDS))

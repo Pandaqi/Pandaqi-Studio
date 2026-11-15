@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray, getWeighted, rand } from "lib/pq-games";
+import { getSetting, shuffle, fromArray, getWeighted, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ANIMALS, CAMPAIGN_MISSIONS, CAMPAIGN_RULES, CampDiff, CampType, DominoType, ITEMS, ItemType, OBJECTS, RuleVibe, STALLS, TERRAINS, TerrainType } from "../shared/dict";
 import Domino from "./domino";
@@ -121,7 +121,7 @@ const selectMissionForDifficulty = (diffTarget:CampDiff) =>
 
 const generateZooperative = (dominoes:Domino[]) =>
 {
-    if(!CONFIG._settings.sets.zooperative.value) { return; }
+    if(!getSetting("sets.zooperative", CONFIG)) { return; }
 
     const dist:Record<number, number> = CONFIG.generation.zooperative.cardsPerLevel;
     const ruleProb:number = CONFIG.generation.zooperative.ruleProbability;
@@ -160,7 +160,7 @@ const generateZooperative = (dominoes:Domino[]) =>
 
 const generatePawns = (dominoes:Domino[]) =>
 {
-    if(!CONFIG._settings.sets.pawns.value) { return; }
+    if(!getSetting("sets.pawns", CONFIG)) { return; }
 
     for(let i = 0; i < CONFIG.generation.numUniquePawns; i++)
     {

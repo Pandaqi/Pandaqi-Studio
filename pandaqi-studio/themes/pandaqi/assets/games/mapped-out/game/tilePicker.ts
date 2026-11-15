@@ -1,4 +1,4 @@
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardType, FishType, TILE_ACTIONS, TileAction } from "../shared/dict";
 import Card from "./card";
@@ -16,7 +16,7 @@ export const tilePicker = () : Card[] =>
 
 const generatePawns = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     // @NOTE: two pawns per card, hence 3
     for(let i = 0; i < 3; i++)
@@ -29,13 +29,13 @@ const generatePawns = (cards) =>
 
 const generateBaseTiles = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
     generateMapTiles(cards, CONFIG.generation.mapTilesNumBase, CONFIG.generation.mapTilesDistBase);
 }
 
 const generateLandsUnknown = (cards) =>
 {
-    if(!CONFIG._settings.sets.landsUnknown.value) { return; }
+    if(!getSetting("sets.landsUnknown", CONFIG)) { return; }
     generateMapTiles(cards, CONFIG.generation.mapTilesNumLands, CONFIG.generation.mapTilesDistLands);
 }
 

@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, LayoutOperation, Color, Vector2, Line, ResourceShape, TextConfig, StrokeAlign, ResourceText, Rectangle, convertCanvasToImage } from "lib/pq-games"
+import { getSetting, MaterialVisualizer, ResourceGroup, LayoutOperation, Color, Vector2, Line, ResourceShape, TextConfig, StrokeAlign, ResourceText, Rectangle, convertCanvasToImage } from "lib/pq-games";
 import { CONFIG } from "../shared/config"
 import { SYMBOLS, TILE_DICT } from "./dict"
 import { createPremadeGame } from "./extractor"
@@ -60,7 +60,7 @@ export default class BoardGeneration
 		const images = [imgMap];
 
 		// if premade game, generate hint cards too
-		if(CONFIG._settings.createPremadeGame.value) {
+		if(getSetting("createPremadeGame", CONFIG)) {
 			const groupHintCards = this.visualizeHintCards(vis);
 			const imgHintsAsCanvas = await this.visualizer.finishDraw(groupHintCards);
 			const imgHints = await convertCanvasToImage(imgHintsAsCanvas);
@@ -140,7 +140,7 @@ export default class BoardGeneration
 			group.add(resTileType, opTileType);
 
 			// show network connections
-			if(CONFIG._settings.hints.networks.value)
+			if(getSetting("hints.networks", CONFIG))
 			{
 				for(const nb of cell.connNbs)
 				{
@@ -153,7 +153,7 @@ export default class BoardGeneration
 			}
 			
 			// show symbols
-			if(CONFIG._settings.hints.symbols.value)
+			if(getSetting("hints.symbols", CONFIG))
 			{
 				for(let s = 0; s < cell.symbols.length; s++)
 				{

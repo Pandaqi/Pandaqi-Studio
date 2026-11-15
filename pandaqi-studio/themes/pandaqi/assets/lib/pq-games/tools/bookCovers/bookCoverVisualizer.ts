@@ -229,9 +229,13 @@ export default class BookCoverVisualizer
             unit: 'in',
             orientation: "landscape",
             format: [size.x, size.y],
+            compress: true,
         }
 
         const doc = new jsPDF(pdfConfig);
+        // same white-paper rule as PdfBuilder: a transparent cover must not turn into a black page
+        doc.setFillColor(255, 255, 255);
+        doc.rect(0, 0, size.x, size.y, "F");
         // DOC: addImage(imageData, format, x, y, width, height, alias, compression, rotation)
         // compression values = NONE, FAST, MEDIUM, SLOW
         doc.addImage(img, 'png', 0, 0, size.x, size.y, undefined, 'MEDIUM');

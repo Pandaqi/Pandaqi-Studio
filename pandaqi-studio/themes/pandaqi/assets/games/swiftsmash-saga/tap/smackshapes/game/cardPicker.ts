@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray, getWeighted, rand } from "lib/pq-games";
+import { getSetting, shuffle, fromArray, getWeighted, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardType, Color, SPECIAL_ACTIONS, Shape } from "../shared/dict";
 import Card from "./card";
@@ -16,7 +16,7 @@ export const cardPicker = () : Card[] =>
 
 const generateBaseCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     const numbers : number[] = CONFIG.generation.numberBounds.asList();
     const numbersSpecial = CONFIG.generation.numberSpecial;
@@ -58,7 +58,7 @@ const generateBaseCards = (cards) =>
 
 const generateColorCracks = (cards) =>
 {
-    if(!CONFIG._settings.sets.colorCracks.value) { return; }
+    if(!getSetting("sets.colorCracks", CONFIG)) { return; }
 
     const numbersSpecial : number[] = CONFIG.generation.numberSpecial;
     const newCards = [];

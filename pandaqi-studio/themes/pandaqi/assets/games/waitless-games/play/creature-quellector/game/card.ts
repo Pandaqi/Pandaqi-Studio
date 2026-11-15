@@ -89,13 +89,13 @@ export default class Card
         this.rootPadding = 0.0425*this.sizeUnit;
         this.creatureFlipX = rand() <= 0.5;
         this.strokeWidth = vis.get("cards.stroke.width");
-        this.strokeColor = vis.inkFriendly ? vis.get("cards.stroke.colorInkFriendly") : this.getIconColorDark(this.getMainIcon());
+        this.strokeColor = vis.inkFriendly ? vis.get("cards.stroke.colorInkFriendly") : this.getIconColorDark(vis, this.getMainIcon());
         this.dropShadowOffset = new Vector2(0, vis.get("cards.dropShadowOffset") * this.cornerIconSize);
 
         this.iconEffectsMain = [
             new DropShadowEffect({ 
                 offset: this.dropShadowOffset,
-                color: this.getIconColorDark(this.getMainIcon()),
+                color: this.getIconColorDark(vis, this.getMainIcon()),
             })
         ];
 
@@ -139,10 +139,9 @@ export default class Card
         return vis.getResource(textureKey);
     }
 
-    getIconColorDark(elem:ElementIcon) : string
+    getIconColorDark(vis:MaterialVisualizer, elem:ElementIcon) : string
     {
-        // @ts-ignore
-        if(getSettingDefault("inkFriendly")) { return CONFIG._drawing.cards.icon.backgroundDarkInkFriendly; }
+        if(vis.inkFriendly) { return vis.get("cards.icon.backgroundDarkInkFriendly"); }
         const cat = this.getIconElementType(elem);
         return CATEGORIES[cat].colorDark;
     }
@@ -246,7 +245,7 @@ export default class Card
                 pos: remPositions[i],
                 size: iconReminderSize,
                 frame: this.getIconFrame(type),
-                stroke: this.getIconColorDark(type),
+                stroke: this.getIconColorDark(vis, type),
                 strokeWidth: 0.5*this.strokeWidth
             })
             resIcon.toCanvas(ctx, opIcon);
@@ -284,7 +283,7 @@ export default class Card
             effects: [
                 new DropShadowEffect({ 
                     offset: this.dropShadowOffset.clone().scaleFactor(2.5),
-                    color: this.getIconColorDark(this.getMainIcon()),
+                    color: this.getIconColorDark(vis, this.getMainIcon()),
                 })
             ]
         })
@@ -308,7 +307,7 @@ export default class Card
                 effects: [
                     new DropShadowEffect({ 
                         offset: this.dropShadowOffset,
-                        color: this.getIconColorDark(type),
+                        color: this.getIconColorDark(vis, type),
                     })
                 ]
             })

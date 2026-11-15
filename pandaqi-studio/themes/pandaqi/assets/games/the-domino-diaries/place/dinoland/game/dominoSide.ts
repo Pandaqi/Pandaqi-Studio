@@ -1,7 +1,7 @@
 
 import { TerrainType, DinoType, TERRAINS, DINOS, MISC } from "../shared/dict"
 import { CONFIG } from "../shared/config";
-import { MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText, drawBlurryRectangle, rand } from "lib/pq-games";
+import { getSetting, MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, TextStyle, ResourceText, drawBlurryRectangle, rand } from "lib/pq-games";
 
 export default class DominoSide
 {
@@ -59,7 +59,7 @@ export default class DominoSide
             }
 
             const partHeight = 0.5*vis.size.y;
-            if(CONFIG._settings.addText.value)
+            if(getSetting("addText", CONFIG))
             {
                 const textPos = new Vector2(0, 0.33*partHeight);
                 const textDims = new Vector2(0.9*vis.size.x, 0.275*partHeight);

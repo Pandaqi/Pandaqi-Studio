@@ -328,7 +328,7 @@ const buildPrintSource = (params:RulebookParams) : HTMLElement =>
 const PRINT_PREVIEW_CSS = `
 /* paged.js copies the ancestors of everything it splits across a page, including <html>/<body> clones.
    A page stylesheet that makes those 100% tall then fits only one block per page. */
-.rulebook-paged-output :is(html, body) { height: auto !important; min-height: 0 !important; }
+.rulebook-paged-output html, .rulebook-paged-output body { height: auto !important; min-height: 0 !important; }
 
 /* while the paged preview is up, the live rulebook is not what will be printed */
 body.rulebook-paged-print .rulebook-shell { display: none !important; }
@@ -348,7 +348,11 @@ const applyRunningHeaders = (root:HTMLElement, title:string) =>
     const pages = Array.from(root.querySelectorAll(".pagedjs_page")) as HTMLElement[];
     for(const page of pages)
     {
-        const heading = page.querySelector(".rulebook-section-header :is(h1, h2, h3, h4, h5, h6)");
+        // a comma list instead of :is(), which old Safari cannot parse in querySelector (it throws)
+        const heading = page.querySelector([
+            ".rulebook-section-header h1, .rulebook-section-header h2, .rulebook-section-header h3,",
+            ".rulebook-section-header h4, .rulebook-section-header h5, .rulebook-section-header h6"
+        ].join(" "));
         const headingText = heading?.textContent?.replace(/\s+/g, " ").trim();
         if(headingText) { currentSection = headingText; }
 

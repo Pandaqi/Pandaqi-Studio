@@ -559,7 +559,12 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     outline-offset: 2px;
 }
 
-.rulebook-section-header :is(h1, h2, h3, h4, h5, h6)
+.rulebook-section-header h1,
+.rulebook-section-header h2,
+.rulebook-section-header h3,
+.rulebook-section-header h4,
+.rulebook-section-header h5,
+.rulebook-section-header h6
 {
     flex: 1 1 auto;
     scroll-margin-top: calc(var(--rb-sticky-offset) + 0.75em);
@@ -606,14 +611,34 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     margin-top: 0.6em;
 }
 
-.rulebook-section-header[data-level="3"] :is(h1, h2, h3, h4, h5, h6)
+.rulebook-section-header[data-level="3"] h1,
+.rulebook-section-header[data-level="3"] h2,
+.rulebook-section-header[data-level="3"] h3,
+.rulebook-section-header[data-level="3"] h4,
+.rulebook-section-header[data-level="3"] h5,
+.rulebook-section-header[data-level="3"] h6
 {
     font-size: 0.95em;
 }
 
-.rulebook-section-header[data-level="4"] :is(h1, h2, h3, h4, h5, h6),
-.rulebook-section-header[data-level="5"] :is(h1, h2, h3, h4, h5, h6),
-.rulebook-section-header[data-level="6"] :is(h1, h2, h3, h4, h5, h6)
+.rulebook-section-header[data-level="4"] h1,
+.rulebook-section-header[data-level="4"] h2,
+.rulebook-section-header[data-level="4"] h3,
+.rulebook-section-header[data-level="4"] h4,
+.rulebook-section-header[data-level="4"] h5,
+.rulebook-section-header[data-level="4"] h6,
+.rulebook-section-header[data-level="5"] h1,
+.rulebook-section-header[data-level="5"] h2,
+.rulebook-section-header[data-level="5"] h3,
+.rulebook-section-header[data-level="5"] h4,
+.rulebook-section-header[data-level="5"] h5,
+.rulebook-section-header[data-level="5"] h6,
+.rulebook-section-header[data-level="6"] h1,
+.rulebook-section-header[data-level="6"] h2,
+.rulebook-section-header[data-level="6"] h3,
+.rulebook-section-header[data-level="6"] h4,
+.rulebook-section-header[data-level="6"] h5,
+.rulebook-section-header[data-level="6"] h6
 {
     font-size: 0.88em;
 }

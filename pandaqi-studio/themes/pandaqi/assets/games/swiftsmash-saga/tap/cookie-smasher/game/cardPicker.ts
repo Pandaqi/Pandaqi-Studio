@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import createRandomSet from "../shared/createRandomSet";
 import { SETS } from "../shared/dict";
@@ -16,8 +17,8 @@ export const cardPicker = () : Card[] =>
     }
 
     // determine cards wanted
-    let dict = SETS[CONFIG._settings.cardSet.value];
-    if(CONFIG._settings.cardSet.value == "random") { dict = createRandomSet(); }
+    let dict = SETS[getSetting("cardSet", CONFIG)];
+    if(getSetting("cardSet", CONFIG) == "random") { dict = createRandomSet(); }
 
     // actually create them
     CONFIG.possibleTypes = [];

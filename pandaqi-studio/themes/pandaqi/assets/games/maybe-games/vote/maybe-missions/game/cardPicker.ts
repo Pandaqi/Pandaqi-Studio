@@ -1,5 +1,5 @@
 
-import { Bounds, shuffle, getAllPossibleCombinations, fromArray, getWeighted, BalancedFrequencyPickerWithMargin, rand } from "lib/pq-games";
+import { getSetting, Bounds, shuffle, getAllPossibleCombinations, fromArray, getWeighted, BalancedFrequencyPickerWithMargin, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardGadgetData, CardResourceData, CardType, DYNAMIC_OPTIONS, GADGET_NAMES, IdentityCardData, IdentityCardType, MASTER_CARDS, MissionType, PUBLIC_IDENTITIES, RANDOM_TEXTS, RESOURCES, SECRET_IDENTITIES, SHOP_REWARDS, ShopType, ShopVibe } from "../shared/dict";
 import Card from "./card";
@@ -79,7 +79,7 @@ const drawRandomResources = (combos, combosBackup) =>
 
 const generateBaseCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     // generate all combos until upper limit
     const maxNumIcons = CONFIG.generation.numResourcesPerSide.max;
@@ -189,7 +189,7 @@ const drawRandomIdentityPowers = (dict:IdentityDictSorted) =>
 
 const generateIdentityCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.identities.value) { return; }
+    if(!getSetting("sets.identities", CONFIG)) { return; }
 
     // sort the data into GOOD and BAD
     const dictSecret:IdentityDictSorted = { good: {}, bad: {} };
@@ -220,7 +220,7 @@ const generateIdentityCards = (cards) =>
 
 const generateShopCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.gadgets.value) { return; }
+    if(!getSetting("sets.gadgets", CONFIG)) { return; }
 
     // sort the data into GREEN and RED
     const numCards = CONFIG.generation.numShopCards;

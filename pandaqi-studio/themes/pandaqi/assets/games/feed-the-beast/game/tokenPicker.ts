@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { FOOD, MaterialType } from "../shared/dict";
 import Card from "./card";
@@ -6,7 +7,7 @@ export const tokenPicker = () : Card[] =>
 {
     const cards = [];
 
-    if(!CONFIG._settings.sets.foodTokens.value) { return; }
+    if(!getSetting("sets.foodTokens", CONFIG)) { return; }
 
     for(const [key,data] of Object.entries(FOOD))
     {

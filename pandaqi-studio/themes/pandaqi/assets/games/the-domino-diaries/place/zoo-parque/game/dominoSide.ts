@@ -1,5 +1,5 @@
 
-import { shuffle, MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, TextStyle, ResourceText, drawBlurryRectangle, rand } from "lib/pq-games";
+import { getSetting, shuffle, MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, TextStyle, ResourceText, drawBlurryRectangle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ANIMALS, ITEMS, ItemType, MISC, TERRAINS, TerrainType } from "../shared/dict";
 
@@ -230,7 +230,7 @@ export default class DominoSide
         const partHeight = 0.5*vis.size.y;
 
         // extra explanatory text when needed
-        if(data.desc && CONFIG._settings.addText.value)
+        if(data.desc && getSetting("addText", CONFIG))
         {
             const textPos = new Vector2(0, 0.3*partHeight);
             const textDims = new Vector2(0.885*vis.size.x, 0.25*partHeight);

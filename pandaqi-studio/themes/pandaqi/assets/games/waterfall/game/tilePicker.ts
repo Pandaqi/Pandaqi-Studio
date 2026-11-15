@@ -1,5 +1,5 @@
 
-import { shuffle, BalancedFrequencyPickerWithMargin, getWeighted } from "lib/pq-games";
+import { getSetting, shuffle, BalancedFrequencyPickerWithMargin, getWeighted } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIONS, GEMSTONES, TileType } from "../shared/dict";
 import Tile from "./tile";
@@ -16,7 +16,7 @@ export const tilePicker = () : Tile[] =>
         
 const generatePawns = (tiles) =>
 {
-    if(!CONFIG._settings.sets.pawns.value) { return; }
+    if(!getSetting("sets.pawns", CONFIG)) { return; }
 
     for(let i = 0; i < CONFIG.generation.numPawnFrames; i++)
     {
@@ -26,7 +26,7 @@ const generatePawns = (tiles) =>
 
 const generateTiles = (tiles) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     // prepare the objects and numbers
     const arr : Tile[] = [];

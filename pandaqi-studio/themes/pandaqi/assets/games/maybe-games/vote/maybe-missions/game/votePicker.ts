@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardType, VoteType } from "../shared/dict";
 import Card from "./card";
@@ -11,7 +12,7 @@ export const votePicker = () : Card[] =>
 
 const generateVoteCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     const num = CONFIG.generation.numVoteCards;
     const mainType = CardType.VOTE;

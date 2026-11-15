@@ -1,10 +1,10 @@
-import { loadGame, loadSettings } from "lib/pq-games";
+import { getSetting, loadGame, loadSettings } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import Game from "./game/game";
 
 const callback = async (config) =>
 {
-    if(CONFIG._settings.loadDigitalGame.value) {
+    if(getSetting("loadDigitalGame", CONFIG)) {
         const game = new Game(CONFIG);
         game.start();
     } else {

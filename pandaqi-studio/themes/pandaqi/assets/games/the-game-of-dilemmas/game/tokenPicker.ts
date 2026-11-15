@@ -1,9 +1,10 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import Token from "./token";
 
 export const tokenPicker = () : Token[] =>
 {
-    if(!CONFIG._settings.includeTokens.value) { return []; }
+    if(!getSetting("includeTokens", CONFIG)) { return []; }
     
     // regular tokens (yes / no)
     const tokens = [];

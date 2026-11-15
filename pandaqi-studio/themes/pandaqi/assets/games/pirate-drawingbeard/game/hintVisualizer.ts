@@ -1,5 +1,5 @@
 
-import { Vector2, MaterialVisualizer, rand } from "lib/pq-games";
+import { getSetting, Vector2, MaterialVisualizer, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import Map from "./map"
 
@@ -48,7 +48,7 @@ class HintVisualizer
 		let layers = structuredClone(hint.layers);
 
 		// hints can stay colored if we're fully digital, even if we're on ink friendly
-		let inkFriendly = vis.inkFriendly && (CONFIG._settings.createPremadeGame.value || CONFIG._settings.useRealMaterial.value)
+		let inkFriendly = vis.inkFriendly && (getSetting("createPremadeGame", CONFIG) || getSetting("useRealMaterial", CONFIG))
 
 		// shuffle layers around if needed
 		// (when we find one, with 50% chance, find another shuffle layer and swap)

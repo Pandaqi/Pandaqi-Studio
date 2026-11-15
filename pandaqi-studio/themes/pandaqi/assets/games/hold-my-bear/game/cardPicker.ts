@@ -1,10 +1,11 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import Card from "./card";
 
 export const cardPicker = () : Card[] =>
 {
-    const animalsBase = CONFIG._settings.animalsBase.value;
-    const animalsExpansion = CONFIG._settings.animalsExpansion.value;
+    const animalsBase = getSetting("animalsBase", CONFIG);
+    const animalsExpansion = getSetting("animalsExpansion", CONFIG);
     const animals = [animalsBase, animalsExpansion].flat();
 
     const cards = [];

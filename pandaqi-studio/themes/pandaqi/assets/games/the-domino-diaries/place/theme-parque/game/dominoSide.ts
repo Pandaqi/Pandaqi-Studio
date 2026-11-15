@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, Color, Vector2, ResourceShape, Rectangle, LayoutOperation, DropShadowEffect, TextConfig, ResourceText, StrokeAlign, TextStyle, colorRandomize, drawBlurryRectangle, rand } from "lib/pq-games";
+import { getSetting, MaterialVisualizer, ResourceGroup, Color, Vector2, ResourceShape, Rectangle, LayoutOperation, DropShadowEffect, TextConfig, ResourceText, StrokeAlign, TextStyle, colorRandomize, drawBlurryRectangle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { COASTER_PARTS, ITEMS, ItemType, MISC, PATHS, PATHS_ORDER, PathType } from "../shared/dict";
 
@@ -290,7 +290,7 @@ export default class DominoSide
         }
 
         // extra explanatory text when needed
-        if(data.desc && CONFIG._settings.addText.value)
+        if(data.desc && getSetting("addText", CONFIG))
         {
             const textPos = new Vector2(0, 0.33*partHeight);
             const textDims = new Vector2(0.9*vis.size.x, 0.275*partHeight);

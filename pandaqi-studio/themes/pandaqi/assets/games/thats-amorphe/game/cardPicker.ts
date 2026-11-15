@@ -2,7 +2,7 @@ import { PandaqiWords } from "lib/pq-words";
 import { CONFIG } from "../shared/config";
 import { MaterialType } from "../shared/dict";
 import { Card } from "./card";
-import { rand } from "lib/pq-games";
+import { getSetting, rand } from "lib/pq-games";
 
 export const getRandomTypeData = (dict) =>
 {
@@ -29,8 +29,8 @@ export const getRandomTypeData = (dict) =>
 
 export const getFullWordList = async () =>
 {
-    let categories = CONFIG._settings.wordPreferences.categories.value;
-    let useAllCategories = CONFIG._settings.wordPreferences.useAllCategories.value;
+    let categories = getSetting("wordPreferences.categories", CONFIG);
+    let useAllCategories = getSetting("wordPreferences.useAllCategories", CONFIG);
     if(categories.length <= 0)
     {
         categories = undefined;
@@ -38,13 +38,13 @@ export const getFullWordList = async () =>
     }
 
     const types = ["nouns"];
-    if(CONFIG._settings.wordPreferences.includeGeography.value) { types.push("geography"); }
-    if(CONFIG._settings.wordPreferences.includeNames.value) { types.push("names"); }
+    if(getSetting("wordPreferences.includeGeography", CONFIG)) { types.push("geography"); }
+    if(getSetting("wordPreferences.includeNames", CONFIG)) { types.push("names"); }
 
     const wordParams = {
         method: "json",
         types: types,
-        levels: [CONFIG._settings.wordPreferences.wordComplexity.value],
+        levels: [getSetting("wordPreferences.wordComplexity", CONFIG)],
         categories: categories,
         useAllSubcat: true,
         useAllCategories: useAllCategories,
@@ -65,7 +65,7 @@ export const cardPicker = async () : Promise<Card[]> =>
 {
     const cards = [];
 
-    if(CONFIG._settings.material.wordCards.value)
+    if(getSetting("material.wordCards", CONFIG))
     {
         const wordList = await getFullWordList();
 
@@ -73,7 +73,7 @@ export const cardPicker = async () : Promise<Card[]> =>
         while(wordList.length > 0)
         {
             let tempWordsPerCard = wordsPerCard;
-            if(CONFIG._settings.varyWordCount.value) 
+            if(getSetting("varyWordCount", CONFIG))
             { 
                 tempWordsPerCard = Math.floor(rand() * (wordsPerCard-1)) + 1; 
             }
@@ -87,7 +87,7 @@ export const cardPicker = async () : Promise<Card[]> =>
         }
     }
 
-    if(CONFIG._settings.material.specialCards.value)
+    if(getSetting("material.specialCards", CONFIG))
     {
         for(let i = 0; i < 12; i++)
         {
@@ -95,7 +95,7 @@ export const cardPicker = async () : Promise<Card[]> =>
         }
     }
 
-    if(CONFIG._settings.material.morphCards.value)
+    if(getSetting("material.morphCards", CONFIG))
     {
         for(let i = 0; i <= 10; i++)
         {
@@ -103,7 +103,7 @@ export const cardPicker = async () : Promise<Card[]> =>
         }
     }
 
-    if(CONFIG._settings.material.voteCards.value)
+    if(getSetting("material.voteCards", CONFIG))
     {
         const numTeamColors = CONFIG._drawing.teamColors.length;
         for(let c = 0; c < numTeamColors; c++)

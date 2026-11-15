@@ -3,7 +3,7 @@ import { CONFIG } from "../shared/config";
 import Card from "./card";
 import Pack from "./pack";
 import { TypeStats } from "../shared/dict";
-import { fromArray } from "lib/pq-games";
+import { fromArray, getSetting } from "lib/pq-games";
 
 export const cardPicker = () : Card[] =>
 {
@@ -16,6 +16,17 @@ export const cardPicker = () : Card[] =>
             purple: fromArray(["air", "magic", "ghost", "dark"])
         }
         CONFIG.elements = customElements;
+    }
+
+    // the elements included by the user's game settings; without this the picker has no cards to make
+    if(!CONFIG._debug.randomizeTypes)
+    {
+        CONFIG.elements = {
+            red: getSetting("elements.red", CONFIG),
+            blue: getSetting("elements.blue", CONFIG),
+            green: getSetting("elements.green", CONFIG),
+            purple: getSetting("elements.purple", CONFIG),
+        };
     }
 
     // keep track of stats to balance picking along the way

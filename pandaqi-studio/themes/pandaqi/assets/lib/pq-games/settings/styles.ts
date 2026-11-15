@@ -1,107 +1,149 @@
+// The settings panel deliberately mirrors pq-rulebook's built-in theme: same warm paper palette,
+// same accent, same restrained controls. Keep the two in sync when changing either one.
 export const STYLES = `
+.settings, .settings *, .settings *::before, .settings *::after
+{
+    box-sizing: border-box;
+}
+
 .settings
 {
-    max-width: 32em;
-    margin: auto;
-    padding: 1em;
+    max-width: 34em;
+    margin: 2em auto;
+    padding: 1.1em 1.25em 1.35em;
     font-family: var(--font-body);
-    background-color: var(--bg-color);
-    border-radius: var(--border-radius);
     font-size: var(--font-size);
+    line-height: 1.5;
     color: var(--text-color);
-    box-shadow: 0 0 1em rgba(0, 0, 0, 0.15);
+    background: var(--panel-color);
+    border: 1px solid var(--border-color);
+    border-top: 3px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
 
-    --border-radius: 0.5em;
+    --border-radius: 0.375em;
     --text-color: #222222;
-    --bg-color: #DDDDDD;
-    --mid-color: #999999;
+    --bg-color: #FCF6F0;
+    --panel-color: #fffdf9;
+    --mid-color: #77695e;
+    --border-color: rgba(34, 17, 0, 0.14);
+    --accent-color: #6d4433;
+    --accent-soft: #f3e8e0;
     --input-bg: #FFFFFF;
 
-    --font-heading: Trebuchet MS, Helvetica, Arial;
-    --font-body: Trebuchet MS, Helvetica, Arial;
+    --font-heading: Dosis, "Trebuchet MS", Helvetica, Arial, sans-serif;
+    --font-body: Raleway, "Trebuchet MS", Helvetica, Arial, sans-serif;
     --font-size: 16px;
+    --shadow: 0 1px 2px rgba(34, 17, 0, 0.08), 0 4px 14px rgba(34, 17, 0, 0.06);
 }
 
-h1
+.settings h1
 {
-    margin: 0.5em;
+    margin: 0 0 0.15em;
     text-align: center;
-    font-size: 24px;
+    font-family: var(--font-heading);
+    font-size: 1.9em;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--text-color);
 }
 
-.settings-container, .settings-group-content
-{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1em;
-    width: 100%;
-}
-
-/* the small row of buttons at the top (reset, fold all, unfold all) */
 .settings-tools
 {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5em;
-    margin: 0.5em 0;
-    font-size: 0.8em;
+    gap: 0.4em;
+    margin: 0.85em 0 1em;
+    padding-bottom: 0.95em;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1em;
 }
 
 .settings-tools button
 {
     flex: 1 1 auto;
     width: auto;
-    padding: 0.4em 0.6em;
+    padding: 0.5em 0.7em;
+    font-family: var(--font-heading);
+    font-size: 0.68em;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: var(--accent-color);
+    background: var(--accent-soft);
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s, transform 0.1s;
+}
+
+.settings-tools button:hover
+{
+    color: var(--text-color);
+    background: #ffffff;
+    border-color: var(--border-color);
+}
+
+.settings-tools button:active
+{
+    transform: translateY(1px);
+}
+
+.settings-container,
+.settings-group-content
+{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.settings-container
+{
+    gap: 0;
 }
 
 .settings-group
 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75em;
     width: 100%;
-    padding: 0.75em;
-    border: 1px solid var(--mid-color);
+    margin: 0.65em 0;
+    overflow: hidden;
+    background: var(--panel-color);
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
 }
 
-.settings-group-header, button
+.settings-group-header
 {
-    text-align: center;
-    text-transform: uppercase;
-    background-color: var(--text-color);
-    color: var(--bg-color);
     width: 100%;
-    padding: 0.5em;
-    border-radius: var(--border-radius);
-    font-weight: bold;
+    padding: 0.6em 0.8em;
     font-family: var(--font-heading);
-    font-size: 1.0em;
-    border: none;
+    font-size: 0.76em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-align: left;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    background: var(--accent-soft);
     cursor: pointer;
-    transition: background-color 0.15s, color 0.15s;
+    user-select: none;
+    transition: background-color 0.15s;
 }
 
-button:disabled
+.settings-group-header:hover
 {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.settings-group-header:hover, button:hover
-{
-    background-color: #FFFFFF;
-    color: var(--text-color);
+    background: #eee0d5;
 }
 
 /* show that a group header folds, without needing any extra markup */
-.settings-group[data-folded="true"] > .settings-group-header::after { content: " ▸"; }
-.settings-group[data-folded="false"] > .settings-group-header::after { content: " ▾"; }
+.settings-group[data-folded="true"] > .settings-group-header::after { content: " ▸"; float: right; opacity: 0.75; }
+.settings-group[data-folded="false"] > .settings-group-header::after { content: " ▾"; float: right; opacity: 0.75; }
 
 .settings-group-content
 {
-    padding-left: 0.75em;
-    gap: 0.75em;
+    gap: 0;
+    padding: 0.2em 0.85em 0.45em;
 }
 
 /* One setting = one row: the label (and its help button) on the left, the control on the right.
@@ -111,10 +153,10 @@ button:disabled
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.4em 0.75em;
+    gap: 0.35em 0.75em;
     width: 100%;
-    padding: 0.4em 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0.55em 0;
+    border-bottom: 1px solid rgba(34, 17, 0, 0.08);
 }
 
 .settings-element:last-child
@@ -127,6 +169,7 @@ button:disabled
     flex: 0 1 auto;
     width: auto;
     max-width: 100%;
+    color: var(--text-color);
     cursor: pointer;
 }
 
@@ -141,8 +184,8 @@ button:disabled
     padding: 0.35em 0.5em;
     font: inherit;
     color: inherit;
-    background-color: var(--input-bg);
-    border: 1px solid var(--mid-color);
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
 }
 
@@ -160,12 +203,12 @@ button:disabled
 
 .settings-element > input[type="checkbox"]
 {
-    width: 1.2em;
-    height: 1.2em;
+    width: 1.15em;
+    height: 1.15em;
     padding: 0;
     border: none;
     background: none;
-    accent-color: var(--text-color);
+    accent-color: var(--accent-color);
 }
 
 /* a file picker is wide by nature, so it takes the remaining space instead of a fixed width */
@@ -177,11 +220,53 @@ button:disabled
     background: none;
 }
 
+/* the native file button is the one control the browser draws itself; match it to the tool buttons */
+.settings-element > input[type="file"]::file-selector-button
+{
+    margin-right: 0.55em;
+    padding: 0.4em 0.65em;
+    font-family: var(--font-heading);
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    background: var(--accent-soft);
+    border: 0;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.settings-element > input[type="file"]::-webkit-file-upload-button
+{
+    margin-right: 0.55em;
+    padding: 0.4em 0.65em;
+    font-family: var(--font-heading);
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    background: var(--accent-soft);
+    border: 0;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.settings-element > input[type="file"]::file-selector-button:hover,
+.settings-element > input[type="file"]::-webkit-file-upload-button:hover
+{
+    color: var(--text-color);
+    background: #ffffff;
+}
+
 .settings-element > input:focus-visible,
 .settings-element > select:focus-visible,
-button:focus-visible
+.settings button:focus-visible
 {
-    outline: 2px solid var(--text-color);
+    outline: 2px solid var(--accent-color);
     outline-offset: 2px;
 }
 
@@ -222,54 +307,116 @@ button:focus-visible
     width: 1.05em;
     height: 1.05em;
     margin: 0;
-    accent-color: var(--text-color);
+    accent-color: var(--accent-color);
 }
 
 /* The question mark: press it to read the explanation (a hover-only title does nothing on touch) */
 .settings-remark
 {
     flex: 0 0 auto;
-    width: 1.5em;
-    height: 1.5em;
+    width: 1.35em;
+    height: 1.35em;
     padding: 0;
-    border: 1px solid var(--mid-color);
-    border-radius: 50%;
-    background-color: var(--input-bg);
-    color: var(--mid-color);
     font-family: var(--font-body);
-    font-size: 0.75em;
-    font-weight: bold;
+    font-size: 0.72em;
+    font-weight: 700;
     font-style: normal;
-    text-transform: none;
     line-height: 1;
+    text-transform: none;
+    color: var(--mid-color);
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
     cursor: pointer;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
 }
 
-.settings-remark:hover, .settings-remark.active
+.settings-remark:hover,
+.settings-remark.active
 {
-    background-color: var(--text-color);
-    color: var(--bg-color);
-    border-color: var(--text-color);
+    color: #ffffff;
+    background: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
 .settings-remark-text
 {
     flex: 1 0 100%;
     width: 100%;
-    padding: 0.5em 0.75em;
-    background-color: var(--input-bg);
-    border-left: 0.25em solid var(--mid-color);
-    border-radius: var(--border-radius);
+    padding: 0.55em 0.75em;
     font-size: 0.9em;
     font-style: italic;
-    line-height: 1.35;
+    line-height: 1.4;
+    color: var(--text-color);
+    background: var(--accent-soft);
+    border-left: 0.25em solid var(--accent-color);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+/* primary action: the one full-width button that starts the generation */
+.settings-container > button
+{
+    width: 100%;
+    margin: 0 0 0.35em;
+    padding: 0.78em 1em;
+    font-family: var(--font-heading);
+    font-size: 0.78em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: #ffffff;
+    background: var(--accent-color);
+    border: 0;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.15s, transform 0.1s;
+}
+
+.settings-container > button:hover
+{
+    background: #4f2f22;
+}
+
+.settings-container > button:active
+{
+    transform: translateY(1px);
+}
+
+.settings button:disabled
+{
+    opacity: 0.55;
+    cursor: progress;
 }
 
 .feedback-node-sub
 {
-    font-style: italic;
-    font-size: 0.62em;
-    text-align: center;
     width: 100%;
+    margin-bottom: 0.55em;
+    font-size: 0.68em;
+    font-style: italic;
+    text-align: center;
+    color: var(--mid-color);
+}
+
+@media all and (max-width: 30em)
+{
+    .settings
+    {
+        margin: 0.5em;
+        padding: 0.9em;
+    }
+
+    .settings-tools button
+    {
+        flex: 1 1 45%;
+    }
+
+    .settings-element > input[type="text"],
+    .settings-element > select
+    {
+        flex: 1 1 100%;
+        margin-left: 0;
+    }
 }
 `;

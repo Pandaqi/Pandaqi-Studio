@@ -24,11 +24,24 @@ await p;
 
 */
 
+// decode() is not available in old Safari and may reject there even for a valid data URL. Waiting for
+// load/complete is the fallback that every browser understands.
+const waitForImageLoad = (image:HTMLImageElement) => new Promise<void>((resolve, reject) =>
+{
+    if(image.complete)
+    {
+        if(image.naturalWidth > 0) { resolve(); } else { reject(new Error("Canvas could not be converted to an image.")); }
+        return;
+    }
+    image.addEventListener("load", () => resolve(), { once: true });
+    image.addEventListener("error", () => reject(new Error("Canvas could not be converted to an image.")), { once: true });
+});
+
 export const convertCanvasToImage = async (canvas:HTMLCanvasElement) : Promise<HTMLImageElement> =>
 {
     let image = new Image();
     image.src = canvas.toDataURL();
-    await image.decode();
+    try { await image.decode(); } catch(e) { await waitForImageLoad(image); }
     image.dataset.index = canvas.dataset.index ?? "0";
     return image;
 }

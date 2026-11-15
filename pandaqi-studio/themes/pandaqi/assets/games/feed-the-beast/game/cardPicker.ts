@@ -1,5 +1,5 @@
 
-import { BalancedFrequencyPickerWithMargin, shuffle, fromArray, getWeighted, rand } from "lib/pq-games";
+import { getSetting, BalancedFrequencyPickerWithMargin, shuffle, fromArray, getWeighted, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIONS, FOOD, GeneralData, MaterialType, Recipe, RecipeList, RecipeRewardType, VICTIMS } from "../shared/dict";
 import Card from "./card";
@@ -24,7 +24,7 @@ export const cardPicker = () : Card[] =>
 
 const generateRecipeCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.recipeCards.value) { return; }
+    if(!getSetting("sets.recipeCards", CONFIG)) { return; }
 
     // create all the card objects
     const numCards = CONFIG.generation.numRecipeCards;
@@ -158,7 +158,7 @@ const createMultiFoodRecipe = (pickers:BalancedFrequencyPickerWithMargin[], maxT
     recipeData.total++;
 
     const recipe = [pickers[maxTier].pickNext()];
-    if(!CONFIG._settings.allowMultiFoodRecipes.value) { return [recipe]; }
+    if(!getSetting("allowMultiFoodRecipes", CONFIG)) { return [recipe]; }
 
     let prob = CONFIG.generation.multiFoodRecipeProbPerTier[maxTier];
     if(customProb >= 0) { prob = customProb; }
@@ -237,7 +237,7 @@ const getActionsOfValue = (val:number, availableActions:Record<string, GeneralDa
 
 const generateVictimCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.saveThePrincess.value) { return; }
+    if(!getSetting("sets.saveThePrincess", CONFIG)) { return; }
 
     const defFreq = CONFIG.generation.defaultVictimFrequency;
     for(const [key,data] of Object.entries(VICTIMS))

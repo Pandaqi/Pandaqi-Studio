@@ -1,5 +1,5 @@
 
-import { lerp, shuffle, clamp, rand } from "lib/pq-games";
+import { getSetting, lerp, shuffle, clamp, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { SPECIAL_CARDS } from "../shared/dict";
 import Card from "./card";
@@ -10,7 +10,7 @@ export const cardPicker = () : Card[] =>
     
     // the simple cards for the base game
     const maxNum:number = CONFIG.generation.defaultMaxNumOnCard;
-    if(CONFIG._settings.sets.base.value)
+    if(getSetting("sets.base", CONFIG))
     {
         const dist:Record<string,number> = CONFIG.generation.numCardsPerColor;
         for(const [color,num] of Object.entries(dist))
@@ -26,7 +26,7 @@ export const cardPicker = () : Card[] =>
     }
 
     // the special expansion cards
-    if(CONFIG._settings.sets.expansion.value)
+    if(getSetting("sets.expansion", CONFIG))
     {
         let numCardsNeeded = 0;
         for(const [key,data] of Object.entries(SPECIAL_CARDS))

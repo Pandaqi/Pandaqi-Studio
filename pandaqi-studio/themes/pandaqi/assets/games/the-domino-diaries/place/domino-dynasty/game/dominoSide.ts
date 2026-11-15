@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, ResourceText, drawBlurryRectangle, rand } from "lib/pq-games";
+import { getSetting, MaterialVisualizer, ResourceGroup, Vector2, LayoutOperation, DropShadowEffect, TextConfig, ResourceText, drawBlurryRectangle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ICONS, PATHS, TERRAINS, TerrainType } from "../shared/dict";
 
@@ -153,7 +153,7 @@ export default class DominoSide
     drawOverlay(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const data = this.getTypeData();
-        if(!data.desc || !CONFIG._settings.addText.value) { return; }
+        if(!data.desc || !getSetting("addText", CONFIG)) { return; }
 
         // extra explanatory text when needed
         const partHeight = 0.5*vis.size.y;

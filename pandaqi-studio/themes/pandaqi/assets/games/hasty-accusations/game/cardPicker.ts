@@ -1,5 +1,5 @@
 
-import { getWeighted } from "lib/pq-games";
+import { getSetting, getWeighted } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ActionData, SETS, Type } from "../shared/dict";
 import Card from "./card";
@@ -7,9 +7,9 @@ import Card from "./card";
 export const cardPicker = () : Card[] =>
 {
     const cards = [];
-    if(!CONFIG._settings.includeCards.value) { return; }
+    if(!getSetting("includeCards", CONFIG)) { return; }
 
-    const set = structuredClone(SETS[CONFIG._settings.cardSet.value]);
+    const set = structuredClone(SETS[getSetting("cardSet", CONFIG)]);
     const deckSize = CONFIG.generation.numPlayingCardsInDeck;
     const defFreqBounds = CONFIG.generation.defFreqBounds;
     const freqs = {};

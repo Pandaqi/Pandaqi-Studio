@@ -1,5 +1,5 @@
 
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 import CardThroneless from "./cardThroneless";
 import { CardType, PackData } from "./dictShared";
 
@@ -10,13 +10,13 @@ export default (list:CardThroneless[], config:Record<string,any>, dictPacks:Reco
 
     // figure out which ones to include
     let packsIncluded = [];
-    const set = config._settings.set.value ?? "none";
+    const set = getSetting("set", config) ?? "none";
     if(set in dictSets) { 
         packsIncluded = dictSets[set].slice(); 
     } else if(set == "random") {
-        packsIncluded = shuffle(config._settings.packs.value).slice(0,5);
+        packsIncluded = shuffle(getSetting("packs", config)).slice(0,5);
     } else if(set == "none") { 
-        packsIncluded = config._settings.packs.value;
+        packsIncluded = getSetting("packs", config);
     }
     
     // for those ones, add the right regular/dark/whatever versions in the right quantities

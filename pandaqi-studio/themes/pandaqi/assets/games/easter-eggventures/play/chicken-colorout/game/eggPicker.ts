@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { EGGS_SHARED } from "games/easter-eggventures/shared/dictShared";
 import { CONFIG } from "../shared/config";
 import { TileType } from "../shared/dict";
@@ -7,7 +8,7 @@ export const eggPicker = () : Tile[] =>
 {
     const tiles = [];
         
-    if(CONFIG._settings.sets.base.value)
+    if(getSetting("sets.base", CONFIG))
     {
         const maxNumEggs = CONFIG.generation.maxNumEggs;
         const eggTypes = Object.keys(EGGS_SHARED).slice(0, maxNumEggs);
@@ -24,7 +25,7 @@ export const eggPicker = () : Tile[] =>
         }
     }
 
-    if(CONFIG._settings.sets.score.value)
+    if(getSetting("sets.score", CONFIG))
     {
         for(const [num,freq] of Object.entries(CONFIG.generation.victoryEggsDistribution))
         {

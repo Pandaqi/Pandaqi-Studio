@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { EGGS_SHARED } from "games/easter-eggventures/shared/dictShared";
 import { CONFIG } from "../shared/config";
 import { OBSTACLES, TileType } from "../shared/dict";
@@ -15,7 +16,7 @@ export const eggPicker = () : Tile[] =>
 
 const generateEggTokens = (tiles) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
     
     // @NOTE: We DON'T shuffle these types, because the Score Cards depend on this, and it would be a mess to track it across systems and/or expansions.
     // So it just cuts off the first X it needs.
@@ -36,7 +37,7 @@ const generateEggTokens = (tiles) =>
 
 const generateObstacles = (tiles) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     for(const [key,data] of Object.entries(OBSTACLES))
     {

@@ -1,5 +1,5 @@
 
-import { BalancedFrequencyPickerWithMargin, shuffle } from "lib/pq-games";
+import { getSetting, BalancedFrequencyPickerWithMargin, shuffle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardType, ICONS, VoteDetails, VoteType } from "../shared/dict";
 import Card from "./card";
@@ -34,7 +34,7 @@ const getIconOptions = (setTarget:string = "base") =>
 
 const generateVotesBase = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     const iconOptions = getIconOptions("base");
 
@@ -73,7 +73,7 @@ const generateVotesBase = (cards) =>
 
 const generateVotesChange = (cards) =>
 {
-    if(!CONFIG._settings.sets.breakingChanges.value) { return; }
+    if(!getSetting("sets.breakingChanges", CONFIG)) { return; }
     
     // create change cards with unique, ascending numbers
     const numChange = CONFIG.generation.numChangeCards;

@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { BID_CARDS, CardType, Suit } from "../shared/dict";
 import Card from "./card";
@@ -15,7 +16,7 @@ export const cardPicker = () =>
 
 const generateBaseGame = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     // generate the number cards
     const numbers = CONFIG.generation.numberBounds.asList();
@@ -33,7 +34,7 @@ const generateBaseGame = (cards) =>
 
 const generateBiddingCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.biddingCards.value) { return; }
+    if(!getSetting("sets.biddingCards", CONFIG)) { return; }
 
     // generate the bid cards
     for(const [key,data] of Object.entries(BID_CARDS))
@@ -51,7 +52,7 @@ const generateBiddingCards = (cards) =>
 
 const generateExpansion = (cards) =>
 {
-    if(!CONFIG._settings.sets.expansion.value) { return; }
+    if(!getSetting("sets.expansion", CONFIG)) { return; }
 
     // add bonus bids
     for(const [key,data] of Object.entries(BID_CARDS))

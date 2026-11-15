@@ -2,11 +2,11 @@ import { PLANET_PROPERTIES, PlanetProperty } from "../shared/dict";
 import Card from "./card";
 import { CardType } from "games/naivigation/shared/dictShared";
 import { CONFIG } from "../shared/config";
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 
 export const planetPropertiesPicker = () : Card[] =>
 {
-    if(!CONFIG._settings.expansions.trade.value) { return []; }
+    if(!getSetting("expansions.trade", CONFIG)) { return []; }
 
     const allOptions: PlanetProperty[] = [];
 

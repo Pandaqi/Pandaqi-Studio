@@ -1,5 +1,5 @@
 
-import { shuffle, getWeighted } from "lib/pq-games";
+import { getSetting, shuffle, getWeighted } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTION_TILES, MAP_TILES, RULES, SECRET_OBJECTIVES, TileType } from "../shared/dict";
 import Tile from "./tile";
@@ -21,7 +21,7 @@ export const tilePicker = () : Tile[] =>
 
 const generatePawns = (tiles) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     const maxNumPlayers = CONFIG.generation.maxNumPlayers;
     for(let i = 0; i < maxNumPlayers; i++)
@@ -32,7 +32,7 @@ const generatePawns = (tiles) =>
 
 const generateMapTiles = (tiles) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     for(const [key,data] of Object.entries(MAP_TILES))
     {
@@ -49,7 +49,7 @@ const generateMapTiles = (tiles) =>
 
 const generateRuleTiles = (tiles) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     // could be initialized somewhere else, but this is fine too
     const tileOptions = [];
@@ -190,7 +190,7 @@ const fillInDynamicData = (key:string, str:string, data:TileData, dynamicRules:R
 
 const generateActionTiles = (tiles) =>
 {
-    if(!CONFIG._settings.sets.actionTiles.value) { return; }
+    if(!getSetting("sets.actionTiles", CONFIG)) { return; }
 
     for(const [key,data] of Object.entries(ACTION_TILES))
     {
@@ -225,7 +225,7 @@ const replaceNeedleRecursively = (str:string, eggOptions:string[]) =>
 
 const generateSecretObjectives = (tiles) =>
 {
-    if(!CONFIG._settings.sets.secretObjectives.value) { return; }
+    if(!getSetting("sets.secretObjectives", CONFIG)) { return; }
 
     const availableEggs = Object.keys(EGGS_SHARED).slice(0, CONFIG.generation.maxNumEggs);
     const eggOptions = [];

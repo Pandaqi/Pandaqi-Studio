@@ -2,7 +2,7 @@ import { EGGS_SHARED } from "games/easter-eggventures/shared/dictShared";
 import { CONFIG } from "../shared/config";
 import { OBSTACLES, SPECIAL_EGGS, TileType } from "../shared/dict";
 import Tile from "./tile";
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 
 export const tilePicker = () : Tile[] =>
 {
@@ -18,7 +18,7 @@ export const tilePicker = () : Tile[] =>
 
 const generatePawns = (tiles) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
     const maxNumPlayers = CONFIG.generation.maxNumPlayers;
     for(let i = 0; i < maxNumPlayers; i++)
     {
@@ -28,7 +28,7 @@ const generatePawns = (tiles) =>
 
 const generateEggs = (tiles) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     const numUniqueEggs = CONFIG.generation.maxNumEggs;
     const numbers = CONFIG.generation.defaultEggNumbering.slice();
@@ -52,7 +52,7 @@ const generateEggs = (tiles) =>
 
 const generateSpecialEggs = (tiles) =>
 {
-    if(!CONFIG._settings.sets.specialEggs.value) { return; }
+    if(!getSetting("sets.specialEggs", CONFIG)) { return; }
 
     for(const [key,data] of Object.entries(SPECIAL_EGGS))
     {

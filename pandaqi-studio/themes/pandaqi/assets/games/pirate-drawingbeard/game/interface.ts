@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 
 import { CONFIG } from "../shared/config";
 import Hints from "./hints"
@@ -49,14 +50,14 @@ export default {
 			return;
 		}
 
-		if(CONFIG._settings.createPremadeGame.value) {
+		if(getSetting("createPremadeGame", CONFIG)) {
 			this.setInterfaceTo(this.texts.premadeGameFinished);
 			return;
 		}
 
 
 		var welcomeMessage = this.texts.welcomeMessage;
-		if(CONFIG._settings.useRealMaterial.value) {
+		if(getSetting("useRealMaterial", CONFIG)) {
 			welcomeMessage = welcomeMessage.replace("{0}", '<strong>Step 1:</strong> grab the material you already have.');
 		} else {
 			welcomeMessage = welcomeMessage.replace("{0}", '<strong>Step 1:</strong> grab some papers and pens.');

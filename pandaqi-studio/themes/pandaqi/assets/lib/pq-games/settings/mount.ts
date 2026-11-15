@@ -86,8 +86,8 @@ export const loadSettings = (config:GameConfig, callback: Function, parent = doc
         if(config._settings.meta.selfDestroy) { container.remove(); }
     });
 
-    settingsList.appendChild(btn);
-    settingsList.appendChild(progressInfo);
+    // most people never change a setting: keep the action at the top so they can generate without scrolling
+    settingsList.prepend(btn, progressInfo);
 
     const style = document.createElement("style");
     style.innerHTML = STYLES;

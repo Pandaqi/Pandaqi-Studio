@@ -1,5 +1,5 @@
 
-import { toTextDrawerImageStrings, shuffle, BalancedFrequencyPickerWithMargin, getWeighted, Bounds, fromArray } from "lib/pq-games";
+import { getSetting, toTextDrawerImageStrings, shuffle, BalancedFrequencyPickerWithMargin, getWeighted, Bounds, fromArray } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardType, DYNAMIC_OPTIONS, DecreeType, ICONS, IconData, LAWS, LawData, LawDataRaw, LawType, LawVibe, ResourceVibe, SPECIAL_RESOURCES, SideDetails } from "../shared/dict";
 import Card from "./card";
@@ -39,7 +39,7 @@ const preparePossibleIcons = () =>
 
 const generateBaseCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     // collect final data needed
     const freqData:Record<string,number> = CONFIG.generation.numDecreeCardsPerType;
@@ -312,7 +312,7 @@ const fillArrayWithLeastDuplicates = (num:number, options:any[]) =>
 
 const generateAbstainLaws = (cards) =>
 {
-    if(!CONFIG._settings.sets.abstain.value) { return; }
+    if(!getSetting("sets.abstain", CONFIG)) { return; }
 
     // filter laws for this expansion
     // + create a list long enough to cover all cards, with as little duplicates as possible
@@ -342,7 +342,7 @@ const generateAbstainLaws = (cards) =>
 
 const generateAdvancedCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.advanced.value) { return; }
+    if(!getSetting("sets.advanced", CONFIG)) { return; }
 
     // filter law cards for this expansion
     // + create a list long enough to cover all cards, with as little duplicates as possible

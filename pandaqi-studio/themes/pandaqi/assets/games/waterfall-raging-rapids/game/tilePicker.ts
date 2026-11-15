@@ -1,5 +1,5 @@
 
-import { shuffle, BalancedFrequencyPickerWithMargin, getWeighted } from "lib/pq-games";
+import { getSetting, shuffle, BalancedFrequencyPickerWithMargin, getWeighted } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIONS, ACTIONS_CONDITIONAL, CONDITIONS, GATES, GEMSTONES, TileType, WaterFlow } from "../shared/dict";
 import Tile from "./tile";
@@ -16,7 +16,7 @@ export const tilePicker = () =>
 
 const generatePawns = (tiles) =>
 {
-    if(!CONFIG._settings.sets.pawns.value) { return; }
+    if(!getSetting("sets.pawns", CONFIG)) { return; }
 
     for(let i = 0; i < CONFIG.generation.numPawnFrames; i++)
     {
@@ -29,7 +29,7 @@ const generateTiles = (tiles) =>
     // prepare the objects and numbers
     const arr : Tile[] = [];
     
-    if(CONFIG._settings.sets.base.value)
+    if(getSetting("sets.base", CONFIG))
     {
         for(let i = 0; i < CONFIG.generation.numBaseTiles; i++)
         {
@@ -37,7 +37,7 @@ const generateTiles = (tiles) =>
         }
     }
 
-    if(CONFIG._settings.sets.gates.value)
+    if(getSetting("sets.gates", CONFIG))
     {
         for(let i = 0; i < CONFIG.generation.numGateTiles; i++)
         {
@@ -128,7 +128,7 @@ const generateTiles = (tiles) =>
     const numConditionalActions = Math.floor(CONFIG.generation.conditionalActionsPercentage * totalNumTiles);
     for(let i = 0; i < arr.length; i++)
     {
-        if(CONFIG._settings.useConditionalActions.value && i < numConditionalActions) {
+        if(getSetting("useConditionalActions", CONFIG) && i < numConditionalActions) {
             const cond = getWeighted(CONDITIONS);
             const reward = getWeighted(ACTIONS_CONDITIONAL);
             const finalString = CONDITIONS[cond].desc + ", " + ACTIONS_CONDITIONAL[reward].desc;

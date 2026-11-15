@@ -2,7 +2,7 @@
 import { CONFIG } from "../shared/config";
 import Card from "./card";
 import { SPECIAL_CARDS } from "../shared/dict";
-import { Bounds, shuffle } from "lib/pq-games";
+import { getSetting, Bounds, shuffle } from "lib/pq-games";
 
 export const cardPicker = () : Card[] =>
 {
@@ -16,7 +16,7 @@ export const cardPicker = () : Card[] =>
 
 const generateBaseCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     for(let i = CONFIG.generation.minNum; i <= CONFIG.generation.maxNum; i++)
     {
@@ -30,7 +30,7 @@ const generateBaseCards = (cards) =>
 
 const generateWackyNumbers = (cards) =>
 {
-    if(!CONFIG._settings.sets.wackyNumbers.value) { return; }
+    if(!getSetting("sets.wackyNumbers", CONFIG)) { return; }
     
     const numCards = CONFIG.generation.numCardsWacky;
     const bounds = new Bounds(CONFIG.generation.minNum, CONFIG.generation.maxNum);

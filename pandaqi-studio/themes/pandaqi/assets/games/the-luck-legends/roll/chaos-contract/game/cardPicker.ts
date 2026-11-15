@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray, getWeighted } from "lib/pq-games";
+import { getSetting, shuffle, fromArray, getWeighted } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CARD_ACTIONS, CardType, GeneralDict } from "../shared/dict";
 import Card from "./card";
@@ -18,20 +18,20 @@ export const cardPicker = () : Card[] =>
 
 const generateBase = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
     generateContracts(cards, "base");
     generateDiceCards(cards, "base");
 }
 
 const generateLostSouls = (cards) =>
 {
-    if(!CONFIG._settings.sets.lostSouls.value) { return; }
+    if(!getSetting("sets.lostSouls", CONFIG)) { return; }
     generateContracts(cards, "lost");
 }
 
 const generateDevilishNumbers = (cards) =>
 {
-    if(!CONFIG._settings.sets.devilishNumbers.value) { return; }
+    if(!getSetting("sets.devilishNumbers", CONFIG)) { return; }
     generateDiceCards(cards, "devilish");
 }
 

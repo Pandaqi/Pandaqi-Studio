@@ -1,5 +1,5 @@
 
-import { rand } from "lib/pq-games";import { Color, MaterialVisualizer, Vector2, TextConfig, shuffle, getWeighted, Rectangle, ResourceGroup, LayoutOperation, ResourceShape, Line, ResourceText, StrokeAlign, DropShadowEffect } from "lib/pq-games"
+import { getSetting, rand } from "lib/pq-games";import { Color, MaterialVisualizer, Vector2, TextConfig, shuffle, getWeighted, Rectangle, ResourceGroup, LayoutOperation, ResourceShape, Line, ResourceText, StrokeAlign, DropShadowEffect } from "lib/pq-games"
 import Cell from "./cell"
 import { CONFIG } from "./config"
 import { KEEBBLE_TYPES } from "./dict"
@@ -67,7 +67,7 @@ export class BoardGeneration
 	setup()
 	{
 		const cfg = CONFIG;
-		if(cfg._settings.expansions.scrabbleScoring.value)
+		if(getSetting("expansions.scrabbleScoring", cfg))
 		{
 			cfg.showLetterValues = true;
 		}
@@ -172,7 +172,7 @@ export class BoardGeneration
 	{
 		this.gen.walls = [];
 
-		if(!CONFIG._settings.addWalls.value) { return; }
+		if(!getSetting("addWalls", CONFIG)) { return; }
 
 		const edges = this.getAllEdges();
 		shuffle(edges);
@@ -331,7 +331,7 @@ export class BoardGeneration
 
 	placeRandomSpecialCells()
 	{
-		if(!CONFIG._settings.expansions.specialCells.value) { return; }
+		if(!getSetting("expansions.specialCells", CONFIG)) { return; }
 
 		const max = this.scaleToBoardSize(CONFIG.numSpecial.max);
 		const min = this.scaleToBoardSize(CONFIG.numSpecial.max);
@@ -383,7 +383,7 @@ export class BoardGeneration
 		const max = CONFIG.startHandSize.max;
 		const size = Math.floor(rand() * (max - min) + min);
 
-		const numPlayers = CONFIG._settings.numPlayers.value;
+		const numPlayers = getSetting("numPlayers", CONFIG);
 		const hands = [];
 		for(let i = 0; i < numPlayers; i++)
 		{
@@ -578,7 +578,7 @@ export class BoardGeneration
 		const cellY = (CONFIG.cellSizeY / h);
 		const backpackCellSize = new Vector2(cellX, cellY);
 
-		const displayAsGrid = CONFIG._settings.expansions.tinyBackpacks.value
+		const displayAsGrid = getSetting("expansions.tinyBackpacks", CONFIG)
 		if(displayAsGrid)
 		{
 			const col = CONFIG.backpackGridColor;

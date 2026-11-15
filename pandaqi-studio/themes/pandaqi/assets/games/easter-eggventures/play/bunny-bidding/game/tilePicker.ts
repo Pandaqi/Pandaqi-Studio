@@ -1,5 +1,5 @@
 
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { HANDICAPS, POWERS, SPECIAL_EGGS, TileType } from "../shared/dict";
 import Tile from "./tile";
@@ -18,7 +18,7 @@ export const tilePicker = () =>
 
 const generateRegularEggs = (tiles) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     const specialEggInterval = CONFIG.generation.specialEggInterval;
     const maxNumber = CONFIG.generation.maxEggNumber;
@@ -63,7 +63,7 @@ const generateRegularEggs = (tiles) =>
 
 const generateSpecialEggs = (tiles) =>
 {
-    if(!CONFIG._settings.sets.special.value) { return; }
+    if(!getSetting("sets.special", CONFIG)) { return; }
 
     const specialEggInterval = CONFIG.generation.specialEggInterval;
     const maxNumber = CONFIG.generation.maxEggNumber;
@@ -89,7 +89,7 @@ const generateSpecialEggs = (tiles) =>
 
 const generatePowerEggs = (tiles) =>
 {
-    if(!CONFIG._settings.sets.powers.value) { return; }
+    if(!getSetting("sets.powers", CONFIG)) { return; }
 
     for(const [key,data] of Object.entries(POWERS))
     {

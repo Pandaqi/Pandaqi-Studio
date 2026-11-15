@@ -30,6 +30,14 @@ export interface MaterialDrawCall
 const sleep = (timeout:number) => new Promise(r => setTimeout(r, timeout))
 const letDomUpdate = async () => { return sleep(DEFAULT_SLEEP_DURATION); }
 
+// A game can generate more than one document (cards + tiles, for example). Saving all of them under the
+// game's own name collided in the browser's download folder, so each material gets a readable suffix.
+const formatMaterialName = (key:string) =>
+{
+    const spaced = key.replace(/([a-z0-9])([A-Z])/g, "$1 $2").replace(/[-_]+/g, " ").trim();
+    return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+}
+
 const loadResources = async (config:GameConfig, feedbackNode:HTMLElement, renderer: Renderer) =>
 {
     sendProgressPhaseSignal(feedbackNode, "Loading Resources");
@@ -218,16 +226,23 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
     const auditPdf = ((window as any).__auditPdf ?? {}) as { maxPages?:number, compression?:PdfCompression };
 
     const pdfBuilders:PdfBuilder[] = [];
+    const materialKeys = Object.keys(mappers);
+    const multipleMaterials = materialKeys.length > 1;
+    const baseFileName = config._game.fileName ?? config._game.name ?? "Generated Game";
     let lastProgressUpdate = 0;
     for(const [key,mapper] of Object.entries(mappers))
     {
+        // an explicitly named material keeps its name; the rest only need a suffix when there is more than
+        // one document, because "Mapped Out.pdf" twice is exactly the collision this avoids
+        const materialFileName = config._material[key].fileName;
+        const fileName = materialFileName ?? (multipleMaterials ? `${baseFileName} - ${formatMaterialName(key)}` : baseFileName);
         const pageParams:PdfPageConfig = {
             size: mapper.getPageSize(), 
             debugWithoutFile: config._debug.omitFile, 
             lossless: config._generation.losslessPdf,
             compression: auditPdf.compression,
             maxPages: auditPdf.maxPages,
-            fileName: config._material[key].fileName ?? config._game.fileName ?? config._game.name,
+            fileName: fileName,
         };
         const pdfBuilder = new PdfBuilder(pageParams);
         pdfBuilders.push(pdfBuilder);

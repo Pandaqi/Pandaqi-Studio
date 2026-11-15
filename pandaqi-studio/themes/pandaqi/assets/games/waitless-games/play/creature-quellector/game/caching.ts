@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceImage, LayoutOperation, createContext, fillCanvas, convertCanvasToImageMultiple, Vector2, Line, ResourceShape, Path, Bounds, takeBitesOutOfPath } from "lib/pq-games";
+import { getSetting, MaterialVisualizer, ResourceImage, LayoutOperation, createContext, fillCanvas, convertCanvasToImageMultiple, Vector2, Line, ResourceShape, Path, Bounds, takeBitesOutOfPath } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CATEGORIES, ELEMENTS } from "../shared/dict";
 
@@ -12,7 +12,7 @@ export const cacheVisualizerData = async (vis:MaterialVisualizer) =>
     await bakeCutoutInto(vis, "icons");
     await bakeCutoutInto(vis, "icons_actions");
 
-    if(CONFIG._settings.multiType.value)
+    if(getSetting("multiType", CONFIG))
     {
         await createMultiTypeIcons(vis, "icons");
     }

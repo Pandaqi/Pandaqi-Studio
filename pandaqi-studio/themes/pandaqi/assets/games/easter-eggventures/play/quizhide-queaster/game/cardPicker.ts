@@ -2,7 +2,7 @@ import { EGGS_SHARED } from "games/easter-eggventures/shared/dictShared";
 import { CONFIG } from "../shared/config";
 import { CardType } from "../shared/dict";
 import Card from "./card";
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 
 
 export const cardPicker = () : Card[] =>
@@ -15,7 +15,7 @@ export const cardPicker = () : Card[] =>
 
 const generateClueCards = (cards) =>
 {        
-    if(CONFIG._settings.sets.base.value)
+    if(getSetting("sets.base", CONFIG))
     {
         const range = CONFIG.generation.clueCardBoundsBase;
         for(let i = range.min; i <= range.max; i++)
@@ -24,7 +24,7 @@ const generateClueCards = (cards) =>
         }
     }
 
-    if(CONFIG._settings.sets.cluesRooms.value)
+    if(getSetting("sets.cluesRooms", CONFIG))
     {
         const range = CONFIG.generation.clueCardBoundsExpansion;
         for(let i = range.min; i <= range.max; i++)
@@ -36,7 +36,7 @@ const generateClueCards = (cards) =>
 
 const generateScoreCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     const numScoreCards = CONFIG.generation.numScoreCards;
     for(let i = 0; i < numScoreCards; i++)

@@ -4,7 +4,7 @@ import InstructionScreen from "./instructionScreen";
 import SlidersScreen from "./slidersScreen";
 import WordsScreen from "./wordsScreen";
 import GameState from "./gameState";
-import { SettingType, SignalManager, loadSettings } from "lib/pq-games";
+import { getSetting, SettingType, SignalManager, loadSettings } from "lib/pq-games";
 
 const SETTINGS =
 {
@@ -84,7 +84,7 @@ class Game
 
     prepareConfig()
     {
-        CONFIG.game.maxTurns = parseInt(CONFIG._settings.maxTurns.value ?? "10");
+        CONFIG.game.maxTurns = parseInt(getSetting("maxTurns", CONFIG) ?? "10");
         this.score = 0;
     }
 

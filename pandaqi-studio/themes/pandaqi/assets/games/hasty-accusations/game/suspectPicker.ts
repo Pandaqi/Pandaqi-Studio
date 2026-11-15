@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { SUSPECTS, Type } from "../shared/dict";
 import Card from "./card";
@@ -5,7 +6,7 @@ import Card from "./card";
 export const suspectPicker = () : Card[] =>
 {
     const cards = [];
-    if(!CONFIG._settings.includeCharacters.value) { return; }
+    if(!getSetting("includeCharacters", CONFIG)) { return; }
 
     // then simply create all suspects as often as required
     // (the "loupe" card is also just a suspect!)

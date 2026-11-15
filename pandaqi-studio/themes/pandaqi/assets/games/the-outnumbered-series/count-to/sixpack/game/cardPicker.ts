@@ -3,7 +3,7 @@ import { CONFIG } from "../shared/config";
 import { PACKS } from "../shared/dict";
 import Pack from "./pack";
 import Card from "./card";
-import { shuffle, rangeInteger } from "lib/pq-games";
+import { getSetting, shuffle, rangeInteger } from "lib/pq-games";
 
 export const cardPicker = () : Card[] =>
 {
@@ -19,7 +19,7 @@ export const cardPicker = () : Card[] =>
     }
 
     // if set, just do something random with packs
-    if(CONFIG._settings.randomizePacks.value)
+    if(getSetting("randomizePacks", CONFIG))
     {
         const obj = {};
         const allTypes = shuffle(Object.keys(PACKS));

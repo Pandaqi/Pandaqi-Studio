@@ -1,5 +1,5 @@
 
-import { shuffle, getWeighted, fromArray } from "lib/pq-games";
+import { getSetting, shuffle, getWeighted, fromArray } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIONS, ActionType, GeneralData } from "../shared/dict";
 import Card from "./card";
@@ -96,7 +96,7 @@ const getActionsDynamic = (num:number, options:Record<string,GeneralData>, set: 
 
 const generateBaseCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     // prepare a fairly balanced set of numbers
     // prepare a fairly balanced set of actions; include at least once, then draw weighted
@@ -115,7 +115,7 @@ const generateBaseCards = (cards) =>
 
 const generateSuperPowers = (cards) =>
 {
-    if(!CONFIG._settings.sets.superPowers.value) { return; }
+    if(!getSetting("sets.superPowers", CONFIG)) { return; }
 
     const numCards = CONFIG.generation.superCardsNum;
     const numbersFinal = getNumbersBalanced(numCards, CONFIG.generation.superNumbersPossible);

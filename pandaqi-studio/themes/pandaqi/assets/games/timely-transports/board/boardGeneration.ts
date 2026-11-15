@@ -1,5 +1,5 @@
 
-import { rand } from "lib/pq-games";import { CITY_NAMES, COOL_WORD_TEMPLATES, DIFFICULTY_LEVELS, GOODS, JUNGLE_NAME_TEMPLATES, PLAYERCOUNT_TO_CITYCOUNT, PLAYER_COLORS, PathType, TerrainType } from "../shared/dict"
+import { getSetting, rand } from "lib/pq-games";import { CITY_NAMES, COOL_WORD_TEMPLATES, DIFFICULTY_LEVELS, GOODS, JUNGLE_NAME_TEMPLATES, PLAYERCOUNT_TO_CITYCOUNT, PLAYER_COLORS, PathType, TerrainType } from "../shared/dict"
 import calculateRoute from "./pathfinder"
 // @ts-ignore
 import { noise } from "./perlin"
@@ -97,7 +97,7 @@ export default class BoardGeneration
 		const scaleFactorDPI = (canvasWidth/1160.0);
 
 		const userConfig = CONFIG;
-		const numPlayers = parseInt(userConfig._settings.playerCount.value);
+		const numPlayers = parseInt(getSetting("playerCount", userConfig));
 
 		this.cfg = 
 		{
@@ -126,10 +126,10 @@ export default class BoardGeneration
 			landCityProbability: 0.35,
 
 			numPlayers: numPlayers,
-			difficulty: userConfig._settings.difficulty.value ?? "trainingWheels",
-			inkFriendly: userConfig._settings.defaults.inkFriendly.value ?? false,
-			cityBonus: userConfig._settings.cityBonus.value ?? false,
-			rulesReminder: userConfig._settings.rulesReminder.value ?? false,
+			difficulty: getSetting("difficulty", userConfig) ?? "trainingWheels",
+			inkFriendly: getSetting("defaults.inkFriendly", userConfig) ?? false,
+			cityBonus: getSetting("cityBonus", userConfig) ?? false,
+			rulesReminder: getSetting("rulesReminder", userConfig) ?? false,
 
 			minPathsRequiredOfEachType: 2
 		}

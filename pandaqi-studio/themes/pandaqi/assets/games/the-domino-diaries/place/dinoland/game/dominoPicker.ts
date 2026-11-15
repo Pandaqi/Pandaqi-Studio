@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray } from "lib/pq-games";
+import { getSetting, shuffle, fromArray } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ASTEROID_TILES, DINOS, DominoType, IMPACT_TILES, TERRAINS } from "../shared/dict";
 import Domino from "./domino";
@@ -31,7 +31,7 @@ const filterBySet = (dict:Record<string,any>, targetSet:string) =>
 
 const generatePawns = (dominoes) =>
 {
-    if(!CONFIG._settings.sets.pawns.value) { return; }
+    if(!getSetting("sets.pawns", CONFIG)) { return; }
 
     for(let i = 0; i < CONFIG.generation.numUniquePawns; i++)
     {
@@ -46,7 +46,7 @@ const generatePawns = (dominoes) =>
 
 const generateBaseDominoes = (dominoes) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
     generateDominoes(dominoes, "base");
 
     // generate the base asteroid (normal + egg hatch) and crosshair tiles
@@ -67,7 +67,7 @@ const generateBaseDominoes = (dominoes) =>
 
 const generateExpansionDominoes = (dominoes) =>
 {
-    if(!CONFIG._settings.sets.expansion.value) { return; }
+    if(!getSetting("sets.expansion", CONFIG)) { return; }
     generateDominoes(dominoes, "expansion");
 }
 
@@ -125,7 +125,7 @@ const generateDominoes = (dominoes:Domino[], set:string) =>
 
 const generateImpactTiles = (dominoes) =>
 {
-    if(!CONFIG._settings.sets.impact.value) { return; }
+    if(!getSetting("sets.impact", CONFIG)) { return; }
 
     for(const [key,data] of Object.entries(IMPACT_TILES))
     {
@@ -136,7 +136,7 @@ const generateImpactTiles = (dominoes) =>
 
 const generateAsteroidTiles = (dominoes) =>
 {
-    if(!CONFIG._settings.sets.asteroid.value) { return; }
+    if(!getSetting("sets.asteroid", CONFIG)) { return; }
 
     const num = CONFIG.generation.numAsteroidTiles;
     const multiOptions = [];

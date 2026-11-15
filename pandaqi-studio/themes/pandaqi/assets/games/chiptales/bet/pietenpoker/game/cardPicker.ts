@@ -1,5 +1,5 @@
 
-import { shuffle, fromArray } from "lib/pq-games";
+import { getSetting, shuffle, fromArray } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIEPIETEN, CardType, ColorType } from "../shared/dict";
 import Card from "./card";
@@ -19,7 +19,7 @@ export const cardPicker = () : Card[] =>
 
 const generateBasisspel = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
 
     // create big sint and small sint
     cards.push(new Card(CardType.SINT, null, null, "small"));
@@ -64,7 +64,7 @@ const getRandomActionColor = () : ColorType =>
 
 const generatePietjePrecies = (cards) =>
 {
-    if(!CONFIG._settings.sets.pietjePrecies.value) { return; }
+    if(!getSetting("sets.pietjePrecies", CONFIG)) { return; }
 
     const num = CONFIG.generation.pietjePrecies.numCards;
     for(let i = 0; i < num; i++)
@@ -75,7 +75,7 @@ const generatePietjePrecies = (cards) =>
 
 const generateActiePiet = (cards) =>
 {
-    if(!CONFIG._settings.sets.actiePiet.value) { return; }
+    if(!getSetting("sets.actiePiet", CONFIG)) { return; }
 
     const freqDefault = CONFIG.generation.actiepiet.defaultFrequency;
     for(const [key,data] of Object.entries(ACTIEPIETEN))

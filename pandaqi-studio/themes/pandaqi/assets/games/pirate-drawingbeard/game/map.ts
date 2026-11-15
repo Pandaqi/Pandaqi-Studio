@@ -2,7 +2,7 @@ import Hints from "./hints"
 import { TILE_DICT, DISCRETE_LISTS, BEARING_CONDITIONS, FIXED_MAP_TILES } from "./dict"
 import Cell from "./cell";
 import { CONFIG } from "../shared/config";
-import { Vector2, rand } from "lib/pq-games";
+import { getSetting, Vector2, rand } from "lib/pq-games";
 
 class MapClass
 {
@@ -136,7 +136,7 @@ class MapClass
 		this.possibleTypes = CONFIG.typesIncluded.slice();
 
 		// Even digitally, I apply the material limit, just more loosely/randomly
-		if(!CONFIG._settings.useRealMaterial.value) 
+		if(!getSetting("useRealMaterial", CONFIG))
 		{ 
 			for(const key in TILE_DICT) 
 			{
@@ -161,7 +161,7 @@ class MapClass
 
 			let numExtra = 2 + Math.floor(CONFIG.rng.map() * 5);
 
-			if(CONFIG._settings.useRealMaterial.value) {
+			if(getSetting("useRealMaterial", CONFIG)) {
 				numExtra = Math.min(TILE_DICT.water.material - numEdgeStarters, numExtra);
 			}
 			
@@ -232,7 +232,7 @@ class MapClass
 		}
 
 		// assign symbols, if needed
-		if(CONFIG._settings.hints.symbols.value)
+		if(getSetting("hints.symbols", CONFIG))
 		{
 			const EMPTY_SYMBOL_PROB = 0.33;
 			for(let i = 0; i < this.mapList.length; i++)
@@ -240,7 +240,7 @@ class MapClass
 				let cell = this.mapList[i];
 				let symbolSlots = TILE_DICT[cell.type].symbolSlots;
 
-				if(CONFIG._settings.useRealMaterial.value) {
+				if(getSetting("useRealMaterial", CONFIG)) {
 					cell.symbols = TILE_DICT[cell.type].fixedSymbols;
 					continue;
 				}
@@ -271,7 +271,7 @@ class MapClass
 		
 		this.markedMapTiles = [];
 
-		if(CONFIG._settings.useRealMaterial.value)
+		if(getSetting("useRealMaterial", CONFIG))
 		{
 			let mapTileCoordinates = FIXED_MAP_TILES;
 			for(let i = 0; i < mapTileCoordinates.length; i++)
@@ -295,7 +295,7 @@ class MapClass
 
 	network()
 	{
-		if(!CONFIG._settings.hints.networks.value) { return; }
+		if(!getSetting("hints.networks", CONFIG)) { return; }
 
 		let minEdges = Math.floor(CONFIG.rng.map() * 5) + 4; // currently not really used for anything ... it just goes to max all the time
 		let maxEdges = Math.floor(CONFIG.rng.map() * 6) + 10;

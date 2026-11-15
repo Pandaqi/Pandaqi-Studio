@@ -1,5 +1,5 @@
 
-import { MaterialVisualizer, ResourceGroup, LayoutOperation, TextConfig, ResourceText, Vector2, StrokeAlign, Rectangle, Line, shuffle, fromArray, ResourceShape, Circle, rand } from "lib/pq-games";
+import { getSetting, MaterialVisualizer, ResourceGroup, LayoutOperation, TextConfig, ResourceText, Vector2, StrokeAlign, Rectangle, Line, shuffle, fromArray, ResourceShape, Circle, rand } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { ACTIONS, DECORATION, GATES, GEMSTONES, MISC, TileType, WaterFlow } from "../shared/dict";
 
@@ -129,7 +129,7 @@ export default class Tile
 
             const isDefaultAction = actionData.default;
 
-            const drawIcon = isDefaultAction && CONFIG._settings.useIconsForDefaultActions.value;
+            const drawIcon = isDefaultAction && getSetting("useIconsForDefaultActions", CONFIG);
             const drawText = !drawIcon;
             
             const pos = hasActionAndGate ? vis.get("tiles.action.posWithGate") : vis.get("tiles.action.pos");

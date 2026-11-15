@@ -1,5 +1,5 @@
 
-import { shuffle, getWeighted } from "lib/pq-games";
+import { getSetting, shuffle, getWeighted } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { POWERS } from "../shared/dict";
 import Card from "./card";
@@ -7,7 +7,7 @@ import Card from "./card";
 export const cardPicker = () : Card[] =>
 {
     const cards = [];
-    const suits = CONFIG._settings.suits.value;
+    const suits = getSetting("suits", CONFIG);
     for(const suit of suits)
     {
         generateSuit(cards, suit);
@@ -34,7 +34,7 @@ const generateSuit = (cards:Card[], suit:string) =>
 
 const assignPowers = (cardsInput:Card[]) =>
 {
-    if(!CONFIG._settings.includePowers.value) { return; }
+    if(!getSetting("includePowers", CONFIG)) { return; }
 
     const powers = structuredClone(POWERS);
 

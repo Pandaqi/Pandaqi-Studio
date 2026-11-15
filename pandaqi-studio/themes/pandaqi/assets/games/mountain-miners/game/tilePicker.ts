@@ -1,5 +1,5 @@
 
-import { shuffle, rangeInteger } from "lib/pq-games";
+import { getSetting, shuffle, rangeInteger } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { TILES } from "../shared/dict";
 import Tile from "./tile";
@@ -9,7 +9,7 @@ export const tilePicker = () : Tile[] =>
     const tiles = [];
 
     // the crucial arrow tiles
-    if(CONFIG._settings.sets.base.value)
+    if(getSetting("sets.base", CONFIG))
     {
         for(let i = 0; i < CONFIG.generation.numArrowTiles; i++)
         {
@@ -37,7 +37,7 @@ export const tilePicker = () : Tile[] =>
 
     shuffle(typesNeeded);
     
-    const allowMultiTiles = CONFIG._settings.sets.gemShards.value;
+    const allowMultiTiles = getSetting("sets.gemShards", CONFIG);
     while(typesNeeded.length > 0)
     {
         let num = allowMultiTiles ? rangeInteger(1,4) : 1;

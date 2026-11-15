@@ -1,13 +1,14 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CARDS, Category } from "../shared/dict";
 import Card from "./card";
 
 export const cardPicker = () : Card[] =>
 {    
-    if(!CONFIG._settings.includeCards.value) { return []; }
+    if(!getSetting("includeCards", CONFIG)) { return []; }
 
     const cards = [];
-    const packs = CONFIG._settings.packs.value;
+    const packs = getSetting("packs", CONFIG);
 
     // create all cards to include (by ignoring those in a non-matching pack)
     const cardsPerPack:Record<string, Record<string, any[]>> = {};

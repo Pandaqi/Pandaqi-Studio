@@ -38,11 +38,31 @@ export class RectangleRounded extends Rectangle
         return roundPath(super.toPathArray(), this.radius, true);
     }
 
+    // Path2D.roundRect() only exists in Safari/iOS 16.4+. On older Apple devices the call throws
+    // "p.roundRect is not a function" and takes the whole generation down. Build the same rounded
+    // rectangle from primitives that every canvas implementation has supported for years.
     toPath2D() 
     {
         const p = new Path2D();
         const dims = this.getDimensions();
-        p.roundRect(dims.position.x, dims.position.y, dims.size.x, dims.size.y, this.radius);
+        const x = dims.position.x;
+        const y = dims.position.y;
+        const w = dims.size.x;
+        const h = dims.size.y;
+        const r = Math.max(0, Math.min(this.radius, Math.min(w, h) * 0.5));
+
+        if(r <= 0) { p.rect(x, y, w, h); return p; }
+
+        p.moveTo(x + r, y);
+        p.lineTo(x + w - r, y);
+        p.arcTo(x + w, y, x + w, y + r, r);
+        p.lineTo(x + w, y + h - r);
+        p.arcTo(x + w, y + h, x + w - r, y + h, r);
+        p.lineTo(x + r, y + h);
+        p.arcTo(x, y + h, x, y + h - r, r);
+        p.lineTo(x, y + r);
+        p.arcTo(x, y, x + r, y, r);
+        p.closePath();
         return p;
     }
 }

@@ -1,4 +1,4 @@
-import { fromArray } from "lib/pq-games";
+import { getSetting, fromArray } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { CardMovement, CardType, MOVEMENT_CARDS, MOVEMENT_SPECIAL } from "../shared/dict";
 import Card from "./card";
@@ -15,13 +15,13 @@ export const cardPicker = () : Card[] =>
 
 const generateBaseCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
     generateMovementCards(cards, CONFIG.generation.movementCardNumBase, CONFIG.generation.movementCardDistBase);
 }
 
 const generateUnclearInstructions = (cards) =>
 {
-    if(!CONFIG._settings.sets.unclearInstructions.value) { return; }
+    if(!getSetting("sets.unclearInstructions", CONFIG)) { return; }
     generateMovementCards(cards, CONFIG.generation.movementCardNumUnclear, CONFIG.generation.movementCardDistUnclear, true);
 }
 

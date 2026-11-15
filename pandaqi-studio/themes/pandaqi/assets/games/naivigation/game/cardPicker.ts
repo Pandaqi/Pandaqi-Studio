@@ -1,3 +1,4 @@
+import { getSetting } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { GPS_PENALTIES, GPS_REWARDS, MATERIAL } from "../shared/dict";
 import { CardType } from "../shared/dictShared";
@@ -40,7 +41,7 @@ const generateFromDictionary = (cards, inputType:CardType, cardType:CardType = n
 
 const generateInstructionTokens = (cards) =>
 {
-    if(!CONFIG._settings.sets.instructionTokens.value) { return; }
+    if(!getSetting("sets.instructionTokens", CONFIG)) { return; }
 
     // we use a trick here to push 2 tokens on ONE card, to fold it into this system and ensure it has the same dimensions as the cards you play with
     const num = CONFIG.generation.cards.numInstructionTokens;
@@ -58,25 +59,25 @@ const generateInstructionTokens = (cards) =>
 
 const generateActionCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.actionCards.value) { return; }
+    if(!getSetting("sets.actionCards", CONFIG)) { return; }
     generateFromDictionary(cards, CardType.ACTION);
 }
 
 const generateVehicleCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.vehicleCards.value) { return; }
+    if(!getSetting("sets.vehicleCards", CONFIG)) { return; }
     generateFromDictionary(cards, CardType.VEHICLE);
 }
 
 const generateHealthCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.healthCards.value) { return; }
+    if(!getSetting("sets.healthCards", CONFIG)) { return; }
     generateFromDictionary(cards, CardType.HEALTH);
 }
 
 const generateGPSCards = (cards) =>
 {
-    if(!CONFIG._settings.sets.GPSCards.value) { return; }
+    if(!getSetting("sets.GPSCards", CONFIG)) { return; }
     
     const params = {
         num: CONFIG.generation.cards.numGPSCards,
@@ -95,14 +96,14 @@ const generateGPSCards = (cards) =>
 
 const generateTimeDeck = (cards) =>
 {
-    if(!CONFIG._settings.sets.timeCards.value) { return; }
+    if(!getSetting("sets.timeCards", CONFIG)) { return; }
     generateFromDictionary(cards, CardType.TIME);
 }
 
 /*
 generateFuelDeck()
 {
-    if(!CONFIG._settings.sets.fuelDeck.value) { return; }
+    if(!getSetting("sets.fuelDeck", CONFIG)) { return; }
 
     // add the actual fuel trackers
     const num = CONFIG.generation.cards.numFuelCards;

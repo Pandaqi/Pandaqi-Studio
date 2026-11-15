@@ -1,5 +1,5 @@
 
-import { shuffle } from "lib/pq-games";
+import { getSetting, shuffle } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { AnimalType, DAWN_ACTIONS, MOVES, MovesDictionary, ROOSTER_CHANGES } from "../shared/dict";
 import Card from "./card";
@@ -80,19 +80,19 @@ const generateBalancedAnimals = (cards, set:string) =>
 
 const generateBase = (cards) =>
 {
-    if(!CONFIG._settings.sets.base.value) { return; }
+    if(!getSetting("sets.base", CONFIG)) { return; }
     generateBalancedAnimals(cards, "base");
 }
 
 const generateZoo = (cards) =>
 {
-    if(!CONFIG._settings.sets.zooOfMoves.value) { return; }
+    if(!getSetting("sets.zooOfMoves", CONFIG)) { return; }
     generateBalancedAnimals(cards, "zoo");
 }
 
 const generateFightTogether = (cards) =>
 {
-    if(!CONFIG._settings.sets.fightTogether.value) { return; }
+    if(!getSetting("sets.fightTogether", CONFIG)) { return; }
     
     for(let i = 0; i < CONFIG.generation.numCommunicationCards; i++)
     {
@@ -102,7 +102,7 @@ const generateFightTogether = (cards) =>
 
 const generateDawnDojo = (cards) =>
 {
-    if(!CONFIG._settings.sets.dawnDojo.value) { return; }
+    if(!getSetting("sets.dawnDojo", CONFIG)) { return; }
 
     const randOrderActions = shuffle(Object.keys(DAWN_ACTIONS));
     const randOrderChanges = shuffle(Object.keys(ROOSTER_CHANGES));
