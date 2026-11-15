@@ -8,11 +8,14 @@ export const STYLES = `
     background-color: var(--bg-color);
     border-radius: var(--border-radius);
     font-size: var(--font-size);
+    color: var(--text-color);
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.15);
 
     --border-radius: 0.5em;
     --text-color: #222222;
     --bg-color: #DDDDDD;
     --mid-color: #999999;
+    --input-bg: #FFFFFF;
 
     --font-heading: Trebuchet MS, Helvetica, Arial;
     --font-body: Trebuchet MS, Helvetica, Arial;
@@ -34,20 +37,32 @@ h1
     width: 100%;
 }
 
+/* the small row of buttons at the top (reset, fold all, unfold all) */
 .settings-tools
 {
-    font-size: 9px;
     display: flex;
-    margin: 0.5em;
+    flex-wrap: wrap;
     gap: 0.5em;
+    margin: 0.5em 0;
+    font-size: 0.8em;
+}
+
+.settings-tools button
+{
+    flex: 1 1 auto;
+    width: auto;
+    padding: 0.4em 0.6em;
 }
 
 .settings-group
 {
     display: flex;
     flex-wrap: wrap;
-    gap: 1em;
+    gap: 0.75em;
     width: 100%;
+    padding: 0.75em;
+    border: 1px solid var(--mid-color);
+    border-radius: var(--border-radius);
 }
 
 .settings-group-header, button
@@ -64,6 +79,7 @@ h1
     font-size: 1.0em;
     border: none;
     cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
 }
 
 button:disabled
@@ -78,45 +94,99 @@ button:disabled
     color: var(--text-color);
 }
 
+/* show that a group header folds, without needing any extra markup */
+.settings-group[data-folded="true"] > .settings-group-header::after { content: " ▸"; }
+.settings-group[data-folded="false"] > .settings-group-header::after { content: " ▾"; }
+
 .settings-group-content
 {
-    padding-left: 1em;
+    padding-left: 0.75em;
+    gap: 0.75em;
 }
 
+/* One setting = one row: the label (and its help button) on the left, the control on the right.
+   Only a multi-select needs the full row, because its list of checkboxes is simply too big. */
 .settings-element
 {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.5em 1em;
+    gap: 0.4em 0.75em;
     width: 100%;
+    padding: 0.4em 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.settings-element label
+.settings-element:last-child
 {
-    width: 100%;
+    border-bottom: none;
 }
 
-.settings-element input, .settings-element select
+.settings-element > label
 {
-    width: 100%;
+    flex: 0 1 auto;
+    width: auto;
+    max-width: 100%;
+    cursor: pointer;
 }
 
-/* a lone checkbox has no content of its own to fill a row with; stretching it just centres the box */
+.settings-element > input,
+.settings-element > select
+{
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%;
+    margin-left: auto; /* pushes the control to the right edge of the row */
+
+    padding: 0.35em 0.5em;
+    font: inherit;
+    color: inherit;
+    background-color: var(--input-bg);
+    border: 1px solid var(--mid-color);
+    border-radius: var(--border-radius);
+}
+
+.settings-element > input[type="number"]
+{
+    width: 5.5em;
+    text-align: right;
+}
+
+.settings-element > input[type="text"],
+.settings-element > select
+{
+    flex: 1 1 8em;
+}
+
 .settings-element > input[type="checkbox"]
 {
-    width: auto;
-    align-self: flex-start;
+    width: 1.2em;
+    height: 1.2em;
+    padding: 0;
+    border: none;
+    background: none;
+    accent-color: var(--text-color);
 }
 
-/* A multi-select is a whole list of checkboxes, not a single value: its label takes its own row and
-   the list becomes an evenly divided grid instead of one very thin column. */
-.settings-element-multi > label
+/* a file picker is wide by nature, so it takes the remaining space instead of a fixed width */
+.settings-element > input[type="file"]
 {
-    flex: 1 0 100%;
-    width: 100%;
+    flex: 1 1 6em;
+    padding: 0.25em 0;
+    border: none;
+    background: none;
 }
 
+.settings-element > input:focus-visible,
+.settings-element > select:focus-visible,
+button:focus-visible
+{
+    outline: 2px solid var(--text-color);
+    outline-offset: 2px;
+}
+
+/* A multi-select is a whole list of checkboxes, not a single value: it simply doesn't fit next to its
+   label, so the list always takes a row of its own and becomes an evenly divided grid. */
 .settings-element-multi > .settings-input-multi
 {
     flex: 1 0 100%;
@@ -126,7 +196,7 @@ button:disabled
 .settings-input-multi
 {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(7em, 1fr));
     gap: 0.25em 1em;
 }
 
@@ -143,18 +213,56 @@ button:disabled
     flex: 1 1 auto;
     width: auto;
     overflow-wrap: anywhere;
+    cursor: pointer;
 }
 
 .settings-input-multi input
 {
     flex: 0 0 auto;
-    width: auto;
+    width: 1.05em;
+    height: 1.05em;
+    margin: 0;
+    accent-color: var(--text-color);
 }
 
+/* The question mark: press it to read the explanation (a hover-only title does nothing on touch) */
 .settings-remark
 {
-    font-style: italic;
+    flex: 0 0 auto;
+    width: 1.5em;
+    height: 1.5em;
+    padding: 0;
+    border: 1px solid var(--mid-color);
+    border-radius: 50%;
+    background-color: var(--input-bg);
     color: var(--mid-color);
+    font-family: var(--font-body);
+    font-size: 0.75em;
+    font-weight: bold;
+    font-style: normal;
+    text-transform: none;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.settings-remark:hover, .settings-remark.active
+{
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border-color: var(--text-color);
+}
+
+.settings-remark-text
+{
+    flex: 1 0 100%;
+    width: 100%;
+    padding: 0.5em 0.75em;
+    background-color: var(--input-bg);
+    border-left: 0.25em solid var(--mid-color);
+    border-radius: var(--border-radius);
+    font-size: 0.9em;
+    font-style: italic;
+    line-height: 1.35;
 }
 
 .feedback-node-sub

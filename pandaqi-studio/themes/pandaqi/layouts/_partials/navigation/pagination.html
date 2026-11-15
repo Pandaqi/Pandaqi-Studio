@@ -3,7 +3,7 @@
 {{ $has_next := $paginator.HasNext }}
 {{ $something_to_show := or $has_prev $has_next }}
 {{ if $something_to_show }}
-<nav class="pagination">
+<nav class="pagination" aria-label="Pagination">
 	<h2 class="text-center add-leaf-before add-leaf-after">Navigation</h2>
 	<ul class="flex flex-align-center flex-wrap no-default-list-styles font-heading gap-s margin-s">
 		{{ if $has_prev }}
@@ -14,7 +14,7 @@
 		{{ end }}
 
 		<li>
-			<span>{{ $paginator.PageNumber }}</span>
+			<span aria-current="page">{{ $paginator.PageNumber }}</span>
 			<span> of </span>
 			<span>{{ $paginator.TotalPages }}</span>
 		</li>

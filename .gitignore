@@ -2,9 +2,16 @@ public/
 public-check/
 private/
 build/
-_gen/
-*.zip
 backup/
+*.zip
+
+# Hugo's build cache and lock: generated on every build, never commit them
+_gen/
+pandaqi-studio/resources/
+pandaqi-studio-dev/resources/
+pandaqi-studio/.hugo_build.lock
+pandaqi-studio/tmp/
+
 pandaqi-studio/audit/node_modules/
 pandaqi-studio/audit/artifacts/
 pandaqi-studio/audit-artifacts/

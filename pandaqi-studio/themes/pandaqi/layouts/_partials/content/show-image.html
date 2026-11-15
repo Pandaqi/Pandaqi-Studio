@@ -1,5 +1,7 @@
 {{- $src := index (strings.Split .src ".") 0 -}} <!--- chop off any extension --->
-{{- $alt := or .alt ($src | humanize) -}}
+{{/* an explicitly passed alt is respected (including an empty one, which marks the image as decorative) */}}
+{{- $alt := $src | humanize -}}
+{{- if isset . "alt" -}}{{- $alt = .alt -}}{{- end -}}
 {{- $class := or .class "" -}}
 {{- $should_resize := or .resize false -}}
 {{- $url := partial "func/get-valid-image-url.html" (dict "context" .context "src" $src) -}}

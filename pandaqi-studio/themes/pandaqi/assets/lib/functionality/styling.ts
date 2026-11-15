@@ -5,9 +5,16 @@
 const localStorageKey = "pandaqi-games-display-mode";
 let displayMode = "light";
 
+// Follow the operating system until the visitor has explicitly picked a mode (which we store)
+const getSystemDisplayMode = () =>
+{
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return prefersDark ? "dark" : "light";
+}
+
 export const loadStylingPrefetch = () =>
 {
-    displayMode = localStorage.getItem(localStorageKey) ?? "light";
+    displayMode = localStorage.getItem(localStorageKey) ?? getSystemDisplayMode();
     document.body.classList.add(`display-mode-${displayMode}`);
 }
 
@@ -16,19 +23,19 @@ export const loadStyling = () =>
     const darkModeBtn = document.getElementById("darkModeBtn");
     if(!darkModeBtn) { return; }
 
-    const applyDisplayMode = (newMode:string) =>
+    const applyDisplayMode = (newMode:string, persist:boolean) =>
     {
         document.body.classList.remove(`display-mode-${displayMode}`);
         displayMode = newMode;
-        localStorage.setItem(localStorageKey, newMode);
+        if(persist) { localStorage.setItem(localStorageKey, newMode); }
         document.body.classList.add(`display-mode-${newMode}`);
         darkModeBtn.innerHTML = (displayMode == "light") ? "Dark Mode?" : "Light Mode?";
     }
 
     darkModeBtn.addEventListener("click", (ev) => {
         const newMode = displayMode == "light" ? "dark" : "light";
-        applyDisplayMode(newMode);
+        applyDisplayMode(newMode, true);
     });
 
-    applyDisplayMode(displayMode);
+    applyDisplayMode(displayMode, false);
 }

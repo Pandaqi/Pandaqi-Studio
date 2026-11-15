@@ -1,0 +1,15 @@
+{{ define "main" }}
+
+<div class="width-limit-small block-center text-center margin-top-super-xs add-leafs-to-headings">
+	<h1>{{ or .Site.Params.pageNotFoundTitle "404 - Page not found" }}</h1>
+	<p>Sorry, the page you're looking for doesn't exist! It might have moved during one of the many website updates, or the link has a typo in it.</p>
+	<p>Try one of these instead:</p>
+	<ul class="no-default-list-styles gap-m flex flex-wrap flex-align-center">
+		<li>{{ partial "buttons/button.html" (dict "href" "/" "content" "Home" "class" "padding-m") }}</li>
+		<li>{{ partial "buttons/button.html" (dict "href" "/categories/board-game" "content" "Board Games" "class" "padding-m") }}</li>
+		<li>{{ partial "buttons/button.html" (dict "href" "/categories/video-game" "content" "Video Games" "class" "padding-m") }}</li>
+		<li>{{ partial "buttons/button.html" (dict "content" "Random Project" "buttonID" "randProjBtn" "class" "padding-m") }}</li>
+	</ul>
+</div>
+
+{{ end }}

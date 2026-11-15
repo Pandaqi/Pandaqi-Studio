@@ -131,9 +131,34 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
     label.innerHTML = data.label ?? key; 
     label.setAttribute("for", path);
 
+    // The explanation used to be a hover-only `title`, which does nothing on a touchscreen and nobody notices.
+    // It's a real button now: press (or tab to) the question mark to show/hide the text.
+    let remarkText:HTMLElement = null;
     if(data.remark)
     {
-        label.innerHTML += ` <span class="settings-remark" title="${data.remark}">(?)</span>`;
+        const remarkBtn = document.createElement("button");
+        remarkBtn.type = "button";
+        remarkBtn.classList.add("settings-remark");
+        remarkBtn.innerHTML = "?";
+        remarkBtn.setAttribute("aria-expanded", "false");
+        remarkBtn.setAttribute("aria-label", `Explanation of "${label.textContent}"`);
+        container.appendChild(remarkBtn);
+
+        const remarkTextNode = document.createElement("div");
+        remarkTextNode.classList.add("settings-remark-text");
+        remarkTextNode.innerHTML = data.remark;
+        remarkTextNode.hidden = true;
+
+        remarkBtn.addEventListener("click", (ev) => 
+        {
+            ev.preventDefault();
+            const willOpen = remarkTextNode.hidden;
+            remarkTextNode.hidden = !willOpen;
+            remarkBtn.classList.toggle("active", willOpen);
+            remarkBtn.setAttribute("aria-expanded", willOpen ? "true" : "false");
+        });
+
+        remarkText = remarkTextNode;
     }
 
     const type = data.type ?? SettingType.CHECK;
@@ -233,6 +258,9 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
     elem.name = path;
     elem.id = path;
     container.appendChild(elem);
+
+    // the explanation always takes its own row, below the label and the control it belongs to
+    if(remarkText) { container.appendChild(remarkText); }
 
     return container;
 }

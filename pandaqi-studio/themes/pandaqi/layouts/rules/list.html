@@ -1,19 +1,6 @@
 {{ define "head" }}
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    {{ $favicon := partial "func/get-favicon.html" .Parent }}
-    <link rel="icon" type="image/png" href="{{ $favicon }}">
-
-    <title>{{ .Parent.Title }} | Rules | Pandaqi Games</title>
-    <script>
-        window.PagedConfig = {
-            auto: false,
-            after: (flow) => { console.log("after", flow) },
-        };
-    </script>
-</head>
+    {{ $paged_config := "window.PagedConfig = { auto: false, after: (flow) => { console.log('after', flow) } };" }}
+    {{ partial "head-minimal.html" (dict "context" . "extra" $paged_config) }}
 {{ end }}
 
 {{- define "header" -}}<!--- --->{{ end }}

@@ -25,7 +25,9 @@
     {{ if le (len $href) 0 }}
         {{ $fail_content | safeHTML }}
     {{ else }}
-        <a href="{{ $href }}" class="{{ $class }}" style="{{ $rot | safeCSS }}" target="_blank">{{ $content | safeHTML }}</a>
+        <!--- Only links that leave the website open in a new tab; internal navigation stays in the current one --->
+        {{ $is_external := or (hasPrefix $href "http") (hasPrefix $href "mailto:") }}
+        <a href="{{ $href }}" class="{{ $class }}" style="{{ $rot | safeCSS }}"{{ if $is_external }} target="_blank" rel="noopener"{{ end }}>{{ $content | safeHTML }}</a>
     {{ end }}
     
 {{ end }}

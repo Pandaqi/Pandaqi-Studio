@@ -22,31 +22,37 @@ const capitalize = (str:string) =>
     return str.slice(0,1).toUpperCase() + str.slice(1);
 }
 
-const loadListDisplays = () =>
+// Use the element that's already on the page if it exists; otherwise create it.
+// The page ships a section + heading per list, so its anchor links work without waiting for (or having) JS.
+const getOrCreateChild = <T extends HTMLElement>(parent:HTMLElement, selector:string, tagName:string) =>
 {
-    // first just create the entire display once
-    const listDisplay = document.createElement("div");
-    listDisplay.classList.add("list-display-container");
+    const existing = parent.querySelector(selector) as T;
+    if(existing) { return existing; }
 
+    const created = document.createElement(tagName) as T;
+    parent.appendChild(created);
+    return created;
+}
+
+const loadListDisplay = (node:HTMLElement) =>
+{
     for(const [keyMain,dataMain] of Object.entries(LISTS))
     {
-        const section = document.createElement("section");
-
         const keys = Object.keys(dataMain.list);
         const numElements = keys.length;
         if(dataMain.sort) { keys.sort(); } // javascript automatically sorts alphabetically this way
 
-        const header = document.createElement("h2");
+        // the section + heading come straight from the page, so only their contents are filled in here
+        const section = getOrCreateChild<HTMLElement>(node, "section#" + urlize(keyMain), "section");
+        section.id = urlize(keyMain);
+
+        const header = getOrCreateChild<HTMLElement>(section, "h2", "h2");
         header.innerHTML = capitalize(keyMain) + " (" + numElements + ")";
-        header.id = urlize(keyMain);
-        section.appendChild(header);
 
-        const desc = document.createElement("p");
+        const desc = getOrCreateChild<HTMLElement>(section, "p", "p");
         desc.innerHTML = dataMain.desc;
-        section.appendChild(desc);
 
-        const content = document.createElement("table");
-        section.appendChild(content);
+        const content = getOrCreateChild<HTMLElement>(section, "table", "table");
 
         for(const key of keys)
         {
@@ -74,15 +80,14 @@ const loadListDisplays = () =>
             content.appendChild(row);
         }
 
-        listDisplay.appendChild(section);
     }
+}
 
-    // then assign it (duplicated) to all nodes who want it
+// fill every list container on the page (there's only one, but this keeps it flexible)
+const loadListDisplays = () =>
+{
     const nodes = Array.from(document.getElementsByClassName("list-display")) as HTMLElement[];
-    for(const node of nodes)
-    {
-        node.appendChild(listDisplay.cloneNode(true));
-    }
+    for(const node of nodes) { loadListDisplay(node); }
 }
 
 const loadDrawRandoms = () =>

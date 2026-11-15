@@ -1,15 +1,16 @@
 {{ define "main" }}
 
+{{ $label := partial "func/get-taxonomy-label.html" . }}
+{{ $name := partial "func/get-taxonomy-name.html" . }}
+
 {{ partial "content/background-header" (dict "context" . "src" "/theme/webp/pandaqi-pandas-banner.webp") }}
 
-{{ $context := . }}
-{{ $key := .Data.Plural }}
-{{ $value := .Title }}
-<main class="width-limit block-center position-relative">
-    <h1 class="text-center margin-top-super-xs">Search</h1>
-    <p>You searched for all products with <strong>{{ $key }}</strong> set to <strong>{{ $value }}</strong>. Click the heading for the full list of products for that specific value.</p>
-</main>
+<div class="width-limit block-center position-relative">
+    <h1 class="text-center margin-top-super-xs">{{ $label }}</h1>
+    {{- /* singular, so the sentence reads "where Language is set to EN" instead of "where Languages ..." */}}
+    <p class="text-center">You're looking at all <strong>{{ len .Pages }}</strong> projects where <strong>{{ $name | singularize }}</strong> is set to <strong>{{ .Data.Term }}</strong>. Click any project below to see what it is, how to play, and where to get it.</p>
+</div>
 
-{{ partial "navigation/games-list.html" (dict "context" $context) }}
+{{ partial "navigation/games-list.html" (dict "context" .) }}
 
 {{ end }}

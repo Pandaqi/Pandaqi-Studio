@@ -6,7 +6,7 @@
 	{{ $paginator = $context.Paginate $pages $num_pages }}
 {{ end }}
 {{ $suppress_navigation := or .suppress_navigation false }}
-<nav class="width-limit block-center">
+<nav class="width-limit block-center" aria-label="Projects">
 	<ul class="no-default-list-styles project-grid">
 		{{ range $paginator.Pages }}
 			<li>{{ partial "navigation/project-summary.html" . }}</li>

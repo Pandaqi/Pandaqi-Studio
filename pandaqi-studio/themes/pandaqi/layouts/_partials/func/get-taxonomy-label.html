@@ -1,0 +1,45 @@
+{{/* Title for a taxonomy overview or term page, in the words a player would use.
+     Examples: /categories/board-game/ => "Board Games", /playercount/2/ => "2 Player Games",
+     /difficulty/simple/ => "Simple Games", /playercount/ => "Player Count".
+     Used by the page title, the heading, and the meta description, so all three agree. */}}
+{{- $plural := .Data.Plural -}}
+{{- $term := .Data.Term -}}
+{{- $label := "" -}}
+
+{{- if eq .Kind "taxonomy" -}}
+	{{- $label = partial "func/get-taxonomy-name.html" . -}}
+{{- else -}}
+	{{/* "2" would become "2nd" if humanized, so the raw term is used for the numeric properties.
+	     For everything else the hyphens become spaces: "kids-can-play" => "Kids Can Play Games". */}}
+	{{- $label = printf "%s Games" (title (replace $term "-" " ")) -}}
+
+	{{- if eq $plural "categories" -}}
+		{{- if eq $term "board-game" -}}{{ $label = "Board Games" }}{{- end -}}
+		{{- if eq $term "video-game" -}}{{ $label = "Video Games" }}{{- end -}}
+	{{- end -}}
+
+	{{- if eq $plural "playercount" -}}
+		{{- $label = printf "%s Player Games" $term -}}
+	{{- end -}}
+
+	{{- if eq $plural "playtime" -}}
+		{{- $label = printf "%s Minute Games" $term -}}
+	{{- end -}}
+
+	{{- if eq $plural "price" -}}
+		{{- $label = "Free Games" -}}
+		{{- if ne $term "0" -}}{{ $label = printf "%s Euro Games" $term }}{{- end -}}
+	{{- end -}}
+
+	{{- if eq $plural "ages" -}}
+		{{- $label = printf "Games for %s" (humanize $term) -}}
+	{{- end -}}
+
+	{{- if eq $plural "language" -}}
+		{{- $languages := dict "en" "English" "nl" "Dutch" -}}
+		{{- $language := or (index $languages (lower $term)) (upper $term) -}}
+		{{- $label = printf "%s Games" $language -}}
+	{{- end -}}
+{{- end -}}
+
+{{- return $label -}}

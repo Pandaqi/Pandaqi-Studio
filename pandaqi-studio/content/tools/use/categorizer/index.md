@@ -34,8 +34,14 @@ title: "Categorizer"
 </div>
 
 <!--- The actual entire list --->
-<!--- This is detected, then filled automatically by the code --->
-<div class="list-display"></div>
+<!--- The headings are real HTML, so the links above (and any anchor link from elsewhere) always work,
+      even before the code below has run. The code fills in the explanation and the table for each one. --->
+<div class="list-display">
+    <section id="difficulty"><h2>Difficulty</h2></section>
+    <section id="genres"><h2>Genres</h2></section>
+    <section id="categories"><h2>Categories</h2></section>
+    <section id="tags"><h2>Tags</h2></section>
+    <section id="themes"><h2>Themes</h2></section>
+</div>
 
-<!-- Actually load that code -->
-{{< content/load-assets-custom input="/games/tools/use/categorizer/main.ts" output="/js/lib-pqTools-categorizer.js" >}}
+<!--- The code is loaded by the "tool" page layout, like every other tool page (no need to load it a second time here) --->

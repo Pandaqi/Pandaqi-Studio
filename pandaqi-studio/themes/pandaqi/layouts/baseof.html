@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="{{ site.Language.LanguageCode | default "en" }}">
     {{ block "head" . }}{{- partial "head.html" . -}}{{ end }}
 
     {{ $class := printf "page-type-%s" .Type }}
@@ -8,7 +8,7 @@
             {{- partialCached "navigation/header.html" . -}}
         {{ end }}
 
-        <main>
+        <main id="main-content" tabindex="-1">
         {{- block "main" . }}{{- end }}
         </main>
 

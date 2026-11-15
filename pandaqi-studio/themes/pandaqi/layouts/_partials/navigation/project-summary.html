@@ -7,13 +7,13 @@
     {{ if $header_url }}
         <div class="bg-image">
             <!--- cached per project: the same card appears on the home page and in every list --->
-            {{ partialCached "content/show-image.html" (dict "context" . "src" $header_url "resize" true) .RelPermalink "resize" }}
+            {{ partialCached "content/show-image.html" (dict "context" . "src" $header_url "alt" "" "resize" true) .RelPermalink "resize" "noalt" }}
         </div>
     {{ end }}
 
     <h2 class="text-center">{{ $title }}</h2>
     {{ if gt (len $metadata) 0 }}
-    <div class="flex flex-wrap gap-xs text-uppercase text-color-mid-light">
+    <div class="flex flex-wrap gap-xs text-uppercase text-color-mid-dark">
         {{ range $metadata }}
             <span class="font-size-s">{{ . }}</span>
         {{ end }}

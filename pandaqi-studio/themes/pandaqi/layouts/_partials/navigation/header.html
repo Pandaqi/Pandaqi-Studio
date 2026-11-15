@@ -1,4 +1,15 @@
 <header>
+	<a class="skip-link" href="#main-content">Skip to content</a>
+
+	<!--- Minimal navigation: enough to reach the game lists from every page, without scrolling to the footer --->
+	<nav class="site-nav" aria-label="Main">
+		<ul class="no-default-list-styles flex flex-wrap gap-s">
+			<li>{{ partial "buttons/button.html" (dict "href" "/" "content" "Home" "class" "padding-s") }}</li>
+			<li>{{ partial "buttons/button.html" (dict "href" "/categories/board-game/" "content" "Board Games" "class" "padding-s") }}</li>
+			<li>{{ partial "buttons/button.html" (dict "href" "/categories/video-game/" "content" "Video Games" "class" "padding-s") }}</li>
+		</ul>
+	</nav>
+
 	{{ $display_minimal_header := true }}
 	{{ if $display_minimal_header }}
 		<button class="hovering-gotobottom-btn" id="gotoBottomBtn" aria-label="Button to go to bottom"><span class="icon hoverable gotobottom"></span></button>

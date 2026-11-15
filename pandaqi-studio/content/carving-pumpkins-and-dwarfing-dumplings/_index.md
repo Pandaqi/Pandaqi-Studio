@@ -6,7 +6,7 @@ blurb: "A party game for 2-8 players about slicing your friends into smaller pie
 
 date: 2022-01-27
 
-difficulty: "no_brainer"
+difficulty: "no-brainer"
 genres: ["action", "family", "party", "fighting"]
 categories: ["video-game", "desktop", "local-multiplayer"]
 tags: ["battle", "chaos", "physics-based", "player-elimination", "real-time", "shared-map", "game-modes", "modular", "powerups", "map-selection"]

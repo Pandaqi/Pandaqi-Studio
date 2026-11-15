@@ -5,7 +5,7 @@
         {{ if $drive_url }}
             <li class="width-maximize">
                 {{ partial "buttons/button.html" (dict "content" "Download" "href" $drive_url "class" "button-large accent-green") }}
-                <div class="font-size-s text-italic text-color-mid-light text-center">Google Drive<br>(Files = Material; Rules = Rulebook)</div>
+                <div class="font-size-s text-italic text-color-mid-dark text-center">Google Drive<br>(Files = Material; Rules = Rulebook)</div>
             </li>
         {{ end }}
 
@@ -13,7 +13,7 @@
         {{ if $source_url }}
             <li class="width-maximize">
                 {{ partial "buttons/button.html" (dict "content" "Buy Source Files" "href" $source_url "class" "button-large accent-green") }}
-                <div class="font-size-s text-italic text-color-mid-light text-center">The Wayward Melody<br>(Editable files, raw assets, etc)</div>
+                <div class="font-size-s text-italic text-color-mid-dark text-center">The Wayward Melody<br>(Editable files, raw assets, etc)</div>
             </li>
         {{ end }}
         
@@ -21,7 +21,7 @@
         {{ if and (and $game_page .Site.Params.enableGameJS) (not .Params.hideGame) }}
             <li class="width-maximize">
                 {{ partial "buttons/button.html" (dict "content" "Game Generator" "href" "game" "class" "button-large accent-purple") }}
-                <div class="font-size-s text-italic text-color-mid-light text-center">Generate your own custom PDF</div>
+                <div class="font-size-s text-italic text-color-mid-dark text-center">Generate your own custom PDF</div>
             </li>
         {{ end }}
         
@@ -29,7 +29,7 @@
         {{ if and (and $board_page .Site.Params.enableBoardJS) (not .Params.hideBoard) }}
             <li class="width-maximize">
                 {{ partial "buttons/button.html" (dict "content" "Board Generator" "href" "board" "class" "button-large accent-blue") }}
-                <div class="font-size-s text-italic text-color-mid-light text-center">Generate your own custom PDF</div>
+                <div class="font-size-s text-italic text-color-mid-dark text-center">Generate your own custom PDF</div>
             </li>
         {{ end }}
         
@@ -37,7 +37,7 @@
         {{ if and (and $rules_page .Site.Params.enableRulesJS) (not .Params.hideRules) }}
             <li class="width-maximize">
                 {{ partial "buttons/button.html" (dict "content" "Rulebook" "href" "rules" "class" "button-large accent-orange") }}
-                <div class="font-size-s text-italic text-color-mid-light text-center">The interactive rulebook</div>
+                <div class="font-size-s text-italic text-color-mid-dark text-center">The interactive rulebook</div>
             </li>
         {{ end }}
 
@@ -58,14 +58,14 @@
                 <li class="width-maximize">
                     {{ partial "buttons/button.html" (dict "content" $label "href" $url "class" $class) }}
                     {{ with $platforms }}
-                        <div class="font-size-s text-italic text-color-mid-light text-center">
+                        <div class="font-size-s text-italic text-color-mid-dark text-center">
                             {{ range . }}
                                 <span class="icon icon-s {{ . -}}"></span>
                             {{ end }}
                         </div>
                     {{ end }}
                     {{ with .store }}
-                        <div class="font-size-s text-italic text-color-mid-light text-center">Store: {{ . }}</div>
+                        <div class="font-size-s text-italic text-color-mid-dark text-center">Store: {{ . }}</div>
                     {{ end }}
                 </li>
             {{ end }}

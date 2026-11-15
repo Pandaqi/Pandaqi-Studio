@@ -3,13 +3,11 @@
 {{- $final_pages := partial "func/get-collection-pages" . }}
 {{- $final_pages = sort $final_pages ".Params.weightProject" -}}
 {{- $no_pages := eq (len $final_pages) 0 }}
-<div class="games-collection-container height-limit-on-wide-screens">
-    <ul class="no-default-list-styles project-grid">
-    {{ if $no_pages }}
-        <li class="text-italic text-center text-color-mid-light">No projects inside this collection (yet)!</li>
-    {{ end }}
-    {{- range $final_pages -}}
-        <li>{{ partial "navigation/project-summary.html" . }}</li>
-    {{- end -}}
-    </ul>
-</div>
+<ul class="no-default-list-styles project-grid">
+{{ if $no_pages }}
+    <li class="text-italic text-center text-color-mid-dark">No projects inside this collection (yet)!</li>
+{{ end }}
+{{- range $final_pages -}}
+    <li>{{ partial "navigation/project-summary.html" . }}</li>
+{{- end -}}
+</ul>

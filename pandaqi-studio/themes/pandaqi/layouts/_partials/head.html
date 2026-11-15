@@ -1,31 +1,93 @@
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Basic metadata stuff -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="index, follow">
-    <meta name="description" content="Pandaqi Studio delivers free (print-n-play) boardgames and (local multiplayer) video games.">
+    {{ $title := partial "func/get-page-title.html" . }}
+    {{ $description := partial "func/get-page-description.html" . }}
+    <title>{{ $title }}</title>
+    <meta name="description" content="{{ $description }}">
+
+    <!-- Indexing (the rule itself lives in one partial, so every head agrees on it) -->
+    <meta name="robots" content="{{ partial "func/get-robots.html" . }}">
+    <link rel="canonical" href="{{ .Permalink }}">
+
+    <!-- Social sharing (OpenGraph + Twitter): header image of the project, or the site banner otherwise -->
+    {{ $social_title := .Title }}
+    {{ if .IsHome }}
+        {{ $social_title = site.Title }}
+    {{ else if or (eq .Kind "taxonomy") (eq .Kind "term") }}
+        {{ $social_title = partial "func/get-taxonomy-label.html" . }}
+    {{ end }}
+
+    {{ $social_image := "/theme/webp/pandaqi-hero-image.webp" | absURL }}
+    {{ if eq .Type "project" }}
+        {{ $asset_name := partial "func/get-game-asset-name.html" . }}
+        {{ $header_src := printf "assets/%s-header" $asset_name }}
+        {{ with (partial "func/get-valid-image-url.html" (dict "context" . "src" $header_src)) }}
+            {{ $social_image = . | absURL }}
+        {{ end }}
+    {{ end }}
+
+    <meta property="og:type" content="{{ cond .IsHome "website" "article" }}">
+    <meta property="og:site_name" content="{{ site.Title }}">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="{{ $social_title }}">
+    <meta property="og:description" content="{{ $description }}">
+    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:image" content="{{ $social_image }}">
+    <meta property="og:image:alt" content="{{ $social_title }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $social_title }}">
+    <meta name="twitter:description" content="{{ $description }}">
+    <meta name="twitter:image" content="{{ $social_image }}">
+
+    <!-- Browser/OS details -->
+    <meta name="author" content="Pandaqi">
+    <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#3A3A32" media="(prefers-color-scheme: dark)">
+
+    <!-- Structured data, so search engines know what kind of thing this page describes -->
+    {{ $organisation := dict "@type" "Organization" "name" "Pandaqi Studio" "url" site.Home.Permalink }}
+    {{ $schema := false }}
+
+    {{ if .IsHome }}
+        {{ $schema = dict "@context" "https://schema.org" "@type" "WebSite" "name" site.Title "url" site.Home.Permalink "description" $description "publisher" $organisation }}
+    {{ else if eq .Type "project" }}
+        {{ $schema = dict "@context" "https://schema.org" "@type" "Game" "name" .Title "url" .Permalink "description" $description "image" $social_image "datePublished" (.Date.Format "2006-01-02") "author" $organisation "publisher" $organisation }}
+        {{ with .Params.genres }}{{ $schema = merge $schema (dict "genre" .) }}{{ end }}
+        {{ with .Params.platform }}{{ $schema = merge $schema (dict "gamePlatform" .) }}{{ end }}
+        {{ with .Params.playercount }}
+            {{ if reflect.IsSlice . }}
+                {{ $players := dict "@type" "QuantitativeValue" "minValue" (index . 0) "maxValue" (index . (sub (len .) 1)) }}
+                {{ $schema = merge $schema (dict "numberOfPlayers" $players) }}
+            {{ end }}
+        {{ end }}
+        {{ if isset .Params "price" }}
+            {{ $offer := dict "@type" "Offer" "price" (string .Params.price) "priceCurrency" "EUR" "availability" "https://schema.org/InStock" }}
+            {{ $schema = merge $schema (dict "offers" $offer) }}
+        {{ end }}
+    {{ else if or (eq .Kind "taxonomy") (eq .Kind "term") }}
+        {{ $schema = dict "@context" "https://schema.org" "@type" "CollectionPage" "name" $social_title "url" .Permalink "description" $description "isPartOf" (dict "@type" "WebSite" "name" site.Title "url" site.Home.Permalink) }}
+    {{ end }}
+
+    {{ with $schema }}
+        <script type="application/ld+json">{{ . | jsonify | safeJS }}</script>
+    {{ end }}
 
     <!-- RSS Feed -->
     {{ with .OutputFormats.Get "rss" -}}
         {{ printf `<link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
     {{ end }}
 
-    <!-- OpenGraph Tags included, only on articles -->
-    {{ if .Summary }}
-	    <meta property="og:type" content="article" />
-		<meta property="og:title" content="{{ .Title }}" />
-		<meta property="og:description" content="{{ .Summary }}" />
-		<meta property="og:image" content="{{ .Params.thumb }}" />
-		<meta property="og:url" content="{{ .Permalink }}" />
-		<meta property="og:site_name" content="Pandaqi Games" />
-	{{ end }}
-
     <!-- Load Default CSS -->
     {{ $options := (dict "targetPath" "css/styles.css" "outputStyle" "compressed" "transpiler" "dartsass") }}
     {{ $style := resources.Get "sass/styles.scss" | css.Sass $options | fingerprint }}
     <link rel="preload" href="{{ $style.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ $style.RelPermalink }}"></noscript>
+
+    <!-- Preload the body font: every page uses it, and this prevents the text from visibly reshaping -->
+    <link rel="preload" href="/theme/fonts/Raleway-Medium.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Load Default JS --->
     {{ $output_url := "/lib/pq-games-functionality.js" }}
@@ -36,8 +98,4 @@
     <!-- Favicon (use default one on regular pages, unique one for game pages) -->
     {{ $favicon := partial "func/get-favicon.html" . }}
     <link rel="icon"  type="image/png" href="{{ $favicon }}">
-
-    <!-- Title (use unique game title on game pages, default site descriptor otherwise) -->
-    {{ $title := partial "func/get-page-title.html" . }}
-    <title>{{ $title | safeHTML }}</title>
 </head>

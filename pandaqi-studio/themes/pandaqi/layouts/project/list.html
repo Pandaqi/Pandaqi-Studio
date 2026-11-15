@@ -40,7 +40,7 @@
 		<!--- Small image, small desc, anything else --->
 		<div class="sidebar-block drop-shadow-soft">
 			{{ $src := partial "func/get-game-header.html" . }}
-			{{ partial "content/show-image.html" (dict "context" . "src" $src "alt" "Header image for this project") }}
+			{{ partial "content/show-image.html" (dict "context" . "src" $src "alt" "Header image for this project" "resize" true) }}
 			<p class="text-italic">{{ $blurb }}</p>
 			{{ partial "buttons/project-buttons.html" . }}
 		</div>
@@ -48,14 +48,14 @@
 
 	<div class="double-view double-view-main-sidebar">
 		<!--- Main content (of Markdown file) --->
-		<main class="add-leafs-to-headings width-maximize">
+		<section class="add-leafs-to-headings width-maximize">
 			<h1>{{ .Title }}</h1>
 			{{ if $is_collection }}
 				<p class="text-italic">This is the <strong>overview page</strong> of this game collection. Click any of the links to visit a specific game. They are usually sorted based on simplicity (easy → hard).</p>
 			{{ end }}
 			{{ .Content }}
 			{{ partial "content/support.html" . }}
-		</main>
+		</section>
 		<!--- Metadata, etc. --->
 		<div>
 			{{ partial "metadata/metadata-block.html" . }}

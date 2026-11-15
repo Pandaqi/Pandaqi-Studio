@@ -173,6 +173,30 @@ $size-xs: 0.44em;
 		}
 	}
 
+	// Accessibility: keyboard visitors can jump straight to the content ...
+	.skip-link
+	{
+		position: absolute;
+		left: -100vw;
+		top: 0;
+		z-index: 2000;
+		padding: 0.5em 1em;
+		background-color: var(--color-dark);
+		color: var(--color-light);
+
+		&:focus
+		{
+			left: 0;
+		}
+	}
+
+	// ... and can always see where they are
+	:focus-visible
+	{
+		outline: 0.15em solid var(--color-link-hover);
+		outline-offset: 0.1em;
+	}
+
 	// Fonts
 	$base-fonts: "/theme/fonts/";
 
@@ -253,6 +277,13 @@ $size-xs: 0.44em;
 @layer blocks
 {
 	// Default Functionality (Header/Footer/Navigation)
+	// Minimal navigation, right above the fold
+	.site-nav
+	{
+		padding: $size-s;
+		padding-right: 3.5em; // keep clear of the floating "go to bottom" button
+	}
+
 	.hovering-gotobottom-btn 
 	{
 		position: absolute;
@@ -395,15 +426,6 @@ $size-xs: 0.44em;
 		width: 100%;
 	}
 
-	.height-limit-on-wide-screens
-	{
-		@media all and (min-width: $cutoff-small)
-		{
-			max-height: max(66vw, 66vh);
-			overflow-y: auto;
-		}
-	}
-	
 	.double-view
 	{
 		display: flex;
@@ -437,6 +459,9 @@ $size-xs: 0.44em;
 
 	.double-view-main-sidebar
 	{
+		// the sidebar hugs its content instead of being stretched to the height of the column next to it
+		align-items: flex-start;
+
 		& > div:first-child
 		{
 			flex-shrink: 1;
@@ -809,6 +834,12 @@ $size-xs: 0.44em;
 		h1, h2 {
 			@include add-leaf-to-heading();
 		}
+	}
+
+	// Project cards also use an <h2> for their title, but they're thumbnails, not text headings
+	.add-leafs-to-headings .project-grid h2::before
+	{
+		content: none;
 	}
 
 	.add-leaf-before-hanging-in-margin
