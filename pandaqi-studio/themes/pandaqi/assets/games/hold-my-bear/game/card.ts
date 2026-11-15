@@ -132,7 +132,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: fontSize,
-        }).alignTopLeft()
+        })
 
         const iconSize = vis.get("cards.icons.scaleFactor");
         const bgSize = vis.get("cards.icons.bgScaleFactor") * iconSize;
