@@ -1,6 +1,7 @@
 
 import { SettingType, Vector2, CVal, mergeObjects } from "lib/pq-games";
 import { CONFIG_NAIVIGATION_SHARED } from "./configShared"
+import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG = 
 {
@@ -60,6 +61,16 @@ export const CONFIG =
         fileName: "Naivigation (Shared)",
     },
 
+    // every _material entry must say how it produces its items; without this, generation stops with
+    // "Material \"cards\" has no picker()" before a single card is drawn
+    _material:
+    {
+        cards:
+        {
+            picker: () => cardPicker
+        },
+    },
+
     generation:
     {
         cards:
@@ -113,3 +124,9 @@ export const CONFIG =
 }
 
 mergeObjects(CONFIG, CONFIG_NAIVIGATION_SHARED);
+
+// CONFIG_NAIVIGATION_SHARED declares a tiles material for every Naivigation game (they all play on map
+// tiles), but this hub only generates cards — it has no tile class and so no tile picker. Leaving the
+// shared entry in would just move the same error to "Material \"tiles\" has no picker()", and an empty
+// picker would download a second, blank PDF under the same file name.
+delete (CONFIG._material as Record<string, any>).tiles;

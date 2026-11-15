@@ -21,7 +21,7 @@
     <meta property="og:url" content="{{ $context.Permalink }}">
 
     {{ $favicon := partial "func/get-favicon.html" $context.Parent }}
-    <link rel="icon" type="image/png" href="{{ $favicon }}">
+    <link rel="icon" type="image/webp" href="{{ $favicon }}">
 
     {{ with .extra }}
     <script>{{ . | safeJS }}</script>
