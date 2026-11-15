@@ -64,8 +64,7 @@ export default class Tile
         const op = new LayoutOperation({
             frame: frame,
             pos: vis.center,
-            size: vis.size,
-            pivot: Vector2.CENTER
+            size: vis.size
         });
         group.add(res, op);
     }
@@ -116,7 +115,6 @@ export default class Tile
             const op = new LayoutOperation({
                 pos: pos,
                 size: new Vector2(0.5*vis.size.x, fontSize),
-                pivot: Vector2.CENTER,
                 //stroke: strokeColor,
                 //strokeWidth: strokeWidth,
                 strokeAlign: StrokeAlign.OUTSIDE
@@ -176,7 +174,6 @@ export default class Tile
                     frame: frame,
                     pos: positions[numSprites - 1][i],
                     size: sizes[numSprites - 1][i],
-                    pivot: Vector2.CENTER,
                     effects: getVisualizerEffects(vis)
                 })
     
@@ -199,7 +196,6 @@ export default class Tile
         const textOp = new LayoutOperation({
             pos: vis.center,
             size: textDims,
-            pivot: Vector2.CENTER,
             fill: vis.get("tiles.specialAction.textColor")
         })
 
@@ -220,7 +216,6 @@ export default class Tile
             frame: frame,
             pos: new Vector2(xPosLeft, vis.center.y),
             size: size,
-            pivot: Vector2.CENTER,
             effects: getVisualizerEffects(vis)
         })
         group.add(res, op);
@@ -249,7 +244,6 @@ export default class Tile
                 frame: framePresent,
                 pos: pos,
                 size: sizePresent,
-                pivot: Vector2.CENTER,
                 effects: getVisualizerEffects(vis)
             });
             group.add(resPresent, op);
@@ -276,7 +270,6 @@ export default class Tile
                 frame: frameStar,
                 pos: pos,
                 size: sizeStar,
-                pivot: Vector2.CENTER,
             });
             group.add(resMisc, op);
         }

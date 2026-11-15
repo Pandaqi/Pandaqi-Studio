@@ -210,6 +210,7 @@ export default class Domino
 
                 const blockResource = vis.getResource("decorations");
                 const blockOp = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     pos: params.center,
                     rot: i*0.5*Math.PI,
                     effects: [
@@ -228,6 +229,7 @@ export default class Domino
         {
             const bgResource = vis.getResource("decorations");
             const bgOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 frame: 1,
                 pos: params.center,
                 rot: randRotationBG,
@@ -256,6 +258,7 @@ export default class Domino
             const squareSize = partSize * params.innerSquare.scale;
             const decorationResource = vis.getResource("decorations");
             const squareOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 frame: randBGFrame,
                 pos: params.center.clone(),
                 rot: randRotationInnerSquare,
@@ -322,6 +325,7 @@ export default class Domino
 
                 const wallResource = vis.getResource("cell");
                 const wallOp = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     frame: 9,
                     pos: new Vector2(posX, posY),
                     rot: wallRotation,
@@ -362,6 +366,7 @@ export default class Domino
         {
             const symbolResource = vis.getResource(part.getType());
             const symbolOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 frame: dict[part.getValue()].frame,
                 pos: params.center,
                 rot: randRotation,

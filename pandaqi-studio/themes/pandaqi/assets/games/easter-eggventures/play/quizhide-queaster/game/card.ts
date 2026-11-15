@@ -73,7 +73,6 @@ export default class Card
                 pos: new Vector2(pos.x - eggDims.x, pos.y),
                 size: eggDims,
                 frame: EGGS_SHARED[key].frame,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             })
             group.add(resEggs, opEggs);

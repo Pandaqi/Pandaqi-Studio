@@ -97,7 +97,6 @@ export default class Card
                 pos: arrowPos,
                 rot: this.arrowRight ? 0 : Math.PI,
                 size: arrowDims,
-                pivot: Vector2.CENTER,
                 frame: MISC.arrow.frame,
                 composite: vis.get("cards.arrow.composite"),
                 alpha: vis.get("cards.arrow.alpha")
@@ -124,7 +123,6 @@ export default class Card
         const opNumberBox = new LayoutOperation({
             pos: offset,
             size: size,
-            pivot: Vector2.CENTER,
             frame: MISC.number_box.frame,
             effects: [vis.inkFriendlyEffect, this.getShadowEffect(vis)].flat()
         })
@@ -134,7 +132,6 @@ export default class Card
         const opTextNumber = new LayoutOperation({
             pos: opNumberBox.pos.clone().sub(textInBoxOffset),
             size: size,
-            pivot: Vector2.CENTER,
             fill: "#FFFFFF",
             stroke: "#222222",
             strokeWidth: strokeWidth,
@@ -146,7 +143,6 @@ export default class Card
         const opHealthBox = new LayoutOperation({
             pos: new Vector2(vis.size.x - offset.x, offset.y),
             size: size,
-            pivot: Vector2.CENTER,
             frame: MISC.health_box.frame,
             effects: [vis.inkFriendlyEffect, this.getShadowEffect(vis)].flat()
         })
@@ -156,7 +152,6 @@ export default class Card
         const opTextHealth = new LayoutOperation({
             pos: opHealthBox.pos.clone().add(new Vector2(textInBoxOffset.x, -textInBoxOffset.y)),
             size: size,
-            pivot: Vector2.CENTER,
             fill: "#FFFFFF",
             stroke: "#222222",
             strokeWidth: strokeWidth,
@@ -174,7 +169,6 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.mainNumber.pos"),
             size: new Vector2(1.5 * textConfigMain.size),
-            pivot: Vector2.CENTER,
             fill: "#000000",
             stroke: "#FFFFFF",
             strokeWidth: vis.get("cards.mainNumber.strokeWidth"),
@@ -190,7 +184,6 @@ export default class Card
                 pos: vis.get("cards.mainNumber.written.linePos"),
                 size: vis.get("cards.mainNumber.written.lineDims"),
                 frame: MISC.stripes.frame,
-                pivot: Vector2.CENTER,
                 alpha: vis.get("cards.mainNumber.written.lineAlpha")
             });
             group.add(resMisc, opLine);
@@ -204,7 +197,6 @@ export default class Card
             const opTextWritten = new LayoutOperation({
                 pos: vis.get("cards.mainNumber.written.pos"),
                 size: new Vector2(vis.size.x, 1.5 * textConfigWritten.size),
-                pivot: Vector2.CENTER,
                 fill: "#000000",
             })
             group.add(resTextWritten, opTextWritten);
@@ -220,7 +212,6 @@ export default class Card
         const opBox = new LayoutOperation({
             pos: vis.get("cards.power.textPos"),
             size: vis.get("cards.power.textBoxDims"),
-            pivot: Vector2.CENTER,
             frame: MISC.power_box.frame,
             effects: [vis.inkFriendlyEffect, this.getShadowEffect(vis)].flat()
         });
@@ -236,7 +227,6 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.power.textPos"),
             size: vis.get("cards.power.textDims"),
-            pivot: Vector2.CENTER,
             fill: "#000000",
         })
         group.add(resText, opText);
@@ -260,7 +250,6 @@ export default class Card
                 pos: positions[i],
                 size: iconDims,
                 frame: data.frame,
-                pivot: Vector2.CENTER,
                 alpha: vis.get("cards.power.iconAlpha")
             });
             group.add(resActions, opIcon);
@@ -271,8 +260,7 @@ export default class Card
             const opShield = new LayoutOperation({
                 pos: vis.get("cards.power.shieldPos"),
                 size: iconDims,
-                frame: MISC.shield_icon.frame,
-                pivot: Vector2.CENTER
+                frame: MISC.shield_icon.frame
             });
             group.add(resMisc, opShield);
         }
@@ -282,8 +270,7 @@ export default class Card
             const opEye = new LayoutOperation({
                 pos: vis.get("cards.power.unseenPos"),
                 size: iconDims,
-                frame: MISC.unseen_icon.frame,
-                pivot: Vector2.CENTER
+                frame: MISC.unseen_icon.frame
             });
             group.add(resMisc, opEye);
         }

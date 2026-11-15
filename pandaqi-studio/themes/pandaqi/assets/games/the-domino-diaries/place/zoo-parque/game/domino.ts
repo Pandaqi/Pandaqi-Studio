@@ -123,6 +123,7 @@ export default class Domino
         const size = new Vector2(vis.sizeUnit);
         
         const opTop = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(vis.size.x, vis.center.y),
             frame: this.pawnIndex,
             size: size,
@@ -131,6 +132,7 @@ export default class Domino
         group.add(res, opTop);
 
         const opBottom = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(0, vis.center.y),
             frame: this.pawnIndex,
             size: size
@@ -161,7 +163,6 @@ export default class Domino
         const opTextScore = new LayoutOperation({
             pos: vis.get("dominoes.campaign.score.pos"),
             size: new Vector2(3.0 * textConfigScore.size),
-            pivot: Vector2.CENTER,
             fill: vis.inkFriendly ? "#EEEEEE" : campTypeData.textColor,
         })    
         group.add(resTextScore, opTextScore);
@@ -178,7 +179,6 @@ export default class Domino
             pos: vis.get("dominoes.campaign.posMission"),
             fill: "#000000",
             size: textBoxSize,
-            pivot: Vector2.CENTER,
         })
         group.add(resTextEvent, opTextEvent);
 
@@ -188,7 +188,6 @@ export default class Domino
             pos: vis.get("dominoes.campaign.posRule"),
             fill: "#000000",
             size: textBoxSize,
-            pivot: Vector2.CENTER,
         })
         group.add(resTextChallenge, opTextChallenge);
 
@@ -204,8 +203,7 @@ export default class Domino
             pos: vis.get("dominoes.campaign.expansions.pos"),
             size: textBoxSize,
             fill: "#000000",
-            alpha: vis.get("dominoes.campaign.expansions.alpha"),
-            pivot: Vector2.CENTER
+            alpha: vis.get("dominoes.campaign.expansions.alpha")
         })
         group.add(resTextExpansions, opTextExpansions);
     }
@@ -213,14 +211,12 @@ export default class Domino
     drawBothParts(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const opTop = new LayoutOperation({
-            pos: new Vector2(vis.center.x, 0.25*vis.size.y),
-            pivot: Vector2.CENTER
+            pos: new Vector2(vis.center.x, 0.25*vis.size.y)
         });
         group.add(this.sides.top.draw(vis), opTop);
 
         const opBottom = new LayoutOperation({
-            pos: new Vector2(vis.center.x, 0.75*vis.size.y),
-            pivot: Vector2.CENTER
+            pos: new Vector2(vis.center.x, 0.75*vis.size.y)
         })
         group.add(this.sides.bottom.draw(vis), opBottom);
 
@@ -247,7 +243,6 @@ export default class Domino
         const textColor = vis.inkFriendly ? "#000000" : "#442200";
         const opText = new LayoutOperation({
             pos: new Vector2(1.33*textConfig.size), 
-            pivot: Vector2.CENTER,
             fill: textColor,
             alpha: 0.75,
             size: new Vector2(2*textConfig.size)
@@ -265,8 +260,7 @@ export default class Domino
             frame: MISC.entrance.frame,
             pos: new Vector2(vis.center.x, 0.25*vis.size.y),
             size: vis.get("dominoes.entrance.size"),
-            effects: [glowEffect, vis.inkFriendlyEffect].flat(),
-            pivot: Vector2.CENTER
+            effects: [glowEffect, vis.inkFriendlyEffect].flat()
         });
         group.add(res, op);
     }

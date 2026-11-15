@@ -35,8 +35,7 @@ export default (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivig
             pos: positions[i],
             frame: MISC.vehicle_guides.frame,
             size: iconSize.clone().scale(1.1),
-            flipY: (i == 0),
-            pivot: Vector2.CENTER
+            flipY: (i == 0)
         })
         if(addGuides) { subGroup.add(resGuides, opGuides); }
 
@@ -45,15 +44,15 @@ export default (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivig
             pos: positions[i],
             size: iconSize.clone().scale(0.9),
             frame: frame,
-            flipY: (i == 0),
-            pivot: Vector2.CENTER
+            flipY: (i == 0)
         });
         subGroup.add(res, op);
     }
 
     // simple rectangle around + line to indicate folding
     const resOuterRect = new ResourceShape(new Rectangle({ center: Vector2.ZERO, extents: new Vector2(0.5*vis.size.x, vis.size.y) }));
-    const opOuterRect = new LayoutOperation({ 
+    const opOuterRect = new LayoutOperation({
+
         stroke: vis.get("pawns.general.outline.color"),
         strokeWidth: vis.get("pawns.general.outline.width")
     });
@@ -67,8 +66,8 @@ export default (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivig
     subGroup.add(resCutLine, opCutLine);
 
     // then place two of them side by side on a single tile
-    const opLeft = new LayoutOperation({ pos: new Vector2(0.25*vis.size.x, 0.5*vis.size.y )});
+    const opLeft = new LayoutOperation({ pivot: Vector2.ZERO, pos: new Vector2(0.25*vis.size.x, 0.5*vis.size.y )});
     group.add(subGroup, opLeft);
-    const opRight = new LayoutOperation({ pos: new Vector2(0.75*vis.size.x, 0.5*vis.size.y )});
+    const opRight = new LayoutOperation({ pivot: Vector2.ZERO, pos: new Vector2(0.75*vis.size.x, 0.5*vis.size.y )});
     group.add(subGroup, opRight);
 }

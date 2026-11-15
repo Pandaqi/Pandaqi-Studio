@@ -43,8 +43,7 @@ export default class MissionRequirement
         const opIcon = new LayoutOperation({
             pos: vis.get("dominoes.mission.requirements.posIcon"),
             size: vis.get("dominoes.mission.requirements.size"),
-            frame: ICONS[this.icon].frame,
-            pivot: Vector2.CENTER
+            frame: ICONS[this.icon].frame
         });
         subGroup.add(resIcon, opIcon);
 
@@ -72,6 +71,7 @@ export default class MissionRequirement
         subGroup.add(resText, opText);
 
         const opGroup = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: anchor.clone()
         })
         group.add(subGroup, opGroup);

@@ -128,8 +128,7 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
             const op = new LayoutOperation({
                 pos: positions[i],
                 size: size,
-                frame: frame,
-                pivot: Vector2.CENTER
+                frame: frame
             });
             group.add(res, op);
 
@@ -139,8 +138,7 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
                     pos: positions[i],
                     size: size.clone().scale(1.25),
                     frame: MISC.invert_cross.frame,
-                    alpha: 0.85,
-                    pivot: Vector2.CENTER
+                    alpha: 0.85
                 });
                 group.add(resMisc, opInvert);
             }
@@ -172,8 +170,7 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
 
             const op = new LayoutOperation({
                 pos: positions[i],
-                size: size,
-                pivot: Vector2.CENTER
+                size: size
             });
 
             let finalNumber = number;
@@ -262,6 +259,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
     /*
     const debugRect = new ResourceShape( new Rectangle().fromTopLeft(Vector2.ZERO, canvSize) );
     const debugOp = new LayoutOperation({
+        pivot: Vector2.ZERO,
         stroke: "#FF0000",
         strokeWidth: 50
     });
@@ -313,8 +311,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
                 size: fadeDims,
                 frame: MISC.undefined_length_1.frame,
                 alpha: 0.66,
-                flipX: true,
-                pivot: Vector2.CENTER
+                flipX: true
             });
             group.add(resMisc, opFadeLeft);
 
@@ -345,8 +342,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
                 const opDiscard = new LayoutOperation({
                     pos: new Vector2(0, -0.6*cardDims.y),
                     size: new Vector2(cardDims.x),
-                    frame: MISC.discard_pile.frame,
-                    pivot: Vector2.CENTER
+                    frame: MISC.discard_pile.frame
                 });
                 group.add(resMisc, opDiscard);
             }
@@ -355,8 +351,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
             const resCard = drawCardForContract(vis, card, dynDetails);
             const opCard = new LayoutOperation({
                 pos: pos,
-                size: cardDims,
-                pivot: Vector2.CENTER
+                size: cardDims
             });
             group.add(resCard, opCard);
 
@@ -379,8 +374,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
                     const op = new LayoutOperation({
                         pos: betweenPosAdjacent,
                         size: betweenCardIconDims,
-                        frame: MISC.adjacent.frame,
-                        pivot: Vector2.CENTER
+                        frame: MISC.adjacent.frame
                     });
                     secondLayerOperations.push(op);
                 }
@@ -390,8 +384,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
                     const op = new LayoutOperation({
                         pos: betweenPosNumeric,
                         size: betweenCardIconDims,
-                        frame: MISC.numeric.frame,
-                        pivot: Vector2.CENTER
+                        frame: MISC.numeric.frame
                     });
                     secondLayerOperations.push(op);
                 }
@@ -411,8 +404,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
             const opRow = new LayoutOperation({
                 pos: new Vector2(0, -0.5*cardDims.y),
                 size: overSetIconDims,
-                frame: MISC.same_row.frame,
-                pivot: Vector2.CENTER
+                frame: MISC.same_row.frame
             });
             group.add(resMisc, opRow);
         }
@@ -420,6 +412,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
         // add this entire group as child of main one
         const anchorPos = positionsGlobal[i]; 
         const opGroup = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: anchorPos,
             effects: shadowEffects
         });
@@ -435,7 +428,6 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
                 pos: anchorPos.clone().add(nextAnchorPos).scale(0.5),
                 size: unionDims,
                 frame: data.frame,
-                pivot: Vector2.CENTER,
                 rot: layoutDir == "horizontal" ? 0 : 0.5*Math.PI
             })
             groupGlobal.add(resMisc, unionOp);

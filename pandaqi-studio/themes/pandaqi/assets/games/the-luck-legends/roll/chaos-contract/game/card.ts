@@ -180,7 +180,6 @@ export default class Card
                 pos: positions[i],
                 size: new Vector2(2.0 * textConfig.size),
                 rot: (i <= 1) ? 0 : Math.PI,
-                pivot: Vector2.CENTER,
                 fill: textColor
             });
             group.add(resText, opText);
@@ -218,7 +217,6 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: positionsMain[i],
                 size: new Vector2(2.0 * textConfigMain.size),
-                pivot: Vector2.CENTER,
                 fill: textColor,
                 effects: mainEffects
             });
@@ -242,7 +240,6 @@ export default class Card
         const opTextNum = new LayoutOperation({
             pos: vis.get("cards.metadata.numberPos"), // this is relative to center of subgroup, not card
             size: new Vector2(vis.size.x, 2.0 * textConfig.size),
-            pivot: Vector2.CENTER,
             fill: textColor
         })
         subGroup.add(resTextNum, opTextNum);
@@ -253,7 +250,6 @@ export default class Card
             const opTextAction = new LayoutOperation({
                 pos: vis.get("cards.metadata.actionPos"),
                 size: new Vector2(vis.size.x, 2.0 * textConfig.size),
-                pivot: Vector2.CENTER,
                 fill: textColor
             })
             subGroup.add(resTextAction, opTextAction);
@@ -261,12 +257,14 @@ export default class Card
 
         // then add this subgroup twice, rotated along edge of card
         const op1 = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: vis.get("cards.metadata.anchorPos1"),
             rot: -0.5*Math.PI
         })
         group.add(subGroup, op1);
 
         const op2 = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: vis.get("cards.metadata.anchorPos2"),
             rot: 0.5*Math.PI
         })
@@ -302,7 +300,6 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.action.textBoxPos"),
             size: vis.get("cards.action.textDims"),
-            pivot: Vector2.CENTER,
             fill: vis.inkFriendly ? "#111111" : vis.get("cards.action.textColor"),
             effects: [new GlowEffect({ color: "#ffffff77", blur: 0.5*vis.get("cards.mainNumber.glowBlur") })]
         })
@@ -346,7 +343,6 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: positions[i],
                 size: textDims,
-                pivot: Vector2.CENTER,
                 fill: "#000000"
             })
             group.add(resText, opText);
@@ -374,7 +370,6 @@ export default class Card
                 const opIcon = new LayoutOperation({
                     pos: subpos[a],
                     size: sizeRews,
-                    pivot: Vector2.CENTER,
                     frame: MISC[ct[a] + "_" + ks].frame,
                     rot: randRot
                 });
@@ -396,7 +391,6 @@ export default class Card
             const opStar = new LayoutOperation({
                 pos: posStar,
                 size: starDims,
-                pivot: Vector2.CENTER,
                 frame: MISC.star.frame,
                 alpha: starAlpha,
             });
@@ -409,7 +403,6 @@ export default class Card
             const opBattleIcon = new LayoutOperation({
                 pos: vis.get("cards.contract.battleIconPos"),
                 size: starDims,
-                pivot: Vector2.CENTER,
                 frame: MISC.battle_icon.frame,
                 alpha: starAlpha,
             });
@@ -430,7 +423,6 @@ export default class Card
                 const opTurnoutIcon = new LayoutOperation({
                     pos: pos,
                     size: starDims,
-                    pivot: Vector2.CENTER,
                     frame: MISC.forced_icon.frame,
                     alpha: starAlpha,
                 });

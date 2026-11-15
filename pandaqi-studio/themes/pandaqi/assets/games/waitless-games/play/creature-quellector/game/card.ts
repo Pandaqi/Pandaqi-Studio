@@ -189,7 +189,6 @@ export default class Card
             pos: this.size.clone().scale(0.5),
             size: new Vector2(size),
             frame: this.getCardBackgroundFrame(),
-            pivot: Vector2.CENTER,
             alpha: vis.get("cards.backgroundAlpha"),
             flipX: this.creatureFlipX,
         })
@@ -226,7 +225,6 @@ export default class Card
             pos: posCreature,
             size: creatureImageSize,
             frame: this.getMainFrame(),
-            pivot: Vector2.CENTER,
             effects: effects
         })
         resCreature.toCanvas(ctx, opCreature);
@@ -244,6 +242,7 @@ export default class Card
             const type = this.typeList[i];
             const resIcon = this.getIconResource(vis, type);
             const opIcon = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: remPositions[i],
                 size: iconReminderSize,
                 frame: this.getIconFrame(type),
@@ -257,6 +256,7 @@ export default class Card
         const clipPathForStroke = this.getClipPath(new Vector2(this.size.x, contHeight), new Vector2(this.rootPadding));
         const resPath = new ResourceShape(clipPathForStroke);
         const opPath = new LayoutOperation({
+            pivot: Vector2.ZERO,
             stroke: this.strokeColor,
             strokeWidth: this.strokeWidth
         });
@@ -281,7 +281,6 @@ export default class Card
             pos: new Vector2(0.5*this.size.x, 0.425*this.size.y),
             size: new Vector2(mainIconSize),
             frame: this.getIconFrame(this.getMainIcon()),
-            pivot: Vector2.CENTER,
             effects: [
                 new DropShadowEffect({ 
                     offset: this.dropShadowOffset.clone().scaleFactor(2.5),
@@ -306,7 +305,6 @@ export default class Card
                 pos: positions[i],
                 size: iconSize,
                 frame: this.getIconFrame(type),
-                pivot: Vector2.CENTER,
                 effects: [
                     new DropShadowEffect({ 
                         offset: this.dropShadowOffset,
@@ -325,8 +323,7 @@ export default class Card
             pos: pos,
             size: new Vector2(this.cornerIconSize),
             frame: this.getIconFrame(this.getMainIcon()),
-            effects: this.iconEffectsMain,
-            pivot: Vector2.CENTER
+            effects: this.iconEffectsMain
         });
         resIcon.toCanvas(ctx, opIcon);
     }
@@ -346,6 +343,7 @@ export default class Card
         const rect = new Rectangle().fromTopLeft(textBoxAnchor, textBoxDims);
         const rectRes = new ResourceShape(rect);
         const opRect = new LayoutOperation({
+            pivot: Vector2.ZERO,
             fill: "#FFFFFF",
             stroke: this.strokeColor,
             strokeWidth: this.strokeWidth
@@ -362,8 +360,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: rect.getCenter(),
             size: textBoxDims,
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         });
         resText.toCanvas(ctx, opText);
     }

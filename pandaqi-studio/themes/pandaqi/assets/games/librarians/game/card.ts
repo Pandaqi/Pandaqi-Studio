@@ -135,7 +135,6 @@ export default class Card
             pos: vis.center,
             size: vis.get("cards.background.size"),
             frame: frame,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         })
         group.add(res, op);
@@ -152,7 +151,6 @@ export default class Card
                 pos: vis.center,
                 size: vis.get("cards.background.size"),
                 frame: vis.get("cards.background.cover.frameBounds").randomInteger(),
-                pivot: Vector2.CENTER,
                 alpha: vis.get("cards.background.cover.alpha"),
                 mask: this.getMaskData(vis),
             })
@@ -164,7 +162,6 @@ export default class Card
                 pos: vis.center.clone(),
                 size: vis.get("cards.background.size"),
                 frame: vis.get("cards.background.overlay.frame"),
-                pivot: Vector2.CENTER,
                 composite: vis.get("cards.background.overlay.composite"),
                 alpha: vis.get("cards.background.overlay.alpha"),
                 effects: [new TintEffect(colorData.main)],
@@ -186,7 +183,6 @@ export default class Card
             pos: vis.center.clone(),
             size: vis.get("cards.background.size"),
             frame: vis.get("cards.background.overlay.frame"),
-            pivot: Vector2.CENTER,
         })
     }
 
@@ -218,7 +214,6 @@ export default class Card
             size: vis.get("cards.bookShelf.arrow.size"),
             frame: MISC.bookshelf_arrow.frame,
             flipX: rand() <= 0.5,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         });
         group.add(resMisc, opArrow);
@@ -237,8 +232,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: textPos,
             size: textDims,
-            fill: vis.get("cards.bookShelf.text.color"),
-            pivot: Vector2.CENTER
+            fill: vis.get("cards.bookShelf.text.color")
         });
         group.add(resText, opText);
 
@@ -255,7 +249,6 @@ export default class Card
                 size: arrowVertDims,
                 frame: MISC.bookshelf_arrow.frame,
                 rot: 0.5*Math.PI,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             });
             group.add(resMisc, op);
@@ -302,7 +295,6 @@ export default class Card
                     composite: vis.get("cards.genre.compositeRect"),
                     size: vis.get("cards.genre.sizeRect"),
                     frame: MISC.rect_rounded.frame,
-                    pivot: Vector2.CENTER,
                     mask: this.getMaskData(vis),
                 });
                 group.add(resMisc, opRect);
@@ -311,7 +303,6 @@ export default class Card
                     pos: posIcon,
                     size: vis.get("cards.genre.sizeIcon"),
                     frame: genreData.frame,
-                    pivot: Vector2.CENTER,
                     effects: effects
                 })
                 group.add(resGenreIcons, opIcon);
@@ -340,7 +331,6 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: pos,
                 size: new Vector2(bookCoverSize.x, 2*fontSize),
-                pivot: Vector2.CENTER,
                 fill: vis.get("cards.genre.textColor"),
                 composite: vis.get("cards.genre.textComposite") 
             });
@@ -384,7 +374,6 @@ export default class Card
             size: sizeIcon,
             frame: MISC.author_icon.frame,
             composite: compositeIcon,
-            pivot: Vector2.CENTER,
             effects: effects
         });
         group.add(resIcon, opIconAuthor);
@@ -414,7 +403,6 @@ export default class Card
             size: sizeIcon,
             frame: MISC.age_icon.frame,
             composite: compositeIcon,
-            pivot: Vector2.CENTER,
             effects: effects
         })
         group.add(resIcon, opIconAge);
@@ -458,7 +446,6 @@ export default class Card
         const opDropCap = new LayoutOperation({
             pos: dropCapPos,
             size: new Vector2(2.0 * dropCapSize),
-            pivot: Vector2.CENTER,
             fill: colorData.dark
         });
         group.add(resTextDropCap, opDropCap);
@@ -484,7 +471,6 @@ export default class Card
                 const opNumber = new LayoutOperation({
                     pos: pos,
                     size: new Vector2(1.5*textConfig.size),
-                    pivot: Vector2.CENTER,
                     fill: vis.get("cards.title.helpNumbersColor"),
                     alpha: vis.get("cards.title.helpNumbersAlpha")
                 });
@@ -503,7 +489,6 @@ export default class Card
         const op = new LayoutOperation({
             pos: titlePos,
             size: titleDims,
-            pivot: Vector2.CENTER,
             fill: colorData.dark,
         });
         group.add(resText, op);
@@ -539,7 +524,6 @@ export default class Card
                 pos: posHeader,
                 size: sizeIcon,
                 frame: iconFrame,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             });
             group.add(resIcon, opIcon);
@@ -561,7 +545,6 @@ export default class Card
         const opTextTitle = new LayoutOperation({
             pos: posTitle,
             size: new Vector2(actionDims.x, sizeIcon.y),
-            pivot: Vector2.CENTER,
             fill: colorData.dark,
         });
         group.add(resTextTitle, opTextTitle);
@@ -580,7 +563,6 @@ export default class Card
             const opTextAction = new LayoutOperation({
                 pos: actionPos.clone().add(new Vector2(0, 0.5 * sizeIcon.y)),
                 size: actionDims,
-                pivot: Vector2.CENTER,
                 fill: colorData.dark
             });
             group.add(resTextAction, opTextAction);

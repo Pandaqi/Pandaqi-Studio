@@ -160,7 +160,6 @@ export default class DominoSide
         const opDotTexture = new LayoutOperation({
             frame: MISC.bg_dot_texture.frame,
             size: partSize,
-            pivot: Vector2.CENTER,
             alpha: vis.get("dominoes.bg.dotTextureAlpha"),
             composite: vis.get("dominoes.bg.dotTextureComposite"),
             rot: Math.floor(rand() * 4) * 0.5 * Math.PI
@@ -171,7 +170,6 @@ export default class DominoSide
         const opGradient = new LayoutOperation({
             frame: MISC.bg_gradient.frame,
             size: partSize,
-            pivot: Vector2.CENTER,
             alpha: vis.get("dominoes.bg.gradientAlpha"),
             composite: vis.get("dominoes.bg.gradientComposite"),
             rot: Math.floor(rand() * 4) * 0.5 * Math.PI
@@ -200,7 +198,6 @@ export default class DominoSide
         const op = new LayoutOperation({
             frame: frame,
             size: new Vector2(vis.sizeUnit),
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect,
             rot: rotation
         });
@@ -216,7 +213,6 @@ export default class DominoSide
                 frame: MISC.tunnel.frame,
                 size: vis.get("dominoes.paths.tunnelDims"),
                 effects: [glowEffect, vis.inkFriendlyEffect].flat(),
-                pivot: Vector2.CENTER,
                 rot: rotation
             });
             group.add(resTunnel, opTunnel);
@@ -234,8 +230,7 @@ export default class DominoSide
         const op = new LayoutOperation({
             frame: data.frame,
             size: vis.get("dominoes.main.size"),
-            effects: [glowEffect, vis.inkFriendlyEffect].flat(),
-            pivot: Vector2.CENTER
+            effects: [glowEffect, vis.inkFriendlyEffect].flat()
         });
         group.add(res, op);
     }
@@ -256,8 +251,7 @@ export default class DominoSide
             const op = new LayoutOperation({
                 pos: new Vector2(-0.5*vis.size.x, -0.5*partHeight).add(starIconOffset),
                 frame: frame,
-                size: starDims,
-                pivot: Vector2.CENTER
+                size: starDims
             });
             group.add(res, op);
 
@@ -269,7 +263,6 @@ export default class DominoSide
                 pos: new Vector2(0.5*vis.size.x, -0.5*partHeight).add(new Vector2(-typeIconOffset.x, typeIconOffset.y)),
                 frame: MISC["type_icon_" + this.type].frame,
                 size: typeIconDims,
-                pivot: Vector2.CENTER,
                 alpha: 0.85
             })
             group.add(res, opType);
@@ -287,7 +280,6 @@ export default class DominoSide
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({
                 pos: op.pos.clone(), 
-                pivot: Vector2.CENTER,
                 fill: vis.get("dominoes.score.textColor"),
                 stroke: vis.get("dominoes.score.strokeColor"),
                 strokeWidth: vis.get("dominoes.score.strokeWidth"),
@@ -315,7 +307,6 @@ export default class DominoSide
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({
                 pos: textPos, 
-                pivot: Vector2.CENTER,
                 fill: "#FFEEEE",
                 size: new Vector2(0.9*textDims.x, textDims.y)
             });

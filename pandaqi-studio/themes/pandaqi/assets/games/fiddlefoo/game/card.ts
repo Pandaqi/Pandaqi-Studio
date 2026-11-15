@@ -91,8 +91,7 @@ export default class Card
                 pos: pos,
                 rot: rot,
                 size: textDims,
-                fill: textColor,
-                pivot: Vector2.CENTER
+                fill: textColor
             })
             group.add(resText, opText);
         }
@@ -111,7 +110,6 @@ export default class Card
             stroke: vis.get("cards.numberCenter.strokeColor"),
             strokeWidth: vis.get("cards.numberCenter.strokeWidth"),
             strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER,
             effects: [shadowEffect]
         })
         group.add(resTextBig, opTextBig);
@@ -145,7 +143,6 @@ export default class Card
             const opTextWritten = new LayoutOperation({
                 pos: positionsWritten[i],
                 rot: i <= 0 ? 0 : Math.PI,
-                pivot: Vector2.CENTER,
                 fill: "#000000",
                 size: new Vector2(vis.size.x, 2*textConfigWritten.size),
                 composite: "overlay"
@@ -191,6 +188,7 @@ export default class Card
         for(let i = 0; i < 2; i++)
         {
             const opGroup = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: positionsGroups[i],
                 rot: i <= 0 ? -0.5*Math.PI : 0.5*Math.PI,
             });
@@ -210,8 +208,7 @@ export default class Card
         const opBG = new LayoutOperation({
             pos: vis.get("cards.special.iconPos"),
             size: vis.get("cards.special.iconBGDims"),
-            frame: TEMPLATES.special_bg.frame,
-            pivot: Vector2.CENTER
+            frame: TEMPLATES.special_bg.frame
         })
         group.add(resBG, opBG);
 
@@ -220,8 +217,7 @@ export default class Card
             pos:vis.get("cards.special.iconPos"),
             size: vis.get("cards.special.iconDims"),
             frame: data.frame,
-            effects: vis.inkFriendlyEffect,
-            pivot: Vector2.CENTER
+            effects: vis.inkFriendlyEffect
         });
         group.add(resIcon, opIcon);
 
@@ -238,8 +234,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.special.textPos"),
             size: vis.get("cards.special.textDims"),
-            fill: vis.get("cards.special.textColor"),
-            pivot: Vector2.CENTER
+            fill: vis.get("cards.special.textColor")
         })
         group.add(resText, opText);
     }

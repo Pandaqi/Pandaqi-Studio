@@ -96,7 +96,6 @@ export default class Card
             size: vis.get("cards.cycle.size"),
             rot: startingAngle,
             frame: frame,
-            pivot: Vector2.CENTER,
             effects: [vis.inkFriendlyEffect, invertEffect].flat(),
             alpha: data.hideCycle ? 0.2 : 1.0,
         })
@@ -119,7 +118,6 @@ export default class Card
                     size: iconDims,
                     rot: vis.get("cards.cycle.rotateAnimals") ? angle : 0,
                     frame: ANIMALS[this.cycle[i]].frame,
-                    pivot: Vector2.CENTER,
                     effects: [vis.inkFriendlyEffect, glowEffect].flat()
                 })
                 group.add(resAnimal, opAnimal);
@@ -132,7 +130,6 @@ export default class Card
             const opPeople = new LayoutOperation({
                 pos: circleCenter,
                 size: vis.get("cards.cycle.peopleIconDims"),
-                pivot: Vector2.CENTER,
                 frame: MISC.people_icon.frame,
                 effects: vis.inkFriendlyEffect
             });
@@ -148,7 +145,6 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.score.textBoxPos"),
             size: new Vector2(2.0 * textConfig.size),
-            pivot: Vector2.CENTER,
             fill: vis.inkFriendly ? "#111111" : vis.get("cards.score.textColor")
         });
         group.add(resText, opText);
@@ -160,7 +156,6 @@ export default class Card
             const opTextBox = new LayoutOperation({
                 pos: vis.get("cards.power.textBoxPos"),
                 size: vis.get("cards.power.textBoxDims"),
-                pivot: Vector2.CENTER,
                 frame: MISC.textbox_zoo.frame,
                 effects: vis.inkFriendlyEffect
             });
@@ -174,7 +169,6 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: vis.get("cards.power.textBoxPos"),
                 size: vis.get("cards.power.textDims"),
-                pivot: Vector2.CENTER,
                 fill: vis.inkFriendly ? "#FFFFFF" : vis.get("cards.power.textColor")
             });
             group.add(resText, opText);
@@ -207,7 +201,6 @@ export default class Card
         const opAnimal = new LayoutOperation({
             pos: vis.get("cards.animal.iconPos"),
             size: iconDims,
-            pivot: Vector2.CENTER,
             frame: data.frame,
             effects: [vis.inkFriendlyEffect, shadowEffect].flat()
         });
@@ -220,7 +213,6 @@ export default class Card
             const opTextBox = new LayoutOperation({
                 pos: vis.get("cards.power.textBoxPos"),
                 size: vis.get("cards.power.textBoxDims"),
-                pivot: Vector2.CENTER,
                 frame: MISC.textbox_animal.frame,
                 effects: vis.inkFriendlyEffect
             });
@@ -234,7 +226,6 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: vis.get("cards.power.textBoxPos"),
                 size: vis.get("cards.power.textBoxDims"),
-                pivot: Vector2.CENTER,
                 fill: vis.inkFriendly ? "#FFFFFF" : "#000000"
             });
             group.add(resText, opText);
@@ -249,7 +240,6 @@ export default class Card
             size: vis.size,
             flipX: rand() <= 0.5,
             flipY: rand() <= 0.5,
-            pivot: Vector2.CENTER,
             composite: "overlay",
             alpha: vis.get("cards.backgroundTextureAlpha"),
             frame: TEMPLATES.texture.frame,

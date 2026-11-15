@@ -67,7 +67,6 @@ export default class Card
             pos: vis.center,
             size: new Vector2(2.0 * textConfig.size),
             fill: "#FCFCFC",
-            pivot: Vector2.CENTER,
         })
         group.add(resText, opText);
 
@@ -171,7 +170,6 @@ export default class Card
                     pos: anchorPos.clone().add(new Vector2(drawDir * suitDims.x * s * 1.1, 0)),
                     size: isSuit ? suitDims : boxDims,
                     rot: (i <= 1) ? 0 : Math.PI,
-                    pivot: Vector2.CENTER,
                     frame: isSuit ? this.getSuitData(suitsToDraw[s] as Suit).frame : MISC.number_box.frame,
                 });
 
@@ -188,7 +186,6 @@ export default class Card
                     pos: anchorPos,
                     size: new Vector2(3.0 * textConfig.size),
                     rot: (i <= 1) ? 0 : Math.PI,
-                    pivot: Vector2.CENTER,
                     fill: this.getTintColorLight(vis)
                 });
                 group.add(resText, opText);
@@ -206,8 +203,7 @@ export default class Card
             pos: vis.center,
             size: vis.get("cards.mainNumber.circleDims"),
             frame: MISC.center_circle.frame,
-            rot: Math.floor(rand() * 4) * 0.5 * Math.PI,
-            pivot: Vector2.CENTER
+            rot: Math.floor(rand() * 4) * 0.5 * Math.PI
         });
         group.add(resMisc, opCircle);
 
@@ -234,7 +230,6 @@ export default class Card
                 pos: circlePos,
                 rot: angle + 0.5*Math.PI,
                 size: new Vector2(2.0*textConfig.size),
-                pivot: Vector2.CENTER,
                 fill: this.getTintColorLight(vis),
                 composite: this.isWildCard() ? "overlay" : "source-over", // source-over is default drawing mode of canvas
                 alpha: circleAlpha,
@@ -249,14 +244,15 @@ export default class Card
         if(!vis.inkFriendly)
         {
             const off = vis.get("cards.mainNumber.shadowOffset");
-            const opGroupShadow = new LayoutOperation({ 
+            const opGroupShadow = new LayoutOperation({
+            pivot: Vector2.ZERO, 
                 pos: vis.center.clone().add(off),
                 composite: "overlay" 
             });
             group.add(groupNumsShadow, opGroupShadow);
         }
 
-        const opGroup = new LayoutOperation({ pos: vis.center })
+        const opGroup = new LayoutOperation({ pivot: Vector2.ZERO, pos: vis.center })
         group.add(groupNums, opGroup);
     }
 
@@ -286,7 +282,6 @@ export default class Card
                 pos: headingPositions[i],
                 size: vis.get("cards.bids.headingDims"),
                 rot: (i == 0) ? 0 : Math.PI,
-                pivot: Vector2.CENTER,
                 fill: vis.inkFriendly ? "#000000" : "#FFFFFF",
                 effects: [shadowEffect]
             });
@@ -299,7 +294,6 @@ export default class Card
         const opIcon = new LayoutOperation({
             pos: vis.get("cards.bids.iconPos"),
             size: vis.get("cards.bids.iconDims"),
-            pivot: Vector2.CENTER,
             effects: effects,
             frame: data.frame
         });
@@ -314,7 +308,6 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.bids.textPos"),
             size: vis.get("cards.bids.textDims"),
-            pivot: Vector2.CENTER,
             fill: vis.inkFriendly ? "#000000" : "#FFFFFF",
         });
         group.add(resText, opText);

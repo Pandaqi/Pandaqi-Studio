@@ -83,7 +83,6 @@ export default class Tile
         const opType = new LayoutOperation({
             pos: vis.center,
             size: vis.get("tiles.type.size"),
-            pivot: Vector2.CENTER,
             frame: typeData.frame,
             effects: [vis.custom.shadowEffect, vis.inkFriendlyEffect].flat()
         });
@@ -108,6 +107,7 @@ export default class Tile
         const circleRadius = 0.05 * fontSize;
         const resCircle = new ResourceShape(new Circle({ center: Vector2.ZERO, radius: circleRadius }));
         const opCircle = new LayoutOperation({
+            pivot: Vector2.ZERO,
             fill: vis.get("tiles.type.textColor"),
             stroke: vis.get("tiles.type.textStrokeColor"),
             strokeWidth: vis.get("tiles.type.textStrokeWidth"),
@@ -121,7 +121,6 @@ export default class Tile
             const opText = new LayoutOperation({
                 pos: pos,
                 size: new Vector2(2*textConfig.size),
-                pivot: Vector2.CENTER,
                 fill: vis.get("tiles.type.textColor"),
                 stroke: vis.get("tiles.type.textStrokeColor"),
                 strokeWidth: vis.get("tiles.type.textStrokeWidth"),
@@ -180,7 +179,6 @@ export default class Tile
             const opMisc = new LayoutOperation({
                 pos: pos,
                 size: realSpriteDims,
-                pivot: Vector2.CENTER,
                 frame: MISC[type + "_icon"].frame,
                 effects: [vis.custom.shadowEffect, vis.inkFriendlyEffect].flat()
             });
@@ -192,7 +190,6 @@ export default class Tile
             const opText = new LayoutOperation({
                 pos: pos.clone().add(new Vector2(0.5*realSpriteDims.x + 0.5*textBoxDims.x, 0)),
                 size: textBoxDims,
-                pivot: Vector2.CENTER,
                 fill: textColor
             });
             group.add(resText, opText);

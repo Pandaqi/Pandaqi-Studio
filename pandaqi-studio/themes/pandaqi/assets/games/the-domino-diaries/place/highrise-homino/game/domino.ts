@@ -57,14 +57,12 @@ export default class Domino
         const topRotation = (this.type == DominoType.TENANT) ? Math.PI : 0;
         const opTop = new LayoutOperation({
             pos: new Vector2(vis.center.x, 0.25*vis.size.y),
-            rot: topRotation,
-            pivot: Vector2.CENTER
+            rot: topRotation
         });
         group.add(this.sides.top.draw(vis), opTop);
 
         const opBottom = new LayoutOperation({
-            pos: new Vector2(vis.center.x, 0.75*vis.size.y),
-            pivot: Vector2.CENTER
+            pos: new Vector2(vis.center.x, 0.75*vis.size.y)
         })
         group.add(this.sides.bottom.draw(vis), opBottom);
 
@@ -94,6 +92,7 @@ export default class Domino
         const resTextTask = new ResourceText({ text: data.descTask, textConfig: textConfig });
         const textDims = vis.get("missions.textBoxDims");
         const opTextTask = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: vis.get("missions.taskTextPos"),
             size: textDims,
             fill: "#121212"
@@ -104,6 +103,7 @@ export default class Domino
         const defText = this.missionType == MissionType.GOAL ? "No extra reward." : "No extra penalty."
         const resTextReward = new ResourceText({ text: data.descReward ?? defText, textConfig: textConfig });
         const opTextReward = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: vis.get("missions.rewardTextPos"),
             size: textDims,
             fill: "#121212"
@@ -122,8 +122,7 @@ export default class Domino
             pos: vis.get("missions.setTextPos"),
             size: textDims,
             fill: "#121212",
-            alpha: vis.get("missions.setTextAlpha"),
-            pivot: Vector2.CENTER
+            alpha: vis.get("missions.setTextAlpha")
         });
         group.add(resTextSet, opTextSet);
     }
@@ -140,7 +139,6 @@ export default class Domino
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
             pos: new Vector2(1.33*textConfig.size), 
-            pivot: Vector2.CENTER,
             fill: vis.get("dominoes.setText.color"),
             alpha: vis.get("dominoes.setText.alpha"),
             stroke: vis.get("dominoes.setText.strokeColor"),

@@ -427,6 +427,7 @@ class Board
                     {
                         const rect = new ResourceShape( new Rectangle({ center: realPos, extents: cardSizePossibleMove }) );
                         const opRect = new LayoutOperation({
+                            pivot: Vector2.ZERO,
                             fill: "#FFAAAA"
                         });
                         rect.toCanvas(ctx, opRect);
@@ -439,8 +440,7 @@ class Board
                 const res = new ResourceImage( await card.drawForRules(sim.getVisualizer()) );
                 const op = new LayoutOperation({
                     pos: realPos,
-                    size: cardSizeWithMargin,
-                    pivot: Vector2.CENTER
+                    size: cardSizeWithMargin
                 })
                 res.toCanvas(ctx, op);
             }

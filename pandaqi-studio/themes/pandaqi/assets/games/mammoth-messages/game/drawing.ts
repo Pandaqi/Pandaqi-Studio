@@ -41,8 +41,7 @@ export default class Drawing
         const resOp = new LayoutOperation({
             frame: frame,
             pos: vis.center,
-            size: iconDims,
-            pivot: Vector2.CENTER
+            size: iconDims
         })
         group.add(res, resOp);
     }

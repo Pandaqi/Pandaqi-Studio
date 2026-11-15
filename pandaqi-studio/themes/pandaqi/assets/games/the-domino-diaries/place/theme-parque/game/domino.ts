@@ -105,6 +105,7 @@ export default class Domino
         const size = new Vector2(vis.sizeUnit);
         
         const opTop = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(vis.size.x, vis.center.y),
             frame: this.pawnIndex,
             size: size,
@@ -113,6 +114,7 @@ export default class Domino
         group.add(res, opTop);
 
         const opBottom = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(0, vis.center.y),
             frame: this.pawnIndex,
             size: size
@@ -148,7 +150,6 @@ export default class Domino
             const opTextScore = new LayoutOperation({
                 pos: pos,
                 size: new Vector2(3.0 * textConfigScore.size),
-                pivot: Vector2.CENTER,
                 fill: "#000000",
                 stroke: "#FFFFFF",
                 strokeWidth: vis.get("dominoes.events.score.strokeWidth"),
@@ -168,7 +169,6 @@ export default class Domino
             pos: vis.get("dominoes.events.posEvent"),
             fill: "#000000",
             size: textBoxSize,
-            pivot: Vector2.CENTER,
         })
         group.add(resTextEvent, opTextEvent);
 
@@ -178,7 +178,6 @@ export default class Domino
             pos: vis.get("dominoes.events.posChallenge"),
             fill: "#000000",
             size: textBoxSize,
-            pivot: Vector2.CENTER,
         })
         group.add(resTextChallenge, opTextChallenge);
 
@@ -194,8 +193,7 @@ export default class Domino
             pos: vis.get("dominoes.events.expansions.pos"),
             size: textBoxSize,
             fill: "#000000",
-            alpha: vis.get("dominoes.events.expansions.alpha"),
-            pivot: Vector2.CENTER
+            alpha: vis.get("dominoes.events.expansions.alpha")
         })
         group.add(resTextExpansions, opTextExpansions);
     }
@@ -203,14 +201,12 @@ export default class Domino
     drawBothParts(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const opTop = new LayoutOperation({
-            pos: new Vector2(vis.center.x, 0.25*vis.size.y),
-            pivot: Vector2.CENTER
+            pos: new Vector2(vis.center.x, 0.25*vis.size.y)
         });
         group.add(this.sides.top.draw(vis), opTop);
 
         const opBottom = new LayoutOperation({
-            pos: new Vector2(vis.center.x, 0.75*vis.size.y),
-            pivot: Vector2.CENTER
+            pos: new Vector2(vis.center.x, 0.75*vis.size.y)
         })
         group.add(this.sides.bottom.draw(vis), opBottom);
     }
@@ -232,7 +228,6 @@ export default class Domino
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
             pos: new Vector2(1.33*textConfig.size), 
-            pivot: Vector2.CENTER,
             fill: "#FFFFFF",
             alpha: 0.75,
             size: new Vector2(2*textConfig.size)
@@ -248,8 +243,7 @@ export default class Domino
         const op = new LayoutOperation({
             frame: MISC.entrance.frame,
             pos: new Vector2(vis.center.x, 0.25*vis.size.y),
-            size: vis.get("dominoes.entrance.size"),
-            pivot: Vector2.CENTER
+            size: vis.get("dominoes.entrance.size")
         });
         group.add(res, op);
     }

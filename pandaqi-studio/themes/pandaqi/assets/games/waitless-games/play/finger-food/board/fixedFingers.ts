@@ -20,8 +20,7 @@ export default class FixedFingers
         const opSprite = new LayoutOperation({
             pos: pos,
             size: new Vector2(size),
-            frame: 5,
-            pivot: Vector2.CENTER
+            frame: 5
         })
         group.add(res, opSprite);
 
@@ -33,7 +32,6 @@ export default class FixedFingers
                 pos: pos,
                 size: new Vector2(size),
                 frame: finger,
-                pivot: Vector2.CENTER,
             })
             group.add(res, opFinger);
         }

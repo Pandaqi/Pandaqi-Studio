@@ -394,6 +394,7 @@ export default class GameState
         }).alignCenter();
 
         const groupOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             effects: [new DropShadowEffect({ blurRadius: 5 })]
         })
 

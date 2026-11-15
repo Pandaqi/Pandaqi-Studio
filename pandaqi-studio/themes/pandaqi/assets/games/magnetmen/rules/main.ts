@@ -103,6 +103,7 @@ class Board
                 const rect = new Rectangle({ center: Vector2.ZERO, extents: cellSize });
                 const bgColor = isValidMove ? "#AAFFAA" : "#FFFFFF";
                 const rectOp = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     pos: pos,
                     stroke: "#000000",
                     strokeWidth: 4,
@@ -116,7 +117,6 @@ class Board
                     frame: SETS.base[cell.type].frame,
                     pos: posCenter,
                     size: cellSize,
-                    pivot: Vector2.CENTER,
                     alpha: iconAlpha
                 })
 
@@ -128,6 +128,7 @@ class Board
                     {
                         const line = new Line(cellSize.clone().scale(-0.5), cellSize.clone().scale(0.5));
                         const lineOp = new LayoutOperation({
+                            pivot: Vector2.ZERO,
                             stroke: "#444444",
                             strokeWidth: 8,
                             pos: posCenter,

@@ -77,6 +77,7 @@ export default class Card
         if(this.key == "beastState")
         {
             const opStateToken = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: MISC.beast_state.frame,
                 effects: vis.inkFriendlyEffect
@@ -90,7 +91,6 @@ export default class Card
             pos: vis.center,
             size: vis.get("foodTokens.iconDims"),
             frame: foodData.frame,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         });
         const resIllu = vis.getResource("food");
@@ -121,7 +121,6 @@ export default class Card
             size: vis.size.clone().scale(0.99),
             frame: MISC.beast_frame.frame,
             alpha: 0.75,
-            pivot: Vector2.CENTER,
             composite: "overlay",
         })
 
@@ -134,7 +133,6 @@ export default class Card
             pos: vis.get("beasts.name.posPlaque"),
             frame: MISC.name_plaque.frame,
             size: plaqueDims,
-            pivot: Vector2.CENTER,
             effects: [vis.custom.glowEffect, vis.inkFriendlyEffect].flat()
         })
         group.add(resMisc, opPlaque);
@@ -149,8 +147,7 @@ export default class Card
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: vis.get("beasts.name.strokeWidth"),
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         });
         const resTextName = new ResourceText({ text: beastData.label, textConfig: textConfigName });
         group.add(resTextName, opName);
@@ -166,8 +163,7 @@ export default class Card
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: vis.get("beasts.name.strokeWidthLevel"),
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         });
         group.add(resTextDetails, opTextDetails);
 
@@ -209,7 +205,6 @@ export default class Card
                     pos: pos,
                     size: rectDims,
                     fill: "#FFFFFF",
-                    pivot: Vector2.CENTER,
                     sizeAuto: true
                 });
                 group.add(resText, opText);
@@ -242,7 +237,6 @@ export default class Card
                 pos: pos,
                 frame: MISC["modal_" + dataKey].frame,
                 size: modalDims,
-                pivot: Vector2.CENTER,
                 effects: [vis.custom.glowEffect, vis.inkFriendlyEffect].flat()
             });
             group.add(resMisc, opModal);
@@ -261,7 +255,6 @@ export default class Card
                 const opTextDetails = new LayoutOperation({
                     pos: pos.clone().sub(new Vector2(0, vis.get("beasts.modal.stateTextOffsetFromCenter")*modalDims.y)),
                     size: modalDims,
-                    pivot: Vector2.CENTER,
                     fill: "#000000",
                     stroke: "#FFFFFF",
                     strokeWidth: vis.get("beasts.modal.stateTextStrokeWidth"),
@@ -277,6 +270,7 @@ export default class Card
             {
                 const subGroup = this.visualizeRecipe(vis, data.cost, vis.get("beasts.modal.menuIconDims"), textBoxDims.x);
                 const op = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     pos: pos.clone().sub(new Vector2(0, menuYOffset)),
                 });
                 group.add(subGroup, op);
@@ -290,6 +284,7 @@ export default class Card
             {
                 const subGroup = this.visualizeRecipe(vis, data.reward.food, vis.get("beasts.modal.menuIconDims"), textBoxDims.x);
                 const op = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     pos: textPos,
                 });
                 group.add(subGroup, op);
@@ -302,7 +297,6 @@ export default class Card
                 const opText = new LayoutOperation({
                     pos: textPos,
                     size: textBoxDims,
-                    pivot: Vector2.CENTER,
                     fill: vis.get("beasts.modal.textColor"),
                     sizeAuto: true,
                 })
@@ -370,7 +364,6 @@ export default class Card
                     pos: positions[a],
                     size: iconDims,
                     frame: FOOD[ option[a] ].frame,
-                    pivot: Vector2.CENTER,
                     effects: [vis.custom.shadowEffect, vis.inkFriendlyEffect].flat()
                 })
                 allRawPositions.push(positionsGlobal[i].clone().add(positions[a]));
@@ -400,8 +393,7 @@ export default class Card
             const opDivider = new LayoutOperation({
                 pos: posBetween,
                 size: iconDims,
-                frame: MISC.recipe_or_divider.frame,
-                pivot: Vector2.CENTER
+                frame: MISC.recipe_or_divider.frame
             })
             groupGlobal.add(resMisc, opDivider)
         }
@@ -419,7 +411,6 @@ export default class Card
                 pos: vis.get("cards.victims.illuPos"),
                 size: vis.get("cards.victims.illuDims"),
                 frame: VICTIMS[this.key].frame,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             });
             group.add(resVictim, opVictim);
@@ -456,8 +447,7 @@ export default class Card
             fill: "#000000",
             stroke: "#FFFFFF",
             strokeWidth: vis.get("cards.victims.strokeWidthName"),
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         });
         group.add(resTextDetails, opTextDetails);
 
@@ -474,8 +464,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.victims.pos"),
             size: vis.get("cards.victims.textBoxDims"),
-            fill: "#FFFFFF",
-            pivot: Vector2.CENTER
+            fill: "#FFFFFF"
         });
         group.add(resText, opText);
     }
@@ -508,8 +497,7 @@ export default class Card
             const opFrame = new LayoutOperation({
                 pos: Vector2.ZERO,
                 size: new Vector2(spaceXPerRecipe), // this image is 1x1 square, so need to "squarify" it
-                frame: MISC.recipe_frame.frame,
-                pivot: Vector2.CENTER
+                frame: MISC.recipe_frame.frame
             })
             subGroup.add(resMisc, opFrame);
 
@@ -536,6 +524,7 @@ export default class Card
             // visualize the COST ( = food token icons)
             const costGroup = this.visualizeRecipe(vis, r.cost, maxIconDims, maxSpaceForCost, AlignValue.START);
             const costOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: costGroupPos
             })
             subGroup.add(costGroup, costOp);
@@ -555,8 +544,7 @@ export default class Card
                 const opText = new LayoutOperation({
                     pos: textBoxPos,
                     size: textBoxDims,
-                    fill: "#000000",
-                    pivot: Vector2.CENTER
+                    fill: "#000000"
                 });
                 subGroup.add(resText, opText);
             }
@@ -565,6 +553,7 @@ export default class Card
             {
                 const groupRewardIcons = this.visualizeRecipe(vis, r.reward.food, maxIconDims, maxSpaceForCost);
                 const opReward = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     pos: textBoxPos,
                 });
                 subGroup.add(groupRewardIcons, opReward);
@@ -572,6 +561,7 @@ export default class Card
 
             // add the whole thing to the overall list
             const opRecipe = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: new Vector2(vis.center.x, listTop.y + spaceYPerRecipe * (i + 0.5))
             });
             group.add(subGroup, opRecipe);
@@ -634,8 +624,7 @@ export default class Card
         const opIllu = new LayoutOperation({
             pos: vis.center,
             size: vis.get("foodTokens.iconDims"),
-            clip: circle,
-            pivot: Vector2.CENTER
+            clip: circle
         });
         const resIllu = vis.getResource("food");
         group.add(resIllu, opIllu);
@@ -646,7 +635,6 @@ export default class Card
             pos: vis.center,
             size: vis.size,
             frame: MISC.food_circle.frame,
-            pivot: Vector2.CENTER,
             effects: [new TintEffect(foodData.col)]
         });
         group.add(resMisc, opBorder);
@@ -671,6 +659,7 @@ export default class Card
             for(const pos of positions)
             {
                 const opTier = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     pos: pos,
                     fill: "#000000",
                     composite: "overlay"
@@ -681,8 +670,7 @@ export default class Card
             // then place that entire group at the right position, right rot
             const groupDotsOp = new LayoutOperation({
                 pos: vis.center.clone().add(new Vector2(Math.cos(ang), Math.sin(ang)).scale(circleRadius)),
-                rot: ang,
-                pivot: Vector2.CENTER
+                rot: ang
             })
 
             group.add(groupDots, groupDotsOp);

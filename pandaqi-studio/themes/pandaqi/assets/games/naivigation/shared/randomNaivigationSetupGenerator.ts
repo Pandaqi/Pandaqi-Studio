@@ -224,8 +224,7 @@ export default class RandomNaivigationSetupGenerator
             const cellOp = new LayoutOperation({
                 pos: realPos,
                 size: new Vector2(TILE_SIZE).sub(new Vector2(2*tileMargin)),
-                rot: cell.rot * 0.5 * Math.PI,
-                pivot: Vector2.CENTER
+                rot: cell.rot * 0.5 * Math.PI
             })
             group.add(resCell, cellOp);
 
@@ -240,8 +239,7 @@ export default class RandomNaivigationSetupGenerator
                 const tokenOp = new LayoutOperation({
                     pos: realPos,
                     size: new Vector2(PLAYER_TOKEN_SIZE),
-                    rot: data.rot * 0.5 * Math.PI,
-                    pivot: Vector2.CENTER
+                    rot: data.rot * 0.5 * Math.PI
                 });
                 group.add(resToken, tokenOp);
             }

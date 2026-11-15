@@ -23,6 +23,7 @@ export const cacheVisualizationData = async (vis:MaterialVisualizer) =>
         const img1 = resMisc.getImageFrameAsResource(MISC.clay_square.frame);
         const ctx = createContext({ size: img1.size });
         const op1 = new LayoutOperation({
+            pivot: Vector2.ZERO,
             effects: [new TintEffect(colorData.color)]
         })
         img1.toCanvas(ctx, op1);
@@ -32,8 +33,7 @@ export const cacheVisualizationData = async (vis:MaterialVisualizer) =>
         const img2 = resIcon.getImageFrameAsResource(colorData.frame);
         const op2 = new LayoutOperation({
             pos: center,
-            size: img1.size.clone().scale(0.85),
-            pivot: Vector2.CENTER
+            size: img1.size.clone().scale(0.85)
         })
 
         // save resulting canvas
@@ -111,7 +111,6 @@ export default class Card
                 pos: randPos,
                 size: new Vector2(3 * vis.size.y, 1.5 * fontSize),
                 rot: randRot,
-                pivot: Vector2.CENTER,
                 composite: "color-burn",
                 alpha: vis.get("cards.secretMessages.alpha")
             });
@@ -174,7 +173,6 @@ export default class Card
                 frame: colorData.frame,
                 pos: new Vector2(xPos, yPos),
                 size: iconDims,
-                pivot: Vector2.CENTER,
                 effects: vis.custom.dropShadowEffects
             })
             group.add(resBlock, resBlockOp);
@@ -186,8 +184,7 @@ export default class Card
                 frame: colorData.frame,
                 alpha: 0.75,
                 composite: "color-burn",
-                effects: vis.inkFriendlyEffect,
-                pivot: Vector2.CENTER
+                effects: vis.inkFriendlyEffect
             })
             group.add(resColor, colorShapeMirrorOp);
 
@@ -197,7 +194,6 @@ export default class Card
                 fill: "#FFFFFF",
                 pos: new Vector2(xPos, yPos),
                 size: iconDims,
-                pivot: Vector2.CENTER,
                 effects: vis.custom.dropShadowEffects
             });
             group.add(numberText, numberTextOp);
@@ -231,8 +227,7 @@ export default class Card
                     size: dividerDims,
                     flipX: i % 2 == 1,
                     composite: "overlay",
-                    alpha: dividerAlpha,
-                    pivot: Vector2.CENTER
+                    alpha: dividerAlpha
                 });
                 group.add(resMisc, dividerLineOp);
     

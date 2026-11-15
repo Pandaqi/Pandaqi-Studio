@@ -53,8 +53,7 @@ export default class Token
             frame: frame,
             pos: vis.center,
             size: iconDims,
-            effects: vis.inkFriendlyEffect,
-            pivot: Vector2.CENTER
+            effects: vis.inkFriendlyEffect
         });
         group.add(res, resOp);
     }
@@ -75,8 +74,7 @@ export default class Token
         const textOp = new LayoutOperation({
             pos: vis.center,
             size: textDims,
-            fill: colorText,
-            pivot: Vector2.CENTER
+            fill: colorText
         });
         group.add(resText, textOp);
     }

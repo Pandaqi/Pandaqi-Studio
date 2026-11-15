@@ -52,8 +52,7 @@ export default class Card
         const res = vis.getResource("bg");
         const op = new LayoutOperation({
             pos: this.size.clone().scale(0.5),
-            size: this.size,
-            pivot: new Vector2(0.5)
+            size: this.size
         })
         group.add(res, op);
     }
@@ -87,7 +86,6 @@ export default class Card
                 pos: randPos,
                 size: randDims,
                 alpha: randAlpha,
-                pivot: new Vector2(0.5),
                 rot: randRotation,
                 frame: frame
             })
@@ -103,7 +101,6 @@ export default class Card
             frame: frame,
             pos: this.size.clone().scaleFactor(0.5),
             size: new Vector2(spriteSize),
-            pivot: new Vector2(0.5),
             effects: vis.inkFriendlyEffect
         })
         group.add(res, op);
@@ -148,7 +145,6 @@ export default class Card
             const displayIcon = !displayNumber;
 
             const op = new LayoutOperation({
-                pivot: new Vector2(0.5),
                 pos: pos,
                 size: new Vector2(iconSize),
                 effects: vis.inkFriendlyEffect,
@@ -159,7 +155,6 @@ export default class Card
 
             // no matter what it is, there needs to be some watercolor decoration behind it
             const bgOp = new LayoutOperation({
-                pivot: new Vector2(0.5),
                 pos: bgPositions[i],
                 size: new Vector2(bgSize),
                 frame: 0,
@@ -204,8 +199,7 @@ export default class Card
             const op = new LayoutOperation({
                 frame: i,
                 pos: positions[i],
-                size: sizeWithPadding,
-                pivot: Vector2.CENTER
+                size: sizeWithPadding
             })
             group.add(res, op);
         }
@@ -230,8 +224,7 @@ export default class Card
         const res = vis.getResource("bg_power");
         const op = new LayoutOperation({
             pos: pos,
-            size: size,
-            pivot: new Vector2(0.5)
+            size: size
         })
 
         res.toCanvas(this.ctx, op);

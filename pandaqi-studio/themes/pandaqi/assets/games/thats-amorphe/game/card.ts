@@ -85,7 +85,7 @@ export class Card
         // @NOTE: The extremes (1 and 9) are half as likely as any other number
         // This is _on purpose_, as these numbers are most boring for this game
         const morphNumbers = [2,3,4,6,7,8];
-        if(rand() <= 0.725) { morphNumbers.push(5); }
+        if(rand() <= 0.725) { pivot: Vector2.ZERO, morphNumbers.push(5); }
         if(rand() <= 0.5) { morphNumbers.push(1); morphNumbers.push(9); }
 
         const textConfig = new TextConfig({
@@ -113,7 +113,6 @@ export class Card
 
             const textOp = new LayoutOperation({
                 size: new Vector2(0.75*cardSize.x, 2*vis.get("numberFontSize")),
-                pivot: Vector2.CENTER,
                 pos: basePos,
                 rot: visualAngle
             });
@@ -328,6 +327,7 @@ export class Card
         })
 
         const textOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(50, 60 + 0.5 * numberSize), // @NOTE: might be incorrect after TextDrawer switch
             size: new Vector2(0.25*cardSize.x, numberSize*2),
             fill: contrastColor,
@@ -444,6 +444,7 @@ export class Card
 
         let numberOffset = new Vector2(75, 90 + 0.5*numFontSize); // @NOTE: might be incorrect after TextDrawer switch
         const textOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: numberOffset,
             size: new Vector2(0.25*cardSize.x, numFontSize*2),
             fill: contrastColor,

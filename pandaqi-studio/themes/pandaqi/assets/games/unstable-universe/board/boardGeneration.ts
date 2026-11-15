@@ -1736,16 +1736,16 @@ export default class BoardGeneration
 		const RNG = seedRandom(this.cfg.seed + '-visualization')
 
 		const backgroundGroup = new ResourceGroup();
-		group.add(backgroundGroup, new LayoutOperation({ depth: 0 }));
+		group.add(backgroundGroup, new LayoutOperation({ pivot: Vector2.ZERO, depth: 0 }));
 
 		const visibilityGroup = new ResourceGroup();
-		group.add(visibilityGroup, new LayoutOperation({ depth: 1 }));
+		group.add(visibilityGroup, new LayoutOperation({ pivot: Vector2.ZERO, depth: 1 }));
 
 		const graphicsGroup = new ResourceGroup();
-		group.add(graphicsGroup, new LayoutOperation({ depth: 2 }));
+		group.add(graphicsGroup, new LayoutOperation({ pivot: Vector2.ZERO, depth: 2 }));
 
 		const foregroundGroup = new ResourceGroup();
-		group.add(foregroundGroup, new LayoutOperation({ depth: 3 }));
+		group.add(foregroundGroup, new LayoutOperation({ pivot: Vector2.ZERO, depth: 3 }));
 
 		const w = vis.size.x, h = vis.size.y
 		const csX = this.cfg.cellSizeX, csY = this.cfg.cellSizeY, cs = Math.min(csX, csY)
@@ -1800,7 +1800,6 @@ export default class BoardGeneration
 				const op = new LayoutOperation({
 					pos: this.getRealPos(nr),
 					size: new Vector2(2*this.naturalResourceRadius*cs),
-					pivot: Vector2.CENTER,
 					frame: NATURAL_RESOURCES[nr.type].iconFrame,
 					rot: this.getRandomRotation(),
 					alpha: this.naturalResourceAlpha
@@ -1871,7 +1870,6 @@ export default class BoardGeneration
 				const opMissionNode = new LayoutOperation({
 					pos: this.getRealPos(p),
 					size: new Vector2(halfSize),
-					pivot: Vector2.CENTER,
 					frame: missionNodeList[p.type].iconFrame,
 					depth: 3
 				})
@@ -1880,7 +1878,6 @@ export default class BoardGeneration
 				const opOutline = new LayoutOperation({
 					pos: opMissionNode.pos.clone(),
 					size: new Vector2(2*halfSize*outlineMarginFactor),
-					pivot: Vector2.CENTER,
 					frame: 4 + Math.floor(rand() * 4),
 					depth: 3
 				})
@@ -1926,7 +1923,6 @@ export default class BoardGeneration
 				const opRegular = new LayoutOperation({
 					pos: this.getRealPos(p),
 					size: new Vector2(radius*cs),
-					pivot: Vector2.CENTER,
 					frame: this.lists.nodes[p.type].iconFrame,
 					depth: 3,
 					rot: this.getRandomRotation()
@@ -1937,7 +1933,6 @@ export default class BoardGeneration
 				const opOutline = new LayoutOperation({
 					pos: opRegular.pos.clone(),
 					size: new Vector2(2*radius*cs*outlineMarginFactor),
-					pivot: Vector2.CENTER,
 					depth: 3,
 					rot: this.getRandomRotation(),
 				})
@@ -1954,7 +1949,6 @@ export default class BoardGeneration
 
 					const opTextMetadata = new LayoutOperation({
 						pos: new Vector2(opRegular.pos.x, opRegular.pos.y + opRegular.size.y * 0.5 + offset),
-						pivot: Vector2.CENTER,
 						fill: "#555555",
 						size: new Vector2(15,2).scale(textConfigMetadata.size),
 						depth: 4
@@ -2030,7 +2024,6 @@ export default class BoardGeneration
 				const str = randNum.toString();
 				const opText = new LayoutOperation({
 					pos: obj.center,
-					pivot: Vector2.CENTER,
 					rot: spriteRotation,
 					depth: 4,
 					fill: '#FFFFFF',
@@ -2059,16 +2052,14 @@ export default class BoardGeneration
 					const op1 = new LayoutOperation({
 						pos: pos1,
 						size: size,
-						frame: 0,
-						pivot: Vector2.CENTER
+						frame: 0
 					})
 					group.add(resDayNight, op1);
 
 					const op2 = new LayoutOperation({
 						pos: pos2,
 						size: size,
-						frame: 1,
-						pivot: Vector2.CENTER
+						frame: 1
 					})
 					group.add(resDayNight, op2);
 				}
@@ -2082,7 +2073,6 @@ export default class BoardGeneration
 
 					const opTextElec = new LayoutOperation({
 						pos: obj.center,
-						pivot: Vector2.CENTER,
 						rot: spriteRotation,
 						depth: 4,
 						size: new Vector2(2*textConfig.size),
@@ -2115,7 +2105,6 @@ export default class BoardGeneration
 				const op = new LayoutOperation({
 					pos: pos,
 					size: iPointSize,
-					pivot: Vector2.CENTER,
 					frame: TINY_NODES[type].iconFrame,
 					rot: angle,
 					depth: 3
@@ -2141,7 +2130,6 @@ export default class BoardGeneration
 					pos: this.getRealPos(center),
 					frame: 0,
 					size: new Vector2(expeditionNodeRadius * 2.0),
-					pivot: Vector2.CENTER,
 					rot: this.getRandomRotation()
 				});
 
@@ -2175,7 +2163,6 @@ export default class BoardGeneration
 						pos: circ.center,
 						size: new Vector2(2*expeditionSlotRadius),
 						frame: Math.floor(rand() * 4),
-						pivot: Vector2.CENTER,
 						rot: this.getRandomRotation(),
 						depth: 3
 					});
@@ -2198,8 +2185,7 @@ export default class BoardGeneration
 				const op = new LayoutOperation({
 					pos: this.getRealPos(center),
 					frame: LANDMARKS[lm.type].iconFrame,
-					size: landmarkRadius,
-					pivot: Vector2.CENTER
+					size: landmarkRadius
 				})
 				backgroundGroup.add(resLandmarks, op);
 			}
@@ -2233,7 +2219,6 @@ export default class BoardGeneration
 
 				const opTextAreaNum = new LayoutOperation({
 					pos: this.getRealPos(center),
-					pivot: Vector2.CENTER,
 					depth: 4,
 					size: new Vector2(2*textConfig.size),
 					fill: "#FFFFFF",

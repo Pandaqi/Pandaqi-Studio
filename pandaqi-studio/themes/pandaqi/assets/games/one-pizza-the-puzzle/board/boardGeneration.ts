@@ -1977,7 +1977,6 @@ export default class BoardGeneration
 					const opRoad = new LayoutOperation({
 						pos: new Vector2(posRect.x+0.5*cs, posRect.y+0.5*cs),
 						size: new Vector2(cs),
-						pivot: Vector2.CENTER,
 						alpha: 0.75,
 						frame: orient.frame,
 						rot: orient.rot
@@ -1999,7 +1998,6 @@ export default class BoardGeneration
 							pos: subwayPosReal,
 							size: new Vector2((0.5-margin)*cs),
 							frame: 1,
-							pivot: Vector2.CENTER,
 							depth: 5
 						})
 						group.add(resDec, opDec);
@@ -2008,7 +2006,6 @@ export default class BoardGeneration
 						const opTextSubway = new LayoutOperation({
 							pos: subwayPosReal,
 							size: new Vector2(cs),
-							pivot: Vector2.CENTER,
 							depth: 6,
 							fill: "#FFFFFF",
 							stroke: "#6C0003",
@@ -2029,7 +2026,6 @@ export default class BoardGeneration
 						const opPolice = new LayoutOperation({
 							pos: new Vector2(policePos.x*cs, policePos.y*cs),
 							size: new Vector2((0.5-margin)*cs),
-							pivot: Vector2.CENTER,
 							frame: 1,
 							depth: 5
 						});
@@ -2071,7 +2067,6 @@ export default class BoardGeneration
 							const opSprite = new LayoutOperation({
 								pos: new Vector2(posRect.x+0.5*cs, posRect.y+0.5*cs),
 								size: new Vector2(cs * this.vis.get("board.ingredientSpriteScale")),
-								pivot: Vector2.CENTER,
 								depth: 15,
 								frame: buildingObj.ingredient
 							})
@@ -2146,7 +2141,6 @@ export default class BoardGeneration
 			pos: new Vector2((randTile.x+0.5)*cs, (randTile.y+0.5)*cs),
 			frame: 0,
 			size: new Vector2(cs * this.vis.get("board.ingredientSpriteScale")),
-			pivot: Vector2.CENTER,
 			depth: 15
 		});
 		group.add(resGeneral, opBank);
@@ -2159,7 +2153,6 @@ export default class BoardGeneration
 		const opTextSeed = new LayoutOperation({
 			pos: new Vector2((randNeighbour.x + 0.5)*cs, (randNeighbour.y + 0.5)*cs),
 			size: new Vector2(cs),
-			pivot: Vector2.CENTER,
 			fill: "#AAAAAA",
 			depth: 15
 		})
@@ -2202,7 +2195,6 @@ export default class BoardGeneration
 			const opShape = new LayoutOperation({
 				pos: pos,
 				size: moveShapeSize,
-				pivot: Vector2.CENTER,
 				frame: this.shapes[i],
 				depth: 20
 			})
@@ -2258,7 +2250,6 @@ export default class BoardGeneration
 		const opSprite = new LayoutOperation({
 			pos: new Vector2(rectPos.x + 0.5*rectSize.x, rectPos.y + 0.5*rectSize.y),
 			size: new Vector2(rectSize.x * this.vis.get("board.ingredientSpriteScale")),
-			pivot: Vector2.CENTER,
 			alpha: 0.75
 		})
 
@@ -2315,7 +2306,6 @@ export default class BoardGeneration
 				const opGate = new LayoutOperation({
 					pos: posReal,
 					size: new Vector2(cs),
-					pivot: Vector2.CENTER,
 					frame: dictObj.iconFrame,
 					rot: obj.side * 0.5 * Math.PI,
 					depth: 5
@@ -2334,7 +2324,6 @@ export default class BoardGeneration
 					const opText = new LayoutOperation({
 						pos: posReal,
 						size: new Vector2(3*textConfigGate.size),
-						pivot: Vector2.CENTER,
 						depth: 6,
 						fill: "#2D0B37"
 					})
@@ -2352,7 +2341,6 @@ export default class BoardGeneration
 						pos: posReal,
 						size: new Vector2(0.35*cs),
 						frame: randIngredient,
-						pivot: Vector2.CENTER,
 						depth: 6
 					})
 					group.add(resIng, opIng);
@@ -2365,7 +2353,6 @@ export default class BoardGeneration
 							pos: new Vector2(posReal.x + 0.075*cs, posReal.y - 0.075*cs),
 							size: new Vector2(0.2*cs),
 							frame: 2,
-							pivot: Vector2.CENTER,
 							rot: rand()*0.5*Math.PI - 0.25*Math.PI,
 							depth: 7
 						})
@@ -2387,7 +2374,6 @@ export default class BoardGeneration
 						pos: posReal,
 						size: new Vector2(3*textConfigGate.size),
 						fill: "#166332",
-						pivot: Vector2.CENTER,
 						depth: 6
 					})
 					group.add(resText, opText);
@@ -2402,7 +2388,6 @@ export default class BoardGeneration
 				const op = new LayoutOperation({
 					pos: posReal,
 					size: new Vector2((0.5-margin)*cs),
-					pivot: Vector2.CENTER,
 					frame: dictObj.iconFrame,
 					depth: 5,
 					alpha: 0.75
@@ -2455,7 +2440,6 @@ export default class BoardGeneration
 
 				const opRoundabout = new LayoutOperation({
 					pos: new Vector2(o.center.x*cs, o.center.y*cs),
-					pivot: Vector2.CENTER,
 					depth: 20
 				});
 
@@ -2545,7 +2529,6 @@ export default class BoardGeneration
 				const op = new LayoutOperation({
 					pos: midVector2,
 					size: new Vector2(this.vis.get("board.ingredientSpriteScale") * cs),
-					pivot: Vector2.CENTER,
 					depth: 15,
 					frame: ingNumber + 1
 				})
@@ -2560,7 +2543,6 @@ export default class BoardGeneration
 					pos: midVector2.clone().add(data.iconOffset.clone().scale(cs)),
 					frame: data.iconFrame,
 					size: new Vector2(0.4*cs),
-					pivot: Vector2.CENTER,
 					depth: 15
 				})
 				group.add(resIng, op);
@@ -2594,7 +2576,6 @@ export default class BoardGeneration
 			const opTextPrice = new LayoutOperation({
 				pos: posText,
 				size: new Vector2(cs),
-				pivot: Vector2.CENTER,
 				fill: "#003636",
 				depth: 15
 			})

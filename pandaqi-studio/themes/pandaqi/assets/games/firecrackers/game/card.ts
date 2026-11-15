@@ -50,7 +50,6 @@ export default class Card
         const textOp = new LayoutOperation({
             size: cfg.size,
             pos: cfg.size.clone().scale(0.5),
-            pivot: Vector2.CENTER,
             fill: textCol,
             stroke: foreCol,
             strokeWidth: strokeWidth,
@@ -131,7 +130,6 @@ export default class Card
             pos: titlePos,
             fill: "#FEFEFE",
             size: titleDims,
-            pivot: Vector2.CENTER,
         })
 
         // the action title + pointy rect behind it
@@ -158,8 +156,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: textPos,
             fill: "#212121",
-            size: textDims,
-            pivot: Vector2.CENTER
+            size: textDims
         })
 
         group.add(resText, opText);
@@ -222,8 +219,7 @@ export default class Card
             alpha: vis.get("cards.coins.textAlpha"),
             stroke: "#000000",
             strokeWidth: 0.075 * fontSize,
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         })
         group.add(resText, textOp);
 
@@ -238,7 +234,6 @@ export default class Card
         const op = new LayoutOperation({
             size: coinDimsDisplayed,
             frame: frame,
-            pivot: Vector2.CENTER,
         })
 
         for(const pos of positions)
@@ -328,7 +323,6 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: pos.clone().move(posOffset),
                 size: new Vector2(2 * radius),
-                pivot: Vector2.CENTER,
                 fill: textColor,
                 stroke: textStrokeColor,
                 strokeWidth: strokeWidth,
@@ -364,7 +358,6 @@ export default class Card
             frame: frameBG,
             pos: pos,
             size: sizeBG,
-            pivot: Vector2.CENTER,
             alpha: alphaBG,
             // @ts-ignore
             composite: composite
@@ -377,7 +370,6 @@ export default class Card
             frame: frame,
             pos: pos,
             size: size,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect,
         })
         group.add(res, op);
@@ -429,7 +421,6 @@ export default class Card
             pos: titlePos,
             fill: colorLight,
             size: titleDims,
-            pivot: Vector2.CENTER,
             //stroke: colorDark,
             //strokeWidth: strokeWidth,
             //strokeAlign: StrokeAlign.OUTSIDE
@@ -462,8 +453,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: textPos,
             fill: colorDark,
-            size: textDims,
-            pivot: Vector2.CENTER
+            size: textDims
         })
 
         group.add(resText, opText);

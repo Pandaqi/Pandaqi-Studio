@@ -637,7 +637,7 @@ export default class Board
                 if(isPossibleMove)
                 {
                     const resRect = new ResourceShape( new Rectangle({ center: realPos, extents: cardSizePossibleMove }) );
-                    const opRect = new LayoutOperation({ fill: "#DFEFDF" });
+                    const opRect = new LayoutOperation({ pivot: Vector2.ZERO, fill: "#DFEFDF" });
                     resRect.toCanvas(ctx, opRect);
                 }
 
@@ -647,7 +647,7 @@ export default class Board
                 if(isFacedown)
                 {
                     const resRect = new ResourceShape( new Rectangle({ center: realPos, extents: cardSizeWithMargin }) );
-                    const opRect = new LayoutOperation({ fill: "#CCCCCC", stroke: "#1C1C1C", strokeWidth: 2 });
+                    const opRect = new LayoutOperation({ pivot: Vector2.ZERO, fill: "#CCCCCC", stroke: "#1C1C1C", strokeWidth: 2 });
                     resRect.toCanvas(ctx, opRect);
                     continue;
                 }
@@ -656,8 +656,7 @@ export default class Board
                 const res = new ResourceImage( await card.drawForRules(sim.getVisualizer()) );
                 const op = new LayoutOperation({
                     pos: realPos,
-                    size: cardSizeWithMargin,
-                    pivot: Vector2.CENTER
+                    size: cardSizeWithMargin
                 })
                 res.toCanvas(ctx, op);
             }

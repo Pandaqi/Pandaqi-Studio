@@ -36,7 +36,6 @@ export default class Tile extends MaterialNaivigation
                 frame: starFrame,
                 size: baseStarDims.clone().scale(vis.get("tiles.map.stars.sizeRand").random()),
                 rot: rand() * 2 * Math.PI,
-                pivot: Vector2.CENTER,
                 alpha: vis.get("tiles.map.stars.alphaBounds").random()
             })
             group.add(resStar, op);
@@ -56,8 +55,7 @@ export default class Tile extends MaterialNaivigation
             pos: randPos,
             frame: data.frame,
             size: vis.get("tiles.map.iconDims"),
-            effects: [eff],
-            pivot: Vector2.CENTER
+            effects: [eff]
         });
         group.add(res, op);
         */
@@ -74,8 +72,7 @@ export default class Tile extends MaterialNaivigation
                 rot: randVehicleRot,
                 alpha: vis.get("tiles.map.vehicleIcon.alpha"),
                 composite: vis.get("tiles.map.vehicleIcon.composite"),
-                effects: [new DropShadowEffect({ color: "#000000", blurRadius: vis.get("tiles.map.vehicleIcon.shadowBlur" )})],
-                pivot: Vector2.CENTER
+                effects: [new DropShadowEffect({ color: "#000000", blurRadius: vis.get("tiles.map.vehicleIcon.shadowBlur" )})]
             })
             group.add(res, vehicleOp);
 
@@ -100,8 +97,7 @@ export default class Tile extends MaterialNaivigation
             const resOp = new LayoutOperation({
                 pos: vis.get("tiles.map.resources.position"),
                 size: vis.get("tiles.map.resources.size"),
-                frame: frame,
-                pivot: Vector2.CENTER
+                frame: frame
             })
             group.add(resMisc, resOp);
         }

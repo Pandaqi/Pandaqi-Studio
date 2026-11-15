@@ -53,8 +53,7 @@ export default class Card
         const canvOp = new LayoutOperation({
             frame: this.typeData.frame,
             pos: this.centerPos,
-            size: new Vector2(this.size.x*scaleFactor, this.size.y*scaleFactor),
-            pivot: new Vector2(0.5)
+            size: new Vector2(this.size.x*scaleFactor, this.size.y*scaleFactor)
         })
         bgResource.toCanvas(ctx, canvOp);
     }
@@ -73,8 +72,7 @@ export default class Card
             frame: this.typeData.frame,
             pos: pos,
             size: size,
-            composite: (vis.get("cards.hand.composite") as GlobalCompositeOperation) || "source-in",
-            pivot: new Vector2(0.5)
+            composite: (vis.get("cards.hand.composite") as GlobalCompositeOperation) || "source-in"
         })
         typeResource.toCanvas(ctx, canvOp);
     }
@@ -149,7 +147,6 @@ export default class Card
             const textOp = new LayoutOperation({
                 pos: numPos,
                 size: textDims,
-                pivot: Vector2.CENTER,
                 fill: offsetCol
             })
 
@@ -188,8 +185,7 @@ export default class Card
             const textOp = new LayoutOperation({
                 pos: edgePos,
                 size: edgeTextDims,
-                fill: edgeOffsetCol,
-                pivot: Vector2.CENTER
+                fill: edgeOffsetCol
             });
 
             textOp.pos.y += edgeNumOffset;
@@ -215,8 +211,7 @@ export default class Card
         const canvOp = new LayoutOperation({
             pos: pos,
             size: size,
-            composite: (vis.get("cards.hand.composite") as GlobalCompositeOperation) ?? "source-in",
-            pivot: new Vector2(0.5)
+            composite: (vis.get("cards.hand.composite") as GlobalCompositeOperation) ?? "source-in"
         })
         handResource.toCanvas(ctx, canvOp);
     }

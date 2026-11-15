@@ -3240,6 +3240,7 @@ export default class BoardGeneration
 			// create card background
 			const posHintCard = new Vector2(cardMargin.x + row*cardSize.x, cardMargin.y + col*cardSize.y);
 			const opHintCard = new LayoutOperation({
+				pivot: Vector2.ZERO,
 				pos: posHintCard,
 				size: cardSize
 			});
@@ -3249,6 +3250,7 @@ export default class BoardGeneration
 			const metadata = "(player " + (i+1) + "; " + this.cfg.seed + ")";
 			const resMetadataText = new ResourceText({ text: metadata, textConfig: metadataConfig });			
 			const opMetadataText = new LayoutOperation({
+				pivot: Vector2.ZERO,
 				pos: new Vector2(posHintCard.x + metadataMargin.x, posHintCard.y + metadataMargin.y),
 				fill: "#111111",
 				size: new Vector2(cardSize.x - margin.x*2, cardSize.y)
@@ -3267,6 +3269,7 @@ export default class BoardGeneration
 			// actually place the hint string
 			const resText = new ResourceText({ text: hintString, textConfig: textConfig });
 			const opText = new LayoutOperation({
+				pivot: Vector2.ZERO,
 				pos: new Vector2(posHintCard.x + margin.x, posHintCard.y + margin.y),
 				fill: "#111111",
 				stroke: "#FFFFFF",
@@ -3376,8 +3379,7 @@ export default class BoardGeneration
 					const op = new LayoutOperation({
 						pos: spritePos,
 						size: new Vector2(cs),
-						frame: frame,
-						pivot: Vector2.CENTER
+						frame: frame
 					})
 					group.add(resIcons, op);
 				} else {
@@ -3411,7 +3413,6 @@ export default class BoardGeneration
 						const op = new LayoutOperation({
 							pos: spritePos,
 							size: new Vector2(cs),
-							pivot: Vector2.CENTER,
 							rot: (positions[s] * 0.5 * Math.PI),
 							frame: frame
 						})
@@ -3445,7 +3446,6 @@ export default class BoardGeneration
 						pos: spritePos,
 						frame: frame,
 						size: new Vector2(cs * natureScale),
-						pivot: Vector2.CENTER,
 						rot: (Math.floor(this.cfg.rng.map()*4) * 0.5 * Math.PI)
 					});
 					group.add(resNature, op);
@@ -3470,7 +3470,6 @@ export default class BoardGeneration
 					const op = new LayoutOperation({
 						pos: spritePos,
 						size: new Vector2(roadScale * cs),
-						pivot: Vector2.CENTER,
 						rot: (cell.roadOrient * 0.5 * Math.PI),
 						frame: frame
 					})
@@ -3492,7 +3491,6 @@ export default class BoardGeneration
 						pos: spritePos,
 						size: new Vector2(cs * landmarkScale),
 						frame: frame,
-						pivot: Vector2.CENTER,
 						rot: Math.floor(this.cfg.rng.map()*4) * 0.5 * Math.PI
 					});
 
@@ -3516,6 +3514,7 @@ export default class BoardGeneration
 		})
 	
 		const opText = new LayoutOperation({
+			pivot: Vector2.ZERO,
 			fill: "#111111",
 			stroke: "#FFFFFF",
 			strokeWidth: 1,

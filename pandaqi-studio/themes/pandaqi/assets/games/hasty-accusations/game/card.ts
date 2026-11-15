@@ -90,7 +90,6 @@ export default class Card
                 size: textDims,
                 fill: colorLightened,
                 rot: rot,
-                pivot: Vector2.CENTER,
                 effects: effects
             })
 
@@ -122,8 +121,7 @@ export default class Card
                     frame: frame,
                     pos: positionsPower[i],
                     size: powerIconDims,
-                    effects: grayScaleEffects,
-                    pivot: Vector2.CENTER
+                    effects: grayScaleEffects
                 })
 
                 group.add(res, iconOp);
@@ -138,7 +136,6 @@ export default class Card
             frame: frame,
             pos: vis.center,
             size: illuDims,
-            pivot: Vector2.CENTER,
             effects: [effects, grayScaleEffects].flat()
         })
         group.add(res, op);
@@ -150,8 +147,7 @@ export default class Card
         const opClip = new LayoutOperation({
             frame: frameClip,
             size: sizeClip,
-            pos: new Vector2(vis.center.x, 0),
-            pivot: Vector2.CENTER
+            pos: new Vector2(vis.center.x, 0)
         })
 
         group.add(resClip, opClip);
@@ -245,7 +241,6 @@ export default class Card
             fill: titleTextCol,
             size: rectSizeTitle,
             pos: rectTitlePos,
-            pivot: Vector2.CENTER,
             effects: [new DropShadowEffect({ blurRadius: titleShadowRadius })]
         });
 
@@ -262,6 +257,7 @@ export default class Card
             const frame = dataPlay.triggers == ReqType.PLAY ? MISC.loupe_cant.frame : MISC.loupe.frame;
             loupe = vis.resLoader.getResource("misc");
             loupeOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 frame: frame,
                 pos: reqsPos,
                 size: reqsDims,
@@ -277,6 +273,7 @@ export default class Card
             const frame = dataPlay.suspect == ReqType.CANT ? MISC.suspect_cant.frame : MISC.suspect.frame;
             suspect = vis.resLoader.getResource("misc");
             suspectOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 frame: frame,
                 pos: reqsPos,
                 size: reqsDims,
@@ -294,7 +291,6 @@ export default class Card
             frame: frame,
             pos: rectInnerPos,
             size: illuDims,
-            pivot: Vector2.CENTER,
             effects: grayScaleEffects
         });
 
@@ -328,6 +324,7 @@ export default class Card
             }
 
             const groupOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: photographCenter,
                 rot: randRotation,
                 size: illuDims,
@@ -350,8 +347,7 @@ export default class Card
             frame: frameClip,
             size: sizeClip,
             pos: new Vector2(vis.center.x + offsetDir * offsetClip.x, offsetClip.y),
-            flipX: offsetDir < 0,
-            pivot: Vector2.CENTER
+            flipX: offsetDir < 0
         })
 
         group.add(resClip, opClip);
@@ -406,7 +402,6 @@ export default class Card
             fill: "#000000",
             pos: pos,
             size: size,
-            pivot: Vector2.CENTER,
             effects: effects
         })
         group.add(textRes, op);

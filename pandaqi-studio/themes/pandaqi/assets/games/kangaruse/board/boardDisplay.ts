@@ -208,8 +208,7 @@ export default class BoardDisplay
             stroke: vis.get("board.numbers.strokeColor"),
             strokeWidth: vis.get("board.numbers.strokeWidth"),
             strokeAlign: StrokeAlign.OUTSIDE,
-            rot: rot,
-            pivot: Vector2.CENTER
+            rot: rot
         })
 
         const resText = new ResourceText({ text: num.toString(), textConfig: textConfig });
@@ -226,7 +225,6 @@ export default class BoardDisplay
         const op = new LayoutOperation({
             pos: pos,
             rot: rot,
-            pivot: Vector2.CENTER,
             size: new Vector2(size),
             frame: GENERAL.dir.frame
         })

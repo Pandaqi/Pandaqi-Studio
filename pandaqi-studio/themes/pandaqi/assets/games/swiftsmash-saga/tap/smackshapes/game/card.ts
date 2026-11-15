@@ -91,7 +91,6 @@ export default class Card
                 rot: Math.floor(rand() * 4) * 0.5 * Math.PI,
                 frame: MISC[this.shape].frame,
                 size: iconSize,
-                pivot: Vector2.CENTER,
                 effects: effects
             });
             group.add(res, op);
@@ -109,7 +108,6 @@ export default class Card
             rot: ((rand() <= 0.5) ? 1 : -1) * 0.05 * Math.PI,
             size: vis.get("cards.action.icon.size"),
             frame: MISC.action.frame,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         });
         group.add(resIcon, opIcon)
@@ -123,8 +121,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.action.text.pos"),
             size: vis.get("cards.action.text.boxSize"),
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         })
         group.add(resText, opText);
     }
@@ -165,8 +162,7 @@ export default class Card
                 pos: positions[i],
                 size: isArrow ? iconSizeArrow : iconSize,
                 frame: isArrow ? MISC.arrow.frame : MISC[this.ranking[indexRanking]].frame,
-                effects: effects,
-                pivot: Vector2.CENTER
+                effects: effects
             });
             group.add(res, op);
         }

@@ -165,6 +165,7 @@ export default class Domino
         });
         const resText = new ResourceText({ text: MISSION_TEXTS[this.missionText].desc, textConfig: textConfig });
         const opText = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: vis.get("dominoes.mission.posFlavorText"),
             size: vis.get("dominoes.mission.sizeFlavorText"),
             fill: "#121212"
@@ -192,7 +193,6 @@ export default class Domino
             const opHeader = new LayoutOperation({
                 pos: vis.get("dominoes.mission.consequence.posHeader"),
                 size: vis.get("dominoes.mission.consequence.sizeHeader"),
-                pivot: Vector2.CENTER,
                 frame: MISC[headerKey].frame,
                 effects: vis.inkFriendlyEffect
             })
@@ -212,8 +212,7 @@ export default class Domino
             const opText = new LayoutOperation({
                 pos: vis.get("dominoes.mission.consequence.posText"),
                 size: vis.get("dominoes.mission.consequence.sizeText"),
-                fill: "#121212",
-                pivot: Vector2.CENTER
+                fill: "#121212"
             });
             group.add(resText, opText);
         }
@@ -225,8 +224,7 @@ export default class Domino
             const op = new LayoutOperation({
                 pos: vis.get("dominoes.mission.shushIcon.pos"),
                 size: vis.get("dominoes.mission.shushIcon.size"),
-                frame: MISC.shush.frame,
-                pivot: Vector2.CENTER
+                frame: MISC.shush.frame
             })
             group.add(res, op);
         }
@@ -256,8 +254,7 @@ export default class Domino
         const opTextHeader = new LayoutOperation({
             pos: vis.get("dominoes.events.posHeader"),
             size: new Vector2(0.85*vis.size.x, 0.5*vis.size.y),
-            fill: "#121212",
-            pivot: Vector2.CENTER
+            fill: "#121212"
         });
         group.add(resTextHeader, opTextHeader);
 
@@ -270,8 +267,7 @@ export default class Domino
         const opTextBody = new LayoutOperation({
             pos: vis.get("dominoes.events.posBody"),
             size: new Vector2(0.85*vis.size.x, 0.5*vis.size.y),
-            fill: "#121212",
-            pivot: Vector2.CENTER
+            fill: "#121212"
         });
         group.add(resTextBody, opTextBody);
     }
@@ -279,14 +275,12 @@ export default class Domino
     drawBothParts(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const opTop = new LayoutOperation({
-            pos: new Vector2(vis.center.x, 0.25*vis.size.y),
-            pivot: Vector2.CENTER
+            pos: new Vector2(vis.center.x, 0.25*vis.size.y)
         });
         group.add(this.sides.top.draw(vis), opTop);
 
         const opBottom = new LayoutOperation({
-            pos: new Vector2(vis.center.x, 0.75*vis.size.y),
-            pivot: Vector2.CENTER
+            pos: new Vector2(vis.center.x, 0.75*vis.size.y)
         })
         group.add(this.sides.bottom.draw(vis), opBottom);
     }
@@ -305,7 +299,6 @@ export default class Domino
         const resText = new ResourceText({ text: ID, textConfig: textConfig });
         const opText = new LayoutOperation({
             pos: new Vector2(1.33*textConfig.size), 
-            pivot: Vector2.CENTER,
             fill: this.set == "startingDomino" ? "#FFFFFF" : vis.get("dominoes.setText.color"),
             alpha: vis.get("dominoes.setText.alpha"),
             size: new Vector2(2*textConfig.size)

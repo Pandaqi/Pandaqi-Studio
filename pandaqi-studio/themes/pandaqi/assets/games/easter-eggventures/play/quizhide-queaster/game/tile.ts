@@ -74,7 +74,6 @@ export default class Tile extends MaterialEaster
         const op = new LayoutOperation({
             pos: posFinal,
             size: vis.get("tiles.rooms.hidingSlotDims"),
-            pivot: Vector2.CENTER,
             frame: vis.get("tiles.rooms.hidingSlotFrame"),
             effects: vis.inkFriendlyEffect
         });
@@ -90,7 +89,6 @@ export default class Tile extends MaterialEaster
             pos: vis.center,
             size: obstacleDims,
             frame: data.frame,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         });
         group.add(res, op);

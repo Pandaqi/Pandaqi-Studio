@@ -106,7 +106,6 @@ export default class TenantWish
         const eff = new DropShadowEffect({ color: "#000000", blurRadius: 0.025*size.x });
         const opMain = new LayoutOperation({
             size: size,
-            pivot: Vector2.CENTER,
             effects: [eff, vis.inkFriendlyEffect].flat(),
             frame: frame,
         });
@@ -124,7 +123,6 @@ export default class TenantWish
             const opText = new LayoutOperation({
                 pos: vis.get("dominoes.tenant.wishes.number.pos"), 
                 size: size,
-                pivot: Vector2.CENTER,
                 fill: vis.get("dominoes.tenant.wishes.number.textColor"),
                 stroke: vis.get("dominoes.tenant.wishes.number.strokeColor"),
                 strokeWidth: vis.get("dominoes.tenant.wishes.number.strokeWidth"),
@@ -139,7 +137,6 @@ export default class TenantWish
             const resMisc = vis.getResource("misc");
             const opInvert = new LayoutOperation({
                 size: size.clone().scale(1.33),
-                pivot: Vector2.CENTER,
                 frame: MISC.invert_cross.frame
             })
             group.add(resMisc, opInvert);

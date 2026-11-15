@@ -64,7 +64,6 @@ export default class Card
             pos: vis.get("cards.main.pos"),
             size: vis.get("cards.main.size"),
             frame: this.getSuitData().frame,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         });
         group.add(resMisc, opIllustration);
@@ -74,7 +73,6 @@ export default class Card
             pos: vis.get("cards.fitsOnTop.pos"),
             size: vis.get("cards.fitsOnTop.size"),
             frame: this.getSuitData().frame + 2 * 4,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         })
         group.add(resMisc, opFits);
@@ -97,7 +95,6 @@ export default class Card
             const opNumber = new LayoutOperation({
                 pos: pos,
                 size: new Vector2(2.0 * textConfig.size),
-                pivot: Vector2.CENTER,
                 fill: this.getTintColor(vis)
             });
             group.add(resText, opNumber);
@@ -115,7 +112,6 @@ export default class Card
                 flipY: i >= 2,
                 size: vis.get("cards.suitIcons.size"),
                 frame: this.getSuitData().frame + 4,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             });
             group.add(resMisc, opNumber);

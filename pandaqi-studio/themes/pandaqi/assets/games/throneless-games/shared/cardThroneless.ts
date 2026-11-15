@@ -104,7 +104,6 @@ export default class CardThroneless
             const canvOp = new LayoutOperation({
                 pos: vis.center,
                 size: vis.size,
-                pivot: Vector2.CENTER,
                 alpha: alpha,
                 effects: vis.inkFriendlyEffect
             });
@@ -122,7 +121,6 @@ export default class CardThroneless
             frame: this.typeData.frame,
             pos: pos,
             size: new Vector2(iconSize),
-            pivot: Vector2.CENTER,
             alpha: alpha,
             effects: vis.inkFriendlyEffect
         })
@@ -159,7 +157,6 @@ export default class CardThroneless
             frame: this.typeData.frame,
             pos: pos,
             size: new Vector2(iconSize),
-            pivot: Vector2.CENTER,
             effects: effects
         });
         group.add(res, canvOp);
@@ -185,7 +182,6 @@ export default class CardThroneless
             pos: sepPos,
             frame: sepFrame,
             size: new Vector2(iconSize),
-            pivot: Vector2.CENTER,
             effects: effects
         });
         group.add(res, canvOp);
@@ -225,8 +221,7 @@ export default class CardThroneless
         const opText = new LayoutOperation({
             pos: pos.clone().add(shadowOffset),
             size: new Vector2(vis.size.x, 2*fontSize),
-            fill: bottomColor,
-            pivot: Vector2.CENTER
+            fill: bottomColor
         })
 
         group.add(resText, opText);
@@ -284,8 +279,7 @@ export default class CardThroneless
         const opText = new LayoutOperation({
             pos: pos,
             size: new Vector2(maxWidth, maxHeight),
-            fill: fill,
-            pivot: Vector2.CENTER
+            fill: fill
         })
 
         group.add(resText, opText);
@@ -308,8 +302,7 @@ export default class CardThroneless
         const opText = new LayoutOperation({
             pos: pos,
             size: vis.get("cards.specialText.textBoxDims"),
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         })
 
         group.add(resText, opText);
@@ -352,7 +345,6 @@ export default class CardThroneless
                 pos: pos,
                 size: new Vector2(tempMaxWidth, 2*fontSize),
                 fill: fill,
-                pivot: Vector2.CENTER,
                 alpha: vis.get("cards.actionType.alpha")
             });
             group.add(resText, opText);
@@ -370,7 +362,6 @@ export default class CardThroneless
                     pos: pos,
                     size: new Vector2(1.075*fontSize),
                     frame: actionTypeData.frame,
-                    pivot: Vector2.CENTER,
                     effects: [glowEffect]
                 })
                 group.add(resIcon, opIcon);
@@ -494,8 +485,7 @@ export default class CardThroneless
                 size: new Vector2(iconSize),
                 flipX: data[i].flipX,
                 flipY: data[i].flipY,
-                effects: effects,
-                pivot: Vector2.CENTER
+                effects: effects
             });
 
             group.add(res, canvOp);
@@ -509,8 +499,7 @@ export default class CardThroneless
         const res = vis.getResource("gradient_overlay");
         const canvOp = new LayoutOperation({
             pos: vis.center,
-            size: vis.size,
-            pivot: Vector2.CENTER
+            size: vis.size
         })
         group.add(res, canvOp);
     }

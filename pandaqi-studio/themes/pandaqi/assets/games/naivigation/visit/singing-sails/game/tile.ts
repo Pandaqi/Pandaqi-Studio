@@ -33,6 +33,7 @@ export default class Tile extends MaterialNaivigation
         const res = vis.getResource("terrains");
         const frameLand = TERRAINS[TerrainType.GRASS].frame;
         const resOpLand = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(-0.5*vis.size.x, 0),
             size: vis.size,
             frame: frameLand,
@@ -41,6 +42,7 @@ export default class Tile extends MaterialNaivigation
 
         const frameWater = TERRAINS[TerrainType.SEA].frame;
         const resOpWater = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(0.5*vis.size.x, 0),
             size: vis.size,
             frame: frameWater,
@@ -65,7 +67,6 @@ export default class Tile extends MaterialNaivigation
             const op = new LayoutOperation({
                 pos: vis.get("tiles.enemyIcon.pos"),
                 size: vis.get("tiles.enemyIcon.size"),
-                pivot: Vector2.CENTER,
                 frame: MISC.enemy_icon.frame,
                 effects: vis.inkFriendlyEffect
             })
@@ -82,7 +83,6 @@ export default class Tile extends MaterialNaivigation
                 pos: vis.center,
                 rot: rot,
                 size: vis.get("tiles.waterCurrent.size"),
-                pivot: Vector2.CENTER,
                 composite: "overlay",
                 frame: MISC.water_direction.frame
             });
@@ -102,7 +102,6 @@ export default class Tile extends MaterialNaivigation
                     pos: vis.get("tiles.waterCurrent.textPos"),
                     size: vis.size,
                     fill: vis.get("tiles.waterCurrent.fontColor"),
-                    pivot: Vector2.CENTER,
                     composite: "overlay",
                 });
                 group.add(resText, opText);
@@ -143,8 +142,7 @@ export default class Tile extends MaterialNaivigation
                 fill: "#000000",
                 stroke: "#FFFFFF",
                 strokeWidth: vis.get("tiles.custom.strokeWidth"),
-                strokeAlign: StrokeAlign.OUTSIDE,
-                pivot: Vector2.CENTER
+                strokeAlign: StrokeAlign.OUTSIDE
             });
             group.add(resText, opText);
         }
@@ -164,8 +162,7 @@ export default class Tile extends MaterialNaivigation
             const opTextCond = new LayoutOperation({
                 pos: vis.get("tiles.treasure.conditionPos"),
                 size: textBoxDims,
-                fill: "#000000",
-                pivot: Vector2.CENTER
+                fill: "#000000"
             });
             group.add(resTextCond, opTextCond);
 
@@ -174,8 +171,7 @@ export default class Tile extends MaterialNaivigation
             const opTextBonus = new LayoutOperation({
                 pos: vis.get("tiles.treasure.bonusPos"),
                 size: textBoxDims,
-                fill: "#000000",
-                pivot: Vector2.CENTER
+                fill: "#000000"
             });
             group.add(resTextBonus, opTextBonus);
 
@@ -195,7 +191,6 @@ export default class Tile extends MaterialNaivigation
                     pos: pos,
                     size: vis.get("tiles.treasure.harborIconSize"),
                     frame: harborData.frame,
-                    pivot: Vector2.CENTER,
                     effects: effects
                 });
                 group.add(resIcon, op);

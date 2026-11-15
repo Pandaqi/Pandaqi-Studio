@@ -357,7 +357,6 @@ export default class BoardGeneration
 			const op = new LayoutOperation({
 				pos: center,
 				size: new Vector2(spriteSize),
-				pivot: Vector2.CENTER,
 				frame: ingFrame
 			});
 			group.add(res, op);
@@ -383,7 +382,6 @@ export default class BoardGeneration
 			const op = new LayoutOperation({
 				pos: center,
 				size: new Vector2(spriteSize),
-				pivot: Vector2.CENTER,
 				frame: typeFrame
 			})
 			group.add(res, op);
@@ -465,7 +463,6 @@ export default class BoardGeneration
 				pos: rect.center,
 				fill: color,
 				size: new Vector2(20 * fontSize, 2 * fontSize),
-				pivot: Vector2.CENTER,
 				stroke: "#FFFFFF",
 				strokeWidth: this.cfg.fontSize / 10.0,
 				strokeAlign: StrokeAlign.OUTSIDE,

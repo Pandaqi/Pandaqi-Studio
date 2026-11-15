@@ -27,7 +27,6 @@ const cacheVisualizerData = async (vis:MaterialVisualizer) =>
                 frame: frame,
                 pos: pos,
                 size: new Vector2(iconSize),
-                pivot: new Vector2(0.5),
             })
             await res.toCanvas(ctx, op);
         }
@@ -119,7 +118,6 @@ export default class Card
             pos: pos,
             size: size,
             frame: frame,
-            pivot: new Vector2(0.5),
             alpha: alpha,
             effects: catEffects
         })
@@ -143,6 +141,7 @@ export default class Card
         const rectAbove = new Rectangle({ extents: new Vector2(vis.size.x, extraRectHeight) })
         const resAbove = new ResourceShape({ shape: rectAbove });
         const opAbove = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: posAbove,
             fill: "#FFFFFF",
             stroke: "#000000",
@@ -177,7 +176,6 @@ export default class Card
             strokeWidth: strokeWidth * vis.get("cards.cat.strokeWidthFactor"),
             strokeAlign: StrokeAlign.OUTSIDE,
             rot: -0.5*Math.PI,
-            pivot: new Vector2(0.5),
             effects: effects
         })
         textRes.toCanvas(ctx, textOp);
@@ -202,7 +200,6 @@ export default class Card
             pos: pos,
             frame: frame,
             size: iconSize,
-            pivot: new Vector2(0.5),
             effects: effects
         })
 
@@ -228,7 +225,6 @@ export default class Card
         const op = new LayoutOperation({
             pos: textPos,
             size: new Vector2(2*fontSize),
-            pivot: new Vector2(0.5),
             fill: vis.inkFriendly ? "#FFFFFF" : "#FFE7D5",
             stroke: vis.inkFriendly ? "#111111" : "#4B0300",
             strokeWidth: strokeWidth,
@@ -257,7 +253,6 @@ export default class Card
                 frame: MISC.hand.frame,
                 pos: pos,
                 size: new Vector2(handIconSize),
-                pivot: Vector2.CENTER,
                 effects: effects,
                 flipX: (i == 1),
             })
@@ -273,7 +268,6 @@ export default class Card
             const handTextOp = new LayoutOperation({
                 pos: pos.clone().move(new Vector2(moveDir * 0.5 * fontSize, 0)),
                 size: new Vector2(vis.size.x, fontSize),
-                pivot: Vector2.CENTER,
                 fill: vis.inkFriendly ? "#ECECEC" : "#B3FFFE",
                 stroke: vis.inkFriendly ? "#323232" : "#003938",
                 strokeWidth: strokeWidth,
@@ -315,6 +309,7 @@ export default class Card
         const strokeWidth = vis.get("cards.sharedStrokeWidth");
         const effects = [new DropShadowEffect({ offset: new Vector2(fontSize*0.2), color: vis.get("cards.sharedShadowColor") })];
         const opRect = new LayoutOperation({
+            pivot: Vector2.ZERO,
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: strokeWidth,
@@ -330,7 +325,6 @@ export default class Card
         const opText = new LayoutOperation({
             pos: new Vector2(vis.center.x, pos.y),
             size: rectSize,
-            pivot: Vector2.CENTER,
             fill: "#000000"
         });
 
@@ -380,7 +374,6 @@ export default class Card
         const op = new LayoutOperation({
             size: new Vector2(iconSize*3),
             pos: center,
-            pivot: new Vector2(0.5),
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: strokeWidth,
@@ -406,7 +399,6 @@ export default class Card
             frame: frame,
             pos: center,
             size: new Vector2(iconSize),
-            pivot: new Vector2(0.5),
             alpha: vis.get("cards.suits.bigSuitAlpha")
         })
 
@@ -470,7 +462,6 @@ export default class Card
             const op = new LayoutOperation({
                 size: new Vector2(4*fontSize, fontSize),
                 pos: pos,
-                pivot: new Vector2(0.5),
                 fill: "#FFFFFF",
                 stroke: "#000000",
                 strokeWidth: strokeWidth,
@@ -514,7 +505,6 @@ export default class Card
                 frame: frame,
                 size: iconSize,
                 pos: pos,
-                pivot: Vector2.CENTER,
                 rot: rot,
                 effects: effects
             })
@@ -540,8 +530,7 @@ export default class Card
         const op = new LayoutOperation({
             pos: center,
             alpha: alpha,
-            rot: vis.get("cards.bgCats.patternRotation"),
-            pivot: Vector2.CENTER
+            rot: vis.get("cards.bgCats.patternRotation")
         })
         vis.custom.patternCat.toCanvas(ctx, op);
     }

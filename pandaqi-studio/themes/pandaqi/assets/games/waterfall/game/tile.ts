@@ -114,8 +114,7 @@ export default class Tile
             fill: vis.inkFriendly ? "#000000" : vis.get("tiles.score.textColor"),
             stroke: vis.inkFriendly ? "#FFFFFF" : vis.get("tiles.score.strokeColor"),
             strokeWidth: vis.get("tiles.score.strokeWidth"),
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         })
         group.add(resText, opText);
     }
@@ -129,7 +128,6 @@ export default class Tile
             pos: vis.get("tiles.action.pos"),
             size: vis.get("tiles.action.size"),
             frame: ACTIONS[this.keyAction].frame,
-            pivot: Vector2.CENTER,
             effects: [vis.custom.glowEffect, vis.inkFriendlyEffect].flat()
         });
         group.add(resIcon, opIcon);
@@ -143,7 +141,6 @@ export default class Tile
             pos: vis.get("tiles.gemstones.pos"),
             size: vis.get("tiles.gemstones.size"),
             frame: GEMSTONES[this.gemstone].frame,
-            pivot: Vector2.CENTER,
             rot: rand() * 2 * Math.PI,
             effects: vis.custom.glowEffect
         })

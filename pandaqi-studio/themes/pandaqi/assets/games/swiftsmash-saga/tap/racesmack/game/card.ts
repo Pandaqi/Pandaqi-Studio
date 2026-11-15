@@ -136,7 +136,6 @@ export default class Card
         const opLeft = new LayoutOperation({
             pos: vis.get("cards.shapes.custom.posLeft"),
             size: iconSize,
-            pivot: Vector2.CENTER,
             effects: effects
         });
 
@@ -157,7 +156,6 @@ export default class Card
                     pos: posCard,
                     size: vis.get("cards.shapes.size"),
                     frame: MISC[this.symbols[i]].frame,
-                    pivot: Vector2.CENTER,
                     effects: [new TintEffect(COLORS[this.colors[i]].hex), effects].flat()
                 })
                 group.add(res, op);
@@ -200,7 +198,6 @@ export default class Card
             const opRight = new LayoutOperation({
                 pos: vis.get("cards.shapes.custom.posRight"),
                 size: iconSize,
-                pivot: Vector2.CENTER,
                 frame: MISC[firstShape].frame,
                 effects: [new TintEffect(COLORS[firstColor].hex), effects].flat()
             });
@@ -234,8 +231,7 @@ export default class Card
         const opTextID = new LayoutOperation({
             pos: vis.get("cards.rules.id.pos"),
             size: new Vector2(2.0 * textConfigID.size),
-            fill: "#666666",
-            pivot: Vector2.CENTER
+            fill: "#666666"
         });
         group.add(resTextID, opTextID);
 
@@ -250,7 +246,6 @@ export default class Card
         const opTextRule = new LayoutOperation({
             pos: vis.get("cards.rules.rule.pos"),
             size: boxSize,
-            pivot: Vector2.CENTER,
             fill: "#000000"
         });
         group.add(resTextRule, opTextRule);
@@ -263,7 +258,6 @@ export default class Card
         const opIconRule = new LayoutOperation({
             pos: vis.get("cards.rules.rule.posIcon"),
             size: iconSize,
-            pivot: Vector2.CENTER,
             frame: ruleData.frame,
             effects: effects,
             alpha: vis.inkFriendly ? 0.5 : 1.0
@@ -275,7 +269,6 @@ export default class Card
         const opTextFinish = new LayoutOperation({
             pos: vis.get("cards.rules.finish.pos"),
             size: boxSize,
-            pivot: Vector2.CENTER,
             fill: "#000000"
         });
         group.add(resTextFinish, opTextFinish);
@@ -286,7 +279,6 @@ export default class Card
         const opIconFinish = new LayoutOperation({
             pos: vis.get("cards.rules.finish.posIcon"),
             size: iconSize,
-            pivot: Vector2.CENTER,
             frame: finishData.frame,
             effects: effects,
             alpha: vis.inkFriendly ? 0.5 : 1.0

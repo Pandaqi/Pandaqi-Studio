@@ -85,8 +85,7 @@ export default class Card
             size: new Vector2(vis.size.x, 1.5*fontSize),
             stroke: strokeColor,
             strokeWidth: strokeWidth,
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         })
 
         const resText = new ResourceText({ text: this.category, textConfig: textConfig });
@@ -106,7 +105,6 @@ export default class Card
                 frame: data.frame,
                 pos: corner,
                 size: iconDims,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             });
             group.add(res, resOp);
@@ -145,8 +143,7 @@ export default class Card
         const textOp = new LayoutOperation({
             pos: new Vector2(vis.center.x, yPos),
             size: textDims,
-            fill: colorText,
-            pivot: Vector2.CENTER
+            fill: colorText
         });
         group.add(resText, textOp);
     }

@@ -75,8 +75,7 @@ export default class Card
                 pos: corners[i],
                 flipY: (i <= 1),
                 size: iconDims,
-                effects: vis.inkFriendlyEffect,
-                pivot: Vector2.CENTER
+                effects: vis.inkFriendlyEffect
             });
             group.add(res, resOp);
         }
@@ -96,8 +95,7 @@ export default class Card
                 pos: positions[i],
                 flipY: (i <= 0),
                 size: bigIconDims,
-                effects: vis.inkFriendlyEffect,
-                pivot: Vector2.CENTER
+                effects: vis.inkFriendlyEffect
             })
             if(vis.inkFriendly) { 
                 resOp.alpha = 0.4; 
@@ -138,8 +136,7 @@ export default class Card
         const textOp = new LayoutOperation({
             pos: vis.center,
             size: textDims,
-            fill: colorText,
-            pivot: Vector2.CENTER
+            fill: colorText
         });
         group.add(resText, textOp);
     }
@@ -169,14 +166,12 @@ export default class Card
 
         const textOp = new LayoutOperation({
             fill: vis.inkFriendly ? "#212121" : "#FFFFFF",
-            pivot: Vector2.CENTER,
             size: size
         })
 
         const subGroupOp = new LayoutOperation({
             pos: positions[0],
             rot: Math.PI,
-            pivot: Vector2.CENTER,
         })
 
         const subGroup = new ResourceGroup();

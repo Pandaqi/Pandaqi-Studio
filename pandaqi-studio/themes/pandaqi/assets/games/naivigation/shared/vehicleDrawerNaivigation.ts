@@ -16,8 +16,7 @@ const drawHelpers = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
     const opGuides = new LayoutOperation({
         pos: vis.center,
         frame: MISC.vehicle_guides.frame,
-        size: vis.get("tiles.general.vehicle.sizeGuides"),
-        pivot: Vector2.CENTER
+        size: vis.get("tiles.general.vehicle.sizeGuides")
     })
     group.add(resGuides, opGuides)
 }
@@ -30,8 +29,7 @@ const drawVehicle = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
     const op = new LayoutOperation({
         pos: vis.center,
         frame: typeData.frame,
-        size: vis.get("tiles.general.vehicle.size"),
-        pivot: Vector2.CENTER
+        size: vis.get("tiles.general.vehicle.size")
     });
     group.add(res, op);
 }

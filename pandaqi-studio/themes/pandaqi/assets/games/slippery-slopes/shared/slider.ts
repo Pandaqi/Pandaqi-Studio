@@ -97,6 +97,7 @@ export default class Slider
             this.meterRect = new RectangleRounded({ center: center, extents: extents, radius: radius });
             const meterBG = mdata.backgroundColor;
             const canvOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 fill: meterBG,
                 stroke: "#000000",
                 strokeWidth: mdata.lineWidth * itemSize.x
@@ -113,7 +114,7 @@ export default class Slider
             for(let i = 0; i < numLines; i++)
             {
                 const rect = new ResourceShape(new Rectangle({ center: linePos, extents: lineExtents }));
-                const op = new LayoutOperation({ fill: "#000000", alpha: 0.35 });
+                const op = new LayoutOperation({ pivot: Vector2.ZERO, fill: "#000000", alpha: 0.35 });
                 rect.toCanvas(ctx.canvas, op);
                 linePos.y += distBetweenLines;
             }
@@ -188,6 +189,7 @@ export default class Slider
             const translate = new Vector2(0, i * blockHeight - 0.5*amp);
             const res = new ResourceText({ text: word, textConfig: tempTextCfg })
             const canvOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: translate,
                 fill: finalColor,
                 size: new Vector2(itemSize.x, blockHeight)
@@ -238,7 +240,7 @@ export default class Slider
             const hue = i * hueStep;
             const color = new Color(hue, 100, 50);
             const rect = new ResourceShape(new Rectangle({ center: pos, extents: stepExtents }));
-            const op = new LayoutOperation({ fill: color });
+            const op = new LayoutOperation({ pivot: Vector2.ZERO, fill: color });
             rect.toCanvas(ctx.canvas, op);
             pos.y += stepExtents.y;
         }
@@ -286,6 +288,7 @@ export default class Slider
             if(useRandomShape) { randRotation = 0; }
 
             const canvOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: translate,
                 fill: colorDarken(color, textDarken),
                 rot: randRotation
@@ -325,8 +328,7 @@ export default class Slider
             const canvOp = new LayoutOperation({
                 frame: ACTIONS[actionKey].frame,
                 pos: new Vector2(x,y),
-                size: actionIconSize,
-                pivot: Vector2.CENTER
+                size: actionIconSize
             })
 
             if(vis.inkFriendly)

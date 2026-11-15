@@ -63,7 +63,6 @@ export default class Card
             frame: frameRope,
             pos: pos,
             size: size,
-            pivot: Vector2.CENTER,
             effects: getMaterialVisualizerEffects(vis)
         })
         resRope.toCanvas(ctx, op);
@@ -136,7 +135,6 @@ export default class Card
                 frame: frameCoin,
                 pos: pos,
                 size: size,
-                pivot: Vector2.CENTER,
                 rot: rot,
                 effects: getMaterialVisualizerEffects(vis)
             })
@@ -151,7 +149,6 @@ export default class Card
                     frame: MISC.coin_score.frame,
                     size: scoreCoinDims,
                     pos: pos.clone().move(new Vector2(0, 0.5*size.y + 0.5*scoreCoinDims.y)),
-                    pivot: Vector2.CENTER,
                     effects: getMaterialVisualizerEffects(vis)
                 })
                 resCoin.toCanvas(ctx, opCoin);
@@ -193,7 +190,6 @@ export default class Card
             frame: frame,
             pos: pos,
             size: size,
-            pivot: Vector2.CENTER,
             effects: getMaterialVisualizerEffects(vis)
         })
         res.toCanvas(ctx, op);
@@ -210,7 +206,6 @@ export default class Card
             frame: frame,
             pos: pos,
             size: size,
-            pivot: Vector2.CENTER,
             effects: getMaterialVisualizerEffects(vis)
         })
         resMisc.toCanvas(ctx, opMisc);

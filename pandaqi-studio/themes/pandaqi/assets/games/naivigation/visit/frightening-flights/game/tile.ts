@@ -52,8 +52,7 @@ export default class Tile extends MaterialNaivigation
             fill: "#000000",
             stroke: "#FFFFFF",
             strokeWidth: vis.get("tiles.custom.strokeWidth"),
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         });
         group.add(resText, opText);
     }

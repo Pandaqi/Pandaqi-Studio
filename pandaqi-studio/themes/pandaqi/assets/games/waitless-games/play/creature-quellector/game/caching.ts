@@ -42,7 +42,7 @@ const bakeCutoutInto = async (vis: MaterialVisualizer, key:string) =>
 
         // grab only this frame
         const img = iconRes.getImageFrameAsResource(i);
-        const op = new LayoutOperation();
+        const op = new LayoutOperation({ pivot: Vector2.ZERO });
 
         // fill background with correct color
         const ctx = createContext({ size: img.size });
@@ -71,6 +71,7 @@ const addActionPattern = (vis:MaterialVisualizer, ctx:CanvasRenderingContext2D, 
     const numLines = 5;
     const size = new Vector2(ctx.canvas.width, ctx.canvas.height);
     const op = new LayoutOperation({
+        pivot: Vector2.ZERO,
         stroke: col,
         strokeWidth: vis.get("cards.actionIconPatternStrokeWidth") * ctx.canvas.width,
         alpha: vis.get("cards.actionIconPatternAlpha"),
@@ -122,6 +123,7 @@ const createMultiTypeIcons = async (vis: MaterialVisualizer, key:string) =>
             // image 1 is added fully
             const ctx = createContext({ size: img1.size });
             const op1 = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 clip: new Path(clipPath1)
             })
             img1.toCanvas(ctx, op1);
@@ -136,6 +138,7 @@ const createMultiTypeIcons = async (vis: MaterialVisualizer, key:string) =>
             // image 2 is added with a clip so it only shows half (cut diagonally)
             const img2 = iconRes.getImageFrameAsResource(framesUsed[j]);
             const op2 = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 clip: new Path(clipPath2)
             });
 

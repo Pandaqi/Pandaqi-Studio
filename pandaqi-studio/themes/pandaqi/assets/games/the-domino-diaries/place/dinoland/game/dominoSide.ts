@@ -22,8 +22,7 @@ export default class DominoSide
         const opTerrain = new LayoutOperation({
             frame: TERRAINS[this.terrain].frame,
             size: new Vector2(vis.sizeUnit),
-            rot: randRotation,
-            pivot: Vector2.CENTER
+            rot: randRotation
         });
         
         if(!disableTerrain)
@@ -41,7 +40,6 @@ export default class DominoSide
 
             const opDino = new LayoutOperation({
                 frame: dinoData.frame,
-                pivot: Vector2.CENTER,
                 size: vis.get("dominoes.dino.size"),
                 effects: [shadow, vis.inkFriendlyEffect].flat(),
                 rot: wiggleRotation
@@ -53,7 +51,6 @@ export default class DominoSide
                 const resMisc = vis.getResource("misc");
                 const opArrow = new LayoutOperation({
                     frame: MISC.arrow.frame,
-                    pivot: Vector2.CENTER,
                     size: vis.get("dominoes.dino.sizeArrow"),
                     rot: randRotation,
                     alpha: 0.85
@@ -79,7 +76,6 @@ export default class DominoSide
                 const resText = new ResourceText({ text, textConfig });
                 const opText = new LayoutOperation({
                     pos: textPos, 
-                    pivot: Vector2.CENTER,
                     fill: "#FFEEEE",
                     size: new Vector2(0.9*textDims.x, textDims.y)
                 });

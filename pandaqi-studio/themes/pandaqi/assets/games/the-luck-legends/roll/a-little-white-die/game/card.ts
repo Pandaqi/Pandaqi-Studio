@@ -42,7 +42,6 @@ export default class Card
             pos: vis.center,
             size: new Vector2(2.0 * textConfig.size),
             fill: "#010101",
-            pivot: Vector2.CENTER,
         })
         group.add(resText, opText);
 
@@ -68,7 +67,6 @@ export default class Card
             pos: vis.center,
             size: new Vector2(1.75*vis.sizeUnit),
             alpha: vis.get("cards.bg.alpha"),
-            pivot: Vector2.CENTER,
             frame: MISC.bg.frame
         });
         group.add(res, op);
@@ -118,7 +116,6 @@ export default class Card
                 stroke: strokeColor,
                 strokeWidth: vis.get("cards.mainNumber.strokeWidth"),
                 strokeAlign: StrokeAlign.OUTSIDE,
-                pivot: Vector2.CENTER,
                 effects: [shadowEffect]
             })
             group.add(resText, opText);
@@ -151,7 +148,6 @@ export default class Card
                 rot: Math.floor(rand() * 4) * 0.5 * Math.PI,
                 frame: MISC["wacky_box_" + randBox].frame,
                 effects: [tintEffect],
-                pivot: Vector2.CENTER,
             });
             group.add(res, opBox);
 
@@ -160,7 +156,6 @@ export default class Card
                 pos: pos,
                 size: vis.get("cards.numbers.wackyBoxDotDims"),
                 frame: MISC["dice_" + num].frame,
-                pivot: Vector2.CENTER,
             })
             group.add(res, opDots);
         }
@@ -203,7 +198,6 @@ export default class Card
                 pos: positions[i],
                 size: vis.get("cards.power.iconDims"),
                 frame: data.frame,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             });
             group.add(resPowers, opPowerIcon);
@@ -217,7 +211,6 @@ export default class Card
         const opBox = new LayoutOperation({
             pos: position,
             size: vis.get("cards.power.textBoxDims"),
-            pivot: Vector2.CENTER,
             frame: MISC.text_box.frame,
             effects: [new TintEffect(tintColor)]
         })
@@ -231,7 +224,6 @@ export default class Card
         const opText = new LayoutOperation({
             pos: position,
             size: vis.get("cards.power.textDims"),
-            pivot: Vector2.CENTER,
             fill: "#FFFFFF"
         })
         group.add(resText, opText);

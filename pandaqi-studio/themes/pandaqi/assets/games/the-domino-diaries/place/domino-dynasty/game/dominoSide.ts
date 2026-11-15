@@ -118,7 +118,6 @@ export default class DominoSide
         const opTerrain = new LayoutOperation({
             frame: TERRAINS[this.terrain].frame,
             size: partSize,
-            pivot: Vector2.CENTER,
             rot: randRotation
         });
         group.add(resTerrain, opTerrain);
@@ -130,7 +129,6 @@ export default class DominoSide
         const opPath = new LayoutOperation({
             frame: frame,
             size: partSize,
-            pivot: Vector2.CENTER,
             rot: this.pathRotation * 0.5 * Math.PI
         });
         group.add(resPath, opPath);
@@ -148,7 +146,6 @@ export default class DominoSide
             frame: this.getTypeData().frame,
             size: size,
             effects: [shadowEffect, vis.inkFriendlyEffect].flat(),
-            pivot: Vector2.CENTER,
         })
         group.add(res, op);
     }
@@ -174,7 +171,6 @@ export default class DominoSide
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
             pos: textPos, 
-            pivot: Vector2.CENTER,
             fill: vis.get("dominoes.powerText.color"),
             size: new Vector2(0.9*textDims.x, textDims.y)
         });

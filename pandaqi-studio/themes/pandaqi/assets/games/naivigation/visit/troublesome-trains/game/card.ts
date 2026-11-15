@@ -23,7 +23,7 @@ export default class Card extends MaterialNaivigation
         const sizeUnit = Math.min(op.size.x, op.size.y);
         const group = new ResourceGroup();
         const resMainIcon = vis.getResource("vehicle_cards");
-        const opMainIcon = new LayoutOperation({ size: op.size, pivot: Vector2.CENTER });
+        const opMainIcon = new LayoutOperation({ size: op.size});
         group.add(resMainIcon, opMainIcon);
 
         const trainData = this.customData.trainKeys;
@@ -38,8 +38,7 @@ export default class Card extends MaterialNaivigation
             const op = new LayoutOperation({
                 pos: positions[i].clone().scale(iconPlacementBounds),
                 size: iconSize,
-                frame: MATERIAL[TileType.VEHICLE][trainKey].frame,
-                pivot: Vector2.CENTER
+                frame: MATERIAL[TileType.VEHICLE][trainKey].frame
             });
             group.add(res, op);
         }

@@ -80,7 +80,6 @@ export default class Tile extends MaterialEaster
         const textOp = new LayoutOperation({
             pos: vis.get("eggs.victory.textPos"),
             size: new Vector2(3*textConfig.size),
-            pivot: Vector2.CENTER,
             fill: textColor
         })
 
@@ -140,7 +139,6 @@ export default class Tile extends MaterialEaster
                 pos: vis.center,
                 size: vis.get("tiles.starter.tutorialSize"),
                 frame: MISC_UNIQUE[key].frame,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             });
 
@@ -230,7 +228,6 @@ export default class Tile extends MaterialEaster
                         pos: realPos,
                         size: spriteDimsReq,
                         frame: spriteData.frame,
-                        pivot: Vector2.CENTER,
                         effects: vis.inkFriendlyEffect
                     })
 
@@ -243,7 +240,6 @@ export default class Tile extends MaterialEaster
                             pos: realPos,
                             size: spriteDims,
                             frame: MISC_UNIQUE.slot_arrows.frame,
-                            pivot: Vector2.CENTER,
                             rot: spriteData.arrow * 0.5 * Math.PI,
                             effects: vis.inkFriendlyEffect
                         })
@@ -258,7 +254,6 @@ export default class Tile extends MaterialEaster
                         pos: realPos,
                         size: spriteDims,
                         frame: MISC_UNIQUE.egg_slot.frame,
-                        pivot: Vector2.CENTER,
                         effects: vis.inkFriendlyEffect
                     })
 
@@ -278,7 +273,6 @@ export default class Tile extends MaterialEaster
                         pos: pos,
                         size: size,
                         frame: decData.frame,
-                        pivot: Vector2.CENTER,
                         flipX: rand() <= 0.5,
                         effects: vis.inkFriendlyEffect
                     })
@@ -321,7 +315,6 @@ export default class Tile extends MaterialEaster
         const textOpHint = new LayoutOperation({
             pos: new Vector2(scoreRect.getCenter().x, scoreRect.getTopLeft().y + 0.85 * textConfig.size),
             size: textBoxDims,
-            pivot: Vector2.CENTER,
             fill: textColor,
             alpha: 0.75
         })
@@ -340,7 +333,6 @@ export default class Tile extends MaterialEaster
                 size: spriteDims,
                 frame: MISC_UNIQUE.slot_arrows.frame,
                 rot: rangeInteger(0,3) * 0.5 * Math.PI,
-                pivot: Vector2.CENTER,
                 effects: [new InvertEffect(), vis.inkFriendlyEffect].flat()
             });
             group.add(res, op);
@@ -358,7 +350,6 @@ export default class Tile extends MaterialEaster
         const textOp = new LayoutOperation({
             pos: scoreRect.getCenter(),
             size: textBoxDims,
-            pivot: Vector2.CENTER,
             fill: textColor
         })
 

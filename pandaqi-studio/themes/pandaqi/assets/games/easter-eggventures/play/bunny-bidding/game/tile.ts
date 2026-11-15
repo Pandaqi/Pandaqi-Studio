@@ -93,7 +93,6 @@ export default class Tile extends MaterialEaster
                     pos: posSprite,
                     size: sizeSprite,
                     frame: MISC_SHARED.number_bg.frame,
-                    pivot: Vector2.CENTER,
                     rot: rot,
                     flipX: flipX
                 });
@@ -105,7 +104,6 @@ export default class Tile extends MaterialEaster
                     pos: pos,
                     rot: rot,
                     size: textDims,
-                    pivot: Vector2.CENTER,
                     fill: "#000000"
                 })
     

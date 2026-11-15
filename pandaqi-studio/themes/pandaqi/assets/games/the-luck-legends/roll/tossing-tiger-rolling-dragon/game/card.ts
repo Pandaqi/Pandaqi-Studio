@@ -173,7 +173,6 @@ export default class Card
         const op = new LayoutOperation({
             pos: vis.get("cards.main.pos"),
             size: vis.get("cards.main.size"),
-            pivot: Vector2.CENTER,
             frame: this.getData().frame,
             effects: [vis.inkFriendlyEffect, shadowEffect].flat()
         })
@@ -210,7 +209,6 @@ export default class Card
         const opTextHeading = new LayoutOperation({
             pos: textPos,
             size: new Vector2(vis.size.x, 2.0*textConfigHeading.size),
-            pivot: Vector2.CENTER,
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: 0.1*textConfigHeading.size,
@@ -245,7 +243,6 @@ export default class Card
             const opBox = new LayoutOperation({
                 pos: pos,
                 size: size,
-                pivot: Vector2.CENTER,
                 frame: MISC.strength_circle.frame,
                 effects: effects
             })
@@ -259,8 +256,7 @@ export default class Card
                 pos: pos,
                 size: sizeAnimal,
                 frame: MOVES[this.strengths[i]].frame,
-                effects: [vis.inkFriendlyEffect, shadowEffect].flat(),
-                pivot: Vector2.CENTER
+                effects: [vis.inkFriendlyEffect, shadowEffect].flat()
             });
             group.add(res, opAnimal);
         }
@@ -280,8 +276,7 @@ export default class Card
             size: vis.get("cards.action.heading.size"),
             frame: MISC.heading_box.frame,
             effects: effectsHeading,
-            alpha: vis.inkFriendly ? 0.8 : 1.0,
-            pivot: Vector2.CENTER
+            alpha: vis.inkFriendly ? 0.8 : 1.0
         })
         group.add(resMisc, opHeadingBox);
 
@@ -293,7 +288,6 @@ export default class Card
         const opTextHeading = new LayoutOperation({
             pos: opHeadingBox.pos,
             size: opHeadingBox.size,
-            pivot: Vector2.CENTER,
             fill: textColorHeading
         })
         group.add(resTextHeading, opTextHeading);
@@ -310,8 +304,7 @@ export default class Card
                 frame: MISC.text_box.frame,
                 effects: effects,
                 composite: "overlay",
-                alpha: vis.inkFriendly ? 0.8 : 1.0,
-                pivot: Vector2.CENTER
+                alpha: vis.inkFriendly ? 0.8 : 1.0
             })
             group.add(resMisc, opBox);
 
@@ -325,7 +318,6 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: vis.get("cards.action.posText"),
                 size: vis.get("cards.action.textDims"),
-                pivot: Vector2.CENTER,
                 fill: textColor
             })
             group.add(resText, opText);
@@ -345,7 +337,6 @@ export default class Card
                 size: vis.get("cards.action.size"),
                 frame: MISC.text_box.frame,
                 effects: effects,
-                pivot: Vector2.CENTER,
                 composite: "overlay"
             })
             group.add(resMisc, opBox);
@@ -360,7 +351,6 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: vis.get("cards.action.textPosRooster"),
                 size: vis.get("cards.action.textDims"),
-                pivot: Vector2.CENTER,
                 fill: textColor,
             })
             group.add(resText, opText);
@@ -369,7 +359,6 @@ export default class Card
             const opDawnIcon = new LayoutOperation({
                 pos: new Vector2(0.15*vis.size.x, posHeading.y),
                 size: new Vector2(1.5*textConfigHeading.size),
-                pivot: Vector2.CENTER,
                 frame: MISC.sun_icon.frame,
             })
             group.add(resMisc, opDawnIcon);

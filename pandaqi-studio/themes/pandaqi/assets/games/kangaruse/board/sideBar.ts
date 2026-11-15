@@ -74,8 +74,7 @@ export default class SideBar
         const op = new LayoutOperation({
             pos: pos,
             size: new Vector2(tutorialHeight),
-            frame: GENERAL.tutorialIcon.frame,
-            pivot: Vector2.CENTER
+            frame: GENERAL.tutorialIcon.frame
         });
         group.add(res, op);
 
@@ -85,8 +84,7 @@ export default class SideBar
         const opIcon = new LayoutOperation({
             pos: pos,
             size: new Vector2(iconSize),
-            frame: frame,
-            pivot: Vector2.CENTER
+            frame: frame
         });
         group.add(resIcon, opIcon);
 
@@ -139,8 +137,7 @@ export default class SideBar
         const opHeader = new LayoutOperation({
             pos: posHeader,
             size: sizeHeader,
-            frame: GENERAL.header.frame,
-            pivot: Vector2.CENTER
+            frame: GENERAL.header.frame
         });
         group.add(resGeneral, opHeader);
         
@@ -179,6 +176,7 @@ export default class SideBar
             // the type being scored
             const resIcon = vis.getResource(CONFIG.cellTexture);
             const opIcon = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: new Vector2(xPos, this.anchorPos.y),
                 frame: CELLS[type].frame,
                 size: new Vector2(iconSize)
@@ -191,6 +189,7 @@ export default class SideBar
                 xPos += iconSize;
 
                 const opBox = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     pos: new Vector2(xPos, this.anchorPos.y),
                     frame: GENERAL.writingSpace.frame,
                     size: new Vector2(iconSize)
@@ -208,7 +207,6 @@ export default class SideBar
                         pos: new Vector2(opBox.pos.x + 0.5*iconSize, opBox.pos.y + 0.5*iconSize),
                         size: new Vector2(iconSize),
                         fill: vis.get("sideBar.scoreFontColor"),
-                        pivot: Vector2.CENTER,
                         alpha: alpha
                     });
                     const resText = new ResourceText({ text: value.toString(), textConfig: textConfig });

@@ -60,8 +60,7 @@ export default class Card extends MaterialNaivigation
             const op = new LayoutOperation({
                 pos: new Vector2(vis.center.x, 0.5*height),
                 frame: frame,
-                size: new Vector2(vis.get("cards.planetProperties.iconDims")),
-                pivot: Vector2.CENTER
+                size: new Vector2(vis.get("cards.planetProperties.iconDims"))
             })
             group.add(resPlanet, op);
         
@@ -78,8 +77,7 @@ export default class Card extends MaterialNaivigation
             const op = new LayoutOperation({
                 pos: new Vector2(vis.center.x, 0.5*height),
                 fill: "#111111",
-                size: new Vector2(0.9*vis.size.x, 0.9*height),
-                pivot: Vector2.CENTER
+                size: new Vector2(0.9*vis.size.x, 0.9*height)
             })
             
             group.add(textRes, op);
@@ -136,8 +134,7 @@ export default class Card extends MaterialNaivigation
         const vehicleOp = new LayoutOperation({
             size: new Vector2(vis.get("cards.steer.vehicleDims") * sizeUnit),
             rot: -0.5*Math.PI, // because now it defaults to pointing to the side, so put it back up 
-            frame: frame,
-            pivot: Vector2.CENTER
+            frame: frame
         })
         group.add(vehicleRes, vehicleOp);
         return group;

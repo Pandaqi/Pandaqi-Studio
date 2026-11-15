@@ -134,7 +134,6 @@ export default class BoardGeneration
 			const opTileType = new LayoutOperation({
 				pos: pos,
 				size: new Vector2(cs),
-				pivot: Vector2.CENTER,
 				frame: frame,
 				rot: spriteRotation
 			});
@@ -180,7 +179,7 @@ export default class BoardGeneration
 				// this anchors the remaining graphics to the top left of this tile
 				// map is rotated sideways, made more sense for tile and arrow
 				const specialTileGroup = new ResourceGroup();
-				const opSubGroup = new LayoutOperation({ pos: pos, rot: spriteRotation + 0.5 * Math.PI, depth: 1000 });
+				const opSubGroup = new LayoutOperation({ pivot: Vector2.ZERO, pos: pos, rot: spriteRotation + 0.5 * Math.PI, depth: 1000 });
 				group.add(specialTileGroup, opSubGroup);
 
 				const maxGridWidth = 0.66*cs;
@@ -211,7 +210,6 @@ export default class BoardGeneration
 					const op = new LayoutOperation({
 						pos: pos,
 						size: new Vector2(0.66 * gridCellSize),
-						pivot: Vector2.CENTER,
 						frame: 10
 					})
 					specialTileGroup.add(res, op);
@@ -225,7 +223,6 @@ export default class BoardGeneration
 		const opHook = new LayoutOperation({
 			pos: new Vector2(oX + 0.1*cs, oY),
 			size: new Vector2(0.25*cs),
-			pivot: Vector2.CENTER,
 			frame: 11
 		});
 		group.add(resHook, opHook);
@@ -335,6 +332,7 @@ export default class BoardGeneration
 
 			const basePos = new Vector2(cardMargin.x + row*cardSize.x, cardMargin.y + col*cardSize.y);
 			const opHintCard = new LayoutOperation({
+				pivot: Vector2.ZERO,
 				pos: basePos,
 				size: cardSize,
 				frame: cardIdx
@@ -346,6 +344,7 @@ export default class BoardGeneration
 
 			const resTextMetadata = new ResourceText({ text: metadata, textConfig: textConfig });
 			const opTextMetadata = new LayoutOperation({
+				pivot: Vector2.ZERO,
 				pos: new Vector2(basePos.x + metadataMargin.x, basePos.y + metadataMargin.y),
 				size: new Vector2(100*textConfig.size, 2*textConfig.size),
 				fill: "#111111",

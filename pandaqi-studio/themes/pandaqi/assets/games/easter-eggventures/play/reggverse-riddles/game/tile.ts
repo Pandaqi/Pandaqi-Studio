@@ -69,7 +69,6 @@ export default class Tile extends MaterialEaster
             pos: vis.center,
             frame: frame,
             size: vis.get("tiles.map.iconDims"),
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         });
         group.add(res, op);
@@ -112,7 +111,6 @@ export default class Tile extends MaterialEaster
             const textRes = new ResourceText({ text: label, textConfig: textConfig });
             const textOp = new LayoutOperation({
                 pos: pos,
-                pivot: Vector2.CENTER,
                 size: new Vector2(0.5*vis.size.x, 2*textConfig.size),
                 fill: color,
                 composite: composite
@@ -166,8 +164,7 @@ export default class Tile extends MaterialEaster
                 const opIcon = new LayoutOperation({
                     pos: pos,
                     size: rectInnerSize.clone().scale(0.825),
-                    frame: iconFrame,
-                    pivot: Vector2.CENTER
+                    frame: iconFrame
                 })
                 group.add(resMisc, opIcon)
             }
@@ -191,7 +188,6 @@ export default class Tile extends MaterialEaster
                 pos: vis.get("tiles.action.iconPos"),
                 size: vis.get("tiles.action.iconDims"),
                 frame: this.getData().frame,
-                pivot: Vector2.CENTER,
                 effects: effects
             })
             group.add(res, op);
@@ -206,7 +202,6 @@ export default class Tile extends MaterialEaster
                 pos: vis.get("tiles.objective.iconPos"),
                 size: vis.get("tiles.objective.iconDims"),
                 frame: frame,
-                pivot: Vector2.CENTER,
                 effects: effects
             });
             group.add(res, op);
@@ -219,7 +214,6 @@ export default class Tile extends MaterialEaster
             const op = new LayoutOperation({
                 pos: vis.get("tiles.movementGrid.pos"),
                 size: vis.get("tiles.movementGrid.size"),
-                pivot: Vector2.CENTER,
                 effects: effects
             });
             group.add(res, op);
@@ -242,7 +236,6 @@ export default class Tile extends MaterialEaster
         const op = new LayoutOperation({
             pos: pos,
             size: vis.get("tiles.powerText.textBoxDims"),
-            pivot: Vector2.CENTER,
             effects: effects,
             fill: color
         })

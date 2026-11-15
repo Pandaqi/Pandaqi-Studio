@@ -161,8 +161,7 @@ export default class BoardDraw
             const iconOp = new LayoutOperation({
                 frame: iconData.frame,
                 pos: posCenter,
-                size: iconDims,
-                pivot: Vector2.CENTER
+                size: iconDims
             })
             group.add(icon, iconOp);
         }
@@ -188,8 +187,7 @@ export default class BoardDraw
                 frame: frame,
                 pos: pos,
                 rot: rot,
-                size: size,
-                pivot: Vector2.CENTER
+                size: size
             });
             group.add(cornerRes, cornerOp);
         }
@@ -205,6 +203,7 @@ export default class BoardDraw
         const tutDims = new Vector2(tutWidth, vis.get("sidebar.tutImageRatio") * tutWidth);
         const frame = CONFIG.beginnerMode ? 0 : 1;
         const tutOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             frame: frame,
             pos: this.originSidebar,
             size: tutDims
@@ -253,8 +252,7 @@ export default class BoardDraw
             const iconOp = new LayoutOperation({
                 frame: data.frame,
                 pos: iconPos,
-                size: iconDimsWithPadding,
-                pivot: Vector2.CENTER
+                size: iconDimsWithPadding
             })
 
             const rect = new RectangleRounded({ center: iconPos, extents: iconDims, radius: borderRadius });
@@ -268,7 +266,6 @@ export default class BoardDraw
                 frame: data.frame,
                 pos: iconSimplePos,
                 size: iconSimpleDims,
-                pivot: Vector2.CENTER,
             })
 
             const rectSimple = new RectangleRounded({ center: iconSimplePos, extents: iconSimpleDims.clone().scale(1.1), radius: borderRadius });

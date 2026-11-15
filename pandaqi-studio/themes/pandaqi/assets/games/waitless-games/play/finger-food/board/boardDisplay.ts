@@ -286,7 +286,6 @@ export default class BoardDisplay
                 pos: centerPos,
                 size: new Vector2(w,h),
                 frame: CUSTOM.tutorialBG.frame,
-                pivot: Vector2.CENTER,
             })
             group.add(resCustom, opBG);
 
@@ -302,8 +301,7 @@ export default class BoardDisplay
             const opTut = new LayoutOperation({
                 pos: centerPos,
                 size: new Vector2(w,h),
-                frame: data.frame,
-                pivot: Vector2.CENTER
+                frame: data.frame
             })
             group.add(resTut, opTut);
 
@@ -324,7 +322,6 @@ export default class BoardDisplay
                         pos: positions[i],
                         size: new Vector2(tutIconSize),
                         frame: data.frame,
-                        pivot: Vector2.CENTER,
                         effects: [new GlowEffect({ color: "#FFFFFF", blur: 0.25 * tutIconSize })]
                     });
                     const iconKey = cell.mainType + "_spritesheet";
@@ -348,7 +345,6 @@ export default class BoardDisplay
                     pos: centerPos,
                     size: new Vector2(backgroundPatternScaleUp * w, backgroundPatternScaleUp * h),
                     frame: CUSTOM.machineBG.frame,
-                    pivot: Vector2.CENTER,
                     clip: backgroundMask
                 })
                 group.add(resCustom, opBG);
@@ -360,7 +356,6 @@ export default class BoardDisplay
                 pos: centerPos,
                 size: spriteSize,
                 frame: data.frame,
-                pivot: Vector2.CENTER,
                 effects: [new DropShadowEffect({ color: "#000000", blur: 0.01 * spriteSize.x }) ]
             })
 
@@ -379,8 +374,7 @@ export default class BoardDisplay
                 const opFrame = new LayoutOperation({
                     pos: new Vector2(centerPos.x, realPos.y + 0.75*h),
                     size: new Vector2(extraFrameScale * w, extraFrameScale * h),
-                    frame: frameNum,
-                    pivot: Vector2.CENTER
+                    frame: frameNum
                 })
 
                 // display the background frame
@@ -403,8 +397,7 @@ export default class BoardDisplay
                         fill: txcfg.color,
                         stroke: txcfg.stroke,
                         strokeWidth: fontSize * 0.1,
-                        strokeAlign: StrokeAlign.OUTSIDE,
-                        pivot: Vector2.CENTER
+                        strokeAlign: StrokeAlign.OUTSIDE
                     })
 
                     const num = cell.getNum();
@@ -430,7 +423,6 @@ export default class BoardDisplay
             const opBG = new LayoutOperation({
                 pos: centerPos,
                 size: new Vector2(backgroundPatternScaleUp * w, backgroundPatternScaleUp * h),
-                pivot: Vector2.CENTER,
                 frame: CUSTOM.moneyBG.frame,
                 clip: backgroundMask
             })
@@ -440,7 +432,6 @@ export default class BoardDisplay
             const opMoney = new LayoutOperation({
                 pos: new Vector2(centerPos.x, realPos.y + 0.5 * h),
                 size: new Vector2(moneySpriteScale * w, moneySpriteScale * h),
-                pivot: Vector2.CENTER,
                 frame: CUSTOM.moneyIcon.frame,
             })
             group.add(resCustom, opMoney);
@@ -458,8 +449,7 @@ export default class BoardDisplay
                 fill: txcfg.color,
                 stroke: txcfg.stroke,
                 strokeWidth: fontSize * 0.1,
-                strokeAlign: StrokeAlign.OUTSIDE,
-                pivot: Vector2.CENTER
+                strokeAlign: StrokeAlign.OUTSIDE
             })
 
             const num = cell.getNum();

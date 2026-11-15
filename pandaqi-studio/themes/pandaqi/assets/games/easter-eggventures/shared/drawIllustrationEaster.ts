@@ -36,7 +36,6 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
         size: size,
         frame: frame,
         rot: rot,
-        pivot: Vector2.CENTER,
         effects: effects,
     })
     group.add(res, op);

@@ -174,7 +174,6 @@ export default class Card
             pos: textPos,
             size: vis.size,
             fill: "#000000",
-            pivot: Vector2.CENTER,
         });
 
         // > main food
@@ -194,7 +193,6 @@ export default class Card
                 pos: pos,
                 size: vis.size,
                 fill: "#000000",
-                pivot: Vector2.CENTER,
             });
             const res = new ResourceText({ text: this.num.toString(), textConfig: textConfigMain });
             res.toCanvas(ctx, op);
@@ -206,7 +204,6 @@ export default class Card
             pos: new Vector2(typePos.x, typePos.y),
             size: vis.size,
             fill: "#000000",
-            pivot: Vector2.CENTER,
         })
         const resTextType = new ResourceText({ text: this.type, textConfig: textConfigMain });
         resTextType.toCanvas(ctx, opType);
@@ -228,7 +225,6 @@ export default class Card
         const op = new LayoutOperation({
             pos: descPos,
             size: descDims,
-            pivot: Vector2.CENTER,
             fill: "#000000",
         })
         res.toCanvas(ctx, op);
@@ -277,7 +273,6 @@ export default class Card
             frame: frame,
             pos: vis.size.clone().scaleFactor(0.5),
             size: new Vector2(spriteSize),
-            pivot: new Vector2(0.5),
             effects: effects
         })
         group.add(res, op);
@@ -387,7 +382,6 @@ export default class Card
                 frame: iconFrame,
                 pos: midPoint,
                 size: new Vector2(iconSize),
-                pivot: new Vector2(0.5),
                 flipX: flipX,
                 flipY: flipY,
                 rot: iconRotation,
@@ -434,7 +428,6 @@ export default class Card
             rot: rot,
             pos: positions[0],
             fill: "#000000",
-            pivot: new Vector2(0.5),
             size: textDims,
         })
         group.add(cardNumber, numOp);
@@ -452,7 +445,6 @@ export default class Card
             rot: rot + 0.5*Math.PI,
             pos: positions[1],
             fill: "#000000",
-            pivot: new Vector2(0.5),
             size: textDims
         })
         group.add(cardName, nameOp);
@@ -483,8 +475,7 @@ export default class Card
         const subGroup = new ResourceGroup();
         const subGroupOp = new LayoutOperation({
             pos: positions[id],
-            rot: rot,
-            pivot: Vector2.CENTER
+            rot: rot
         });
         group.add(subGroup, subGroupOp);
 
@@ -497,8 +488,7 @@ export default class Card
             pos: new Vector2(-0.66*vis.center.x, 0), // all of this is centered around (0,0) middle of subGroup
             size: new Vector2(imgHeight),
             frame: frame,
-            effects: vis.inkFriendlyEffect,
-            pivot: Vector2.CENTER
+            effects: vis.inkFriendlyEffect
         })
         subGroup.add(iconRes, iconOp);
 
@@ -513,8 +503,7 @@ export default class Card
         const textOp = new LayoutOperation({
             pos: new Vector2(0.25*vis.center.x, 0),
             size: new Vector2(0.66*vis.size.x, 2*contHeight),
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         });
 
         // fill the images in the text with their actual icons

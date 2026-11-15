@@ -114,7 +114,6 @@ export default class Card
                     pos: tempPos,
                     frame: RESOURCES[data.type].frame,
                     size: iconDims,
-                    pivot: Vector2.CENTER,
                     rot: rot,
                     effects: effects
                 });
@@ -130,7 +129,6 @@ export default class Card
                     size: iconDimsCross,
                     frame: MISC.cross.frame,
                     rot: rot,
-                    pivot: Vector2.CENTER,
                     effects: effects
                 })
                 group.add(resIcon, opCross);
@@ -169,7 +167,6 @@ export default class Card
             stroke: strokeColor,
             strokeWidth: vis.get("cards.randomText.strokeWidth"),
             strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER,
             effects: [dropShadowEffect]
         });
         group.add(resText, opText);
@@ -199,7 +196,6 @@ export default class Card
             stroke: strokeColor,
             strokeWidth: vis.get("votes.number.strokeWidth"),
             strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER,
             effects: [dropShadowEffect]
         });
         group.add(resText, opText);
@@ -226,7 +222,6 @@ export default class Card
             pos: vis.get("cards.master.iconPos"),
             size: vis.get("cards.master.iconDims"),
             frame: this.masterIconFrame,
-            pivot: Vector2.CENTER,
         });
         group.add(resMisc, opIcon);
 
@@ -247,8 +242,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: rectPos,
             size: rectDims,
-            fill: textColor,
-            pivot: Vector2.CENTER
+            fill: textColor
         });
         group.add(resText, opText);
     }
@@ -278,8 +272,7 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: rectPos,
                 size: textDims,
-                fill: textColor,
-                pivot: Vector2.CENTER
+                fill: textColor
             });
             group.add(resText, opText);
         }
@@ -341,8 +334,7 @@ export default class Card
                 stroke: "#FFFFFF",
                 strokeWidth: strokeWidthLabel,
                 strokeAlign: StrokeAlign.OUTSIDE,
-                composite: vis.get("cards.shop.compositeLabel"),
-                pivot: Vector2.CENTER
+                composite: vis.get("cards.shop.compositeLabel")
             });
             group.add(resTextLabel, opTextLabel);
 
@@ -361,7 +353,6 @@ export default class Card
                     pos: pos,
                     frame: RESOURCES[icon].frame,
                     size: iconDims,
-                    pivot: Vector2.CENTER,
                     effects: effects,
                     rot: rot
                 });
@@ -376,7 +367,6 @@ export default class Card
                 size: textDims,
                 rot: rot,
                 fill: textColor,
-                pivot: Vector2.CENTER,
             });
             group.add(resText, opText);
         }

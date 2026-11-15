@@ -93,7 +93,6 @@ export default class Tile extends MaterialEaster
             const textOp = new LayoutOperation({
                 pos: pos,
                 size: textDims,
-                pivot: Vector2.CENTER,
                 fill: fillColor,
                 stroke: strokeColor,
                 strokeWidth: vis.get("tiles.eggNumber.strokeWidth"),

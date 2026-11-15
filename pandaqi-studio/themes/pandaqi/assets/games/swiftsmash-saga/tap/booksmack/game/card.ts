@@ -51,7 +51,6 @@ export default class Card
             const opCorner = new LayoutOperation({
                 pos: positions[i],
                 size: new Vector2(2.0 * textConfigCorner.size),
-                pivot: Vector2.CENTER,
                 fill: vis.inkFriendly ? "#777777" : "#FFFFFF",
                 composite: vis.inkFriendly ? "source-over" : "overlay"
             });
@@ -69,7 +68,6 @@ export default class Card
         const opText = new LayoutOperation({
             pos: pos,
             size: new Vector2(2.0 * textConfig.size),
-            pivot: Vector2.CENTER,
             fill: vis.inkFriendly ? "#000000" : "#FFFFFF",
             effects: vis.inkFriendly ? [] : [new DropShadowEffect({ color: "#000000", blur: vis.get("cards.main.shadowBlur") })]
         });
@@ -103,7 +101,6 @@ export default class Card
         const opTextTitle = new LayoutOperation({
             pos: vis.get("cards.action.title.pos"),
             size: new Vector2(vis.size.x, 2*textConfigTitle.size),
-            pivot: Vector2.CENTER,
             fill: textColor
         })
         group.add(resTextTitle, opTextTitle);
@@ -117,7 +114,6 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.action.text.pos"),
             size: vis.get("cards.action.text.boxSize"),
-            pivot: Vector2.CENTER,
             fill: textColor
         })
         group.add(resText, opText);

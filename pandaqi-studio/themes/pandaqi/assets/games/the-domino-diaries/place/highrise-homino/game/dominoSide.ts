@@ -193,8 +193,7 @@ export default class DominoSide
             const opFloor = new LayoutOperation({
                 frame: MISC["floor_" + this.floor].frame,
                 size: new Vector2(vis.sizeUnit),
-                alpha: alpha,
-                pivot: Vector2.CENTER
+                alpha: alpha
             });
             group.add(resFloor, opFloor);
         }
@@ -207,7 +206,6 @@ export default class DominoSide
             const opBG = new LayoutOperation({
                 frame: MISC.tenant_bg.frame,
                 size: new Vector2(vis.sizeUnit),
-                pivot: Vector2.CENTER,
                 rot: Math.floor(rand() * 4) * 0.5 * Math.PI,
                 alpha: rand()*0.35 + 0.35
             });
@@ -229,8 +227,7 @@ export default class DominoSide
         const opMain = new LayoutOperation({
             frame: data.frame,
             size: size,
-            effects: effects,
-            pivot: Vector2.CENTER
+            effects: effects
         })
         group.add(resMain, opMain);
     }
@@ -257,8 +254,7 @@ export default class DominoSide
                 pos: new Vector2(0, tenantDetailsY),
                 size: scoreDims,
                 frame: MISC.score_star.frame,
-                effects: effects,
-                pivot: Vector2.CENTER
+                effects: effects
             });
             group.add(resMisc, opStar);
 
@@ -271,7 +267,6 @@ export default class DominoSide
             const resText = new ResourceText({ text: this.score.toString(), textConfig });
             const opText = new LayoutOperation({
                 pos: new Vector2(0, tenantDetailsY), 
-                pivot: Vector2.CENTER,
                 fill: vis.get("dominoes.tenant.score.textColor"),
                 size: scoreDims
             });
@@ -299,8 +294,7 @@ export default class DominoSide
                         pos: new Vector2((positions[i] - 0.5) * vis.size.x, tenantDetailsY),
                         size: tenantPropsDims,
                         frame: MISC["property_" + propsEnabled[i]].frame,
-                        effects: effects,
-                        pivot: Vector2.CENTER
+                        effects: effects
                     })
                     group.add(resMisc, opProp)
                 }
@@ -319,6 +313,7 @@ export default class DominoSide
             for(let i = 0; i < numWishes; i++)
             {
                 const op = new LayoutOperation({
+                    pivot: Vector2.ZERO,
                     pos: positions[i],
                 });
                 group.add(this.wishes[i].draw(vis, wishDims), op);
@@ -343,7 +338,6 @@ export default class DominoSide
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({
                 pos: textPos, 
-                pivot: Vector2.CENTER,
                 fill: "#FFEEEE",
                 size: new Vector2(0.9*textDims.x, textDims.y)
             });
@@ -373,8 +367,7 @@ export default class DominoSide
                 pos: offset,
                 size: fenceSize,
                 frame: frame,
-                rot: i*0.5*Math.PI,
-                pivot: Vector2.CENTER
+                rot: i*0.5*Math.PI
             });
             groupFences.add(res, op);
         }

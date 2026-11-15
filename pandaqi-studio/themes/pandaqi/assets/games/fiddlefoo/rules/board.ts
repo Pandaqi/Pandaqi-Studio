@@ -259,8 +259,7 @@ export default class Board
                 const res = new ResourceImage( await card.drawForRules(sim.getVisualizer()) );
                 const op = new LayoutOperation({
                     pos: realPos,
-                    size: cardSizeWithMargin,
-                    pivot: Vector2.CENTER
+                    size: cardSizeWithMargin
                 })
                 res.toCanvas(ctx, op);
 
@@ -268,7 +267,7 @@ export default class Board
                 if(isHighlight)
                 {
                     const resRect = new ResourceShape( new Rectangle({ center: realPos, extents: cardSize }) );
-                    const opRect = new LayoutOperation({ stroke: "#FF0000", strokeWidth: 0.035*cardSize.x, strokeAlign: StrokeAlign.OUTSIDE });
+                    const opRect = new LayoutOperation({ pivot: Vector2.ZERO, stroke: "#FF0000", strokeWidth: 0.035*cardSize.x, strokeAlign: StrokeAlign.OUTSIDE });
                     resRect.toCanvas(ctx, opRect);
                 }
             }

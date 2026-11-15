@@ -170,7 +170,6 @@ export default class BoardGeneration
 			const res = vis.getResource("flower_icon");
 			const op = new LayoutOperation({
 				pos: new Vector2(randX, randY),
-				pivot: Vector2.CENTER,
 				size: new Vector2(randSize),
 				rot: randRot,
 				alpha: 0.05
@@ -201,7 +200,6 @@ export default class BoardGeneration
 			const op = new LayoutOperation({
 				pos: rect.center.clone(),
 				size: new Vector2(this.cfg.minSizeCell),
-				pivot: Vector2.CENTER,
 				frame: i,
 			})
 			group.add(res, op);
@@ -233,8 +231,7 @@ export default class BoardGeneration
 					size: new Vector2(2*textConfig.size),
 					fill: vis.get("path.fontColor"),
 					stroke: inkFriendly ? vis.get("path.strokeColorGray") : vis.get("path.strokeColor"),
-					strokeWidth: vis.get("path.strokeWidth"),
-					pivot: Vector2.CENTER
+					strokeWidth: vis.get("path.strokeWidth")
 				})
 				group.add(resText, opText);
 
@@ -251,7 +248,6 @@ export default class BoardGeneration
 				const res = vis.getResource(textureKey);
 				const op = new LayoutOperation({
 					pos: new Vector2(x,y),
-					pivot: Vector2.CENTER,
 					size: new Vector2(spriteSize)
 				})
 				group.add(res, op);
@@ -275,8 +271,7 @@ export default class BoardGeneration
 				const res = vis.getResource(textureKey);
 				const op = new LayoutOperation({
 					pos: new Vector2(x,y),
-					size: new Vector2(this.cfg.minSizeCell),
-					pivot: Vector2.CENTER
+					size: new Vector2(this.cfg.minSizeCell)
 				})
 				group.add(res, op);
 			
@@ -310,13 +305,12 @@ export default class BoardGeneration
 				const res = vis.getResource(textureKey);
 				const op = new LayoutOperation({
 					pos: new Vector2(avgX, avgY),
-					size: new Vector2(spriteSize),
-					pivot: Vector2.CENTER
+					size: new Vector2(spriteSize)
 				})
 				group.add(res, op);
 			}
 		}
-		group.add(lineGroup, new LayoutOperation({ depth: 100 }));
+		group.add(lineGroup, new LayoutOperation({ pivot: Vector2.ZERO, depth: 100 }));
 	}
 
 	// draw the GRID lines (both vertical and horizontal)
@@ -351,8 +345,7 @@ export default class BoardGeneration
 			const opText = new LayoutOperation({
 				pos: new Vector2(finalX, finalY),
 				size: new Vector2(2*textConfig.size),
-				fill: vis.get("grid.fontColor"),
-				pivot: Vector2.CENTER
+				fill: vis.get("grid.fontColor")
 			})
 			group.add(resText, opText);
 
@@ -373,8 +366,7 @@ export default class BoardGeneration
 			const opText = new LayoutOperation({
 				pos: new Vector2(finalX, finalY),
 				size: new Vector2(2*textConfig.size),
-				fill: vis.get("grid.fontColor"),
-				pivot: Vector2.CENTER
+				fill: vis.get("grid.fontColor")
 			})
 			group.add(resText, opText);
 		}
@@ -395,7 +387,6 @@ export default class BoardGeneration
 			const op = new LayoutOperation({
 				pos: new Vector2(x,y),
 				size: new Vector2(spriteSize),
-				pivot: Vector2.CENTER,
 				frame: frame
 			})
 			group.add(res, op);

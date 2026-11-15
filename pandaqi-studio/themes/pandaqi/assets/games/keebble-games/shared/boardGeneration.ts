@@ -545,7 +545,6 @@ export class BoardGeneration
 		const op = new LayoutOperation({
 			pos: pixelPos,
 			size: textDims,
-			pivot: Vector2.CENTER,
 			fill: "#FFFFFF",
 			stroke: "#000000",
 			strokeWidth: 12, // trying to match the thickness of the sprite strokes
@@ -561,8 +560,7 @@ export class BoardGeneration
 			const resText = new ResourceText({ text: txt, textConfig: CONFIG.handTextConfig });
 			const op = new LayoutOperation({
 				pos: posBottomRight,
-				fill: "#000000",
-				pivot: Vector2.CENTER
+				fill: "#000000"
 			})
 			group.add(resText, op);
 		}
@@ -627,7 +625,6 @@ export class BoardGeneration
 				const op = new LayoutOperation({
 					pos: pixelPos,
 					size: textDims,
-					pivot: Vector2.CENTER,
 					fill: "#000000"
 				})
 				group.add(resText, op);
@@ -643,7 +640,6 @@ export class BoardGeneration
 		const op = new LayoutOperation({
 			pos: pixelPos,
 			size: textDims,
-			pivot: Vector2.CENTER,
 			fill: "#000000"
 		});
 		group.add(resText, op);
@@ -658,7 +654,6 @@ export class BoardGeneration
 		const op = new LayoutOperation({
 			pos: pixelPos,
 			size: new Vector2(CONFIG.spriteSize),
-			pivot: Vector2.CENTER,
 			alpha: CONFIG.spriteAlpha,
 			frame: this.getFrameForType(c.getType())
 		});
@@ -676,8 +671,7 @@ export class BoardGeneration
 				pos: pixelPos,
 				size: new Vector2(CONFIG.spriteSize),
 				rot: wall.getRotation(),
-				frame: KEEBBLE_TYPES.wall.frame,
-				pivot: Vector2.CENTER
+				frame: KEEBBLE_TYPES.wall.frame
 			});
 			group.add(resSpecial, op);
 		}

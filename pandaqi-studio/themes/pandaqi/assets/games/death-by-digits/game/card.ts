@@ -52,7 +52,6 @@ export default class Card
             size: vis.size.clone().scale(1.66),
             pos: vis.center,
             frame: 2,
-            pivot: Vector2.CENTER,
             rot: rand() * 2 * Math.PI,
         })
         group.add(res, opTexture);
@@ -127,8 +126,7 @@ export default class Card
                 pos: positions[i * 2],
                 rot: i * Math.PI,
                 size: textDims,
-                fill: fontColor,
-                pivot: Vector2.CENTER
+                fill: fontColor
             })
             group.add(resText, opText);
         }
@@ -149,8 +147,7 @@ export default class Card
         const opTextBig = new LayoutOperation({
             pos: posBig,
             size: vis.size,
-            fill: fontColor,
-            pivot: Vector2.CENTER
+            fill: fontColor
         })
         group.add(resTextBig, opTextBig);
 
@@ -165,8 +162,7 @@ export default class Card
                 pos: positions[i * 2].clone().add(iconOffset.clone().scale(dir)),
                 rot: i * Math.PI,
                 size: vis.get("cards.icons.size"),
-                frame: iconFrame,
-                pivot: Vector2.CENTER
+                frame: iconFrame
             })
             group.add(resIcon, opIcon);
         }
@@ -192,8 +188,7 @@ export default class Card
                 frame: EXPANSION[this.key].frame,
                 size: vis.get("cards.special.iconDims"),
                 rot: i * Math.PI,
-                effects: vis.inkFriendlyEffect,
-                pivot: Vector2.CENTER
+                effects: vis.inkFriendlyEffect
             })
             group.add(resIcon, opIcon);
         }
@@ -212,7 +207,6 @@ export default class Card
             pos: pos,
             fill: this.getColorDarkenedMore(vis),
             size: size,
-            pivot: Vector2.CENTER,
         })
         group.add(resText, opText);
     }

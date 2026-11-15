@@ -43,7 +43,6 @@ export default class CellDisplay
         const opText = new LayoutOperation({
             pos: pos,
             size: size,
-            pivot: Vector2.CENTER,
             fill: vis.get("types.color"),
             stroke: vis.get("types.strokeColor"),
             strokeWidth: strokeThickness,
@@ -62,7 +61,6 @@ export default class CellDisplay
         const op = new LayoutOperation({
             pos: pos,
             size: size,
-            pivot: Vector2.CENTER,
             frame: GENERAL.writingSpace.frame,
             alpha: alpha,
             depth: 1000
@@ -79,7 +77,6 @@ export default class CellDisplay
         const pos = this.placeAtCorner(vis, size, corner);
         const op = new LayoutOperation({
             pos: pos,
-            pivot: Vector2.CENTER,
             size: size,
             flipX: (rand() <= 0.5),
             frame: frame

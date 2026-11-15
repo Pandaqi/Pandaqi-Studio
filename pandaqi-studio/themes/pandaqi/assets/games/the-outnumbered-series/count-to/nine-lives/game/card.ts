@@ -110,7 +110,6 @@ export default class Card
             frame: frame,
             pos: pos,
             size: size,
-            pivot: Vector2.CENTER,
             effects: effects
         })
 
@@ -133,7 +132,6 @@ export default class Card
                 pos: pos,
                 size: size,
                 rot: rot,
-                pivot: Vector2.CENTER,
                 effects: vis.custom.effects,
             })
             res.toCanvas(ctx, op);
@@ -153,6 +151,7 @@ export default class Card
         const res = new ResourceShape({ shape: pathObj });
         const strokeWidth = vis.get("cards.life.cardRectStrokeWidth");
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             fill: "#00353D",
             stroke: "#FFFFFF",
             strokeWidth: strokeWidth,
@@ -174,7 +173,6 @@ export default class Card
                 frame: frame,
                 pos: pos,
                 size: new Vector2(itemSize),
-                pivot: Vector2.CENTER,
             })
             resCard.toCanvas(ctx, op);
         }
@@ -204,7 +202,6 @@ export default class Card
                 frame: frame,
                 pos: center,
                 size: size,
-                pivot: Vector2.CENTER,
                 effects: powerEffects,
             })
             res.toCanvas(ctx, op);
@@ -223,7 +220,6 @@ export default class Card
             pos: Vector2.ZERO,
             size: size, 
             frame: 0,
-            pivot: Vector2.CENTER,
             effects: powerEffects,
         })
 
@@ -336,8 +332,7 @@ export default class Card
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: strokeWidth,
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         });
         res.toCanvas(ctx, op);
 
@@ -378,7 +373,6 @@ export default class Card
                 pos: pos,
                 size: size,
                 frame: frame,
-                pivot: Vector2.CENTER,
                 effects: vis.custom.effects,
             })
 
@@ -420,7 +414,6 @@ export default class Card
                     frame: frame,
                     pos: pos,
                     size: new Vector2(iconSize),
-                    pivot: Vector2.CENTER,
                     rot: rot,
                     effects: vis.custom.effects,
                 })
@@ -466,8 +459,7 @@ export default class Card
         const op = new LayoutOperation({
             pos: center,
             alpha: alpha,
-            rot: rot,
-            pivot: Vector2.CENTER
+            rot: rot
         })
         pattern.toCanvas(ctx, op);
     }

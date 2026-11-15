@@ -121,8 +121,7 @@ export default class Card
                 pos: pos,
                 size: iconDims.clone().scale(2),
                 fill: textColor,
-                rot: rot,
-                pivot: Vector2.CENTER
+                rot: rot
             })
             group.add(resText, opText);
 
@@ -133,7 +132,6 @@ export default class Card
                 size: iconDims,
                 frame: suitFrame,
                 rot: rot,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             });
             group.add(resSuits, opIcon);
@@ -172,7 +170,6 @@ export default class Card
             const opIcon = new LayoutOperation({
                 pos: pos,
                 size: iconDimsCenter,
-                pivot: Vector2.CENTER,
                 frame: suitFrame,
                 effects
             });
@@ -197,8 +194,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.action.textBoxPos"),
             size: vis.get("cards.action.textBoxDims"),
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         });
         group.add(resText, opText);
 
@@ -215,8 +211,7 @@ export default class Card
         const opBanner = new LayoutOperation({
             pos: bannerPos,
             size: bannerDims,
-            frame: MISC.banner.frame,
-            pivot: Vector2.CENTER
+            frame: MISC.banner.frame
         });
         group.add(resMisc, opBanner);
 
@@ -230,8 +225,7 @@ export default class Card
         const opTextAction = new LayoutOperation({
             pos: bannerPos,
             size: bannerDims,
-            fill: "#FFFFFF",
-            pivot: Vector2.CENTER
+            fill: "#FFFFFF"
         });
         group.add(resTextAction, opTextAction);
     }
@@ -269,8 +263,7 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: pos,
                 size: new Vector2(textConfigScore.size*4),
-                fill: textColor,
-                pivot: Vector2.CENTER
+                fill: textColor
             })
             group.add(resText, opText);
         }
@@ -297,8 +290,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: pos.clone().add(new Vector2(0, offsetFromBanner*bannerDims.y)),
             size,
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         });
         group.add(resText, opText);
 
@@ -321,8 +313,7 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: posRule.clone().add(new Vector2(0, offsetFromBanner*bannerDims.y*scaleFactor)),
                 size: sizeRule,
-                fill: "#000000",
-                pivot: Vector2.CENTER
+                fill: "#000000"
             });
             group.add(resText, opText);
 
@@ -404,7 +395,6 @@ export default class Card
         const op = new LayoutOperation({
             pos: vis.get("cards.contract.illustration.pos"),
             size: size,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         })
 

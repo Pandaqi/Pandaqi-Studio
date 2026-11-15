@@ -22,8 +22,7 @@ const createSidePattern = async (vis:MaterialVisualizer, subType:Type) =>
             const op = new LayoutOperation({
                 frame: frame,
                 pos: pos,
-                size: new Vector2(iconSize),
-                pivot: new Vector2(0.5)
+                size: new Vector2(iconSize)
             })
             await res.toCanvas(ctx, op);
         }
@@ -135,8 +134,7 @@ export default class Card
         const op = new LayoutOperation({
             pos: midPoint.clone(),
             size: size,
-            alpha: gradientAlpha,
-            pivot: new Vector2(0.5)
+            alpha: gradientAlpha
         })
         res.toCanvas(ctx, op);
 
@@ -150,7 +148,6 @@ export default class Card
         const beamOp = new LayoutOperation({
             pos: beamPos,
             size: beamSize,
-            pivot: new Vector2(0.5),
             frame: frame,
             effects: vis.inkFriendlyEffect
         })
@@ -187,7 +184,6 @@ export default class Card
             frame: starFrame,
             pos: starOffset,
             size: new Vector2(starDims),
-            pivot: new Vector2(0.5),
             effects: starEffects
         })
         resStar.toCanvas(ctx, starOp);
@@ -206,8 +202,7 @@ export default class Card
         const starTextOp = new LayoutOperation({
             fill: starTextColor,
             pos: starOffset.clone().move(new Vector2(0, 0.1*fontSizeScore)), // tiny offset just because it looks better inside star
-            size: new Vector2(starDims),
-            pivot: new Vector2(0.5)
+            size: new Vector2(starDims)
         })
 
         const scoreRes = new ResourceText({ text: this.score.toString(), textConfig: textConfig });
@@ -240,8 +235,7 @@ export default class Card
                 pos: pos,
                 size: new Vector2(vis.size.x, fontSizeName), 
                 rot: rot,
-                alpha: textAlpha,
-                pivot: new Vector2(0.5)
+                alpha: textAlpha
             })
             res.toCanvas(ctx, op);
         }
@@ -255,7 +249,7 @@ export default class Card
         const cardBGColor = vis.inkFriendly ? "#FFFFFF" : vis.get("cards.details.bgs.power");
         const anchorY = vis.get("cards.bgPerson.size");
         const rect = new ResourceShape(new Rectangle().fromTopLeft(new Vector2(0,anchorY), vis.size));
-        const rectOp = new LayoutOperation({ fill: cardBGColor });
+        const rectOp = new LayoutOperation({ pivot: Vector2.ZERO, fill: cardBGColor });
         rect.toCanvas(ctx, rectOp);
 
         // determine values for wonky rectangles
@@ -307,7 +301,6 @@ export default class Card
             pos: new Vector2(0.5*vis.size.x, powerMidY),
             size: new Vector2(powerMaxWidth, powerRectHeight),
             fill: textColor,
-            pivot: new Vector2(0.5),
             alpha: alpha
         })
         resText.toCanvas(ctx, op);
@@ -320,6 +313,7 @@ export default class Card
         const res = new ResourceShape({ shape: rect });
         const colorBG = vis.inkFriendly ? vis.get("cards.details.bgsInkFriendly")[prop] : vis.get("cards.details.bgs")[prop];
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(0, anchorY),
             fill: colorBG,
             effects: effs
@@ -357,8 +351,7 @@ export default class Card
             const resText = new ResourceText({ text: "at most", textConfig: textConfig });
             const opText = new LayoutOperation({
                 size: textDims,
-                fill: color,
-                pivot: Vector2.CENTER
+                fill: color
             });
             size.push(textDims);
             operations.push(opText);
@@ -380,7 +373,6 @@ export default class Card
             const resIcon = vis.resLoader.getResource(resKey).getImageFrameAsResource(frame);
             const opIcon = new LayoutOperation({
                 size: imageSize,
-                pivot: Vector2.CENTER,
                 effects: iconEffects
             })
             size.push(imageSize);
@@ -410,7 +402,6 @@ export default class Card
             frame: iconFrame,
             pos: new Vector2(iconX, y),
             size: new Vector2(iconSize),
-            pivot: new Vector2(0.5),
             effects: iconEffects
         });
         icon.toCanvas(ctx, iconOp);
@@ -495,6 +486,7 @@ export default class Card
 
         const bgShape = new Path(rect);
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             fill: color,
         })
         const bgRes = new ResourceShape({ shape: bgShape });
@@ -513,8 +505,7 @@ export default class Card
                 pos: midPoint,
                 size: new Vector2(vis.get("cards.bgHand.patternExtraMargin")),
                 rot: patternRot,
-                alpha: patternAlpha,
-                pivot: new Vector2(0.5)
+                alpha: patternAlpha
             })
             patternRes.toCanvas(ctx, patternOp);
             
@@ -525,6 +516,7 @@ export default class Card
         const resLine = new ResourceShape({ shape: slantedLine });
         const lineColor = vis.inkFriendly ? "#212121" : vis.get("cards.bgHand.slantedLineColor");
         const lineOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(0, halfHeight),
             strokeWidth: vis.get("cards.bgHand.slantedLineWidth"),
             stroke: lineColor
@@ -557,7 +549,6 @@ export default class Card
                 pos: pos,
                 size: new Vector2(iconSize),
                 rot: rot,
-                pivot: new Vector2(0.5),
                 effects: effects
             })
             res.toCanvas(ctx, op);
@@ -579,8 +570,7 @@ export default class Card
             pos: textPos,
             size: new Vector2(vis.size.x, fontSize),
             rot: patternRot,
-            effects: [ new DropShadowEffect({ blurRadius: vis.get("cards.bgHand.textShadow") * fontSize })],
-            pivot: new Vector2(0.5)
+            effects: [ new DropShadowEffect({ blurRadius: vis.get("cards.bgHand.textShadow") * fontSize })]
         })
         const textToDisplay = subType.toLowerCase();
         const textRes = new ResourceText({ text: textToDisplay, textConfig: textConfig });
@@ -607,8 +597,7 @@ export default class Card
             fill: col,
             pos: offset,
             size: new Vector2(8.0*vis.size.x, 2.0*fontSizeID),
-            alpha: vis.get("cards.setID.alpha"),
-            pivot: new Vector2(0.5)
+            alpha: vis.get("cards.setID.alpha")
         })
 
         const resID = new ResourceText({ text: ID, textConfig: textConfig });

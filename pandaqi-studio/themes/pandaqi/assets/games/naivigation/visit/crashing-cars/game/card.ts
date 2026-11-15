@@ -38,8 +38,7 @@ export default class Card extends MaterialNaivigation
         const opTextBonus = new LayoutOperation({
             pos: vis.get("cards.passengers.bonusPos"),
             size: textBoxDims,
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         });
         group.add(resTextBonus, opTextBonus);
 
@@ -48,8 +47,7 @@ export default class Card extends MaterialNaivigation
         const opTextCurse = new LayoutOperation({
             pos: vis.get("cards.passengers.cursePos"),
             size: textBoxDims,
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         });
         group.add(resTextCurse, opTextCurse);
 
@@ -67,8 +65,7 @@ export default class Card extends MaterialNaivigation
             const op = new LayoutOperation({
                 pos: pos,
                 size: vis.get("cards.passengers.shopIconSize"),
-                frame: shopData.frame,
-                pivot: Vector2.CENTER
+                frame: shopData.frame
             });
             group.add(resIcon, op);
         }

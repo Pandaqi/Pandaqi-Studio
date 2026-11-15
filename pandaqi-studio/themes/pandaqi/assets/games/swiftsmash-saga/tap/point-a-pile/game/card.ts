@@ -135,8 +135,7 @@ export default class Card
             fill: colLight,
             stroke: colDark,
             strokeWidth: vis.get("cards.title.strokeWidth"),
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         });
         group.add(resText, opText);
 
@@ -188,7 +187,6 @@ export default class Card
                 const opText = new LayoutOperation({
                     pos: positions[i],
                     size: rectSize,
-                    pivot: Vector2.CENTER,
                     fill: "#FFFFFF"
                 });
                 group.add(resText, opText);
@@ -196,7 +194,6 @@ export default class Card
                 const opType = new LayoutOperation({
                     pos: positions[i], 
                     size: iconSize,
-                    pivot: Vector2.CENTER,
                     frame: TYPES[this.type].frame
                 });
                 group.add(resType, opType);
@@ -257,7 +254,6 @@ export default class Card
                 pos: vis.get("cards.icon.pos"),
                 frame: actionData.frame,
                 size: iconSize,
-                pivot: Vector2.CENTER,
                 effects: effects
             });
             group.add(res, op);
@@ -272,8 +268,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.action.pos"),
             size: vis.get("cards.action.textBoxSize"),
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         });
         group.add(resText, opText);
     }

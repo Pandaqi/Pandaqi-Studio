@@ -93,7 +93,6 @@ export default class Tile
             pos: vis.get("tiles.podium.pos"),
             size: vis.get("tiles.podium.size"),
             frame: MISC.podium.frame,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         })
         group.add(resMisc, opPodium)
@@ -106,7 +105,6 @@ export default class Tile
             pos: spritePos,
             size: spriteDims,
             frame: typeData.frame,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         });
         group.add(resTiles, opSprite);
@@ -120,8 +118,7 @@ export default class Tile
         const opNameText = new LayoutOperation({
             pos: vis.get("tiles.label.pos"),
             size: vis.get("tiles.label.size"),
-            fill: vis.get("tiles.label.textColor"),
-            pivot: Vector2.CENTER
+            fill: vis.get("tiles.label.textColor")
         });
         group.add(resNameText, opNameText)
 
@@ -162,7 +159,6 @@ export default class Tile
             pos: priceTagPos,
             size: vis.get("tiles.priceTag.size"),
             fill: vis.get("tiles.priceTag.textColor"),
-            pivot: Vector2.CENTER,
             flipX: shouldFlip,
             flipY: shouldFlip,
             rot: rot + rotComp
@@ -231,7 +227,6 @@ export default class Tile
                 pos: pos,
                 size: starDims,
                 frame: MISC.number_star.frame,
-                pivot: Vector2.CENTER,
                 effects: effects
             })
 
@@ -240,7 +235,6 @@ export default class Tile
             const opText = new LayoutOperation({
                 pos: pos,
                 size: starDims,
-                pivot: Vector2.CENTER,
                 fill: vis.get("tiles.numbers.textColor"),
                 stroke: vis.get("tiles.numbers.strokeColor"),
                 strokeWidth: vis.get("tiles.numbers.strokeWidth"),
@@ -263,8 +257,7 @@ export default class Tile
         const opText = new LayoutOperation({
             pos: vis.get("tiles.action.pos"),
             size: vis.get("tiles.action.size"),
-            fill: vis.get("tiles.action.textColor"),
-            pivot: Vector2.CENTER
+            fill: vis.get("tiles.action.textColor")
         });
         group.add(resText, opText);
     }

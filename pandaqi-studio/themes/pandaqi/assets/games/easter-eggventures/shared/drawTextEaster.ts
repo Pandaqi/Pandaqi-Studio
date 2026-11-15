@@ -14,8 +14,7 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     const bgOp = new LayoutOperation({
         pos: vis.get("tiles.text.pos"),
         frame: MISC_SHARED.text_bg.frame,
-        size: vis.get("tiles.text.bgDims"),
-        pivot: Vector2.CENTER
+        size: vis.get("tiles.text.bgDims")
     })
     group.add(resMisc, bgOp);
 
@@ -31,7 +30,6 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     const textOp = new LayoutOperation({
         pos: vis.get("tiles.text.pos"),
         size: vis.get("tiles.text.size"),
-        pivot: Vector2.CENTER,
         fill: textColor,
     })
 

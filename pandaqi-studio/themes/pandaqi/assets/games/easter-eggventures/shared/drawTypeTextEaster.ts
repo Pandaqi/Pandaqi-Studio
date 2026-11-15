@@ -30,7 +30,6 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
         const op = new LayoutOperation({
             pos: pos,
             size: new Vector2(0.5*vis.size.x, 2*textConfig.size),
-            pivot: Vector2.CENTER,
             alpha: alpha,
             composite: composite,
             rot: (i == 0 ? 0 : Math.PI),

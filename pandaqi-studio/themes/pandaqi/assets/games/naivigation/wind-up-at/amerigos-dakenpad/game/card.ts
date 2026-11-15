@@ -47,6 +47,7 @@ export default class Card
         if(!vis.inkFriendly)
         {
             const opBG = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: frameBG
             })
@@ -98,7 +99,6 @@ export default class Card
                     pos: positions[i],
                     size: iconSize,
                     frame: MISC["pakje_" + this.gifts[i]].frame,
-                    pivot: Vector2.CENTER,
                     effects: effects
                 });
                 group.add(resMisc, op);
@@ -120,8 +120,7 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: vis.get("cards.route.giftPos"),
                 size: vis.get("cards.route.text.boxSize"),
-                fill: "#000000",
-                pivot: Vector2.CENTER
+                fill: "#000000"
             })
             group.add(resText, opText);
         }
@@ -144,7 +143,6 @@ export default class Card
                 pos: vis.get("cards.route.homePos"),
                 size: vis.get("cards.route.homeSize"),
                 frame: frame,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             })
             group.add(resIcon, op);
@@ -163,8 +161,7 @@ export default class Card
             pos: vis.get("cards.varen.pos"),
             size: vis.get("cards.varen.size").clone().scale(customScale),
             frame: data.frame,
-            effects: vis.inkFriendlyEffect,
-            pivot: Vector2.CENTER
+            effects: vis.inkFriendlyEffect
         })
         group.add(res, op);
 
@@ -179,8 +176,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.varen.text.pos"),
             size: vis.get("cards.varen.text.size"),
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         })
         group.add(resText, opText);
 
@@ -196,7 +192,6 @@ export default class Card
                 pos: anchorPos.clone().add(offsetPerStep.clone().scale(i)),
                 size: iconSize,
                 frame: data.frame + 4, // @NOTE: the simplified icon is always +4 the original, don't ask why
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect,
                 alpha: vis.get("cards.varen.icons.alpha") ?? 0.75
             })
@@ -217,8 +212,7 @@ export default class Card
             pos: vis.get("cards.pakje.pos"),
             size: iconSize,
             frame: MISC["pakje_" + this.key].frame,
-            effects: effects,
-            pivot: Vector2.CENTER
+            effects: effects
         })
         group.add(res, op);
 
@@ -265,8 +259,7 @@ export default class Card
                 pos: positions[i],
                 size: new Vector2(2.0*textConfig.size),
                 rot: i == 0 ? 0 : Math.PI,
-                fill: textColor,
-                pivot: Vector2.CENTER
+                fill: textColor
             });
             group.add(resText, opText);
 

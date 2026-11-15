@@ -106,8 +106,7 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: pos,
                 size: new Vector2(2*fontSize),
-                fill: textColor,
-                pivot: Vector2.CENTER
+                fill: textColor
             })
             group.add(resText, opText);
         }
@@ -121,7 +120,6 @@ export default class Card
                 pos: pos,
                 size: vis.get("votes.details.iconDims"),
                 frame: ICONS[this.voteDetails.icon].frame,
-                pivot: Vector2.CENTER,
                 effects: effects
             });
             group.add(resIcon, opIcon);
@@ -150,7 +148,7 @@ export default class Card
         const textColorTop = vis.inkFriendly ? "#000000" : vis.get("cards.movie.cost.textColor");
 
         const dropShadowEffectSubtle = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius") * 0.4 });
-        const defImgOp = new LayoutOperation({ effects: [dropShadowEffectSubtle] }); 
+        const defImgOp = new LayoutOperation({ pivot: Vector2.ZERO, effects: [dropShadowEffectSubtle] }); 
 
         const textConfigBody = new TextConfig({
             font: vis.get("fonts.body"),
@@ -172,7 +170,6 @@ export default class Card
                     pos: position, // offset.clone()
                     size: iconDims,
                     frame: ICONS[icon].frame,
-                    pivot: Vector2.CENTER,
                     effects: effects
                 });
                 group.add(resMisc, op);
@@ -191,8 +188,7 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: offset,
                 size: textBoxDims,
-                fill: textColorTop,
-                pivot: Vector2.CENTER
+                fill: textColorTop
             });
             group.add(resText, opText);
         }
@@ -210,7 +206,6 @@ export default class Card
                 pos: offsetBottom.clone(),
                 size: iconDims,
                 frame: 0,
-                pivot: Vector2.CENTER,
                 effects: effects
             })
             group.add(resMisc, opIconPile);
@@ -229,8 +224,7 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: offsetBottom.clone(),
                 size: new Vector2(2*fontSize),
-                fill: textColorBottom,
-                pivot: Vector2.CENTER
+                fill: textColorBottom
             })
             group.add(resText, opText);
         }
@@ -243,8 +237,7 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: offsetBottomCentered,
                 size: textBoxDims,
-                fill: textColorTop,
-                pivot: Vector2.CENTER
+                fill: textColorTop
             });
             group.add(resText, opText);
         }
@@ -269,8 +262,7 @@ export default class Card
         const opTextSub = new LayoutOperation({
             pos: vis.get("cards.movie.text.textPosSub"),
             size: new Vector2(vis.size.x, 2*fontSizeSub),
-            fill: textColor,
-            pivot: Vector2.CENTER
+            fill: textColor
         });
         group.add(resTextSub, opTextSub);
 
@@ -287,8 +279,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.movie.text.textPos"),
             size: new Vector2(vis.size.x, 2*fontSize),
-            fill: textColor,
-            pivot: Vector2.CENTER
+            fill: textColor
         });
         group.add(resText, opText);
     }

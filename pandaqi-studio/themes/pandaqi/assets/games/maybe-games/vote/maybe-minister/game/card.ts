@@ -99,7 +99,6 @@ export default class Card
             stroke: strokeColor,
             strokeWidth: vis.get("votes.number.strokeWidth"),
             strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER,
             effects: [dropShadowEffect]
         });
         group.add(resText, opText);
@@ -123,7 +122,7 @@ export default class Card
         const iconEffects = [dropShadowEffect, vis.inkFriendlyEffect].flat();
 
         const dropShadowEffectSubtle = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius") * 0.33 });
-        const defImgOp = new LayoutOperation({ effects: [dropShadowEffectSubtle] }); 
+        const defImgOp = new LayoutOperation({ pivot: Vector2.ZERO, effects: [dropShadowEffectSubtle] }); 
         
 
         const textBoxDims = vis.get("cards.sides.textBoxDims");
@@ -158,7 +157,6 @@ export default class Card
                     pos: anchor,
                     size: textBoxDims,
                     rot: rot,
-                    pivot: Vector2.CENTER,
                     fill: textColor,
                 })
                 group.add(resText, opText);
@@ -180,7 +178,6 @@ export default class Card
                         pos: posTemp,
                         size: iconDims,
                         rot: rot,
-                        pivot: Vector2.CENTER,
                         frame: dataTemp.frame,
                         effects: iconEffects
                     })
@@ -197,7 +194,7 @@ export default class Card
         if(!this.hasLaw()) { return; }
 
         const dropShadowEffect = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius") * 0.45 });
-        const defImgOp = new LayoutOperation({ effects: [dropShadowEffect] }); // @NOTE; adds shadow behind only the images/icons in text, not entire text block
+        const defImgOp = new LayoutOperation({ pivot: Vector2.ZERO, effects: [dropShadowEffect] }); // @NOTE; adds shadow behind only the images/icons in text, not entire text block
 
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
@@ -214,8 +211,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.laws.pos"),
             size: vis.get("cards.laws.textBoxDims"),
-            fill: textColor,
-            pivot: Vector2.CENTER
+            fill: textColor
         })
 
         group.add(resText, opText);
@@ -263,7 +259,6 @@ export default class Card
                 size: iconDims,
                 rot: rot,
                 frame: MISC.vote_storage.frame,
-                pivot: Vector2.CENTER,
                 effects: [dropShadowEffect]
             });
             group.add(resMisc, opIcon);
@@ -273,8 +268,7 @@ export default class Card
                 pos: pos,
                 size: iconDims,
                 rot: rot,
-                fill: textColor,
-                pivot: Vector2.CENTER
+                fill: textColor
             })
             group.add(resText, opText);
         }

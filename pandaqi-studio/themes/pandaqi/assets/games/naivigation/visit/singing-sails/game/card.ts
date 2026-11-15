@@ -27,7 +27,6 @@ export default class Card extends MaterialNaivigation
         const opIcon = new LayoutOperation({
             size: op.size,
             frame: weatherData.frame,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         });
         group.add(resIcon, opIcon);
@@ -46,8 +45,7 @@ export default class Card extends MaterialNaivigation
             fill: "#000000",
             stroke: "#FFFFFF",
             strokeWidth: 0.1*textConfig.size,
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         });
         group.add(resText, opText);
         return group;

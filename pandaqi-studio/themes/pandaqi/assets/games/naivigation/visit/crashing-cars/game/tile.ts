@@ -43,8 +43,7 @@ export default class Tile extends MaterialNaivigation
                 fill: "#000000",
                 stroke: "#FFFFFF",
                 strokeWidth: vis.get("tiles.shop.strokeWidth"),
-                strokeAlign: StrokeAlign.OUTSIDE,
-                pivot: Vector2.CENTER
+                strokeAlign: StrokeAlign.OUTSIDE
             });
             group.add(resText, opText);
         }
@@ -61,8 +60,7 @@ export default class Tile extends MaterialNaivigation
                 rot: randVehicleRot,
                 alpha: vis.get("tiles.parkingLot.vehicleIcon.alpha"),
                 composite: vis.get("tiles.parkingLot.vehicleIcon.composite"),
-                effects: [new DropShadowEffect({ color: "#000000", blurRadius: vis.get("tiles.parkingLot.vehicleIcon.shadowBlur" )})],
-                pivot: Vector2.CENTER
+                effects: [new DropShadowEffect({ color: "#000000", blurRadius: vis.get("tiles.parkingLot.vehicleIcon.shadowBlur" )})]
             })
             group.add(res, vehicleOp);
 
@@ -109,8 +107,7 @@ export default class Tile extends MaterialNaivigation
             fill: "#000000",
             stroke: "#FFFFFF",
             strokeWidth: vis.get("tiles.custom.strokeWidth"),
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         });
         group.add(resText, opText);
     }

@@ -202,7 +202,6 @@ export default class Player
             const cardOp = new LayoutOperation({
                 pos: params.pos,
                 size: params.size,
-                pivot: Vector2.CENTER,
             });
             group.add(cardCanvas, cardOp);
         }
@@ -211,8 +210,7 @@ export default class Player
         const opText = new LayoutOperation({
             pos: params.pos.clone().add(new Vector2(0, 0.6*params.size.y)),
             size: new Vector2(params.size.x*5, params.size.y),
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         })
         group.add(resText, opText);
 
@@ -223,8 +221,7 @@ export default class Player
             const res = sim.getVisualizer().getResource("kingseat_icon");
             const op = new LayoutOperation({
                 pos: pos,
-                size: size,
-                pivot: Vector2.CENTER
+                size: size
             });
             group.add(res, op);
         }

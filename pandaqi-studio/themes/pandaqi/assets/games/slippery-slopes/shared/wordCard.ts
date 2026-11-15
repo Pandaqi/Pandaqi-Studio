@@ -40,6 +40,7 @@ export default class WordCard
 
             const topOffset = a == 0 ? -2*amp : 0;
             const canvOp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: new Vector2(0, blockHeight*a + topOffset),
                 fill: color,
                 stroke: "#000000",
@@ -51,6 +52,7 @@ export default class WordCard
             const text = new ResourceText(wordData.getWord(), textConfig)
 
             const opText = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: new Vector2(0, blockHeight * a - amp),
                 size: new Vector2(vis.size.x, blockHeight),
                 fill: textColor
@@ -58,6 +60,7 @@ export default class WordCard
             text.toCanvas(ctx, opText);
 
             const opTextSub = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 pos: new Vector2(0, blockHeight * a - amp + 0.715 * textConfig.size),
                 size: new Vector2(vis.size.x, blockHeight),
                 fill: textColor,

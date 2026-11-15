@@ -44,7 +44,8 @@ export default class Card
     drawPawn(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const resMisc = vis.getResource("misc");
-        const op = new LayoutOperation({ 
+        const op = new LayoutOperation({
+            pivot: Vector2.ZERO, 
             size: vis.size, 
             frame: MISC["pawn_" + this.pawnIndex].frame
         })
@@ -59,13 +60,13 @@ export default class Card
             const opSonar = new LayoutOperation({
                 pos: vis.get("cards.sonar.templatePos"),
                 size: vis.get("cards.sonar.templateDims"),
-                pivot: Vector2.CENTER,
                 frame: MISC.sonar.frame,
             });
             group.add(resMisc, opSonar);
         } else {
             const resTemp = vis.getResource("card_templates");
             const opTemp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: this.hasSpecialAction() ? 1 : 0
             });
@@ -91,7 +92,6 @@ export default class Card
             opMain = new LayoutOperation({
                 pos: posMain,
                 size: sizeMain,
-                pivot: Vector2.CENTER,
                 frame: movementData.frame + 1,
                 effects: vis.inkFriendlyEffect
             })
@@ -111,7 +111,6 @@ export default class Card
             const opIcon = new LayoutOperation({
                 pos: pos,
                 size: vis.get("cards.icons.size"),
-                pivot: Vector2.CENTER,
                 frame: movementData.frame,
                 effects: vis.inkFriendlyEffect
             });
@@ -127,7 +126,6 @@ export default class Card
         const opTextHeading = new LayoutOperation({
             pos: headingPos,
             size: new Vector2(vis.size.x, 2.0*textConfigHeading.size),
-            pivot: Vector2.CENTER,
             fill: vis.inkFriendly ? "#222222" : headingColor
         })
         group.add(resTextHeading, opTextHeading);
@@ -144,7 +142,6 @@ export default class Card
             const opTextAction = new LayoutOperation({
                 pos: headingPos.clone().sub(offset),
                 size: new Vector2(vis.size.x, 2.0*textConfigHeading.size),
-                pivot: Vector2.CENTER,
                 fill: vis.inkFriendly ? "#222222" : headingColor
             })
             group.add(resTextAction, opTextAction);
@@ -157,7 +154,6 @@ export default class Card
             const opFish = new LayoutOperation({
                 pos: vis.get("cards.matchAction.pos"),
                 size: vis.get("cards.matchAction.size"),
-                pivot: Vector2.CENTER,
                 frame: MISC[randFish].frame,
                 effects: vis.inkFriendlyEffect
             });
@@ -176,7 +172,6 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.text.pos"),
             size: vis.get("cards.text.size"),
-            pivot: Vector2.CENTER,
             fill: "#000000"
         })
         group.add(resText, opText);
@@ -190,6 +185,7 @@ export default class Card
         {
             const resTemp = vis.getResource("tile_templates");
             const opTemp = new LayoutOperation({
+                pivot: Vector2.ZERO,
                 size: vis.size,
                 frame: this.hasSpecialAction() ? 1 : 0
             });
@@ -219,7 +215,6 @@ export default class Card
             const opOutline = new LayoutOperation({
                 pos: pos,
                 size: fishDims.clone().scale(1.035),
-                pivot: Vector2.CENTER,
                 rot: angle + 0.5 * Math.PI,
                 frame: MISC[fish].frame + 4,
                 composite: "overlay",
@@ -230,7 +225,6 @@ export default class Card
             const opFish = new LayoutOperation({
                 pos: pos,
                 size: fishDims,
-                pivot: Vector2.CENTER,
                 rot: angle + 0.5 * Math.PI,
                 frame: MISC[fish].frame,
                 effects: [vis.inkFriendlyEffect, glowEffect].flat(),
@@ -254,7 +248,6 @@ export default class Card
                 pos: corners[i],
                 size: vis.get("tiles.actions.boxDims"),
                 rot: i * 0.5 * Math.PI,
-                pivot: Vector2.CENTER,
                 frame: MISC.tile_corner.frame,
                 composite: "overlay"
             });
@@ -266,7 +259,6 @@ export default class Card
                 size: vis.get("tiles.actions.iconDims"),
                 rot: (i - 0.5) * 0.5 * Math.PI,
                 frame: MISC["action_" + this.tileAction].frame,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect,
             })
             group.add(resMisc, opCornerIcon);
@@ -277,7 +269,6 @@ export default class Card
             const opTextAction = new LayoutOperation({
                 pos: opCornerIcon.pos.clone().sub(numberOffset),
                 size: new Vector2(2.0 * textConfigAction.size),
-                pivot: Vector2.CENTER,
                 rot: opCornerIcon.rot,
                 fill: "#FFFFFF",
                 stroke: "#000000",
@@ -314,7 +305,6 @@ export default class Card
                 pos: positions[i],
                 size: vis.size,
                 rot: (i == 0) ? 0 : Math.PI,
-                pivot: Vector2.CENTER,
                 fill: vis.inkFriendly ? "#888888" : headingColor
             });
             group.add(resTextHeading, opTextHeading);
@@ -339,7 +329,6 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: vis.get("tiles.text.pos"),
                 size: vis.get("tiles.text.size"),
-                pivot: Vector2.CENTER,
                 fill: "#000000"
             })
             group.add(resText, opText);

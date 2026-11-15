@@ -60,7 +60,6 @@ export default class Token
             stroke: vis.get("tokens.strokeColor") ?? "#FFFFFF",
             strokeWidth: vis.get("tokens.strokeWidth"),
             strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER,
             effects: vis.custom.dropShadowEffects
         });
         group.add(resText, textOp);

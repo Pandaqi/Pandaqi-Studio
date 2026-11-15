@@ -511,6 +511,7 @@ export default class Board
                 {
                     const resTile = new ResourceImage(await this.getTile(posGrid).drawForRules(sim.getVisualizer()));
                     const opTile = new LayoutOperation({
+                        pivot: Vector2.ZERO,
                         pos: posReal,
                         size: new Vector2(tileSize)
                     })
@@ -533,6 +534,7 @@ export default class Board
         }
 
         const groupOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(0.5*canvSize.x - 0.5*tileSize, 0)
         })
         group.toCanvas(ctx, groupOp);

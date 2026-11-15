@@ -97,7 +97,6 @@ export default class BoardDraw
                 pos: this.fullSize.clone().scale(0.5),
                 size: this.fullSize.clone().scale(vis.get("bg.mapScale")),
                 alpha: vis.get("bg.mapAlpha"),
-                pivot: Vector2.CENTER,
                 //composite: "color-burn"
             })
             group.add(resBG, opBG);
@@ -128,7 +127,6 @@ export default class BoardDraw
 
         const iconOp = new LayoutOperation({
             size: iconDims,
-            pivot: Vector2.CENTER,
             effects: this.defaultEffects
         })
 
@@ -232,8 +230,7 @@ export default class BoardDraw
                 frame: MISC.starting_position.frame,
                 pos: posCenter,
                 size: new Vector2(2*(1.0-0.275)*dotRadius),
-                alpha: 0.45,
-                pivot: Vector2.CENTER
+                alpha: 0.45
             })
             group.add(resMisc, iconOp);
         }
@@ -272,6 +269,7 @@ export default class BoardDraw
         const tutDims = new Vector2(tutWidth, vis.get("sidebar.tutImageRatio") * tutWidth);
         const frame = CONFIG.inSimpleMode ? 0 : 1;
         const tutOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             frame: frame,
             pos: this.originSidebar,
             size: tutDims,
@@ -323,7 +321,6 @@ export default class BoardDraw
                 frame: data.frame,
                 pos: iconPos,
                 size: iconDimsWithPadding,
-                pivot: Vector2.CENTER,
                 effects: this.defaultEffects
             })
 
@@ -376,7 +373,6 @@ export default class BoardDraw
                             frame: MISC[arr[m]].frame,
                             size: metaDims,
                             pos: pos[m],
-                            pivot: Vector2.CENTER,
                             effects: effects
                         })
 

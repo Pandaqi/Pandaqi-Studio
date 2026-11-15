@@ -58,7 +58,6 @@ export default class Tile
         const op = new LayoutOperation({
             size: size,
             frame: frame,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect,
         })
 
@@ -126,7 +125,6 @@ export default class Tile
                 pos: positions[i],
                 size: size,
                 rot: rot,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             })
     

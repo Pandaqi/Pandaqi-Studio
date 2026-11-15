@@ -46,7 +46,6 @@ export default class Tile
             pos: vis.center,
             frame: MISC.arrow.frame,
             size: vis.get("tiles.icon.size"),
-            pivot: Vector2.CENTER,
             effects: effects
         })
         group.add(res, resOp);
@@ -142,7 +141,6 @@ export default class Tile
                 size: iconDims,
                 rot: rot,
                 frame: tileData.frame,
-                pivot: Vector2.CENTER,
                 effects: effects
             })
             group.add(res, resOp);
@@ -155,7 +153,6 @@ export default class Tile
                 const textOp = new LayoutOperation({
                     pos: midPoint,
                     size: iconDims,
-                    pivot: Vector2.CENTER,
                     rot: rot,
                     fill: vis.get("tiles.gemstones.textFillColor"),
                     stroke: vis.get("tiles.gemstones.textStrokeColor"),

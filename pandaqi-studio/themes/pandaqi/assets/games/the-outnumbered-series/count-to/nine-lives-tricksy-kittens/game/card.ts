@@ -82,8 +82,7 @@ export default class Card
         const op = new LayoutOperation({
             pos: vis.center,
             alpha: alpha,
-            rot: rot,
-            pivot: Vector2.CENTER
+            rot: rot
         })
         pattern.toCanvas(ctx, op);
     }
@@ -128,7 +127,6 @@ export default class Card
                 stroke: colorLight,
                 strokeWidth: strokeWidth,
                 strokeAlign: StrokeAlign.OUTSIDE,
-                pivot: Vector2.CENTER,
                 rot: rot,
                 effects: vis.custom.effects
             })
@@ -164,7 +162,6 @@ export default class Card
                 size: new Vector2(sizeIcon),
                 pos: pos,
                 rot: rot,
-                pivot: Vector2.CENTER,
                 effects: effects,
             })
 
@@ -219,6 +216,7 @@ export default class Card
         const strokeWidth = vis.get("cards.powers.rectStrokeWidth");
 
         const op = new LayoutOperation({
+            pivot: Vector2.ZERO,
             fill: colorLight,
             stroke: "#000000",
             strokeWidth: strokeWidth,
@@ -244,8 +242,7 @@ export default class Card
         const opText = new LayoutOperation({
             size: extentsText,
             pos: vis.center,
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         })
         resText.toCanvas(ctx, opText);
     }

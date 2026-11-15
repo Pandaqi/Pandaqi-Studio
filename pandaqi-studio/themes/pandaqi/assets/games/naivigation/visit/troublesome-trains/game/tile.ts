@@ -48,8 +48,7 @@ export default class Tile extends MaterialNaivigation
             const op = new LayoutOperation({
                 pos: vis.center,
                 size: vis.get("tiles.custom.trainIconSize"),
-                frame: trainData.frame,
-                pivot: Vector2.CENTER
+                frame: trainData.frame
             });
             group.add(res, op);
         }

@@ -40,8 +40,7 @@ export default class Token
             frame: frame,
             pos: vis.center,
             size: iconDims,
-            effects: vis.inkFriendlyEffect,
-            pivot: Vector2.CENTER
+            effects: vis.inkFriendlyEffect
         });
         group.add(res, resOp);
     }

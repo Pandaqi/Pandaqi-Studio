@@ -535,8 +535,7 @@ export default class Board
                 pos: center,
                 frame: frame,
                 size: new Vector2(iconSize*vis.get("board.iconScale")),
-                rot: rot,
-                pivot: Vector2.CENTER
+                rot: rot
             });
             group.add(resSprite, opSprite);
 
@@ -557,8 +556,7 @@ export default class Board
                     pos: pos,
                     size: new Vector2(teamIconScale),
                     rot: rot,
-                    frame: c.getTeam(),
-                    pivot: Vector2.CENTER
+                    frame: c.getTeam()
                 })
                 group.add(resSprite, opSprite);
             }
@@ -576,8 +574,7 @@ export default class Board
                     pos: center,
                     size: new Vector2(iconSize * vis.get("board.tutScale")),
                     frame: frame,
-                    rot: rot,
-                    pivot: Vector2.CENTER
+                    rot: rot
                 });
                 group.add(resTut, opTut);
             }
@@ -590,7 +587,6 @@ export default class Board
                 const opText = new LayoutOperation({
                     pos: center,
                     size: new Vector2(2*textConfig.size, 2*textConfig.size),
-                    pivot: Vector2.CENTER,
                     rot: rot,
                     fill: vis.get("board.font.color"),
                     stroke: vis.get("board.font.strokeColor"),

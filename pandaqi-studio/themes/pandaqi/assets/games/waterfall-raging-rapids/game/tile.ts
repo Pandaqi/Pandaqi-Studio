@@ -105,8 +105,7 @@ export default class Tile
             fill: vis.inkFriendly ? "#000000" : vis.get("tiles.score.textColor"),
             stroke: vis.inkFriendly ? "#FFFFFF" : vis.get("tiles.score.strokeColor"),
             strokeWidth: vis.get("tiles.score.strokeWidth"),
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Vector2.CENTER
+            strokeAlign: StrokeAlign.OUTSIDE
         })
         group.add(resText, opText);
     }
@@ -144,7 +143,6 @@ export default class Tile
                     pos: pos,
                     size: new Vector2(0.9*Math.min(size.x, size.y)),
                     frame: MISC[iconKey].frame,
-                    pivot: Vector2.CENTER,
                     effects: vis.inkFriendlyEffect
                 });
                 group.add(resIcon, opIcon);
@@ -162,8 +160,7 @@ export default class Tile
                 const opText = new LayoutOperation({
                     pos: pos,
                     size: size,
-                    fill: vis.inkFriendly ? "#000000" : vis.get("tiles.action.textColor"),
-                    pivot: Vector2.CENTER
+                    fill: vis.inkFriendly ? "#000000" : vis.get("tiles.action.textColor")
                 })
                 group.add(resText, opText);
             }
@@ -183,8 +180,7 @@ export default class Tile
             const opText = new LayoutOperation({
                 pos: vis.get("tiles.gate.pos"),
                 size: vis.get("tiles.gate.textBoxDims"),
-                fill: vis.inkFriendly ? "#000000" : vis.get("tiles.gate.textColor"),
-                pivot: Vector2.CENTER
+                fill: vis.inkFriendly ? "#000000" : vis.get("tiles.gate.textColor")
             })
             group.add(resText, opText);
         }
@@ -281,7 +277,6 @@ export default class Tile
                 size: gemDims.clone().scale(1.425),
                 frame: MISC.gemstone_shadow_circle.frame,
                 alpha: 0.875,
-                pivot: Vector2.CENTER,
             });
             group.add(resMisc, opShadow);
 
@@ -290,7 +285,6 @@ export default class Tile
                 pos: randPos,
                 size: gemDims,
                 frame: GEMSTONES[gemType].frame,
-                pivot: Vector2.CENTER,
                 rot: rand() * 2 * Math.PI
             })
             group.add(resGemstones, opGem);
@@ -438,8 +432,7 @@ export default class Tile
                     const op = new LayoutOperation({
                         pos: line.getRandomPositionInside(boulderLineDownscale).add(new Vector2(0, -boulderOffset)),
                         size: sizeBoulder,
-                        frame: DECORATION.boulders_horizontal.frame,
-                        pivot: Vector2.CENTER
+                        frame: DECORATION.boulders_horizontal.frame
                     })
                     group.add(resDecoration, op);
                 }
@@ -499,8 +492,7 @@ export default class Tile
                     const op = new LayoutOperation({
                         pos: line.getRandomPositionInside(boulderLineDownscale).add(new Vector2(0, boulderOffset)),
                         size: sizeBoulder,
-                        frame: DECORATION.boulders_horizontal.frame,
-                        pivot: Vector2.CENTER
+                        frame: DECORATION.boulders_horizontal.frame
                     })
                     group.add(resDecoration, op);
                 }
@@ -518,8 +510,7 @@ export default class Tile
                         const op = new LayoutOperation({
                             pos: position,
                             size: sizeBoulder,
-                            frame: DECORATION.boulders_vertical.frame,
-                            pivot: Vector2.CENTER
+                            frame: DECORATION.boulders_vertical.frame
                         })
                         group.add(resDecoration, op);
                     }

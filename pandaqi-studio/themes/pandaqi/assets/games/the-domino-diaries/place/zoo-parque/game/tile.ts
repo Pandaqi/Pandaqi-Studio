@@ -33,7 +33,7 @@ export default class Tile
     drawTemplate(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const res = vis.getResource("animal_passport");
-        const op = new LayoutOperation({ size: vis.size, effects: vis.inkFriendlyEffect });
+        const op = new LayoutOperation({ pivot: Vector2.ZERO, size: vis.size, effects: vis.inkFriendlyEffect });
         group.add(res, op);
     }
 
@@ -47,8 +47,7 @@ export default class Tile
         const op = new LayoutOperation({
             pos: vis.get("tiles.animal.pos"),
             size: vis.get("tiles.animal.size"),
-            frame: frame,
-            pivot: Vector2.CENTER
+            frame: frame
         })
         group.add(res, op);
 
@@ -60,7 +59,6 @@ export default class Tile
                 pos: vis.get("tiles.extinct.pos"),
                 size: vis.get("tiles.extinct.size"),
                 frame: MISC.extinct_stamp.frame,
-                pivot: Vector2.CENTER,
                 rot: -0.25*Math.PI + (rand() - 0.5) * 0.1 * Math.PI
             })
             group.add(res, op);
@@ -78,7 +76,6 @@ export default class Tile
             pos: vis.get("tiles.funFact.pos"),
             size: vis.get("tiles.funFact.size"),
             fill: "#221100",
-            pivot: Vector2.CENTER,
         })
         group.add(resText, opText);
     }
@@ -108,8 +105,7 @@ export default class Tile
                 pos: positions[i],
                 size: terrainIconDims,
                 frame: TERRAINS[terrains[i]].frame,
-                effects: dropShadowEffect,
-                pivot: Vector2.CENTER
+                effects: dropShadowEffect
             })
             group.add(resTerrains, op);
         }
@@ -163,6 +159,7 @@ export default class Tile
         const textPower = data.power ?? "None.";
         const resTextPower = new ResourceText({ text: textPower, textConfig: textConfigPower });
         const opTextPower = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: vis.get("tiles.power.pos"),
             size: vis.get("tiles.power.size"),
             fill: "#221100",
@@ -178,7 +175,6 @@ export default class Tile
             pos: vis.get("tiles.checkmarks." + key),
             size: vis.get("tiles.checkmarks.size"),
             frame: MISC.checkmark.frame,
-            pivot: Vector2.CENTER,
         })
         group.add(res, op);
     }

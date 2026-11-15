@@ -135,7 +135,6 @@ export default class Card
                     pos: positions[i],
                     size: iconSize,
                     frame: data.frame,
-                    pivot: Vector2.CENTER,
                     effects: effects
                 });
                 group.add(resPakje, opPakje);
@@ -188,7 +187,6 @@ export default class Card
             const opIcon = new LayoutOperation({
                 pos: positions[i],
                 size: iconSize,
-                pivot: Vector2.CENTER,
                 frame: frames[i],
                 effects: vis.inkFriendlyEffect,
             });
@@ -209,8 +207,7 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: vis.get("cards.shared.text.pos"),
                 size: vis.get("cards.shared.text.boxSize"),
-                fill: "#000000",
-                pivot: Vector2.CENTER
+                fill: "#000000"
             })
             group.add(resText, opText);
         }
@@ -231,7 +228,6 @@ export default class Card
         const opIcon = new LayoutOperation({
             pos: pos,
             size: vis.get("cards.stoom.iconSize"),
-            pivot: Vector2.CENTER,
             rotation: 0.5*Math.PI,
             frame: data.frame,
             effects: vis.inkFriendlyEffect,
@@ -249,7 +245,6 @@ export default class Card
         const opIcon = new LayoutOperation({
             pos: vis.get("cards.kalender.icon.pos"),
             size: vis.get("cards.kalender.icon.size"),
-            pivot: Vector2.CENTER,
             frame: data.frame,
             effects: vis.inkFriendlyEffect
         });
@@ -266,8 +261,7 @@ export default class Card
         const opTextLabel = new LayoutOperation({
             pos: vis.get("cards.kalender.label.pos"),
             size: vis.get("cards.kalender.label.boxSize"),
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         })
         group.add(resTextLabel, opTextLabel);
 
@@ -282,8 +276,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.kalender.text.pos"),
             size: vis.get("cards.kalender.text.boxSize"),
-            fill: "#000000",
-            pivot: Vector2.CENTER
+            fill: "#000000"
         })
         group.add(resText, opText);
     }

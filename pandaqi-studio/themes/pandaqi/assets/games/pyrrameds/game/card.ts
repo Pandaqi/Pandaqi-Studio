@@ -121,7 +121,6 @@ export default class Card
             pos: vis.get("cards.number.pos"),
             size: vis.size,
             fill: col,
-            pivot: Vector2.CENTER,
             effects: vis.custom.dropShadowEffect
         })
         group.add(resText, opText);
@@ -136,8 +135,7 @@ export default class Card
             pos: vis.get("cards.medicine.pos"),
             size: vis.get("cards.medicine.iconDims"),
             frame: MEDICINE[this.key].frame,
-            effects: vis.custom.dropShadowEffect,
-            pivot: Vector2.CENTER
+            effects: vis.custom.dropShadowEffect
         })
         group.add(resIcon, opIcon);
     }
@@ -189,8 +187,7 @@ export default class Card
                     pos: pos,
                     size: iconDims,
                     frame: MEDICINE[req].frame,
-                    effects: vis.custom.dropShadowEffect,
-                    pivot: Vector2.CENTER
+                    effects: vis.custom.dropShadowEffect
                 })
                 group.add(resIcon, opIcon);
             }
@@ -204,7 +201,6 @@ export default class Card
             pos: posPatient,
             size: vis.get("cards.patient.illustration.sizeCircle"),
             frame: frame,
-            pivot: Vector2.CENTER,
             effects: vis.custom.dropShadowEffect
         })
         group.add(resPatients, opPatientCircle);
@@ -213,7 +209,6 @@ export default class Card
             pos: posPatient,
             size: vis.get("cards.patient.illustration.sizeIcon"),
             frame: PATIENTS[this.key].frame,
-            pivot: Vector2.CENTER,
         })
         group.add(resPatients, opPatient);
     }
@@ -231,8 +226,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.special.textBoxPos"),
             size: vis.get("cards.special.textBoxDims"),
-            fill: vis.get("cards.special.textColor"),
-            pivot: Vector2.CENTER
+            fill: vis.get("cards.special.textColor")
         })
         group.add(resText, opText);
     }

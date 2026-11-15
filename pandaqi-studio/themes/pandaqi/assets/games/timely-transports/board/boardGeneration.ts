@@ -1054,7 +1054,6 @@ export default class BoardGeneration
 						pos: new Vector2(oX + (x+0.5)*cs, oY + (y+0.5)*cs),
 						size: new Vector2(cs),
 						frame: spriteFrame,
-						pivot: Vector2.CENTER,
 						rot: spriteRotation * 0.5 * Math.PI,
 						depth: y
 					});
@@ -1090,7 +1089,6 @@ export default class BoardGeneration
 							const op = new LayoutOperation({
 								pos: opRoad.pos.clone(),
 								size: new Vector2(this.cfg.cellSize*0.75),
-								pivot: Vector2.CENTER,
 								depth: y + 0.5
 							});
 							group.add(res, op);
@@ -1156,14 +1154,12 @@ export default class BoardGeneration
 				stroke: textCfg.stroke,
 				strokeWidth: textCfg.strokeThickness,
 				strokeAlign: StrokeAlign.OUTSIDE,
-				size: new Vector2(10,2).scale(textConfig.size),
-				pivot: Vector2.CENTER
+				size: new Vector2(10,2).scale(textConfig.size)
 			});
 
 			const opSprite = new LayoutOperation({
 				pos: new Vector2(xPos, yPos), 
 				size: new Vector2(radius*4),
-				pivot: Vector2.CENTER,
 				depth: yPos + 1.1
 		    });
 			
@@ -1209,8 +1205,7 @@ export default class BoardGeneration
 					pos: pos,
 					size: new Vector2(2*radius),
 					frame: spritesheetFrame,
-					depth: 10000 + 1,
-					pivot: Vector2.CENTER	
+					depth: 10000 + 1
 				})
 				group.add(resGood, opGood);
 
@@ -1221,8 +1216,7 @@ export default class BoardGeneration
 					strokeWidth: goodNumberCfg.strokeThickness,
 					strokeAlign: StrokeAlign.OUTSIDE,
 					size: new Vector2(5*radius),
-					depth: 10000 + 1,
-					pivot: Vector2.CENTER
+					depth: 10000 + 1
 				})
 
 				const resText = new ResourceText({ text: value.toString(), textConfig: textConfigGoodNumber });
@@ -1258,6 +1252,7 @@ export default class BoardGeneration
 				for(let i = 0; i < numRepeats; i++)
 				{
 					const opAirplaneTexture = new LayoutOperation({
+						pivot: Vector2.ZERO,
 						pos: posStart.clone(),
 						size: sizePerRepeat,
 						depth: graphicsAirport.depth + 1
@@ -1277,7 +1272,6 @@ export default class BoardGeneration
 					const opText = new LayoutOperation({
 						pos: new Vector2(xPos, yPos),
 						size: new Vector2(2*textConfigBonus.size),
-						pivot: Vector2.CENTER,
 						depth: 10000,
 						fill: bonusTxtCfg.color,
 						stroke: bonusTxtCfg.stroke,
@@ -1304,6 +1298,7 @@ export default class BoardGeneration
 		const jungleNameString = '"' + this.cfg.jungleName + '"';
 		const anchorPos = new Vector2(oX + margin, oY + margin);
 		const opTextDetails1 = new LayoutOperation({
+			pivot: Vector2.ZERO,
 			pos: anchorPos,
 			size: new Vector2(15*textConfigDetails.size, 2*textConfigDetails.size),
 			fill: color,

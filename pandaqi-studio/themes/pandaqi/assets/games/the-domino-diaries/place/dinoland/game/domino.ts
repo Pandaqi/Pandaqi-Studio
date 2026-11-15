@@ -59,14 +59,12 @@ export default class Domino
             this.drawImpactTile(vis, group);
         } else if(this.type == DominoType.REGULAR) {
             const opTop = new LayoutOperation({
-                pos: new Vector2(vis.center.x, 0.25*vis.size.y),
-                pivot: Vector2.CENTER
+                pos: new Vector2(vis.center.x, 0.25*vis.size.y)
             });
             group.add(this.sides.top.draw(vis), opTop);
 
             const opBottom = new LayoutOperation({
-                pos: new Vector2(vis.center.x, 0.75*vis.size.y),
-                pivot: Vector2.CENTER
+                pos: new Vector2(vis.center.x, 0.75*vis.size.y)
             })
             group.add(this.sides.bottom.draw(vis), opBottom);
             this.drawSetText(vis, group);
@@ -84,6 +82,7 @@ export default class Domino
         const size = new Vector2(vis.sizeUnit);
         
         const opTop = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(vis.size.x, vis.center.y),
             frame: this.pawnIndex,
             size: size,
@@ -92,6 +91,7 @@ export default class Domino
         group.add(res, opTop);
 
         const opBottom = new LayoutOperation({
+            pivot: Vector2.ZERO,
             pos: new Vector2(0, vis.center.y),
             frame: this.pawnIndex,
             size: size
@@ -112,7 +112,6 @@ export default class Domino
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
             pos: new Vector2(1.33*textConfig.size), 
-            pivot: Vector2.CENTER,
             fill: "#442200",
             alpha: 0.5,
             size: new Vector2(2*textConfig.size)
@@ -130,8 +129,7 @@ export default class Domino
             pos: new Vector2(vis.center.x, 0.25*vis.size.y),
             frame: data.frame,
             size: vis.get("dominoes.impact.size"),
-            effects: vis.inkFriendlyEffect,
-            pivot: Vector2.CENTER
+            effects: vis.inkFriendlyEffect
         })
         group.add(res, op);
 
@@ -147,7 +145,6 @@ export default class Domino
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
             pos: new Vector2(vis.center.x, 0.75*vis.size.y), 
-            pivot: Vector2.CENTER,
             fill: textColor,
             size: new Vector2(0.925*vis.size.x, 0.5*vis.size.y)
         });
@@ -171,8 +168,7 @@ export default class Domino
             pos: new Vector2(vis.center.x, 0.25*vis.size.y),
             size: vis.get("dominoes.asteroid.size"),
             frame: data.frame,
-            effects: vis.inkFriendlyEffect,
-            pivot: Vector2.CENTER
+            effects: vis.inkFriendlyEffect
         })
         group.add(res, op);
 
@@ -190,7 +186,6 @@ export default class Domino
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({
                 pos: new Vector2(vis.center.x, 0.75*vis.size.y), 
-                pivot: Vector2.CENTER,
                 fill: textColor,
                 size: new Vector2(0.925*vis.size.x, 0.5*vis.size.y)
             });

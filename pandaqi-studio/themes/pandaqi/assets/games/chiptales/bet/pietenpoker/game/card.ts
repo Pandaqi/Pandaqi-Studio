@@ -119,7 +119,6 @@ export default class Card
                     pos: positions[i],
                     rot: rot,
                     size: new Vector2(vis.size.x, 2.0*textConfig.size),
-                    pivot: Vector2.CENTER,
                     fill: this.getTextColor(vis),
                     stroke: "#FFFFFF",
                     strokeWidth: vis.get("cards.action.label.strokeWidth"),
@@ -149,8 +148,7 @@ export default class Card
             const op = new LayoutOperation({
                 pos: positions[i],
                 rot: i == 0 ? 0 : Math.PI,
-                size: iconSize,
-                pivot: Vector2.CENTER
+                size: iconSize
             })
 
             // the sint just adds their icons, no numbers
@@ -208,7 +206,6 @@ export default class Card
                 pos: pos,
                 size: iconSize,
                 frame: MISC[key].frame,
-                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect
             })
             group.add(resIcon, opIcon);
@@ -227,8 +224,7 @@ export default class Card
             const op = new LayoutOperation({
                 pos: vis.center,
                 size: illuSize,
-                frame: MISC.sint.frame,
-                pivot: Vector2.CENTER
+                frame: MISC.sint.frame
             })
             group.add(resMisc, op);
             return; 
@@ -285,8 +281,7 @@ export default class Card
                 const op = new LayoutOperation({
                     pos: realPos,
                     frame: this.getTypeFrame(),
-                    size: iconSize,
-                    pivot: Vector2.CENTER
+                    size: iconSize
                 });
                 group.add(resMisc, op);
             }
@@ -315,7 +310,6 @@ export default class Card
             rot: vis.get("cards.action.illu.rot"),
             size: vis.get("cards.action.illu.size"),
             frame: data.frame,
-            pivot: Vector2.CENTER,
             effects: vis.inkFriendlyEffect
         })
         group.add(resIcons, opIllu);
@@ -330,7 +324,6 @@ export default class Card
             pos: vis.get("cards.action.desc.pos"),
             rot: vis.get("cards.action.desc.rot"),
             size: vis.get("cards.action.desc.textBoxSize"),
-            pivot: Vector2.CENTER,
             fill: this.getTextColor(vis),
         })
         group.add(resTextDesc, opTextDesc);
@@ -345,7 +338,6 @@ export default class Card
             pos: vis.get("cards.action.label.pos"),
             rot: vis.get("cards.action.label.rot"),
             size: new Vector2(vis.size.x, 2.0*textConfig.size),
-            pivot: Vector2.CENTER,
             fill: this.getTextColor(vis),
             stroke: "#FFFFFF",
             strokeWidth: vis.get("cards.action.label.strokeWidth"),

@@ -209,8 +209,7 @@ export default class RecipeBook
         const opBG = new LayoutOperation({
             pos: sizeTotal.center,
             size: new Vector2(sizeTotal.size.x),
-            frame: CUSTOM.tutorialBG.frame,
-            pivot: Vector2.CENTER
+            frame: CUSTOM.tutorialBG.frame
         });
         group.add(resBG, opBG);
 

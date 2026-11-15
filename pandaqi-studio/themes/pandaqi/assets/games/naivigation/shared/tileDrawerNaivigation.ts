@@ -67,6 +67,7 @@ const drawNetwork = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
     const baseFrame = data.frame * 5; // there are 5 different versions for each terrain
     const frameFinal = baseFrame + frameOffset;
     const op = new LayoutOperation({
+        pivot: Vector2.ZERO,
         size: vis.size,
         frame: frameFinal
     });
@@ -90,7 +91,6 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
         pos: vis.center,
         size: mainIconSize,
         frame: spriteFrame,
-        pivot: Vector2.CENTER,
         effects: [eff, vis.inkFriendlyEffect].flat()
     });
 
@@ -114,8 +114,7 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
         const iconOp = new LayoutOperation({
             pos: topCenterPos,
             frame: extraIconFrame,
-            size: extraIconDims,
-            pivot: Vector2.CENTER
+            size: extraIconDims
         })
         group.add(resIcon, iconOp);
     }
@@ -143,8 +142,7 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
         const opText = new LayoutOperation({
             pos: textPos,
             size: textBoxDims,
-            fill: vis.get("tiles.general.text.textColor"),
-            pivot: Vector2.CENTER
+            fill: vis.get("tiles.general.text.textColor")
         });
         group.add(resText, opText);
     }

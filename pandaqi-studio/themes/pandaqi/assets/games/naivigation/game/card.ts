@@ -30,6 +30,7 @@ export default class Card extends MaterialNaivigation
         const tempData = this.getTemplateData();
         const resSprite = vis.getResource("icons_shared");
         const spriteOp = new LayoutOperation({
+            pivot: Vector2.ZERO,
             frame: tempData.frameIcon,
             size: new Vector2(vis.sizeUnit),
             effects: vis.inkFriendlyEffect
@@ -60,7 +61,6 @@ export default class Card extends MaterialNaivigation
                 stroke: "#FFFFFF",
                 strokeWidth: vis.get("cards.instruction.strokeWidth"),
                 strokeAlign: StrokeAlign.OUTSIDE,
-                pivot: Vector2.CENTER,
                 effects: [eff]
             });
             subGroup.add(resText, textOp);
@@ -68,7 +68,7 @@ export default class Card extends MaterialNaivigation
 
         // place it twice (one top, one bottom)
         group.add(subGroup);
-        const op = new LayoutOperation({ pos: new Vector2(0, vis.center.y) })
+        const op = new LayoutOperation({ pivot: Vector2.ZERO, pos: new Vector2(0, vis.center.y) })
         group.add(subGroup, op);
     }
 
@@ -79,8 +79,7 @@ export default class Card extends MaterialNaivigation
             pos: vis.center,
             frame: this.getTemplateData().frameIcon,
             size: vis.get("cards.compass.size"),
-            effects: vis.inkFriendlyEffect,
-            pivot: Vector2.CENTER
+            effects: vis.inkFriendlyEffect
         })
         group.add(resSprite, spriteOp);
     }

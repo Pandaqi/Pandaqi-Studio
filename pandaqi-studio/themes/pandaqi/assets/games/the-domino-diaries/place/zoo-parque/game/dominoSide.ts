@@ -155,7 +155,6 @@ export default class DominoSide
         const randRotation = Math.floor(rand() * 4) * 0.5 * Math.PI;
         const op = new LayoutOperation({
             size: partSize,
-            pivot: Vector2.CENTER,
             rot: randRotation
         });
 
@@ -190,7 +189,6 @@ export default class DominoSide
             frame: this.getTypeData().frame,
             size: vis.get("dominoes.main.size"),
             effects: [shadowEffect, vis.inkFriendlyEffect].flat(),
-            pivot: Vector2.CENTER,
         })
         group.add(res, op);
     }
@@ -219,8 +217,7 @@ export default class DominoSide
                 size: fenceSize,
                 frame: MISC[elem].frame,
                 rot: i*0.5*Math.PI,
-                effects: [shadow, vis.inkFriendlyEffect].flat(),
-                pivot: Vector2.CENTER
+                effects: [shadow, vis.inkFriendlyEffect].flat()
             });
             groupFences.add(res, op);
         }
@@ -250,7 +247,6 @@ export default class DominoSide
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({
                 pos: textPos, 
-                pivot: Vector2.CENTER,
                 fill: "#FFEEEE",
                 size: new Vector2(0.9*textDims.x, textDims.y)
             });

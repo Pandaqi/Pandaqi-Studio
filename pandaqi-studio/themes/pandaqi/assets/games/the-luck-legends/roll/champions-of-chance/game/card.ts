@@ -95,7 +95,6 @@ export default class Card
             const opNumber = new LayoutOperation({
                 pos: pos,
                 size: new Vector2(2.0 * textConfig.size),
-                pivot: Vector2.CENTER,
                 fill: this.getTintColor(vis)
             });
             group.add(resText, opNumber);
@@ -108,7 +107,6 @@ export default class Card
         const opCenterNumber = new LayoutOperation({
             pos: vis.get("cards.numbers.centerPos"),
             size: centerIconDims,
-            pivot: Vector2.CENTER,
             frame: this.getData().frame,
             effects: [shadowEffect, vis.inkFriendlyEffect].flat()
         })
@@ -123,7 +121,6 @@ export default class Card
         const opTextWritten = new LayoutOperation({
             pos: vis.get("cards.numbers.writtenPos"),
             size: new Vector2(8.0 * textConfigWritten.size),
-            pivot: Vector2.CENTER,
             fill: this.getTintColor(vis)
         })
         group.add(resTextWritten, opTextWritten);
@@ -156,7 +153,6 @@ export default class Card
                     size: iconDims,
                     frame: MISC.cup_icon.frame,
                     rot: (-0.075 + 0.15*rand()) * 2 * Math.PI,
-                    pivot: Vector2.CENTER,
                     effects: [shadowEffect, vis.inkFriendlyEffect].flat()
                 });
                 group.add(resMisc, opIcon);
@@ -171,7 +167,6 @@ export default class Card
                     size: iconDims,
                     flipY: isTopRightSide,
                     frame: MISC.dice_icon.frame,
-                    pivot: Vector2.CENTER,
                     effects: [shadowEffect]
                 })
                 group.add(resMisc, opIcon);
@@ -193,8 +188,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.power.textPos"),
             size: vis.get("cards.power.textBoxDims"),
-            fill: vis.get("cards.power.textColor"),
-            pivot: Vector2.CENTER
+            fill: vis.get("cards.power.textColor")
         })
         group.add(resText, opText);
     }
