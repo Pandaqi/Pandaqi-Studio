@@ -7,44 +7,58 @@ const TOC_WIDE_QUERY = "(min-width: 64em)";
 
 export class RulebookTOC
 {
-    node: HTMLDetailsElement;
+    node: HTMLElement;
     nav: HTMLElement;
     list: HTMLElement;
     links: Map<string, HTMLAnchorElement>;
     private mediaQuery: MediaQueryList;
     private activeID = "";
+    private open = false;
     private onMediaChange = () => { this.syncOpenState(); };
 
     constructor(root:RulebookSection)
     {
         this.links = new Map();
 
-        const details = document.createElement("details");
-        details.className = "rulebook-toc";
-        details.dataset.rulebookToc = "true";
+        const toc = document.createElement("div");
+        toc.className = "rulebook-toc";
+        toc.dataset.rulebookToc = "true";
 
-        const summary = document.createElement("summary");
-        summary.className = "rulebook-toc-toggle";
-        summary.innerHTML = `<span>Contents</span>`;
-        details.appendChild(summary);
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "rulebook-toc-toggle";
+        toggle.innerHTML = `<span>Contents</span>`;
+        toggle.setAttribute("aria-label", "Table of contents");
+        toggle.addEventListener("click", () => { this.setOpen(!this.open); });
+        toc.appendChild(toggle);
 
         const nav = document.createElement("nav");
+        nav.id = "rulebook-toc-nav-" + Math.random().toString(36).slice(2, 8);
         nav.className = "rulebook-toc-nav";
         nav.setAttribute("aria-label", "Rulebook contents");
-        details.appendChild(nav);
+        toggle.setAttribute("aria-controls", nav.id);
+        toc.appendChild(nav);
 
         const list = document.createElement("ol");
         list.className = "rulebook-toc-list";
         nav.appendChild(list);
         this.buildList(root, list);
 
-        this.node = details;
+        this.node = toc;
         this.nav = nav;
         this.list = list;
 
         this.mediaQuery = window.matchMedia(TOC_WIDE_QUERY);
         this.mediaQuery.addEventListener("change", this.onMediaChange);
         this.syncOpenState();
+    }
+
+    setOpen(open:boolean)
+    {
+        this.open = open;
+        this.node.classList.toggle("is-open", open);
+        const toggle = this.node.querySelector(".rulebook-toc-toggle");
+        toggle?.setAttribute("aria-expanded", String(open));
     }
 
     private buildList(section:RulebookSection, parentList:HTMLElement)
@@ -92,14 +106,14 @@ export class RulebookTOC
         this.setActive(id);
         target.scrollIntoView({ behavior: "smooth", block: "start" });
 
-        if(!this.mediaQuery.matches) { this.node.open = false; }
+        if(!this.mediaQuery.matches) { this.setOpen(false); }
     }
 
     private syncOpenState()
     {
         // On wide screens the list is a permanent sidebar, so it must be open. On narrow screens the
         // reader decides; collapsing on resize keeps it from covering the page as a huge drawer.
-        this.node.open = this.mediaQuery.matches;
+        this.setOpen(this.mediaQuery.matches);
     }
 
     setActive(id:string)
@@ -161,27 +175,26 @@ export const setTOCEnabled = (params:RulebookParams, enabled:boolean) =>
     if(params._toc)
     {
         params._toc.node.hidden = !enabled;
-        if(enabled) { params._toc.node.open = true; }
+        if(enabled) { params._toc.setOpen(true); }
     }
 }
 
-// Adds the same table of contents to the print/paged copy. It is a plain clone: no listeners, no active
-// state, just the entries.
+// Adds the same table of contents to the print/paged copy. Keep this a plain element: Chromium's
+// paginated print drops the contents of a closed/native <details> even when it is open on screen.
 export const cloneRulebookTOCForPrint = (toc:RulebookTOC | null) : HTMLElement | null =>
 {
     if(!toc) { return null; }
-    const clone = toc.node.cloneNode(true) as HTMLDetailsElement;
-    clone.hidden = false;
-    clone.open = true;
-    clone.classList.add("rulebook-toc-printable");
-    return clone;
+    const flat = document.createElement("div");
+    flat.className = "rulebook-toc rulebook-toc-printable";
+    flat.appendChild(toc.nav.cloneNode(true));
+    return flat;
 }
 
 export const setTOCInPrint = (params:RulebookParams, enabled:boolean) =>
 {
     params.tocInPrint = enabled;
     params._shell?.setAttribute("data-toc-print", enabled ? "true" : "false");
-    if(params._toc && enabled) { params._toc.node.open = true; }
+    if(params._toc && enabled) { params._toc.setOpen(true); }
 }
 
 export interface RulebookScrollTracker

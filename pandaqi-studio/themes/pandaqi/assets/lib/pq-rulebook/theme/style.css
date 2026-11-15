@@ -629,6 +629,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     display: none;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
     gap: 0.5em;
     font-family: var(--header-font);
     font-size: 0.72em;
@@ -636,14 +637,11 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--rb-ink);
+    border: 0;
+    background: none;
+    text-align: left;
     padding: 0.6em 0.8em;
     cursor: pointer;
-    list-style: none;
-}
-
-.rulebook-toc-toggle::-webkit-details-marker
-{
-    display: none;
 }
 
 .rulebook-toc-toggle::after
@@ -654,7 +652,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     opacity: 0.6;
 }
 
-.rulebook-toc[open] > .rulebook-toc-toggle::after
+.rulebook-toc.is-open > .rulebook-toc-toggle::after
 {
     content: "–";
 }
@@ -1395,7 +1393,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
         padding: 0.2em 0.5em 0.4em;
     }
 
-    .rulebook-toc:not([open]) .rulebook-toc-nav
+    .rulebook-toc:not(.is-open) .rulebook-toc-nav
     {
         display: none;
     }
@@ -1685,7 +1683,6 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
         border: 0;
         background: none;
         font-size: 0.9em;
-        break-after: page;
     }
 
     .rulebook-shell[data-toc-print="true"] .rulebook-toc > .rulebook-toc-toggle
@@ -1724,7 +1721,6 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
         border: 0;
         background: none;
         font-size: 0.9em;
-        break-after: page;
     }
 
     .rulebook-paged-output .rulebook-toc > .rulebook-toc-toggle
