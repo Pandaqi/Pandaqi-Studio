@@ -134,7 +134,7 @@ export class RulebookTOC
 
 export const createRulebookTOC = (params:RulebookParams, shell:HTMLElement) : RulebookTOC | null =>
 {
-    if(params.toc === false || !params._sectionRoot) { return null; }
+    if(!params._sectionRoot) { return null; }
 
     const toc = new RulebookTOC(params._sectionRoot);
     if(toc.links.size <= 0) { toc.destroy(); return null; }
@@ -145,7 +145,24 @@ export const createRulebookTOC = (params:RulebookParams, shell:HTMLElement) : Ru
     const main = shell.querySelector(".rulebook-main");
     if(layout && main) { layout.insertBefore(toc.node, main); }
     else { (layout ?? shell).appendChild(toc.node); }
+    toc.node.hidden = params.toc === false;
     return toc;
+}
+
+export const setTOCEnabled = (params:RulebookParams, enabled:boolean) =>
+{
+    params.toc = enabled;
+    if(params._shell)
+    {
+        params._shell.dataset.toc = enabled
+            ? (params.tocPosition === "right" ? "right" : "left")
+            : "none";
+    }
+    if(params._toc)
+    {
+        params._toc.node.hidden = !enabled;
+        if(enabled) { params._toc.node.open = true; }
+    }
 }
 
 // Adds the same table of contents to the print/paged copy. It is a plain clone: no listeners, no active
@@ -154,6 +171,7 @@ export const cloneRulebookTOCForPrint = (toc:RulebookTOC | null) : HTMLElement |
 {
     if(!toc) { return null; }
     const clone = toc.node.cloneNode(true) as HTMLDetailsElement;
+    clone.hidden = false;
     clone.open = true;
     clone.classList.add("rulebook-toc-printable");
     return clone;

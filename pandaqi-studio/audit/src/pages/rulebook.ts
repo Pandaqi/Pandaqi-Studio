@@ -142,6 +142,24 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
                 `toolbar is missing the "${expected}" button`, `found: ${toolbarButtons.join(" | ")}`);
         }
 
+        const advancedToggle = page.locator(".rulebook-advanced-toggle").first();
+        const advancedRow = page.locator(".rulebook-toolbar-advanced").first();
+        checker.ok(await advancedToggle.count() > 0, "RB_TOOLBAR_GROUP", "toolbar has no advanced-settings toggle");
+        if(await advancedToggle.count() > 0)
+        {
+            const wasHidden = await advancedRow.evaluate((el) => (el as HTMLElement).hidden);
+            checker.ok(wasHidden, "RB_TOOLBAR_GROUP", "advanced toolbar is not hidden by default");
+            if(!(await advancedToggle.isVisible())) { await page.locator(".rulebook-menu-toggle").click(); }
+            await advancedToggle.click();
+            await sleep(100);
+            const nowVisible = !(await advancedRow.evaluate((el) => (el as HTMLElement).hidden));
+            checker.ok(nowVisible, "RB_TOOLBAR_GROUP", "advanced toolbar did not open");
+        }
+
+        const tocLabel = await page.locator(".rulebook-toolbar-check").first().textContent().catch(() => null);
+        checker.ok((tocLabel ?? "").includes("Table of contents"), "RB_TOOLBAR_TOC",
+            "toolbar is missing the generic Table of contents toggle", `found: ${tocLabel ?? "none"}`);
+
         // RB-3
         const sourceHeadings = headingsOf(readFileSync(entry.htmlPath, "utf8"));
         const rendered = (await page.$$eval(".rulebook-section-header", (els) =>

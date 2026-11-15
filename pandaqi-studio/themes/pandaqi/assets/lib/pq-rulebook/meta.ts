@@ -47,6 +47,21 @@ export const getTitleFromURL = (location:Location = window.location) : string =>
     return last ? humanizeSlug(last) : "";
 }
 
+// The game's main page is the parent of its rules page: /<game>/rules/ -> /<game>/.
+// Returns an empty string when the current URL is not a rules page.
+export const getRulebookMainURL = (location:Location = window.location) : string =>
+{
+    const parts = location.pathname.split("/").filter(Boolean);
+    const rulesIndex = parts.lastIndexOf("rules");
+    if(rulesIndex <= 0) { return ""; }
+
+    const url = new URL(location.href);
+    url.pathname = "/" + parts.slice(0, rulesIndex).join("/") + "/";
+    url.search = "";
+    url.hash = "";
+    return url.href;
+}
+
 // The website titles its rules pages "<Game> | Rulebook | <Site>". Other sites may only put the game
 // name in the title, which is also fine.
 export const getTitleFromDocument = () : string =>

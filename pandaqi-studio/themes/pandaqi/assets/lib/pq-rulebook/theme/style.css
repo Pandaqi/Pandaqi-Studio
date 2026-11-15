@@ -28,7 +28,7 @@ body
     padding: 0;
 
     font-family: var(--body-font);
-    font-size: var(--rb-font-size, calc(var(--font-size-base) + 0.22vw));
+    font-size: calc(var(--rb-font-size, calc(var(--font-size-base) + 0.22vw)) * var(--rb-font-scale, 1));
     line-height: 1.55;
 
     background-color: var(--bg-color);
@@ -88,6 +88,61 @@ body
     --rb-border: rgba(255, 238, 221, 0.16);
     --rb-muted: #b7aa9d;
     --rb-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.display-mode-contrast
+{
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --color-light: #000000;
+    --color-dark: #ffffff;
+    --rb-panel: #000000;
+    --rb-border: rgba(255, 255, 255, 0.6);
+    --rb-muted: #e6e6e6;
+    --rb-ink: #ffffff;
+    --rb-accent: #ffd400 !important;
+    --rb-accent-soft: #332b00 !important;
+    --rb-shadow: 0 0 0 1px #ffffff;
+}
+
+.display-mode-contrast .rulebook-toolbar
+{
+    background: #000000;
+    color: #ffffff;
+    border-bottom: 2px solid #ffd400;
+}
+
+.display-mode-contrast .rulebook-toolbar button,
+.display-mode-contrast .rulebook-toolbar select
+{
+    background: #000000;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+.display-mode-contrast .rulebook-toolbar button:hover
+{
+    background: #ffd400;
+    color: #000000;
+}
+
+.display-mode-contrast .rulebook-section-header
+{
+    color: #000000;
+}
+
+.display-mode-contrast .rulebook-section-header[data-level="3"],
+.display-mode-contrast .rulebook-section-header[data-level="4"],
+.display-mode-contrast .rulebook-section-header[data-level="5"],
+.display-mode-contrast .rulebook-section-header[data-level="6"]
+{
+    color: #ffffff;
+}
+
+.display-mode-contrast .rulebook-example-ui button,
+.display-mode-contrast .rulebook-example-ui button:hover
+{
+    color: #000000;
 }
 
 h1, h2, h3, h4, h5, h6
@@ -169,6 +224,37 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     margin-left: var(--margin-m);
 }
 
+.rulebook-shell .remark,
+.rulebook-paged-output .remark
+{
+    font-size: 0.78em;
+    line-height: 1.45;
+    border-top-color: var(--rb-accent);
+    break-inside: avoid;
+}
+
+.rulebook-shell .remark.sidebar,
+.rulebook-paged-output .remark.sidebar
+{
+    padding-top: 0.55em;
+}
+
+.rulebook-shell .remark p:last-child,
+.rulebook-paged-output .remark p:last-child
+{
+    margin-bottom: 0;
+}
+
+/* Floated remarks are out of flow; without this, a remark at the end of a section can spill into
+   the next section instead of reserving room for itself in the gutter. */
+.rulebook-shell .rulebook-section-content::after,
+.rulebook-paged-output .rulebook-section-content::after
+{
+    content: "";
+    display: block;
+    clear: both;
+}
+
 .rulebook-content a
 {
     text-decoration: underline;
@@ -214,10 +300,32 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 .rulebook-toolbar-actions
 {
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.35em;
+    width: 100%;
+}
+
+.rulebook-toolbar-row
+{
+    display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 0.4em;
+    width: 100%;
+}
+
+.rulebook-toolbar-row[hidden]
+{
+    display: none;
+}
+
+.rulebook-toolbar-advanced
+{
+    padding-top: 0.35em;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .rulebook-toolbar button
@@ -273,6 +381,56 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     width: 1em;
     height: 1em;
     margin: 0;
+}
+
+.rulebook-font-controls
+{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15em;
+}
+
+.rulebook-font-controls button
+{
+    min-width: 2.2em;
+    padding-left: 0.55em;
+    padding-right: 0.55em;
+}
+
+.rulebook-font-controls-value
+{
+    min-width: 2.8em;
+    text-align: center;
+    font-size: 0.62em;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.82;
+}
+
+.rulebook-toolbar-select
+{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-family: var(--header-font);
+    font-size: 0.66em;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.25em 0.2em;
+    cursor: pointer;
+}
+
+.rulebook-toolbar-select select
+{
+    font: inherit;
+    font-size: 0.95em;
+    padding: 0.35em 0.4em;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: var(--rb-radius);
+    background: #f3e3d3;
+    color: #2a1a10;
+    cursor: pointer;
 }
 
 .rulebook-toolbar-upload
@@ -411,12 +569,33 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 {
     margin: 0.12em 0 0;
     font-family: var(--header-font);
-    font-size: 1.9em;
+    font-size: 2.1em;
     line-height: 1.1;
     letter-spacing: -0.01em;
     font-weight: 900;
     color: var(--rb-ink);
     text-align: center;
+}
+
+.rulebook-title-name a
+{
+    color: inherit;
+    text-decoration: none;
+}
+
+.rulebook-title-name a:hover
+{
+    color: var(--rb-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.15em;
+}
+
+.rulebook-title-name a:focus-visible
+{
+    outline: 2px solid var(--rb-accent);
+    outline-offset: 0.2em;
+    border-radius: 0.15em;
 }
 
 .rulebook-title-sub
@@ -438,6 +617,11 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     font-size: 0.78em;
     line-height: 1.35;
     color: var(--rb-muted);
+}
+
+.rulebook-toc[hidden]
+{
+    display: none !important;
 }
 
 .rulebook-toc-toggle
@@ -571,7 +755,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     min-width: 0;
     margin: 0;
     text-align: left;
-    font-size: 1.05em;
+    font-size: 1.18em;
     letter-spacing: 0.005em;
     color: inherit;
 }
@@ -618,7 +802,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 .rulebook-section-header[data-level="3"] h5,
 .rulebook-section-header[data-level="3"] h6
 {
-    font-size: 0.95em;
+    font-size: 1.05em;
 }
 
 .rulebook-section-header[data-level="4"] h1,
@@ -640,7 +824,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 .rulebook-section-header[data-level="6"] h5,
 .rulebook-section-header[data-level="6"] h6
 {
-    font-size: 0.88em;
+    font-size: 0.96em;
 }
 
 .rulebook-section-header-container
@@ -1004,16 +1188,31 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 {
     width: 100%;
     font-family: var(--header-font);
-    font-size: 0.72em;
-    font-weight: 700;
+    font-size: 0.82em;
+    font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     border: 0;
     border-radius: var(--rb-radius);
-    padding: 0.7em 0.9em;
+    padding: 0.85em 1.1em;
     background: var(--rb-accent);
     color: #ffffff;
     cursor: pointer;
+    box-shadow: 0 0 0 2px var(--rb-accent-soft), 0 4px 12px rgba(0, 0, 0, 0.14);
+    transition: filter 0.12s, transform 0.12s, box-shadow 0.12s;
+}
+
+.rulebook-example-ui button:hover
+{
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 0 0 2px var(--rb-accent), 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.rulebook-example-ui button:focus-visible
+{
+    outline: 3px solid var(--rb-accent);
+    outline-offset: 2px;
 }
 
 .rulebook-example-button-active
@@ -1062,9 +1261,45 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     z-index: 10000;
     padding: var(--padding-m);
     cursor: pointer;
+    flex-direction: column;
+    gap: 1em;
 
     justify-content: center;
     align-items: center;
+}
+
+.rulebook-zoomable
+{
+    cursor: zoom-in;
+    transition: outline-color 0.12s, filter 0.12s;
+}
+
+.rulebook-zoomable:hover
+{
+    outline: 2px solid var(--rb-accent);
+    outline-offset: 2px;
+}
+
+.rulebook-zoomable:focus-visible
+{
+    outline: 3px solid var(--rb-accent);
+    outline-offset: 2px;
+}
+
+.rulebook-image-overlay-hint
+{
+    position: absolute;
+    left: 50%;
+    bottom: 1em;
+    transform: translateX(-50%);
+    padding: 0.35em 0.7em;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.72);
+    color: #ffffff;
+    font-family: var(--header-font);
+    font-size: 0.72em;
+    letter-spacing: 0.04em;
+    pointer-events: none;
 }
 
 .rulebook-toast
@@ -1190,7 +1425,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 
     .rulebook-title-name
     {
-        font-size: 1.6em;
+        font-size: 1.8em;
     }
 
     .rulebook-table
@@ -1233,12 +1468,12 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 {
     body
     {
-        font-size: 9.5pt;
+        font-size: calc(9.5pt * var(--rb-font-scale, 1));
         line-height: 1.4;
     }
 
     /* it's necessary to target the display modes specifically, otherwise it won't override the light/dark mode! */
-    .display-mode-light, .display-mode-dark
+    .display-mode-light, .display-mode-dark, .display-mode-contrast
     {
         --bg-color: #FFFFFF;
         --text-color: #111111;
@@ -1248,6 +1483,8 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
         --rb-border: #DDDDDD;
         --rb-muted: #666666;
         --rb-ink: #111111;
+        --rb-accent: #333333 !important;
+        --rb-accent-soft: #F2F2F2 !important;
     }
 
     body
@@ -1296,7 +1533,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 
     .rulebook-title-name
     {
-        font-size: 1.7em;
+        font-size: 1.9em;
         text-align: left;
     }
 
@@ -1432,7 +1669,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
         break-inside: avoid;
     }
 
-    /* Table of contents: off by default, on when the reader asked for it. */
+    /* Table of contents: shown when the reader has enabled it. */
     .rulebook-toc
     {
         display: none;

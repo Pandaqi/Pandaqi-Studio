@@ -1,7 +1,7 @@
 import { type RulebookParams } from "./rulebook";
 import { DEFAULT_SECTION_CONTENT_CLASS, DEFAULT_SECTION_HEADER_CLASS, getAllSections, getSectionAsFlatHTML, RulebookSection, unfoldAllSectionsAbove } from "./sections";
 import { toggleTablesExpanded } from "./tables";
-import { cloneRulebookTOCForPrint, setTOCInPrint } from "./toc";
+import { cloneRulebookTOCForPrint, setTOCEnabled, setTOCInPrint } from "./toc";
 
 export const isLocalFile = () =>
 {
@@ -202,24 +202,48 @@ const showToast = (params:RulebookParams, message:string, isError = false) =>
 
 export const makeImagesClickable = (node:HTMLElement) =>
 {
+    const closeOverlay = () =>
+    {
+        const overlay = document.querySelector(".rulebook-image-overlay") as HTMLElement | null;
+        if(overlay) { overlay.style.display = "none"; }
+    };
+
     let overlay = document.querySelector(".rulebook-image-overlay") as HTMLElement | null;
     if(!overlay)
     {
         overlay = document.createElement("aside");
         document.body.appendChild(overlay);
         overlay.classList.add("rulebook-image-overlay");
+        overlay.setAttribute("role", "dialog");
+        overlay.setAttribute("aria-label", "Enlarged image");
+
         const overlayNode = document.createElement("img");
         overlay.appendChild(overlayNode);
 
-        // for making it disappear again
-        overlay.addEventListener("click", () => { overlay.style.display = "none"; });
+        const overlayHint = document.createElement("span");
+        overlayHint.className = "rulebook-image-overlay-hint";
+        overlayHint.textContent = "Click anywhere to close";
+        overlay.appendChild(overlayHint);
+
+        overlay.addEventListener("click", closeOverlay);
+        document.addEventListener("keydown", (ev) =>
+        {
+            if(ev.key === "Escape") { closeOverlay(); }
+        });
     }
 
     const overlayNode = overlay.getElementsByTagName("img")[0] as HTMLImageElement;
     const images = Array.from(node.getElementsByTagName("img")) as HTMLImageElement[];
     for(const image of images)
     {
-        image.addEventListener("click", () =>
+        // A linked or button-wrapped image already has an action; do not stack a second one on it.
+        if(image.closest("a, button")) { continue; }
+
+        image.classList.add("rulebook-zoomable");
+        const hint = "Click to enlarge";
+        image.title = image.title ? `${image.title} — ${hint}` : hint;
+
+        const openImage = () =>
         {
             overlay.style.display = 'flex';
             overlayNode.style.width = "auto";
@@ -227,6 +251,20 @@ export const makeImagesClickable = (node:HTMLElement) =>
             overlayNode.style.maxWidth = "100%";
             overlayNode.style.maxHeight = "100%";
             overlayNode.src = image.src;
+            overlayNode.alt = image.alt ? `Enlarged image: ${image.alt}` : "Enlarged image";
+            overlayNode.title = "Click anywhere to close";
+        };
+
+        image.addEventListener("click", openImage);
+
+        image.setAttribute("role", "button");
+        image.setAttribute("tabindex", "0");
+        image.setAttribute("aria-label", image.alt ? `Enlarge image: ${image.alt}` : "Enlarge image");
+        image.addEventListener("keydown", (ev) =>
+        {
+            if(ev.key !== "Enter" && ev.key !== " ") { return; }
+            ev.preventDefault();
+            openImage();
         });
     }
 }
@@ -496,6 +534,16 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
     actions.id = menuID;
     inner.appendChild(actions);
 
+    const primary = document.createElement("div");
+    primary.classList.add("rulebook-toolbar-row", "rulebook-toolbar-primary");
+    actions.appendChild(primary);
+
+    const advanced = document.createElement("div");
+    advanced.classList.add("rulebook-toolbar-row", "rulebook-toolbar-advanced");
+    advanced.id = menuID + "-advanced";
+    advanced.hidden = true;
+    actions.appendChild(advanced);
+
     const closeMenu = () =>
     {
         toolbar.dataset.menu = "closed";
@@ -509,40 +557,91 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
         menuButton.setAttribute("aria-expanded", String(open));
     });
 
-    const addButton = (label:string, title:string, onClick:() => void) : HTMLButtonElement =>
+    const addButton = (target:HTMLElement, label:string, title:string, onClick:() => void) : HTMLButtonElement =>
     {
         const button = document.createElement("button");
         button.type = "button";
         button.textContent = label;
         button.title = title;
         button.addEventListener("click", onClick);
-        actions.appendChild(button);
+        target.appendChild(button);
         return button;
     }
 
-    // A click on any action closes the menu on small screens; without this the panel stays over the book.
+    // Print/fold actions close the mobile menu; controls that need repeated use stay open.
     actions.addEventListener("click", (ev) =>
     {
-        if((ev.target as HTMLElement).closest("button")) { closeMenu(); }
+        const target = ev.target as HTMLElement;
+        if(target.closest(".rulebook-advanced-toggle")) { return; }
+        if(target.closest(".rulebook-font-controls, .rulebook-toolbar-select, .rulebook-toolbar-check")) { return; }
+        if(target.closest("button")) { closeMenu(); }
     });
 
-    addButton("Print (Browser)", "Less advanced features (e.g. no page numbers), also less likely to make mistakes/crash.", () =>
+    const fontGroup = document.createElement("div");
+    fontGroup.className = "rulebook-font-controls";
+    fontGroup.setAttribute("role", "group");
+    fontGroup.setAttribute("aria-label", "Text size");
+    primary.appendChild(fontGroup);
+
+    const fontValue = document.createElement("span");
+    fontValue.className = "rulebook-font-controls-value";
+    fontValue.setAttribute("aria-live", "polite");
+
+    const MIN_FONT_SCALE = 0.8;
+    const MAX_FONT_SCALE = 1.5;
+    const FONT_SCALE_STEP = 0.1;
+    params._fontScale = Math.min(MAX_FONT_SCALE, Math.max(MIN_FONT_SCALE, params._fontScale ?? 1));
+
+    const applyFontScale = () =>
+    {
+        const scale = params._fontScale;
+        document.documentElement.style.setProperty("--rb-font-scale", String(scale));
+        document.body.style.setProperty("--rb-font-scale", String(scale));
+        fontValue.textContent = Math.round(scale * 100) + "%";
+        buttonFontSmall.disabled = scale <= MIN_FONT_SCALE;
+        buttonFontLarge.disabled = scale >= MAX_FONT_SCALE;
+    };
+
+    const changeFontScale = (delta:number) =>
+    {
+        params._fontScale = Math.round((params._fontScale + delta) * 100) / 100;
+        params._fontScale = Math.min(MAX_FONT_SCALE, Math.max(MIN_FONT_SCALE, params._fontScale));
+        applyFontScale();
+    };
+
+    const buttonFontSmall = addButton(fontGroup, "A−", "Decrease text size.", () => { changeFontScale(-FONT_SCALE_STEP); });
+    const buttonFontLarge = addButton(fontGroup, "A+", "Increase text size.", () => { changeFontScale(FONT_SCALE_STEP); });
+    fontGroup.insertBefore(fontValue, buttonFontLarge);
+    applyFontScale();
+
+    addButton(primary, "Print (Browser)", "Less advanced features (e.g. no page numbers), also less likely to make mistakes/crash.", () =>
     {
         printBrowserRulebook(params, node);
     });
 
-    const buttonPrintPaged = addButton("Print (Advanced)", "More correct and pretty (running headers, page numbers), but can completely crash on specific devices/browsers/sizes.", async () =>
+    const buttonAdvanced = addButton(primary, "More", "Show advanced settings and printing options.", () =>
+    {
+        const open = advanced.hidden;
+        advanced.hidden = !open;
+        buttonAdvanced.textContent = open ? "Less" : "More";
+        buttonAdvanced.setAttribute("aria-expanded", String(open));
+    });
+    buttonAdvanced.classList.add("rulebook-advanced-toggle");
+    buttonAdvanced.setAttribute("aria-expanded", "false");
+    buttonAdvanced.setAttribute("aria-controls", advanced.id);
+
+    const buttonPrintPaged = addButton(advanced, "Print (Advanced)", "More correct and pretty (running headers, page numbers), but can completely crash on specific devices/browsers/sizes.", async () =>
     {
         buttonPrintPaged.disabled = true;
         try { await printAdvancedRulebook(params, node); }
         finally { buttonPrintPaged.disabled = false; }
     });
 
-    addButton("Fold All", "Fold every rulebook section.", () => { foldAll(node); });
-    addButton("Unfold All", "Open every rulebook section.", () => { unfoldAll(node); });
+    addButton(advanced, "Fold All", "Fold every rulebook section.", () => { foldAll(node); });
+    addButton(advanced, "Unfold All", "Open every rulebook section.", () => { unfoldAll(node); });
 
     let tablesExpanded = false;
-    const buttonTables = addButton("Expand Tables", "Show every table entry with its description, instead of compact cards.", () =>
+    const buttonTables = addButton(advanced, "Expand Tables", "Show every table entry with its description, instead of compact cards.", () =>
     {
         tablesExpanded = toggleTablesExpanded(node, !tablesExpanded);
         buttonTables.textContent = tablesExpanded ? "Compact Tables" : "Expand Tables";
@@ -550,43 +649,110 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
     });
     buttonTables.setAttribute("aria-pressed", "false");
 
-    const buttonDisplayMode = addButton("Dark Mode", "Switch between the light and dark rulebook theme.", () => {});
+    let curMode: "light"|"dark"|"contrast" = params._displayMode ?? "light";
+    let buttonDisplayMode: HTMLButtonElement | null = null;
+    let buttonContrast: HTMLButtonElement | null = null;
 
-    let curMode = "light";
-    buttonDisplayMode.textContent = "Dark Mode";
-    buttonDisplayMode.addEventListener("click", () =>
+    const syncDisplayLabels = () =>
     {
-        document.body.classList.remove("display-mode-light", "display-mode-dark");
-        curMode = curMode == "light" ? "dark" : "light";
-        buttonDisplayMode.textContent = curMode == "light" ? "Dark Mode" : "Light Mode";
-        document.body.classList.add(`display-mode-${ curMode }`);
+        if(buttonDisplayMode) { buttonDisplayMode.textContent = curMode === "dark" ? "Light Mode" : "Dark Mode"; }
+        if(buttonContrast) { buttonContrast.textContent = curMode === "contrast" ? "Normal Contrast" : "High Contrast"; }
+    };
+
+    const setDisplayMode = (mode: "light"|"dark"|"contrast") =>
+    {
+        curMode = mode;
+        params._displayMode = mode;
+        document.body.classList.remove("display-mode-light", "display-mode-dark", "display-mode-contrast");
+        document.body.classList.add(`display-mode-${ mode }`);
+        syncDisplayLabels();
+    };
+
+    buttonDisplayMode = addButton(advanced, "Dark Mode", "Switch between the light and dark rulebook theme.", () =>
+    {
+        setDisplayMode(curMode === "dark" ? "light" : "dark");
     });
-    // a reset builds a fresh toolbar; do not leave the previous mode class behind
-    document.body.classList.remove("display-mode-light", "display-mode-dark");
-    document.body.classList.add(`display-mode-${ curMode }`);
-
-    if(params.toc !== false)
+    buttonContrast = addButton(advanced, "High Contrast", "Switch to a high-contrast light-on-black theme.", () =>
     {
-        const checkLabel = document.createElement("label");
-        checkLabel.className = "rulebook-toolbar-check";
-        checkLabel.title = "Print the table of contents at the start of the rulebook.";
+        setDisplayMode(curMode === "contrast" ? "light" : "contrast");
+    });
+    setDisplayMode(curMode);
 
-        const check = document.createElement("input");
-        check.type = "checkbox";
-        check.checked = params.tocInPrint ?? false;
-        check.addEventListener("change", () => { setTOCInPrint(params, check.checked); });
+    const checkLabel = document.createElement("label");
+    checkLabel.className = "rulebook-toolbar-check";
+    checkLabel.title = "Show the table of contents on screen and in print.";
 
-        checkLabel.appendChild(check);
-        checkLabel.appendChild(document.createTextNode("Contents in print"));
-        actions.appendChild(checkLabel);
+    const check = document.createElement("input");
+    check.type = "checkbox";
+    check.checked = params.toc !== false;
+    check.addEventListener("change", () =>
+    {
+        setTOCEnabled(params, check.checked);
+        setTOCInPrint(params, check.checked);
+        closeMenu();
+    });
+
+    checkLabel.appendChild(check);
+    checkLabel.appendChild(document.createTextNode("Table of contents"));
+    advanced.appendChild(checkLabel);
+
+    const PRINT_MARGINS: Record<string, string> = {
+        compact: "12mm 11mm 14mm",
+        normal: "16mm 15mm 18mm",
+        roomy: "24mm 22mm 26mm",
+    };
+    const initialMargins = params._printMargins && PRINT_MARGINS[params._printMargins] ? params._printMargins : "normal";
+    params._printMargins = initialMargins as "compact"|"normal"|"roomy";
+
+    const applyPrintMargins = (mode:string) =>
+    {
+        params._printMargins = mode as "compact"|"normal"|"roomy";
+        let style = document.head.querySelector("style[data-rulebook-print-margins]") as HTMLStyleElement | null;
+        // Normal is the stylesheet default. Leaving the override out preserves a custom stylesheet's
+        // own @page margins until the reader explicitly chooses another preset.
+        if(mode === "normal") { style?.remove(); return; }
+        if(!style)
+        {
+            style = document.createElement("style");
+            style.setAttribute("data-rulebook-print-margins", "true");
+        }
+        style.textContent = `@page { margin: ${PRINT_MARGINS[mode]}; }`;
+        // Keep this after the rulebook's own @page rule: equal-specificity page rules follow source order.
+        document.head.appendChild(style);
+    };
+
+    const marginLabel = document.createElement("label");
+    marginLabel.className = "rulebook-toolbar-select";
+    marginLabel.title = "Choose how much white space surrounds the printed page.";
+    marginLabel.appendChild(document.createTextNode("Print margins"));
+
+    const marginSelect = document.createElement("select");
+    for(const [value, label] of [["compact", "Compact"], ["normal", "Normal"], ["roomy", "Roomy"]])
+    {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        marginSelect.appendChild(option);
     }
+    marginSelect.value = initialMargins;
+    marginSelect.addEventListener("change", () =>
+    {
+        applyPrintMargins(marginSelect.value);
+        closeMenu();
+    });
+    marginLabel.appendChild(marginSelect);
+    advanced.appendChild(marginLabel);
+    applyPrintMargins(initialMargins);
+    // The default stylesheet is added after the toolbar is built, so re-append the page rule once the
+    // whole rulebook has finished loading.
+    window.setTimeout(() => { applyPrintMargins(params._printMargins ?? "normal"); }, 0);
 
     const hasInteractiveExamples = Object.keys(params.examples ?? {}).length > 0;
     if(isLocalFile() && hasInteractiveExamples)
     {
         const cont = document.createElement("div");
         cont.classList.add("rulebook-toolbar-upload");
-        actions.appendChild(cont);
+        advanced.appendChild(cont);
 
         const inputAssets = document.createElement("input");
         cont.appendChild(inputAssets)

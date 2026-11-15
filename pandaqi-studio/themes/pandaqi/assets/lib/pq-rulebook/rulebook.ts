@@ -1,7 +1,7 @@
 import { RulebookAPI, registerRulebookAPI, RULEBOOK_API_VERSION, unregisterRulebookAPI } from "./api";
 import { createRulebookExampleHTML, InteractiveExampleParams, makeExamplesInteractive } from "./examples/interactiveExample";
 import { createRulebookIconHTML, IconSheetParams } from "./icons";
-import { DEFAULT_RULEBOOK_TITLE, pickAccent, resolveRulebookTitle } from "./meta";
+import { DEFAULT_RULEBOOK_TITLE, getRulebookMainURL, pickAccent, resolveRulebookTitle } from "./meta";
 import { parseInput } from "./parser/parser";
 import { createRootSection, ensureUniqueHeadingIDs, findSectionByID, findSections, flattenSections, getSectionAsFlatHTML, getSectionNodes, makeSectionInteractiveRecursively, RulebookSection } from "./sections";
 import { createRulebookTableHTML, foldAllTables, makeTablesInteractive, RulebookTableParams, toggleTablesExpanded } from "./tables";
@@ -18,6 +18,7 @@ export interface RulebookParams
 
     // name/identity
     title?: string, // game name; auto-detected from data attributes, meta tags, page title or URL when omitted
+    titleHref?: string, // where clicking the title goes; defaults to the game's main page when this is a /rules/ URL
     subtitle?: string,
     showTitle?: boolean, // false hides the title block above the content
 
@@ -36,7 +37,7 @@ export interface RulebookParams
     // table of contents
     toc?: boolean, // default true
     tocPosition?: "left"|"right", // default "left"
-    tocInPrint?: boolean, // default false
+    tocInPrint?: boolean, // default follows `toc`; the toolbar keeps the two in sync
 
     // chrome
     toolbar?: boolean, // default true
@@ -60,11 +61,15 @@ export interface RulebookParams
     _shell?: HTMLElement
     _toolbar?: HTMLElement
     _titleNode?: HTMLElement
+    _titleHref?: string
     _toc?: RulebookTOC
     _progressBar?: HTMLElement
     _tracker?: RulebookScrollTracker
     _api?: RulebookAPI
     _printing?: boolean
+    _fontScale?: number
+    _displayMode?: "light"|"dark"|"contrast"
+    _printMargins?: "compact"|"normal"|"roomy"
 }
 
 // A bundle can be evaluated after the window already fired `load` (a late/dynamic script); waiting for
@@ -163,7 +168,16 @@ const createTitleBlock = (params:RulebookParams) : HTMLElement =>
 
     const heading = document.createElement("h1");
     heading.className = "rulebook-title-name";
-    heading.textContent = name;
+    if(params._titleHref)
+    {
+        const link = document.createElement("a");
+        link.href = params._titleHref;
+        link.textContent = name;
+        link.title = `Back to ${name}`;
+        link.setAttribute("aria-label", `Back to ${name}`);
+        heading.appendChild(link);
+    }
+    else { heading.textContent = name; }
     block.appendChild(heading);
 
     if(params.subtitle)
@@ -313,7 +327,17 @@ export const loadRulebookCallback = (params:RulebookParams) =>
     // register and activate special tools => things to do only ONCE
     if(!params._built)
     {
+        const explicitTitle = (params.title ?? "").trim();
         params.title = resolveRulebookTitle(params, node);
+
+        if(params.titleHref !== undefined) { params._titleHref = params.titleHref; }
+        else if(params._titleHref === undefined)
+        {
+            // Only link an inferred title. An explicitly supplied title may not belong to this URL.
+            params._titleHref = explicitTitle ? "" : getRulebookMainURL();
+        }
+
+        if(params.tocInPrint === undefined) { params.tocInPrint = params.toc !== false; }
 
         const shell = createRulebookShell(params, node);
         params._shell = shell;
