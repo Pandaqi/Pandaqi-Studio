@@ -111,14 +111,50 @@ Code Architecture Improvement: The `LayoutOperation` class is essential to `pq-g
 
 The public API for LayoutOperation should not be broken. (It shouldn't change except for the function chain builder _addition_.) All games using it should need no update and work just fine. This is purely an internal refactor to make it cleaner, faster, and more flexible/modular.
 
+## [ ] PROMPT (RULEBOOKS)
+
+A list of general improvements to the `pq-rulebook` library on this website. All changes are completely contained to that library, do not touch anything outside of it / unrelated to it.
+
+* STYLING: Easy ways to overhaul a rulebook's style with custom styles/stylesheet (in case a user wants that) + prevent all these rulebooks from looking the same. 
+  * Font size could be SMALLER IN GENERAL (in print)
+  * And these rulebooks could look _slightly_ nicer and more flexible and more approachable, with minimal extra CSS cost.
+* HEADER: Add the NAME OF THE GAME to the rulebooks, as now you don't have any clue!
+  * ALSO: Use Paged.js (when advanced printing) to automatically put some small marker like `GameName > CurrentSection` in the page headers, to know where you are in the rulebook. Also check if page numbers are properly printed at the bottom.
+* TOOLBAR: it's getting more and more buttons/content. So, instead, make it a hamburger menu or collapsible menu on smaller screens (when the buttons would start to wrap and look ugly.)
+  * Extra buttons in toolbar: "fold/unfold rulebook tables" (or at least provide an alternative view where they're fully listed, nothing to click anymore)
+* TOC: Add a "table of contents". 
+  * On wide screens, it automatically displays next to the content (stuck to the left or right side of the screen), so you can always know where you are and click to go to a certain header.
+  * On smaller screens, this would overlap the rulebook, so instead fold it into a button at the side or top to open/close the table of contents as needed.
+  * ALSO add a small thin "progress bar" below the toolbar / at the top of the screen that moves as you scroll down a rulebook, tracking where you are right now.
+  * Should Table of Contents show in Print too? Make that _false_ by default, but add a button/checkbox to the toolbar to make ToC show up properly at the start of rulebook when printed too.
+* FIX: Rulebook tables look a bit ugly and weirdly sized still => 
+  * Smaller text size by default.
+  * The name of the thing should go BELOW the image (perhaps only in certain states)
+  * Less generous padding/whitespace around it all.
+  * Perhaps make Rulebook Table Icons _smaller_ when printing, because now they take up a loooot of space
+  * **END GOAL (for this): Rulebook tables should look really nice and compact, both digitally and when printed. No ugly overflows, no taking up more space than needed, and no big layout shifts when something folds/unfolds one item of the table.**
+* DEV: 
+  * Expose some JS/global API for more direct access to stuff inside the rulebook after parsing. (To do custom modifications, reading of properties, debug, etc.)
+  * Paged.JS support needs strong checks because it's inconsistent and broken. For example, on some pages it does nothing (seems to call print() before it finishes parsing).
+
+
+**END GOAL:** A lean rulebook system (with no dependencies outside it) that is more feature complete and looks much nicer than before (while keeping a neutral look/lightweight built-in CSS styles)
+
+Wait with checking the final results/output until you've done _all_ steps. Intermediate audits or checks will be garbage and slow you down.
+
+
+## [ ] PROMPT
 
 FIXES:
 
-* PDF generation now defaults to a _black_ background. That's bad! Should be a white background (like paper; better for ink usage). This only happened after our changes (like directly inserting canvases into jsPDF instead of converting to images first). I really like these changes as they make the framework MUCH faster. So, find a simple way to get the background white again _without_ losing these performance gains.
-* (Also, check if PDF compression is turned on again in the public build. It's turned off when auditing/developing, but should be turned on at release website.)
+* PDF generation now defaults to a _black_ background. (Might be a _transparent_ background, actually, which shows up black in browser PDF viewer.) That's bad! Should be a white background (like paper; better for ink usage). This only happened after our changes (like directly inserting canvases into jsPDF instead of converting to images first). I really like these changes as they make the framework MUCH faster. So, find a simple way to get the background white again _without_ losing these performance gains.
+* (Also, check if PDF compression is turned on again in the public build. It's turned off when auditing/developing, but should be turned on at release website, and I don't think it is right now.)
 * Some generators create multiple PDFs. They currently use the same name, which leads to name collision while downloading. Make sure their names are differentiated meaningfully.
+* The systems and styling work well on Windows/Chrome, but seem to be failing on (old) Safari/iPhones/apple products. Find possible causes for that and fix it.
 
 CLEANUP PROMPT? => Sweep every remaining game under themes/pandaqi/assets/games for old-style `CONFIG._settings.*.value` and `CONFIG._drawing.*` reads that bypass getSetting/vis.get, tell me which are real leftovers versus intentional, and migrate the clear leftovers.
+
+
 
 * PIETENPOKER: Text in all the wrong places.
 * MAPPED OUT: Backgrounds (cards and tiles, everywhere) need their pivot reset to top left after default change.

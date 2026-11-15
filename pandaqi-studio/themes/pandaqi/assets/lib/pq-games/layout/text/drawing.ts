@@ -155,16 +155,16 @@ const drawImageChunk = (ctx:CanvasRenderingContext2D, elem:TextChunkImage, pos:V
 const drawTextDebug = (ctx:CanvasRenderingContext2D, metrics:TextBoxMetrics) =>
 {
     // Full TextBox Size
-    ctx.lineWidth = 3
-    ctx.strokeStyle = '#00FF00'
+    ctx.lineWidth = 6
+    ctx.strokeStyle = "#00FF00"
     ctx.strokeRect(
         metrics.dimsFull.position.x, metrics.dimsFull.position.y, 
         metrics.dimsFull.size.x, metrics.dimsFull.size.y
     )
 
     // Used Textbox Size (only visible text, no empty space)
-    ctx.lineWidth = 2
-    ctx.strokeStyle = '#FF0000'
+    ctx.lineWidth = 6
+    ctx.strokeStyle = "#FF0000"
     ctx.strokeRect(
         metrics.dimsUsed.position.x, metrics.dimsUsed.position.y, 
         metrics.dimsUsed.size.x, metrics.dimsUsed.size.y

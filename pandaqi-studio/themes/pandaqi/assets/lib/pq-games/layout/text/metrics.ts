@@ -205,9 +205,6 @@ const computeTextMetrics = (resource:ResourceText, size:Vector2, offset:Vector2,
         if(reportOverflows) { reportOverflow("X", boxWidth, realWidth); }
     }
 
-    const dimsWidth = autoWidth ? realWidth : Math.min(realWidth, boxWidth);
-    const dimsHeight = autoHeight ? realHeight : Math.min(realHeight, boxHeight);
-
     //
     // third, use all that information for proper aligning
     //
@@ -270,8 +267,14 @@ const computeTextMetrics = (resource:ResourceText, size:Vector2, offset:Vector2,
     if(!isFinite(usedMinX)) { usedMinX = xStart; usedMinY = contentTop; usedMaxX = xStart + realWidth; usedMaxY = contentTop + realHeight; }
 
     // return all the final metrics we found
+    // An explicit box stays exactly that box: only an axis the caller left empty (auto) is sized by the
+    // text itself. This used to shrink the full box to the measured ink, so a text with a fixed box
+    // reported (and debug-drew) the wrong dimensions and lost its box for anything reading dimsFull.
+    const fullSize = new Vector2(autoWidth ? realWidth : boxWidth, autoHeight ? realHeight : boxHeight);
+    const fullPos = new Vector2(autoWidth ? usedMinX : xStart, autoHeight ? contentTop : yStart);
+
     return {
-        dimsFull: new Dims(new Vector2(usedMinX, contentTop), new Vector2(dimsWidth, dimsHeight)),
+        dimsFull: new Dims(fullPos, fullSize),
         dimsUsed: new Dims(new Vector2(usedMinX, usedMinY), new Vector2(usedMaxX - usedMinX, usedMaxY - usedMinY)),
         textParsed: parsedChunks,
         lines: lines
