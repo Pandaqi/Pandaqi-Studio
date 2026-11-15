@@ -27,6 +27,19 @@ export class TransformationMatrix
         return this;
     }
 
+    // Copies another matrix into this one without allocating. Reusing a matrix (instead of cloning
+    // the parent on every apply) matters because this runs for every item of every page.
+    copyFrom(other:TransformationMatrix)
+    {
+        this.m[0] = other.m[0];
+        this.m[1] = other.m[1];
+        this.m[2] = other.m[2];
+        this.m[3] = other.m[3];
+        this.m[4] = other.m[4];
+        this.m[5] = other.m[5];
+        return this;
+    }
+
     fromContext(ctx:CanvasRenderingContext2D)
     {
         const t = ctx.getTransform();
@@ -54,7 +67,13 @@ export class TransformationMatrix
 
     setIdentity()
     {
-        this.m = [1, 0, 0, 1, 0, 0];
+        // keep the array when there is one: the matrix is reused on every apply
+        const m = this.m;
+        if(m) {
+            m[0] = 1; m[1] = 0; m[2] = 0; m[3] = 1; m[4] = 0; m[5] = 0;
+        } else {
+            this.m = [1, 0, 0, 1, 0, 0];
+        }
         return this;
     }
 
@@ -80,7 +99,8 @@ export class TransformationMatrix
     // @SOURCE (for all transforms below): https://stackoverflow.com/questions/18437039/canvashow-to-complete-translate-skew-rotate-in-just-one-transform-statement
     translate(p:Vector2)
     {
-        if(p.isZero()) { return this; }
+        // per-axis zero test instead of `Vector2.isZero()` (which takes a square root for every apply)
+        if(isZero(p.x) && isZero(p.y)) { return this; }
         this.m[4] += this.m[0] * p.x + this.m[2] * p.y;
         this.m[5] += this.m[1] * p.x + this.m[3] * p.y;
         return this;
@@ -106,7 +126,7 @@ export class TransformationMatrix
 
     scale(p:Vector2)
     {
-        if(p.isZero()) { return this; }
+        if(isZero(p.x) && isZero(p.y)) { return this; }
         this.m[0] *= p.x;
         this.m[1] *= p.x;
         this.m[2] *= p.y;
@@ -116,7 +136,7 @@ export class TransformationMatrix
 
     skew(rads:Vector2)
     {
-        if(rads.isZero()) { return this; }
+        if(isZero(rads.x) && isZero(rads.y)) { return this; }
 
         const tanX = Math.tan(rads.x);
         const tanY = Math.tan(rads.y);

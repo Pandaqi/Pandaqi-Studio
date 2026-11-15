@@ -40,6 +40,29 @@ export class Pie extends Path
         );
     }
 
+    // Center + arc points, so clipping and dashed strokes can walk this shape like any other path.
+    toPathArray(resolution = 32)
+    {
+        const path:Vector2[] = [this.center.clone()];
+        for(let i = 0; i <= resolution; i++)
+        {
+            const angle = this.startAngle + (this.endAngle - this.startAngle) * (i / resolution);
+            path.push(new Vector2(
+                this.center.x + Math.cos(angle)*this.radius,
+                this.center.y + Math.sin(angle)*this.radius
+            ));
+        }
+        return path;
+    }
+
+    createPixiObject(graphicsConstructor)
+    {
+        return new graphicsConstructor({})
+            .moveTo(this.center.x, this.center.y)
+            .arc(this.center.x, this.center.y, this.radius, this.startAngle, this.endAngle)
+            .lineTo(this.center.x, this.center.y);
+    }
+
     toPath2D() 
     {
         const p = new Path2D();

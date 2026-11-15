@@ -9,13 +9,57 @@ import { EffectsOperation } from "../../layout/effects/effectsOperation";
 import { ResourceText } from "../../layout/resources/resourceText";
 import { ResourceShape } from "../../layout/resources/resourceShape";
 import { Color } from "../../layout/color/color";
-import { StrokeAlign } from "../../layout/values";
+import { StrokeAlign, StrokeType } from "../../layout/values";
+import { Vector2 } from "../../geometry/vector2";
+import { getLayoutOperationBoxPoints, getLayoutOperationDebugColorNumber, getLayoutOperationPivotPoint } from "../../layout/operation/operationDebug";
 
 interface RendererPixiParams
 {
     bgColor?: string,
     bgAlpha?: number,
     forceWebGPU?: boolean,
+}
+
+const NO_EFFECTS:any[] = [];
+
+// Pixi has no line-dash support. Dashed shapes are approximated by walking every polygon edge and
+// emitting the "on" parts as separate line segments. Only used when a shape actually asks for it.
+const addDashedPolygonStroke = (obj:any, points:Vector2[], width:number) =>
+{
+    if(points.length < 2) { return; }
+    const dash = Math.max(width, 1) * 2;
+
+    // discard the shape's own outline: only the dash segments may be stroked
+    obj.beginPath();
+
+    for(let i = 0; i < points.length; i++)
+    {
+        const from = points[i];
+        const to = points[(i + 1) % points.length];
+        const dx = to.x - from.x;
+        const dy = to.y - from.y;
+        const length = Math.sqrt(dx*dx + dy*dy);
+        if(length <= 0.0001) { continue; }
+
+        const ux = dx / length;
+        const uy = dy / length;
+        let walked = 0;
+        let drawing = true;
+
+        while(walked < length)
+        {
+            const step = Math.min(dash, length - walked);
+            if(drawing)
+            {
+                obj.moveTo(from.x + ux*walked, from.y + uy*walked);
+                obj.lineTo(from.x + ux*(walked + step), from.y + uy*(walked + step));
+            }
+            walked += step;
+            drawing = !drawing;
+        }
+    }
+
+    obj.stroke();
 }
 
 export class RendererPixi extends Renderer
@@ -60,7 +104,9 @@ export class RendererPixi extends Renderer
 
         let renderer;
         if(this.forceWebGPU) {
-            const renderer = new WebGPURenderer(); 
+            // NOTE: `const renderer` here used to shadow the outer variable, so forceWebGPU left
+            // `this.rendererInstance` undefined and crashed on the first render.
+            renderer = new WebGPURenderer();
             await renderer.init(initConfig);
         } else {
             renderer = await autoDetectRenderer(initConfig);
@@ -80,13 +126,10 @@ export class RendererPixi extends Renderer
     {
         // GROUP
         // just call all children to do what they want (they add themselves to us)
-        let obj:any;
-        let shouldAddObject = true;
+        let obj:any = null;
         if(op.resource instanceof ResourceGroup)
         {
             obj = new Container();
-            parent.addChild(obj);
-            shouldAddObject = false;
 
             const combos = (op.resource as ResourceGroup).combos;
             for(const combo of combos)
@@ -104,7 +147,10 @@ export class RendererPixi extends Renderer
         // SHAPES / GEOMETRY
         if(op.resource instanceof ResourceShape)
         {
-            obj = op.resource.getPixiObject(Graphics);
+            // A cached Graphics owns the shape's path. Dashed strokes replace that path with their
+            // dash segments, so using the cached object would leave the next draw with no geometry.
+            const dashed = op.hasStroke() && op.strokeType === StrokeType.DASHED;
+            obj = dashed ? (op.resource as ResourceShape).shape.createPixiObject(Graphics) : op.resource.getPixiObject(Graphics);
 
             if(op.hasFill()) 
             { 
@@ -116,7 +162,15 @@ export class RendererPixi extends Renderer
             {
                 const alignNum = op.strokeAlign == StrokeAlign.INSIDE ? 1.0 : (op.strokeAlign == StrokeAlign.OUTSIDE ? 0.0 : 0.5);
                 obj.setStrokeStyle({ color: op.stroke.toNumber(), width: op.strokeWidth, alignment: alignNum });
-                obj.stroke();
+
+                if(dashed)
+                {
+                    addDashedPolygonStroke(obj, (op.resource as ResourceShape).shape.toPathArray(), op.strokeWidth);
+                }
+                else
+                {
+                    obj.stroke();
+                }
             }
         }
 
@@ -126,22 +180,126 @@ export class RendererPixi extends Renderer
             obj = op.resource.getPixiObject({ sprite: Sprite, texture: Texture, layoutOperation: op, debugText: this.debugText });
         }
 
-        if(shouldAddObject)
+        if(!obj)
         {
-            parent.addChild(obj);
+            console.warn(`[RendererPixi] Resource "${op.resource?.constructor?.name ?? "null"}" has no Pixi implementation; operation skipped.`);
+            return null;
         }
 
         this.applyToPixiObjectProperties(op, obj);
 
-        return obj;
+        // MASKS
+        // A Pixi mask must live in the display tree: creating the Sprite/Graphics and only assigning
+        // it to `.mask` (the old behaviour) left it unrendered, so the mask was ignored entirely.
+        // Wrapping also lets clip and mask be active at the same time, instead of clip silently
+        // winning, which is what the canvas renderer does.
+        const clipMask = op.hasClip() ? this.createClipMask(op) : null;
+        const resourceMask = op.hasMask() ? this.createResourceMask(op) : null;
+
+        let root = obj;
+        if(resourceMask)
+        {
+            const inner = new Container();
+            inner.addChild(obj);
+            inner.addChild(resourceMask);
+            inner.mask = resourceMask;
+            root = inner;
+        }
+
+        if(clipMask)
+        {
+            const outer = new Container();
+            outer.addChild(root);
+            outer.addChild(clipMask);
+            outer.mask = clipMask;
+            root = outer;
+        }
+
+        // the mask wrappers are the parent's children now, so depth must sort on the wrapper
+        if(root !== obj) { root.zIndex = op.depth; }
+        parent.addChild(root);
+
+        if(op.isDebugEnabled()) { this.addDebugOverlay(op, parent); }
+
+        return root;
+    }
+
+    createClipMask(op:LayoutOperation) : Graphics
+    {
+        let points = op.clip.toPathArray();
+
+        // A relative clip follows the operation (like the canvas renderer applies its transform
+        // before clipping); an absolute one is already in the parent's coordinate space.
+        if(op.clipRelative)
+        {
+            const matrix = op.calculateLocalTransformationMatrix();
+            points = points.map((p) => matrix.applyToPoint(p));
+        }
+
+        return new Graphics({}).poly(points, true).fill(0xFFFFFF);
+    }
+
+    createResourceMask(op:LayoutOperation) : any
+    {
+        const mask = op.mask;
+        const maskOp = mask.operation ?? new LayoutOperation({ renderer: this });
+
+        // Mirror ResourceImage.toCanvas: a mask without an explicit size covers the image at its
+        // natural size. The old Pixi path ignored `mask.operation` completely, so every mask sat at
+        // (0,0) with the image's native size.
+        if(maskOp.size.isZero()) { maskOp.size = mask.resource.getSize(); }
+        maskOp.resource = mask.resource;
+        maskOp.renderer = this;
+        maskOp.calculateResultProperties();
+
+        const maskObj = mask.resource.getPixiObject(maskOp.frame ?? 0, Sprite);
+        if(!maskObj) { return null; }
+
+        this.applyToPixiObjectProperties(maskOp, maskObj);
+        return maskObj;
+    }
+
+    addDebugOverlay(op:LayoutOperation, parent:Container)
+    {
+        const localMatrix = op.calculateLocalTransformationMatrix();
+        const points = getLayoutOperationBoxPoints(op, localMatrix);
+        const color = getLayoutOperationDebugColorNumber(op);
+
+        const graphics = new Graphics({});
+        graphics.poly(points, true).stroke({ color: color, width: 2, alignment: 0.5 });
+
+        const pivot = getLayoutOperationPivotPoint(op, localMatrix);
+        graphics.moveTo(pivot.x - 6, pivot.y);
+        graphics.lineTo(pivot.x + 6, pivot.y);
+        graphics.moveTo(pivot.x, pivot.y - 6);
+        graphics.lineTo(pivot.x, pivot.y + 6);
+        graphics.stroke({ color: color, width: 2, alignment: 0.5 });
+
+        graphics.zIndex = 1000000;
+        parent.addChild(graphics);
     }
 
     applyToPixiObjectProperties(op:LayoutOperation, obj)
     {
+        if(!obj) { return obj; }
+
         //
         // set all the GENERAL PROPERTIES (which should exist on all/most DisplayObjects)
         //
-        obj.position.set(op.posResult.x, op.posResult.y);
+        if(obj.anchor)
+        {
+            // Sprites (images and text-as-image) have an anchor, which is exactly the pivot.
+            obj.position.set(op.posResult.x, op.posResult.y);
+            obj.anchor.set(op.pivot.x, op.pivot.y);
+        }
+        else
+        {
+            // Graphics/Containers have no anchor. Position them at their local origin, which already
+            // includes the pivot offset. The old code used posResult and simply ignored the pivot.
+            const origin = op.getLocalOrigin();
+            obj.position.set(origin.x, origin.y);
+        }
+
         obj.rotation = op.rot;
         obj.zIndex = op.depth;
         
@@ -162,31 +320,19 @@ export class RendererPixi extends Renderer
 
         obj.scale.set(scaleResult.x, scaleResult.y);
         obj.skew.set(op.skew.x, op.skew.y);
-        
-        // @NOTE: obj.pivot is automatically correct now, as it's in local space, and (0,0) = anchor point
-        // in the future, I might want to support rotating around a different point; I'll need to rename stuff and add an extra property then
-        if(obj.anchor)
-        {
-            obj.anchor.set(op.pivot.x, op.pivot.y);
-        }
-
-        //
-        // MASKING (either through graphics object or sprite)
-        //
-        if(op.clip) {
-            obj.mask = new Graphics({}).poly(op.clip.toPathArray(), false).fill(0xFFFFFF);
-        } else if(op.mask) {
-            obj.mask = op.mask.resource.getPixiObject(0, Sprite);
-        }
 
         //
         // apply all EFFECTS
         //
         const effOp = new EffectsOperation();
-        for(const effect of op.effects)
+        // avoid allocating an empty effects array on every object that has none
+        const effects = op.hasEffects() ? op.effects : NO_EFFECTS;
+        for(const effect of effects)
         {
             effect.applyToPixi(PIXIFilters, effOp, obj); // some effects do something directly on object
         }
         obj.filters = effOp.filtersPixi;
+
+        return obj;
     }
 }

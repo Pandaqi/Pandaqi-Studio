@@ -46,6 +46,13 @@ export class Circle extends Path
         return p;
     }
 
+    // Circles store center/radius instead of a point list. Clipping and dashed strokes walk the
+    // point list, so without this they hit `Path.toPathArray()` and read an undefined list.
+    toPathArray(resolution = 32)
+    {
+        return this.toPath(resolution);
+    }
+
     toPath(resolution = 32)
     {
         const path : Vector2[] = [];

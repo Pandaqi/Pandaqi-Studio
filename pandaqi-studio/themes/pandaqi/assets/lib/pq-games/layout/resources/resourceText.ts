@@ -66,7 +66,9 @@ export default class ResourceText extends Resource
         const canv = createCanvas({ size: operation.size });
         const ctx = canv.getContext("2d");
         operation.setFillAndStrokeOnContext(ctx);
-        drawTextToCanvas(canv, operation);
+        // the text is drawn directly here, not through the renderer, so the debug flag must be
+        // passed explicitly; setting it on `renderer` alone never reached drawTextToCanvas
+        drawTextToCanvas(canv, operation, helpers.debugText ?? false);
         return new helpers.sprite(helpers.texture.from(canv));
     }
 

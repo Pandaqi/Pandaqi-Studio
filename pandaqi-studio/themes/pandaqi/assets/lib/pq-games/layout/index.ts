@@ -1,5 +1,6 @@
 
 export * from "./layoutOperation";
+export * from "./operation/layoutOperationBuilder";
 export * from "./gridMapper";
 export * from "./values";
 export * from "./patterns";

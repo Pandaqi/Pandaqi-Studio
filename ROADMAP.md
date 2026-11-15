@@ -100,16 +100,19 @@ Once done, check the cheap typecheck/static check, but do NOT run any other audi
 
 
 
-## [ ] PROMPT
+## [x] PROMPT
 
 Code Architecture Improvement: The `LayoutOperation` class is essential to `pq-games` (drawing capabilities). But it's one big monoclass now.
 
-* Break it down into smaller submodules (e.g. pos/rot/scale collected in one _transform_ thing). So we only initialize/create what we actually use and need, and applying/creating this operation isn't a huge single chunk of code.
-* Create an alternative "function chain/builder" type of constructor => `layoutOperation.pos(xx).rot(yy).pivot(zz)` (Maybe use a LayoutOperationBuilder object as in-between to keep this functionality nicely separated.)
+* Break it down into smaller submodules (e.g. pos/rot/scale collected in one _transform_ thing). So we only initialize/create what we actually use and need, and applying/creating this operation isn't a huge single chunk of code. --> should already optimize performance slightly.
+* Create an alternative "function chain/builder" type of constructor => e.g. `new LayoutOperation().pos(xx).rot(yy).pivot(zz)` (Maybe use a LayoutOperationBuilder object/helper as in-between to keep this functionality nicely separated?)
 * IMPLEMENT the `_debug.layoutOperation` property for GameConfigs. When turned on, the LayoutOperation should be giving feedback (in logs and visual) about what it's doing, what it's calculated, where it think something should be placed, etcetera. This should help debugging a lot.
 * SMALL NOTE: RendererPixi renderer does not fully/properly implement `mask`. Fix that. There might be a few more tiny edge cases with a property not (fully) supported in `RendererPixi` or `RendererPandaqi`; find them and solve them.
 
 The public API for LayoutOperation should not be broken. (It shouldn't change except for the function chain builder _addition_.) All games using it should need no update and work just fine. This is purely an internal refactor to make it cleaner, faster, and more flexible/modular.
+
+Add tests for all (important) LayoutOperation behavior, just like we added a small test suite for just the _text_ drawing behavior. To prevent regressions and ensure stability from now on.
+
 
 ## [ ] PROMPT (RULEBOOKS)
 
@@ -119,6 +122,9 @@ A list of general improvements to the `pq-rulebook` library on this website. All
   * Font size could be SMALLER IN GENERAL (in print)
   * And these rulebooks could look _slightly_ nicer and more flexible and more approachable, with minimal extra CSS cost.
 * HEADER: Add the NAME OF THE GAME to the rulebooks, as now you don't have any clue!
+  * This name can be read automatically within the pandaqi-studio website (based on URL, probably, but we can make the library look in several places).
+  * You can input the name directly in loadRulebook (through its CONFIG)
+  * If no name present, then it just shows nothing, or just a "Rulebook" default.
   * ALSO: Use Paged.js (when advanced printing) to automatically put some small marker like `GameName > CurrentSection` in the page headers, to know where you are in the rulebook. Also check if page numbers are properly printed at the bottom.
 * TOOLBAR: it's getting more and more buttons/content. So, instead, make it a hamburger menu or collapsible menu on smaller screens (when the buttons would start to wrap and look ugly.)
   * Extra buttons in toolbar: "fold/unfold rulebook tables" (or at least provide an alternative view where they're fully listed, nothing to click anymore)
@@ -147,12 +153,14 @@ Wait with checking the final results/output until you've done _all_ steps. Inter
 
 FIXES:
 
-* PDF generation now defaults to a _black_ background. (Might be a _transparent_ background, actually, which shows up black in browser PDF viewer.) That's bad! Should be a white background (like paper; better for ink usage). This only happened after our changes (like directly inserting canvases into jsPDF instead of converting to images first). I really like these changes as they make the framework MUCH faster. So, find a simple way to get the background white again _without_ losing these performance gains.
+* PDF generation now defaults to a _black_ background. That's bad! Should be a white background (like paper; better for ink usage). This only happened after our changes (like directly inserting canvases into jsPDF instead of converting to images first). 
+  * I really like these changes as they make the framework MUCH faster. So, find a simple way to get the background white again _without_ losing these performance gains.
+  * NOTE: Might be a _transparent_ background, actually, which shows up black in some browser PDF viewers. So it might be fine ... but I fear users might be confused by the black background (or fear that it will cost them a lot of ink), so yes, ensure a white background anyway.
 * (Also, check if PDF compression is turned on again in the public build. It's turned off when auditing/developing, but should be turned on at release website, and I don't think it is right now.)
 * Some generators create multiple PDFs. They currently use the same name, which leads to name collision while downloading. Make sure their names are differentiated meaningfully.
 * The systems and styling work well on Windows/Chrome, but seem to be failing on (old) Safari/iPhones/apple products. Find possible causes for that and fix it.
 
-CLEANUP PROMPT? => Sweep every remaining game under themes/pandaqi/assets/games for old-style `CONFIG._settings.*.value` and `CONFIG._drawing.*` reads that bypass getSetting/vis.get, tell me which are real leftovers versus intentional, and migrate the clear leftovers.
+CLEANUP PROMPT? => Sweep every remaining game under themes/pandaqi/assets/games for old-style `CONFIG._settings.*.value` and `CONFIG._drawing.*` reads that bypass getSetting/vis.get, identify which are real leftovers versus intentional (rare), and migrate the clear leftovers.
 
 
 

@@ -40,6 +40,12 @@ export class Ellipse extends Path
         return new graphicsConstructor({}).ellipse(this.center.x, this.center.y, this.radius.x, this.radius.y);
     }
 
+    // see Circle.toPathArray: paths are stored as a point list, but this shape stores center/radius
+    toPathArray(resolution = 32)
+    {
+        return this.toPath(resolution);
+    }
+
     toPath(resolution = 32)
     {
         const path : Vector2[] = [];
@@ -50,6 +56,7 @@ export class Ellipse extends Path
                 this.center.x + Math.cos(angle)*this.radius.x,
                 this.center.y + Math.sin(angle)*this.radius.y
             )
+            path.push(pos);
         }
         return path;
     }

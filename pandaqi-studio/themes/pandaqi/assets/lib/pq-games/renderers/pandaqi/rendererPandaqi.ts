@@ -5,16 +5,35 @@ import { Vector2 } from "../../geometry/vector2";
 import { createCanvas, createContext } from "../../layout/canvas/creators";
 import { EffectsOperation } from "../../layout/effects/effectsOperation";
 import { LayoutOperation } from "../../layout/layoutOperation";
+import { drawLayoutOperationDebug } from "../../layout/operation/operationDebug";
 import type { Resource} from "../../layout/resources/resource";
-import { ResourceGroup } from "../../layout/resources/resourceGroup";
+import { LayoutCombo, ResourceGroup } from "../../layout/resources/resourceGroup";
 import { ResourceImage, CanvasLike } from "../../layout/resources/resourceImage";
 import type { ResourceLoadParams } from "../../layout/resources/resourceLoader";
+import type { LayoutEffect } from "../../layout/effects/layoutEffect";
 import type { ResourceShape } from "../../layout/resources/resourceShape";
 import { ResourceText } from "../../layout/resources/resourceText";
 import { Renderer, RendererDrawFinishParams } from "../renderer";
 import { drawTextToCanvas } from "../../layout/text/drawing";
 import { getCanvasContextState, resetCanvasContextState } from "../../layout/canvas/operations";
 import { StrokeAlign } from "../../layout/values";
+import { isZero } from "../../tools/numbers/checks";
+
+const NO_EFFECTS:LayoutEffect[] = [];
+
+// Canvas has no z-index: it draws in call order. Sorting only when at least one sibling actually
+// uses `depth` keeps the common path allocation-free.
+const getCombosInDrawOrder = (combos:LayoutCombo[]) : LayoutCombo[] =>
+{
+    let needsSort = false;
+    for(const combo of combos)
+    {
+        if(combo.operation && !isZero(combo.operation.depth)) { needsSort = true; break; }
+    }
+
+    if(!needsSort) { return combos; }
+    return combos.slice().sort((a, b) => (a.operation?.depth ?? 0) - (b.operation?.depth ?? 0));
+}
 
 export class RendererPandaqi extends Renderer
 {
@@ -44,8 +63,13 @@ export class RendererPandaqi extends Renderer
         let ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
         if(!ctx) { ctx = createContext({ size: op.size }); }
 
-        const effects = op.effects.slice();
-        if(op.hasTint()) { effects.push(new TintEffect(op.tint)); }
+        // don't call `op.effects` when there are none: its getter allocates the (empty) list
+        let effects = op.hasEffects() ? op.effects.slice() : NO_EFFECTS;
+        if(op.hasTint())
+        {
+            if(effects === NO_EFFECTS) { effects = [new TintEffect(op.tint)]; }
+            else { effects.push(new TintEffect(op.tint)); }
+        }
         const effOp = new EffectsOperation(effects);
         
         // HUGE OPTIMIZATION => don't create the temporary canvas if we don't need it
@@ -109,7 +133,7 @@ export class RendererPandaqi extends Renderer
         // now prepare/draw the actual resource onto it
         if(op.isGroup())
         {
-            const combos = (op.resource as ResourceGroup).combos;
+            const combos = getCombosInDrawOrder((op.resource as ResourceGroup).combos);
             for(const combo of combos)
             {
                 combo.toCanvas(ctxTemp, op);
@@ -175,8 +199,15 @@ export class RendererPandaqi extends Renderer
             ctx.drawImage(ctxFinal.canvas, 0, 0);
             ctx.setTransform(destTransform);
         }
+
         if(op.inline) { resetCanvasContextState(ctx, oldState); }
         if(needsStateManagement) { ctx.restore(); }
+
+        // debug feedback is drawn last (after any clip is restored), at identity, so it is never
+        // affected by this operation's own transform/effects/clip. Inline operations are skipped
+        // (their context belongs to another operation).
+        if(op.isDebugEnabled()) { drawLayoutOperationDebug(ctx, op); }
+
         return ctx.canvas;
     }
 
@@ -190,8 +221,11 @@ export class RendererPandaqi extends Renderer
         else { node.style.backgroundColor = op.fill.toCSS(); }
 
         if(textMode) {
-            node.style.stroke = op.stroke.toString();
+            const strokeColor = op.stroke.toCSS();
+            // `stroke` only works for SVG; HTML text outlines need the (widely supported) webkit property
+            node.style.stroke = strokeColor;
             node.style.strokeWidth = op.strokeWidth + "px";
+            (node.style as any).webkitTextStroke = op.strokeWidth + "px " + strokeColor;
         } else {
             if(op.strokeWidth > 0) { node.style.borderStyle = op.strokeType; }
             node.style.borderWidth = op.strokeWidth + "px";
@@ -204,13 +238,33 @@ export class RendererPandaqi extends Renderer
             node.style.clipPath = op.clip.toCSSPath();
         }
 
-        // @TODO: how to handle the other mask properties? A Mask sub-class?
+        // A CSS mask is positioned in the element's own box, unlike the canvas mask (which is in canvas
+        // coordinates), so only the size/repeat can be mapped reliably. The operation is still used for
+        // the mask's size, which is the part that otherwise cut off or stretched every masked element.
         if(op.hasMask())
         {
-            node.style.maskImage = op.mask.resource.getCSSUrl();
+            const maskUrl = op.mask.resource.getCSSUrl();
+            const maskOp = op.mask.operation;
+            let maskSize = maskOp?.sizeResult;
+            if(!maskSize || maskSize.isZero()) { maskSize = maskOp?.size; }
+            if(!maskSize || maskSize.isZero()) { maskSize = op.mask.resource.getSize(); }
+
+            node.style.maskImage = maskUrl;
+            (node.style as any).webkitMaskImage = maskUrl;
+            node.style.maskRepeat = "no-repeat";
+            (node.style as any).webkitMaskRepeat = "no-repeat";
+
+            if(maskSize)
+            {
+                const sizeCSS = maskSize.x + "px " + maskSize.y + "px";
+                node.style.maskSize = sizeCSS;
+                (node.style as any).webkitMaskSize = sizeCSS;
+            }
         }
 
         // all the transform stuff
+        node.style.transformOrigin = (op.pivot.x * 100) + "% " + (op.pivot.y * 100) + "%";
+
         const transforms = []
         if(op.rot != 0) 
         { 
@@ -228,9 +282,14 @@ export class RendererPandaqi extends Renderer
             transforms.push("scale(" + scale.x + ", " + scale.y + ")");
         }
 
+        if(op.skew.x != 0 || op.skew.y != 0)
+        {
+            transforms.push("skew(" + op.skew.x + "rad, " + op.skew.y + "rad)");
+        }
+
         if(transforms.length > 0)
         {
-            node.style.transform += " " + transforms.join(" ");
+            node.style.transform = (node.style.transform ?? "") + " " + transforms.join(" ");
         }
 
         // all the filter stuff to make special things happen

@@ -8,6 +8,7 @@ import { Configurator } from "../settings/configurator";
 import { CVal } from "../settings/cval";
 import { ensureConfigProperties, GameConfig, getSettingDefault, DrawingPaths } from "../settings/configuration";
 import { translate } from "../layout/text/translation";
+import { debugEnabled } from "../tools/debug/flags";
 
 // one warning per config, not one per material
 const WARNED_CONFIGS = new WeakSet<object>();
@@ -42,6 +43,11 @@ export class MaterialVisualizer<TConfig extends GameConfig = GameConfig>
         this.config = config;
         this.renderer = config._game.renderer ?? new RendererPandaqi();
         this.resLoader = config._game.resLoader;
+
+        // Generators copy these flags in setupRenderer(); visualizers created directly (rulebook
+        // examples, tooling) would otherwise ignore `_debug.layoutOperation` and `_debug.text`
+        this.renderer.debugLayoutOperation = debugEnabled(config, "layoutOperation");
+        this.renderer.debugText = debugEnabled(config, "text");
 
         // A config that never went through loadResources/getMaterialDataForRulebook has no loader, and the
         // failure only surfaced much later, while drawing a random card, as "Cannot read properties of
