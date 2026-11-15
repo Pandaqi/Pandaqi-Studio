@@ -164,7 +164,17 @@ export class RendererPandaqi extends Renderer
         const ctxFinal = effOp.applyToCanvasPost(ctxTemp);
 
         // only draw something extra if we actually have a temporary canvas to draw
-        if(needsTemporaryCanvas) { ctx.drawImage(ctxFinal.canvas, 0, 0); }
+        // The temporary canvas already contains the FULL, absolute transform of this operation. `ctx` can still
+        // carry the transform of a parent operation (a nested group, or the text an inline image sits in), so
+        // stamping it with that transform active applied the transform twice: text/images jumped by the parent's
+        // position (and a scale/rotation compounded). Stamp at identity and put the destination back afterwards.
+        if(needsTemporaryCanvas) 
+        { 
+            const destTransform = ctx.getTransform();
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.drawImage(ctxFinal.canvas, 0, 0);
+            ctx.setTransform(destTransform);
+        }
         if(op.inline) { resetCanvasContextState(ctx, oldState); }
         if(needsStateManagement) { ctx.restore(); }
         return ctx.canvas;

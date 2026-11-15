@@ -175,11 +175,17 @@ export const parseText = (text:string|TextChunk[], textConfig:TextConfig, boxWid
 
 export const parseTextMeasured = (text:string|TextChunk[], textConfig:TextConfig, boxWidth:number, ctx:CanvasRenderingContext2D) : ParsedText =>
 {
+    // The font MUST be on the context before anything is measured. This used to sit below the simple
+    // parse, so `wrap:false, format:false` text (which returns before reaching it) was measured with
+    // whatever font the shared measuring context happened to hold from the previous text.
+    const style = textConfig.clone(false);
+    style.applyToCanvas(ctx);
+
     // a much quicker shortcut if your text requirements are simple
     const executeSimpleParse = (typeof text === "string") && !textConfig.wrap && !textConfig.format;
     if(executeSimpleParse) { 
         const chunk = new TextChunkText(text as string);
-        const metrics = chunk.getMetrics(ctx, textConfig.transform);
+        const metrics = chunk.getMetrics(ctx, style.transform);
         return { 
             chunks: [chunk], 
             widths: [metrics.width], 
@@ -190,9 +196,6 @@ export const parseTextMeasured = (text:string|TextChunk[], textConfig:TextConfig
 
     const input = Array.isArray(text) ? text : getPreparedChunks(text as string, textConfig);
     if(input.length <= 0) { return { chunks: [], widths: [], ascents: [], descents: [] }; }
-
-    const style = textConfig.clone(false);
-    style.applyToCanvas(ctx);
 
     const items:{ chunk:TextChunk, width:number, ascent:number, descent:number, kind:number }[] = [];
     for(const chunk of input)

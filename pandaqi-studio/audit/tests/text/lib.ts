@@ -8,6 +8,10 @@ const LIB = "../../../themes/pandaqi/assets/lib/pq-games";
 
 export * from "../../../themes/pandaqi/assets/lib/pq-games/layout/text/index";
 export { ResourceText } from "../../../themes/pandaqi/assets/lib/pq-games/layout/resources/resourceText";
+export { ResourceGroup } from "../../../themes/pandaqi/assets/lib/pq-games/layout/resources/resourceGroup";
+export { ResourceImage } from "../../../themes/pandaqi/assets/lib/pq-games/layout/resources/resourceImage";
+export { DropShadowEffect } from "../../../themes/pandaqi/assets/lib/pq-games/layout/effects/dropShadowEffect";
+export { OutlineEffect } from "../../../themes/pandaqi/assets/lib/pq-games/layout/effects/outlineEffect";
 export { LayoutOperation } from "../../../themes/pandaqi/assets/lib/pq-games/layout/layoutOperation";
 export { RendererPandaqi } from "../../../themes/pandaqi/assets/lib/pq-games/renderers/pandaqi/rendererPandaqi";
 export { Vector2 } from "../../../themes/pandaqi/assets/lib/pq-games/geometry/vector2";

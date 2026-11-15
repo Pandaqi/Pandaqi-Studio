@@ -51,7 +51,27 @@ changed — never that a font happened to be missing.
 * `text-format.test.ts` — `<b> <em> <size> <col> <font> <sc> <sup> <sub> <upper> <lower>`,
   `format: false`, measure/draw agreement, and that style state does not leak between draws.
 * `text-draw.test.ts` — fill/stroke calls and their order, colours, canvas state restoration,
-  pivot/position/scale, text-as-image (`drawTextFromResource`), inline images.
+  pivot/position/scale, text-as-image (`drawTextFromResource`), inline images (including that the
+  text after an image still gets the text's own fill/font/line width).
+* `text-scene.test.ts` — the combination a real game actually draws: text in (nested) `ResourceGroup`s,
+  strokes, effects and drop shadows, rotated and scaled operations, a shared `TextConfig`, one
+  `LayoutOperation` reused for an image and then for a text, the same text resource in two groups, a
+  card shaped like naivigation's instruction token (stroked text with a drop shadow AND an icon image in
+  one sub-group, that sub-group drawn twice at different offsets — both the text and the image must land
+  at both copies), and inline images inside transformed text. Every placement is compared against the
+  operation's own transform, so "the transform was lost / applied twice" cannot pass.
+
+`fakeCanvas.ts` records `drawImage` as well as `fillText`/`strokeText` (top-left after the active
+transform), so image placement inside groups is checked, not just text.
 * `text-perf.test.ts` — one measurement per chunk, zero measurements on a repeat draw, no canvas per
   text box, linear (not quadratic) layout growth, and a deck-sized batch budget. Timings are printed
   with `bun test` output; the thresholds are deliberately generous so they only catch regressions.
+
+## Things these tests deliberately pin down
+
+* A text with an explicit `size` is measured, aligned and reported as THAT box. `dimsFull` is the box;
+  `dimsUsed` is the ink inside it. (An auto axis — `size: 0` or `sizeAuto` — is sized by the text.)
+* Drawing goes through the operation's transform exactly once, whether the text is drawn directly, in a
+  group, in a group in a group, through a stroke (temporary canvas) or through an outline effect.
+* Layout/drawing never writes back onto shared objects: not onto the `TextConfig`, not onto the
+  `LayoutOperation` (fill), not onto the canvas state the next text run uses.

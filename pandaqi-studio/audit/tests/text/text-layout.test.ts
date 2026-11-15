@@ -15,7 +15,9 @@ describe("single line placement", () => {
         expect(m.lines[0].getSize().x).toBe(2 * CHAR);
         expect(m.lines[0].getPosition().x).toBe(0);
         expect(m.lines[0].getPosition().y).toBeCloseTo(ASCENT, 5);
-        expect(m.dimsFull.getSize().y).toBeCloseTo(ASCENT + DESCENT, 5);
+        expect(m.dimsUsed.getSize().y).toBeCloseTo(ASCENT + DESCENT, 5);
+        // an explicit box is reported as that box; the ink is what dimsUsed is for
+        expect(m.dimsFull.getSize().y).toBe(100);
     });
 
     test("drawn baseline matches the measured baseline", () => {
@@ -175,7 +177,7 @@ describe("explicit line breaks", () => {
     test("a newline starts a new line with the same height", () => {
         const m = metrics("aa\nbb", new Vector2(100, 100));
         expect(m.lines.length).toBe(2);
-        expect(m.dimsFull.getSize().y).toBeCloseTo(2 * LINE - (LINE - (ASCENT + DESCENT)), 5);
+        expect(m.dimsUsed.getSize().y).toBeCloseTo(2 * LINE - (LINE - (ASCENT + DESCENT)), 5);
     });
 
     test("a blank line takes up vertical space", () => {
@@ -332,7 +334,8 @@ describe("line limit", () => {
         const text = "aaaa bbbb cccc dddd eeee ffff";
         const m = metrics(text, new Vector2(100, 400), config);
         expect(m.lines.length).toBe(2);
-        expect(m.dimsFull.getSize().y).toBeCloseTo(2 * LINE - (LINE - (ASCENT + DESCENT)), 5);
+        expect(m.dimsUsed.getSize().y).toBeCloseTo(2 * LINE - (LINE - (ASCENT + DESCENT)), 5);
+        expect(m.dimsFull.getSize().y).toBe(400); // the given box is not clipped to the text
 
         const d = draw(text, { size: new Vector2(100, 400) }, config);
         expect(d.lines.length).toBe(2);

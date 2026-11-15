@@ -1,7 +1,7 @@
 import "./setup";
 
 import { describe, expect, test } from "bun:test";
-import { ASCENT, CHAR, cfg, draw, drawDirect, metrics, res, textWidth } from "./helpers";
+import { ASCENT, CHAR, DESCENT, cfg, draw, drawDirect, LayoutOperation, metrics, res, textWidth } from "./helpers";
 import { Color, TextAlign, TextConfig, TextTransform, TextVariant, TextWeight, Vector2 } from "./lib";
 import { measureWidth } from "./fakeCanvas";
 
@@ -70,7 +70,7 @@ describe("text transform (case)", () => {
     test("UPPERCASE measures and draws the uppercase text", () => {
         const config = cfg({ extra: { transform: TextTransform.UPPERCASE } });
         const m = metrics("abc", new Vector2(1000, 100), config);
-        expect(m.dimsFull.getSize().x).toBeCloseTo(measureWidth("ABC", 16), 5);
+        expect(m.dimsUsed.getSize().x).toBeCloseTo(measureWidth("ABC", 16), 5);
 
         const d = draw("abc", { size: new Vector2(1000, 100) }, config);
         expect(d.draws[0].text).toBe("ABC");
@@ -89,7 +89,7 @@ describe("text transform (case)", () => {
         const m = metrics("abc", new Vector2(1000, 100), config);
         const d = draw("abc", { size: new Vector2(1000, 100) }, config);
         const drawnWidth = textWidth(d.draws[0].text, d.draws[0].font);
-        expect(m.dimsFull.getSize().x).toBeCloseTo(drawnWidth, 5);
+        expect(m.dimsUsed.getSize().x).toBeCloseTo(drawnWidth, 5);
     });
 });
 
@@ -113,7 +113,7 @@ describe("superscript and subscript", () => {
     test("a subscript increases the line height it needs", () => {
         const plain = metrics("xx", new Vector2(1000, 500));
         const withSub = metrics("x<sub>2</sub>", new Vector2(1000, 500));
-        expect(withSub.dimsFull.getSize().y).toBeGreaterThan(plain.dimsFull.getSize().y);
+        expect(withSub.dimsUsed.getSize().y).toBeGreaterThan(plain.dimsUsed.getSize().y);
     });
 });
 
@@ -129,6 +129,29 @@ describe("format toggle", () => {
         const config = cfg({ extra: { format: false } });
         const d = draw("aa\nbb", { size: new Vector2(1000, 200) }, config);
         expect(d.lines.length).toBe(2);
+    });
+
+    test("format:false + wrap:false is measured with ITS OWN font, not the previous text's", () => {
+        // the fast path (no wrapping, no formatting) used to measure before the font was put on the
+        // shared measuring context, so it silently used the font of whichever text was measured before
+        metrics("warmup", new Vector2(1000, 100), cfg({ extra: { size: 40 } }));
+
+        const config = cfg({ extra: { format: false, wrap: false } });
+        const m = metrics("aaaa", new Vector2(1000, 100), config);
+        expect(m.dimsUsed.getSize().x).toBeCloseTo(4 * CHAR, 5);
+
+        const d = draw("aaaa", { size: new Vector2(1000, 100) }, config);
+        expect(textWidth(d.draws[0].text, d.draws[0].font)).toBeCloseTo(m.dimsUsed.getSize().x, 5);
+    });
+
+    test("an auto-sized format:false text gets the size of its own font", () => {
+        metrics("warmup", new Vector2(1000, 100), cfg({ extra: { size: 40 } }));
+
+        const resource = res("aaaa", cfg({ extra: { format: false, wrap: false } }));
+        const op = new LayoutOperation({ resource: resource, pos: new Vector2(), size: new Vector2(0, 0), pivot: Vector2.ZERO });
+        op.calculateResultProperties();
+        expect(op.sizeResult.x).toBe(4 * CHAR + 1);
+        expect(op.sizeResult.y).toBe(Math.round(ASCENT + DESCENT) + 1);
     });
 });
 

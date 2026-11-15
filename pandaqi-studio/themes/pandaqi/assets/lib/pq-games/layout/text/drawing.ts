@@ -1,4 +1,5 @@
 import { Vector2 } from "../../geometry/vector2";
+import { ColorLike } from "../color/colorLike";
 import { createContext } from "../canvas/creators";
 import { LayoutOperation } from "../layoutOperation";
 import type { CanvasLike } from "../resources/resourceImage";
@@ -50,13 +51,19 @@ export const drawTextToCanvas = (canv:CanvasLike, op:LayoutOperation = new Layou
 
 const drawTextLines = (ctx:CanvasRenderingContext2D, op:LayoutOperation, lines:LineData[], cfg:TextConfig) =>
 {
+    const fillVisible = op.hasFill();
+    const hasStroke = op.hasStroke();
+
+    // text with neither a fill nor a stroke is drawn black, so it stays visible (this fallback used to be
+    // written back onto the operation itself, which polluted every later use of that same operation)
+    const hasFill = fillVisible || !hasStroke;
+    const color = fillVisible ? op.fill : new ColorLike("#000000");
+
     const style = cfg.clone(false);
-    style.color = op.fill;
+    style.color = color;
     style.applyToCanvas(ctx);
     ctx.textBaseline = style.anchor ?? TextAnchor.ALPHABETIC;
 
-    const hasFill = op.hasFill();
-    const hasStroke = op.hasStroke();
     const strokeBeforeFill = op.strokeAlign == StrokeAlign.OUTSIDE;
 
     const pos = new Vector2();
@@ -149,7 +156,14 @@ const drawImageChunk = (ctx:CanvasRenderingContext2D, elem:TextChunkImage, pos:V
 
     // now draw the image at the right size+location
     // (and, as explained, forget about our changes afterwards so the rest of the text continues at the proper settings/location)
+    //
+    // `inline` only resets the transform/alpha/filter/composite. Everything else the image operation sets on
+    // this shared context — fillStyle, strokeStyle, lineWidth, font, shadow, clip — would otherwise stay behind
+    // for the rest of the text. Text after an inline image was literally drawn with the image's (transparent)
+    // fill, so it disappeared. A save/restore around the image is the complete version of that reset.
+    ctx.save();
     res.toCanvas(ctx, op);
+    ctx.restore();
 }
 
 const drawTextDebug = (ctx:CanvasRenderingContext2D, metrics:TextBoxMetrics) =>

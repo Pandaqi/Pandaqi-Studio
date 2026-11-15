@@ -61,6 +61,16 @@ export interface RecordedTextDraw
     lineWidth: number,
 }
 
+export interface RecordedImageDraw
+{
+    dx: number,
+    dy: number,
+    w: number,
+    h: number,
+    absX: number, // top-left after the transform that was active at the time
+    absY: number,
+}
+
 interface Matrix { a:number, b:number, c:number, d:number, e:number, f:number }
 
 const IDENTITY : Matrix = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 };
@@ -102,6 +112,7 @@ export class FakeCanvasContext2D
     imageSmoothingEnabled = true
 
     draws:RecordedTextDraw[] = []
+    images:RecordedImageDraw[] = []
     measureCalls = 0
     otherCalls:string[] = []
 
@@ -150,7 +161,7 @@ export class FakeCanvasContext2D
     }
 
     getTextDraws() { return this.draws; }
-    resetRecording() { this.draws = []; this.measureCalls = 0; }
+    resetRecording() { this.draws = []; this.images = []; this.measureCalls = 0; }
 
     /* state */
     save()
@@ -227,23 +238,48 @@ export class FakeCanvasContext2D
     fillRect() { this.otherCalls.push("fillRect"); }
     strokeRect() { this.otherCalls.push("strokeRect"); }
     clearRect() { this.otherCalls.push("clearRect"); }
-    // when the renderer draws a temporary canvas onto the real one, keep the recorded text draws visible
-    drawImage(img:any, dx = 0, dy = 0)
+    // when the renderer draws a temporary canvas onto the real one, keep the recorded text AND images visible
+    drawImage(img:any, dx = 0, dy = 0, dw?:number, dh?:number)
     {
         this.otherCalls.push("drawImage");
-        const sourceCtx = img && img.getContext ? img.getContext("2d") : null;
-        if(!sourceCtx || !sourceCtx.draws) { return; }
 
         const m = this.matrix;
-        for(const d of sourceCtx.draws)
+        this.images.push({
+            dx: dx, dy: dy,
+            w: dw ?? (img && img.width) ?? 0,
+            h: dh ?? (img && img.height) ?? 0,
+            absX: m.a * dx + m.c * dy + m.e,
+            absY: m.b * dx + m.d * dy + m.f,
+        });
+
+        const sourceCtx = img && img.getContext ? img.getContext("2d") : null;
+        if(!sourceCtx) { return; }
+
+        if(sourceCtx.draws)
         {
-            this.draws.push({
-                ...d,
-                x: d.absX + dx,
-                y: d.absY + dy,
-                absX: m.a * (d.absX + dx) + m.c * (d.absY + dy) + m.e,
-                absY: m.b * (d.absX + dx) + m.d * (d.absY + dy) + m.f,
-            });
+            for(const d of sourceCtx.draws)
+            {
+                this.draws.push({
+                    ...d,
+                    x: d.absX + dx,
+                    y: d.absY + dy,
+                    absX: m.a * (d.absX + dx) + m.c * (d.absY + dy) + m.e,
+                    absY: m.b * (d.absX + dx) + m.d * (d.absY + dy) + m.f,
+                });
+            }
+        }
+
+        if(sourceCtx.images)
+        {
+            for(const si of sourceCtx.images)
+            {
+                this.images.push({
+                    dx: si.dx + dx, dy: si.dy + dy,
+                    w: si.w, h: si.h,
+                    absX: m.a * (si.absX + dx) + m.c * (si.absY + dy) + m.e,
+                    absY: m.b * (si.absX + dx) + m.d * (si.absY + dy) + m.f,
+                });
+            }
         }
     }
     setLineDash() { this.otherCalls.push("setLineDash"); }

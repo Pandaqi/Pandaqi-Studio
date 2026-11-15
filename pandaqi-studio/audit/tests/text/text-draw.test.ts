@@ -115,7 +115,9 @@ describe("inline images", () => {
         const calls:any[] = [];
         const imageResource:any = {
             getSizeKeepRatio: (y:number) => y, // square icon
-            toCanvas: (ctx:any, op:any) => { calls.push({ pos: op.pos.clone(), size: op.size.clone() }); },
+            // goes through the real operation path, like ResourceImage.toCanvas does: that path sets the
+            // image's fill/stroke/lineWidth on the shared canvas and then draws the image
+            toCanvas: (ctx:any, op:any) => { calls.push({ pos: op.pos.clone(), size: op.size.clone() }); op.resource = imageResource; op.applyToCanvas(ctx); },
         };
         const loader:any = {
             getResource: () => ({ getImageFrameAsResource: () => imageResource }),
@@ -138,6 +140,13 @@ describe("inline images", () => {
         const after = d.ctx.draws[d.ctx.draws.length - 1];
         expect(after.text).toBe("bb");
         expect(after.absX).toBeCloseTo(before.absX + measureWidth("aa", 16) + expectedHeight, 5);
+
+        // the image may set its own fill/stroke/lineWidth on the shared context, but the text after it
+        // must still be drawn as this text run, not as the image
+        expect(after.fillStyle).toBe(before.fillStyle);
+        expect(after.strokeStyle).toBe(before.strokeStyle);
+        expect(after.lineWidth).toBe(before.lineWidth);
+        expect(after.font).toBe(before.font);
 
         // the image is vertically centred on the line box (which is as tall as the image)
         expect(calls[0].pos.y).toBeCloseTo(0.5 * expectedHeight, 4);

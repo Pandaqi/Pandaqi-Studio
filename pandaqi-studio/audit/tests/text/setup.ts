@@ -15,6 +15,8 @@ if(typeof g.document === "undefined")
 }
 
 if(typeof g.HTMLCanvasElement === "undefined") { g.HTMLCanvasElement = FakeCanvas; }
+// only used for `instanceof` checks (ResourceImage decides between an <img> and a canvas that way)
+if(typeof g.HTMLImageElement === "undefined") { g.HTMLImageElement = class HTMLImageElementStub {}; }
 if(typeof g.CanvasRenderingContext2D === "undefined") { g.CanvasRenderingContext2D = FakeCanvasContext2D; }
 
 // `layout/canvas/operations.ts` builds a `new DOMMatrix()` at module scope

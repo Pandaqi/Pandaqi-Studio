@@ -230,8 +230,9 @@ export class LayoutOperation
 
         if(this.isText())
         {
-            const canBeSeen = this.hasFill() || this.hasStroke();
-            if(!canBeSeen) { this.setFill(Color.BLACK); }
+            // (a text with neither fill nor stroke used to get `fill = BLACK` assigned right here, which MUTATED
+            // the operation: an operation shared between a text and an image/shape kept that black fill and drew
+            // a black box behind the image on its next use. Drawing now falls back to black without touching it.)
 
             // A box axis of 0 means "the text decides". Such an axis must not be measured inside a
             // fake 2048px box and then aligned within it, or the text is drawn far outside itself.
