@@ -1390,7 +1390,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 
     .rulebook-toolbar-select select
     {
-        min-height: 3.2em;
+        min-height: 44px;
     }
 }
 
@@ -1422,7 +1422,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     .rulebook-toc-toggle
     {
         display: flex;
-        font-size: 0.82em;
+        font-size: 1em;
         min-height: 44px;
     }
 
@@ -1434,8 +1434,10 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 
     .rulebook-toc-link
     {
+        display: flex;
+        align-items: center;
         padding: 0.4em 0.55em;
-        min-height: 2.6em;
+        min-height: 44px;
     }
 
     .rulebook-toc:not(.is-open) .rulebook-toc-nav
@@ -1747,6 +1749,13 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     {
         color: #111111;
         padding: 0.1em 0;
+    }
+
+    .rulebook-toc-link,
+    .rulebook-paged-output .rulebook-toc-link
+    {
+        display: block;
+        min-height: 0;
     }
 
     .rulebook-shell[data-toc-print="true"] .rulebook-toc-link.active

@@ -183,7 +183,7 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
         // RB-4
         if(sectionCount > 0)
         {
-            await page.locator(".rulebook-toolbar button", { hasText: "Fold All" }).first().click();
+            await page.getByRole("button", { name: "Fold All", exact: true }).click();
             await sleep(150);
             const allFolded = await page.$$eval(
                 ".rulebook-section:not([data-nofold]) .rulebook-section-content",
@@ -191,7 +191,7 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
             );
             checker.ok(allFolded, "RB_FOLD_ALL", "Fold All did not hide every foldable section's content");
 
-            await page.locator(".rulebook-toolbar button", { hasText: "Unfold All" }).first().click();
+            await page.getByRole("button", { name: "Unfold All", exact: true }).click();
             await sleep(150);
             const allUnfolded = await page.$$eval(
                 ".rulebook-section:not([data-nofold]) .rulebook-section-content",
@@ -199,6 +199,43 @@ export const runRulebook = async (session:Session, entry:ManifestEntry, opts:Run
             );
             checker.ok(allUnfolded, "RB_UNFOLD_ALL", "Unfold All did not clear the folded state");
         }
+
+        // Mobile toolbar: using an action must not collapse the menu.
+        await page.setViewportSize({ width: 390, height: 900 });
+        const menuToggle = page.locator(".rulebook-menu-toggle").first();
+        checker.ok(await menuToggle.isVisible(), "RB_TOOLBAR_MENU_TOGGLE",
+            "the mobile toolbar menu toggle is not visible");
+        if(await menuToggle.isVisible())
+        {
+            const menuState = await page.locator(".rulebook-toolbar").first().evaluate((el) =>
+                (el as HTMLElement).dataset.menu
+            );
+            if(menuState !== "open") { await menuToggle.click(); }
+
+            const mobileAdvanced = page.locator(".rulebook-toolbar-advanced").first();
+            if(await mobileAdvanced.evaluate((el) => (el as HTMLElement).hidden))
+            {
+                await page.locator(".rulebook-advanced-toggle").first().click();
+                await sleep(50);
+            }
+
+            await page.getByRole("button", { name: "Fold All", exact: true }).click();
+            await sleep(100);
+
+            const menuAfterAction = await page.locator(".rulebook-toolbar").first().evaluate((el) =>
+                (el as HTMLElement).dataset.menu
+            );
+            const actionsVisible = await page.locator(".rulebook-toolbar-actions").first().evaluate((el) =>
+                getComputedStyle(el).display !== "none"
+            );
+            checker.ok(menuAfterAction === "open" && actionsVisible, "RB_TOOLBAR_MENU_STAYS_OPEN",
+                "the mobile toolbar menu closed after using Fold All",
+                `menu=${menuAfterAction}, actionsVisible=${actionsVisible}`);
+
+            await page.getByRole("button", { name: "Unfold All", exact: true }).click();
+            await sleep(100);
+        }
+        await page.setViewportSize({ width: 1280, height: 900 });
 
         // RB-5 / RB-10
         for(const id of entry.examples)
