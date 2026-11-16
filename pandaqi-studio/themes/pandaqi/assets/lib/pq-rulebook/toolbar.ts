@@ -544,12 +544,6 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
     advanced.hidden = true;
     actions.appendChild(advanced);
 
-    const closeMenu = () =>
-    {
-        toolbar.dataset.menu = "closed";
-        menuButton.setAttribute("aria-expanded", "false");
-    }
-
     menuButton.addEventListener("click", () =>
     {
         const open = toolbar.dataset.menu !== "open";
@@ -567,15 +561,6 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
         target.appendChild(button);
         return button;
     }
-
-    // Print/fold actions close the mobile menu; controls that need repeated use stay open.
-    actions.addEventListener("click", (ev) =>
-    {
-        const target = ev.target as HTMLElement;
-        if(target.closest(".rulebook-advanced-toggle")) { return; }
-        if(target.closest(".rulebook-font-controls, .rulebook-toolbar-select, .rulebook-toolbar-check")) { return; }
-        if(target.closest("button")) { closeMenu(); }
-    });
 
     const fontGroup = document.createElement("div");
     fontGroup.className = "rulebook-font-controls";
@@ -689,7 +674,6 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
     {
         setTOCEnabled(params, check.checked);
         setTOCInPrint(params, check.checked);
-        closeMenu();
     });
 
     checkLabel.appendChild(check);
@@ -738,7 +722,6 @@ export const createToolbar = (params:RulebookParams, node:HTMLElement) : HTMLEle
     marginSelect.addEventListener("change", () =>
     {
         applyPrintMargins(marginSelect.value);
-        closeMenu();
     });
     marginLabel.appendChild(marginSelect);
     advanced.appendChild(marginLabel);

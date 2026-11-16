@@ -35,7 +35,7 @@ body
     color: var(--text-color);
 
     /* legacy tokens, still used by page-specific styles */
-    --font-size-base: 11px;
+    --font-size-base: 14px;
     --body-font: Raleway, "Trebuchet MS", Helvetica, sans-serif;
     --header-font: Dosis, "Trebuchet MS", Helvetica, sans-serif;
     --border-radius: 0.375em;
@@ -331,14 +331,14 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 .rulebook-toolbar button
 {
     font-family: var(--header-font);
-    font-size: 0.68em;
+    font-size: 0.72em;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     line-height: 1.2;
     border: 0;
     border-radius: var(--rb-radius);
-    padding: 0.5em 0.7em;
+    padding: 0.55em 0.8em;
     background: #f3e3d3;
     color: #2a1a10;
     cursor: pointer;
@@ -366,7 +366,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     display: inline-flex;
     align-items: center;
     gap: 0.4em;
-    font-size: 0.68em;
+    font-size: 0.72em;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -378,8 +378,8 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 .rulebook-toolbar-check input
 {
     accent-color: var(--rb-accent);
-    width: 1em;
-    height: 1em;
+    width: 1.1em;
+    height: 1.1em;
     margin: 0;
 }
 
@@ -401,7 +401,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 {
     min-width: 2.8em;
     text-align: center;
-    font-size: 0.62em;
+    font-size: 0.66em;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
     opacity: 0.82;
@@ -413,7 +413,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     align-items: center;
     gap: 0.4em;
     font-family: var(--header-font);
-    font-size: 0.66em;
+    font-size: 0.7em;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -614,7 +614,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
 {
     position: sticky;
     top: calc(var(--rb-sticky-offset) + 0.75em);
-    font-size: 0.78em;
+    font-size: 0.8em;
     line-height: 1.35;
     color: var(--rb-muted);
 }
@@ -1355,6 +1355,43 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     {
         display: flex;
     }
+
+    .rulebook-toolbar-inner
+    {
+        padding: 0.6em 0.8em;
+        gap: 0.5em;
+    }
+
+    .rulebook-toolbar button
+    {
+        font-size: 0.82em;
+        padding: 0.6em 0.85em;
+        min-height: 44px;
+    }
+
+    .rulebook-toolbar-check
+    {
+        font-size: 0.8em;
+        min-height: 44px;
+        padding: 0.3em 0.35em;
+    }
+
+    .rulebook-toolbar-check input
+    {
+        width: 1.2em;
+        height: 1.2em;
+    }
+
+    .rulebook-toolbar-select
+    {
+        font-size: 0.78em;
+        min-height: 44px;
+    }
+
+    .rulebook-toolbar-select select
+    {
+        min-height: 3.2em;
+    }
 }
 
 /* Table of contents: below this width a sidebar would overlap the text. */
@@ -1375,7 +1412,7 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     .rulebook-toc
     {
         position: static;
-        font-size: 0.85em;
+        font-size: 0.9em;
         margin: 0.75em 0 0.25em;
         border: 1px solid var(--rb-border);
         border-radius: var(--rb-radius);
@@ -1385,12 +1422,20 @@ p, ul, ol, blockquote, .rulebook-shared-rule, custom
     .rulebook-toc-toggle
     {
         display: flex;
+        font-size: 0.82em;
+        min-height: 44px;
     }
 
     .rulebook-toc-nav
     {
         max-height: 50vh;
-        padding: 0.2em 0.5em 0.4em;
+        padding: 0.3em 0.5em 0.5em;
+    }
+
+    .rulebook-toc-link
+    {
+        padding: 0.4em 0.55em;
+        min-height: 2.6em;
     }
 
     .rulebook-toc:not(.is-open) .rulebook-toc-nav
