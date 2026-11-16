@@ -8,7 +8,7 @@
     "perf": "bun run src/perf.ts",
     "test": "bun test tests",
     "precommit": "bun run src/precommit.ts",
-    "typecheck": "tsc -p ../themes/pandaqi/assets --noEmit"
+    "typecheck": "tsc -p ../assets --noEmit"
   },
   "devDependencies": {
     "playwright-core": "^1.65.1",

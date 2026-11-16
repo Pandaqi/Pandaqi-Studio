@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { Vector2 } from "../../themes/pandaqi/assets/lib/pq-games/geometry/vector2";
-import { LayoutOperation } from "../../themes/pandaqi/assets/lib/pq-games/layout/layoutOperation";
-import { TextAlign, TextConfig } from "../../themes/pandaqi/assets/lib/pq-games/layout/text/textConfig";
-import { getSetting } from "../../themes/pandaqi/assets/lib/pq-games/settings/configuration";
-import { Configurator } from "../../themes/pandaqi/assets/lib/pq-games/settings/configurator";
+import { Vector2 } from "../../assets/lib/pq-games/geometry/vector2";
+import { LayoutOperation } from "../../assets/lib/pq-games/layout/layoutOperation";
+import { TextAlign, TextConfig } from "../../assets/lib/pq-games/layout/text/textConfig";
+import { getSetting } from "../../assets/lib/pq-games/settings/configuration";
+import { Configurator } from "../../assets/lib/pq-games/settings/configurator";
 
 // The three V1→V2 defaults the whole migration turns on. Without these, "the pivot is centred now" and
 // "settings live at `_settings.<path>.value`" are memories, and a library change can silently undo them.
