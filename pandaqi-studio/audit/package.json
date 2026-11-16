@@ -6,6 +6,7 @@
     "audit": "bun run src/main.ts",
     "static": "bun run src/static.ts",
     "perf": "bun run src/perf.ts",
+    "renderer-bench": "bun run src/renderer-bench.ts",
     "test": "bun test tests",
     "precommit": "bun run src/precommit.ts",
     "typecheck": "tsc -p ../assets --noEmit"
