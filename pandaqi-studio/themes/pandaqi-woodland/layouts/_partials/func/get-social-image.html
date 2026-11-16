@@ -1,0 +1,36 @@
+{{/* The image a shared link shows, together with its real pixel size.
+
+     OpenGraph consumers fall back to a small thumbnail (and crop it awkwardly) when
+     they cannot tell how big the image is, so the head tags declare width and height.
+     A project page — and its rulebook / generators — uses the project's header
+     artwork; everything else uses the studio hero. The sizes below are read from the
+     actual page resource, never guessed.
+
+     Context: <page>. Returns dict url / width / height / alt. */}}
+{{- $page := . -}}
+{{- $url := "/theme/webp/pandaqi-hero-image.webp" -}}
+{{- $width := 2264 -}}
+{{- $height := 1090 -}}
+{{- $alt := "Pandaqi Games" -}}
+
+{{/* A rulebook or generator sits one level below its project. */}}
+{{- $project := $page -}}
+{{- if ne $page.Type "project" -}}
+	{{- with $page.Parent -}}{{- $project = . -}}{{- end -}}
+{{- end -}}
+
+{{- if eq $project.Type "project" -}}
+	{{- $asset_name := partial "func/get-game-asset-name.html" $project -}}
+	{{- $header_src := printf "assets/%s-header" $asset_name -}}
+	{{- with partial "func/get-valid-image-url.html" (dict "context" $project "src" $header_src) -}}
+		{{- $url = . -}}
+		{{- $alt = printf "Cover artwork for %s" $project.Title -}}
+		{{- $rel := replace . $project.RelPermalink "" -}}
+		{{- with $project.Resources.Get $rel -}}
+			{{- $width = .Width -}}
+			{{- $height = .Height -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- return (dict "url" ($url | absURL) "width" $width "height" $height "alt" $alt) -}}

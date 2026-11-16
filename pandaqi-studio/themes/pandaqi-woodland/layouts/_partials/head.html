@@ -36,14 +36,8 @@
         {{ $social_title = partial "func/get-taxonomy-label.html" . }}
     {{ end }}
 
-    {{ $social_image := "/theme/webp/pandaqi-hero-image.webp" | absURL }}
-    {{ if eq .Type "project" }}
-        {{ $asset_name := partial "func/get-game-asset-name.html" . }}
-        {{ $header_src := printf "assets/%s-header" $asset_name }}
-        {{ with (partial "func/get-valid-image-url.html" (dict "context" . "src" $header_src)) }}
-            {{ $social_image = . | absURL }}
-        {{ end }}
-    {{ end }}
+    {{ $social := partial "func/get-social-image.html" . }}
+    {{ $social_image := $social.url }}
 
     <meta property="og:type" content="{{ cond .IsHome "website" "article" }}">
     <meta property="og:site_name" content="{{ site.Title }}">
@@ -52,11 +46,14 @@
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:url" content="{{ .Permalink }}">
     <meta property="og:image" content="{{ $social_image }}">
-    <meta property="og:image:alt" content="{{ $social_title }}">
+    <meta property="og:image:width" content="{{ $social.width }}">
+    <meta property="og:image:height" content="{{ $social.height }}">
+    <meta property="og:image:alt" content="{{ $social.alt }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $social_title }}">
     <meta name="twitter:description" content="{{ $description }}">
     <meta name="twitter:image" content="{{ $social_image }}">
+    <meta name="twitter:image:alt" content="{{ $social.alt }}">
 
     <!-- Browser/OS details -->
     <meta name="author" content="Pandaqi">

@@ -2131,6 +2131,20 @@ html.pq-lightbox-open { overflow: hidden; }
 /* Long-form pages: a leaf instead of a bullet, and room above each heading. */
 .pq-prose h2 { margin-top: 1.8em; }
 
+/* The homepage's closing "start here" block. The catalogue above spans the whole
+   shell, but this is a reading column: centring it stops it from hugging the left
+   edge and leaving two thirds of a wide screen empty. Body prose keeps its usual
+   measure, and on narrow screens "auto" simply fills the width. */
+.pq-start
+{
+	margin-block: clamp(3rem, 7vw, 5.5rem) clamp(2rem, 4vw, 3rem);
+}
+
+.pq-start__prose
+{
+	margin-inline: auto;
+}
+
 /* The supplied sprig in front of prose headings. One small static PNG, drawn
    from the same artwork the section headings use, sized to the heading's
    x-height and lifted so it sits on the baseline instead of floating above it. */
