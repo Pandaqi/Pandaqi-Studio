@@ -7,7 +7,7 @@
 
 {{- $image_url_exists := partial "func/get-valid-image-url.html" (dict "context" .context "src" $src) -}}
 {{- if $image_url_exists -}}
-{{- partial "content/show-image" (dict "context" $context "src" $src) -}}
+{{- partial "content/show-image" (dict "context" $context "src" $src "alt" .alt) -}}
 {{- end -}}
 
 {{- $video_url_exists := partial "func/get-valid-video-url.html" (dict "context" .context "src" $src) -}}

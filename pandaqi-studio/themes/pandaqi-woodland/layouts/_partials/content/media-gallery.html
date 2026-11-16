@@ -12,9 +12,15 @@
 {{- $many := gt (len $urls) 1 -}}
 <section class="pq-rail" data-pq-rail aria-label="Screenshots and video">
 	<div class="pq-rail__track">
+		{{- $imageIndex := 0 -}}
 		{{- range $k, $v := $urls -}}
 			{{- $v = trim $v " " -}}
-			<div class="pq-rail__item">{{ partial "content/show-media.html" (dict "context" $context "src" $v) }}</div>
+			{{- $alt := "" -}}
+			{{- if and (not (strings.Contains $v "http")) (partial "func/get-valid-image-url.html" (dict "context" $context "src" $v)) -}}
+				{{- $imageIndex = add $imageIndex 1 -}}
+				{{- $alt = printf "%s screenshot %d" $context.Title $imageIndex -}}
+			{{- end -}}
+			<div class="pq-rail__item">{{ partial "content/show-media.html" (dict "context" $context "src" $v "alt" $alt) }}</div>
 		{{- end -}}
 	</div>
 	{{- if $many -}}
