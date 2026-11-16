@@ -23,6 +23,7 @@ playtime: 20
 playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/chiptales/six-of-sparrows/"
+media: [assets/screenshots/six-of-sparrows-page-001, assets/screenshots/six-of-sparrows-page-002]
 
 ---
 

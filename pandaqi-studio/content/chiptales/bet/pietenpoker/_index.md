@@ -23,6 +23,7 @@ playtime: 30
 playercount: [3,4,5,6,7,8,9]
 ages: everyone
 devlog: "/blog/boardgames/chiptales/pietenpoker/"
+media: [assets/screenshots/pietenpoker-page-001, assets/screenshots/pietenpoker-page-002]
 
 ---
 

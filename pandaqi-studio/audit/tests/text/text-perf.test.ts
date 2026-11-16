@@ -53,25 +53,43 @@ describe("measurement work", () => {
 });
 
 describe("scaling", () => {
+    // Every word is unique, so no measurement can come from the chunk cache: these samples measure
+    // the actual layout pass. A shared set of repeated words made the larger sample artificially
+    // cheap as soon as the cache was warm, which is what let the ratio flap below 1x.
+    let uniqueWord = 0;
+    const uniqueParagraph = (n:number) => Array.from({ length: n }, () => `w${uniqueWord++}`).join(" ");
     const timeLayout = (n:number, runs:number) =>
     {
-        const text = paragraph(n);
         const start = performance.now();
         for(let i = 0; i < runs; i++)
         {
-            const resource = res(text, cfg());
+            const resource = res(uniqueParagraph(n), cfg());
             drawDirect(resource, { size: new Vector2(160, 1000) });
         }
         return (performance.now() - start) / runs;
     };
 
+    const median = (values:number[]) => values.slice().sort((a, b) => a - b)[Math.floor(values.length / 2)];
+
     test("layout is linear in the amount of text, not quadratic", () => {
-        timeLayout(40, 3); // warm up
-        const small = timeLayout(100, 5);
-        const big = timeLayout(400, 5);
-        const ratio = big / Math.max(small, 0.001);
-        console.log(`[text perf] 100 words: ${small.toFixed(3)}ms, 400 words: ${big.toFixed(3)}ms (ratio ${ratio.toFixed(1)}x)`);
-        expect(ratio).toBeLessThan(12); // 4x the text; anything near 16x means quadratic behaviour
+        // Take the median of several samples: one scheduler hiccup during a 0.1ms baseline used to
+        // turn a linear result into an apparent 13x blow-up. The median ignores that noise while a
+        // genuinely quadratic layout (16x) still fails every sample. Warm both sizes once so the
+        // measured samples are not dominated by first-call JIT work.
+        timeLayout(300, 1);
+        timeLayout(1200, 1);
+
+        const ratios:number[] = [];
+        for(let i = 0; i < 5; i++)
+        {
+            // large enough that a scheduler hiccup is a small fraction of the sample
+            const small = timeLayout(300, 3);
+            const big = timeLayout(1200, 3);
+            ratios.push(big / Math.max(small, 0.001));
+        }
+        const ratio = median(ratios);
+        console.log(`[text perf] linear-layout ratios: ${ratios.map(r => r.toFixed(1)).join(", ")}x (median ${ratio.toFixed(1)}x)`);
+        expect(ratio).toBeLessThan(10); // 4x the text; anything near 16x means quadratic behaviour
     });
 
     test("a deck-sized batch of paragraph text stays fast", () => {

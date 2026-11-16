@@ -22,6 +22,7 @@ language: EN
 playtime: 30
 playercount: [3,4,5,6]
 ages: everyone
+media: [assets/screenshots/bunny-bidding-page-001, assets/screenshots/bunny-bidding-page-002]
 
 ---
 

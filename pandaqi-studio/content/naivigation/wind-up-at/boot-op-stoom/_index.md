@@ -22,6 +22,8 @@ playtime: 30
 playercount: [2,3,4,5,6,7,8]
 ages: everyone
 devlog: "/blog/boardgames/naivigation/wind-up-at/sint-spellen/"
+media: [assets/screenshots/boot-op-stoom-cards-page-001, assets/screenshots/boot-op-stoom-cards-page-002, assets/screenshots/boot-op-stoom-tiles-page-001, assets/screenshots/boot-op-stoom-tiles-page-002]
+
 ---
 
 ## Wat heb ik nodig?

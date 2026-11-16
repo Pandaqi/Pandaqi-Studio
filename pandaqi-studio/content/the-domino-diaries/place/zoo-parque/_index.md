@@ -22,6 +22,7 @@ playtime: 45
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-domino-diaries/zoo-parque/"
+media: [assets/screenshots/zoo-parque-dominoes-page-001, assets/screenshots/zoo-parque-dominoes-page-002, assets/screenshots/zoo-parque-tiles-page-001, assets/screenshots/zoo-parque-tiles-page-002]
 
 ---
 

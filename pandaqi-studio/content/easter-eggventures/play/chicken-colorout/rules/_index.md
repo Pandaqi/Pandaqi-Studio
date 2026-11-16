@@ -29,7 +29,7 @@ You may also move them off-board to **"explore"**. If so, draw a new tile and pl
 
 **Hiding** means placing one egg token (of yours) in a free egg slot.
 * You can **never** hide an egg on a tile that the **Seeker is watching**.
-* You must always satisfy the specific requirement written on that tile (see [Hiding Slots](#slots) below).
+* You must always satisfy the specific requirement written on that tile (see [Hiding Slots](#hiding-slots) below).
 * If you did **not** move this turn, take the special action of the egg you just placed. (These are written on the starting tile.)
 
 {{< rules/rules-image src="gameplay.webp" alt="Example of a turn: first moving the seeker, then properly hiding an egg." >}}

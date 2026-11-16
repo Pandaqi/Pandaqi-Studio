@@ -53,7 +53,7 @@ First, determine what floor every player is on.
 Now, in that order, players **attract a Tenant**.
 
 * Pick 1 Tenant from the Guests.
-* You may only pick Tenants of whom you fulfill their [wishes](#guests) (see next section).
+* You may only pick Tenants of whom you fulfill their [wishes](#guests--wishes) (see next section).
 * Crucially, when fulfilling wishes, you **also** count the dominoes of other players to whom you're "connected" as your own. 
 * Place the Tenant somewhere near your map.
 

@@ -23,6 +23,7 @@ playtime: 30
 playercount: [3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/bidding-blocks/"
+media: [assets/screenshots/bidding-blocks-page-001, assets/screenshots/bidding-blocks-page-002]
 
 ---
 

@@ -23,6 +23,7 @@ playtime: 20
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/waitless-games/creature-quellector/"
+media: [assets/screenshots/creature-quellector-page-001, assets/screenshots/creature-quellector-page-002]
 
 ---
 

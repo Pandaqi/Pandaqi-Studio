@@ -22,6 +22,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-domino-diaries/theme-parque/"
+media: [assets/screenshots/theme-parque-page-001, assets/screenshots/theme-parque-page-002]
 
 ---
 

@@ -10,12 +10,21 @@
 {{- $banner := index (strings.Split (partial "func/get-game-header.html" $page) ".") 0 -}}
 {{- $blurb := or ($page.Params.blurb) "" -}}
 {{- $facts := partial "woodland/facts.html" $page -}}
+{{- /* the feature card can be nearly viewport-wide, so it needs real intermediate widths instead of
+       handing a 480px file to a 92vw phone screen */ -}}
+{{- $widths := slice 480 -}}
+{{- $sizes := "(min-width: 90rem) 20rem, (min-width: 60rem) 24vw, (min-width: 34rem) 42vw, 92vw" -}}
+{{- if eq $variant "feature" -}}
+	{{- $widths = slice 480 960 1440 -}}
+	{{- /* art is the full card width on phones and a little under half of the 90rem shell above 46rem */ -}}
+	{{- $sizes = "(min-width: 90rem) 43rem, (min-width: 46rem) 50vw, 92vw" -}}
+{{- end -}}
 <article class="pq-card{{ if eq $variant "feature" }} pq-card--feature{{ end }}">
 	<a class="pq-card__link" href="{{ $page.RelPermalink }}">
 		{{- $has_banner := partial "func/get-valid-image-url.html" (dict "context" $page "src" $banner) -}}
 		{{- if $has_banner -}}
 		<div class="pq-card__media">
-			{{ partial "woodland/game-image.html" (dict "context" $page "src" $banner "alt" "" "sizes" "(min-width: 90rem) 20rem, (min-width: 60rem) 24vw, (min-width: 34rem) 42vw, 92vw" "widths" (slice 480)) }}
+			{{ partial "woodland/game-image.html" (dict "context" $page "src" $banner "alt" "" "sizes" $sizes "widths" $widths) }}
 		</div>
 		{{- else -}}
 		{{- /* A collection without banner art still needs the same rhythm as its

@@ -21,6 +21,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/feed-the-beast/"
+media: [assets/screenshots/feed-the-beast-beasts-page-001, assets/screenshots/feed-the-beast-beasts-page-002, assets/screenshots/feed-the-beast-cards-page-001, assets/screenshots/feed-the-beast-cards-page-002, assets/screenshots/feed-the-beast-tokens-page-001, assets/screenshots/feed-the-beast-tokens-page-002]
 
 ---
 

@@ -22,6 +22,7 @@ playtime: 60
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-domino-diaries/highrise-homino/"
+media: [assets/screenshots/highrise-homino-page-001, assets/screenshots/highrise-homino-page-002]
 
 ---
 

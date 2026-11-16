@@ -21,6 +21,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/swiftsmash-saga/point-a-pile/"
+media: [assets/screenshots/point-a-pile-page-001, assets/screenshots/point-a-pile-page-002]
 
 ---
 

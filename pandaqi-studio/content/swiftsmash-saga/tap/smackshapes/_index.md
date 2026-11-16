@@ -21,6 +21,7 @@ playtime: 10
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/swiftsmash-saga/smackshapes/"
+media: [assets/screenshots/smackshapes-page-001, assets/screenshots/smackshapes-page-002]
 
 ---
 

@@ -21,6 +21,7 @@ playtime: 30
 playercount: [2,3,4,5,6,7]
 ages: everyone
 devlog: "/blog/boardgames/split-the-foody/"
+media: [assets/screenshots/split-the-foody-page-001, assets/screenshots/split-the-foody-page-002]
 
 ---
 

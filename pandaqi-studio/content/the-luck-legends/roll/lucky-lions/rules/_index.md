@@ -28,7 +28,7 @@ On your turn,
 
 You and your opponent "roll your die": shuffle your personal deck and reveal a random card.
 
-The chosen [Zoo Card](#zoo_cards) tells you which player has the **most valuable animal**. They win the Zoo Card and place it faceup before them. (Check if anyone has scored enough points to win the game!)
+The chosen [Zoo Cards](#zoo-cards) tells you which player has the **most valuable animal**. They win the Zoo Card and place it faceup before them. (Check if anyone has scored enough points to win the game!)
 
 In case of a **tie**, one battler must discard a card and the other wins the Zoo Card. The active player decides who gets what. Discarded cards are _secret_; you can't discard your final card.
 

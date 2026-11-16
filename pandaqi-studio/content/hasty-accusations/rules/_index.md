@@ -80,7 +80,7 @@ Some cards, however, show an icon in the top left.
 * A <span data-rulebook-icon="only-review"></span> means their action **only** triggers during **review**! (Not when played faceup in regular play.)
 * A <span data-rulebook-icon="only-play"></span> means their action does **not** trigger during **review**! (Only in regular play.)
 
-See [All Cards](#cards_reference) if you want a reference that displays and explains all cards in the game.
+See [All Cards](#all-cards) if you want a reference that displays and explains all cards in the game.
 
 ## Upgrades
 

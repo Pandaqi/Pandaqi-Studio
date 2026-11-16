@@ -24,6 +24,7 @@ playtime: 40
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/keebble-domino/"
+media: [assets/screenshots/generated-game-page-001, assets/screenshots/generated-game-page-002]
 
 ---
 

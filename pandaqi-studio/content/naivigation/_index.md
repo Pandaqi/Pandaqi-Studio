@@ -21,6 +21,8 @@ playtime: 60
 playercount: [2,3,4,5,6,7,8,9,10]
 ages: everyone
 devlog: "/blog/boardgames/naivigation/"
+media: [assets/screenshots/naivigation-shared-page-001, assets/screenshots/naivigation-shared-page-002]
+
 ---
 
 All games share the **same core**, but use a **different vehicle** that changes _everything_. You're playing within a minute and you'll never stop.

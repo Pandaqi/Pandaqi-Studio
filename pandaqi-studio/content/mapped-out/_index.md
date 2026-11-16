@@ -21,6 +21,7 @@ playtime: 30
 playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/mapped-out/"
+media: [assets/screenshots/mapped-out-cards-page-001, assets/screenshots/mapped-out-cards-page-002, assets/screenshots/mapped-out-tiles-page-001, assets/screenshots/mapped-out-tiles-page-002]
 
 ---
 

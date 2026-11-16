@@ -24,6 +24,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-outnumbered-series/nine-lives/"
+media: [assets/screenshots/nine-lives-page-001, assets/screenshots/nine-lives-page-002]
 
 ---
 

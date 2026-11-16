@@ -22,6 +22,8 @@ playtime: 45
 playercount: [2,3,4,5,6,7,8,9,10]
 ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/frightening-flights/"
+media: [assets/screenshots/naivigation-frightening-flights-cards-page-001, assets/screenshots/naivigation-frightening-flights-cards-page-002, assets/screenshots/naivigation-frightening-flights-tiles-page-001, assets/screenshots/naivigation-frightening-flights-tiles-page-002]
+
 ---
 
 ## What do I need?

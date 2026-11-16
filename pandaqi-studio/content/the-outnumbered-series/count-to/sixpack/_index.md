@@ -24,6 +24,7 @@ playtime: 15
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-outnumbered-series/sixpack/"
+media: [assets/screenshots/sixpack-page-001, assets/screenshots/sixpack-page-002]
 
 ---
 

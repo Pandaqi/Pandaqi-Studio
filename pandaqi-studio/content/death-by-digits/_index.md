@@ -24,6 +24,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/death-by-digits/"
+media: [assets/screenshots/death-by-digits-page-001, assets/screenshots/death-by-digits-page-002]
 
 ---
 

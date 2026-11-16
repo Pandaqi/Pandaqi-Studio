@@ -22,6 +22,7 @@ playtime: 20
 playercount: [3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/lucky-lions/"
+media: [assets/screenshots/lucky-lions-page-001, assets/screenshots/lucky-lions-page-002]
 
 ---
 

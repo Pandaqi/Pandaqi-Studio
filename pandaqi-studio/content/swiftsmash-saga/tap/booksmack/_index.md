@@ -21,6 +21,7 @@ playtime: 20
 playercount: [2,3,4,5,6,7]
 ages: everyone
 devlog: "/blog/boardgames/swiftsmash-saga/booksmack/"
+media: [assets/screenshots/booksmack-page-001, assets/screenshots/booksmack-page-002]
 
 ---
 

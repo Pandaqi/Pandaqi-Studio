@@ -22,6 +22,8 @@ playercount: [1,2,3,4,5]
 ages: everyone
 requirements: "A blank paper!"
 devlog: "/blog/boardgames/wondering-witches/devlog-wondering-witches/"
+media: [assets/screenshots/wondering-witches-page-001]
+
 ---
 
 ## How can I play?

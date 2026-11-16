@@ -24,6 +24,7 @@ playtime: 60
 playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/keebble-knickknack/"
+media: [assets/screenshots/keebble-page-001]
 
 ---
 

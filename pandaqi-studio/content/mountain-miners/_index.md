@@ -21,6 +21,7 @@ playtime: 15
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/mountain-miners/"
+media: [assets/screenshots/mountain-miners-page-001, assets/screenshots/mountain-miners-page-002]
 
 ---
 

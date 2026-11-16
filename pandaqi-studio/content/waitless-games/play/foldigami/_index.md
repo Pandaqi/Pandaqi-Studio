@@ -23,6 +23,8 @@ playtime: 20
 playercount: [2]
 ages: everyone
 devlog: "/blog/boardgames/waitless-games/foldigami/"
+media: [assets/screenshots/foldigami-page-001]
+
 ---
 
 ## What Do I Need?

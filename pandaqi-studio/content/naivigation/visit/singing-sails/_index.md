@@ -24,6 +24,8 @@ playtime: 60
 playercount: [2,3,4,5,6,7,8,9,10]
 ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/singing-sails/"
+media: [assets/screenshots/naivigation-singing-sails-cards-page-001, assets/screenshots/naivigation-singing-sails-cards-page-002, assets/screenshots/naivigation-singing-sails-tiles-page-001, assets/screenshots/naivigation-singing-sails-tiles-page-002]
+
 ---
 
 

@@ -22,6 +22,8 @@ playtime: 60
 playercount: [2,3,4,5,6,7,8,9,10]
 ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/crashing-cars/"
+media: [assets/screenshots/naivigation-crashing-cars-cards-page-001, assets/screenshots/naivigation-crashing-cars-cards-page-002, assets/screenshots/naivigation-crashing-cars-tiles-page-001, assets/screenshots/naivigation-crashing-cars-tiles-page-002]
+
 ---
 
 ## What do I need?

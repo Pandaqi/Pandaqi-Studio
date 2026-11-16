@@ -23,6 +23,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/pyrrameds/"
+media: [assets/screenshots/pyrrameds-page-001, assets/screenshots/pyrrameds-page-002]
 
 ---
 

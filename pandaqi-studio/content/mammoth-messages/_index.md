@@ -21,6 +21,7 @@ playtime: 30
 playercount: [2,3,4,5,6,7,8]
 ages: everyone
 devlog: "/blog/boardgames/mammoth-messages/"
+media: [assets/screenshots/mammoth-messages-cards-page-001, assets/screenshots/mammoth-messages-cards-page-002, assets/screenshots/mammoth-messages-drawings-page-001, assets/screenshots/mammoth-messages-drawings-page-002, assets/screenshots/mammoth-messages-tokens-page-001]
 
 ---
 

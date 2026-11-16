@@ -20,6 +20,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-mist/"
+media: [assets/screenshots/the-mist-page-001]
 
 ---
 

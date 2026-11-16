@@ -22,6 +22,7 @@ language: EN
 playtime: 30
 playercount: [2,3,4,5,6,7,8]
 ages: everyone
+media: [assets/screenshots/reggverse-riddles-eggs-page-001, assets/screenshots/reggverse-riddles-tiles-page-001, assets/screenshots/reggverse-riddles-tiles-page-002]
 
 ---
 

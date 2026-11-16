@@ -22,6 +22,7 @@ playtime: 20
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-domino-diaries/dinoland/"
+media: [assets/screenshots/dinoland-page-001, assets/screenshots/dinoland-page-002]
 
 ---
 

@@ -23,6 +23,7 @@ playtime: 40
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-outnumbered-series/nine-lives-math-meows/"
+media: [assets/screenshots/nine-lives-math-meows-page-001, assets/screenshots/nine-lives-math-meows-page-002]
 
 ---
 

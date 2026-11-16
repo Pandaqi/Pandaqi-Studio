@@ -21,6 +21,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/captain-flip/"
+media: [assets/screenshots/captain-flip-page-001, assets/screenshots/captain-flip-page-002]
 
 ---
 

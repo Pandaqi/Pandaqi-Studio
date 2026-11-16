@@ -22,6 +22,7 @@ playtime: 75
 playercount: [2,3,4,5,6,7,8,9,10]
 ages: everyone
 devlog: "/blog/boardgames/thats-amorphe-pictures/"
+media: [assets/screenshots/generated-game-page-001, assets/screenshots/generated-game-page-002]
 
 ---
 

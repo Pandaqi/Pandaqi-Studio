@@ -21,8 +21,7 @@ playtime: 45
 playercount: [2,3,4,5,6,7,8]
 ages: everyone
 devlog: "/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/"
-
-media: [assets/video/onepizza_explanation_gif]
+media: [assets/video/onepizza_explanation_gif, assets/screenshots/one-pizza-the-puzzle-page-001]
 
 ---
 

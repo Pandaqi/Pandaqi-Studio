@@ -22,6 +22,7 @@ language: EN
 playtime: 20
 playercount: [4,5,6,7,8,9,10]
 ages: everyone
+media: [assets/screenshots/kingseat-page-001, assets/screenshots/kingseat-page-002]
 
 ---
 

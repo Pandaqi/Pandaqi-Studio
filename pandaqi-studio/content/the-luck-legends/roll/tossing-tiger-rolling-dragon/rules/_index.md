@@ -6,7 +6,7 @@ type: "rules"
 
 Deal all players a random deck of **6 cards**. Place all remaining cards to the side as a facedown draw pile.
 
-For your first game, just follow the simple base rules. Once familiar with the rules, however, I recommend using the [Simulwars](#simulwars) variant so that players can fight simultaneously instead of waiting for their turn.
+For your first game, just follow the simple base rules. Once familiar with the rules, however, I recommend using the [Simulwars](#variant-simulwars) variant so that players can fight simultaneously instead of waiting for their turn.
 
 
 ## Objective

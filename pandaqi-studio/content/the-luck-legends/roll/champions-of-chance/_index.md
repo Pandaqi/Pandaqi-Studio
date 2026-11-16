@@ -22,6 +22,7 @@ playtime: 20
 playercount: [3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/champions-of-chance/"
+media: [assets/screenshots/champions-of-chance-page-001, assets/screenshots/champions-of-chance-page-002]
 
 ---
 

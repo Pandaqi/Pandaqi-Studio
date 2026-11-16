@@ -22,8 +22,7 @@ playtime: 20
 playercount: [1,2,3,4,5,6,7,8]
 ages: everyone
 devlog: "/blog/boardgames/timely-transports/devlog-timely-transports/"
-
-media: [assets/timelytransports_tutorial_1, assets/timelytransports_tutorial_2]
+media: [assets/timelytransports_tutorial_1, assets/timelytransports_tutorial_2, assets/screenshots/timely-transports-page-001]
 
 ---
 

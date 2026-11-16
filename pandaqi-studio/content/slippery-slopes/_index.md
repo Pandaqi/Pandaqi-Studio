@@ -22,6 +22,7 @@ playtime: 20
 playercount: [2,3,4,5,6,7,8,9,10]
 ages: everyone
 devlog: "/blog/boardgames/slippery-slopes/"
+media: [assets/screenshots/material-sliders-page-001, assets/screenshots/material-sliders-page-002, assets/screenshots/material-words-page-001, assets/screenshots/material-words-page-002]
 
 ---
 

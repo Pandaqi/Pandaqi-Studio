@@ -24,6 +24,7 @@ playtime: 20
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/keebble/"
+media: [assets/screenshots/keebble-page-001]
 
 ---
 

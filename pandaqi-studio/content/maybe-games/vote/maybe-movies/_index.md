@@ -22,6 +22,7 @@ language: EN
 playtime: 30
 playercount: [3,4,5,6]
 ages: everyone
+media: [assets/screenshots/maybe-movies-cards-page-001, assets/screenshots/maybe-movies-cards-page-002, assets/screenshots/maybe-movies-votes-page-001, assets/screenshots/maybe-movies-votes-page-002]
 
 ---
 

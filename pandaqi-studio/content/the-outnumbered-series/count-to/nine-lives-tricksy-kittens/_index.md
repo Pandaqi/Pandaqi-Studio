@@ -23,6 +23,7 @@ playtime: 45
 playercount: [3,4,5,6,7,8,9]
 ages: everyone
 devlog: "/blog/boardgames/the-outnumbered-series/nine-lives-tricksy-kittens/"
+media: [assets/screenshots/nine-lives-tricksy-kittens-page-001, assets/screenshots/nine-lives-tricksy-kittens-page-002]
 
 ---
 

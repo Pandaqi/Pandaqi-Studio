@@ -22,6 +22,7 @@ playtime: 30
 playercount: [2,3,4,5,6,7,8]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/deceptidice/"
+media: [assets/screenshots/deceptidice-page-001, assets/screenshots/deceptidice-page-002]
 
 ---
 

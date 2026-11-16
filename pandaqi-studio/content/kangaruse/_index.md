@@ -23,8 +23,7 @@ playercount: [2,3,4,5]
 complexity: low
 ages: everyone
 devlog: "/blog/boardgames/kangaruse/"
-
-media: [assets/page/kangaruse_playtest_paper]
+media: [assets/page/kangaruse_playtest_paper, assets/screenshots/kangaruse-page-001]
 
 ---
 

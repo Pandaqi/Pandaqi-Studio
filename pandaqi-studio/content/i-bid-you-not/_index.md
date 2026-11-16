@@ -21,6 +21,7 @@ playtime: 45
 playercount: [3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/i-bid-you-not/"
+media: [assets/screenshots/i-bid-you-not-page-001, assets/screenshots/i-bid-you-not-page-002]
 
 ---
 

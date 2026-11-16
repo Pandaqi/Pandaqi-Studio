@@ -22,6 +22,7 @@ playtime: 30
 playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/chaos-contract/"
+media: [assets/screenshots/chaos-contract-page-001, assets/screenshots/chaos-contract-page-002]
 
 ---
 

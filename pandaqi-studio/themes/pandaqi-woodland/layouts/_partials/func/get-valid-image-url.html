@@ -1,8 +1,13 @@
-{{- $src := printf "%s.webp" .src -}}
+{{- $src := .src -}}
+{{- range slice ".webp" ".jpg" ".jpeg" ".png" -}}
+	{{- $src = strings.TrimSuffix . $src -}}
+{{- end -}}
 {{- $page_url := .context.Page.RelPermalink -}}
-{{- $base_url := printf "content%s%s" $page_url $src -}}
-{{- $final_url := "" }}
-{{- if fileExists $base_url -}}
-	{{- $final_url = (replace $base_url "content" "") -}}
+{{- $final_url := "" -}}
+{{- range slice "webp" "jpg" "jpeg" "png" -}}
+	{{- $candidate := printf "content%s%s.%s" $page_url $src . -}}
+	{{- if and (not $final_url) (fileExists $candidate) -}}
+		{{- $final_url = strings.TrimPrefix "content" $candidate -}}
+	{{- end -}}
 {{- end -}}
 {{- return $final_url -}}

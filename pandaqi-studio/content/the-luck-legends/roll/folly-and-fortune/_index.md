@@ -22,6 +22,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/folly-and-fortune/"
+media: [assets/screenshots/folly-fortune-page-001, assets/screenshots/folly-fortune-page-002]
 
 ---
 

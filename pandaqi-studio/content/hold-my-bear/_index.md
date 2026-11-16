@@ -21,6 +21,7 @@ playtime: 10
 playercount: [3,4,5,6,7,8]
 ages: everyone
 devlog: "/blog/boardgames/hold-my-bear/"
+media: [assets/screenshots/hold-my-bear-page-001, assets/screenshots/hold-my-bear-page-002]
 
 ---
 

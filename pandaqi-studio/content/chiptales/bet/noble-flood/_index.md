@@ -21,6 +21,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/chiptales/noble-flood/"
+media: [assets/screenshots/noble-flood-page-001, assets/screenshots/noble-flood-page-002]
 
 ---
 

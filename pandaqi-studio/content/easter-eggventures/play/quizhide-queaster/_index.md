@@ -22,6 +22,7 @@ language: EN
 playtime: 60
 playercount: [2,3,4,5,6,7,8]
 ages: everyone
+media: [assets/screenshots/quizhide-queaster-cards-page-001, assets/screenshots/quizhide-queaster-cards-page-002, assets/screenshots/quizhide-queaster-eggs-page-001, assets/screenshots/quizhide-queaster-tiles-page-001, assets/screenshots/quizhide-queaster-tiles-page-002]
 
 ---
 

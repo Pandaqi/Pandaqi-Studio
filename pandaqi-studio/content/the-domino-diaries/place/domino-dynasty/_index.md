@@ -22,6 +22,7 @@ playtime: 90
 playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/the-domino-diaries/domino-dynasty/"
+media: [assets/screenshots/domino-dynasty-page-001, assets/screenshots/domino-dynasty-page-002]
 
 ---
 

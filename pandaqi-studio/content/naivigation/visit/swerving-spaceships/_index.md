@@ -24,6 +24,8 @@ playtime: 45
 playercount: [2,3,4,5,6,7,8,9,10]
 ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/swerving-spaceships/"
+media: [assets/screenshots/naivigation-swerving-spaceships-cards-page-001, assets/screenshots/naivigation-swerving-spaceships-cards-page-002, assets/screenshots/naivigation-swerving-spaceships-tiles-page-001, assets/screenshots/naivigation-swerving-spaceships-tiles-page-002]
+
 ---
 
 ## What do I need?

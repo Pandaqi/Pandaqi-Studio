@@ -22,6 +22,7 @@ language: EN
 playtime: 30
 playercount: [4,5,6,7,8,9,10]
 ages: everyone
+media: [assets/screenshots/kaizerseat-page-001, assets/screenshots/kaizerseat-page-002]
 
 ---
 

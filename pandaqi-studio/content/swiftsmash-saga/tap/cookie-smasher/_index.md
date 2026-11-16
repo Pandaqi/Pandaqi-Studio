@@ -23,6 +23,7 @@ playtime: 20
 playercount: [2,3,4,5,6,7]
 ages: everyone
 devlog: "/blog/boardgames/swiftsmash-saga/cookie-smasher/"
+media: [assets/screenshots/cookie-smasher-page-001, assets/screenshots/cookie-smasher-page-002]
 
 ---
 

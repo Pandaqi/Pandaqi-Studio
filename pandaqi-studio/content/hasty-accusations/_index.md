@@ -19,6 +19,7 @@ playtime: 30
 playercount: [2,3,4,5,6,7]
 ages: everyone
 devlog: "/blog/boardgames/hasty-accusations/"
+media: [assets/screenshots/hasty-accusations-cards-page-001, assets/screenshots/hasty-accusations-cards-page-002, assets/screenshots/hasty-accusations-suspects-page-001, assets/screenshots/hasty-accusations-suspects-page-002]
 
 ---
 

@@ -22,6 +22,7 @@ language: EN
 playtime: 60
 playercount: [3,4,5,6]
 ages: everyone
+media: [assets/screenshots/maybe-minister-cards-page-001, assets/screenshots/maybe-minister-cards-page-002, assets/screenshots/maybe-minister-votes-page-001, assets/screenshots/maybe-minister-votes-page-002]
 
 ---
 

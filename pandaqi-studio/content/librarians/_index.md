@@ -21,6 +21,7 @@ playtime: 45
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/librarians/"
+media: [assets/screenshots/librarians-page-001, assets/screenshots/librarians-page-002]
 
 ---
 

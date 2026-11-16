@@ -21,6 +21,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/fiddlefoo/"
+media: [assets/screenshots/fiddlefoo-page-001, assets/screenshots/fiddlefoo-page-002]
 
 ---
 

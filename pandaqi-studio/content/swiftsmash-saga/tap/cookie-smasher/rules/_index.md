@@ -4,7 +4,7 @@ type: "rules"
 
 ## Setup
 
-The website proposes "sets" of cards (ordered based on difficulty). For your first games, just pick one of those. Once you feel comfortable, you can assemble your own decks (see [variants](#variants)).
+The website proposes "sets" of cards (ordered based on difficulty). For your first games, just pick one of those. Once you feel comfortable, you can assemble your own decks (see [Assemble your own deck](#assemble-your-own-deck)).
 
 Ensure everyone understands all cards before the game starts.
 
@@ -24,7 +24,7 @@ Rounds are played simultaneously.
 
 * Everyone picks a card from their hand. (With 2 or 3 players, pick two.)
 * Count down and simultaneously reveal them all.
-* Based on the cards played, one of them will be "poisoned" (see [next section](#finding_the_poison)).
+* Based on the cards played, one of them will be "poisoned" (see [next section](#finding-the-poison)).
 * The first player to tap this card, wins the round! (Congratulations, you've saved the king's life again!) 
 
 {{< rules/rules-image src="gameplay.webp" alt="Overview of how a round plays." >}}

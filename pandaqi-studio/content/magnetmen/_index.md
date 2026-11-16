@@ -21,6 +21,7 @@ playtime: 20
 playercount: [2,3,4]
 ages: everyone
 devlog: "/blog/boardgames/magnetmen/"
+media: [assets/screenshots/magnetmen-page-001]
 
 ---
 

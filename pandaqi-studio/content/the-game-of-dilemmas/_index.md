@@ -21,6 +21,7 @@ playtime: 30
 playercount: [3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-game-of-dilemmas/"
+media: [assets/screenshots/the-game-of-dilemmas-cards-page-001, assets/screenshots/the-game-of-dilemmas-cards-page-002, assets/screenshots/the-game-of-dilemmas-tokens-page-001]
 
 ---
 

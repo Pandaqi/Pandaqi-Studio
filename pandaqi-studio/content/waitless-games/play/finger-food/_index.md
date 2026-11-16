@@ -23,6 +23,8 @@ playtime: 20
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/waitless-games/finger-food/"
+media: [assets/screenshots/finger-food-page-001]
+
 ---
 
 Click the "Download" button and pick one of the PDFs I already generated for you. Print and play!

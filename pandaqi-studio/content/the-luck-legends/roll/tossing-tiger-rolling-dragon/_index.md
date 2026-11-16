@@ -22,6 +22,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/tossing-tiger-rolling-dragon/"
+media: [assets/screenshots/tossing-tiger-rolling-dragon-page-001, assets/screenshots/tossing-tiger-rolling-dragon-page-002]
 
 ---
 

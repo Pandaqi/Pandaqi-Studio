@@ -22,6 +22,7 @@ language: EN
 playtime: 30
 playercount: [2,3,4,5,6,7,8]
 ages: everyone
+media: [assets/screenshots/egghunt-esports-page-001, assets/screenshots/egghunt-esports-page-002]
 
 ---
 

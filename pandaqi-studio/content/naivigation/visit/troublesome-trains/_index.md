@@ -22,6 +22,8 @@ playtime: 60
 playercount: [2,3,4,5,6,7,8,9,10]
 ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/troublesome-trains/"
+media: [assets/screenshots/naivigation-troublesome-trains-cards-page-001, assets/screenshots/naivigation-troublesome-trains-cards-page-002, assets/screenshots/naivigation-troublesome-trains-tiles-page-001, assets/screenshots/naivigation-troublesome-trains-tiles-page-002]
+
 ---
 
 ## What do I need?

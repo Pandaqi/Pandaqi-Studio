@@ -22,6 +22,7 @@ language: EN
 playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
+media: [assets/screenshots/chicken-colorout-eggs-page-001, assets/screenshots/chicken-colorout-tiles-page-001, assets/screenshots/chicken-colorout-tiles-page-002]
 
 ---
 
