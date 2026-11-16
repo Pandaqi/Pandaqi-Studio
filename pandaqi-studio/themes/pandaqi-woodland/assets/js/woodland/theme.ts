@@ -199,6 +199,84 @@ const loadMediaRail = () =>
     });
 }
 
+/* ------------------------------------------------------------- image lightbox */
+
+const loadMediaLightbox = () =>
+{
+    const images = Array.from(document.querySelectorAll<HTMLImageElement>("[data-pq-rail] .pq-rail__item img"));
+    if(images.length <= 0) { return; }
+
+    const dialog = document.createElement("dialog");
+    dialog.className = "pq-lightbox";
+    dialog.setAttribute("aria-label", "Image preview");
+    dialog.innerHTML = `
+        <div class="pq-lightbox__frame">
+            <img class="pq-lightbox__image" alt="" decoding="async">
+        </div>
+        <button type="button" class="pq-lightbox__close" aria-label="Close image preview">
+            <span aria-hidden="true">&times;</span>
+        </button>`;
+    document.body.appendChild(dialog);
+
+    const frame = dialog.querySelector<HTMLElement>(".pq-lightbox__frame")!;
+    const large = dialog.querySelector<HTMLImageElement>(".pq-lightbox__image")!;
+    const close = dialog.querySelector<HTMLButtonElement>(".pq-lightbox__close")!;
+    let trigger:HTMLImageElement | null = null;
+
+    const open = (image:HTMLImageElement) =>
+    {
+        large.src = image.currentSrc || image.src;
+        large.alt = image.alt;
+        trigger = image;
+
+        if(!dialog.open) { dialog.showModal(); }
+        frame.scrollTo(0, 0);
+        document.documentElement.classList.add("pq-lightbox-open");
+        close.focus();
+    };
+
+    close.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+        if(target === dialog || target === frame) { dialog.close(); }
+    });
+    dialog.addEventListener("close", () => {
+        document.documentElement.classList.remove("pq-lightbox-open");
+        trigger?.focus();
+        trigger = null;
+    });
+    // The close button is the only focusable control, so keep Tab inside the modal
+    // instead of letting it fall through to the page behind it.
+    dialog.addEventListener("keydown", (event) => {
+        if(event.key !== "Tab") { return; }
+        event.preventDefault();
+        close.focus();
+    });
+
+    images.forEach((image) =>
+    {
+        image.classList.add("pq-zoomable");
+        image.tabIndex = 0;
+        image.setAttribute("role", "button");
+        image.setAttribute("aria-haspopup", "dialog");
+        image.setAttribute("aria-label", `Enlarge ${image.alt || "image"}`);
+
+        const hint = document.createElement("span");
+        hint.className = "pq-rail__hint";
+        hint.setAttribute("aria-hidden", "true");
+        hint.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M9 4H4v5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>`;
+        image.closest(".pq-rail__item")?.appendChild(hint);
+
+        const activate = () => open(image);
+        image.addEventListener("click", activate);
+        image.addEventListener("keydown", (event) => {
+            if(event.key !== "Enter" && event.key !== " ") { return; }
+            event.preventDefault();
+            activate();
+        });
+    });
+}
+
 /* ------------------------------------------------------------- search page */
 
 type Entry = {
@@ -527,4 +605,5 @@ loadMenu();
 loadRandomShortcut();
 loadCatalogueSort();
 loadMediaRail();
+loadMediaLightbox();
 loadSearch();
