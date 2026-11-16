@@ -1,0 +1,28 @@
+{{- $projects := sort (where .Site.Pages "Type" "project") "Date" "desc" -}}
+{{- $games := slice -}}
+{{- range $projects -}}
+	{{- if not .Params.collection -}}{{- $games = $games | append . -}}{{- end -}}
+{{- end -}}
+# {{ site.Title }}
+
+> Pandaqi is an independent game studio that makes free print-and-play board games and local multiplayer video games. Every game has its own page with a description, screenshots, player count, playtime, a full rulebook and a free download or browser link. No accounts and no paywalls.
+
+## Start here
+
+- [Board games]({{ "/categories/board-game/" | absURL }}): every print-and-play board and card game
+- [Video games]({{ "/categories/video-game/" | absURL }}): every browser and local multiplayer game
+- [Search and filter]({{ "/search/" | absURL }}): filter the whole catalogue by player count, playtime, difficulty and genre
+- [Game collections]({{ "/categories/" | absURL }}): series such as Naivigation, Keebble and The Domino Diaries
+- [Tools for game night]({{ "/tools/" | absURL }}): timer, dictionary, dice and genre lists
+
+## Games
+{{ range $games -}}
+{{- $facts := slice -}}
+{{- range partial "woodland/facts.html" . -}}{{- $facts = $facts | append .text -}}{{- end -}}
+- [{{ .Title }}]({{ .Permalink }}): {{ with .Params.blurb }}{{ . | markdownify | plainify | htmlUnescape }}{{ else }}{{ .Summary | plainify }}{{ end }}{{ with $facts }} ({{ delimit . ", " }}){{ end }}
+{{ end }}
+## Notes
+
+- Rulebooks are plain HTML at each game's `/rules/` URL and can be read without JavaScript.
+- Material generators (custom PDFs) live at each game's `/game/` or `/board/` URL; they are interactive tools, not articles.
+- The site also hosts a [blog]({{ "/blog/" | absURL }}) and [tutorials]({{ "/tutorials/" | absURL }}), which are separate sites.

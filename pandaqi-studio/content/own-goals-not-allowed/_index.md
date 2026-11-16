@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Own Goals Not Allowed"
-blurb: "1-6 players play soccer on multiple fields at the same time. Accidentally scoring an own goal somewhere is BAD."
+blurb: "1–6 players play soccer on several fields at once. Scoring an own goal somewhere on the pitch is very bad."
 
 date: 2022-03-30
 

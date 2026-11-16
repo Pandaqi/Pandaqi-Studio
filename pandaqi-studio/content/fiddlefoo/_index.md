@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Fiddlefoo"
-blurb: "Get rid of your cards without allowing others to throw their music at you."
+blurb: "Get rid of your cards without letting anyone throw their music at you. Easier said than done."
 
 driveLink: "https://drive.google.com/drive/folders/1fRQWyYs7Vi9pX8ArL0zFN87Q-b7G3eIf"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/fiddlefoo/"

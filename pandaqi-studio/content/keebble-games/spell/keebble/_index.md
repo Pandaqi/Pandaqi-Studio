@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Keebble"
-blurb: "A party game like scrabble, played using only a blank piece of paper. It's free, and it's faster."
+blurb: "A Scrabble-like party game you play on a single blank sheet of paper. Free, fast, and no tiles to lose."
 # blurb: "A word game that can be played with a blank piece of paper and a pen. Like Scrabble, but it doesn't take three hours and a big board."
 blurbProject: "The original! A One Paper Game, only needs an empty paper and some pens, plays quickly and simply."
 weightProject: 10

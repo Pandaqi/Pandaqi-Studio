@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Inside Sprout"
-blurb: "Defend your treeheart by distracting animals with the right flowers."
+blurb: "Defend your treeheart by distracting hungry animals with exactly the right flowers."
 
 date: 2025-12-12
 

@@ -3,7 +3,7 @@ type: "project"
 collection: "roll"
 
 title: "The Luck Legends"
-blurb: "A series of games where you roll dice, create custom dice, the map is made of dice, or any other lucky mechanic using dice decks."
+blurb: "A series of games built on luck: rolling dice, building dice, and occasionally making the map out of dice."
 
 driveLink: "https://drive.google.com/drive/folders/1Dp3anjWLbrJVVznUVE14vxCiezfk6VXu"
 

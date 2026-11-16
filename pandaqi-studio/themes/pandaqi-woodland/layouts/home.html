@@ -92,7 +92,7 @@
 			{{ partial "woodland/heading-leaf.html" (dict "level" 2 "class" "pq-section__sprig") }}
 			<h2 class="pq-section__title" id="pq-latest-title">Latest Project{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" "1.4s") }}</h2>
 		</div>
-		{{ partial "woodland/card.html" (dict "page" $latest_proj "variant" "feature") }}
+		{{ partial "woodland/card.html" (dict "page" $latest_proj "variant" "feature" "level" 3) }}
 	</section>
 </div>
 
@@ -108,5 +108,15 @@
 </div>
 
 {{ partial "navigation/games-list.html" (dict "context" . "heading" "Explore the Games" "heading_link" "/search/" "heading_link_label" "All games" "toolbar" true) }}
+
+{{/* The homepage's own Markdown: what this studio is, how to start, and the questions new visitors
+     actually ask. Written as content (content/_index.md) so it stays editable without touching the theme. */}}
+{{- with .Content }}
+<div class="pq-wrap">
+	<section class="pq-section pq-start">
+		<div class="pq-prose pq-start__prose">{{ . }}</div>
+	</section>
+</div>
+{{- end }}
 
 {{ end }}

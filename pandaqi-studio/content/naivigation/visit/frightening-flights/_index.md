@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Frightening Flights"
-blurb: "A Naivigation game about steering a single airplane together"
+blurb: "Steer a single airplane together and try to land it in one piece. A Naivigation game for 2–10 players."
 # blurb: "A [Naivigation](/naivigation/) game about steering a single airplane together without crashing into a mountain that's surprisingly tall."
 weightProject: 20
 

@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Sunbluck"
-blurb: "Throw shade at your beach tourists to prevent them getting sunburned."
+blurb: "Throw shade at beach tourists before they get sunburned. A tiny game about being aggressively helpful."
 
 date: 2025-12-12
 

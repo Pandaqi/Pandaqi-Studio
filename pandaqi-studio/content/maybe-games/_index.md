@@ -3,7 +3,7 @@ type: "project"
 collection: "vote"
 
 title: "Maybe Games"
-blurb: "A collection of simple board games using the Maybe Mechanic, about voting for or against your friend's proposals at the most strategic times."
+blurb: "Simple board games built on one idea: voting for or against your friends' proposals at the worst possible moment for them."
 # blurb: "_Maybe Games_ is collection of simple board games about voting YES or NO all the time to collect the highest score for yourself."
 driveLink: "https://drive.google.com/drive/folders/1PiESe5tpn51F2VzsQLyzUKud6AgdPmVJ"
 

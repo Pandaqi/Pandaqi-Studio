@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Feed the Beast"
-blurb: "Keep the beast satisfied with your strategic offerings of apples, pie or bread. Be the first to get rid of your entire food storage."
+blurb: "Keep the beast happy with offerings of apples, pie and bread — and be the first to empty your entire food storage."
 # blurb: "Oh, the dragon wants candy now? It will only release the princess for a slice of pie? Time to prepare the right dinner that wins me the game!"
 driveLink: "https://drive.google.com/drive/folders/1iuOlI1iYqptXn3HZQYIu0x7qy_jmb2aZ"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/feed-the-beast/"

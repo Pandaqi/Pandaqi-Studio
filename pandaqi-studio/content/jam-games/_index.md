@@ -3,7 +3,7 @@ type: "project"
 collection: "play"
 
 title: "Jam Games"
-blurb: "An overview of all little video games I made for Game Jams."
+blurb: "Small video games made for game jams: wild ideas, tight deadlines, and a surprising amount of fun."
 
 date: 2025-12-12
 

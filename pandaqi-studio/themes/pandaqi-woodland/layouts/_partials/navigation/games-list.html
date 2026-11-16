@@ -17,6 +17,9 @@
 {{- $heading_link := or .heading_link "" -}}
 {{- $heading_link_label := or .heading_link_label "View all games" -}}
 {{- $toolbar := or .toolbar false -}}
+{{/* With a section heading above them the cards sit one level deeper, so the outline never repeats h2. */}}
+{{- $card_level := 2 -}}
+{{- if $heading -}}{{- $card_level = 3 -}}{{- end -}}
 
 <div class="pq-wrap">
 	<section class="pq-section"{{ if $heading }} aria-labelledby="pq-section-title"{{ end }}>
@@ -52,7 +55,7 @@
 			{{- if gt (len $paginator.Pages) 0 -}}
 				<ul class="pq-grid" data-pq-sortable>
 					{{- range $paginator.Pages -}}
-						<li data-title="{{ .Title | lower }}" data-date="{{ .Date.Unix }}">{{ partial "woodland/card.html" (dict "page" .) }}</li>
+						<li data-title="{{ .Title | lower }}" data-date="{{ .Date.Unix }}">{{ partial "woodland/card.html" (dict "page" . "level" $card_level) }}</li>
 					{{- end -}}
 				</ul>
 			{{- else -}}

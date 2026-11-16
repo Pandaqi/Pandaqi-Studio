@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Carving Pumpkins & Dwarfing Dumplings"
-blurb: "A party game for 2-8 players about slicing your friends into smaller pieces, or preventing a huge dumpling from meeting the same fate."
+blurb: "Slice your friends into smaller pieces — or stop a giant dumpling from meeting the same fate. A party game for 2–8 players."
 
 date: 2022-01-27
 

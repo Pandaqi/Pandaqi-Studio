@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Swerving Shots"
-blurb: "You're cowboys shooting bullets simultaneously, which means collisions might occur, which means you might just shoot yourself."
+blurb: "You're cowboys firing simultaneously, which means bullets collide, which means you might just shoot yourself."
 deprecated: true
 
 date: 2019-09-18

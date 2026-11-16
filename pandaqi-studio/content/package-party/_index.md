@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Package Party"
-blurb: 'A local multiplayer ("couch co-op") game about delivering packages in the weirdest way possible'
+blurb: "A local multiplayer couch co-op game about delivering packages in the weirdest way possible."
 
 date: 2019-09-25
 

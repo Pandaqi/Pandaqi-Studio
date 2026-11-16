@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Sleighwell"
-blurb: "A cooperative game about placing houses and presents such that the sleigh can fulfill all wishes, with a dash of reindeer road and pine tree obstacles."
+blurb: "Place houses and presents so Santa's sleigh can reach every wish, without hitting a reindeer or a pine tree."
 # blurb: "Santa needs help delivering presents in a town that constantly changes."
 driveLink: "https://drive.google.com/drive/folders/11q1JvlufY06QORspG35SfAKQU4JakWhS"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/tile-games/sleighwell/"

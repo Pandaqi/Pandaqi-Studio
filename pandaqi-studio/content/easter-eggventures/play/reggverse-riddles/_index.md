@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Reggverse Riddles"
-blurb: "Win the reverse egg hunt by cleverly changing where eggs are hidden just before you decide to look."
+blurb: "A reverse egg hunt: change the rules that decide where eggs are hidden, just before you go looking."
 # blurb: "An [Easter Eggventures](/easter-eggventures/) game about changing the rules that determine where eggs are hidden ... just before you decide to look and collec them."
 blurbProject: "Win the reverse egg hunt by cleverly changing where eggs are hidden just before you decide to look."
 weightProject: 50

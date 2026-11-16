@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Egghunt Esports"
-blurb: "An egghunt in a dangerous arena and competitors stealing precious information about the highest-scoring prizes."
+blurb: "An egg hunt in a dangerous arena, where rivals steal the intel on which prizes are actually worth grabbing."
 # blurb: "An [Easter Eggventures](/easter-eggventures/) game about discovering the locations of the best eggs, without ever entering the arena or giving this info away to your competitors."
 blurbProject: "Find the locations of the best eggs and collect them, without ever entering the arena or giving that information to your opponents."
 weightProject: 20

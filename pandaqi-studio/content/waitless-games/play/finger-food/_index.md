@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Finger Food"
-blurb: "A quick game playable with just a single paper. Each turn, place a finger on a new square, to score more points than your opponents before you've used your whole hand."
+blurb: "A quick game on a single sheet of paper: put a finger on a new square each turn and outscore everyone before you run out of hand."
 # blurb: "Place your fingers on the best squares and score more pie points than your opponents! Playable with just a single paper, nothing else needed."
 blurbProject: "Bake the highest-scoring recipes by _placing your fingers_ on the right squares, nothing else needed."
 

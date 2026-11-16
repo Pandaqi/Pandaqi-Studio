@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Bunny Bidding"
-blurb: "Play rounds adding cards to the secret offer and bidding on it. But use your highest value cards wisely, because only ONE type of egg actually scores you points in the end!"
+blurb: "Bid on a secret pile of eggs, but only one type of egg actually scores. Spend your best cards wisely."
 # blurb: "An [Easter Eggventures](/easter-eggventures/) game about winning auctions that contain your secret point-scoring egg, and strategically losing all the others."
 blurbProject: "Snatch the best offers containing the secret eggs that actually score you points."
 weightProject: 40

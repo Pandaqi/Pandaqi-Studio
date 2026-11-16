@@ -64,13 +64,21 @@
     <meta name="theme-color" content="#1D2522" media="(prefers-color-scheme: dark)">
 
     <!-- Structured data, so search engines know what kind of thing this page describes -->
-    {{ $organisation := dict "@type" "Organization" "name" "Pandaqi Studio" "url" site.Home.Permalink }}
+    {{ $organisation := dict
+        "@type" "Organization"
+        "name" "Pandaqi Studio"
+        "url" site.Home.Permalink
+        "description" "Independent game studio making free print-and-play board games and local multiplayer video games."
+        "logo" ("/theme/webp/favicon.webp" | absURL)
+        "sameAs" (slice "https://pandaqi.itch.io" "https://www.youtube.com/channel/UCUegxnNkcycM67gvyeD4CEQ") }}
     {{ $schema := false }}
 
     {{ if .IsHome }}
         {{ $schema = dict "@context" "https://schema.org" "@type" "WebSite" "name" site.Title "url" site.Home.Permalink "description" $description "publisher" $organisation }}
     {{ else if eq .Type "project" }}
-        {{ $schema = dict "@context" "https://schema.org" "@type" "Game" "name" .Title "url" .Permalink "description" $description "image" $social_image "datePublished" (.Date.Format "2006-01-02") "author" $organisation "publisher" $organisation }}
+        {{ $schema_type := "Game" }}
+        {{ if in (.Params.categories | default slice) "video-game" }}{{ $schema_type = "VideoGame" }}{{ end }}
+        {{ $schema = dict "@context" "https://schema.org" "@type" $schema_type "name" .Title "url" .Permalink "description" $description "image" $social_image "datePublished" (.Date.Format "2006-01-02") "inLanguage" "en" "author" $organisation "publisher" $organisation }}
         {{ with .Params.genres }}{{ $schema = merge $schema (dict "genre" .) }}{{ end }}
         {{ with .Params.platform }}{{ $schema = merge $schema (dict "gamePlatform" .) }}{{ end }}
         {{ with .Params.playercount }}
@@ -89,6 +97,18 @@
 
     {{ with $schema }}
         <script type="application/ld+json">{{ . | jsonify | safeJS }}</script>
+    {{ end }}
+
+    {{/* Breadcrumbs already exist on the page; this is the same trail in the form search engines show
+         instead of a bare URL in the result. */}}
+    {{ if not .IsHome }}
+        {{- $crumbs := slice -}}
+        {{- range $i, $crumb := .Ancestors.Reverse -}}
+            {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" (add $i 1) "name" (cond $crumb.IsHome "Home" $crumb.Title) "item" $crumb.Permalink) -}}
+        {{- end -}}
+        {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" (add (len $crumbs) 1) "name" .Title "item" .Permalink) -}}
+        {{- $breadcrumb := dict "@context" "https://schema.org" "@type" "BreadcrumbList" "itemListElement" $crumbs -}}
+        <script type="application/ld+json">{{ $breadcrumb | jsonify | safeJS }}</script>
     {{ end }}
 
     <!-- RSS Feed -->

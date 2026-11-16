@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Art Hockey"
-blurb: "Brush your friends aside and draw out their defenses in this creative game of air hockey ... with a twist"
+blurb: "Air hockey where you draw your own defenses as you go. Brush your friends aside on a table that is never quite the same twice."
 
 date: 2020-03-16
 

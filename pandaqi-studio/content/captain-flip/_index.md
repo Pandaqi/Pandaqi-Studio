@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Captain Flip"
-blurb: "A mix between a memory game and strategy game, where flipping tiles gives you actions, and scoring the tiles you wanted is a challenge."
+blurb: "Flip tiles to trigger actions, remember what is where, and grab the tiles that actually score. A memory game with a strategist hiding inside."
 # blurb: "Remember the locations of the best tiles and flip them before anyone else."
 driveLink: "https://drive.google.com/drive/folders/1XyTJDG_9tOtEwNdNxfAAKBFr6LHghwIX"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/tile-games/captain-flip/"

@@ -3,7 +3,7 @@ type: "project"
 collection: "bet"
 
 title: "Chiptales"
-blurb: "A series of games inspired by poker, trying to simplify, improve or change different parts."
+blurb: "Card games inspired by poker that keep the tension and throw out the parts you never liked."
 
 driveLink: "https://drive.google.com/drive/folders/146uKZvbAPjaFnNVwQkz1Rwo3vGNJ1B1W"
 

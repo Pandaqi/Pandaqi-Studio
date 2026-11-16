@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Paper Thieves"
-blurb: "Steal enough treasures and flee the city, before the police catches you!"
+blurb: "Steal enough treasure and get out of the city before the police catch you."
 deprecated: true
 
 date: 2020-03-18

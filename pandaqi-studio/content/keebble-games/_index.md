@@ -3,7 +3,7 @@ type: "project"
 collection: "spell"
 
 title: "Keebble Games"
-blurb: "A series of word games inspired by Scrabble, but also completely different."
+blurb: "Word games inspired by Scrabble, but faster, freer, and playable with nothing but a blank sheet of paper."
 
 driveLink: "https://drive.google.com/drive/folders/1uetb7g-4GW5yp_bwQyozFr_ktS2uU_ul"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/keebble-games/"

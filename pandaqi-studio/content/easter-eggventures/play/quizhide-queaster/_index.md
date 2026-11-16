@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Quizhide Queaster"
-blurb: "Win the reverse egg hunt by cleverly changing where eggs are hidden just before you decide to look."
+blurb: "One team hides the eggs, the other searches. But communication is unfortunately limited to vague, dreamlike illustrations."
 # blurb: "An [Easter Eggventures](/easter-eggventures/) game about hiding eggs and communicating their location to the seekers using vague fantastical clues."
 blurbProject: "One team hides the eggs, the other searches. But communication between them is unfortunately limited to vague, dreamlike illustrations."
 weightProject: 10

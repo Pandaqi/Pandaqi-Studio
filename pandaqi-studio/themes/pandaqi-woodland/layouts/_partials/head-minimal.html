@@ -14,11 +14,27 @@
     <meta name="robots" content="{{ partial "func/get-robots.html" $context }}">
     <link rel="canonical" href="{{ $context.Permalink }}">
 
+    {{/* Rulebooks are shared and linked on their own, so they get the project's artwork too. */}}
+    {{ $social_image := "/theme/webp/pandaqi-hero-image.webp" | absURL }}
+    {{ with $context.Parent }}
+        {{ $asset_name := partial "func/get-game-asset-name.html" . }}
+        {{ $header_src := printf "assets/%s-header" $asset_name }}
+        {{ with partial "func/get-valid-image-url.html" (dict "context" . "src" $header_src) }}
+            {{ $social_image = . | absURL }}
+        {{ end }}
+    {{ end }}
+
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="{{ site.Title }}">
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:url" content="{{ $context.Permalink }}">
+    <meta property="og:image" content="{{ $social_image }}">
+    <meta property="og:image:alt" content="{{ $context.Parent.Title }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $title }}">
+    <meta name="twitter:description" content="{{ $description }}">
+    <meta name="twitter:image" content="{{ $social_image }}">
 
     {{ $favicon := partial "func/get-favicon.html" $context.Parent }}
     <link rel="icon" type="image/webp" href="{{ $favicon }}">

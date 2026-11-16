@@ -4,7 +4,7 @@
 
 {{/* The homepage title is the one title you write for search engines, not for the page itself */}}
 {{ if .IsHome }}
-    {{ $title = printf "%s - Free Printable Board Games & Multiplayer Video Games" .Site.Title }}
+    {{ $title = printf "%s - Free Printable Board Games & Video Games" (or .Site.Params.title .Site.Title) }}
 {{ else if $is_taxonomy_page }}
     {{ $title = partial "func/get-taxonomy-label.html" . }}
 {{ else if $is_404 }}

@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Nine Lives: Math Meows"
-blurb: "As we all know, cats start with nine lives. And as we all know, being unable to play a card makes you lose a life. Don't lose them all!"
+blurb: "Cats start with nine lives, and every card you can't play costs one. Don't lose them all!"
 # blurb: "A simple and fast card game about losing your nine lives less quickly than all the other players."
 weightProject: 91
 

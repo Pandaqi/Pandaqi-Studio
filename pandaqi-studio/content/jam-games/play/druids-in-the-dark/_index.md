@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Druids in the Dark"
-blurb: "Run a potion shop covered in shadows, where one misstep is fatal."
+blurb: "Run a potion shop in near-total darkness, where one misstep is fatal and the shadows are not helping."
 
 
 date: 2025-12-12

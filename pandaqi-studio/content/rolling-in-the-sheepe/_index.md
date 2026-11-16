@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Rolling in the Sheepe"
-blurb: "1-6 sheep compete to roll to the finish first, with many treacherous obstacles trying to turn them into The Unrollable Triangle."
+blurb: "1–6 sheep race to the finish, with many treacherous obstacles trying to turn them into The Unrollable Triangle."
 
 date: 2022-01-24
 

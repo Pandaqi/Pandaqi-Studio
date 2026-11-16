@@ -3,7 +3,7 @@ type: "project"
 collection: "use"
 title: "Pandaqi Tools"
 
-blurb: "Always useful when playing a game."
+blurb: "A timer, a dictionary, dice rollers and genre lists: the little tools that make game night run smoother."
 
 date: 2015-01-01
 

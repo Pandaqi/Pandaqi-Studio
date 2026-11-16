@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Hasty Accusations"
-blurb: "Everybody is investigating the same murder and pointing fingers every which way. Secret fingers. With secret actions. And you don't want too many targeting your hidden role."
+blurb: "Everyone is investigating the same murder, with secret fingers and secret actions. You just don't want too many pointing at your hidden role."
 # blurb: "Ensure your character survives the murder investigation, but do it in secret."
 driveLink: "https://drive.google.com/drive/folders/1rpuM28gjwNK5-sSxLlJj0HYrXq8mgZkr" # already updated!
 

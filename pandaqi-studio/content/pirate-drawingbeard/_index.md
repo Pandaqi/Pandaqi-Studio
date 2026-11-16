@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Pirate Drawingbeard"
-blurb: "1-6 pirates try to discover the secret (drawn) hints of the other players, to find the treasure before the others"
+blurb: "1–6 pirates draw secret hints and try to read everyone else's, so they can reach the treasure first."
 # blurb: "Discover the treasure by figuring out what secret visual clues the other players are holding!"
 
 date: 2022-07-20

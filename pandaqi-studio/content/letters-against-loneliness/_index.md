@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Letters Against Loneliness"
-blurb: "Place post offices to send letters to the people. A simple puzzle to bring people together."
+blurb: "Place post offices to send letters to the people who need them. A simple puzzle about bringing people together."
 
 date: 2021-12-03
 

@@ -7,6 +7,8 @@
      card is one link, so there are no nested interactive controls. */}}
 {{- $page := .page -}}
 {{- $variant := or .variant "default" -}}
+{{/* Cards under a section heading are h3; cards directly under the page's own h1 stay h2. */}}
+{{- $level := or .level 2 -}}
 {{- $banner := index (strings.Split (partial "func/get-game-header.html" $page) ".") 0 -}}
 {{- $blurb := or ($page.Params.blurb) "" -}}
 {{- $facts := partial "woodland/facts.html" $page -}}
@@ -36,7 +38,11 @@
 		<div class="pq-card__body">
 			<span class="pq-card__badge">{{ partial "woodland/badge.html" (dict "page" $page) }}</span>
 			<div class="pq-card__text">
+				{{- if eq $level 3 -}}
+				<h3 class="pq-card__title">{{ $page.Title }}</h3>
+				{{- else -}}
 				<h2 class="pq-card__title">{{ $page.Title }}</h2>
+				{{- end -}}
 				{{- with $blurb -}}<p class="pq-card__blurb">{{ . | markdownify }}</p>{{- end -}}
 			</div>
 			{{- if gt (len $facts) 0 -}}

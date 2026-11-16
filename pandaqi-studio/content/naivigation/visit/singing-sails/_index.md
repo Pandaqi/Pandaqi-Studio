@@ -3,7 +3,7 @@ type: "project"
 
 
 title: "Singing Sails"
-blurb: "A Naivigation game about steering a single ship together"
+blurb: "Steer one ship together, with the whole crew shouting directions. A Naivigation game for 2–10 players."
 # blurb: "A [Naivigation](/naivigation/) game about steering a single ship together, battling sea currents and dangerous islands."
 weightProject: 40
 

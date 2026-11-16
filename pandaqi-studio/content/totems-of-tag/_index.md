@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Totems of Tag"
-blurb: "It's dodgeball for 2-4 players, but without any of those pesky rules!"
+blurb: "Dodgeball for 1–4 players, without any of those pesky rules. Fast, chaotic, and playable in five minutes."
 
 date: 2022-08-01
 

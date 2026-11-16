@@ -2,7 +2,7 @@
 type: "project"
 
 title: "One Pizza the Puzzle"
-blurb: "A One Paper Game for 2–8 players about running your own pizza business. A raging rivalry, however, makes it impossible to cross paths with other pizza couriers without causing huge problems ..."
+blurb: "Run your own pizza business on a single sheet of paper. Crossing paths with other couriers has ... consequences."
 
 date: 2020-10-25
 

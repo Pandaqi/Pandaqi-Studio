@@ -2,7 +2,7 @@
 type: "project"
 
 title: "I Wish You Good Hug"
-blurb: "1-4 players try to deliver teddy bears to a warm bed ... whatever it takes"
+blurb: "1–4 players try to deliver teddy bears to a warm bed — whatever it takes."
 
 date: 2021-07-14
 

@@ -1,20 +1,27 @@
 {{/* Meta description for this page. Search engines show this below the title, so it should say what THIS
-     page is about. Before, every page on the website shared the same one-line description. */}}
+     page is about — and stay under roughly 158 characters, which is the length a result snippet shows
+     before it gets cut off with an ellipsis. */}}
 {{- $description := "" -}}
+
+{{/* A rulebook is a page people search for on its own ("how to play X"), so it gets its own sentence
+     instead of repeating the project blurb that the project page already uses. */}}
+{{- if eq .Type "rules" -}}
+	{{- $description = printf "The complete rulebook for %s: setup, how to play, scoring and variants. Free to read online, print at home, or bring to the table tonight." .Parent.Title -}}
+{{- end -}}
 
 {{/* Hand-written blurbs are always the best description */}}
 {{- with .Params.blurb -}}
-	{{- $description = . | markdownify | plainify -}}
+	{{- $description = . | markdownify | plainify | htmlUnescape -}}
 {{- end -}}
 
-{{/* Overview pages (game lists) get a sentence built from their own headings */}}
+{{/* Overview pages (game lists) get a sentence built from their own numbers */}}
 {{- if and (not $description) (or (eq .Kind "term") (eq .Kind "taxonomy")) -}}
 	{{- $label := partial "func/get-taxonomy-label.html" . -}}
 	{{- if eq .Kind "term" -}}
-		{{- $description = printf "All %s made by indie studio Pandaqi, each one free and explained in full on its own page." (lower $label) -}}
+		{{- $description = printf "%s by Pandaqi — %d free games to print or play at home, each with its own page, full rules and downloads." $label (len .Pages) -}}
 	{{- else -}}
 		{{- $name := partial "func/get-taxonomy-name.html" . -}}
-		{{- $description = printf "Every game on Pandaqi, grouped by %s. Click any value to see all games that match." $name -}}
+		{{- $description = printf "All Pandaqi games grouped by %s: free print-and-play board games and local multiplayer video games, each explained on its own page." $name -}}
 	{{- end -}}
 {{- end -}}
 
@@ -22,7 +29,7 @@
 {{- if not $description -}}
 	{{- with .Parent -}}
 		{{- with .Params.blurb -}}
-			{{- $description = . | markdownify | plainify -}}
+			{{- $description = . | markdownify | plainify | htmlUnescape -}}
 		{{- end -}}
 	{{- end -}}
 {{- end -}}
@@ -30,13 +37,19 @@
 {{/* Anything else (like a page with only Markdown) uses its own opening lines */}}
 {{- if not $description -}}
 	{{- with .Summary -}}
-		{{- $description = . | plainify -}}
+		{{- $description = . | plainify | htmlUnescape -}}
 	{{- end -}}
 {{- end -}}
 
 {{/* Last resort: the description of the website as a whole */}}
 {{- if not $description -}}
-	{{- $description = "Pandaqi Studio delivers free (print-n-play) boardgames and (local multiplayer) video games." -}}
+	{{- $description = "Free print-and-play board games and local multiplayer video games by indie studio Pandaqi. Pick one, print it or open it, and play it tonight." -}}
+{{- end -}}
+
+{{/* Collapse line breaks and keep the snippet inside the length search engines show. */}}
+{{- $description = $description | replaceRE `\s+` " " | strings.TrimSpace -}}
+{{- if gt (len $description) 158 -}}
+	{{- $description = $description | truncate 157 "…" -}}
 {{- end -}}
 
 {{- return $description -}}

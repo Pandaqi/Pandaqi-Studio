@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Pizza Peers"
-blurb: "Start the game on a computer, connect your smartphone, and have some cooperative multiplayer fun delivering tasty pizzas!"
+blurb: "Start the game on a computer, connect your smartphones, and deliver pizzas together. Co-op for a full room."
 deprecated: true
 
 date: 2020-07-12

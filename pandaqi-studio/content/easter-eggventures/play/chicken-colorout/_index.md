@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Chicken Colorout"
-blurb: "Be the first to hide all your eggs in an environment filled with kids eager to find them again."
+blurb: "Be the first to hide all your eggs in a garden full of kids who are very eager to find them again."
 # blurb: "An [Easter Eggventures](/easter-eggventures/) game about a reverse egg hunt: hide all your eggs in the best hiding spots so they will never be found again."
 blurbProject: "Be the first to hide all your eggs in an environment filled with kids (or other forces) eager to find them again."
 weightProject: 30

@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Keebble: Domino"
-blurb: "A party game like Scrabble. A spin-off for Keebble. Played using dominoes and a special font where each letter is ... multiple letters."
+blurb: "A Scrabble-like party game played with dominoes and a font where every letter is also several other letters."
 # blurb: "A word game like Scrabble, but played using letters that change when viewed from different directions. A domino-based entry in the [Keebble Games](/keebble-games/)"
 blurbProject: "A 'traditional' game played with dominoes that look like different letters from different sides. Print and cut once, play however often you want."
 weightProject: 30

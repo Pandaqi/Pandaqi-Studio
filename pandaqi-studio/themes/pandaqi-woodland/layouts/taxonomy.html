@@ -31,7 +31,7 @@
 			{{- /* the latest few projects for this value; the term page carries the full list */ -}}
 			<ul class="pq-grid">
 				{{- range .Pages | first 6 }}
-					<li>{{ partial "woodland/card.html" (dict "page" .) }}</li>
+					<li>{{ partial "woodland/card.html" (dict "page" . "level" 3) }}</li>
 				{{- end }}
 			</ul>
 		</section>

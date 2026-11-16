@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Magnetmen"
-blurb: "The Magnetmen are magical robots, scoring points left and right. The only issue? The more you use them, the more spaces from which you're repelled."
+blurb: "Magical robot magnets score points left and right — but the more you use them, the more spaces repel you."
 
 driveLink: "https://drive.google.com/drive/folders/1IWl4VH_Ai7e6BQM6PE4dY3YUfkDn2zQj"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/one-paper-games/magnetmen/"

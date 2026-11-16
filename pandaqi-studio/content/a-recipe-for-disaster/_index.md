@@ -2,7 +2,7 @@
 type: "project"
 
 title: "A Recipe For Disaster"
-blurb: "Baking breads by throwing hats. Chaotic co-op game for 1-4 players trying to run a bakery."
+blurb: "Bake bread by throwing hats at it. A chaotic co-op game for 1–4 players running a bakery where nothing goes to plan."
 
 date: 2021-04-26
 

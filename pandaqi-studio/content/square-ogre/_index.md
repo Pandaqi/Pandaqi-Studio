@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Square Ogre"
-blurb: "Help Ogre improve his eyesight and leave his cave, through 500 puzzles"
+blurb: "Help Ogre improve his eyesight and finally leave his cave, across 500 hand-made puzzles."
 
 date: 2021-02-24
 

@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Noble Flood"
-blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity. Also playable with standard deck of cards."
+blurb: "Build the best card pattern you can — or deny everyone else theirs. Also playable with a standard deck of cards."
 # blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity."
 driveLink: "https://drive.google.com/drive/folders/1CcsMv1m33GWZypAiNYZgkpCh17RQtqW5"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/chiptales/noble-flood/"

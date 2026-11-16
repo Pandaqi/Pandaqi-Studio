@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Crashing cars"
-blurb: "A Naivigation game about steering a single car together"
+blurb: "Steer a single car together, one player at a time, and try not to total it. A Naivigation game for 2–10 players."
 # blurb: "A [Naivigation](/naivigation/) game about steering a single car together, trying not to end up total loss."
 weightProject: 30
 

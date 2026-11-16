@@ -9,6 +9,16 @@ enableRobotsTXT = true
 [pagination]
   pagerSize = 5
 
+[outputs]
+  home = ["HTML", "RSS", "LLMS"]
+
+# A plain-text map of the catalogue for AI crawlers and answer engines (llms.txt).
+[outputFormats.LLMS]
+  mediaType = "text/plain"
+  baseName = "llms"
+  isPlainText = true
+  notAlternative = true
+
 [imaging]
   # box is the cheapest resample filter; at card size the difference is invisible
   resampleFilter = "box"

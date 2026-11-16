@@ -18,7 +18,9 @@
 </div>
 {{ end }}
 
-{{ partial "woodland/banner.html" (dict "context" .) }}
+{{/* The banner is the largest thing above the fold, so it is the page's LCP image: load it eagerly
+     instead of making the browser discover it after layout. */}}
+{{ partial "woodland/banner.html" (dict "context" . "eager" true "alt" (printf "Cover artwork for %s" .Title)) }}
 
 <article class="pq-wrap">
 	{{ partial "navigation/breadcrumbs.html" . }}
