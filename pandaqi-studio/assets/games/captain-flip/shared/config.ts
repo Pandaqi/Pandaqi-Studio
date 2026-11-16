@@ -5,6 +5,10 @@ import { TextConfig, TextWeight, Vector2, CVal } from "lib/pq-games"
 
 export const CONFIG = 
 {
+    // Without _settings the framework treats the whole config as raw settings (the V1 API), which
+    // hides _material and produces an empty PDF.
+    _settings: {},
+
     _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

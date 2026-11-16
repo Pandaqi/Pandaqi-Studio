@@ -147,7 +147,7 @@ export const CONFIG =
 
         planetProperties:
         {
-            picker: planetPropertiesPicker,
+            picker: () => planetPropertiesPicker,
             mapper: MapperPreset.CARD
         }
     },

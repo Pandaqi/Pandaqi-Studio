@@ -38,7 +38,7 @@ export default class Slider
         const wavyRectSize = new Vector2(vis.size.x, blockHeight + 4*amp);
         this.wavyRect = createWavyRect(wavyRectSize, amp, CONFIG.wavyRect.frequency, CONFIG.wavyRect.stepSize);
 
-        const textConfig = vis.get("textConfig").clone();
+        const textConfig = vis.get("cards.textConfig").clone();
         textConfig.size = vis.get("sliderCards.textScale") * blockHeight;
 
         const saturation = vis.inkFriendly ? 0 : CONFIG.wavyRect.saturation;

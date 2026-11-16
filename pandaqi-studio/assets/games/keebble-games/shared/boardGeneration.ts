@@ -118,12 +118,15 @@ export class BoardGeneration
 		}
 	}
 
-	determinePlayerColors(cfg)
+	    determinePlayerColors(cfg)
 	{
 		const colors = [];
-		
-		const hueDistBetweenPlayers = 360.0 / cfg.numPlayers;
-		for(let i = 0; i < cfg.numPlayers; i++)
+
+		// settings live under _settings now; `numPlayers` is the shared name, `playerCount` is the
+		// Keebble board's older key
+		const numPlayers = getSetting("numPlayers", cfg) ?? getSetting("playerCount", cfg) ?? 4;
+		const hueDistBetweenPlayers = 360.0 / numPlayers;
+		for(let i = 0; i < numPlayers; i++)
 		{
 			const hue = i*hueDistBetweenPlayers;
 			const col = new Color(hue, 70, 70);
@@ -135,18 +138,22 @@ export class BoardGeneration
 
 	createExpansionSetup(cfg)
 	{
-		if(cfg.expansions.cellDance) { cfg.expansions.specialCells = true; }
+		// Celldance needs the special cells, so reading them through the settings API also keeps the
+		// checkbox in sync (the old code read a V1 top-level object that no longer exists).
+		if(getSetting("expansions.cellDance", cfg))
+		{
+			const specialCells = cfg._settings?.expansions?.specialCells;
+			if(specialCells) { specialCells.value = true; }
+		}
 
 		const typesCopy = structuredClone(cfg.typesOriginal);
 		cfg.types = typesCopy;
-		for(const [type,data] of Object.entries(typesCopy))
+		for(const [type,data] of Object.entries(typesCopy as Record<string, any>))
 		{
-			// @ts-ignore
 			const needsExpansion = data.expansion;
 			if(!needsExpansion) { continue; }
 
-			// @ts-ignore
-			const expansionIncluded = cfg.expansions[data.expansion]
+			const expansionIncluded = getSetting("expansions." + data.expansion, cfg);
 			if(expansionIncluded) { continue; }
 
 			delete typesCopy[type];
@@ -383,7 +390,7 @@ export class BoardGeneration
 		const max = CONFIG.startHandSize.max;
 		const size = Math.floor(rand() * (max - min) + min);
 
-		const numPlayers = getSetting("numPlayers", CONFIG);
+		const numPlayers = getSetting("numPlayers", CONFIG) ?? getSetting("playerCount", CONFIG) ?? 4;
 		const hands = [];
 		for(let i = 0; i < numPlayers; i++)
 		{

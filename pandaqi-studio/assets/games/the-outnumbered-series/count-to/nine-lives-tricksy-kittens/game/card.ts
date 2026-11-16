@@ -24,7 +24,7 @@ const cacheVisualizerData = async (vis:MaterialVisualizer) =>
     vis.custom =
     {
         effects: [new DropShadowEffect({ offset: shadowOffset, color: shadowColor }), vis.inkFriendlyEffect].flat(),
-        patternCat: patternizeGrid(params),
+        patternCat: await patternizeGrid(params),
     }
 }
 

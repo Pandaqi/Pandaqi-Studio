@@ -1,4 +1,4 @@
-import { CONFIG_SHARED } from "games/easter-eggventures/shared/configShared";
+import { CONFIG_SHARED } from "games/maybe-games/shared/configShared";
 import { SettingType, Vector2, Bounds, CVal, mergeObjects } from "lib/pq-games";
 import { cardPicker } from "../game/cardPicker";
 import { votePicker } from "../game/votePicker";

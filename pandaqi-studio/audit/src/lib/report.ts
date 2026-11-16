@@ -123,7 +123,7 @@ const writeContactSheet = (path:string, data:ReportData, outDir:string) =>
         for(const result of results)
         {
             const images = result.artifacts
-                .filter(file => file.toLowerCase().endsWith(".png"))
+                .filter(file => /\.(png|jpe?g)$/i.test(file))
                 .map(file => `<figure><img loading="lazy" src="${toRel(outDir, file)}"><figcaption>${file.split(/[\\/]/).pop()}</figcaption></figure>`)
                 .join("\n");
             const failures = result.failures

@@ -2,7 +2,7 @@ import { WordData } from "lib/pq-words";
 import equidistantColorsBetweenOpposites from "../game/tools/equidistantColorsBetweenOpposites";
 import createWavyRect from "../game/tools/createWavyRect";
 import { CONFIG } from "./config";
-import { Vector2, createContext, Color, LayoutOperation, MaterialVisualizer, ResourceText } from "lib/pq-games";
+import { Vector2, createContext, Color, LayoutOperation, MaterialVisualizer, ResourceText, colorDarken, colorLighten, getColorContrastHighest } from "lib/pq-games";
 
 export default class WordCard
 {
@@ -35,7 +35,7 @@ export default class WordCard
         for(let a = 0; a < wordsPerCard; a++)
         {
             const color = colors[a];
-            let textColor = color.getHighestContrast([color.darken(textDarken), color.lighten(textDarken)]);
+            let textColor = getColorContrastHighest(color, [colorDarken(color, textDarken), colorLighten(color, textDarken)]);
             if(vis.inkFriendly) { textColor = Color.BLACK; }
 
             const topOffset = a == 0 ? -2*amp : 0;

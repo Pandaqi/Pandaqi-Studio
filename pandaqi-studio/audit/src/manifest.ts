@@ -39,7 +39,9 @@ export const urlForMarkdown = (contentDir:string, mdPath:string) =>
     const file = parts.pop() as string;
     const base = file.replace(/\.md$/, "");
     const dir = parts.join("/");
-    if(base === "_index") { return { url: `/${dir}/`.replace(/\/+/g, "/"), legacyPath: false }; }
+    // `_index.md` is a branch bundle and `index.md` a leaf bundle; Hugo serves both at the directory
+    // itself (no extra `/index/` segment), so the manifest has to drop the file name for both.
+    if(base === "_index" || base === "index") { return { url: `/${dir}/`.replace(/\/+/g, "/"), legacyPath: false }; }
     return {
         url: `/${dir}/${base}/`.replace(/\/+/g, "/"),
         legacyPath: base.startsWith("_"),

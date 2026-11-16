@@ -38,7 +38,7 @@ export const CONFIG =
                 frames: new Vector2(6,1)
             },
 
-            files:
+            assets:
             {
                 path: "assets.webp",
                 frames: new Vector2(8,2)

@@ -1,6 +1,7 @@
 import { CONFIG_SHARED } from "games/easter-eggventures/shared/configShared";
 import { tilePicker } from "../game/tilePicker";
 import { eggPicker } from "../game/eggPicker";
+import { GENERATION } from "./generation";
 import { SettingType, Vector2, Bounds, CVal, mergeObjects } from "lib/pq-games";
 
 export const CONFIG:Record<string,any> =
@@ -73,38 +74,7 @@ export const CONFIG:Record<string,any> =
         },
     },
 
-    generation:
-    {
-        maxNumEggs: 6,
-        maxNumPlayers: 6,
-        victoryEggsDistribution: { 1: 20, 5: 14, 10: 8 },
-        numExtraStarterTiles: 3,
-        requirementNegationProb: 0.25,
-        requirementNegationFrame: 0, // simply the frame of the red X symbol
-        numEggSlotDistribution:
-        {
-            1: { prob: 0.125 },
-            2: { prob: 0.325 },
-            3: { prob: 0.35 },
-            4: { prob: 0.15 },
-            5: { prob: 0.05 },
-        },
-        numDecorationBounds: new Bounds(0,2),
-        numMapTiles:
-        {
-            base: 32,
-            terrific: 18
-        },
-        defaultFrequencies:
-        {
-            eggToken: 10,
-        },
-        grid:
-        {
-            size: new Vector2(4,4),
-            squaresNeededForText: new Vector2(2,2)
-        }
-    },
+    generation: GENERATION,
 
     _material:
     {

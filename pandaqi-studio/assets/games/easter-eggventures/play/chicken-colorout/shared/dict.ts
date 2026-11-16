@@ -1,5 +1,5 @@
 import { EGGS_SHARED, EggType, TileDataDict } from "games/easter-eggventures/shared/dictShared";
-import { CONFIG } from "./config";
+import { GENERATION } from "./generation";
 import { Vector2, Rectangle, Bounds } from "lib/pq-games";
 
 interface SlotRequirement
@@ -94,7 +94,7 @@ interface RequirementData
     forbidSingleSlot?: boolean, // if true, this NEEDS multiple egg slots
 }
 
-const includedEggs = Object.keys(EGGS_SHARED).slice(0,CONFIG.generation.maxNumEggs);
+const includedEggs = Object.keys(EGGS_SHARED).slice(0, GENERATION.maxNumEggs);
 const REQUIREMENTS:Record<string, RequirementData> =
 {
     egg: { label: "Egg", desc: "Play the type of egg shown.", descNeg: "CAN'T play the type of egg shown.", multiSpriteOptions: includedEggs, multiSpriteKey: "eggs", multiSpriteDict: EGGS_SHARED, set: "base", prob: 2.25 },

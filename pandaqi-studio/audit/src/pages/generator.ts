@@ -1,5 +1,5 @@
 import { mkdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import type { ManifestEntry, PageResult, RenderInfo } from "../lib/types";
 import type { Session } from "../lib/browser";
 import { Checker } from "../lib/assert";
@@ -20,7 +20,10 @@ export interface GeneratorOptions
     // full-page screenshots are for a human to look at; the sweep does not need them and on a slow machine
     // they are real time and memory (one PNG per page per run)
     screenshots: boolean;
-    auditPdf?: { maxPages?: number, compression?: string };
+    // PDF page previews, written under rendersRoot in the game's URL hierarchy (--render)
+    renders: boolean;
+    rendersRoot: string;
+    auditPdf?: { maxPages?: number, compression?: string, capture?: boolean, rendersPerPdf?: number, rendersTotal?: number };
 }
 
 const INK_MIN_GENERATOR = 0.001;
@@ -28,13 +31,19 @@ const MIN_PDF_BYTES = 5000;
 
 const GENERATE_BUTTON = "div.settings-container > button";
 
-const hashRenders = (count:number, render:RenderInfo|null) =>
+const hashRenders = (count:number, renders:RenderInfo[]) =>
 {
     const hasher = new Bun.CryptoHasher("sha1");
     hasher.update(String(count));
-    hasher.update(String(render?.thumb ?? ""));
+    for(const render of renders) { hasher.update(String(render.thumb ?? "")); }
     return hasher.digest("hex");
-}
+};
+
+const fileSlug = (text:string) =>
+{
+    const slug = text.replace(/\.pdf$/i, "").replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "").toLowerCase();
+    return slug || "document";
+};
 
 export const runGenerator = async (session:Session, entry:ManifestEntry, opts:GeneratorOptions) : Promise<PageResult> =>
 {
@@ -136,6 +145,7 @@ export const runGenerator = async (session:Session, entry:ManifestEntry, opts:Ge
             const errorsBefore = audited.countErrors();
             await audited.clearAudit();
 
+            const downloadsBefore = audited.downloads.length;
             const downloadPromise = page.waitForEvent("download", { timeout: opts.genTimeoutMs }).catch(() => null);
             await button.click({ timeout: opts.timeoutMs }).catch((e) =>
             {
@@ -157,7 +167,7 @@ export const runGenerator = async (session:Session, entry:ManifestEntry, opts:Ge
                 return state.done;
             }, opts.genTimeoutMs);
 
-            const download:any = await downloadPromise;
+            await downloadPromise;
 
             // MG-4
             checker.ok(finished, "GEN_STALLED",
@@ -165,21 +175,23 @@ export const runGenerator = async (session:Session, entry:ManifestEntry, opts:Ge
                 profile);
             checker.ok(await buttonEnabled(), "GEN_STALLED", "the Generate button stayed disabled", profile);
 
-            // MG-5
-            if(!download)
+            // MG-5: one generator can emit several PDFs (one per material), so check and keep all of them.
+            // A single-named artifact is still saved for a human to open; the check is what matters.
+            const downloads = audited.downloads.slice(downloadsBefore);
+            if(downloads.length === 0)
             {
                 checker.fail("GEN_NO_DOWNLOAD", "no download event fired", profile);
             }
-            else
+            for(const item of downloads)
             {
-                const name = download.suggestedFilename();
+                const name = item.suggestedFilename();
                 let size = -1;
-                try { const p = await download.path(); if(p) { size = (await Bun.file(p).size); } } catch(e) { size = -1; }
+                try { const p = await item.path(); if(p) { size = (await Bun.file(p).size); } } catch(e) { size = -1; }
                 checker.ok(name.toLowerCase().endsWith(".pdf"), "GEN_NO_DOWNLOAD",
                     `downloaded "${name}", which is not a .pdf`, profile);
                 checker.ok(size >= MIN_PDF_BYTES, "GEN_NO_DOWNLOAD",
                     `downloaded PDF is ${size} bytes (want >= ${MIN_PDF_BYTES})`, profile);
-                try { await download.saveAs(join(profileDir, name)); } catch(e) {}
+                try { await item.saveAs(join(profileDir, name)); } catch(e) {}
                 artifacts.push(join(profileDir, name));
             }
 
@@ -191,25 +203,24 @@ export const runGenerator = async (session:Session, entry:ManifestEntry, opts:Ge
             // MG-7: the instrument measured one or two of these already, while the canvases existed;
             // nothing decodes pixels for every page any more.
             const collected = await audited.collect();
+            const pdfPages = collected?.pdfPages ?? [];
             const renders = collected?.renders ?? [];
-            if(checker.ok(renders.length > 0, "GEN_BLANK_PAGE", "no canvas was captured through toDataURL", profile))
+            // PDF page previews are the real output of a generator. toDataURL is only a fallback for a
+            // generator that never hands a page to the PDF builder (the pipeline no longer encodes pages
+            // through toDataURL, so relying on that hook alone made every working generator look blank).
+            const measured:RenderInfo[] = pdfPages.length > 0 ? pdfPages : renders;
+            if(checker.ok(measured.length > 0, "GEN_BLANK_PAGE",
+                "no PDF page canvas was captured (and nothing called toDataURL)", profile))
             {
-                const render = renders.find(r => r.thumb) ?? renders[0];
-
-                if(render?.thumb)
-                {
-                    const file = join(profileDir, "render.png");
-                    writeFileSync(file, Buffer.from(render.thumb.split(",")[1] ?? "", "base64"));
-                    artifacts.push(file);
-                }
+                const render = measured.find(r => r.thumb) ?? measured[0];
 
                 checker.ok(!render?.error, "CANVAS_TAINTED", "the measured page canvas is tainted (cross-origin asset)", profile);
                 checker.ok(!!render && (!!render.error || render.inkRatio >= INK_MIN_GENERATOR), "GEN_BLANK_PAGE",
                     `the measured page canvas is blank` +
-                    (render ? ` (ink ${(render.inkRatio * 100).toFixed(2)}% of ${renders.length} page(s))` : " (could not be measured)"), profile);
+                    (render ? ` (ink ${(render.inkRatio * 100).toFixed(2)}% of ${measured.length} page(s))` : " (could not be measured)"), profile);
 
                 // MG-9 (warning): identical output for a changed profile
-                const hash = hashRenders(renders.length, render);
+                const hash = hashRenders(measured.length, measured);
                 if(previousHash && hash === previousHash && opts.inert && previousSettings)
                 {
                     const changed = Object.keys(settingsBefore)
@@ -218,6 +229,23 @@ export const runGenerator = async (session:Session, entry:ManifestEntry, opts:Ge
                         `possibly ignored controls: ${changed.join(", ") || "(none changed)"}`);
                 }
                 previousHash = hash;
+            }
+
+            // Keep the first profile's page previews: that is the real material, and it is what marketing
+            // can reuse. Paths mirror the game URL (renders/<game>/<page>/<pdf>/page-001.jpg).
+            if(opts.renders && profile === "default" && pdfPages.length > 0)
+            {
+                const gameRel = entry.url.replace(/^\/|\/$/g, "");
+                for(const page of pdfPages)
+                {
+                    if(!page.thumb) { continue; }
+                    const file = join(opts.rendersRoot, gameRel, fileSlug(page.pdf), `page-${String(page.index + 1).padStart(3, "0")}.jpg`);
+                    mkdirSync(dirname(file), { recursive: true });
+                    writeFileSync(file, Buffer.from(page.thumb.split(",")[1] ?? "", "base64"));
+                    artifacts.push(file);
+                }
+                checker.ok(pdfPages.length > 1 || pdfPages[0]?.total === 1, "GEN_RENDER_PAGES",
+                    `only ${pdfPages.length} page preview(s) captured for a ${pdfPages[0]?.total ?? 0}-page PDF`, profile);
             }
             previousSettings = settingsBefore;
 

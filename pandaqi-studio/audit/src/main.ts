@@ -34,6 +34,7 @@ const outDir = join(studioDir, "audit-artifacts");
 const siteDir = join(outDir, "site");
 const artifactsRoot = join(outDir, "artifacts");
 const baselinesRoot = join(auditDir, "baselines");
+const rendersRoot = join(outDir, "renders");
 const progressPath = join(outDir, "progress.json");
 const auditEntry = join(auditDir, "src", "main.ts");
 const chromeMarker = "pandaqi-audit";
@@ -47,9 +48,18 @@ const genTimeoutMs = argNumber("gen-timeout", 90000);
 const exampleTimeoutMs = 10000;
 // the sweep tests the pipeline, not the printing: two pages, uncompressed. `--pdf-full` restores production.
 const pdfFull = hasFlag("pdf-full");
-const auditPdf = pdfFull ? undefined : {
-    maxPages: Math.max(0, argNumber("pdf-max-pages", 2)),
-    compression: argValue("pdf-compression", "NONE"),
+// --render also keeps downscaled previews of a generator's PDF pages (several pages per PDF, every
+// material), written under audit-artifacts/renders in the game's own URL hierarchy. They double as
+// marketing images and as a human-readable record of what the generator actually produced.
+const renders = hasFlag("render") || hasFlag("renders");
+const auditPdf = {
+    ...(pdfFull ? {} : {
+        maxPages: Math.max(0, argNumber("pdf-max-pages", 2)),
+        compression: argValue("pdf-compression", "NONE"),
+    }),
+    capture: renders,
+    rendersPerPdf: Math.max(1, argNumber("renders-per-pdf", 3)),
+    rendersTotal: Math.max(1, argNumber("renders-total", 12)),
 };
 // one page at a time by default; two is the hard ceiling, because each worker is a whole browser page
 // with full-page canvases in it
@@ -257,7 +267,8 @@ const main = async () : Promise<number> =>
                     const result = await runEntry(entry);
                     results.push(result);
                     const codes = Array.from(new Set(result.failures.map(f => f.code))).join(",");
-                    console.log(`${result.status === "pass" ? "PASS" : "FAIL"} ${entry.url}` +
+                    const label = result.status === "pass" ? "PASS" : (result.status === "skip" ? "SKIP" : "FAIL");
+                    console.log(`${label} ${entry.url}` +
                         ` (${((Date.now() - started) / 1000).toFixed(1)}s)` + (codes ? ` [${codes}]` : ""));
                 }
                 catch(e:any)
@@ -294,9 +305,9 @@ const main = async () : Promise<number> =>
             const slug = slugOf(result.url);
             for(const file of result.artifacts)
             {
-                if(!file.toLowerCase().endsWith(".png")) { continue; }
+                if(!/\.(png|jpe?g)$/i.test(file)) { continue; }
                 const name = file.split(/[\\/]/).pop() as string;
-                if(name.startsWith("render") || name === "page.png" || name.startsWith("example-"))
+                if(name.startsWith("render") || name.startsWith("page-") || name === "page.png" || name.startsWith("example-"))
                 {
                     copyBaseline(file, join(baselinesRoot, slug));
                 }
@@ -358,12 +369,15 @@ const main = async () : Promise<number> =>
         {
             return await runGenerator(session, entry, {
                 baseUrl, artifactsRoot, timeoutMs, genTimeoutMs, seed, runs,
-                inert: hasFlag("inert"), allowlist, auditPdf, screenshots,
+                inert: hasFlag("inert"), allowlist, auditPdf, screenshots, renders, rendersRoot,
             });
         }
         if(entry.contract === "digital")
         {
-            return await runDigital(session, entry, { baseUrl, artifactsRoot, timeoutMs, seed, allowlist, screenshots });
+            return await runDigital(session, entry, {
+                baseUrl, artifactsRoot, timeoutMs, seed, allowlist, screenshots,
+                customWidget: entry.customWidget,
+            });
         }
         return {
             url: entry.url, kind: entry.kind, contract: entry.contract, status: "skip",

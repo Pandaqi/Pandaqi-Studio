@@ -78,7 +78,9 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
     const onCollectible = curTile.isCollectible();
     if(onCollectible)
     {
-        const cameFromCorrectSide = setup.getCellAt(curPosition).rot == (cameFromRot + 2) % 4
+        // the ship can sail off the board, in which case there is no cell (and no side) to compare
+        const cell = setup.getCellAt(curPosition);
+        const cameFromCorrectSide = !!cell && cell.rot == (cameFromRot + 2) % 4;
         if(cameFromCorrectSide) {
             fb.push("Great! You arrived at a harbor. Collect it.");
             setup.collectCurrentTile();

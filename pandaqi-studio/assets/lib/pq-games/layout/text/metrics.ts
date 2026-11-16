@@ -62,13 +62,20 @@ const getMeasureContext = () =>
 const REPORTED_OVERFLOWS = new Set<string>();
 const OVERFLOW_REPORT_LIMIT = 200;
 
-const reportOverflow = (axis:string, available:number, needed:number) =>
+// Sub-2% overflows are font-metric noise: line breaking and subpixel placement make a box that is
+// fractionally too small render identically, so reporting those only floods the console. Anything
+// bigger is a real layout problem and still gets reported.
+const OVERFLOW_TOLERANCE = 0.02;
+
+const reportOverflow = (axis:string, available:number, needed:number, text:string) =>
 {
-    const key = axis + "|" + Math.round(available) + "|" + Math.round(needed);
+    if(available > 0 && needed <= available * (1 + OVERFLOW_TOLERANCE)) { return; }
+    const excerpt = (text ?? "").slice(0, 80);
+    const key = axis + "|" + Math.round(available) + "|" + Math.round(needed) + "|" + excerpt;
     if(REPORTED_OVERFLOWS.has(key)) { return; }
     if(REPORTED_OVERFLOWS.size > OVERFLOW_REPORT_LIMIT) { REPORTED_OVERFLOWS.clear(); }
     REPORTED_OVERFLOWS.add(key);
-    console.error(`Textbox overflows on ${axis}-axis!`, available, needed);
+    console.error(`Textbox overflows on ${axis}-axis!`, available, needed, JSON.stringify(excerpt));
 }
 
 // Layout is a pure function of (text, config, box, offset). The same text is typically laid out several
@@ -197,12 +204,12 @@ const computeTextMetrics = (resource:ResourceText, size:Vector2, offset:Vector2,
 
     if(!autoHeight && realHeight > boxHeight)
     {
-        if(reportOverflows) { reportOverflow("Y", boxHeight, realHeight); }
+        if(reportOverflows) { reportOverflow("Y", boxHeight, realHeight, resource.text); }
     }
 
     if(!autoWidth && realWidth > boxWidth)
     {
-        if(reportOverflows) { reportOverflow("X", boxWidth, realWidth); }
+        if(reportOverflows) { reportOverflow("X", boxWidth, realWidth, resource.text); }
     }
 
     //

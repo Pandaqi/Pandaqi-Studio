@@ -37,7 +37,7 @@ const cacheVisualizerData = async (vis:MaterialVisualizer) =>
 {
     if(vis.custom && Object.keys(vis.custom).length > 0) { return; }
 
-    vis.custom = { patterns: {} };
+    vis.custom = { patterns: {}, effects: vis.inkFriendlyEffect };
     await createSidePattern(vis, Type.DECORATION);
     await createSidePattern(vis, Type.TREAT);
 }

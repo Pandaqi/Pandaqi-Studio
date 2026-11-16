@@ -194,6 +194,20 @@ export class PdfBuilder
         if(!this.doc) { return; } // every page was skipped (maxPages = 0 pages requested)
 
         const fileName = `${customFileName ?? this.fileName}.pdf`;
-        this.doc.save(fileName);
+
+        // jsPDF's bundled FileSaver resolves its "global" to the UMD exports object when jsPDF is bundled
+        // as an ES module, so its `window !== global` guard turns doc.save() into a silent no-op (the page
+        // said "PDF Downloaded!" while nothing happened). Encode the blob ourselves and use one real
+        // anchor: every browser downloads that, whatever module system the library ended up in.
+        const blob = this.doc.output("blob") as Blob;
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = fileName;
+        link.rel = "noopener";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 40000);
     }
 }

@@ -3,6 +3,10 @@ import { cardPicker } from "../game/cardPicker";
 
 export const CONFIG = 
 {
+    // Without _settings the framework treats the whole config as raw settings (the V1 API), which
+    // hides _material and produces an empty PDF.
+    _settings: {},
+
     _debug:
     {
         omitFile: false, // @DEBUGGING (should be false)

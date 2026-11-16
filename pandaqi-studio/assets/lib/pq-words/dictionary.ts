@@ -51,7 +51,9 @@ export const performSearch = (word:string) =>
     btn.innerHTML = "Check!";
 }
 
-btn.addEventListener("click", async (ev) => {
+// this module is re-exported by the pq-words barrel, so games (which have no lookup form) import it too;
+// only wire up the dictionary page when its elements actually exist
+if(inp && btn && results) btn.addEventListener("click", async (ev) => {
     const maxWordLength = 24;
     const wordToCheck = inp.value;
     const wordSanitized = wordToCheck.toLowerCase().trim().slice(0, maxWordLength);

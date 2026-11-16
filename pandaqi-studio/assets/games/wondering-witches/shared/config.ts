@@ -1,4 +1,4 @@
-import { boardPicker } from "games/kangaruse/board/boardPicker";
+import { boardPicker } from "../board/boardPicker";
 import { SettingType, MapperPreset, Vector2 } from "lib/pq-games";
 import type { GameConfig, GameConfigGame } from "lib/pq-games";
 

@@ -45,6 +45,13 @@ export interface RenderInfo
     error?: string;
 }
 
+export interface PdfPageInfo extends RenderInfo
+{
+    pdf: string;
+    index: number;
+    total: number;
+}
+
 export interface PageResult
 {
     url: string;

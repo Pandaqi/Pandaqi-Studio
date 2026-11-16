@@ -21,7 +21,7 @@ export default class BoardGeneration
 	cfg:Record<string,any>
 	gen:GenData
 	
-	async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement[]>
+	async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
 	{
 		this.createConfig(vis);
 		
@@ -36,7 +36,16 @@ export default class BoardGeneration
 			groups.push(await this.visualize(vis));
 		}
 
-		return groups;
+		// the material pipeline draws exactly one canvas per item; when the double-sided option adds a
+		// second board, stack both onto one sheet instead of returning an array
+		if(groups.length <= 1) { return groups[0]; }
+
+		const combined = document.createElement("canvas");
+		combined.width = groups[0].width;
+		combined.height = groups[0].height * groups.length;
+		const ctx = combined.getContext("2d");
+		for(let i = 0; i < groups.length; i++) { ctx.drawImage(groups[i], 0, i * groups[0].height); }
+		return combined;
 	}
 
 	createConfig(vis:MaterialVisualizer)

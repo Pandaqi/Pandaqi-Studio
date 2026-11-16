@@ -1,6 +1,6 @@
 $header-font: "Recursive";
 $body-font: "Recursive";
-$base-fonts: "fonts/";
+$base-fonts: "/wie-is-de-trol/assets/fonts/";
 
 @font-face {
     font-family: $header-font;
@@ -31,7 +31,7 @@ body {
     color: black;
     background-color: beige;
 
-    background-image: url(wieisdetrol_bwebp);
+    background-image: url("/wie-is-de-trol/assets/wieisdetrol_bg.webp");
     background-size: 100%;
 }
 

@@ -4,10 +4,12 @@
 // 3. Record every canvas passed to toDataURL, but hold NO references to it and measure only two of
 //    them. A generator can produce dozens of full-page canvases; keeping them alive (or decoding
 //    pixels for each) is what made this harness eat a whole computer.
+// 4. When the audit asks for renders, also capture a handful of PDF page previews (as JPEG thumbs)
+//    through __auditCapturePdfPages, which generateMaterial calls before it releases each canvas.
 export const INSTRUMENT = `(function () {
   if (window.__audit) { return; }
 
-  var A = { rejects: [], errors: [], renders: [] };
+  var A = { rejects: [], errors: [], renders: [], pdfPages: [] };
   window.__audit = A;
 
   window.addEventListener("unhandledrejection", function (ev) {
@@ -38,19 +40,23 @@ export const INSTRUMENT = `(function () {
 
   // which render gets the full measurement; canvas 0 is always measured so there is always data
   var targetIndex = seedHash % 4;
+  var origToDataURL = HTMLCanvasElement.prototype.toDataURL;
 
-  window.__auditMeasureCanvas = function (canvas) {
+  // A downscaled thumbnail (white base, so a JPEG of a transparent page is not black) plus the ink
+  // ratio. Used both for the one measured render and for the PDF page previews.
+  var makeThumb = function (canvas, maxW, mime, quality) {
     var w = canvas.width, h = canvas.height;
     if (!w || !h) { return { w: w, h: h, inkRatio: 0, thumb: null, error: "empty" }; }
 
     try {
-      var maxW = 480;
       var scale = Math.min(1, maxW / w);
       var tw = Math.max(1, Math.round(w * scale));
       var th = Math.max(1, Math.round(h * scale));
       var c = document.createElement("canvas");
       c.width = tw; c.height = th;
       var ctx = c.getContext("2d");
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(0, 0, tw, th);
       ctx.drawImage(canvas, 0, 0, tw, th);
       var data = ctx.getImageData(0, 0, tw, th).data;
 
@@ -65,14 +71,17 @@ export const INSTRUMENT = `(function () {
       var max = 0;
       counts.forEach(function (v) { if (v > max) { max = v; } });
       var inkRatio = n > 0 ? 1 - (max / n) : 0;
-      return { w: w, h: h, inkRatio: inkRatio, thumb: origToDataURL.call(c, "image/png") };
+      return { w: w, h: h, inkRatio: inkRatio, thumb: origToDataURL.call(c, mime, quality) };
     } catch (err) {
       return { w: w, h: h, inkRatio: 0, thumb: null, error: "tainted" };
     }
   };
 
+  window.__auditMeasureCanvas = function (canvas) {
+    return makeThumb(canvas, 480, "image/png", undefined);
+  };
+
   // --- record renders without keeping them ---
-  var origToDataURL = HTMLCanvasElement.prototype.toDataURL;
   HTMLCanvasElement.prototype.toDataURL = function (type, quality) {
     try {
       var entry = { w: this.width, h: this.height };
@@ -88,8 +97,39 @@ export const INSTRUMENT = `(function () {
     return origToDataURL.call(this, type, quality);
   };
 
+  // --- PDF page previews (only when --render asked for them) ---
+  // generateMaterial calls this with every page canvas of one PDF, before the PDF builder caps the
+  // document and before the canvas is released. Pages are picked spread across the document, so a
+  // deck yields an early, a middle and a late page instead of three near-identical first pages.
+  window.__auditCapturePdfPages = function (pdfName, canvases) {
+    var opts = window.__auditPdf || {};
+    if (!opts.capture || !canvases || !canvases.length) { return; }
+
+    var perPdf = Math.max(1, opts.rendersPerPdf || 3);
+    var total = Math.max(0, opts.rendersTotal || 12);
+    if (A.pdfPages.length >= total) { return; }
+
+    var n = canvases.length;
+    var count = Math.min(perPdf, n);
+    var picked = [];
+    for (var k = 0; k < count; k++) {
+      var idx = count === 1 ? 0 : Math.round(k * (n - 1) / (count - 1));
+      if (picked.indexOf(idx) < 0) { picked.push(idx); }
+    }
+
+    for (var j = 0; j < picked.length; j++) {
+      if (A.pdfPages.length >= total) { break; }
+      var pageIndex = picked[j];
+      var info = makeThumb(canvases[pageIndex], 1280, "image/jpeg", 0.82);
+      info.pdf = String(pdfName || "document");
+      info.index = pageIndex;
+      info.total = n;
+      A.pdfPages.push(info);
+    }
+  };
+
   window.__auditCollect = function () {
-    return { rejects: A.rejects, errors: A.errors, renders: A.renders };
+    return { rejects: A.rejects, errors: A.errors, renders: A.renders, pdfPages: A.pdfPages };
   };
 
   // one canvas that is currently inside a node (for examples that never call toDataURL)

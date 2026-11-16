@@ -12,6 +12,9 @@ export interface DigitalOptions
     timeoutMs: number;
     seed: string;
     allowlist: string[];
+    // hand-written widgets (customWidget: true) are not framework pages: they can legitimately start
+    // with little text and only render after their own button is used
+    customWidget: boolean;
     // full-page screenshots are for a human to look at; off unless asked for
     screenshots: boolean;
 }
@@ -44,8 +47,9 @@ export const runDigital = async (session:Session, entry:ManifestEntry, opts:Digi
 
         // DG-2
         const text = await page.evaluate(() => document.body.innerText ?? "");
-        checker.ok(text.length > 200, "DG_EMPTY_BODY",
-            `document.body.innerText is only ${text.length} characters (want > 200)`);
+        const minText = opts.customWidget ? 1 : 200;
+        checker.ok(text.length >= minText, "DG_EMPTY_BODY",
+            `document.body.innerText is only ${text.length} characters (want >= ${minText})`);
 
         // DG-3: the settings panel lives in the framework vendor, so the page bundle can only show that the
         // page asked for it (= it calls loadSettings)

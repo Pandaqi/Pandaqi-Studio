@@ -36,10 +36,12 @@ const walk = (dir:string, out:string[] = []) : string[] =>
 export const hashInputs = (studioDir:string) : string =>
 {
     const hasher = new Bun.CryptoHasher("sha1");
+    // Games and their library live in the project's own assets/ (not only under themes/), so a change
+    // there must invalidate the cached build — otherwise a sweep silently tests yesterday's bundle.
     const inputs = [
         join(studioDir, "content"),
-        join(studioDir, "themes", "pandaqi", "assets"),
-        join(studioDir, "themes", "pandaqi", "layouts"),
+        join(studioDir, "assets"),
+        join(studioDir, "themes"),
     ];
     const files: string[] = [];
     for(const dir of inputs) { walk(dir, files); }

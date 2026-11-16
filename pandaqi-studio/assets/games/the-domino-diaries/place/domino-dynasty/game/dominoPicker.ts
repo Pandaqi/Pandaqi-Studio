@@ -19,7 +19,7 @@ export const dominoPicker = () =>
         generateDominoes(dominoes, set);
     }
 
-    console.log(dominoes);
+    return dominoes;
 }
 
 const filterBySet = (dict:Record<string,any>, targetSet:string) =>

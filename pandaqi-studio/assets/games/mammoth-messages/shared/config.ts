@@ -209,7 +209,7 @@ export const CONFIG =
             words:
             {
                 yPos: new CVal(0.17, "sizeY"),
-                fontSize: new CVal(0.066, "sizeUnit"),
+                fontSize: new CVal(0.064, "sizeUnit"),
                 fontSizeNumber: new CVal(0.066, "sizeUnit"),
 
                 iconDims: new CVal(0.125, "sizeUnit"),

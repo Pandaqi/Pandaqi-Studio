@@ -17,11 +17,17 @@ const SETTINGS =
         remark: "Walls are useful on small boards to allow more words."
     },
 
-    specialCells:
+    // the shared board code reads expansions.specialCells; a top-level key was silently ignored
+    expansions:
     {
-        type: SettingType.CHECK,
-        remark: "When playing with the special cells expansion.",
-        value: false
+        type: SettingType.GROUP,
+
+        specialCells:
+        {
+            type: SettingType.CHECK,
+            remark: "When playing with the special cells expansion.",
+            value: false
+        },
     },
 };
 

@@ -250,6 +250,11 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
         // draw everything into that new PDF
         const canvases = mapper.getCanvases();
         const numPages = canvases.length;
+
+        // audit-only: keep a few downscaled previews of this PDF's pages as marketing/QA renders.
+        // The hook is absent outside the audit, and it captures before the loop releases the canvases.
+        const auditCapturePages = (window as any).__auditCapturePdfPages;
+        if(auditCapturePages) { auditCapturePages(fileName, canvases); }
         for(let i = 0; i < numPages; i++)
         {
             // stop converting once the builder is full: toDataURL + decode of a 300 DPI page is the single
@@ -323,10 +328,10 @@ export const generateMaterial = async (config:GameConfig) =>
     const material:Record<string,MaterialConfig> = config._material ?? {};
     for(const [key,value] of Object.entries(material))
     {
-        if(typeof value.picker != "function")
-        {
-            throw new Error(`Material "${key}" has no picker(): every _material entry must produce its items. Add a picker or remove the entry.`);
-        }
+        // Shared configs declare a material (and its page mapper) for every game that might need it,
+        // without a picker; a game that actually uses it adds one. No picker means "this game does not
+        // generate this material", not an error.
+        if(typeof value.picker != "function") { continue; }
 
         generators[key] = value.picker();
         mappers[key] = createGridMapperFromConfig(config, value.mapper);

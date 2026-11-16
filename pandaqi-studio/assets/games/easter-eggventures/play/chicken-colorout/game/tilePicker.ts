@@ -162,11 +162,12 @@ const placeSquareInGrid = (grid:TileGridCell[][], size:Vector2) =>
         }
     }
     
+    // Decoration squares are optional: on a nearly full grid there may be no room left, which is a
+    // perfectly valid board. Return no cells so the caller simply skips drawing that piece.
     if(!validPos) 
     { 
         cells = []; 
         anchor = Vector2.ZERO.clone(); 
-        console.error("Couldn't place square in grid.");
     }
 
     return { anchor, cells };

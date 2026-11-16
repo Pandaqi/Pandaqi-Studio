@@ -140,7 +140,7 @@ export const tilePicker = () =>
         tiles.push(t);
     }
 
-    console.log(tiles);
+    return tiles;
 }
 
 const findUniqueAction = (givenAction:TileActionData, actions:TileActionData[]) =>

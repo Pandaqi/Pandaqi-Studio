@@ -2,7 +2,7 @@ import { chromium, type Browser, type BrowserContext, type Download, type Page }
 import { mkdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { INSTRUMENT } from "./instrument";
-import type { RenderInfo } from "./types";
+import type { PdfPageInfo, RenderInfo } from "./types";
 
 export interface NetError { url:string; what:string; }
 export interface PageErrorLog
@@ -20,7 +20,7 @@ export interface OpenOptions
     artifactsDir?: string;
     allowlist?: string[];
     marker?: string; // a harmless Chrome flag, so a leftover browser can be recognised and killed
-    auditPdf?: { maxPages?: number, compression?: string }; // see `window.__auditPdf` below
+    auditPdf?: { maxPages?: number, compression?: string, capture?: boolean, rendersPerPdf?: number, rendersTotal?: number }; // see `window.__auditPdf` below
 }
 
 const DEFAULT_ALLOWLIST: string[] = [];
@@ -79,7 +79,7 @@ export class AuditedPage
         // canvases are never held by the harness: the instrument measures at most two of them while
         // they still exist and returns metadata only
         return await this.page.evaluate(() => (window as any).__auditCollect()) as
-            { rejects:string[], errors:string[], renders:RenderInfo[] };
+            { rejects:string[], errors:string[], renders:RenderInfo[], pdfPages:PdfPageInfo[] };
     }
 
     async measureCanvasIn(selector:string, index:number) : Promise<RenderInfo|null>
