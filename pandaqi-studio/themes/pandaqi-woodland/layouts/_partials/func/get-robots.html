@@ -1,0 +1,5 @@
+{{/* The one place that decides whether a page should show up in search results.
+     Generators are interactive tools without readable text, so the project page carries that search result;
+     the 404 page has nothing to index; a page can opt out with `noindex: true` in its front matter. */}}
+{{- $no_index := or (eq .Kind "404") (eq .Type "game") (eq .Type "board") .Params.noindex -}}
+{{- return (cond $no_index "noindex, follow" "index, follow") -}}

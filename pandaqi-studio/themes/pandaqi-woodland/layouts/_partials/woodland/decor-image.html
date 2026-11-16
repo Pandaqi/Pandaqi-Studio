@@ -1,0 +1,9 @@
+{{/* Decorated illustration that obeys params.woodland.decor.
+
+     Context: same as woodland/ui.html. When the switch is off the partial
+     renders nothing at all, so no decorative bytes are sent. */}}
+{{- $decor := true -}}
+{{- with site.Params.woodland -}}
+	{{- if isset . "decor" -}}{{- $decor = .decor -}}{{- end -}}
+{{- end -}}
+{{- if $decor -}}{{ partial "woodland/ui.html" . }}{{- end -}}

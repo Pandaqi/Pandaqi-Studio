@@ -1,0 +1,43 @@
+{{/* The one game card used by the homepage, categories, tags, every other
+     taxonomy term, collections, related projects, search and taxonomy indexes.
+
+     Context: (dict "page" <page> "variant" "default|feature")
+     Required data is only what Pandaqi guarantees: wide banner, square
+     favicon, title. Summary and facts are added when they exist. The whole
+     card is one link, so there are no nested interactive controls. */}}
+{{- $page := .page -}}
+{{- $variant := or .variant "default" -}}
+{{- $banner := index (strings.Split (partial "func/get-game-header.html" $page) ".") 0 -}}
+{{- $blurb := or ($page.Params.blurb) "" -}}
+{{- $facts := partial "woodland/facts.html" $page -}}
+<article class="pq-card{{ if eq $variant "feature" }} pq-card--feature{{ end }}">
+	<a class="pq-card__link" href="{{ $page.RelPermalink }}">
+		{{- $has_banner := partial "func/get-valid-image-url.html" (dict "context" $page "src" $banner) -}}
+		{{- if $has_banner -}}
+		<div class="pq-card__media">
+			{{ partial "woodland/game-image.html" (dict "context" $page "src" $banner "alt" "" "sizes" "(min-width: 90rem) 20rem, (min-width: 60rem) 24vw, (min-width: 34rem) 42vw, 92vw" "widths" (slice 480)) }}
+		</div>
+		{{- else -}}
+		{{- /* A collection without banner art still needs the same rhythm as its
+		       neighbours, so it gets a painted patch of the hillside instead. */ -}}
+		<div class="pq-card__media pq-card__media--fallback">
+			<img src="/theme/woodland/art/hero-hillside.jpg" alt="" width="840" height="552" loading="lazy" decoding="async">
+		</div>
+		{{- end -}}
+		<div class="pq-card__body">
+			<span class="pq-card__badge">{{ partial "woodland/badge.html" (dict "page" $page) }}</span>
+			<div class="pq-card__text">
+				<h2 class="pq-card__title">{{ $page.Title }}</h2>
+				{{- with $blurb -}}<p class="pq-card__blurb">{{ . | markdownify }}</p>{{- end -}}
+			</div>
+			{{- if gt (len $facts) 0 -}}
+			<ul class="pq-card__facts pq-facts">
+				{{- range first 3 $facts -}}
+					<li>{{ partial "woodland/icon.html" (dict "name" .icon) }}<span>{{ .text }}</span></li>
+				{{- end -}}
+			</ul>
+			{{- end -}}
+			<span class="pq-card__favicon" aria-hidden="true">{{ partial "woodland/thumb.html" (dict "page" $page "size" 96) }}</span>
+		</div>
+	</a>
+</article>

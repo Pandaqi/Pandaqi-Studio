@@ -1,0 +1,86 @@
+{{/* The real actions for a project, in the order a visitor needs them.
+     Context: <page>
+
+     Nothing is invented: every button below is backed by the same front-matter
+     and the same visibility switches as before (driveLink, sneakpeek,
+     externalLinks, enableGameJS/enableBoardJS/enableRulesJS plus the
+     hideGame/hideBoard/hideRules kill switches).
+
+     The lead button is chosen by a fixed rule instead of a random accent
+     colour: the printable download (if any) leads, otherwise the first real
+     external store link (Play/Buy/Download). Generators and the rulebook are
+     secondary, so the same game always looks the same. */}}
+{{- $page := . -}}
+{{- $actions := slice -}}
+
+{{- with $page.Params.driveLink -}}
+	{{- $actions = $actions | append (dict "href" . "label" "Download" "kind" "download" "note" "Google Drive<br>(Files = Material; Rules = Rulebook)") -}}
+{{- end -}}
+
+{{- with $page.Params.externalLinks -}}
+	{{- range . -}}
+		{{- $price := or .price 0 -}}
+		{{- $label := or .label "Buy" -}}
+		{{- if eq $price 0 -}}
+			{{- $label = or .label "Download" -}}
+		{{- else -}}
+			{{- $label = printf "%s ($%s)" $label (string $price) -}}
+		{{- end -}}
+		{{- $actions = $actions | append (dict "href" (or .url "#") "label" $label "kind" "store" "platforms" (or .platforms slice) "store" (or .store "")) -}}
+	{{- end -}}
+{{- end -}}
+
+{{- $game_page := $page.GetPage "./game/" -}}
+{{- if and (and $game_page $page.Site.Params.enableGameJS) (not $page.Params.hideGame) -}}
+	{{- $actions = $actions | append (dict "href" $game_page.RelPermalink "label" "Game Generator" "kind" "generator" "note" "Generate your own custom PDF") -}}
+{{- end -}}
+
+{{- $board_page := $page.GetPage "./board/" -}}
+{{- if and (and $board_page $page.Site.Params.enableBoardJS) (not $page.Params.hideBoard) -}}
+	{{- $actions = $actions | append (dict "href" $board_page.RelPermalink "label" "Board Generator" "kind" "generator" "note" "Generate your own custom PDF") -}}
+{{- end -}}
+
+{{- $rules_page := $page.GetPage "./rules/" -}}
+{{- if and (and $rules_page $page.Site.Params.enableRulesJS) (not $page.Params.hideRules) -}}
+	{{- $actions = $actions | append (dict "href" $rules_page.RelPermalink "label" "Rulebook" "kind" "rulebook" "note" "The interactive rulebook") -}}
+{{- end -}}
+
+{{- with $page.Params.sneakpeek -}}
+	{{- $actions = $actions | append (dict "href" . "label" "Buy Source Files" "kind" "source" "note" "The Wayward Melody<br>(Editable files, raw assets, etc)") -}}
+{{- end -}}
+
+{{- if gt (len $actions) 0 -}}
+<nav class="pq-actions" aria-label="Project actions">
+	<ul class="no-default-list-styles">
+		{{- range $i, $action := $actions -}}
+			{{- /* One accent per kind of action, so the same action always reads the
+			       same across the site: printable = fern, store = purple,
+			       generator = honey, rulebook = sky, source files = berry. */ -}}
+			{{- $accents := dict "download" "fern" "store" "primary" "generator" "honey" "rulebook" "sky" "source" "berry" -}}
+			{{- $accent := or (index $accents $action.kind) "quiet" -}}
+			{{- $class := printf "button button-large pq-btn-%s" $accent -}}
+			{{- if eq $i 0 -}}{{- $class = printf "%s pq-btn-lead" $class -}}{{- end -}}
+			{{- $href := $action.href -}}
+			{{- if not (or (hasPrefix $href "http") (hasPrefix $href "mailto:") (hasPrefix $href "/")) -}}
+				{{- $href = printf "%s%s" $page.RelPermalink $href -}}
+			{{- end -}}
+			<li>
+				<a class="{{ $class }}" href="{{ $href }}"{{ if hasPrefix $action.href "http" }} target="_blank" rel="noopener"{{ end }}>{{ $action.label }}</a>
+				{{- with $action.note -}}
+					<div class="pq-actions__note">{{ . | safeHTML }}</div>
+				{{- end -}}
+				{{- with $action.platforms -}}
+					<div class="pq-actions__platforms">
+						{{- range . -}}
+							<span class="icon icon-s {{ . }}" aria-hidden="true" title="{{ . }}"></span>
+						{{- end -}}
+					</div>
+				{{- end -}}
+				{{- with $action.store -}}
+					<div class="pq-actions__note">Store: {{ . }}</div>
+				{{- end -}}
+			</li>
+		{{- end -}}
+	</ul>
+</nav>
+{{- end -}}

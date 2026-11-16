@@ -1,0 +1,53 @@
+{{/* "What's included?" — assembled only from things this project really has,
+     using the same front matter and the same visibility switches that drive the
+     action buttons, so nothing is promised that does not exist. */}}
+{{- $page := . -}}
+{{- $items := slice -}}
+
+{{- with $page.Params.driveLink -}}
+	{{- $items = $items | append "Printable game files (materials and rulebook) on Google Drive" -}}
+{{- end -}}
+
+{{- $game_page := $page.GetPage "./game/" -}}
+{{- if and (and $game_page $page.Site.Params.enableGameJS) (not $page.Params.hideGame) -}}
+	{{- $items = $items | append "Game generator: build your own custom version as a PDF" -}}
+{{- end -}}
+
+{{- $board_page := $page.GetPage "./board/" -}}
+{{- if and (and $board_page $page.Site.Params.enableBoardJS) (not $page.Params.hideBoard) -}}
+	{{- $items = $items | append "Board generator: generate the board that fits your group" -}}
+{{- end -}}
+
+{{- $rules_page := $page.GetPage "./rules/" -}}
+{{- if and (and $rules_page $page.Site.Params.enableRulesJS) (not $page.Params.hideRules) -}}
+	{{- $items = $items | append "Interactive rulebook you can read in the browser" -}}
+{{- end -}}
+
+{{- with $page.Params.externalLinks -}}
+	{{- $stores := slice -}}
+	{{- range . -}}
+		{{- $name := or .store .label "a store" -}}
+		{{- if not (in $stores $name) -}}{{- $stores = $stores | append $name -}}{{- end -}}
+	{{- end -}}
+	{{- with $stores -}}
+		{{- $items = $items | append (printf "Also available outside the site: %s" (delimit . ", ")) -}}
+	{{- end -}}
+{{- end -}}
+
+{{- with $page.Params.media -}}
+	{{- $items = $items | append "Screenshots and video" -}}
+{{- end -}}
+
+{{- if gt (len $items) 0 -}}
+<section class="pq-includes">
+	<h2 class="pq-includes__title">
+		{{ partial "woodland/icon.html" (dict "name" "i-check-circle") }}
+		What's included
+	</h2>
+	<ul class="pq-includes__list">
+		{{- range $items -}}
+			<li>{{ partial "woodland/icon.html" (dict "name" "i-check") }}<span>{{ . }}</span></li>
+		{{- end -}}
+	</ul>
+</section>
+{{- end -}}

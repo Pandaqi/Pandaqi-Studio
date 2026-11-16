@@ -1,0 +1,167 @@
+/* ==========================================================================
+   Utilities — the small, boring classes.
+
+   Pandaqi content, shortcodes and game pages have been written against these
+   names for years. They are kept (and re-mapped onto the new tokens) so no
+   Markdown file has to change for a new theme.
+   ========================================================================== */
+
+/* Layout helpers ---------------------------------------------------------- */
+
+.width-limit-small
+{
+	max-width: 42rem;
+	width: 100%;
+	padding-inline: var(--pq-gutter);
+}
+
+.width-limit
+{
+	max-width: var(--pq-max);
+	width: 100%;
+	padding-inline: var(--pq-gutter);
+}
+
+.width-maximize { width: 100%; max-width: 100%; }
+.height-maximize { height: 100%; max-height: 100%; }
+.size-maximize { width: 100%; max-width: 100%; height: 100%; max-height: 100%; }
+.height-equals-font-size { height: 1.2em; max-height: 1.2em; }
+
+.block-center { margin-inline: auto; }
+.move-to-back { z-index: -1; }
+.move-to-front { z-index: 1024; }
+.position-absolute { position: absolute; }
+.position-relative { position: relative; }
+.display-block { display: block; }
+.display-inline-block { display: inline-block; }
+.display-inline { display: inline; }
+.align-top { top: 0; }
+
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-space-between { justify-content: space-between; }
+.flex-wrap-until-cutoff-s { flex-wrap: wrap; }
+.flex-align-center { justify-content: center; align-items: center; }
+.flex-align-center-vertical { align-items: center; }
+.flex-stretch-vertical { align-items: stretch; }
+
+.gap-xs { gap: var(--pq-sp-1); }
+.gap-s { gap: var(--pq-sp-2); }
+.gap-m { gap: var(--pq-sp-4); }
+
+.padding-s { padding: var(--pq-sp-2); }
+.padding-m { padding: var(--pq-sp-4); }
+.padding-left-m { padding-left: var(--pq-sp-4); }
+.margin-top-xs { margin-top: var(--pq-sp-1); }
+.margin-top-super-xs { margin-top: var(--pq-sp-8); }
+.margin-s { margin: var(--pq-sp-2); }
+.border-radius-m { border-radius: var(--pq-r-md); }
+.opacity-half { opacity: 0.5; }
+
+/* Text helpers ------------------------------------------------------------ */
+
+.font-header { font-family: var(--pq-font-heading); }
+.font-body { font-family: var(--pq-font-body); }
+.font-accent { font-family: var(--pq-font-display); }
+
+.font-size-s { font-size: var(--pq-fs-small); }
+.font-size-l { font-size: 1.25rem; }
+.font-size-xl { font-size: 1.75rem; }
+.font-size-xxxl { font-size: var(--pq-fs-display); line-height: 1.05; }
+
+.text-thin { font-weight: 100; }
+.text-bold { font-weight: 900; }
+.text-italic { font-style: italic; }
+.text-uppercase { text-transform: uppercase; letter-spacing: 0.06em; }
+.text-center { text-align: center; }
+
+.text-color-dark { color: var(--pq-text); }
+.text-color-mid-light { color: var(--pq-text-muted); }
+.text-color-mid-dark { color: var(--pq-text-muted); }
+
+/* Colour helpers (kept for content written against the old accent names) --- */
+
+.bg-color-light { background-color: var(--pq-surface-2); }
+.bg-color-accent { background-color: var(--pq-primary); }
+
+.accent-green { background-color: var(--pq-fern); color: var(--pq-on-fern); }
+.accent-purple { background-color: var(--pq-primary); color: var(--pq-on-primary); }
+.accent-blue { background-color: var(--pq-sky); color: var(--pq-on-sky); }
+.accent-orange { background-color: var(--pq-honey); color: var(--pq-on-honey); }
+
+/* Lists and links --------------------------------------------------------- */
+
+.no-default-list-styles
+{
+	padding-left: 0;
+	list-style: none;
+}
+
+.no-default-list-styles li
+{
+	list-style-type: none;
+	margin-bottom: 0;
+}
+
+.no-default-link-styles
+{
+	color: currentColor;
+	text-decoration: none;
+}
+
+.no-default-link-styles:hover,
+.no-default-link-styles:focus-visible
+{
+	color: currentColor;
+}
+
+/* Effects ----------------------------------------------------------------- */
+
+.drop-shadow-soft { filter: drop-shadow(0 2px 6px rgb(74 58 30 / .18)); }
+
+.effect-glow-m
+{
+	text-shadow: 0 0 0.3em var(--pq-surface);
+	filter: drop-shadow(0 0 0.3em var(--pq-surface));
+}
+
+.hover_link-color:hover { color: var(--pq-link-hover); }
+.hover_popup { transition: transform var(--pq-t-base) var(--pq-ease); }
+.hover_popup:hover { transform: translateY(-2px) scale(1.01); }
+
+.hover_invert:hover
+{
+	color: var(--pq-link);
+}
+
+.hover_invert:hover img { opacity: 0.92; }
+
+/* Accessibility ----------------------------------------------------------- */
+
+.visually-hidden
+{
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+@media (prefers-reduced-motion: reduce)
+{
+	html { scroll-behavior: auto; }
+
+	*,
+	*::before,
+	*::after
+	{
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

@@ -1,0 +1,13 @@
+{{ define "main" }}
+
+<div class="pq-wrap">
+	<div class="pq-pagehead">
+		{{ partial "woodland/scatter.html" (dict "page" . "spot" "pagehead" "count" 2) }}
+		{{- with .Title -}}<h1 class="pq-pagehead__title">{{ . }}</h1>{{- end -}}
+		{{- with .Content -}}<div class="pq-pagehead__lead">{{ . }}</div>{{- end -}}
+	</div>
+</div>
+
+{{ partial "navigation/games-list.html" (dict "context" .) }}
+
+{{ end }}

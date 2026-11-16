@@ -1,0 +1,8 @@
+{{- $src := printf "%s.webm" .src -}}
+{{- $page_url := .context.Page.RelPermalink -}}
+{{- $base_url := printf "content%s%s" $page_url $src -}}
+{{- $final_url := "" }}
+{{- if fileExists $base_url -}}
+	{{- $final_url = (replace $base_url "content" "") -}}
+{{- end -}}
+{{- return $final_url -}}

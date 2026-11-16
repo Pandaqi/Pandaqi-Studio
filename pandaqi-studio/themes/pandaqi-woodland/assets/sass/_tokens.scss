@@ -1,0 +1,185 @@
+/* ==========================================================================
+   Tokens — the one place where colour, type, spacing and shape are decided.
+
+   Everything below is expressed as a semantic custom property, so a component
+   asks for "the border colour" instead of naming a beige. Dark mode is the same
+   playroom after sunset: moss and deep forest instead of cream, never an
+   inversion of the artwork.
+   ========================================================================== */
+
+:root
+{
+	color-scheme: light;
+
+	/* Surfaces */
+	--pq-page: #FAF5EA;
+	--pq-page-deep: #F2E9D9;
+	--pq-surface: #FFFDF7;
+	--pq-surface-2: #F1E8D8;
+	--pq-surface-3: #E7DAC2;
+	--pq-overlay: rgb(48 43 53 / .55);
+
+	/* Ink */
+	--pq-text: #2F2A33;
+	--pq-text-muted: #5F585E;
+	--pq-text-inverse: #FBF7EE;
+
+	/* Accents */
+	--pq-primary: #7954A3;
+	--pq-primary-strong: #5F3F84;
+	--pq-on-primary: #FFFFFF;
+	--pq-honey: #F5C65D;
+	--pq-honey-soft: #FBE7B4;
+	--pq-on-honey: #3B2E14;
+	--pq-fern: #839C66;
+	--pq-fern-soft: #DCE6CC;
+	--pq-on-fern: #22301A;
+	--pq-sky: #8FB8C9;
+	--pq-on-sky: #17303A;
+	--pq-berry: #A9556B;
+	--pq-on-berry: #FFFFFF;
+
+	/* Semantic states */
+	--pq-link: var(--pq-primary-strong);
+	--pq-link-hover: #472E63;
+	--pq-success: #3E7A4C;
+	--pq-warning: #8A5A0B;
+	--pq-error: #A03A3A;
+
+	/* Lines */
+	--pq-border: #D9D0BE;
+	--pq-border-strong: #B9AD99;
+	--pq-focus: #6B3FA0;
+
+	/* Effects */
+	--pq-shadow-1: 0 1px 2px rgb(74 58 30 / .10), 0 2px 6px -3px rgb(74 58 30 / .10);
+	--pq-shadow-2: 0 10px 26px -16px rgb(74 58 30 / .55);
+	--pq-shadow-card: 0 1px 1px rgb(74 58 30 / .06), 0 8px 20px -18px rgb(74 58 30 / .5);
+
+	/* Type */
+	--pq-font-body: Raleway, Trebuchet MS, Helvetica, sans-serif;
+	--pq-font-heading: Dosis, Trebuchet MS, Helvetica, sans-serif;
+	--pq-font-display: Elsie, Roboto, Trebuchet MS, serif;
+
+	--pq-fs-body: clamp(1rem, 0.93rem + 0.28vw, 1.125rem);
+	--pq-fs-label: 0.8125rem;
+	--pq-fs-small: 0.875rem;
+	--pq-fs-h3: clamp(1.2rem, 1.08rem + 0.45vw, 1.45rem);
+	--pq-fs-h2: clamp(1.45rem, 1.22rem + 0.95vw, 1.95rem);
+	--pq-fs-h1: clamp(1.95rem, 1.45rem + 2.1vw, 3.1rem);
+	--pq-fs-display: clamp(2.35rem, 1.6rem + 3.2vw, 3.9rem);
+	--pq-lh-tight: 1.2;
+	--pq-lh-body: 1.62;
+	--pq-measure: 68ch;
+
+	/* Spacing scale (4, 8, 12, 16, 24, 32, 48, 64) */
+	--pq-sp-1: 0.25rem;
+	--pq-sp-2: 0.5rem;
+	--pq-sp-3: 0.75rem;
+	--pq-sp-4: 1rem;
+	--pq-sp-6: 1.5rem;
+	--pq-sp-8: 2rem;
+	--pq-sp-12: 3rem;
+	--pq-sp-16: 4rem;
+	--pq-gutter: clamp(1rem, 0.5rem + 2.4vw, 2.75rem);
+
+	/* Widths */
+	--pq-max: 90rem;
+	--pq-max-wide: 100rem;
+	--pq-sidebar: 20rem;
+	--pq-prose: var(--pq-measure);
+
+	/* Shape — slightly different corner radii read as cut paper, not a pill */
+	--pq-r-sm: 0.4rem;
+	--pq-r-md: 0.75rem;
+	--pq-r-lg: 1.15rem;
+	--pq-r-organic: 1.15rem 0.85rem 1.3rem 0.9rem;
+	--pq-r-pill: 999rem;
+	--pq-border-width: 1px;
+
+	/* Motion */
+	--pq-t-fast: 130ms;
+	--pq-t-base: 180ms;
+	--pq-ease: cubic-bezier(.2, .7, .3, 1);
+
+	/* ---------------------------------------------------------------------
+	   Compatibility aliases.
+	   Existing content, shortcodes and game stylesheets were written against
+	   these names; they keep working and now resolve to the new palette.
+	   --------------------------------------------------------------------- */
+	--body-font: var(--pq-font-body);
+	--header-font: var(--pq-font-heading);
+	--accent-font: var(--pq-font-display);
+	--border-radius: var(--pq-r-sm);
+	--font-size-base: 12px;
+
+	--bg-color: var(--pq-page);
+	--text-color: var(--pq-text);
+	--color-white: #FFF;
+	--color-black: #000;
+	--color-light: var(--pq-surface-2);
+	--color-mid-light: var(--pq-surface-3);
+	--color-mid-dark: var(--pq-text-muted);
+	--color-dark: var(--pq-text);
+	--color-link-hover: var(--pq-link-hover);
+
+	--color-accent-green: var(--pq-fern);
+	--color-accent-green-contrast: var(--pq-on-fern);
+	--color-accent-purple: var(--pq-primary);
+	--color-accent-purple-contrast: var(--pq-on-primary);
+	--color-accent-blue: var(--pq-sky);
+	--color-accent-blue-contrast: var(--pq-on-sky);
+	--color-accent-orange: var(--pq-honey);
+	--color-accent-orange-contrast: var(--pq-on-honey);
+}
+
+/* The theme script sets data-display-mode on <html> before first paint; the
+   shared styling script also puts display-mode-* on <body>. Both are honoured
+   so the choice survives a refresh, a shared link and a theme switch. */
+html[data-display-mode="dark"],
+body.display-mode-dark
+{
+	color-scheme: dark;
+
+	--pq-page: #1D2522;
+	--pq-page-deep: #17201D;
+	--pq-surface: #29352E;
+	--pq-surface-2: #334139;
+	--pq-surface-3: #3C4C42;
+	--pq-overlay: rgb(8 12 10 / .68);
+
+	--pq-text: #F3EBDD;
+	--pq-text-muted: #C4C9BF;
+	--pq-text-inverse: #1D2522;
+
+	--pq-primary: #C5A4E3;
+	--pq-primary-strong: #D6BCEE;
+	--pq-on-primary: #251B30;
+	--pq-honey: #EBC56C;
+	--pq-honey-soft: #4A3F22;
+	--pq-on-honey: #251B30;
+	--pq-fern: #A6BF89;
+	--pq-fern-soft: #2F3D28;
+	--pq-on-fern: #1B2415;
+	--pq-sky: #9FC4D2;
+	--pq-on-sky: #16292F;
+	--pq-berry: #E2A0B1;
+	--pq-on-berry: #2A1119;
+
+	--pq-link: #D6BCEE;
+	--pq-link-hover: #F0E1FF;
+	--pq-success: #9CCF9F;
+	--pq-warning: #E9C46A;
+	--pq-error: #EFA1A1;
+
+	--pq-border: #46564A;
+	--pq-border-strong: #687A69;
+	--pq-focus: #EBC56C;
+
+	--pq-shadow-1: 0 1px 2px rgb(0 0 0 / .3), 0 2px 6px -3px rgb(0 0 0 / .35);
+	--pq-shadow-2: 0 12px 28px -18px rgb(0 0 0 / .8);
+	--pq-shadow-card: 0 1px 1px rgb(0 0 0 / .25), 0 10px 22px -20px rgb(0 0 0 / .9);
+
+	--color-white: #000;
+	--color-black: #FFF;
+}

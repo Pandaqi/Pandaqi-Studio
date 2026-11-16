@@ -1,0 +1,315 @@
+/* ==========================================================================
+   Base — fonts, reset, typography rhythm.
+
+   The font families, files and weights are the ones Pandaqi already ships.
+   Nothing is substituted: Raleway carries body copy, Dosis carries interface
+   headings, Elsie Swash Caps carries the big titles.
+   ========================================================================== */
+
+@font-face {
+	font-family: 'Raleway';
+	src: url('/theme/fonts/Raleway-ThinItalic.woff2') format('woff2');
+	font-weight: 100;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Raleway';
+	src: url('/theme/fonts/Raleway-Thin.woff2') format('woff2');
+	font-weight: 100;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Raleway";
+	src: url('/theme/fonts/Raleway-MediumItalic.woff2') format('woff2');
+	font-weight: 500;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Raleway";
+	src: url('/theme/fonts/Raleway-Medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Raleway";
+	src: url('/theme/fonts/Raleway-Black.woff2') format('woff2');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Dosis";
+	src: url('/theme/fonts/Dosis-Medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Dosis";
+	src: url('/theme/fonts/Dosis-ExtraBold.woff2') format('woff2');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Elsie';
+	src: url('/theme/fonts/ElsieSwashCaps-Regular.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Elsie';
+	src: url('/theme/fonts/ElsieSwashCapsBlack-Regular.woff2') format('woff2');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+*,
+*::before,
+*::after
+{
+	box-sizing: border-box;
+}
+
+html
+{
+	height: 100%;
+	scroll-behavior: smooth;
+	scroll-padding-top: 6rem; /* keeps rulebook and game anchors clear of the sticky header */
+	-webkit-text-size-adjust: 100%;
+}
+
+body
+{
+	margin: 0;
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+
+	font-family: var(--pq-font-body);
+	font-size: var(--pq-fs-body);
+	font-weight: 500;
+	line-height: var(--pq-lh-body);
+
+	color: var(--pq-text);
+	background-color: var(--pq-page);
+
+	/* A whisper of paper grain: one inline SVG, no extra request, no visible pattern */
+	background-image:
+		radial-gradient(120% 90% at 50% -30%, var(--pq-surface) 0%, transparent 62%),
+		url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.035'/></svg>");
+	background-repeat: no-repeat, repeat;
+
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+main
+{
+	flex: 1 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	margin: 0 0 0.5em;
+	font-family: var(--pq-font-heading);
+	font-weight: 900;
+	line-height: var(--pq-lh-tight);
+	text-wrap: balance;
+	color: var(--pq-text);
+}
+
+h1, h2, h3
+{
+	font-family: var(--pq-font-display);
+	font-weight: 400;
+	letter-spacing: 0.005em;
+}
+
+h1 { font-size: var(--pq-fs-h1); }
+h2 { font-size: var(--pq-fs-h2); }
+h3 { font-size: var(--pq-fs-h3); }
+h4, h5, h6 { font-family: var(--pq-font-heading); font-size: 1.1rem; }
+
+p
+{
+	margin: 0 0 1em;
+	line-height: var(--pq-lh-body);
+	max-width: var(--pq-prose);
+}
+
+small { font-size: var(--pq-fs-small); }
+
+strong, b { font-weight: 900; }
+
+hr
+{
+	height: 0;
+	margin: var(--pq-sp-8) 0;
+	border: 0;
+	border-top: 1px solid var(--pq-border);
+}
+
+a
+{
+	color: var(--pq-link);
+	text-decoration-thickness: 0.1em;
+	text-underline-offset: 0.18em;
+	transition: color var(--pq-t-fast) var(--pq-ease);
+}
+
+a:hover,
+a:focus-visible
+{
+	color: var(--pq-link-hover);
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible
+{
+	outline: 3px solid var(--pq-focus);
+	outline-offset: 2px;
+	border-radius: var(--pq-r-sm);
+}
+
+::selection
+{
+	background-color: var(--pq-honey);
+	color: var(--pq-on-honey);
+}
+
+img,
+picture,
+video,
+audio,
+canvas,
+svg
+{
+	max-width: 100%;
+}
+
+img,
+video
+{
+	height: auto;
+	display: block;
+}
+
+figure
+{
+	margin: var(--pq-sp-6) 0;
+}
+
+figcaption
+{
+	margin-top: var(--pq-sp-2);
+	font-size: var(--pq-fs-small);
+	font-style: italic;
+	color: var(--pq-text-muted);
+}
+
+blockquote
+{
+	margin: var(--pq-sp-6) 0;
+	padding: var(--pq-sp-4) var(--pq-sp-6);
+	border-left: 3px solid var(--pq-honey);
+	background-color: var(--pq-surface-2);
+	border-radius: var(--pq-r-sm);
+	color: var(--pq-text);
+}
+
+blockquote p:last-child { margin-bottom: 0; }
+
+code,
+kbd,
+samp
+{
+	font-family: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, monospace;
+	font-size: 0.92em;
+}
+
+:not(pre) > code
+{
+	padding: 0.1em 0.35em;
+	background-color: var(--pq-surface-3);
+	border-radius: var(--pq-r-sm);
+}
+
+pre
+{
+	margin: var(--pq-sp-6) 0;
+	padding: var(--pq-sp-4);
+	max-width: 100%;
+	overflow-x: auto;
+	background-color: var(--pq-surface-2);
+	border: 1px solid var(--pq-border);
+	border-radius: var(--pq-r-md);
+}
+
+table
+{
+	width: 100%;
+	max-width: 100%;
+	margin: var(--pq-sp-6) 0;
+	border-collapse: collapse;
+	font-size: var(--pq-fs-small);
+}
+
+th, td
+{
+	padding: var(--pq-sp-2) var(--pq-sp-3);
+	border-bottom: 1px solid var(--pq-border);
+	text-align: left;
+	vertical-align: top;
+}
+
+th
+{
+	font-family: var(--pq-font-heading);
+	font-weight: 900;
+	background-color: var(--pq-surface-2);
+}
+
+input,
+select,
+textarea
+{
+	font-family: var(--pq-font-body);
+	font-size: 1rem;
+	color: var(--pq-text);
+	background-color: var(--pq-surface);
+	border: 1px solid var(--pq-border-strong);
+	border-radius: var(--pq-r-sm);
+}
+
+ul, ol
+{
+	margin: 0 0 1em;
+	padding-left: 1.35em;
+}
+
+li
+{
+	margin-bottom: 0.35em;
+}
+
+li:last-child { margin-bottom: 0; }

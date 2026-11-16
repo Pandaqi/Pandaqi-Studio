@@ -1,0 +1,15 @@
+{{- $class := or (.Get "class") "" -}}
+{{- $src := or (.Get "src") "" -}}
+{{- $alt := or (.Get "alt") "Rulebook Example Image" -}}
+{{- /* Resolve against the page bundle, not against whatever URL the visitor
+       happens to use: at /rules (no trailing slash) a relative src looks one
+       folder too high and every image 404s. */ -}}
+{{- $url := $src -}}
+{{- if not (or (hasPrefix $src "http") (hasPrefix $src "/") (hasPrefix $src "data:")) -}}
+	{{- with .Page.Resources.GetMatch $src -}}
+		{{- $url = .RelPermalink -}}
+	{{- else -}}
+		{{- $url = printf "%s%s" .Page.RelPermalink $src -}}
+	{{- end -}}
+{{- end -}}
+<img src="{{ $url }}" class="rulebook-image {{ $class }}" alt='{{- $alt -}}'  title='{{- $alt -}}' />

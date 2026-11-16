@@ -1,0 +1,36 @@
+{{ define "main" }}
+
+<div class="pq-wrap pq-wrap--tight">
+	<div class="pq-pagehead pq-pagehead--404 text-center">
+		<div class="pq-404__panda-wrap">
+			{{ partial "woodland/decor-image.html" (dict "name" "panda-icon" "w" 260 "class" "pq-404__panda") }}
+			{{ partial "woodland/spark.html" (dict "class" "pq-spark--lg pq-404__panda-spark" "delay" ".6s") }}
+			{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm pq-404__panda-spark2" "delay" "3.4s") }}
+		</div>
+
+		<h1 class="pq-pagehead__title">
+			{{ partial "woodland/heading-leaf.html" (dict "level" 1) }}
+			{{ or .Site.Params.pageNotFoundTitle "404 - Page not found" }}
+			{{ partial "woodland/emphasis.html" (dict "class" "pq-pagehead__emphasis") }}
+			{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" "1.1s") }}
+		</h1>
+		<p class="pq-pagehead__lead block-center">Sorry, the page you're looking for doesn't exist! It might have moved during one of the many website updates, or the link has a typo in it.</p>
+		<p class="pq-pagehead__lead block-center">Try one of these instead:</p>
+	</div>
+
+	<ul class="no-default-list-styles pq-hero__actions pq-404__actions">
+		<li><a class="button pq-btn-primary" href="{{ "/" | relURL }}">Home</a></li>
+		<li><a class="button pq-btn-quiet" href="/categories/board-game/">Board Games</a></li>
+		<li><a class="button pq-btn-quiet" href="/categories/video-game/">Video Games</a></li>
+		<li><button class="button pq-btn-honey" data-pq-random>{{ partial "woodland/icon.html" (dict "name" "i-die") }}Random Project</button></li>
+	</ul>
+
+	<div class="pq-wrap pq-404__search">
+		<a class="pq-404__search-link" href="/search/">
+			{{ partial "woodland/decor-image.html" (dict "name" "signpost" "w" 150 "class" "pq-404__signpost") }}
+			<span>Or look through every game on the <strong>search page</strong>.</span>
+		</a>
+	</div>
+</div>
+
+{{ end }}

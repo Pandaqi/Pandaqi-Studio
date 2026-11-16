@@ -1,0 +1,956 @@
+/* ==========================================================================
+   Components — buttons, cards, panels, chips, gallery, pager.
+
+   The wacky paper-cut button geometry is the original Pandaqi mask sprite
+   (theme/webp/metadata-masks.webp): every button still picks one of eight
+   hand-cut shapes and a small rotation, which is the studio's signature.
+   ========================================================================== */
+
+@use "sass:list";
+
+$num-masks: 8;
+
+/* Skip link --------------------------------------------------------------- */
+
+.skip-link,
+.pq-skip-link
+{
+	position: fixed;
+	left: var(--pq-sp-4);
+	top: -200%;
+	z-index: 2000;
+	padding: var(--pq-sp-2) var(--pq-sp-4);
+	background-color: var(--pq-text);
+	color: var(--pq-page);
+	border-radius: var(--pq-r-sm);
+	font-family: var(--pq-font-heading);
+	font-weight: 700;
+	transition: top var(--pq-t-fast) var(--pq-ease);
+}
+
+.skip-link:focus,
+.pq-skip-link:focus
+{
+	top: var(--pq-sp-4);
+}
+
+/* Icons ------------------------------------------------------------------- */
+
+/* Original 15-icon sprite. Offsets are unchanged so the artwork lines up. */
+$icon-labels: ("itch", "mail", "youtube", "windows", "mac", "linux", "android", "iOS", "web", "xbox", "playstation", "switch", "about", "gotobottom", "home");
+
+.icon
+{
+	background-image: url('/theme/webp/icons.webp');
+	background-size: cover;
+
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+
+	filter: drop-shadow(0 0 0.1em rgb(0 0 0 / .35));
+	transition: transform var(--pq-t-base) var(--pq-ease), filter var(--pq-t-base) var(--pq-ease);
+
+	@for $i from 1 through list.length($icon-labels) {
+		$label: list.nth($icon-labels, $i);
+
+		&.#{$label} {
+			background-position-x: (($i - 1) * -100 + 0%);
+		}
+	}
+
+	&:hover { cursor: pointer; }
+
+	&.hoverable:hover {
+		transform: scale(1.15);
+		filter: drop-shadow(0 0 0.15em rgb(0 0 0 / .3));
+	}
+}
+
+.icon-s
+{
+	width: 24px;
+	height: 24px;
+	filter: none;
+}
+
+/* Woodland inline symbol sheet (static/theme/woodland/sprite.svg) */
+.pq-ico
+{
+	width: 1.1em;
+	height: 1.1em;
+	flex: none;
+	display: inline-block;
+	vertical-align: -0.18em;
+	fill: currentColor;
+	stroke: none;
+}
+
+.pq-ico--lg
+{
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+/* Buttons ----------------------------------------------------------------- */
+
+/* Geometry only. The woodland layer supplies the cut-paper silhouette, the
+   fill and the hover treatment, so there is no second mask fighting it. */
+.button
+{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4em;
+
+	font-family: var(--pq-font-heading);
+	font-weight: 700;
+	font-size: 1rem;
+	line-height: 1.15;
+	text-align: center;
+	text-decoration: none;
+
+	color: var(--pq-text);
+	background: transparent;
+	border: 0;
+	padding: 0.68em 1.1em;
+	cursor: pointer;
+}
+
+.button-large
+{
+	width: 100%;
+	font-size: 1.05rem;
+}
+
+/* Plain text button, used for "Random Project" and "Back to top" */
+.pq-linkbutton
+{
+	background: none;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	font: inherit;
+	color: var(--pq-link);
+	text-decoration: underline;
+	text-decoration-thickness: 0.1em;
+	text-underline-offset: 0.18em;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35em;
+}
+
+.pq-linkbutton:hover { color: var(--pq-link-hover); }
+
+/* Chips ------------------------------------------------------------------- */
+
+.pq-chip
+{
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3em;
+	padding: 0.22em 0.65em;
+	font-size: var(--pq-fs-label);
+	font-family: var(--pq-font-body);
+	line-height: 1.4;
+	color: var(--pq-text);
+	background-color: var(--pq-surface-2);
+	border: 1px solid var(--pq-border);
+	border-radius: var(--pq-r-pill);
+	text-decoration: none;
+	transition: background-color var(--pq-t-fast) var(--pq-ease), border-color var(--pq-t-fast) var(--pq-ease);
+}
+
+a.pq-chip:hover
+{
+	background-color: var(--pq-honey-soft);
+	border-color: var(--pq-border-strong);
+	color: var(--pq-text);
+}
+
+/* Panels ------------------------------------------------------------------ */
+
+.pq-panel,
+.sidebar-block
+{
+	width: 100%;
+	background-color: var(--pq-surface);
+	border: 1px solid var(--pq-border);
+	border-radius: var(--pq-r-organic);
+	padding: var(--pq-sp-6);
+	box-shadow: var(--pq-shadow-card);
+}
+
+.pq-panel + .pq-panel,
+.pq-panel + .sidebar-block,
+.sidebar-block + .sidebar-block
+{
+	margin-top: var(--pq-sp-4);
+}
+
+.pq-panel__title
+{
+	font-family: var(--pq-font-heading);
+	font-size: var(--pq-fs-label);
+	font-weight: 900;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--pq-text-muted);
+	margin: 0 0 var(--pq-sp-3);
+}
+
+/* Facts (small icon + value pairs, used on cards) -------------------------- */
+
+.pq-facts
+{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35em 0.9em;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: var(--pq-fs-small);
+	color: var(--pq-text-muted);
+}
+
+.pq-facts li
+{
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3em;
+	margin: 0;
+	padding: 0;
+}
+
+.pq-facts .pq-ico { color: var(--pq-fern); }
+
+/* Metadata rows ----------------------------------------------------------- */
+
+.pq-meta-groups
+{
+	display: grid;
+	gap: var(--pq-sp-4);
+	align-content: start;
+}
+
+.pq-meta
+{
+	display: grid;
+	gap: var(--pq-sp-3);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.pq-meta__row
+{
+	display: grid;
+	grid-template-columns: 1.15em minmax(0, 1fr);
+	gap: 0.15em 0.55em;
+	align-items: start;
+}
+
+.pq-meta__row > .pq-ico
+{
+	margin-top: 0.28em;
+	color: var(--pq-fern);
+}
+
+.pq-meta__label
+{
+	display: block;
+	font-family: var(--pq-font-heading);
+	font-size: var(--pq-fs-label);
+	line-height: 1.35;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	color: var(--pq-text-muted);
+}
+
+.pq-meta__values
+{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3em;
+	align-items: center;
+}
+
+.pq-meta__value
+{
+	font-size: var(--pq-fs-small);
+	color: var(--pq-text);
+	text-decoration: none;
+	border-bottom: 1px solid transparent;
+}
+
+a.pq-meta__value:hover
+{
+	color: var(--pq-link-hover);
+	border-bottom-color: currentColor;
+}
+
+.pq-meta__note
+{
+	font-size: var(--pq-fs-small);
+	font-style: italic;
+	color: var(--pq-text-muted);
+}
+
+/* Game card --------------------------------------------------------------- */
+
+.pq-grid
+{
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 17.5rem), 1fr));
+	gap: var(--pq-sp-6);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	align-items: stretch;
+}
+
+.pq-grid > li
+{
+	display: flex;
+	margin: 0;
+}
+
+.pq-card
+{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	background-color: var(--pq-surface);
+	border: 1px solid var(--pq-border);
+	border-radius: var(--pq-r-organic);
+	box-shadow: var(--pq-shadow-card);
+	overflow: hidden;
+	transition: transform var(--pq-t-base) var(--pq-ease),
+		box-shadow var(--pq-t-base) var(--pq-ease),
+		border-color var(--pq-t-base) var(--pq-ease);
+}
+
+.pq-card__link
+{
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	color: inherit;
+	text-decoration: none;
+	border-radius: inherit;
+}
+
+.pq-card__link:focus-visible
+{
+	outline: 3px solid var(--pq-focus);
+	outline-offset: -3px;
+}
+
+.pq-card:hover
+{
+	transform: translateY(-3px);
+	box-shadow: var(--pq-shadow-2);
+	border-color: var(--pq-border-strong);
+}
+
+.pq-card__media
+{
+	position: relative;
+	background-color: var(--pq-page-deep);
+}
+
+.pq-card__media img,
+.pq-card__media picture
+{
+	display: block;
+	width: 100%;
+}
+
+.pq-card__media img
+{
+	aspect-ratio: 5 / 2;
+	object-fit: cover;
+	object-position: center;
+}
+
+.pq-card__favicon
+{
+	position: absolute;
+	left: var(--pq-sp-3);
+	bottom: calc(var(--pq-sp-3) * -1);
+	z-index: 2;
+	display: block;
+	width: 3.25rem;
+	height: 3.25rem;
+	padding: 0.2rem;
+	background-color: var(--pq-surface);
+	border: 1px solid var(--pq-border);
+	border-radius: var(--pq-r-md);
+	box-shadow: var(--pq-shadow-1);
+}
+
+.pq-card__favicon img
+{
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	border-radius: calc(var(--pq-r-md) - 0.2rem);
+}
+
+.pq-card__body
+{
+	display: flex;
+	flex-direction: column;
+	gap: var(--pq-sp-2);
+	flex: 1 1 auto;
+	padding: var(--pq-sp-4) var(--pq-sp-4) var(--pq-sp-4);
+}
+
+.pq-card__title
+{
+	margin: 0 0 0 var(--pq-sp-12);
+	font-family: var(--pq-font-heading);
+	font-size: 1.2rem;
+	font-weight: 900;
+	line-height: 1.2;
+	color: var(--pq-text);
+	overflow-wrap: anywhere;
+}
+
+.pq-card__blurb
+{
+	margin: 0;
+	font-size: var(--pq-fs-small);
+	line-height: 1.5;
+	color: var(--pq-text-muted);
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	overflow: hidden;
+}
+
+.pq-card__facts { margin-top: auto; padding-top: var(--pq-sp-1); }
+
+/* Wide feature card (homepage "latest project") ---------------------------- */
+
+.pq-card--feature
+{
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 46rem)
+{
+	.pq-card--feature
+	{
+		grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+		align-items: stretch;
+	}
+
+	.pq-card--feature .pq-card__link
+	{
+		display: grid;
+		grid-template-columns: subgrid;
+		grid-column: 1 / -1;
+	}
+
+	.pq-card--feature .pq-card__media
+	{
+		grid-column: 1;
+		height: 100%;
+	}
+
+	.pq-card--feature .pq-card__media img
+	{
+		aspect-ratio: auto;
+		height: 100%;
+		min-height: 12rem;
+		object-fit: cover;
+	}
+
+	.pq-card--feature .pq-card__favicon
+	{
+		left: auto;
+		right: var(--pq-sp-4);
+		bottom: var(--pq-sp-4);
+		width: 4rem;
+		height: 4rem;
+	}
+
+	.pq-card--feature .pq-card__body
+	{
+		grid-column: 2;
+		padding: var(--pq-sp-6);
+		justify-content: center;
+	}
+
+	.pq-card--feature .pq-card__title
+	{
+		margin-left: 0;
+		font-family: var(--pq-font-display);
+		font-weight: 400;
+		font-size: var(--pq-fs-h2);
+	}
+
+	.pq-card--feature .pq-card__blurb
+	{
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+	}
+}
+
+/* Banner ------------------------------------------------------------------ */
+
+.pq-banner
+{
+	position: relative;
+	margin: 0;
+	width: 100%;
+	overflow: hidden;
+	background-color: var(--pq-page-deep);
+}
+
+.pq-banner img
+{
+	width: 100%;
+	height: clamp(10rem, 24vw, 24rem);
+	object-fit: cover;
+	object-position: center;
+}
+
+.pq-banner__fade
+{
+	position: absolute;
+	inset: auto 0 -1px 0;
+	height: 42%;
+	background: linear-gradient(to bottom, transparent 0%, var(--pq-page) 94%);
+	pointer-events: none;
+}
+
+/* Media gallery (wrapped around the shared gallery script) ----------------- */
+
+.media-gallery-container
+{
+	margin: 0 0 var(--pq-sp-6);
+	padding: var(--pq-sp-3);
+	background-color: var(--pq-surface-2);
+	border: 1px solid var(--pq-border);
+	border-radius: var(--pq-r-organic);
+	box-shadow: var(--pq-shadow-card);
+}
+
+.media-gallery
+{
+	display: grid;
+	place-items: center;
+	min-height: 11rem;
+	overflow: hidden;
+	background-color: var(--pq-page-deep);
+	border-radius: var(--pq-r-md);
+}
+
+.media-gallery > *
+{
+	width: 100%;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.media-gallery picture,
+.media-gallery img,
+.media-gallery video
+{
+	display: block;
+	width: 100%;
+	max-height: min(60vh, 30rem);
+	object-fit: contain;
+}
+
+.media-gallery .youtube-video
+{
+	position: relative;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+}
+
+/* Embedded video ---------------------------------------------------------- */
+
+.video-embedded
+{
+	margin: var(--pq-sp-6) auto;
+	text-align: center;
+}
+
+.video-embedded .video-container
+{
+	position: relative;
+	width: 100%;
+	height: 0;
+	padding-bottom: 56.25%;
+	border-radius: var(--pq-r-md);
+	overflow: hidden;
+	background-color: var(--pq-page-deep);
+}
+
+.video-embedded .youtube-video
+{
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* Pagination -------------------------------------------------------------- */
+
+.pq-pager
+{
+	display: flex;
+	justify-content: center;
+	margin: var(--pq-sp-8) 0 var(--pq-sp-2);
+}
+
+.pq-pager ul
+{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 0.3rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.pq-pager li { margin: 0; }
+
+.pq-pager a,
+.pq-pager .pq-pager__page
+{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2.6rem;
+	min-height: 2.6rem;
+	padding: 0 0.6rem;
+	border-radius: var(--pq-r-sm);
+	border: 1px solid transparent;
+	font-family: var(--pq-font-heading);
+	font-weight: 700;
+	font-size: 0.95rem;
+	color: var(--pq-text);
+	text-decoration: none;
+	transition: background-color var(--pq-t-fast) var(--pq-ease), border-color var(--pq-t-fast) var(--pq-ease);
+}
+
+.pq-pager a:hover
+{
+	background-color: var(--pq-surface-2);
+	border-color: var(--pq-border);
+}
+
+.pq-pager__page[aria-current="page"]
+{
+	background-color: var(--pq-primary);
+	border-color: var(--pq-primary);
+	color: var(--pq-on-primary);
+}
+
+.pq-pager span[aria-disabled="true"]
+{
+	opacity: 0.4;
+}
+
+.pq-pager__gap
+{
+	padding: 0 0.15rem;
+	color: var(--pq-text-muted);
+}
+
+/* Legacy pagination markup (kept so old content never breaks) */
+.pagination-item-first,
+.pagination-item-prev,
+.pagination-item-next,
+.pagination-item-last,
+.navigation-link
+{
+	color: var(--pq-link);
+}
+
+/* Empty state ------------------------------------------------------------- */
+
+.pq-empty
+{
+	display: grid;
+	gap: var(--pq-sp-3);
+	justify-items: center;
+	text-align: center;
+	max-width: 34rem;
+	margin-inline: auto;
+	padding: var(--pq-sp-12) var(--pq-sp-6);
+	border: 1px dashed var(--pq-border-strong);
+	border-radius: var(--pq-r-lg);
+	color: var(--pq-text-muted);
+}
+
+.pq-empty p { margin: 0; }
+
+/* Disclosure -------------------------------------------------------------- */
+
+.pq-details
+{
+	border: 1px solid var(--pq-border);
+	border-radius: var(--pq-r-md);
+	background-color: var(--pq-surface);
+}
+
+.pq-details > summary
+{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--pq-sp-3);
+	padding: var(--pq-sp-3) var(--pq-sp-4);
+	font-family: var(--pq-font-heading);
+	font-weight: 700;
+	cursor: pointer;
+	list-style: none;
+}
+
+.pq-details > summary::-webkit-details-marker { display: none; }
+
+.pq-details > summary::after
+{
+	content: "";
+	width: 0.55rem;
+	height: 0.55rem;
+	border-right: 2px solid currentColor;
+	border-bottom: 2px solid currentColor;
+	transform: rotate(45deg);
+	transition: transform var(--pq-t-base) var(--pq-ease);
+	flex: none;
+}
+
+.pq-details[open] > summary::after
+{
+	transform: rotate(-135deg);
+}
+
+.pq-details__body
+{
+	padding: 0 var(--pq-sp-4) var(--pq-sp-4);
+}
+
+/* Section headings with a botanical accent -------------------------------- */
+
+.pq-section
+{
+	margin-block: var(--pq-sp-12) var(--pq-sp-6);
+}
+
+.pq-section__head
+{
+	display: flex;
+	align-items: center;
+	gap: var(--pq-sp-3);
+	flex-wrap: wrap;
+	margin-bottom: var(--pq-sp-4);
+}
+
+.pq-section__title
+{
+	margin: 0;
+	font-size: var(--pq-fs-h2);
+}
+
+.pq-section__sprig
+{
+	color: var(--pq-fern);
+	width: 1.6rem;
+	height: 1.6rem;
+	flex: none;
+}
+
+.pq-section__link
+{
+	margin-left: auto;
+	font-family: var(--pq-font-heading);
+	font-weight: 700;
+	font-size: 0.95rem;
+	color: var(--pq-link);
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3em;
+	white-space: nowrap;
+}
+
+.pq-section__link:hover { color: var(--pq-link-hover); }
+
+/* Decorative botanicals --------------------------------------------------- */
+
+.pq-decor
+{
+	position: absolute;
+	color: var(--pq-fern);
+	opacity: 0.5;
+	pointer-events: none;
+	user-select: none;
+	z-index: 0;
+}
+
+.pq-decor--tl { top: var(--pq-sp-6); left: var(--pq-sp-4); width: 3.5rem; height: 3.5rem; transform: rotate(-12deg); }
+.pq-decor--br { bottom: var(--pq-sp-6); right: var(--pq-sp-4); width: 4rem; height: 4rem; transform: rotate(14deg); }
+.pq-decor--tr { top: var(--pq-sp-8); right: var(--pq-sp-6); width: 3rem; height: 3rem; transform: rotate(8deg); }
+
+@media (max-width: 46rem)
+{
+	.pq-decor--tl,
+	.pq-decor--br,
+	.pq-decor--tr { display: none; }
+}
+
+/* Torn paper edge between page and footer -------------------------------- */
+
+/* Torn top edge of the footer: exactly as wide as the footer itself (100vw
+   included the scrollbar gutter and fought the global max-width on svg, so it
+   stopped short of both edges), and overlapping the sheet by half an em so no
+   hairline of page colour can show through the seam. */
+.pq-edge
+{
+	position: absolute;
+	left: 0;
+	bottom: calc(100% - 0.5em);
+	display: block;
+	width: 100%;
+	height: 21px;
+	color: var(--pq-surface-2);
+	pointer-events: none;
+}
+
+/* Legacy decorations still referenced by shortcodes/content --------------- */
+
+@mixin paper-dot-marker
+{
+	position: relative;
+
+	&::before
+	{
+		content: "";
+		position: absolute;
+		left: -1.15em;
+		top: 0.42em;
+		width: 0.5em;
+		height: 0.5em;
+		background-color: var(--pq-honey);
+		border-radius: 60% 40% 55% 45%;
+		display: inline-block;
+	}
+}
+
+/* The leaf before a heading is a real supplied sprig, added by the heading
+   render hook; the class stays as a styling hook for prose only. */
+
+.add-leaf-before-hanging-in-margin { @include paper-dot-marker; }
+
+.add-leaf-before::before
+{
+	content: "";
+	display: inline-block;
+	width: 0.5em;
+	height: 0.5em;
+	margin-right: 0.5em;
+	background-color: var(--pq-honey);
+	border-radius: 60% 40% 55% 45%;
+	vertical-align: 0.05em;
+}
+
+.add-leaf-after::after
+{
+	content: "";
+	display: inline-block;
+	width: 0.5em;
+	height: 0.5em;
+	margin-left: 0.5em;
+	background-color: var(--pq-fern);
+	border-radius: 45% 55% 40% 60%;
+	vertical-align: 0.05em;
+}
+
+/* Legacy blocks kept intact ----------------------------------------------- */
+
+.gradient-fade-to-bg
+{
+	position: relative;
+	width: 100%;
+	height: 15em;
+	margin-top: -15em;
+	background: linear-gradient(to bottom, transparent 0%, var(--pq-page) 75%);
+}
+
+.hovering-gotobottom-btn
+{
+	position: absolute;
+	right: 0;
+	top: 0;
+	background-color: transparent;
+	border: none;
+	z-index: 1000;
+}
+
+.maintenance-modal-container
+{
+	position: fixed;
+	inset: 0;
+	z-index: 1500;
+	display: grid;
+	place-items: center;
+	padding: var(--pq-sp-4);
+	background-color: var(--pq-overlay);
+}
+
+.maintenance-modal-content
+{
+	max-width: 34rem;
+	margin: 0 auto;
+	padding: var(--pq-sp-6);
+	background-color: var(--pq-surface);
+	color: var(--pq-text);
+	border: 1px solid var(--pq-border);
+	border-radius: var(--pq-r-lg);
+	box-shadow: var(--pq-shadow-2);
+	cursor: pointer;
+}
+
+/* Two-column block used by the double-view shortcode ---------------------- */
+
+.double-view
+{
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--pq-sp-6);
+	align-items: flex-start;
+	margin-block: var(--pq-sp-6);
+}
+
+.double-view > * { flex: 1 1 18rem; min-width: 0; }
+
+.double-view-main-sidebar { align-items: flex-start; }
+.double-view-main-sidebar > div:first-child { flex: 1 1 auto; }
+.double-view-main-sidebar > div:last-child { flex: 0 1 var(--pq-sidebar); }
+
+.project-grid
+{
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 17.5rem), 1fr));
+	gap: var(--pq-sp-6);
+	justify-content: center;
+	align-items: stretch;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.project-grid li { height: 100%; margin: 0; }

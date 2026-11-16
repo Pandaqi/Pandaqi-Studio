@@ -1,0 +1,56 @@
+{{/* A compact, deterministic set of real facts about a project.
+     Context: <page>. Returns a slice of (dict "icon" … "text" …).
+
+     Only values that actually exist are returned, so a card never shows an
+     empty row. Player counts keep their individual values unless they are
+     consecutive, in which case they are shown as a range. */}}
+{{- $facts := slice -}}
+{{- $page := . -}}
+
+{{- with $page.Params.playercount -}}
+	{{- $label := "" -}}
+	{{- if reflect.IsSlice . -}}
+		{{- $count := . -}}
+		{{- $n := len $count -}}
+		{{- if eq $n 1 -}}
+			{{- $label = printf "%v player" (index $count 0) -}}
+		{{- else if gt $n 1 -}}
+			{{- $consecutive := true -}}
+			{{- range $i, $v := $count -}}
+				{{- if gt $i 0 -}}
+					{{- if ne $v (add (index $count (sub $i 1)) 1) -}}{{- $consecutive = false -}}{{- end -}}
+				{{- end -}}
+			{{- end -}}
+			{{- if $consecutive -}}
+				{{- $label = printf "%v–%v players" (index $count 0) (index $count (sub $n 1)) -}}
+			{{- else -}}
+				{{- $parts := slice -}}
+				{{- range $count -}}{{- $parts = $parts | append (printf "%v" .) -}}{{- end -}}
+				{{- $label = printf "%s players" (delimit $parts ", ") -}}
+			{{- end -}}
+		{{- end -}}
+	{{- else -}}
+		{{- $label = printf "%v players" . -}}
+	{{- end -}}
+	{{- with $label -}}{{- $facts = $facts | append (dict "icon" "i-users" "text" .) -}}{{- end -}}
+{{- end -}}
+
+{{- with $page.Params.playtime -}}
+	{{- $facts = $facts | append (dict "icon" "i-clock" "text" (printf "%v min" .)) -}}
+{{- end -}}
+
+{{- with $page.Params.difficulty -}}
+	{{- $facts = $facts | append (dict "icon" "i-gauge" "text" (title (humanize (string .)))) -}}
+{{- end -}}
+
+{{- if lt (len $facts) 2 -}}
+	{{- with $page.Params.genres -}}
+		{{- $genre := . -}}
+		{{- if reflect.IsSlice $genre -}}{{- $genre = index $genre 0 -}}{{- end -}}
+		{{- with $genre -}}
+			{{- $facts = $facts | append (dict "icon" "i-masks" "text" (title (humanize (string .)))) -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- return $facts -}}

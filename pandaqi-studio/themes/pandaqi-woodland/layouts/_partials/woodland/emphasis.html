@@ -1,0 +1,18 @@
+{{/* The three yellow strokes from the supplied asset set, drawn inline so the
+     stroke follows the theme colour instead of a baked-in hex, and switched off
+     with the rest of the decoration.
+
+     Context: (dict "class" "…"). Decorative only. */}}
+{{- $decor := true -}}
+{{- with site.Params.woodland -}}
+	{{- if isset . "decor" -}}{{- $decor = .decor -}}{{- end -}}
+{{- end -}}
+{{- if $decor -}}
+<svg class="pq-emphasis {{ .class }}" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+	<g fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round">
+		<path d="M20 37 L49 12"/>
+		<path d="M27 53 L78 44"/>
+		<path d="M20 69 L56 86"/>
+	</g>
+</svg>
+{{- end -}}

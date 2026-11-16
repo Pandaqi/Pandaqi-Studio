@@ -1,0 +1,13 @@
+{{- $class := or (.Get "class") "" -}}
+{{- $src := or (.Get "src") "" -}}
+{{- $alt := or (.Get "alt") "Rulebook Example Image" -}}
+{{- /* Same resolution as rules-image: absolute URL, so /rules and /rules/ both work. */ -}}
+{{- $url := $src -}}
+{{- if not (or (hasPrefix $src "http") (hasPrefix $src "/") (hasPrefix $src "data:")) -}}
+	{{- with .Page.Resources.GetMatch $src -}}
+		{{- $url = .RelPermalink -}}
+	{{- else -}}
+		{{- $url = printf "%s%s" .Page.RelPermalink $src -}}
+	{{- end -}}
+{{- end -}}
+<img src="{{ $url }}" class="rulebook-image sidebar {{ $class }}" alt='{{- $alt -}}'  title='{{- $alt -}}' />

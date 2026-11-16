@@ -1,0 +1,7 @@
+{{/* Inline sprite symbol.
+     Context: (dict "name" "i-clock" "class" "pq-ico")
+     The sheet itself lives in static/theme/woodland/sprite.svg, so every page
+     reuses one cached file instead of repeating paths in the HTML. */}}
+{{- $name := .name -}}
+{{- $class := or .class "pq-ico" -}}
+<svg class="{{ $class }}" aria-hidden="true" focusable="false"><use href="/theme/woodland/sprite.svg#{{ $name }}"></use></svg>

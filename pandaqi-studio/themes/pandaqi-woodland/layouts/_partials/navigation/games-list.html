@@ -1,0 +1,69 @@
+{{/* The catalogue grid. Used by the homepage, sections, terms and the taxonomy
+     indexes, so every place shows the same card.
+
+     Pagination is unchanged: 9 projects per page, from the page's own real
+     paginator, so /page/2/ URLs stay exactly where they were. The optional
+     toolbar adds a page-scoped sort and a route into the full-catalogue
+     search; with JavaScript off the list stays exactly as rendered. */}}
+{{- $context := .context -}}
+{{- $paginator := .paginator -}}
+{{- if not $paginator -}}
+	{{- $num_pages := 9 -}}
+	{{- $pages := where $context.Pages "Type" "project" -}}
+	{{- $paginator = $context.Paginate $pages $num_pages -}}
+{{- end -}}
+{{- $suppress_navigation := or .suppress_navigation false -}}
+{{- $heading := or .heading "" -}}
+{{- $heading_link := or .heading_link "" -}}
+{{- $heading_link_label := or .heading_link_label "View all games" -}}
+{{- $toolbar := or .toolbar false -}}
+
+<div class="pq-wrap">
+	<section class="pq-section"{{ if $heading }} aria-labelledby="pq-section-title"{{ end }}>
+		{{- with $heading -}}
+					<div class="pq-section__head">
+				{{ partial "woodland/heading-leaf.html" (dict "level" 2 "class" "pq-section__sprig") }}
+			<h2 class="pq-section__title" id="pq-section-title">{{ . }}{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" "1.9s") }}</h2>
+			{{- with $heading_link -}}
+				<a class="pq-section__link" href="{{ . }}">{{ $heading_link_label }} {{ partial "woodland/icon.html" (dict "name" "i-arrow-right") }}</a>
+			{{- end -}}
+		</div>
+		{{- end -}}
+
+		{{- if $toolbar -}}
+		<div class="pq-toolbar" data-pq-toolbar>
+			<label class="pq-toolbar__sort">
+				{{ partial "woodland/icon.html" (dict "name" "i-sort" "class" "pq-ico") }}
+				<span class="pq-toolbar__label">Sort</span>
+				<select class="pq-select" data-pq-sort>
+					<option value="newest">Newest</option>
+					<option value="oldest">Oldest</option>
+					<option value="alpha">A → Z</option>
+				</select>
+			</label>
+			<a class="pq-toolbar__filter" href="{{ "/search/" | relURL }}">
+				{{ partial "woodland/icon.html" (dict "name" "i-filter" "class" "pq-ico") }}
+				<span>Search &amp; filters</span>
+			</a>
+		</div>
+		{{- end -}}
+
+		<nav aria-label="Projects">
+			{{- if gt (len $paginator.Pages) 0 -}}
+				<ul class="pq-grid" data-pq-sortable>
+					{{- range $paginator.Pages -}}
+						<li data-title="{{ .Title | lower }}" data-date="{{ .Date.Unix }}">{{ partial "woodland/card.html" (dict "page" .) }}</li>
+					{{- end -}}
+				</ul>
+			{{- else -}}
+				<div class="pq-empty-state">
+					<p>There are no projects here yet.</p>
+					<a class="button pq-btn-quiet" href="{{ "/" | relURL }}">Browse all games</a>
+				</div>
+			{{- end -}}
+			{{- if not $suppress_navigation -}}
+				{{ partial "navigation/pagination.html" (dict "paginator" $paginator) }}
+			{{- end -}}
+		</nav>
+	</section>
+</div>

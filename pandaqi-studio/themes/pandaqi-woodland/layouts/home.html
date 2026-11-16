@@ -1,0 +1,83 @@
+{{ define "main" }}
+
+{{- $latest_proj := (index (where .Site.Pages "Type" "project") 0) -}}
+
+<section class="pq-hero">
+	<div class="pq-wrap pq-hero__inner">
+		<div class="pq-hero__intro">
+			<p class="pq-hero__eyebrow">
+				{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" ".3s") }}
+				{{ partial "woodland/decor-image.html" (dict "name" "sprig-right" "w" 96 "class" "pq-hero__eyebrow-sprig") }}
+				<span>Tiny games, big worlds</span>
+				{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" "2.4s") }}
+			</p>
+
+			<h1 class="pq-hero__title">
+				Pandaqi Games
+				{{ partial "woodland/emphasis.html" (dict "class" "pq-hero__emphasis") }}
+				{{ partial "woodland/spark.html" (dict "class" "pq-spark--lg" "delay" "1.2s") }}
+			</h1>
+
+			<p class="pq-hero__lead">Free printable board games and multiplayer video games. Print them at home, play them in a browser, keep them forever.</p>
+
+			<div class="pq-hero__actions">
+				<a class="button pq-btn-primary" href="/categories/board-game/">
+					{{ partial "woodland/icon.html" (dict "name" "i-download" "class" "pq-ico") }}Browse Board Games
+				</a>
+				<a class="button pq-btn-honey" href="/categories/video-game/">
+					{{ partial "woodland/icon.html" (dict "name" "i-controller" "class" "pq-ico") }}Browse Video Games
+				</a>
+				<button class="button pq-btn-quiet" data-pq-random>
+					{{ partial "woodland/icon.html" (dict "name" "i-die") }}Random Project
+				</button>
+			</div>
+
+			<p class="pq-hero__links">Try any game that catches your eye! Maybe check out the <a href="{{ $latest_proj.RelPermalink }}">latest project</a>. Or visit our magical online store where we <a href="https://thewaywardmelody.com/gamiverses/">sell educational board games</a>. Or learn more <a href="https://tiamopastoor.com/info/about/">about the guy behind Pandaqi</a>.</p>
+		</div>
+
+		{{- /* Two painted heroes, both cut from the reference sheets. Choose with
+		       params.woodland.hero: "clearing" (the light sheet, default) or
+		       "hillside" (the dark sheet). */ -}}
+		{{- $hero := "clearing" -}}
+		{{- with site.Params.woodland -}}{{- with .hero -}}{{- $hero = . -}}{{- end -}}{{- end -}}
+		{{- $art := dict
+			"src" "/theme/woodland/art/hero-clearing.jpg"
+			"w" 1600 "h" 459
+			"alt" "A painted woodland clearing with meeples, a die and a board game laid out on a stump." -}}
+		{{- if eq $hero "hillside" -}}
+			{{- $art = dict
+				"src" "/theme/woodland/art/hero-hillside.jpg"
+				"w" 840 "h" 552
+				"alt" "A painted hillside in layers of green, with round trees and a warm sky." -}}
+		{{- end -}}
+		<figure class="pq-hero__art{{ if eq $hero "hillside" }} pq-hero__art--tall{{ end }}">
+			<img src="{{ $art.src }}" alt="{{ $art.alt }}" width="{{ $art.w }}" height="{{ $art.h }}" fetchpriority="high" decoding="async">
+			<span class="pq-hero__props" aria-hidden="true">
+				{{ partial "woodland/decor-image.html" (dict "name" "meeple-purple" "w" 120 "class" "pq-hero__prop pq-hero__prop--meeple") }}
+				{{ partial "woodland/decor-image.html" (dict "name" "mushroom" "w" 120 "class" "pq-hero__prop pq-hero__prop--mushroom") }}
+			</span>
+			{{ partial "woodland/spark.html" (dict "class" "pq-spark--lg pq-hero__art-spark" "delay" "3.1s") }}
+		</figure>
+	</div>
+</section>
+
+<div class="pq-wrap">
+	<section class="pq-section" aria-labelledby="pq-latest-title">
+		<div class="pq-section__head">
+			{{ partial "woodland/heading-leaf.html" (dict "level" 2 "class" "pq-section__sprig") }}
+			<h2 class="pq-section__title" id="pq-latest-title">Latest Project{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" "1.4s") }}</h2>
+		</div>
+		{{ partial "woodland/card.html" (dict "page" $latest_proj "variant" "feature") }}
+	</section>
+</div>
+
+<div class="pq-wrap pq-divider" aria-hidden="true">
+	<svg class="pq-divider__line" viewBox="0 0 600 24" preserveAspectRatio="none" focusable="false">
+		<path d="M3 12 Q75 3 150 12 T300 12 T450 12 T597 12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+	</svg>
+	{{ partial "woodland/decor-image.html" (dict "name" "tiny-sprig" "w" 120 "class" "pq-divider__sprig") }}
+</div>
+
+{{ partial "navigation/games-list.html" (dict "context" . "heading" "Explore the Games" "heading_link" "/search/" "heading_link_label" "All games" "toolbar" true) }}
+
+{{ end }}

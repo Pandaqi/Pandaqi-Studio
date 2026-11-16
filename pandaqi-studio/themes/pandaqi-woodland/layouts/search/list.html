@@ -1,0 +1,98 @@
+{{/* Search and filtering.
+
+     The index is generated from the same front matter the cards use and inlined
+     as JSON, so there is no second request and no third-party search service.
+     The page also lists every project as plain links: with JavaScript off that
+     list is the whole point of the page, with JavaScript on it is hidden and the
+     filter runs over the complete catalogue, not just the current page. */}}
+{{ define "main" }}
+
+{{- $projects := where .Site.Pages "Type" "project" -}}
+{{- $entries := slice -}}
+{{- range $projects -}}
+	{{- $proj := . -}}
+	{{- $blurb := "" -}}
+	{{- with .Params.blurb -}}{{- $blurb = . | plainify | truncate 140 -}}{{- end -}}
+	{{- /* Only point at artwork that really exists; otherwise use the site mark. */ -}}
+	{{- $thumb := "/theme/webp/favicon.webp" -}}
+	{{- $thumb_src := index (strings.Split (partial "func/get-game-thumb.html" $proj) ".") 0 -}}
+	{{- with partial "func/get-valid-image-url.html" (dict "context" $proj "src" $thumb_src) -}}{{- $thumb = . -}}{{- end -}}
+	{{- $entries = $entries | append (dict
+		"title" .Title
+		"url" .RelPermalink
+		"blurb" $blurb
+		"cats" (.Params.categories | default slice)
+		"genres" (.Params.genres | default slice)
+		"platform" (.Params.platform | default slice)
+		"players" (.Params.playercount | default slice)
+		"time" (.Params.playtime | default 0)
+		"difficulty" (.Params.difficulty | default "")
+		"thumb" $thumb
+		"date" .Date.Unix
+	) -}}
+{{- end -}}
+
+<div class="pq-wrap pq-search" data-pq-search>
+	<div class="pq-pagehead">
+		{{ partial "woodland/scatter.html" (dict "page" . "spot" "pagehead" "count" 2) }}
+		<h1 class="pq-pagehead__title">
+			{{ partial "woodland/heading-leaf.html" (dict "level" 1) }}
+			{{ or .Title "Search" }}
+			{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" "1.1s") }}
+		</h1>
+		{{- with .Content -}}<div class="pq-pagehead__lead">{{ . }}</div>{{- end -}}
+		{{- if not .Content -}}
+		<p class="pq-pagehead__lead">Look through every Pandaqi game at once. Search by name, then narrow it down by category, player count, platform or difficulty — no page reloads.</p>
+		{{- end -}}
+	</div>
+
+	<form class="pq-search__form" role="search" data-pq-search-form>
+		<div class="pq-search__field">
+			<span class="pq-search__ico" aria-hidden="true">{{ partial "woodland/icon.html" (dict "name" "i-search") }}</span>
+			<label class="sr-only" for="pq-search-input">Search games</label>
+			<input
+				class="pq-search__input"
+				id="pq-search-input"
+				name="q"
+				type="search"
+				placeholder="Search games, genres, players…"
+				autocomplete="off"
+				data-pq-search-input
+			>
+		</div>
+	</form>
+
+	<p class="pq-search__count" data-pq-count aria-live="polite"></p>
+	<button type="button" class="pq-search__clear" data-pq-clear hidden>Clear all filters</button>
+
+	<div class="pq-search__layout">
+		<aside class="pq-search__filters">
+			<div class="pq-facets" data-pq-facets></div>
+		</aside>
+
+		<div class="pq-search__results">
+			<h2 class="sr-only" id="pq-results-title">Results</h2>
+			<ul class="pq-results" data-pq-results id="pq-results" aria-labelledby="pq-results-title"></ul>
+
+			{{/* Rendered by the script when nothing matches, so the empty state still
+			       offers a way out instead of a bare sentence. */}}
+			<template data-pq-empty-art>
+				<li class="pq-result pq-empty-state">
+					{{ partial "woodland/decor-image.html" (dict "name" "dice" "w" 180 "class" "pq-empty-state__art") }}
+					<p>No games match those filters. Try removing one.</p>
+					<button type="button" class="button pq-btn-quiet button-small" data-pq-clear-empty>Clear all filters</button>
+				</li>
+			</template>
+
+			<div class="pq-nojs-list">
+				{{- range $projects -}}
+					<a href="{{ .RelPermalink }}">{{ .Title }}</a><br>
+				{{- end -}}
+			</div>
+		</div>
+	</div>
+
+	<script class="pq-search__index" type="application/json" id="pq-search-data">{{ $entries | jsonify | safeJS }}</script>
+</div>
+
+{{ end }}

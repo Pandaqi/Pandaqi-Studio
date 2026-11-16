@@ -1,0 +1,25 @@
+{{ $title := .Title }}
+{{ $is_taxonomy_page := or (eq .Kind "taxonomy") (eq .Kind "term") }}
+{{ $is_404 := eq .Kind "404" }}
+
+{{/* The homepage title is the one title you write for search engines, not for the page itself */}}
+{{ if .IsHome }}
+    {{ $title = printf "%s - Free Printable Board Games & Multiplayer Video Games" .Site.Title }}
+{{ else if $is_taxonomy_page }}
+    {{ $title = partial "func/get-taxonomy-label.html" . }}
+{{ else if $is_404 }}
+    {{ $title = .Site.Params.pageNotFoundTitle }}
+{{ else if eq .Type "game" }}
+    {{ $title = printf "%s | Game Generator" .Parent.Title }}
+{{ else if eq .Type "board" }}
+    {{ $title = printf "%s | Board Generator" .Parent.Title }}
+{{ else if eq .Type "rules" }}
+    {{ $title = printf "%s | Rulebook" .Parent.Title }}
+{{ end }}
+
+{{/* Nothing gets the site name twice */}}
+{{ if not .IsHome }}
+    {{ $title = printf "%s | %s" $title .Site.Title }}
+{{ end }}
+
+{{ return $title }}

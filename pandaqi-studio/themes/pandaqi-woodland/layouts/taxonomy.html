@@ -1,0 +1,42 @@
+{{ define "main" }}
+
+{{- $name := partial "func/get-taxonomy-name.html" . -}}
+
+<div class="pq-wrap">
+	<div class="pq-pagehead">
+		{{ partial "woodland/scatter.html" (dict "page" . "spot" "pagehead" "count" 2) }}
+		<h1 class="pq-pagehead__title">
+			{{ partial "woodland/heading-leaf.html" (dict "level" 1) }}
+			Browse by {{ $name }}
+			{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" "1.1s") }}
+		</h1>
+		<p class="pq-pagehead__lead">Every game on this website, grouped by <strong>{{ $name }}</strong>. Each group shows the latest projects for that value; click a heading to see the full list.</p>
+	</div>
+</div>
+
+<div class="pq-taxonomy-groups">
+{{- range .Data.Terms.Alphabetical }}
+	{{- $display := .Term -}}
+	{{- if not (findRE `^[0-9]+$` .Term) -}}
+		{{- $display = humanize .Term -}}
+	{{- end }}
+	<div class="pq-wrap">
+		<section class="pq-section">
+			<div class="pq-section__head">
+				{{ partial "woodland/decor-image.html" (dict "name" "sprig-two-leaves" "w" 96 "class" "pq-section__sprig") }}
+				<h2 class="pq-section__title"><a class="no-default-link-styles hover_link-color" href="{{ .Page.RelPermalink }}">{{ $display }}</a>{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" "2.2s") }}</h2>
+				<span class="pq-pagehead__count">{{ len .Pages }} {{ cond (eq (len .Pages) 1) "project" "projects" }}</span>
+				<a class="pq-section__link" href="{{ .Page.RelPermalink }}">See all {{ partial "woodland/icon.html" (dict "name" "i-arrow-right") }}</a>
+			</div>
+			{{- /* the latest few projects for this value; the term page carries the full list */ -}}
+			<ul class="pq-grid">
+				{{- range .Pages | first 6 }}
+					<li>{{ partial "woodland/card.html" (dict "page" .) }}</li>
+				{{- end }}
+			</ul>
+		</section>
+	</div>
+{{- end }}
+</div>
+
+{{ end }}

@@ -1,0 +1,97 @@
+{{/* A project page.
+
+     Steam-inspired without copying Steam: wide banner, breadcrumbs, identity,
+     then a main column (gallery, content, support) and a quieter sidebar with
+     the real actions and metadata. The sidebar comes first in the DOM so that
+     on a phone the actions appear right after the title, exactly where a
+     thumb can reach them; CSS puts it on the right once both columns fit. */}}
+{{ define "main" }}
+
+{{- $is_collection := or .Params.collection false -}}
+{{- $deprecated := or .Params.deprecated false -}}
+
+{{ if $deprecated }}
+<div class="maintenance-modal-container" onclick="this.remove();">
+	<div class="maintenance-modal-content">
+		This is one of my oldest projects and thus of a lower quality. You may still try it, of course, but I recommend checking out a newer game! (Click to remove this message.)
+	</div>
+</div>
+{{ end }}
+
+{{ partial "woodland/banner.html" (dict "context" .) }}
+
+<article class="pq-wrap">
+	{{ partial "navigation/breadcrumbs.html" . }}
+
+	<header class="pq-project__intro">
+		{{ partial "woodland/scatter.html" (dict "page" . "spot" "identity" "count" 1) }}
+		<div class="pq-identity">
+			<span class="pq-identity__favicon">{{ partial "woodland/thumb.html" (dict "page" . "size" 160) }}</span>
+			<div>
+				<h1 class="pq-identity__title">
+					{{ partial "woodland/heading-leaf.html" (dict "level" 1) }}
+					{{ .Title }}
+					{{ partial "woodland/emphasis.html" (dict "class" "pq-identity__emphasis") }}
+					{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" "2.1s") }}
+				</h1>
+				{{- with .Params.blurb -}}<p class="pq-identity__blurb">{{ . | markdownify }}</p>{{- end -}}
+				{{- $facts := partial "woodland/facts.html" . -}}
+				{{- if gt (len $facts) 0 }}
+				<ul class="pq-identity__facts pq-facts">
+					{{- range $facts }}
+						<li>{{ partial "woodland/icon.html" (dict "name" .icon) }}<span>{{ .text }}</span></li>
+					{{- end }}
+				</ul>
+				{{- end }}
+			</div>
+		</div>
+	</header>
+
+	<div class="pq-project__grid">
+		<aside class="pq-project__side">
+			<div class="pq-panel pq-actions-panel">
+				<div class="pq-actions-panel__head">
+					{{ partial "woodland/badge.html" (dict "page" . "size" "lg") }}
+					<div>
+						<p class="pq-actions-panel__title">{{ .Title }}</p>
+						<p class="pq-actions-panel__sub">
+							{{- $cats := .Params.categories | default slice -}}
+							{{- if $cats -}}{{ delimit (apply $cats "humanize" ".") " · " }}{{- else -}}Pandaqi game{{- end -}}
+						</p>
+					</div>
+				</div>
+				{{- $actions := partial "woodland/actions.html" . -}}
+				{{- with $actions }}{{ . }}{{- end }}
+				{{ partial "woodland/icon.html" (dict "name" "i-fern" "class" "pq-actions-panel__decor") }}
+				{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm pq-actions-panel__spark" "delay" "4.2s") }}
+			</div>
+			{{ partial "metadata/metadata-block.html" . }}
+		</aside>
+
+		<div class="pq-project__main">
+			{{- if .Params.media }}
+				{{ partial "content/media-gallery.html" (dict "context" .) }}
+			{{- end }}
+
+			{{- $collection_params := dict "context" . "collection" .Params.collection -}}
+			{{- if gt (len (partial "func/get-collection-pages.html" $collection_params)) 0 }}
+				{{ partial "navigation/collection-list.html" $collection_params }}
+			{{- end }}
+
+			<div class="pq-prose add-leafs-to-headings">
+				{{- if $is_collection }}
+				<p class="text-italic">This is the <strong>overview page</strong> of this game collection. Click any of the links to visit a specific game. They are usually sorted based on simplicity (easy → hard).</p>
+				{{- end }}
+				{{ .Content }}
+			</div>
+
+			{{ partial "woodland/includes.html" . }}
+
+			<div class="pq-support">
+				{{ partial "content/support.html" . }}
+			</div>
+		</div>
+	</div>
+</article>
+
+{{ end }}

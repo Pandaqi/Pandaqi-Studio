@@ -1,0 +1,13 @@
+{{/* The projects inside a collection (the real sub-folders), sorted by the
+     existing weightProject value. Context: (dict "context" . "collection" …) */}}
+{{- $final_pages := partial "func/get-collection-pages" . -}}
+{{- $final_pages = sort $final_pages ".Params.weightProject" -}}
+{{- $no_pages := eq (len $final_pages) 0 -}}
+<ul class="pq-grid">
+{{- if $no_pages -}}
+	<li class="pq-empty"><p>No projects inside this collection (yet)!</p></li>
+{{- end -}}
+{{- range $final_pages -}}
+	<li>{{ partial "woodland/card.html" (dict "page" .) }}</li>
+{{- end -}}
+</ul>

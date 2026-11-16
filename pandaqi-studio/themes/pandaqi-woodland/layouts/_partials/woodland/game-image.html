@@ -1,0 +1,51 @@
+{{/* Responsive image for a file that lives in the page bundle.
+     Context: (dict "context" <page> "src" "assets/foo-header" "alt" "…"
+                     "sizes" "(min-width: 60rem) 20rem, 90vw" "widths" (slice 400 720)
+                     "eager" false "class" "…")
+
+     Uses Hugo's image pipeline (already configured with box resampling at
+     quality 75), so card banners cost one small resize each and the original
+     is still offered to wide screens. Returns nothing when the file is absent,
+     which is how "banner and favicon are guaranteed, screenshots are not"
+     stays true without any empty boxes. */}}
+{{- $ctx := .context -}}
+{{/* lookups are extension-less: get-game-header already returns "…-header.webp" */}}
+{{- $src := index (strings.Split .src ".") 0 -}}
+{{- $alt := .alt -}}
+{{- $sizes := or .sizes "100vw" -}}
+{{- $widths := or .widths (slice 420 760) -}}
+{{- $eager := or .eager false -}}
+{{- $class := or .class "" -}}
+
+{{- $url := partial "func/get-valid-image-url.html" (dict "context" $ctx "src" $src) -}}
+{{- $img := false -}}
+{{- if $url -}}
+	{{- $rel := replace $url $ctx.RelPermalink "" -}}
+	{{- $img = $ctx.Resources.Get $rel -}}
+{{- end -}}
+
+{{- if $img -}}
+	{{- $srcset := slice -}}
+	{{- range $widths -}}
+		{{- if le . $img.Width -}}
+			{{- $resized := $img.Resize (printf "%dx" .) -}}
+			{{- $srcset = $srcset | append (printf "%s %dw" $resized.RelPermalink $resized.Width) -}}
+		{{- end -}}
+	{{- end -}}
+	{{- $srcset = $srcset | append (printf "%s %dw" $img.RelPermalink $img.Width) -}}
+	{{- $fallback := $img -}}
+	{{- if gt $img.Width 760 -}}{{- $fallback = $img.Resize "760x" -}}{{- end -}}
+<picture class="{{ $class }}">
+	<img
+		src="{{ $fallback.RelPermalink }}"
+		srcset="{{ delimit $srcset ", " }}"
+		sizes="{{ $sizes }}"
+		width="{{ $fallback.Width }}"
+		height="{{ $fallback.Height }}"
+		alt="{{ $alt }}"
+		loading="{{ cond $eager "eager" "lazy" }}"
+		decoding="async"
+		{{ if $eager }}fetchpriority="high"{{ end }}
+	>
+</picture>
+{{- end -}}

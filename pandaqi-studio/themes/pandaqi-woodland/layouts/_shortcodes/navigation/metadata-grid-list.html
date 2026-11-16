@@ -1,0 +1,18 @@
+{{ $key := or (.Get "key") "one-paper-game" }}
+{{ $metadata_type := or (.Get "type") "categories" }}
+{{ $metadata_path := printf "Params.%s" $metadata_type }}
+<div class="game-grid">
+	{{ $pages := where .Site.Pages $metadata_path "intersect" (slice $key) | first 8 }}
+	{{ range $pages }}
+		{{ $src := partial "func/get-game-header.html" . }}
+		<a href="{{ .RelPermalink }}">
+			{{ partial "content/show-image.html" (dict "context" . "src" $src) }}
+			<h3>{{ .Title }}</h3>
+			<p>{{ .Params.blurb }}</p>
+		</a>
+	{{ end }}
+</div>
+<div>
+	<a href="/{{ $metadata_type }}/{{ $key }}">View the full list >></a>
+</div>
+

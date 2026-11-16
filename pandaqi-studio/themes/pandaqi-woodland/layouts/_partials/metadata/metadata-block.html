@@ -1,0 +1,159 @@
+{{/* Metadata for a project, as a set of paper information sheets.
+
+     Everything here comes from front matter that already exists: the configured
+     taxonomies, then the info fields. Rows without a value are never rendered,
+     values link to their real term pages using the existing URL convention
+     (/%taxonomy%/%value%), and the summary is left out because the project
+     header already shows it. */}}
+{{- $page := . -}}
+{{- $has_categories := $page.Params.categories -}}
+{{- $has_tags := $page.Params.tags -}}
+{{- $has_labels := or $has_categories $has_tags -}}
+
+{{- $data_keys := slice "multiplayertype" "multiplayermode" "platform" "price" "language" "genres" "themes" "playtime" "playercount" "input" "ages" "difficulty" -}}
+{{- $data_icons := dict
+	"multiplayertype" "i-users"
+	"multiplayermode" "i-users"
+	"platform" "i-monitor"
+	"price" "i-shop"
+	"language" "i-globe"
+	"genres" "i-masks"
+	"themes" "i-leaf"
+	"playtime" "i-clock"
+	"playercount" "i-user"
+	"input" "i-controller"
+	"ages" "i-age"
+	"difficulty" "i-gauge"
+-}}
+
+{{- $has_data := false -}}
+{{- range $data_keys -}}
+	{{- $v := $page.Param . -}}
+	{{- if or $v (eq $v 0) -}}{{- $has_data = true -}}{{- end -}}
+{{- end -}}
+
+<div class="pq-meta-groups">
+	{{- if $has_labels -}}
+	<section class="pq-panel">
+		<h2 class="pq-panel__title">Labels</h2>
+		<ul class="pq-meta">
+			{{- with $has_categories -}}
+			<li class="pq-meta__row">
+				{{ partial "woodland/icon.html" (dict "name" "i-cards") }}
+				<div>
+					<span class="pq-meta__label">Categories</span>
+					<div class="pq-meta__values">
+						{{- range . -}}
+							<a class="pq-chip" href="/categories/{{ . }}/">{{ . | humanize }}</a>
+						{{- end -}}
+					</div>
+				</div>
+			</li>
+			{{- end -}}
+			{{- with $has_tags -}}
+			<li class="pq-meta__row">
+				{{ partial "woodland/icon.html" (dict "name" "i-tag") }}
+				<div>
+					<span class="pq-meta__label">Tags</span>
+					<div class="pq-meta__values">
+						{{- range . -}}
+							<a class="pq-chip" href="/tags/{{ . }}/">{{ . | humanize }}</a>
+						{{- end -}}
+					</div>
+				</div>
+			</li>
+			{{- end -}}
+		</ul>
+	</section>
+	{{- end -}}
+
+	{{- if $has_data -}}
+	<section class="pq-panel">
+		<h2 class="pq-panel__title">Metadata</h2>
+		<ul class="pq-meta">
+			{{- range $data_keys -}}
+				{{- $key := . -}}
+				{{- $val := $page.Param $key -}}
+				{{- if or $val (eq $val 0) -}}
+				<li class="pq-meta__row">
+					{{ partial "woodland/icon.html" (dict "name" (index $data_icons $key)) }}
+					<div>
+						<span class="pq-meta__label">{{ $key | humanize | title }}</span>
+						<div class="pq-meta__values">
+							{{- if reflect.IsSlice $val -}}
+								{{- range $val -}}
+									{{- $text := title (humanize (string .)) -}}
+									{{- $slug := string . -}}
+									{{- if eq $key "language" -}}
+										{{- $slug = lower $slug -}}{{- $text = upper $slug -}}
+									{{- end -}}
+									<a class="pq-chip" href="/{{ $key }}/{{ $slug }}/">{{ $text }}</a>
+								{{- end -}}
+							{{- else -}}
+								{{- $text := title (humanize (string $val)) -}}
+								{{- $slug := string $val -}}
+								{{- if eq $key "price" -}}
+									{{- if eq $val 0 -}}{{- $text = "Free" -}}{{- else -}}{{- $text = printf "%v euros" $val -}}{{- end -}}
+								{{- end -}}
+								{{- if eq $key "playtime" -}}{{- $text = printf "%v minutes" $val -}}{{- end -}}
+								{{- if eq $key "language" -}}{{- $slug = lower $slug -}}{{- $text = upper $slug -}}{{- end -}}
+								<a class="pq-chip" href="/{{ $key }}/{{ $slug }}/">{{ $text }}</a>
+							{{- end -}}
+						</div>
+					</div>
+				</li>
+				{{- end -}}
+			{{- end -}}
+		</ul>
+	</section>
+	{{- end -}}
+
+	<section class="pq-panel">
+		<h2 class="pq-panel__title">Info</h2>
+		<ul class="pq-meta">
+			<li class="pq-meta__row">
+				{{ partial "woodland/icon.html" (dict "name" "i-calendar") }}
+				<div>
+					<span class="pq-meta__label">Date Published</span>
+					<span class="pq-meta__value">{{ $page.Date.Format "January 2, 2006" }}</span>
+				</div>
+			</li>
+			{{- with $page.Params.pressKit -}}
+			<li class="pq-meta__row">
+				{{ partial "woodland/icon.html" (dict "name" "i-book") }}
+				<div>
+					<span class="pq-meta__label">Press Kit</span>
+					<a class="pq-meta__value" href="{{ . }}"{{ if hasPrefix . "http" }} target="_blank" rel="noopener"{{ end }}>Go to press kit</a>
+				</div>
+			</li>
+			{{- end -}}
+			{{- with $page.Params.requirements -}}
+			<li class="pq-meta__row">
+				{{ partial "woodland/icon.html" (dict "name" "i-monitor") }}
+				<div>
+					<span class="pq-meta__label">Requirements</span>
+					<span class="pq-meta__value">{{ . | markdownify }}</span>
+				</div>
+			</li>
+			{{- end -}}
+			{{- with $page.Params.devlog -}}
+			<li class="pq-meta__row">
+				{{ partial "woodland/icon.html" (dict "name" "i-arrow-right") }}
+				<div>
+					<span class="pq-meta__label">Devlog</span>
+					<a class="pq-meta__value" href="{{ . }}">Go to Devlog</a>
+				</div>
+			</li>
+			{{- end -}}
+			{{- with $page.Params.sourcecode -}}
+			<li class="pq-meta__row">
+				{{ partial "woodland/icon.html" (dict "name" "i-arrow-right") }}
+				<div>
+					<span class="pq-meta__label">Source Code</span>
+					<a class="pq-meta__value" href="{{ . }}" target="_blank" rel="noopener">Read Source Code</a>
+				</div>
+			</li>
+			{{- end -}}
+		</ul>
+	</section>
+</div>

@@ -1,0 +1,13 @@
+{{- $class := or (.Get "class") "" -}}
+
+<section class="review-container {{ $class }}">
+	{{- if .Get "heading" -}}
+		<div class="titleContainer"><h2>{{- .Get "heading" -}}</h2></div>
+	{{- end -}}
+
+	{{- if (.Get "html") -}}
+		{{- .Inner | safeHTML -}}
+	{{- else -}}
+		{{- .Inner | markdownify -}}
+	{{- end -}}
+</section>

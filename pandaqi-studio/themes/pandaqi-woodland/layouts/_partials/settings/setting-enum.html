@@ -1,0 +1,25 @@
+{{- $values := split .values "," -}}
+{{- $keys := slice -}}
+{{- if .keys -}}{{- $keys = split .keys "," -}}{{- end -}}
+{{- $default_option := .default_option -}}
+{{- $use_values_as_keys := .use_values_as_keys -}}
+{{- $keep_case := .keep_case }}
+<label for="{{- .id -}}">{{ .text }}</label>
+<select name="{{- .id -}}" id="{{- .id -}}">
+{{- range $k, $v := $values -}}
+{{- $selected := "" -}}
+{{- if eq $v $default_option -}}
+{{- $selected = "selected" -}}
+{{- end -}}
+{{- $key := $k -}}
+{{- if $use_values_as_keys -}}
+{{- $key = $v | lower -}}
+{{- if $keep_case -}}{{- $key = $v -}}{{- end -}}
+{{- end -}}
+{{- if gt (len $keys) 0 -}}
+{{- $key = index $keys $k -}}
+{{- end -}}
+<option value="{{- $key -}}" {{ with $selected }}{{- . -}}{{- end -}}>{{- $v -}}</option>
+{{- end -}}
+</select>
+{{- with .remark -}}<span class="setting-remark">{{- . | safeHTML -}}</span>{{- end -}}

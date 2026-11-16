@@ -1,0 +1,89 @@
+{{- /* Data the small site scripts need (random project). Unchanged contract. */ -}}
+{{- $all_pages := (where .Site.Pages "Type" "project") | shuffle | first 50 -}}
+{{- $list := slice -}}
+{{- range $all_pages -}}
+	{{- $list = $list | append .RelPermalink -}}
+{{- end -}}
+{{- $list := delimit $list "," -}}
+<span style="display:none;" id="hidden-hugo-metadata" data-pages="{{ $list }}"></span>
+
+{{- $latest_proj := (index (where .Site.Pages "Type" "project") 0).RelPermalink -}}
+<footer class="pq-footer">
+	{{/* Torn paper edge: the footer reads as a sheet laid over the page */}}
+	<svg class="pq-edge" viewBox="0 0 1200 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+		{{/* The path ends exactly on the viewBox edge (1200), otherwise the last
+		     stretch of the edge is a straight fill line and leaves a squared gap
+		     in the top-right corner. */}}
+		<path fill="currentColor" d="M0 9C24 4 56 15 88 13S144 5 180 7S236 14 270 12S326 4 360 6S418 13 452 11S506 3 540 5S598 12 632 10S688 2 722 4S780 11 814 9S870 1 904 3S962 10 996 8S1054 3 1088 4S1150 12 1200 7V24H0Z"/>
+	</svg>
+
+	{{ partial "woodland/decor-image.html" (dict "name" "footer-garden-left" "w" 440 "class" "pq-footer__garden pq-footer__garden--left" "eager" true) }}
+	{{ partial "woodland/decor-image.html" (dict "name" "footer-garden-right" "w" 480 "class" "pq-footer__garden pq-footer__garden--right" "eager" true) }}
+
+	{{/* A row of small props in the empty band above the gardens: the same
+	     tabletop scattered along the bottom of every page. */}}
+	<span class="pq-footer__props" aria-hidden="true">
+		{{ partial "woodland/decor-image.html" (dict "name" "flower-cream" "w" 96 "class" "pq-footer__prop pq-footer__prop--1") }}
+		{{ partial "woodland/decor-image.html" (dict "name" "mushroom" "w" 110 "class" "pq-footer__prop pq-footer__prop--2") }}
+		{{ partial "woodland/decor-image.html" (dict "name" "acorn" "w" 96 "class" "pq-footer__prop pq-footer__prop--3") }}
+		{{ partial "woodland/decor-image.html" (dict "name" "cards" "w" 150 "class" "pq-footer__prop pq-footer__prop--4") }}
+		{{ partial "woodland/decor-image.html" (dict "name" "flower-purple" "w" 96 "class" "pq-footer__prop pq-footer__prop--5") }}
+	</span>
+
+	<div class="pq-wrap pq-footer__inner">
+		<div class="pq-footer__brand">
+			<a class="pq-logo" href="{{ "/" | relURL }}">
+				{{ partial "woodland/logo-mark.html" . }}
+				<span class="pq-logo__word">Pandaqi</span>
+				{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" "1.7s") }}
+			</a>
+			<p class="pq-footer__intro">Hi! I'm Pandaqi, an indie <strong>game developer</strong> who specializes in <strong>free printable board games</strong> and <strong>local multiplayer video games</strong>.</p>
+			<ul class="pq-footer__social">
+				<li><a href="mailto:harmonize@pandaqi.com" title="Mail me!" aria-label="Mail me!"><span class="icon hoverable mail" aria-hidden="true"></span></a></li>
+				<li><a href="https://pandaqi.itch.io" title="Itch.io Games Marketplace" aria-label="Itch.io Games Marketplace" rel="noopener"><span class="icon hoverable itch" aria-hidden="true"></span></a></li>
+				<li><a href="https://www.youtube.com/channel/UCUegxnNkcycM67gvyeD4CEQ" title="YouTube Channel" aria-label="YouTube Channel" rel="noopener"><span class="icon hoverable youtube" aria-hidden="true"></span></a></li>
+			</ul>
+		</div>
+
+		<nav aria-label="Explore">
+			<h2 class="pq-footer__heading">Explore</h2>
+			<ul class="pq-footer__list">
+				<li><a href="{{ "/" | relURL }}">Home</a></li>
+				<li><a href="/categories/board-game/">Board Games</a></li>
+				<li><a href="/categories/video-game/">Video Games</a></li>
+				<li><a href="{{ $latest_proj }}">Latest Project</a></li>
+				<li><button id="randProjBtn">Random Project</button></li>
+			</ul>
+		</nav>
+
+		<nav aria-label="More Pandaqi">
+			<h2 class="pq-footer__heading">More Pandaqi</h2>
+			<ul class="pq-footer__list">
+				<li><a href="https://tiamopastoor.com/info/about/">About</a></li>
+				<li><a href="/blog/">Pandaqi Blog</a></li>
+				<li><a href="/tutorials/">Pandaqi Tutorials</a></li>
+				<li><a href="https://thewaywardmelody.com">Online Store</a></li>
+				<li><a href="https://patreon.com/tiamopastoor">Support on Patreon</a></li>
+			</ul>
+		</nav>
+
+		<nav aria-label="This site">
+			<h2 class="pq-footer__heading">This site</h2>
+			<ul class="pq-footer__list">
+				<li>
+					<button data-pq-theme-toggle aria-pressed="false" aria-label="Switch colour mode">
+						{{ partial "woodland/icon.html" (dict "name" "i-sun" "class" "pq-ico pq-theme-toggle__icon pq-theme-toggle__sun") }}
+						{{ partial "woodland/icon.html" (dict "name" "i-moon" "class" "pq-ico pq-theme-toggle__icon pq-theme-toggle__moon") }}
+						<span class="pq-footer__toggle-label">Colour mode</span>
+					</button>
+				</li>
+				<li><button id="gotoTopBtn">Back to top</button></li>
+			</ul>
+		</nav>
+	</div>
+
+	<div class="pq-wrap pq-footer__bottom">
+		<p class="pq-footer__note">Pandaqi Games — free printable board games and local multiplayer video games.</p>
+		<p class="pq-footer__note">Everything here is free to play, print and share.</p>
+	</div>
+</footer>

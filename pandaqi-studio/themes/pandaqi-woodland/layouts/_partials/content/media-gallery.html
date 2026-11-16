@@ -1,0 +1,29 @@
+{{/* Project media as a swipeable rail.
+
+     The shared script looks for `.media-gallery` and appends its own Previous /
+     Next buttons; the woodland rail replaces that markup entirely so there is
+     one control set, real scroll-snap behaviour and no nested click handlers.
+     Each item is still rendered by the existing show-media partial, so images,
+     videos and YouTube embeds keep working exactly as before. */}}
+{{- $context := .context -}}
+{{- $urls := or .urls $context.Params.media slice -}}
+{{- if .urls -}}{{- $urls = split $urls "," -}}{{- end -}}
+{{- if gt (len $urls) 0 -}}
+{{- $many := gt (len $urls) 1 -}}
+<section class="pq-rail" data-pq-rail aria-label="Screenshots and video">
+	<div class="pq-rail__track">
+		{{- range $k, $v := $urls -}}
+			{{- $v = trim $v " " -}}
+			<div class="pq-rail__item">{{ partial "content/show-media.html" (dict "context" $context "src" $v) }}</div>
+		{{- end -}}
+	</div>
+	{{- if $many -}}
+	<button type="button" class="pq-rail__nav pq-rail__nav--prev" aria-label="Previous media" disabled>
+		{{ partial "woodland/icon.html" (dict "name" "i-chevron-left") }}
+	</button>
+	<button type="button" class="pq-rail__nav pq-rail__nav--next" aria-label="Next media">
+		{{ partial "woodland/icon.html" (dict "name" "i-chevron-right") }}
+	</button>
+	{{- end -}}
+</section>
+{{- end -}}

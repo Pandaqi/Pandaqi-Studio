@@ -1,0 +1,20 @@
+{{/* The supplied sprig that sits before a heading.
+
+     Context: (dict "level" 2 "class" "…")
+
+     h2 takes the full sprig, h3 the smaller one, so the artwork stays legible at
+     the size the heading actually renders. Decorative: hidden from assistive
+     technology, and gone with params.woodland.decor = false. */}}
+{{- $level := int (or .level 2) -}}
+{{- $name := "sprig-right" -}}
+{{- $width := 140 -}}
+{{- if ge $level 4 -}}
+	{{- $name = "tiny-sprig" -}}
+	{{- $width = 64 -}}
+{{- else if eq $level 3 -}}
+	{{- $name = "sprig-two-leaves" -}}
+	{{- $width = 96 -}}
+{{- end -}}
+<span class="pq-hleaf pq-hleaf--{{ $level }} {{ .class }}" aria-hidden="true">
+	{{ partial "woodland/decor-image.html" (dict "name" $name "w" $width) }}
+</span>

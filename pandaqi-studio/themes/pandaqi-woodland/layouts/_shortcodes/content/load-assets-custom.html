@@ -1,0 +1,8 @@
+{{ $input := .Get "input" }}
+{{ $output := .Get "output" }}
+{{ $shims := partial "func/js-shims.html" . }}
+{{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output "shims" $shims "target" "es2019" }}
+{{ $js := resources.Get $input | js.Build $opts }}
+{{ partial "func/vendor-bundles.html" $js.Content }}
+<script defer src="{{ $js.RelPermalink }}"></script>
+<!--- @TODO: add second branch for CSS custom loading/building (just decide this based on output extension --->

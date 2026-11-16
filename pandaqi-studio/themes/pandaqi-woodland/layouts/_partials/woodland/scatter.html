@@ -1,0 +1,37 @@
+{{/* A small handful of the supplied game props — meeples, a mushroom, cards,
+     an acorn, flowers — scattered around a page.
+
+     Context: (dict "page" <page> "spot" "pagehead|identity" "count" 2)
+
+     The set is chosen from the page's own URL, so a page keeps the same little
+     tableau between builds while different pages get different ones. Purely
+     decorative: empty alt, hidden from assistive technology, never interactive,
+     and gone together with params.woodland.decor = false. */}}
+{{- $decor := true -}}
+{{- with site.Params.woodland -}}
+	{{- if isset . "decor" -}}{{- $decor = .decor -}}{{- end -}}
+{{- end -}}
+{{- if $decor -}}
+	{{- $page := .page -}}
+	{{- $spot := or .spot "pagehead" -}}
+	{{- $count := int (or .count 2) -}}
+	{{- $props := slice
+		(dict "name" "meeple-purple" "w" 120)
+		(dict "name" "meeple-yellow" "w" 120)
+		(dict "name" "mushroom" "w" 130)
+		(dict "name" "acorn" "w" 110)
+		(dict "name" "flower-cream" "w" 120)
+		(dict "name" "flower-purple" "w" 120)
+		(dict "name" "flower-yellow" "w" 120)
+		(dict "name" "cards" "w" 190)
+	-}}
+	{{- $seed := 0 -}}
+	{{- with $page -}}{{- $seed = add (len .RelPermalink) (len .Title) -}}{{- end -}}
+	<span class="pq-scatter pq-scatter--{{ $spot }}" aria-hidden="true">
+		{{- range $i := seq 0 (sub $count 1) -}}
+			{{- $prop := index $props (mod (add $seed (mul $i 3)) (len $props)) -}}
+			{{- $class := printf "pq-scatter__item pq-scatter__item--%d" (add $i 1) -}}
+			{{ partial "woodland/decor-image.html" (dict "name" $prop.name "w" $prop.w "class" $class) }}
+		{{- end -}}
+	</span>
+{{- end -}}

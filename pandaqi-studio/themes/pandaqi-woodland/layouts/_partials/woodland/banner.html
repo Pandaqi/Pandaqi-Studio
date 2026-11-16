@@ -1,0 +1,36 @@
+{{/* Wide banner that fades into the page.
+     Context: (dict "context" <page> "src" "…" "alt" "…" "eager" true
+                     "width" 1280 "height" 720)
+
+     Without "src" it uses the guaranteed project header artwork. With "src"
+     it renders a static file (the studio hero). The fade is a neutral page
+     gradient, so no artwork is ever tinted. */}}
+{{- $page := .context -}}
+{{- $custom := or .src "" -}}
+{{- $alt := or .alt "Header image for this project" -}}
+{{- $eager := or .eager false -}}
+{{- $loading := cond $eager "eager" "lazy" -}}
+
+{{- if $custom -}}
+<figure class="pq-banner">
+	<img
+		src="{{ $custom }}"
+		width="{{ or .width 1280 }}"
+		height="{{ or .height 720 }}"
+		alt="{{ $alt }}"
+		loading="{{ $loading }}"
+		decoding="async"
+		{{ if $eager }}fetchpriority="high"{{ end }}
+	>
+	<div class="pq-banner__fade" aria-hidden="true"></div>
+</figure>
+{{- else -}}
+	{{- $header := index (strings.Split (partial "func/get-game-header.html" $page) ".") 0 -}}
+	{{- $url := partial "func/get-valid-image-url.html" (dict "context" $page "src" $header) -}}
+	{{- if $url -}}
+<figure class="pq-banner">
+	{{ partial "woodland/game-image.html" (dict "context" $page "src" $header "alt" $alt "sizes" "100vw" "widths" (slice 1200) "eager" $eager) }}
+	<div class="pq-banner__fade" aria-hidden="true"></div>
+</figure>
+	{{- end -}}
+{{- end -}}

@@ -1,0 +1,16 @@
+{{/* The mark beside the wordmark, shared by the header and the footer so both
+     follow params.woodland.logo:
+
+       "favicon" the original /theme/favicon.png artwork (default)
+       "mark"    the panda head cut from the reference sheet
+       "panda"   the drawn SVG head (works at any size, no raster)
+       "none"    wordmark only */}}
+{{- $logo := "favicon" -}}
+{{- with site.Params.woodland -}}{{- with .logo -}}{{- $logo = . -}}{{- end -}}{{- end -}}
+{{- if eq $logo "mark" -}}
+	<img class="pq-logo__mark-img" src="/theme/woodland/art/panda-mark.png" alt="" width="110" height="91" decoding="async">
+{{- else if eq $logo "favicon" -}}
+	<img class="pq-logo__mark" src="/theme/favicon.png" alt="" width="296" height="352" decoding="async">
+{{- else if eq $logo "panda" -}}
+	{{ partial "woodland/icon.html" (dict "name" "i-panda" "class" "pq-logo__panda") }}
+{{- end -}}

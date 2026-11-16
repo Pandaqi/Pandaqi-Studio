@@ -1,0 +1,54 @@
+<header class="pq-header" data-open="false">
+	<a class="skip-link" href="#main-content">Skip to content</a>
+
+	{{ partial "woodland/decor-image.html" (dict "name" "corner-branch-left" "w" 480 "class" "pq-header__branch pq-header__branch--left" "eager" true) }}
+	{{ partial "woodland/decor-image.html" (dict "name" "corner-branch-right" "w" 480 "class" "pq-header__branch pq-header__branch--right" "eager" true) }}
+
+	<div class="pq-wrap pq-header__inner">
+		<a class="pq-logo" href="{{ "/" | relURL }}">
+			{{ partial "woodland/logo-mark.html" . }}
+			<span class="pq-logo__word">Pandaqi</span>
+		</a>
+
+		{{- $page := . -}}
+		{{- $here := .RelPermalink -}}
+		{{- $cats := or .Params.categories slice -}}
+		{{- $nav := slice
+			(dict "url" "/" "label" "Home")
+			(dict "url" "/categories/board-game/" "label" "Board Games" "category" "board-game")
+			(dict "url" "/categories/video-game/" "label" "Video Games" "category" "video-game")
+		-}}
+		<nav class="pq-nav" id="pq-site-nav" aria-label="Main">
+			<ul>
+				{{- range $nav -}}
+					{{- $active := false -}}
+					{{- if eq .url "/" -}}
+						{{- $active = $page.IsHome -}}
+					{{- else if hasPrefix $here .url -}}
+						{{- $active = true -}}
+					{{- else if and .category $cats (in $cats .category) -}}
+						{{- $active = true -}}
+					{{- end -}}
+					<li><a class="pq-nav__link" href="{{ .url }}"{{ if $active }} aria-current="page"{{ end }}>{{ .label }}</a></li>
+				{{- end -}}
+			</ul>
+		</nav>
+
+		<div class="pq-header__tools">
+			<a class="pq-icon-btn" href="{{ "/search/" | relURL }}" aria-label="Search games">
+				{{ partial "woodland/icon.html" (dict "name" "i-search" "class" "pq-ico") }}
+			</a>
+
+			<button class="pq-theme-toggle" data-pq-theme-toggle aria-pressed="false" aria-label="Switch to dark mode">
+				{{ partial "woodland/icon.html" (dict "name" "i-sun" "class" "pq-ico pq-theme-toggle__icon pq-theme-toggle__sun") }}
+				{{ partial "woodland/icon.html" (dict "name" "i-moon" "class" "pq-ico pq-theme-toggle__icon pq-theme-toggle__moon") }}
+				<span class="pq-theme-toggle__label">Dark mode</span>
+			</button>
+
+			<button class="pq-menu-toggle" data-pq-menu-toggle aria-expanded="false" aria-controls="pq-site-nav" aria-label="Menu">
+				{{ partial "woodland/icon.html" (dict "name" "i-menu" "class" "pq-ico pq-menu-toggle__open") }}
+				{{ partial "woodland/icon.html" (dict "name" "i-close" "class" "pq-ico pq-menu-toggle__close") }}
+			</button>
+		</div>
+	</div>
+</header>

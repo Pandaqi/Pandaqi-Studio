@@ -1,0 +1,25 @@
+{{/* Breadcrumbs straight from the real page hierarchy (.Ancestors), so
+     Home › Maybe Games › Maybe Minister always matches the actual folders.
+     Each crumb keeps the small square project image the current site already
+     uses to show what you are inside. */}}
+<nav class="pq-breadcrumbs" aria-label="Breadcrumb">
+	<ul>
+	{{- $current_page := . -}}
+	{{- $pages := .Ancestors.Reverse | append . -}}
+	{{- range $pages -}}
+		{{- $crumb := . -}}
+		{{- $title := cond $crumb.IsHome "Home" $crumb.Title -}}
+		{{- $is_self := eq $crumb $current_page -}}
+		<li>
+			{{- $src := index (strings.Split (partial "func/get-game-thumb" $crumb) ".") 0 -}}
+			{{- if and $src (partial "func/get-valid-image-url.html" (dict "context" $crumb "src" $src)) -}}
+				{{ partial "woodland/thumb.html" (dict "page" $crumb "size" 48) }}
+			{{- end -}}
+			<a href="{{ $crumb.RelPermalink }}"{{ if $is_self }} aria-current="page"{{ end }}>{{ $title }}</a>
+		</li>
+		{{- if not $is_self -}}
+			<li aria-hidden="true">{{ partial "woodland/icon.html" (dict "name" "i-chevron-right" "class" "pq-ico pq-breadcrumbs__sep") }}</li>
+		{{- end -}}
+	{{- end -}}
+	</ul>
+</nav>

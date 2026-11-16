@@ -1,0 +1,25 @@
+{{/* One of the supplied UI illustrations, resized and converted once by Hugo.
+
+     Context: (dict "name" "corner-branch-left" "w" 480 "class" "…")
+
+     The originals in assets/theme/woodland/ui are large, transparent PNGs.
+     Resizing to the delivered CSS size (plus retina headroom) and encoding as
+     webp keeps a whole page of decorations in tens of kilobytes. Decorations
+     are always decorative: empty alt, hidden from assistive technology. */}}
+{{- $name := .name -}}
+{{- $width := int (or .w 320) -}}
+{{- $class := or .class "" -}}
+{{- $eager := or .eager false -}}
+{{- with resources.Get (printf "theme/woodland/ui/%s.png" $name) -}}
+	{{- $img := .Resize (printf "%dx webp q88" $width) -}}
+	<img
+		src="{{ $img.RelPermalink }}"
+		width="{{ $img.Width }}"
+		height="{{ $img.Height }}"
+		alt=""
+		aria-hidden="true"
+		class="pq-ui {{ $class }}"
+		loading="{{ cond $eager "eager" "lazy" }}"
+		decoding="async"
+	>
+{{- end -}}

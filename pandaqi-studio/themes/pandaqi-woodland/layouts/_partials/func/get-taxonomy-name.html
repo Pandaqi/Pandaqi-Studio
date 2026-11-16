@@ -1,0 +1,20 @@
+{{/* Human name of the property itself: "playercount" => "Player Count", "genres" => "Genres".
+     Used by the taxonomy overview, the term pages, and the page metadata, so they all say the same thing. */}}
+{{- $names := dict
+	"categories" "Categories"
+	"tags" "Tags"
+	"platform" "Platforms"
+	"genres" "Genres"
+	"themes" "Themes"
+	"language" "Languages"
+	"playtime" "Playtime"
+	"playercount" "Player Count"
+	"multiplayertype" "Multiplayer Type"
+	"multiplayermode" "Multiplayer Mode"
+	"input" "Input"
+	"difficulty" "Difficulty"
+	"ages" "Ages"
+	"price" "Price"
+-}}
+{{- $plural := .Data.Plural -}}
+{{- return (or (index $names $plural) (humanize $plural)) -}}

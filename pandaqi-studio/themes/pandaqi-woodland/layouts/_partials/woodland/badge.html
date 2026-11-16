@@ -1,0 +1,15 @@
+{{/* Rounded icon tile that marks what kind of project a card is, matching the
+     little category plates in the reference: lilac plate, cream glyph.
+     Context: (dict "page" <page> "size" "md|lg") */}}
+{{- $page := .page -}}
+{{- $size := or .size "md" -}}
+{{- $cats := $page.Params.categories | default slice -}}
+{{- $genres := $page.Params.genres | default slice -}}
+{{- $themes := $page.Params.themes | default slice -}}
+{{- $icon := "i-die" -}}
+{{- if in $cats "video-game" -}}{{- $icon = "i-controller" -}}{{- end -}}
+{{- if or (in $themes "political") (in $themes "politics") (in $genres "political") (in $genres "politics") -}}{{- $icon = "i-scale" -}}{{- end -}}
+{{- if in $themes "nature" -}}{{- $icon = "i-oak" -}}{{- end -}}
+{{- if in $themes "robots" -}}{{- $icon = "i-monitor" -}}{{- end -}}
+{{- if in $genres "puzzle" -}}{{- $icon = "i-cards" -}}{{- end -}}
+<span class="pq-tile pq-tile--{{ $size }}" aria-hidden="true">{{ partial "woodland/icon.html" (dict "name" $icon "class" "pq-ico pq-tile__ico") }}</span>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.LanguageCode | default "en" }}" class="no-js">
+    {{ block "head" . }}{{- partial "head.html" . -}}{{ end }}
+
+    {{ $class := printf "page-type-%s" .Type }}
+    <body class="{{ $class }}">
+        <div class="pq-shell">
+            {{ block "header" . }}
+                {{- partial "navigation/header.html" . -}}
+            {{ end }}
+
+            <main id="main-content" tabindex="-1">
+            {{- block "main" . }}{{- end }}
+            </main>
+
+            {{ block "footer" . }}
+                {{- partialCached "navigation/footer.html" . -}}
+            {{ end }}
+        </div>
+
+        {{ partial "navigation/footer-dynamic.html" . }}
+    </body>
+</html>

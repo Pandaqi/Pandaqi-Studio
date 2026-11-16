@@ -1,5 +1,5 @@
 baseURL         = "https://pandaqi.com/"
-theme           = "pandaqi"
+theme           = "pandaqi-woodland"
 title       	= "Pandaqi Games"
 languageCode    = "en-US"
 summaryLength 	= 18

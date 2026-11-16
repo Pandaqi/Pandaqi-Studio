@@ -1,0 +1,19 @@
+{{ define "head" }}
+    {{ $paged_config := "window.PagedConfig = { auto: false, after: (flow) => { console.log('after', flow) } };" }}
+    {{ partial "head-minimal.html" (dict "context" . "extra" $paged_config) }}
+{{ end }}
+
+{{- define "header" -}}<!--- --->{{ end }}
+        
+{{- define "main" -}}
+<article id="rulebook-content">
+    {{ .Content }}
+</article>
+{{- end -}}
+
+{{ define "footer" }}
+{{ if and .Site.Params.enableRulesJS (not .Parent.Params.hideRules) }}
+    {{ partial "func/load-assets.html" . }}
+    {{/* paged.js is loaded on demand by the "Print (Advanced)" button: nothing else uses it */}}
+{{ end }}
+{{ end }}

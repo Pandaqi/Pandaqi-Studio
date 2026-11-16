@@ -1,0 +1,15 @@
+{{/* The slowly twinkling star used beside headings.
+
+     Context: (dict "class" "pq-spark--sm" "delay" "1.2s")
+
+     Drawn from the sprite (not a bitmap) so it follows the theme colour in both
+     modes, and switched off with the rest of the decoration. */}}
+{{- $decor := true -}}
+{{- with site.Params.woodland -}}
+	{{- if isset . "decor" -}}{{- $decor = .decor -}}{{- end -}}
+{{- end -}}
+{{- if $decor -}}
+<svg class="pq-spark {{ .class }}" aria-hidden="true" focusable="false"{{ with .delay }} style="--pq-twinkle-delay: {{ . }}"{{ end }}>
+	<use href="/theme/woodland/sprite.svg#i-spark"></use>
+</svg>
+{{- end -}}

@@ -1,0 +1,3 @@
+{{ $game_asset_name := partial "func/get-game-asset-name.html" . }}
+{{ $header := printf "assets/%s-header.webp" $game_asset_name }} 
+{{ return $header }}

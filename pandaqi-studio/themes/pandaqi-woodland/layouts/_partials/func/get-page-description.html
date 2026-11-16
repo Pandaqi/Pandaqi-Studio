@@ -1,0 +1,42 @@
+{{/* Meta description for this page. Search engines show this below the title, so it should say what THIS
+     page is about. Before, every page on the website shared the same one-line description. */}}
+{{- $description := "" -}}
+
+{{/* Hand-written blurbs are always the best description */}}
+{{- with .Params.blurb -}}
+	{{- $description = . | markdownify | plainify -}}
+{{- end -}}
+
+{{/* Overview pages (game lists) get a sentence built from their own headings */}}
+{{- if and (not $description) (or (eq .Kind "term") (eq .Kind "taxonomy")) -}}
+	{{- $label := partial "func/get-taxonomy-label.html" . -}}
+	{{- if eq .Kind "term" -}}
+		{{- $description = printf "All %s made by indie studio Pandaqi, each one free and explained in full on its own page." (lower $label) -}}
+	{{- else -}}
+		{{- $name := partial "func/get-taxonomy-name.html" . -}}
+		{{- $description = printf "Every game on Pandaqi, grouped by %s. Click any value to see all games that match." $name -}}
+	{{- end -}}
+{{- end -}}
+
+{{/* Generators and rulebooks inherit the description of the project they belong to */}}
+{{- if not $description -}}
+	{{- with .Parent -}}
+		{{- with .Params.blurb -}}
+			{{- $description = . | markdownify | plainify -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{/* Anything else (like a page with only Markdown) uses its own opening lines */}}
+{{- if not $description -}}
+	{{- with .Summary -}}
+		{{- $description = . | plainify -}}
+	{{- end -}}
+{{- end -}}
+
+{{/* Last resort: the description of the website as a whole */}}
+{{- if not $description -}}
+	{{- $description = "Pandaqi Studio delivers free (print-n-play) boardgames and (local multiplayer) video games." -}}
+{{- end -}}
+
+{{- return $description -}}

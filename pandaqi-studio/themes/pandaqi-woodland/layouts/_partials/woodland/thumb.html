@@ -1,0 +1,25 @@
+{{/* The square project favicon, at a sensible size.
+     Context: (dict "page" <page> "size" 128 "alt" "")
+     Reuses the existing favicon lookup (which already understands the
+     `favicon` front-matter override), then downscales the page-bundle file
+     through Hugo instead of loading a full-size PNG. */}}
+{{- $page := .page -}}
+{{- $size := or .size 128 -}}
+{{- $alt := or .alt "" -}}
+{{- $url := partial "func/get-favicon.html" $page -}}
+{{- $img := false -}}
+{{- if eq $page.Type "project" -}}
+	{{- $rel := replace $url $page.RelPermalink "" -}}
+	{{- $img = $page.Resources.Get $rel -}}
+{{- end -}}
+{{- if $img -}}
+	{{- if gt $img.Width $size -}}{{- $img = $img.Resize (printf "%dx" $size) -}}{{- end -}}
+	<img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ $alt }}" loading="lazy" decoding="async">
+{{- else -}}
+	{{- /* The lookup can produce a path for artwork that does not exist (some
+	       collections have no favicon); only render a real resource. */ -}}
+	{{- $src := index (strings.Split (partial "func/get-game-thumb.html" $page) ".") 0 -}}
+	{{- with partial "func/get-valid-image-url.html" (dict "context" $page "src" $src) -}}
+		<img src="{{ . }}" alt="{{ $alt }}" loading="lazy" decoding="async">
+	{{- end -}}
+{{- end -}}
