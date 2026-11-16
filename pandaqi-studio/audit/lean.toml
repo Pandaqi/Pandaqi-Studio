@@ -7,7 +7,11 @@
 #
 # Defining a mount for a component in the project config only replaces that component's default
 # mount, so content/layouts/assets/data keep their defaults.
+# The first pattern is not optional: `files` is an include list, so a list of only
+# exclusions copies nothing at all (which silently dropped /theme/favicon.png, the fonts and
+# the icon sheets from every audit/preview build). Include everything, then subtract the two
+# subdomain trees.
 [[module.mounts]]
   source = "static"
   target = "static"
-  files = ["!**/blog/**", "!**/tutorials/**"]
+  files = ["**", "!**/blog/**", "!**/tutorials/**"]

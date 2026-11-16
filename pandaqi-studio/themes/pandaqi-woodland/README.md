@@ -24,7 +24,7 @@ Every template the old theme renders, restyled without changing the contract:
 
 | Page | Template | Notes |
 | --- | --- | --- |
-| Home | `layouts/home.html` | Hero painting, branches, latest project, catalogue |
+| Home | `layouts/home.html` | Hero painting, branches, Game of the Week + Most Played, latest project, catalogue |
 | Project | `layouts/project/list.html` | Masked banner, action panel, metadata, gallery rail, prose |
 | Category, tag, any term | `taxonomy.html`, `term.html` | Same cards, toolbar, pagination |
 | Search | `layouts/search/list.html` | New page, see below |
@@ -121,6 +121,36 @@ tool, not content).
 - Empty searches show the dice illustration, a sentence and a clear button rather
   than a dead end.
 
+## Homepage spotlights
+
+Between the hero and the latest project the homepage shows **Game of the Week**
+and **Most Played**. Both use the same section head as Latest Project (leaf,
+display title, sparkle) with their coloured pill and note directly above the
+card. Neither is a real statistic:
+
+- `_partials/func/get-spotlight-pool.html` builds the candidate list (drafts,
+  `deprecated: true` projects, collection pages and the current latest project
+  are skipped; games with both a rulebook and a generator are flagged).
+- The card is rendered server-side from the newest candidate, so the page is
+  complete without JavaScript.
+- `assets/js/woodland/theme.ts` re-fills it from the same inlined JSON with a
+  time-seeded pick: the catalogue is shuffled once per week-year and week *N*
+  takes position *N−1*, so every week of a year gets a different game. Most
+  Played is seeded by a six-hour bucket. Both prefer the newer end of the
+  catalogue and take their accent colour from the game itself.
+- **No image variants are generated for the pool.** The pick only exists in the
+  browser, so resizing every candidate would process ~60 banners to use two.
+  The card points at the project's original header file instead. The visible
+  image starts empty and is filled by the script, while the server-rendered
+  fallback lives in a `<noscript>`; a scripted visit therefore downloads only the
+  picked banner, and a visit without JavaScript only the fallback.
+- **Heavy banners are never candidates.** Originals range from ~38 KB to 387 KB,
+  so `get-spotlight-pool.html` drops anything over 150 KB
+  (`$max_banner_bytes`). Plenty of projects sit under that ceiling, so the pool
+  still holds its full 60 candidates and the weekly rotation can still avoid
+  repeating a game within a year. The heaviest possible pick is therefore
+  ~150 KB instead of 387 KB, with no extra image processing.
+
 ## Configuration
 
 All options are optional and live under `params.woodland` in the project config.
@@ -168,8 +198,9 @@ Two pipelines, both checked into the theme:
      -X 208 -Y 40 -W 152 -H 128 -Tolerance 40 -Erode 1
    ```
 
-Image variants stay minimal: banners at `1200` (`slice`), cards at `480`. That is
-what keeps the processed-image count at ~732.
+Image variants stay minimal: banners at `1200` (`slice`), cards at `480`, and
+nothing for the homepage spotlights (they reuse the original header). That is
+what keeps the processed-image count down.
 
 ## Assets and shared code
 

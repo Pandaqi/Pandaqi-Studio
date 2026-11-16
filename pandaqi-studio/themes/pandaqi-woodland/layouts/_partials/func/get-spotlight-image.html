@@ -1,0 +1,22 @@
+{{/* One banner image for a spotlight card.
+     Context: <page>. Returns (dict "url" … "width" … "height" … "bytes" …).
+
+     Deliberately NOT resized. The spotlight picks its game in the browser, so
+     Hugo would otherwise have to produce a variant for every candidate (~60
+     images) to be sure the picked one exists. The site already ships the wide
+     header artwork; the card shows that one file, and only the two rendered
+     fallbacks are ever requested up front. An empty url means the project has no
+     banner, which the block handles by hiding its media column.
+
+     "bytes" is the file size of that original, which the pool uses to keep the
+     heaviest banners out of the rotation. */}}
+{{- $page := . -}}
+{{- $out := dict "url" "" "width" 0 "height" 0 "bytes" 0 -}}
+{{- $header := index (strings.Split (partial "func/get-game-header.html" $page) ".") 0 -}}
+{{- with partial "func/get-valid-image-url.html" (dict "context" $page "src" $header) -}}
+	{{- $img := $page.Resources.Get (replace . $page.RelPermalink "") -}}
+	{{- if $img -}}
+		{{- $out = dict "url" $img.RelPermalink "width" $img.Width "height" $img.Height "bytes" (len $img.Content) -}}
+	{{- end -}}
+{{- end -}}
+{{- return $out -}}

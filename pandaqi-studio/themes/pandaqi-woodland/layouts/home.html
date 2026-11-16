@@ -1,6 +1,9 @@
 {{ define "main" }}
 
 {{- $latest_proj := (index (where .Site.Pages "Type" "project") 0) -}}
+{{- /* Candidates for the two spotlights. The latest project is skipped: it already has
+       its own block right below, and the two picks exclude each other as well (see theme.ts). */ -}}
+{{- $spotlight_pool := partial "func/get-spotlight-pool.html" (dict "context" . "exclude" $latest_proj.RelPermalink) -}}
 
 <section class="pq-hero">
 	<div class="pq-wrap pq-hero__inner">
@@ -62,6 +65,28 @@
 </section>
 
 <div class="pq-wrap">
+	{{- with $spotlight_pool }}
+		{{ partial "woodland/spotlight.html" (dict
+			"kind" "weekly"
+			"pool" .
+			"title" "Game of the Week"
+			"kicker" "This week"
+			"cta" "Play this week's game"
+			"note" "A fresh pick every Monday"
+			"icon" "i-sparkle") }}
+	{{- end }}
+
+	{{- with $spotlight_pool }}
+		{{ partial "woodland/spotlight.html" (dict
+			"kind" "popular"
+			"pool" .
+			"title" "Most Played"
+			"kicker" "Right now"
+			"cta" "See what everyone's playing"
+			"note" "Switches every few hours"
+			"icon" "i-users") }}
+	{{- end }}
+
 	<section class="pq-section" aria-labelledby="pq-latest-title">
 		<div class="pq-section__head">
 			{{ partial "woodland/heading-leaf.html" (dict "level" 2 "class" "pq-section__sprig") }}
@@ -70,6 +95,10 @@
 		{{ partial "woodland/card.html" (dict "page" $latest_proj "variant" "feature") }}
 	</section>
 </div>
+
+{{- with $spotlight_pool }}
+<script type="application/json" data-pq-spotlight-data>{{ . | jsonify | safeJS }}</script>
+{{- end }}
 
 <div class="pq-wrap pq-divider" aria-hidden="true">
 	<svg class="pq-divider__line" viewBox="0 0 600 24" preserveAspectRatio="none" focusable="false">

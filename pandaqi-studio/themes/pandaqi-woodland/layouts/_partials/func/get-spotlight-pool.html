@@ -1,0 +1,71 @@
+{{/* The candidate games for the homepage spotlights.
+
+     Context: (dict "context" <the homepage> "exclude" "<permalink to skip>")
+
+     One entry per project, newest first, carrying everything a spotlight card
+     needs so the block can be rendered without JavaScript and re-filled from
+     the same data in the browser:
+
+       u  permalink        t  title            b  short blurb
+       i  banner url       w  banner width     h  banner height
+       g  badge sprite id  f  facts (icon/text pairs)
+       r  has a rulebook   m  has a material generator
+
+     Deliberately skipped: drafts, deprecated projects (never show old fluff as
+     this week's pick), collection overview pages, projects whose header file is
+     too heavy, and the project that is already featured as "Latest Project"
+     further down the page.
+
+     The size ceiling exists because a spotlight shows the *original* header (no
+     build-time variant, see get-spotlight-image.html), so one 387 KB banner
+     would weigh the homepage down. Originals run from ~38 KB to 387 KB; far
+     more than the 60 candidates we ship sit under 150 KB, so the cap costs no
+     rotation slots and still rules out the heavy tail. */}}
+{{- $max_banner_bytes := 153600 -}}
+{{- $context := .context -}}
+{{- $exclude := or .exclude "" -}}
+{{- $site := $context.Site -}}
+{{- $entries := slice -}}
+
+{{- range $page := sort (where $site.Pages "Type" "project") "Date" "desc" -}}
+	{{- if or $page.Draft $page.Params.deprecated $page.Params.collection -}}{{- continue -}}{{- end -}}
+	{{- if and $exclude (eq $page.RelPermalink $exclude) -}}{{- continue -}}{{- end -}}
+
+	{{- $has_rules := false -}}
+	{{- if and $site.Params.enableRulesJS (not $page.Params.hideRules) -}}
+		{{- with $page.GetPage "./rules/" -}}{{- $has_rules = true -}}{{- end -}}
+	{{- end -}}
+
+	{{- $has_generator := false -}}
+	{{- if not $page.Params.hideBoard -}}
+		{{- with $page.GetPage "./board/" -}}{{- $has_generator = $site.Params.enableBoardJS -}}{{- end -}}
+	{{- end -}}
+	{{- if and $site.Params.enableGameJS (not $page.Params.hideGame) -}}
+		{{- with $page.GetPage "./game/" -}}{{- $has_generator = true -}}{{- end -}}
+	{{- end -}}
+
+	{{- $blurb := "" -}}
+	{{- /* htmlUnescape matters: markdownify typographs apostrophes into entities
+	       (`&rsquo;`), and plainify strips tags without decoding them, which shipped
+	       literal entities into the JSON that the card prints with textContent. */ -}}
+	{{- with $page.Params.blurb -}}{{- $blurb = . | markdownify | plainify | htmlUnescape | truncate 150 -}}{{- end -}}
+
+	{{- $image := partial "func/get-spotlight-image.html" $page -}}
+	{{- if gt $image.bytes $max_banner_bytes -}}{{- continue -}}{{- end -}}
+	{{- $entries = $entries | append (dict
+		"u" $page.RelPermalink
+		"t" $page.Title
+		"b" $blurb
+		"i" $image.url
+		"w" $image.width
+		"h" $image.height
+		"g" (partial "func/get-badge-icon.html" $page)
+		"f" (partial "woodland/facts.html" $page)
+		"r" $has_rules
+		"m" $has_generator
+	) -}}
+{{- end -}}
+
+{{- /* A year has at most 53 weeks; keeping 60 candidates means a week's pick can
+       stay unique for the whole year without shipping the entire catalogue. */ -}}
+{{- return (first 60 $entries) -}}

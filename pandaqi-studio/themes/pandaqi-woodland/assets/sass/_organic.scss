@@ -10,7 +10,8 @@
      4. Buttons                    11. Project page
      5. Hero                       12. Media rail
      6. Section headings           13. Search and facets
-     7. Toolbar                    14. Pager, prose, motion, print
+     7. Toolbar                    14. Homepage spotlights
+                                   15. Pager, prose, motion, print
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -1885,7 +1886,212 @@ html.pq-lightbox-open { overflow: hidden; }
 .pq-nojs-list a { text-decoration: none; }
 
 /* --------------------------------------------------------------------------
-   14. Pager, prose, motion, print
+   14. Homepage spotlights
+
+   "Game of the Week" above the latest project and "Most Played" below it. Both
+   share one card; the accent colour comes from the game itself (the script
+   sets --spot-accent / --spot-ink), so consecutive visits do not look alike.
+   -------------------------------------------------------------------------- */
+
+/* The section itself is a .pq-section, so the vertical rhythm matches the
+   "Latest Project" block above/below it. */
+.pq-spotlight
+{
+	position: relative;
+	--spot-accent: var(--pq-tile-bg);
+	--spot-ink: var(--pq-tile-ink);
+}
+
+/* The script hides the blurb/facts/media of a game that has none. */
+.pq-spotlight [hidden] { display: none !important; }
+
+.pq-spotlight__band
+{
+	display: flex;
+	align-items: center;
+	gap: .6rem .8rem;
+	flex-wrap: wrap;
+	margin: -.35rem 0 .85rem;
+}
+
+.pq-spotlight__kicker
+{
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	margin: 0;
+	padding: .42rem .95rem .42rem .65rem;
+	border-radius: var(--pq-r-pill);
+	background: var(--spot-accent);
+	color: var(--spot-ink);
+	font-family: var(--pq-font-heading);
+	font-weight: 700;
+	font-size: .82rem;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+	box-shadow: 0 8px 18px -12px rgb(40 20 60 / .9);
+}
+
+.pq-spotlight__kicker .pq-ico { width: 1.05rem; height: 1.05rem; color: var(--spot-ink); }
+
+.pq-spotlight__note
+{
+	font-family: var(--pq-font-heading);
+	font-weight: 600;
+	font-size: .84rem;
+	color: var(--pq-text-muted);
+}
+
+.pq-spotlight__card
+{
+	position: relative;
+	border-radius: var(--pq-r-organic);
+	border: 1px solid var(--pq-card-border);
+	background: var(--pq-card-caption);
+	box-shadow: var(--pq-shadow-card);
+	overflow: hidden;
+	transition: transform var(--pq-t-base) var(--pq-ease), box-shadow var(--pq-t-base) var(--pq-ease), border-color var(--pq-t-base) var(--pq-ease);
+}
+
+/* A soft wash of the game's colour: enough to look printed, never enough to
+   fight the artwork or the text. */
+.pq-spotlight__card::before
+{
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(120% 150% at 0% 0%, color-mix(in srgb, var(--spot-accent) 26%, transparent), transparent 62%),
+		linear-gradient(115deg, color-mix(in srgb, var(--spot-accent) 12%, transparent), transparent 48%);
+}
+
+.pq-spotlight__card:hover
+{
+	transform: translateY(-4px);
+	box-shadow: var(--pq-shadow-2);
+	border-color: color-mix(in srgb, var(--spot-accent) 45%, var(--pq-card-border));
+}
+
+.pq-spotlight__link
+{
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+	align-items: stretch;
+	color: inherit;
+	text-decoration: none;
+}
+
+.pq-spotlight__media
+{
+	position: relative;
+	margin: 0;
+	min-height: 12rem;
+	overflow: hidden;
+	background: var(--pq-surface-2);
+}
+
+.pq-spotlight__media::after
+{
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	height: .35rem;
+	background: var(--spot-accent);
+	opacity: .85;
+}
+
+.pq-spotlight__media img
+{
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 12rem;
+	object-fit: cover;
+	transition: transform var(--pq-t-base) var(--pq-ease);
+}
+
+.pq-spotlight__card:hover .pq-spotlight__media img { transform: scale(1.03); }
+
+.pq-spotlight__body
+{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	gap: .5rem;
+	padding: clamp(1.1rem, 2.2vw, 1.7rem);
+}
+
+.pq-spotlight__badge { margin-bottom: .15rem; }
+
+.pq-spotlight__title
+{
+	margin: 0;
+	font-family: var(--pq-font-display);
+	font-size: clamp(1.35rem, 1rem + 1.2vw, 2rem);
+	line-height: 1.1;
+}
+
+.pq-spotlight__blurb
+{
+	margin: 0;
+	max-width: 46ch;
+	font-size: .97rem;
+	line-height: 1.5;
+	color: var(--pq-text-muted);
+}
+
+.pq-spotlight__facts
+{
+	margin: 0;
+	padding: .15rem 0 0;
+	border-top: 0;
+}
+
+.pq-spotlight__cta
+{
+	display: inline-flex;
+	align-items: center;
+	gap: .4rem;
+	margin-top: .35rem;
+	padding: .5rem 1rem;
+	border-radius: var(--pq-r-pill);
+	background: var(--spot-accent);
+	color: var(--spot-ink);
+	font-family: var(--pq-font-heading);
+	font-weight: 700;
+	font-size: .9rem;
+	box-shadow: 0 10px 20px -14px rgb(40 20 60 / .9);
+}
+
+.pq-spotlight__cta .pq-ico { width: 1rem; height: 1rem; transition: transform var(--pq-t-fast) var(--pq-ease); }
+.pq-spotlight__card:hover .pq-spotlight__cta .pq-ico { transform: translateX(3px); }
+
+/* "Most Played" mirrors the block, so the two do not read as one catalogue list. */
+.pq-spotlight--popular .pq-spotlight__link { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+.pq-spotlight--popular .pq-spotlight__media { order: 2; }
+.pq-spotlight--popular .pq-spotlight__media::after { inset: 0 0 0 auto; width: .35rem; height: auto; }
+
+@media (max-width: 46rem)
+{
+	.pq-spotlight__link,
+	.pq-spotlight--popular .pq-spotlight__link { grid-template-columns: minmax(0, 1fr); }
+
+	.pq-spotlight--popular .pq-spotlight__media { order: 0; }
+	/* No fixed aspect ratio here: banners differ (2.1:1 to 3.6:1) and forcing
+	   16:9 left the short ones floating above a strip of empty panel. Below this
+	   width the image simply sets the height of its own column. */
+	.pq-spotlight__media { min-height: 0; }
+	.pq-spotlight__media img { height: auto; min-height: 0; }
+	.pq-spotlight--popular .pq-spotlight__media::after { inset: auto 0 0 0; width: auto; height: .35rem; }
+}
+
+/* --------------------------------------------------------------------------
+   15. Pager, prose, motion, print
    -------------------------------------------------------------------------- */
 
 .pq-pager ul { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .4rem; }
@@ -1960,6 +2166,9 @@ html.pq-lightbox-open { overflow: hidden; }
 	.button,
 	.pq-card,
 	.pq-card__media img,
+	.pq-spotlight__card,
+	.pq-spotlight__media img,
+	.pq-spotlight__cta .pq-ico,
 			.pq-nav__link::after,
 		.pq-rail__track
 	{

@@ -600,6 +600,240 @@ const loadSearch = () =>
     });
 }
 
+/* ------------------------------------------------- game of the week / popular */
+
+/* The homepage spotlights are not real statistics, and they do not try to be:
+   they are a stable, time-seeded pick out of the catalogue, so the front page
+   feels alive without a server, a database or a build per visitor.
+
+   - Game of the Week: the catalogue is shuffled once per week-year and week N
+     takes position N-1. Every week of that year therefore gets a different
+     game (as long as there are ~52 candidates), and the shuffle starts over
+     next year.
+   - Most Played: a pick from a different shuffle, seeded by a six-hour bucket,
+     so it changes a few times a day and everybody sees the same one in that
+     window.
+
+   Both prefer the newer half of the catalogue, and the pool that Hugo hands
+   over already excludes deprecated projects. */
+
+type SpotlightFact = { icon: string; text: string };
+
+type SpotlightEntry = {
+    u: string;
+    t: string;
+    b: string;
+    i: string;
+    w: number;
+    h: number;
+    g: string;
+    f: SpotlightFact[];
+    r?: boolean; // has a rulebook
+    m?: boolean; // has a material generator
+};
+
+/* Saturated paper colours from the theme's token set, each with the ink that
+   stays readable on it. Picked per game, so consecutive weeks do not all look
+   the same, while every combination still fits the woodland palette. */
+const SPOTLIGHT_ACCENTS: [string, string][] = [
+    ["#7E56AA", "#FFFDF7"],
+    ["#B05C86", "#FFF6FA"],
+    ["#4F8A6B", "#F7FFF8"],
+    ["#3F7FA6", "#F3FAFF"],
+    ["#C9736A", "#FFF7F2"],
+    ["#B7862B", "#FFF9EC"]
+];
+
+const hashString = (value: string): number =>
+{
+    let hash = 2166136261;
+    for (let i = 0; i < value.length; i++)
+    {
+        hash ^= value.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+    }
+    return hash >>> 0;
+};
+
+// mulberry32: small, fast, and deterministic, which is all this needs
+const seededRandom = (seed: string): (() => number) =>
+{
+    let state = hashString(seed);
+    return () =>
+    {
+        state = (state + 0x6D2B79F5) | 0;
+        let t = Math.imul(state ^ (state >>> 15), 1 | state);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+};
+
+const shuffledWith = <T,>(list: T[], seed: string): T[] =>
+{
+    const random = seededRandom(seed);
+    const copy = list.slice();
+    for (let i = copy.length - 1; i > 0; i--)
+    {
+        const j = Math.floor(random() * (i + 1));
+        const swap = copy[i];
+        copy[i] = copy[j];
+        copy[j] = swap;
+    }
+    return copy;
+};
+
+/* Shuffle in small blocks but keep the blocks in order. The pool arrives
+   newest-first, so this keeps the newest games near the start of the year
+   while still varying which one lands where. */
+const shuffleInBlocks = <T,>(list: T[], seed: string, blockSize = 6): T[] =>
+{
+    const out: T[] = [];
+    for (let i = 0; i < list.length; i += blockSize)
+    {
+        out.push(...shuffledWith(list.slice(i, i + blockSize), `${seed}:${i}`));
+    }
+    return out;
+};
+
+// ISO week + its week-year: week 1 is the week holding the first Thursday
+const isoWeek = (date: Date): { week: number; year: number } =>
+{
+    const target = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const day = target.getUTCDay() || 7;
+    target.setUTCDate(target.getUTCDate() + 4 - day);
+    const yearStart = new Date(Date.UTC(target.getUTCFullYear(), 0, 1));
+    const week = Math.ceil((((target.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+    return { week, year: target.getUTCFullYear() };
+};
+
+/* Rulebook + generator games first (the ones most likely to be worth the
+   visit), then everything else, each group shuffled newest-first. */
+const weeklyOrder = (pool: SpotlightEntry[], weekYear: number): SpotlightEntry[] =>
+{
+    const complete = pool.filter((entry) => entry.r && entry.m);
+    const rest = pool.filter((entry) => !(entry.r && entry.m));
+    return shuffleInBlocks(complete, `week-${weekYear}-complete`)
+        .concat(shuffleInBlocks(rest, `week-${weekYear}-rest`));
+};
+
+const popularPick = (pool: SpotlightEntry[], now: Date): SpotlightEntry =>
+{
+    const bucket = Math.floor(now.getTime() / (6 * 60 * 60 * 1000));
+    const random = seededRandom(`popular-${bucket}`);
+    // ^1.8 skews the pick towards the newer end without ever excluding the rest
+    const index = Math.floor(Math.pow(random(), 1.8) * pool.length);
+    return pool[Math.min(pool.length - 1, index)];
+};
+
+const spotlightIcon = (name: string): SVGSVGElement =>
+{
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "pq-ico");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    use.setAttribute("href", `/theme/woodland/sprite.svg#${name}`);
+    svg.appendChild(use);
+    return svg;
+};
+
+const fillSpotlight = (section: HTMLElement, entry: SpotlightEntry) =>
+{
+    const link = section.querySelector<HTMLAnchorElement>('[data-pq-hl="link"]');
+    if (!link) { return; }
+    link.href = entry.u;
+
+    const media = section.querySelector<HTMLElement>('[data-pq-hl="media"]');
+    const image = section.querySelector<HTMLImageElement>('[data-pq-hl="image"]');
+    if (media && image)
+    {
+        if (entry.i)
+        {
+            media.hidden = false;
+            image.hidden = false;
+            image.src = entry.i;
+            image.width = entry.w;
+            image.height = entry.h;
+        }
+        else
+        {
+            media.hidden = true;
+            image.hidden = true;
+        }
+    }
+
+    const title = section.querySelector<HTMLElement>('[data-pq-hl="title"]');
+    if (title) { title.textContent = entry.t; }
+
+    const blurb = section.querySelector<HTMLElement>('[data-pq-hl="blurb"]');
+    if (blurb)
+    {
+        blurb.textContent = entry.b || "";
+        blurb.hidden = !entry.b;
+    }
+
+    const badge = section.querySelector<SVGUseElement>('[data-pq-hl="badge"] use');
+    if (badge && entry.g) { badge.setAttribute("href", `/theme/woodland/sprite.svg#${entry.g}`); }
+
+    const facts = section.querySelector<HTMLElement>('[data-pq-hl="facts"]');
+    if (facts)
+    {
+        const list = (entry.f ?? []).slice(0, 3);
+        facts.replaceChildren(...list.map((fact) => {
+            const item = document.createElement("li");
+            const text = document.createElement("span");
+            text.textContent = fact.text;
+            item.append(spotlightIcon(fact.icon), text);
+            return item;
+        }));
+        facts.hidden = list.length === 0;
+    }
+
+    const accent = SPOTLIGHT_ACCENTS[hashString(entry.u) % SPOTLIGHT_ACCENTS.length];
+    section.style.setProperty("--spot-accent", accent[0]);
+    section.style.setProperty("--spot-ink", accent[1]);
+};
+
+const loadSpotlights = () =>
+{
+    const weekly = document.querySelector<HTMLElement>('[data-pq-spotlight="weekly"]');
+    const popular = document.querySelector<HTMLElement>('[data-pq-spotlight="popular"]');
+    const data = document.querySelector<HTMLScriptElement>("[data-pq-spotlight-data]");
+    if (!weekly && !popular) { return; };
+
+    let pool: SpotlightEntry[] = [];
+    try
+    {
+        const parsed = JSON.parse(data?.textContent || "[]");
+        pool = Array.isArray(parsed) ? parsed : [];
+    }
+    catch (err) { return; }
+    if (pool.length === 0) { return; }
+
+    const now = new Date();
+    const { week, year } = isoWeek(now);
+
+    let weeklyPick: SpotlightEntry | null = null;
+    if (weekly)
+    {
+        const order = weeklyOrder(pool, year);
+        weeklyPick = order[(week - 1) % order.length];
+        fillSpotlight(weekly, weeklyPick);
+
+        const kicker = weekly.querySelector<HTMLElement>('[data-pq-hl="kicker"] span');
+        if (kicker) { kicker.textContent = `Week ${week} · ${year}`; }
+    }
+
+    if (popular)
+    {
+        const candidates = pool.filter((entry) => !weeklyPick || entry.u !== weeklyPick.u);
+        if (candidates.length > 0)
+        {
+            fillSpotlight(popular, popularPick(candidates, now));
+        }
+    }
+};
+
 loadColourMode();
 loadMenu();
 loadRandomShortcut();
@@ -607,3 +841,4 @@ loadCatalogueSort();
 loadMediaRail();
 loadMediaLightbox();
 loadSearch();
+loadSpotlights();

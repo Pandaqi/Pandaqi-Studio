@@ -1,0 +1,86 @@
+{{/* A homepage spotlight: "Game of the Week" or "Most Played".
+
+     Context: (dict "kind" "weekly|popular" "pool" <entries> "title" "…"
+                    "kicker" "This week" "cta" "…" "note" "…" "icon" "i-sparkle")
+
+     The section heading uses the same head/leaf/title/spark treatment as "Latest
+     Project", so the three homepage blocks read as one family. The coloured pill
+     below it carries the live label (the script turns it into "Week 42 · 2026");
+     the card itself is rendered server-side for the first candidate, so the page
+     is complete without JavaScript. */}}
+{{- $kind := .kind -}}
+{{- $pool := .pool -}}
+{{- $fallback := index $pool 0 -}}
+{{- if and (eq $kind "popular") (gt (len $pool) 1) -}}{{- $fallback = index $pool 1 -}}{{- end -}}
+<section
+	class="pq-section pq-spotlight pq-spotlight--{{ $kind }}"
+	data-pq-spotlight="{{ $kind }}"
+	aria-labelledby="pq-spotlight-{{ $kind }}-title"
+	style="--spot-accent: {{ if eq $kind "popular" }}#B7862B{{ else }}#7E56AA{{ end }}; --spot-ink: {{ if eq $kind "popular" }}#FFF9EC{{ else }}#FFFDF7{{ end }};"
+>
+	<div class="pq-section__head">
+		{{ partial "woodland/heading-leaf.html" (dict "level" 2 "class" "pq-section__sprig") }}
+		<h2 class="pq-section__title" id="pq-spotlight-{{ $kind }}-title">
+			{{ .title }}
+			{{ partial "woodland/spark.html" (dict "class" "pq-spark--sm" "delay" "1.4s") }}
+		</h2>
+	</div>
+
+	<div class="pq-spotlight__band">
+		<p class="pq-spotlight__kicker" data-pq-hl="kicker">
+			{{ partial "woodland/icon.html" (dict "name" .icon "class" "pq-ico") }}
+			<span>{{ .kicker }}</span>
+		</p>
+		<span class="pq-spotlight__note" data-pq-hl="note">{{ .note }}</span>
+	</div>
+
+	<article class="pq-spotlight__card">
+		<a class="pq-spotlight__link" href="{{ $fallback.u }}" data-pq-hl="link">
+			<figure class="pq-spotlight__media" data-pq-hl="media"{{ if not $fallback.i }} hidden{{ end }}>
+				{{- /* The script fills this one. It starts empty so a scripted visit never
+				       downloads the fallback banner and then the picked one; the <noscript>
+				       copy below is the image for a visitor without JavaScript. */ -}}
+				<img
+					data-pq-hl="image"
+					width="{{ $fallback.w }}"
+					height="{{ $fallback.h }}"
+					alt=""
+					loading="lazy"
+					decoding="async"
+					hidden
+				>
+				<noscript>
+					<img
+						src="{{ $fallback.i }}"
+						width="{{ $fallback.w }}"
+						height="{{ $fallback.h }}"
+						alt=""
+						loading="lazy"
+						decoding="async"
+					>
+				</noscript>
+			</figure>
+			<div class="pq-spotlight__body">
+				<span class="pq-tile pq-tile--lg pq-spotlight__badge" data-pq-hl="badge" aria-hidden="true">
+					{{ partial "woodland/icon.html" (dict "name" $fallback.g "class" "pq-ico pq-tile__ico") }}
+				</span>
+				<h3 class="pq-spotlight__title" data-pq-hl="title">{{ $fallback.t }}</h3>
+				{{- with $fallback.b }}
+				<p class="pq-spotlight__blurb" data-pq-hl="blurb">{{ . }}</p>
+				{{- else }}
+				<p class="pq-spotlight__blurb" data-pq-hl="blurb" hidden></p>
+				{{- end }}
+				{{- $facts := first 3 $fallback.f -}}
+				<ul class="pq-facts pq-spotlight__facts" data-pq-hl="facts"{{ if not $facts }} hidden{{ end }}>
+					{{- range $facts }}
+					<li>{{ partial "woodland/icon.html" (dict "name" .icon) }}<span>{{ .text }}</span></li>
+					{{- end }}
+				</ul>
+				<span class="pq-spotlight__cta">
+					{{ .cta }}
+					{{ partial "woodland/icon.html" (dict "name" "i-arrow-right" "class" "pq-ico") }}
+				</span>
+			</div>
+		</a>
+	</article>
+</section>

@@ -1,0 +1,13 @@
+{{/* Which sprite icon marks a project's kind.
+     Context: <page>. Returns the sprite id (e.g. "i-controller"), so the badge
+     partial and the homepage spotlights agree on one choice. */}}
+{{- $cats := .Params.categories | default slice -}}
+{{- $genres := .Params.genres | default slice -}}
+{{- $themes := .Params.themes | default slice -}}
+{{- $icon := "i-die" -}}
+{{- if in $cats "video-game" -}}{{- $icon = "i-controller" -}}{{- end -}}
+{{- if or (in $themes "political") (in $themes "politics") (in $genres "political") (in $genres "politics") -}}{{- $icon = "i-scale" -}}{{- end -}}
+{{- if in $themes "nature" -}}{{- $icon = "i-oak" -}}{{- end -}}
+{{- if in $themes "robots" -}}{{- $icon = "i-monitor" -}}{{- end -}}
+{{- if in $genres "puzzle" -}}{{- $icon = "i-cards" -}}{{- end -}}
+{{- return $icon -}}
