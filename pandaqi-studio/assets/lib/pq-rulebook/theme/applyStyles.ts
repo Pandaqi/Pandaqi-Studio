@@ -5,10 +5,10 @@ export const ICONS = ["setup", "objective", "gameplay", "action", "scoring", "up
 const DEFAULT_STYLE_ATTRIBUTE = "data-rulebook-default-styles";
 const CUSTOM_STYLE_ATTRIBUTE = "data-rulebook-custom";
 
-// The generated copy of the built-in stylesheet is registered by whoever bundles the library (see
-// theme/embedded.ts). It is kept out of this module on purpose: a page that links the stylesheet itself
-// — the site does, so the first paint is already styled — needs no copy in its bundle, and carrying it
-// here would make every rulebook page download the same ~37 KB twice.
+// The generated copy of the built-in stylesheet is registered by the library's self-contained entry
+// (index.ts). It is kept out of this module on purpose: a page that links the stylesheet itself — the
+// site does, so the first paint is already styled — needs no copy in its bundle, and carrying it here
+// would make every rulebook page download the same ~37 KB twice.
 let embeddedStyles = "";
 export const setEmbeddedRulebookStyles = (css:string) => { embeddedStyles = css; };
 
