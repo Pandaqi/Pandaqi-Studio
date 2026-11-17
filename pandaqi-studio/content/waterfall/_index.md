@@ -21,7 +21,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/waterfall/"
-media: [assets/screenshots/waterfall-page-001, assets/screenshots/waterfall-page-002]
+media: [assets/screenshots/waterfall-page-001, assets/screenshots/waterfall-page-002, assets/screenshots/waterfall-page-003, assets/screenshots/waterfall-page-004]
 
 ---
 

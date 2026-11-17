@@ -16,7 +16,7 @@ The remaining tiles become the facedown draw pile.
 
 ## Objective
 
-The game **ends** when when the waterfall **has 20(+) cards** or the **deck is empty** (rare). Sum your scored tiles: **highest score wins!**
+The game **ends** when the waterfall **has 20(+) cards** or the **deck is empty** (rare). Sum your scored tiles: **highest score wins!**
 
 
 ## Gameplay

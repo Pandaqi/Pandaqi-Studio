@@ -21,7 +21,7 @@ playtime: 60
 playercount: [2,3,4,5,6,7,8,9,10]
 ages: everyone
 devlog: "/blog/boardgames/naivigation/"
-media: [assets/screenshots/naivigation-shared-page-001, assets/screenshots/naivigation-shared-page-002]
+media: [assets/screenshots/naivigation-shared-page-001, assets/screenshots/naivigation-shared-page-002, assets/screenshots/naivigation-page-001, assets/screenshots/naivigation-page-002]
 
 ---
 

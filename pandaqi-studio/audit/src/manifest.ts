@@ -88,6 +88,9 @@ export interface ManifestOptions
     studioDir: string;
     siteDir: string;
     filter?: string;
+    // URLs under these content paths are left out entirely: not built, so not queued and not reported
+    // as NOT_BUILT. A collection release uses this for the games inside it.
+    filterExclude?: string[];
 }
 
 export const buildManifest = (opts:ManifestOptions) : ManifestEntry[] =>
@@ -107,6 +110,13 @@ export const buildManifest = (opts:ManifestOptions) : ManifestEntry[] =>
         const htmlPath = join(opts.siteDir, url, "index.html");
 
         const projectRoot = url.split("/").filter(Boolean)[0] ?? "";
+
+        const excluded = (opts.filterExclude ?? []).some(path =>
+        {
+            const prefix = path.replace(/^\/+|\/+$/g, "");
+            return prefix.length > 0 && (url === `/${prefix}/` || url.startsWith(`/${prefix}/`));
+        });
+        if(excluded) { continue; }
 
         if(opts.filter && !url.includes(`/${opts.filter}`) && !url.includes(opts.filter))
         {

@@ -7,6 +7,12 @@ export interface BuildOptions
     dest: string;
     log: string;
     project?: string;
+    // extra content paths rendered with the segment, e.g. the collection page a nested game borrows
+    // its fonts or banners from (without it, that game's asset URLs 404 in a filtered build)
+    segmentIncludes?: string[];
+    // content paths left out of the segment even though an include covers them, e.g. the games inside
+    // a collection (their own releases build them)
+    segmentExcludes?: string[];
     skip?: boolean;
     studioDir: string;
 }
@@ -59,10 +65,21 @@ export const hashInputs = (studioDir:string) : string =>
     return hasher.digest("hex");
 }
 
-export const writeSegment = (studioDir:string, project:string) : string =>
+// A segment publishes only the pages it includes, together with those pages' own bundle resources.
+// `extra` adds more pages to render alongside the project, which is how a nested game keeps access to
+// the assets of the collection page above it. `exclude` takes paths back out again: Hugo's excludes
+// take absolute precedence over includes, so a collection can build its own pages without the games
+// inside it.
+const segmentPattern = (project:string) => `path = '{/${project}/**,/${project}}'`;
+const segmentMatchers = (projects:string[], kind:"includes"|"excludes") =>
+    projects.map(project => `  [[segments.one.${kind}]]\n    ${segmentPattern(project)}\n`).join("");
+
+export const writeSegment = (studioDir:string, project:string, extra:string[] = [], exclude:string[] = []) : string =>
 {
     const path = join(studioDir, "audit", "segment.toml");
-    const body = `[segments.one]\n  [[segments.one.includes]]\n    path = '{/${project}/**,/${project}}'\n`;
+    const body = `[segments.one]\n`
+        + segmentMatchers([project, ...extra], "includes")
+        + segmentMatchers(exclude, "excludes");
     writeFileSync(path, body, "utf8");
     return path;
 }
@@ -108,7 +125,7 @@ export const buildSite = async (opts:BuildOptions) : Promise<BuildResult> =>
         return { exitCode: 0, durationMs: 0, cached: true, log: opts.log, stdout: "(inputs unchanged, reusing build)" };
     }
 
-    if(opts.project) { writeSegment(opts.studioDir, opts.project); }
+    if(opts.project) { writeSegment(opts.studioDir, opts.project, opts.segmentIncludes ?? [], opts.segmentExcludes ?? []); }
 
     // a build on a machine that is already full is how it ends up swapping for ten minutes
     if(!(await waitForMemory(1500, 120000)))

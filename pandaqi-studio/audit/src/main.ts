@@ -21,6 +21,18 @@ const argValue = (name:string, fallback:string|undefined = undefined) =>
     const next = argv[index + 1];
     return next && !next.startsWith("--") ? next : fallback;
 }
+// a flag that may be given more than once (`--segment-include a --segment-include b`)
+const argValues = (name:string) : string[] =>
+{
+    const out:string[] = [];
+    for(let i = 0; i < argv.length; i++)
+    {
+        if(argv[i] !== `--${name}`) { continue; }
+        const next = argv[i + 1];
+        if(next && !next.startsWith("--")) { out.push(next); }
+    }
+    return out;
+};
 const argNumber = (name:string, fallback:number) =>
 {
     const raw = argValue(name);
@@ -68,6 +80,11 @@ const runs = Math.max(1, argNumber("runs", 1));
 const kindFilter = argValue("kind");
 const filter = argValue("filter");
 const segment = argValue("segment");
+// pages rendered with the segment: a nested game's collection pages, for the assets it borrows
+const segmentIncludes = argValues("segment-include");
+// pages taken back out of the segment (and out of the manifest): a collection's own games
+const segmentExcludes = argValues("segment-exclude");
+const filterExcludes = argValues("filter-exclude");
 const onlyFailing = hasFlag("only-failing");
 const skipBuild = hasFlag("skip-build");
 const baseUrlOverride = argValue("base-url");
@@ -143,7 +160,7 @@ const main = async () : Promise<number> =>
         }
     }
 
-    if(segment) { writeSegment(studioDir, segment); }
+    if(segment) { writeSegment(studioDir, segment, segmentIncludes, segmentExcludes); }
 
     // build
     let build = { exitCode: 0, durationMs: 0, cached: false, log: join(outDir, "build.log") };
@@ -153,6 +170,8 @@ const main = async () : Promise<number> =>
             dest: siteDir,
             log: join(outDir, "build.log"),
             project: segment,
+            segmentIncludes,
+            segmentExcludes,
             skip: skipBuild,
             studioDir,
         });
@@ -166,7 +185,7 @@ const main = async () : Promise<number> =>
         console.log(`build: exit 0 in ${(result.durationMs / 1000).toFixed(1)} s${result.cached ? " (reused)" : ""}`);
     }
 
-    const entries = buildManifest({ studioDir, siteDir, filter });
+    const entries = buildManifest({ studioDir, siteDir, filter, filterExclude: filterExcludes });
     writeManifest(join(outDir, "manifest.json"), entries);
 
     let queue = entries.filter(matchesKind);

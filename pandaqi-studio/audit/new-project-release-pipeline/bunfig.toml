@@ -1,0 +1,4 @@
+# Deliberately empty: this keeps `bun test` from inheriting audit/bunfig.toml, which preloads
+# the audit harness' DOM stub. The pipeline's tests are pure functions and need no preload.
+[test]
+root = "./tests"

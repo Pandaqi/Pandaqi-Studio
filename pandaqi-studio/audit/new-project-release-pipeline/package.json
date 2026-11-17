@@ -1,0 +1,9 @@
+{
+  "name": "pandaqi-release-pipeline",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "release": "bun run src/main.ts",
+    "test": "bun test"
+  }
+}

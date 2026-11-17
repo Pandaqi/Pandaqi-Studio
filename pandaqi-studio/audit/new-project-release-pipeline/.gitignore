@@ -1,0 +1,3 @@
+# generated per-run files (the scoped tsconfig, test scratch)
+.cache/
+node_modules/

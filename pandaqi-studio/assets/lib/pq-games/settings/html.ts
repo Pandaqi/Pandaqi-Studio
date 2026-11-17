@@ -149,13 +149,17 @@ export const convertSettingToHTML = (path:string, data:SettingConfig) =>
         remarkTextNode.innerHTML = data.remark;
         remarkTextNode.hidden = true;
 
+        // `hidden` is `boolean | string` in the DOM types (a string for `hidden="until-found"`), which
+        // `classList.toggle` does not accept. The open state lives here instead, so the button, the text
+        // and `aria-expanded` can never disagree.
+        let open = false;
         remarkBtn.addEventListener("click", (ev) => 
         {
             ev.preventDefault();
-            const willOpen = remarkTextNode.hidden;
-            remarkTextNode.hidden = !willOpen;
-            remarkBtn.classList.toggle("active", willOpen);
-            remarkBtn.setAttribute("aria-expanded", willOpen ? "true" : "false");
+            open = !open;
+            remarkTextNode.hidden = !open;
+            remarkBtn.classList.toggle("active", open);
+            remarkBtn.setAttribute("aria-expanded", open ? "true" : "false");
         });
 
         remarkText = remarkTextNode;
