@@ -1,5 +1,5 @@
 {{ define "head" }}
-    {{ partial "head-minimal.html" (dict "context" .) }}
+    {{ partial "head-minimal.html" (dict "context" . "head_extra" (partial "func/load-page-styles.html" .)) }}
 {{ end }}
 
 {{ define "header" }}

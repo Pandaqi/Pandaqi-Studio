@@ -39,13 +39,13 @@
 				{{ partial "woodland/icon.html" (dict "name" "i-search" "class" "pq-ico") }}
 			</a>
 
-			<button class="pq-theme-toggle" data-pq-theme-toggle aria-pressed="false" aria-label="Switch to dark mode">
+			<button type="button" class="pq-theme-toggle" data-pq-theme-toggle aria-pressed="false" aria-label="Switch to dark mode">
 				{{ partial "woodland/icon.html" (dict "name" "i-sun" "class" "pq-ico pq-theme-toggle__icon pq-theme-toggle__sun") }}
 				{{ partial "woodland/icon.html" (dict "name" "i-moon" "class" "pq-ico pq-theme-toggle__icon pq-theme-toggle__moon") }}
 				<span class="pq-theme-toggle__label">Dark mode</span>
 			</button>
 
-			<button class="pq-menu-toggle" data-pq-menu-toggle aria-expanded="false" aria-controls="pq-site-nav" aria-label="Menu">
+			<button type="button" class="pq-menu-toggle" data-pq-menu-toggle aria-expanded="false" aria-controls="pq-site-nav" aria-label="Menu">
 				{{ partial "woodland/icon.html" (dict "name" "i-menu" "class" "pq-ico pq-menu-toggle__open") }}
 				{{ partial "woodland/icon.html" (dict "name" "i-close" "class" "pq-ico pq-menu-toggle__close") }}
 			</button>

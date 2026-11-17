@@ -49,7 +49,10 @@ export class RulebookTOC
         this.list = list;
 
         this.mediaQuery = window.matchMedia(TOC_WIDE_QUERY);
-        this.mediaQuery.addEventListener("change", this.onMediaChange);
+        // Safari before 14 only has the older listener API. Without either, the sidebar keeps its
+        // initial state instead of the rulebook failing to load at all.
+        if(this.mediaQuery.addEventListener) { this.mediaQuery.addEventListener("change", this.onMediaChange); }
+        else if(this.mediaQuery.addListener) { this.mediaQuery.addListener(this.onMediaChange); }
         this.syncOpenState();
     }
 
@@ -142,7 +145,8 @@ export class RulebookTOC
 
     destroy()
     {
-        this.mediaQuery.removeEventListener("change", this.onMediaChange);
+        if(this.mediaQuery.removeEventListener) { this.mediaQuery.removeEventListener("change", this.onMediaChange); }
+        else if(this.mediaQuery.removeListener) { this.mediaQuery.removeListener(this.onMediaChange); }
     }
 }
 

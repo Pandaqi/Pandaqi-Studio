@@ -49,8 +49,13 @@ const applyMode = (mode:DisplayMode) =>
     root.dataset.displayMode = mode;
     root.style.colorScheme = mode;
 
-    document.body.classList.remove("display-mode-light", "display-mode-dark");
-    document.body.classList.add(`display-mode-${mode}`);
+    // Kept on <body> as well: the shared styling code and the rulebook toolbar target the body
+    // class, and both selectors resolve to the same tokens. No navigation, no reload.
+    if(document.body)
+    {
+        document.body.classList.remove("display-mode-light", "display-mode-dark");
+        document.body.classList.add(`display-mode-${mode}`);
+    }
 
     const dark = mode === "dark";
     const toggles = document.querySelectorAll<HTMLElement>("[data-pq-theme-toggle]");
@@ -83,6 +88,14 @@ const loadColourMode = () =>
         if(query.addEventListener) { query.addEventListener("change", onChange); }
         else if(query.addListener) { query.addListener(onChange); }
     }
+
+    // A second tab (or the footer toggle in another window) writes the same key. Applying the new
+    // value keeps every open page in step without asking anybody to refresh.
+    window.addEventListener("storage", (event) => {
+        if(event.key !== STORAGE_KEY) { return; }
+        if(event.newValue === "dark" || event.newValue === "light") { applyMode(event.newValue); }
+        else { applyMode(getSystemMode()); }
+    });
 }
 
 /* ---------------------------------------------------------------- mobile menu */

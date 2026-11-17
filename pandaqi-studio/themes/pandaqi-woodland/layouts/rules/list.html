@@ -1,6 +1,6 @@
 {{ define "head" }}
     {{ $paged_config := "window.PagedConfig = { auto: false, after: (flow) => { console.log('after', flow) } };" }}
-    {{ partial "head-minimal.html" (dict "context" . "extra" $paged_config) }}
+    {{ partial "head-minimal.html" (dict "context" . "extra" $paged_config "head_extra" (partial "func/load-page-styles.html" .)) }}
 {{ end }}
 
 {{- define "header" -}}<!--- --->{{ end }}

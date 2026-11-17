@@ -18,6 +18,14 @@
     })();
     </script>
 
+    {{/* The canvas, before the stylesheet arrives: without this the first paint of a cold load is
+         the browser's white (or a cream page in dark mode) rather than the page colour, which is
+         the flash people see on a slow connection. Nothing here affects layout. */}}
+    <style>
+    html { background-color: #FAF5EA; }
+    html[data-display-mode="dark"] { background-color: #1D2522; }
+    </style>
+
     <!-- Basic metadata stuff -->
     {{ $title := partial "func/get-page-title.html" . }}
     {{ $description := partial "func/get-page-description.html" . }}
@@ -120,8 +128,17 @@
          painted an unstyled page on every navigation. One file, one request. */}}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 
-    <!-- Preload the body font: every page uses it, and this prevents the text from visibly reshaping -->
+    <!-- The page's own stylesheet (tools keep one next to their content), after the theme so its rules
+         win, but still in <head> so it never arrives after the page has been painted -->
+    {{ partial "func/load-page-styles.html" . }}
+
+    <!-- Preload the fonts the first screen actually uses. All three families are `font-display: swap`,
+         so a font that is not there yet is painted in a fallback and then swaps — most visible on the
+         big Elsie titles, which look nothing like their fallback. Requesting them up front means they
+         arrive before the first text does, instead of halfway through reading it. -->
     <link rel="preload" href="/theme/fonts/Raleway-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/theme/fonts/ElsieSwashCaps-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/theme/fonts/Dosis-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Site behaviour (shared with the previous theme): gallery, media, random project, back to top -->
     {{ $output_url := "/lib/pq-games-functionality.js" }}

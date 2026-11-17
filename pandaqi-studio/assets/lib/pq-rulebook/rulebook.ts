@@ -102,6 +102,8 @@ const rememberSource = (params:RulebookParams) =>
 }
 
 // Expand shortcodes into full HTML and divide the article into the section hierarchy. Runs once.
+// The new tree is built to the side and only swapped in once it exists: `node.innerHTML = ""` before
+// the tree exists meant a single error halfway through left the reader with an empty article.
 const buildOnce = (params:RulebookParams, node:HTMLElement) =>
 {
     createRulebookTableHTML(params, node);
@@ -112,8 +114,8 @@ const buildOnce = (params:RulebookParams, node:HTMLElement) =>
     findSections(node, sectionRoot);
     ensureUniqueHeadingIDs(sectionRoot);
 
-    node.innerHTML = "";
-    node.appendChild(makeSectionInteractiveRecursively(sectionRoot, undefined, params));
+    const built = makeSectionInteractiveRecursively(sectionRoot, undefined, params);
+    node.replaceChildren(built);
 }
 
 // Everything that only has to be attached once, because the nodes it attaches to are never re-created.
@@ -142,7 +144,11 @@ const createRulebookShell = (params:RulebookParams, node:HTMLElement) : HTMLElem
     const main = document.createElement("div");
     main.className = "rulebook-main";
 
-    node.parentElement.insertBefore(shell, node);
+    // The article is normally in the page already. When a caller hands over a detached node, the
+    // wrapper still gets a home instead of throwing on a missing parent.
+    if(node.parentElement) { node.parentElement.insertBefore(shell, node); }
+    else { document.body.appendChild(shell); }
+
     layout.appendChild(main);
     main.appendChild(node);
     shell.appendChild(layout);
@@ -317,6 +323,49 @@ export const resetRulebook = (params:RulebookParams, node:HTMLElement) =>
     return built;
 }
 
+// Everything that only has to happen once: the shell, the title, the toolbar, the section tree, the
+// table of contents and the public API. Kept in its own function so a failure can be caught as a
+// whole and the plain content can be left in place.
+const buildRulebook = (params:RulebookParams, node:HTMLElement) =>
+{
+    const explicitTitle = (params.title ?? "").trim();
+    params.title = resolveRulebookTitle(params, node);
+
+    if(params.titleHref !== undefined) { params._titleHref = params.titleHref; }
+    else if(params._titleHref === undefined)
+    {
+        // Only link an inferred title. An explicitly supplied title may not belong to this URL.
+        params._titleHref = explicitTitle ? "" : getRulebookMainURL();
+    }
+
+    if(params.tocInPrint === undefined) { params.tocInPrint = params.toc !== false; }
+
+    const shell = createRulebookShell(params, node);
+    params._shell = shell;
+
+    // The title spans the full width above both the table of contents and the content.
+    const layout = shell.querySelector(".rulebook-layout");
+    const titleBlock = createTitleBlock(params);
+    params._titleNode = titleBlock;
+    if(layout) { layout.insertBefore(titleBlock, layout.firstChild); }
+
+    const toolbar = params.toolbar === false ? null : createToolbar(params, node);
+    params._toolbar = toolbar;
+    if(toolbar) { shell.insertBefore(toolbar, shell.firstChild); }
+    else { shell.insertBefore(createProgressBar(params, true), shell.firstChild); }
+
+    buildOnce(params, node);
+    params._toc = createRulebookTOC(params, shell);
+    wireInteractivity(params, node);
+
+    applyTheme(params);
+    params._tracker = createRulebookScrollTracker(params, shell, node);
+
+    params._built = true;
+    params._rulebook = node;
+    params._api = registerRulebookAPI(createRulebookAPI(params, node, shell, toolbar, params._toc));
+}
+
 export const loadRulebookCallback = (params:RulebookParams) =>
 {
     rememberSource(params);
@@ -327,42 +376,14 @@ export const loadRulebookCallback = (params:RulebookParams) =>
     // register and activate special tools => things to do only ONCE
     if(!params._built)
     {
-        const explicitTitle = (params.title ?? "").trim();
-        params.title = resolveRulebookTitle(params, node);
-
-        if(params.titleHref !== undefined) { params._titleHref = params.titleHref; }
-        else if(params._titleHref === undefined)
+        // A rulebook that cannot be built must never take the page with it: the reader keeps the plain
+        // rules and the console says what went wrong, instead of getting a blank article.
+        try { buildRulebook(params, node); }
+        catch(error)
         {
-            // Only link an inferred title. An explicitly supplied title may not belong to this URL.
-            params._titleHref = explicitTitle ? "" : getRulebookMainURL();
+            params._built = false;
+            console.error("[Rulebook] Could not build the interactive rulebook; showing the plain content instead.", error);
         }
-
-        if(params.tocInPrint === undefined) { params.tocInPrint = params.toc !== false; }
-
-        const shell = createRulebookShell(params, node);
-        params._shell = shell;
-
-        // The title spans the full width above both the table of contents and the content.
-        const layout = shell.querySelector(".rulebook-layout");
-        const titleBlock = createTitleBlock(params);
-        params._titleNode = titleBlock;
-        layout.insertBefore(titleBlock, layout.firstChild);
-
-        const toolbar = params.toolbar === false ? null : createToolbar(params, node);
-        params._toolbar = toolbar;
-        if(toolbar) { shell.insertBefore(toolbar, shell.firstChild); }
-        else { shell.insertBefore(createProgressBar(params, true), shell.firstChild); }
-
-        buildOnce(params, node);
-        params._toc = createRulebookTOC(params, shell);
-        wireInteractivity(params, node);
-
-        applyTheme(params);
-        params._tracker = createRulebookScrollTracker(params, shell, node);
-
-        params._built = true;
-        params._rulebook = node;
-        params._api = registerRulebookAPI(createRulebookAPI(params, node, shell, toolbar, params._toc));
     }
 
     // insert stylesheet
@@ -379,6 +400,7 @@ export const loadRulebook = (params:RulebookParams = {}) =>
     // script in on click (see `loadPagedJS` in toolbar.ts)
     onWindowLoad(() => 
     {
-        loadRulebookCallback(params);
+        try { loadRulebookCallback(params); }
+        catch(error) { console.error("[Rulebook] Failed to load the rulebook.", error); }
     })
 }

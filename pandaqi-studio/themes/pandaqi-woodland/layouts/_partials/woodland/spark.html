@@ -3,13 +3,46 @@
      Context: (dict "class" "pq-spark--sm" "delay" "1.2s")
 
      Drawn from the sprite (not a bitmap) so it follows the theme colour in both
-     modes, and switched off with the rest of the decoration. */}}
+     modes, and switched off with the rest of the decoration.
+
+     Every star gets its own speed, phase, drift, tilt and size. They all used to
+     run the exact same 6.5s animation and differed only by `delay`, which read as
+     a row of robots blinking in unison. The values are derived from a hash of the
+     star's delay, its class and its position in the build, so a rebuild is stable
+     and two stars on one page never share a rhythm. */}}
 {{- $decor := true -}}
 {{- with site.Params.woodland -}}
 	{{- if isset . "decor" -}}{{- $decor = .decor -}}{{- end -}}
 {{- end -}}
 {{- if $decor -}}
-<svg class="pq-spark {{ .class }}" aria-hidden="true" focusable="false"{{ with .delay }} style="--pq-twinkle-delay: {{ . }}"{{ end }}>
+{{- $class := .class | default "" -}}
+{{- $delay := .delay | default "" -}}
+
+{{- /* Position counter, so two stars with the same delay still differ. */ -}}
+{{- $index := 0 -}}
+{{- with site.Store -}}
+	{{- $index = .Get "pq-spark-index" | default 0 -}}
+	{{- .Set "pq-spark-index" (add $index 1) -}}
+{{- end -}}
+
+{{- $seed := printf "%s|%s|%v" $class $delay $index -}}
+{{- $h := hash.FNV32a $seed -}}
+
+{{- /* ~5.2–8.6s, so the stars drift out of sync on their own. */ -}}
+{{- $duration := printf "%.1fs" (add 5.2 (div (mod $h 35) 10.0)) -}}
+{{- $min_opacity := printf "%.2f" (add 0.34 (div (mod (div $h 32) 16) 100.0)) -}}
+{{- $drift_x := sub (mod (div $h 128) 9) 4 -}}
+{{- $drift_y := sub (mod (div $h 1024) 9) 4 -}}
+{{- $tilt := add -10 (mod (div $h 8192) 8) -}}
+{{- $scale := printf "%.2f" (add 0.94 (div (mod (div $h 65536) 13) 100.0)) -}}
+{{- $phase := "" -}}
+{{- if not $delay -}}{{- $phase = printf "%.1fs" (div (mod (div $h 4) 60) 10.0) -}}{{- end -}}
+<svg
+	class="pq-spark {{ $class }}"
+	aria-hidden="true"
+	focusable="false"
+	style="--pq-twinkle-duration: {{ $duration }};--pq-twinkle-min: {{ $min_opacity }};--pq-spark-drift-x: {{ $drift_x }}px;--pq-spark-drift-y: {{ $drift_y }}px;--pq-spark-tilt: {{ $tilt }}deg;--pq-spark-scale: {{ $scale }};{{ with $delay }}--pq-twinkle-delay: {{ . }};{{ else }}--pq-twinkle-delay: {{ $phase }};{{ end }}"
+>
 	<use href="/theme/woodland/sprite.svg#i-spark"></use>
 </svg>
 {{- end -}}

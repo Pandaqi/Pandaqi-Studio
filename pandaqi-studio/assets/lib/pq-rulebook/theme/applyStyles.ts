@@ -1,19 +1,33 @@
 import type { RulebookParams } from "../rulebook";
-import { INLINE_STYLES } from "./style.generated";
 
 export const ICONS = ["setup", "objective", "gameplay", "action", "scoring", "upgrades", "options", "beware"];
 
 const DEFAULT_STYLE_ATTRIBUTE = "data-rulebook-default-styles";
 const CUSTOM_STYLE_ATTRIBUTE = "data-rulebook-custom";
 
+// The generated copy of the built-in stylesheet is registered by whoever bundles the library (see
+// theme/embedded.ts). It is kept out of this module on purpose: a page that links the stylesheet itself
+// — the site does, so the first paint is already styled — needs no copy in its bundle, and carrying it
+// here would make every rulebook page download the same ~37 KB twice.
+let embeddedStyles = "";
+export const setEmbeddedRulebookStyles = (css:string) => { embeddedStyles = css; };
+
 export const addDefaultRulebookStyles = (node:HTMLElement) =>
 {
-    // one copy per page, no matter how many times a rulebook is loaded or reset
-    if(node.querySelector(`style[${DEFAULT_STYLE_ATTRIBUTE}]`)) { return; }
+    // One copy per page, no matter how many times a rulebook is loaded or reset. A page that already
+    // ships this stylesheet as a real <link> (so the first paint is styled) counts as that copy: the
+    // library then leaves its own copy out instead of applying everything twice.
+    if(node.querySelector(`[${DEFAULT_STYLE_ATTRIBUTE}]`)) { return; }
+
+    if(!embeddedStyles)
+    {
+        console.warn("[Rulebook] No stylesheet: this page neither links the rulebook CSS nor registers the embedded copy.");
+        return;
+    }
 
     const style = document.createElement("style");
     style.setAttribute(DEFAULT_STYLE_ATTRIBUTE, "true");
-    style.innerHTML = INLINE_STYLES;
+    style.innerHTML = embeddedStyles;
     node.appendChild(style);
 }
 

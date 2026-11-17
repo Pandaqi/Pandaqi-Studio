@@ -280,16 +280,26 @@ body.display-mode-dark
 /* --- Animated sparkles ---------------------------------------------------- */
 
 /* The little stars that twinkle around a heading; the same mark everywhere, so
-   the motion reads as one system rather than assorted stickers. */
+   the motion reads as one system rather than assorted stickers.
+   Each star brings its own rhythm through the custom properties below (see the
+   spark partial), so they drift in and out of phase instead of blinking in
+   unison. The defaults keep a star that was written by hand looking right. */
 .pq-spark
 {
+	--pq-twinkle-duration: 6.5s;
+	--pq-twinkle-min: .45;
+	--pq-spark-drift-x: 0px;
+	--pq-spark-drift-y: 0px;
+	--pq-spark-tilt: -8deg;
+	--pq-spark-scale: 1;
+
 	display: inline-block;
 	width: 1.25rem;
 	height: 1.25rem;
 	flex: 0 0 auto;
 	margin-left: .35rem;
 	color: var(--pq-sparkle);
-	animation: pq-twinkle 6.5s var(--pq-ease) infinite;
+	animation: pq-twinkle var(--pq-twinkle-duration) var(--pq-ease) infinite;
 	animation-delay: var(--pq-twinkle-delay, 0s);
 }
 
@@ -312,8 +322,19 @@ body.display-mode-dark
 
 @keyframes pq-twinkle
 {
-	0%, 100% { opacity: .95; transform: rotate(-8deg) scale(1); }
-	50% { opacity: .45; transform: rotate(-2deg) scale(.86); }
+	0%, 100%
+	{
+		opacity: .95;
+		transform: translate(0, 0) rotate(var(--pq-spark-tilt)) scale(var(--pq-spark-scale));
+	}
+	50%
+	{
+		opacity: var(--pq-twinkle-min);
+		transform:
+			translate(var(--pq-spark-drift-x), var(--pq-spark-drift-y))
+			rotate(calc(var(--pq-spark-tilt) + 5deg))
+			scale(calc(var(--pq-spark-scale) * .86));
+	}
 }
 
 @media (prefers-reduced-motion: reduce)

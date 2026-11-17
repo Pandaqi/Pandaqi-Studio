@@ -1,0 +1,32 @@
+{{/* The page bundle's stylesheet, emitted in <head>.
+
+     It used to come out of load-assets, which the game, board and rulebook layouts call at the end of
+     <body>: the HTML was already painted by the time its stylesheet existed, which is the flash of
+     unstyled content those pages showed on every visit. Only the JS still belongs in the footer, where
+     the bundle is deferred anyway.
+
+     Rulebooks get the library's own stylesheet too, instead of waiting for the rulebook script to
+     inject it on window load, which was an even later — and much more visible — flash. */}}
+{{ $url_prefixed := printf "games%s" .RelPermalink }}
+
+{{ $url_css_direct := printf "%s.scss" (trim $url_prefixed "/") }}
+{{ $res_css := resources.Get $url_css_direct }}
+
+{{ if not $res_css }}
+    {{ $url_css_folder := printf "%smain.scss" $url_prefixed }}
+    {{ $res_css = resources.Get $url_css_folder }}
+{{ end }}
+
+{{ if $res_css }}
+    {{ $output_url := printf "%s/bundle.css" $url_prefixed }}
+    {{ $options := (dict "targetPath" $output_url "outputStyle" "compressed" "transpiler" "dartsass") }}
+    {{ $style := $res_css | css.Sass $options }}
+    <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}">
+{{ end }}
+
+{{ if eq .Type "rules" }}
+    {{/* Same file the library embeds, served as a real stylesheet. The library sees the attribute and
+         leaves its own copy out, and the advanced print re-reads these rules like any other sheet. */}}
+    {{ $rb_style := resources.Get "/lib/pq-rulebook/theme/style.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $rb_style.RelPermalink }}" data-rulebook-default-styles>
+{{ end }}

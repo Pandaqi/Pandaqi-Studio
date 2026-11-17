@@ -1,10 +1,5 @@
-export * from "./rulebook";
-export * from "./api";
-export * from "./meta";
-export * from "./sections";
-export * from "./tables";
-export * from "./toc";
-export * from "./toolbar";
-export * from "./examples";
-export * from "./parser/parser";
-export * from "./theme/applyStyles";
+// The self-contained entry: the whole public surface plus the built-in stylesheet, for a page that
+// only loads the library and links nothing. The list of exports lives in `global.ts`.
+export * from "./global";
+
+import "./theme/embedded";

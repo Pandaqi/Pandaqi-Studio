@@ -134,57 +134,62 @@ export const findSectionByID = (root:RulebookSection, id:string) : RulebookSecti
     return null;
 }
 
+const HEADING_TAG = /^H([1-6])$/;
+
+const headingLevelOf = (node:Element) : number =>
+{
+    const match = HEADING_TAG.exec(node.tagName);
+    return match ? parseInt(match[1]) : 0;
+}
+
+// The level the actual rulebook sections sit on. Content is written with whatever heading level the
+// author felt like (`##` in one rulebook, `#` or `###` in another), and a page may put its own title
+// above the rulebook. The old walker assumed "the first heading is one level below the root" and could
+// not cope with anything else: a lone <h1> above `##` content made it pop the root off an empty stack,
+// which threw and left every rulebook on the site unrendered. Reading the level from the content makes
+// all of those shapes work.
+const findBaseLevel = (levels:number[]) : number =>
+{
+    if(levels.length <= 0) { return 1; }
+
+    const first = levels[0];
+    const following = levels.slice(1);
+    // A lone heading above everything else is a document title, not the level of the sections.
+    if(following.length > 0 && first < Math.min(...following)) { return Math.min(...following); }
+    return Math.min(...levels);
+}
+
 export const findSections = (node:HTMLElement, parentSection:RulebookSection) =>
 {
     const children = Array.from(node.children) as HTMLElement[];
     if(children.length <= 0) { return; }
 
-    let sectionHierarchy = [parentSection];
+    const baseLevel = findBaseLevel(children.map(headingLevelOf).filter((level) => level > 0));
+
+    // `hierarchy[0]` is what everything hangs from; each following entry is one section deeper. A
+    // heading at `baseLevel` is a top-level section, `baseLevel + 1` nests inside it, and so on.
+    const hierarchy = [parentSection];
     for(const child of children)
     {
-        const isHeading = child instanceof HTMLHeadingElement
-        const curLevel = sectionHierarchy.length;
-        const curSection = sectionHierarchy[sectionHierarchy.length - 1];
-        if(!isHeading)
+        const level = headingLevelOf(child);
+        const curSection = hierarchy[hierarchy.length - 1];
+
+        // Not a heading, or a heading above the sections (a page title): plain content of the section
+        // we are in. Nothing is dropped, so the text always stays readable.
+        if(level <= 0 || level < baseLevel)
         {
             curSection.addContent(child);
             continue;
         }
 
-        const isHeadingSameLevel = child.tagName == `H${curLevel}`;
-        const isHeadingLowerLevel = child.tagName == `H${curLevel+1}`;
-        const isHeadingHigherLevel = !isHeadingSameLevel && !isHeadingLowerLevel;
+        // Clamped to one deeper than the current section, so a skipped level (`##` straight to `####`)
+        // nests instead of silently disappearing.
+        const depth = Math.min(level - baseLevel + 1, hierarchy.length);
+        while(hierarchy.length > depth) { hierarchy.pop(); }
 
         const newSection = new RulebookSection(child as HTMLHeadingElement);
-
-        // on same level? start a new section as child of current parent
-        if(isHeadingSameLevel) 
-        {
-            sectionHierarchy.pop();
-            const parentSection = sectionHierarchy[sectionHierarchy.length-1];
-            parentSection.addContent(newSection);
-            sectionHierarchy.push(newSection);
-        } 
-        
-        // on lower level? recurse into it and save whatever child sections we get back
-        if(isHeadingLowerLevel) 
-        {
-            curSection.addContent(newSection);
-            sectionHierarchy.push(newSection);
-        }
-
-        // on higher level (which can be MULTIPLE jumps? just remove what we're doing now to go back to parent as "current/last section"
-        if(isHeadingHigherLevel)
-        {
-            const newLevel = parseInt(child.tagName.slice(-1));
-            while(sectionHierarchy.length >= newLevel)
-            {
-                sectionHierarchy.pop();
-            }
-            const parentSection = sectionHierarchy[sectionHierarchy.length-1];
-            parentSection.addContent(newSection);
-            sectionHierarchy.push(newSection);            
-        }
+        hierarchy[hierarchy.length - 1].addContent(newSection);
+        hierarchy.push(newSection);
     }
 }
 

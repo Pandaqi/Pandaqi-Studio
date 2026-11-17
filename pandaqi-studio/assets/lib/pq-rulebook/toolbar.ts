@@ -317,29 +317,33 @@ export const printBrowserRulebook = (params:RulebookParams, node:HTMLElement) =>
 
 const collectInlineCSS = () : string =>
 {
+    // Everything is collected in document order. The rulebook's own stylesheet may be a <style> or a
+    // <link>, and a custom stylesheet has to stay after it: paged.js inserts the default print rules at
+    // the end, so equal-specificity print rules from a custom sheet would otherwise lose.
+    // Cross-origin sheets without CORS cannot be read; those still apply to the live page, but may lose
+    // to the default print rules.
+    const selector = "style, link[rel=\"stylesheet\"][data-rulebook-custom], link[rel=\"stylesheet\"][data-rulebook-default-styles]";
     const parts:string[] = [];
-    for(const style of Array.from(document.querySelectorAll("style")))
+    for(const node of Array.from(document.querySelectorAll(selector)))
     {
+        if(node instanceof HTMLLinkElement)
+        {
+            if(!node.sheet) { continue; }
+            try
+            {
+                for(const rule of Array.from(node.sheet.cssRules)) { parts.push(rule.cssText); }
+            }
+            catch
+            {
+                // the browser will not expose rules for a cross-origin sheet without CORS
+            }
+            continue;
+        }
+
+        const style = node as HTMLStyleElement;
         if(style.hasAttribute("data-pagedjs-inserted-styles")) { continue; }
         if(!style.textContent) { continue; }
         parts.push(style.textContent);
-    }
-
-    // A linked custom stylesheet is still in <head>, but paged.js inserts the default print rules after
-    // it, so equal-specificity print rules would otherwise lose. Copy the custom sheet's rules into the
-    // same CSS stream, in the same order. Cross-origin sheets without CORS cannot be read; those still
-    // apply to the live page, but may lose to the default print rules.
-    for(const link of Array.from(document.querySelectorAll("link[rel=\"stylesheet\"][data-rulebook-custom]")) as HTMLLinkElement[])
-    {
-        if(!link.sheet) { continue; }
-        try
-        {
-            for(const rule of Array.from(link.sheet.cssRules)) { parts.push(rule.cssText); }
-        }
-        catch
-        {
-            // the browser will not expose rules for a cross-origin sheet without CORS
-        }
     }
 
     return parts.join("\n\n");

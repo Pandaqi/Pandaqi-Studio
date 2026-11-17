@@ -39,4 +39,8 @@
     {{ with .extra }}
     <script>{{ . | safeJS }}</script>
     {{ end }}
+
+    {{/* Anything a page needs in its head (its own stylesheet) is rendered by the layout and passed in
+         already built, so this partial stays the one place that knows about <head>. */}}
+    {{ with .head_extra }}{{ . }}{{ end }}
 </head>
