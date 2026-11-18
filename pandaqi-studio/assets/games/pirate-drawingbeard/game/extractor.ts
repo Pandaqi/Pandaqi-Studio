@@ -34,9 +34,10 @@ const downloadHintsZip = async (vis:MaterialVisualizer) =>
 	onZipImagesReady();
 }
 
-const createPremadeGame = (images:HTMLImageElement[]) =>
+const createPremadeGame = async (images:HTMLImageElement[]) =>
 {
-	const pb = new PdfBuilder({ orientation: PageOrientation.LANDSCAPE });
+	// jsPDF is fetched on demand, so this is async now
+	const pb = await PdfBuilder.create({ orientation: PageOrientation.LANDSCAPE });
 	for(const img of images)
 	{
 		pb.addImage(img);

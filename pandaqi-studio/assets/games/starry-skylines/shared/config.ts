@@ -1,6 +1,5 @@
 
 import { CVal, MapperPreset, SettingType, Vector2 } from "lib/pq-games";
-import { RendererPixi } from "lib/pq-games";
 import { boardPicker } from "../board/boardPicker";
 
 export const CONFIG = 
@@ -8,7 +7,6 @@ export const CONFIG =
     _game:
     {
         fileName: "Starry Skylines",
-        renderer: new RendererPixi()
     },
 
     _material:

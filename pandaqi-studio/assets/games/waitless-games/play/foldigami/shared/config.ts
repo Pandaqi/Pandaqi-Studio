@@ -1,5 +1,4 @@
 import { CVal, SettingType, Vector2, MapperPreset } from "lib/pq-games";
-import { RendererPixi } from "lib/pq-games";
 import { boardPicker } from "../board/boardPicker";
 
 export const CONFIG =
@@ -7,7 +6,6 @@ export const CONFIG =
     _game:
     {
         fileName: "Foldigami",
-        renderer: new RendererPixi()
     },
 
     _settings:

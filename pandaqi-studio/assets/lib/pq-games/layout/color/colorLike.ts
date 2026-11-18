@@ -39,6 +39,15 @@ export class ColorLike
         return 16777215;
     }
 
+    // `toNumber()` is RGB only, so a colour's own alpha ("#00000044", a 30% black shadow) has to be
+    // asked for separately by renderers that paint with a colour + alpha pair (Pixi). It used to be
+    // dropped, and every translucent stroke came out opaque.
+    getAlpha()
+    {
+        if(this.val instanceof Color) { return this.val.getAlpha(); }
+        return 1;
+    }
+
     isTransparent()
     {
         if(this.val instanceof Color) { return isColorTransparent(this.val); }

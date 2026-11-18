@@ -1,5 +1,3 @@
-
-import { RendererPixi } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { SettingType, loadGame } from "lib/pq-games";
 import type { GameConfig } from "lib/pq-games";
@@ -34,6 +32,5 @@ const SETTINGS =
 
 // the board generator has its own settings block, a different shape from the game's
 CONFIG._settings = SETTINGS;
-CONFIG._game.renderer = new RendererPixi();
 
 loadGame(CONFIG);

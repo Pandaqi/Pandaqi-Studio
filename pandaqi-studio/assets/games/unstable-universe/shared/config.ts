@@ -1,6 +1,5 @@
 
 import { CVal, SettingType, MapperPreset, Vector2 } from "lib/pq-games";
-import { RendererPixi } from "lib/pq-games";
 import { boardPicker } from "../board/boardPicker";
 
 export const CONFIG =
@@ -8,7 +7,6 @@ export const CONFIG =
     _game:
     {
         fileName: "Unstable Universe",
-        renderer: new RendererPixi()
     },
 
     _settings:

@@ -1,6 +1,6 @@
 
 import { ResourceLoader, MaterialVisualizer, loadSettings } from "lib/pq-games";
-import { RendererPixi } from "lib/pq-games";
+import { RendererPandaqi } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import BoardGeneration from "./generation";
 
@@ -8,7 +8,7 @@ import BoardGeneration from "./generation";
 // (I initially thought about splitting the code into `board` and `game`, but that isn't really useful. Because the game NEEDS a board too, and the board NEEDS the hint images too)
 const callback = async (cfg) =>
 {
-    const renderer = new RendererPixi();
+    const renderer = new RendererPandaqi();
     const resLoader = new ResourceLoader({ base: CONFIG._resources.base, renderer: renderer });
     resLoader.planLoadMultiple(CONFIG._resources.files);
     CONFIG._game.renderer = renderer;

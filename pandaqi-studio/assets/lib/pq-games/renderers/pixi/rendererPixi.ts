@@ -216,16 +216,18 @@ export class RendererPixi extends Renderer
             const dashed = op.hasStroke() && op.strokeType === StrokeType.DASHED;
             obj = dashed ? (op.resource as ResourceShape).shape.createPixiObject(pixi.Graphics) : op.resource.getPixiObject(pixi.Graphics);
 
+            // the colour and the alpha are separate in a Pixi style: passing only toNumber() threw the
+            // colour's own alpha away, so a 26%-grey grid line was painted solid black
             if(op.hasFill()) 
             { 
-                obj.setFillStyle({ color: op.fill.toNumber() });
+                obj.setFillStyle({ color: op.fill.toNumber(), alpha: op.fill.getAlpha() });
                 obj.fill(); 
             }
 
             if(op.hasStroke())
             {
                 const alignNum = op.strokeAlign == StrokeAlign.INSIDE ? 1.0 : (op.strokeAlign == StrokeAlign.OUTSIDE ? 0.0 : 0.5);
-                obj.setStrokeStyle({ color: op.stroke.toNumber(), width: op.strokeWidth, alignment: alignNum });
+                obj.setStrokeStyle({ color: op.stroke.toNumber(), width: op.strokeWidth, alignment: alignNum, alpha: op.stroke.getAlpha() });
 
                 if(dashed)
                 {

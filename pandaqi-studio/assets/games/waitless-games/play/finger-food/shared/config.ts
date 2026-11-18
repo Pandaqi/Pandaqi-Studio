@@ -1,5 +1,3 @@
-
-import { RendererPixi } from "lib/pq-games";
 import { boardPicker } from "../board/boardPicker";
 import { CVal, SettingType, MapperPreset, Bounds, Vector2 } from "lib/pq-games";
 
@@ -8,7 +6,6 @@ export const CONFIG =
     _game:
     {
         fileName: "Finger Food",
-        renderer: new RendererPixi()
     },
 
     _settings:

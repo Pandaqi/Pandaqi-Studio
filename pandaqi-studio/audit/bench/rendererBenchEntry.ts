@@ -15,9 +15,11 @@
    Kept out of the site bundle: this file is only used by audit/src/renderer-bench.ts. */
 
 import {
-    MaterialVisualizer, RendererPandaqi, RendererPandaqiWebGPU, RendererPixi, ResourceLoader,
+    MaterialVisualizer, RendererPandaqi, RendererPandaqiWebGPU, ResourceLoader,
     addConfigFromLocalStorage, createGridMapperFromConfig, ensureConfigProperties, setSeed,
 } from "lib/pq-games";
+// not part of the barrel any more: nothing on the site uses it, only this harness does
+import { RendererPixi } from "lib/pq-games/renderers/pixi/rendererPixi";
 import { CONFIG } from "../../assets/games/one-pizza-the-puzzle/shared/config";
 import { boardPicker } from "../../assets/games/one-pizza-the-puzzle/board/boardPicker";
 

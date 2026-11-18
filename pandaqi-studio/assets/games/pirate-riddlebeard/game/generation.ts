@@ -171,7 +171,7 @@ export default class BoardGeneration
 
 		// download as PDF
 		const pdfImages = [imgMap, imgHints].flat();
-		const pdfBuilder = new PdfBuilder({ orientation: PageOrientation.LANDSCAPE });
+		const pdfBuilder = await PdfBuilder.create({ orientation: PageOrientation.LANDSCAPE });
 		for(const img of pdfImages)
 		{
 			pdfBuilder.addImage(await convertCanvasToImage(img));

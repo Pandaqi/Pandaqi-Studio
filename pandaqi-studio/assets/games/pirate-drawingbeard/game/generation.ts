@@ -66,7 +66,7 @@ export default class BoardGeneration
 			const imgHints = await convertCanvasToImage(imgHintsAsCanvas);
 			images.push(imgHints);
 
-			createPremadeGame(images);
+			await createPremadeGame(images);
 		
 		// if hybrid game, generate treasure/solution overlay + add our results to page
 		} else {

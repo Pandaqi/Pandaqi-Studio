@@ -3,7 +3,6 @@ import { CVal } from "lib/pq-games"
 import { ActionType } from "./dict"
 import { boardPicker } from "../board/boardPicker"
 import { SettingType, TextConfig, TextWeight, Vector2, Bounds, MapperPreset } from "lib/pq-games"
-import { RendererPixi } from "lib/pq-games"
 
 export const CONFIG = 
 {
@@ -54,7 +53,6 @@ export const CONFIG =
     _game:
     {
         fileName: "The Mist",
-        renderer: new RendererPixi(),
     },
 
     allTypes: {},

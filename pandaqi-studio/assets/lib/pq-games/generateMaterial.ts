@@ -244,7 +244,8 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
             maxPages: auditPdf.maxPages,
             fileName: fileName,
         };
-        const pdfBuilder = new PdfBuilder(pageParams);
+        // jsPDF is fetched on demand: this is the only moment a generation needs it
+        const pdfBuilder = await PdfBuilder.create(pageParams);
         pdfBuilders.push(pdfBuilder);
 
         // draw everything into that new PDF

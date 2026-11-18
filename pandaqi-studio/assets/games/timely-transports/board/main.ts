@@ -1,4 +1,3 @@
-import { RendererPixi } from "lib/pq-games";
 import { CONFIG } from "../shared/config";
 import { SettingType, loadGame } from "lib/pq-games";
 
@@ -37,6 +36,5 @@ const SETTINGS =
 };
 
 CONFIG._settings = SETTINGS;
-CONFIG._game.renderer = new RendererPixi();
 
 loadGame(CONFIG);

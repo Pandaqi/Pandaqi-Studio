@@ -28,7 +28,11 @@ export const applyResourceSizing = (
 
         // it's much easier to just use scale than to implement a proper "scale" function on ALL POSSIBLE SHAPES
         // @TODO: though I guess I could call my scalePath() tool func on any shape's path?
-        const scaleFactor = size.x / rawSize.x;
+        // A zero-wide shape is perfectly normal (a vertical Line), and dividing by that axis gave
+        // 0/0 = NaN, which turned the whole transform NaN and made the shape invisible. Fall back to
+        // the axis that does have a size, and to 1 for a degenerate single-point shape.
+        const scaleFactor = rawSize.x > 0.0001 ? size.x / rawSize.x
+            : (rawSize.y > 0.0001 ? size.y / rawSize.y : 1);
         scale.x *= scaleFactor;
         scale.y *= scaleFactor;
     }

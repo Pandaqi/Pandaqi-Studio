@@ -1,7 +1,6 @@
 import { Vector2 } from "../../geometry/vector2";
 import { convertPixelsToInches, getPageSizeSingle, makeSizeSplittable, PageOrientation, PageSize } from "./tools";
-// @ts-ignore
-import { jsPDF } from "./jspdf";
+import { loadJsPdf } from "./jspdfLoader";
 
 export interface PdfConfig 
 {
@@ -65,7 +64,7 @@ const flattenOnWhite = (img:HTMLImageElement|HTMLCanvasElement) : HTMLCanvasElem
 // compressed bytes, which are what actually ends up in the file.
 export class PdfBuilder 
 {
-    jsPDF : jsPDF
+    jsPDF : any
     fileName: string
 
     sizeSplittablePage : Vector2 // defined in PIXELS
@@ -82,13 +81,22 @@ export class PdfBuilder
     aliases : WeakMap<object, string>
     aliasCount : number
 
+    // jsPDF is not bundled any more (it is ~350 KB and only needed at the end of a generation), so the
+    // builder is created through this async factory: it fetches the library once, then constructs.
+    static async create(config:PdfPageConfig = {}) : Promise<PdfBuilder>
+    {
+        const lib = config.jsPDF ?? await loadJsPdf();
+        return new PdfBuilder({ ...config, jsPDF: lib });
+    }
+
     constructor(config:PdfPageConfig = {})
     {
-        this.jsPDF = config.jsPDF ?? jsPDF;
+        this.jsPDF = config.jsPDF ?? null;
         if(!this.jsPDF) 
         { 
-            console.error("Can't create PDF builder without jsPDF library working."); 
-            return;
+            // Not fatal here: a sync caller that only collects images (debugWithoutFile) still works, and
+            // addImage says what is missing if it really needs the library.
+            console.warn("PdfBuilder created without jsPDF; call `await PdfBuilder.create()` to load it."); 
         }
         
         this.debugWithoutFile = config.debugWithoutFile ?? false;
@@ -137,6 +145,7 @@ export class PdfBuilder
             return;
         }
 
+        if(!this.jsPDF) { console.error("Can't add a page: the PDF builder has no jsPDF. Use `await PdfBuilder.create()`."); return; }
         if(!this.doc) { this.doc = new this.jsPDF(this.getPDFConfig()); }
         if(this.pageCount > 0) { this.doc.addPage(); }
 

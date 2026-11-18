@@ -1,5 +1,4 @@
 import { CVal, SettingType, TextConfig, TextWeight, TextStyle, Vector2, Bounds, MapperPreset } from "lib/pq-games"
-import { RendererPixi } from "lib/pq-games"
 import { boardPicker } from "../board/boardPicker"
 
 export const CONFIG = 
@@ -51,7 +50,6 @@ export const CONFIG =
     _game:
     {
         fileName: "Magnetmen",
-        renderer: new RendererPixi()
     },
     
     allTypes: {},

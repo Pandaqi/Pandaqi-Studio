@@ -1,5 +1,4 @@
 import { CVal, SettingType, MapperPreset, Vector2, Bounds } from "lib/pq-games";
-import { RendererPixi } from "lib/pq-games";
 import { boardPicker } from "./boardPicker";
 import { MAX_NUM_PLAYERS } from "../shared/dict";
 
@@ -101,7 +100,6 @@ export const CONFIG =
     _game:
     {
         fileName: "Kangaruse",
-        renderer: new RendererPixi()
     },
 
     cellTexture: "cell_types", // changed to the inkfriendly/simplified version when needed

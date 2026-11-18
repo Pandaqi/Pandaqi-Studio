@@ -289,4 +289,52 @@ describe("Pixi robustness", () =>
         const overlay = parent.children.find((c:any) => c.zIndex === 1000000);
         expect(overlay).toBeInstanceOf(Graphics);
     });
+
+    // A vertical line has no width to divide by. The sizing step used to do size.x / rawSize.x = 0/0,
+    // which made the object's scale and position NaN, so the shape silently never appeared.
+    test("a zero-width shape (a vertical line) is scaled to a finite value", async () =>
+    {
+        const renderer = new RendererPixi();
+        const parent = new Container();
+        const line = new Path([new Vector2(200, 140), new Vector2(200, 240)]);
+
+        const op = new LayoutOperation({
+            renderer: renderer,
+            resource: new ResourceShape(line),
+            stroke: "#000000",
+            strokeWidth: 3,
+        });
+
+        await op.applyToPixi(null, parent);
+
+        const obj:any = parent.children[0];
+        expect(Number.isFinite(obj.scale.x)).toBe(true);
+        expect(Number.isFinite(obj.scale.y)).toBe(true);
+        expect(Number.isFinite(obj.position.x)).toBe(true);
+        expect(Number.isFinite(obj.position.y)).toBe(true);
+        expect(obj.scale.x).toBe(1);
+        expect(obj.scale.y).toBe(1);
+    });
+
+    // Pixi takes a colour and an alpha separately; only passing the number dropped the colour's own
+    // alpha, so a 26%-grey grid line was painted solid black.
+    test("a translucent stroke keeps its alpha instead of turning opaque", async () =>
+    {
+        const renderer = new RendererPixi();
+        const parent = new Container();
+
+        const op = new LayoutOperation({
+            renderer: renderer,
+            resource: new ResourceShape(new Path([new Vector2(0, 0), new Vector2(400, 0)])),
+            stroke: "#00000044",
+            strokeWidth: 2,
+        });
+
+        await op.applyToPixi(null, parent);
+
+        const obj:any = parent.children[0];
+        const style = obj.context.strokeStyle;
+        expect(style.color).toBe(0);
+        expect(style.alpha).toBeCloseTo(0x44 / 255, 3);
+    });
 });

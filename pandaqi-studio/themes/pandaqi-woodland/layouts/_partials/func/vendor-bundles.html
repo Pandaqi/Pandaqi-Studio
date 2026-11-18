@@ -8,6 +8,11 @@
 {{ $content := . }}
 
 {{ if strings.Contains $content "PQ_GAMES" }}
+    {{/* jsPDF (~350 KB) is fetched at runtime, when a PDF is actually built, instead of being bundled.
+          Referencing the resource publishes it at the URL tools/pdf/jspdfLoader.ts expects. */}}
+    {{ $js_pdf := resources.Get "/lib/pq-games/tools/pdf/jspdf.js" }}
+    {{ $publish_js_pdf := $js_pdf.RelPermalink }}
+
     {{ $vendor_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-games.js" "target" "es2019" }}
     {{ $vendor := resources.Get "/lib/vendor/pq-games-global.ts" | js.Build $vendor_opts }}
     {{ if not hugo.IsDevelopment }}{{ $vendor = $vendor | fingerprint }}{{ end }}

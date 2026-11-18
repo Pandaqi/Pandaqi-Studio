@@ -9,6 +9,7 @@
     "gamebuddy": "bun run src/gamebuddy.ts",
     "perf": "bun run src/perf.ts",
     "renderer-bench": "bun run src/renderer-bench.ts",
+    "renderer-compare": "bun run src/renderer-compare.ts",
     "test": "bun test tests",
     "precommit": "bun run src/precommit.ts",
     "typecheck": "tsc -p ../assets --noEmit"
