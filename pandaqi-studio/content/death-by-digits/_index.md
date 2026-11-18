@@ -4,6 +4,7 @@ type: "project"
 
 title: "Death by Digits"
 blurb: "Be a math detective and work out which numbers nobody is holding. Simple rules, sharp little deductions."
+gamebuddy: "/game-buddy/template/death-by-digits/"
 
 driveLink: "https://drive.google.com/drive/folders/1tB1Lfp1zUNvR8ARU9d1quTG3EGq9H5fv"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/death-by-digits/"

@@ -42,12 +42,15 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Game bundles and vendor libraries are not fingerprinted, so they get a short cache instead.
+# Library files carry a content hash now, but the folder also holds plain static files, so it keeps a
+# short cache rather than a year.
 [[headers]]
   for = "/lib/*"
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
+# Bundles and page stylesheets under /games/ are fingerprinted; the images and HTML beside them are not,
+# so a day is the safe ceiling here.
 [[headers]]
   for = "/games/*"
   [headers.values]

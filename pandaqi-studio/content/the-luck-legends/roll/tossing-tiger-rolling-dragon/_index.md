@@ -3,6 +3,7 @@ type: "project"
 
 title: "Tossing Tiger, Rolling Dragon"
 blurb: "Prepare the right series of kung-fu attacks to win the war, while hoping your opponent didn't roll the exact counter moves."
+gamebuddy: "/game-buddy/template/luck-legends/"
 
 weightProject: 25
 

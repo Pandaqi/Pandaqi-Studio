@@ -45,6 +45,11 @@
 	{{- $actions = $actions | append (dict "href" $rules_page.RelPermalink "label" "Rulebook" "kind" "rulebook" "note" "The interactive rulebook") -}}
 {{- end -}}
 
+{{- /* Game Buddy is hosted on this same site (/game-buddy/), so the link in the front matter is a path. */ -}}
+{{- with $page.Params.gamebuddy -}}
+	{{- $actions = $actions | append (dict "href" . "label" "Open in Game Buddy" "kind" "buddy" "note" "Timers, scorepad and rules<br>(works offline on your phone)") -}}
+{{- end -}}
+
 {{- with $page.Params.sneakpeek -}}
 	{{- $actions = $actions | append (dict "href" . "label" "Buy Source Files" "kind" "source" "note" "The Wayward Melody<br>(Editable files, raw assets, etc)") -}}
 {{- end -}}
@@ -55,8 +60,9 @@
 		{{- range $i, $action := $actions -}}
 			{{- /* One accent per kind of action, so the same action always reads the
 			       same across the site: printable = fern, store = purple,
-			       generator = honey, rulebook = sky, source files = berry. */ -}}
-			{{- $accents := dict "download" "fern" "store" "primary" "generator" "honey" "rulebook" "sky" "source" "berry" -}}
+			       generator = honey, rulebook = sky, source files = berry,
+			       game buddy = teal. */ -}}
+			{{- $accents := dict "download" "fern" "store" "primary" "generator" "honey" "rulebook" "sky" "source" "berry" "buddy" "teal" -}}
 			{{- $accent := or (index $accents $action.kind) "quiet" -}}
 			{{- $class := printf "button button-large pq-btn-%s" $accent -}}
 			{{- if eq $i 0 -}}{{- $class = printf "%s pq-btn-lead" $class -}}{{- end -}}

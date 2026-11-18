@@ -5,6 +5,7 @@ type: "project"
 title: "Swerving Spaceships"
 blurb: "A Naivigation game about steering a single spaceship together, visiting planets and dodging asteroids."
 # blurb: "A [Naivigation](/naivigation/) game about steering a single spaceship together, visiting planets and dodging asteroids."
+gamebuddy: "/game-buddy/template/naivigation/"
 weightProject: 10
 
 

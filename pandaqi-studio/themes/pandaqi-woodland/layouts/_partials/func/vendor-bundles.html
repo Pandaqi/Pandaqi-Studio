@@ -1,17 +1,22 @@
 {{/* Emits the framework bundle a built page bundle needs. Reads the BUILT bundle, not the entry source: the
       only thing in the output that mentions these globals is the shim, so this also catches a page that
       reaches a library through a shared module (`shared/config.ts`) rather than importing it itself.
-      Context: the built resource's content (a string). */}}
+      Context: the built resource's content (a string).
+
+      Both framework bundles are content-hashed. They are the same file on every page, so the hash is the
+      same on every page: one download for the whole site, cached until the library itself changes. */}}
 {{ $content := . }}
 
 {{ if strings.Contains $content "PQ_GAMES" }}
     {{ $vendor_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-games.js" "target" "es2019" }}
     {{ $vendor := resources.Get "/lib/vendor/pq-games-global.ts" | js.Build $vendor_opts }}
+    {{ if not hugo.IsDevelopment }}{{ $vendor = $vendor | fingerprint }}{{ end }}
     <script defer src="{{ $vendor.RelPermalink }}"></script>
 {{ end }}
 
 {{ if strings.Contains $content "PQ_RULEBOOK" }}
     {{ $vendor_rulebook_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-rulebook.js" "target" "es2019" }}
     {{ $vendor_rulebook := resources.Get "/lib/vendor/pq-rulebook-global.ts" | js.Build $vendor_rulebook_opts }}
+    {{ if not hugo.IsDevelopment }}{{ $vendor_rulebook = $vendor_rulebook | fingerprint }}{{ end }}
     <script defer src="{{ $vendor_rulebook.RelPermalink }}"></script>
 {{ end }}

@@ -3,6 +3,7 @@ type: "project"
 
 title: "Amerigo's Dakenpad"
 blurb: "Stuur Amerigo samen over de daken om de juiste pakjes te bezorgen voordat het Sinterklaasfeest voorbij is!"
+gamebuddy: "/game-buddy/template/naivigation/"
 
 weightProject: 10
 

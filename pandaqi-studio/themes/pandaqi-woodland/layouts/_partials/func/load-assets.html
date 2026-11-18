@@ -23,13 +23,19 @@
     {{ $output_url := printf "%s/bundle.js" $url_prefixed }}
     <!--- `es2019` makes esbuild lower syntax that old iPhones cannot even parse (class fields, `??`/`??=`).
           Without a target, esbuild keeps the newest syntax and the whole bundle fails before it runs. --->
-    {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url "shims" $shims "target" "es2019" }}
+    <!--- `linked`, not `external`: both write `<bundle>.js.map`, but only `linked` also writes the
+          `sourceMappingURL` line that tells DevTools where it is. Built site: no map at all. --->
+    {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "linked" "") "targetPath" $output_url "shims" $shims "target" "es2019" }}
     {{ $script := $res_js | js.Build $opts }}
-    {{ $script.Publish }}
 
     <!--- Building the shim away is what would break a page, so the check has to look after the build. --->
     {{ partial "func/vendor-bundles.html" $script.Content }}
 
+    <!--- Content-hashed name: a rebuilt bundle gets a new URL, so a browser can never keep serving last week's
+          generator. The hash is of the bytes, so the same bundle published from anywhere has the same name.
+          Built site only: `hugo server` keeps the name esbuild's source map is written next to, because
+          fingerprinting drops the sourceMappingURL line and leaves DevTools without a map. --->
+    {{ if not hugo.IsDevelopment }}{{ $script = $script | fingerprint }}{{ end }}
     <script defer src="{{ $script.RelPermalink }}"></script>
 {{ end }}
 
@@ -47,7 +53,8 @@
     {{ partial "func/vendor-bundles.html" "PQ_RULEBOOK" }}
 
     {{ $output_url := "/rulebook-default.js" }}
-    {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "external" "") "targetPath" $output_url "shims" $shims "target" "es2019" }}
+    {{ $opts := dict "minify" (not hugo.IsDevelopment) "sourceMap" (cond hugo.IsDevelopment "linked" "") "targetPath" $output_url "shims" $shims "target" "es2019" }}
     {{ $script_default := resources.Get "/lib/rulebook-default.ts" | js.Build $opts }}
+    {{ if not hugo.IsDevelopment }}{{ $script_default = $script_default | fingerprint }}{{ end }}
     <script defer src="{{ $script_default.RelPermalink }}"></script>
 {{ end }}

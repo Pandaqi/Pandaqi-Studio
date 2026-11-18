@@ -3,6 +3,7 @@ type: "project"
 
 title: "Lucky Lions"
 blurb: "Create more attractive zoos than others, but the animals that come out might be a bit ... random."
+gamebuddy: "/game-buddy/template/luck-legends/"
 
 weightProject: 20
 

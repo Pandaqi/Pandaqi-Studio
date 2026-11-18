@@ -79,7 +79,10 @@ const run = async () : Promise<number> =>
         }
     });
 
-    const audit = await stage("audit", () => runAuditStage(info, { pdfFull: options.pdfFull }), result =>
+    const audit = await stage("audit", () => runAuditStage(info, {
+        pdfFull: options.pdfFull,
+        captureRulebook: options.captureRulebook,
+    }), result =>
     {
         reporter.stage("audit", result.status, result.detail);
         for(const note of result.notes) { reporter.warn(note); }
@@ -93,6 +96,8 @@ const run = async () : Promise<number> =>
         dryRun: options.dryRun,
         minMedia: options.minMedia,
         forceMedia: options.forceMedia,
+        replaceMedia: options.replaceMedia,
+        captureRulebook: options.captureRulebook,
     }), result =>
     {
         reporter.stage("media", result.status, result.detail);
@@ -231,7 +236,11 @@ const buildReport = (args:{
             width: file.width,
             height: file.height,
         })) ?? [],
-        finalize: [...(finalize?.changes ?? []), ...(media?.added ?? []).map(added => `media: ${added}`)],
+        finalize: [
+            ...(finalize?.changes ?? []),
+            ...(media?.added ?? []).map(added => `media: ${added}`),
+            ...(media?.removed ?? []).map(removed => `media replaced: ${removed}`),
+        ],
         nextSteps,
         paths: {
             report: join(outDir, "report.md"),

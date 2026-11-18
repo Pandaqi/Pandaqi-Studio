@@ -4,6 +4,7 @@ type: "project"
 title: "Maybe Missions"
 blurb: "Propose spy missions and hope enough people want them to succeed---or deviously let them fail to benefit your own secret cover."
 # blurb: "A [Maybe Game](/maybe-games/) game about tactically proposing spy missions so the other players want to help you succeed."
+gamebuddy: "/game-buddy/template/maybe-games/"
 blurbProject: "Propose spy missions and hope enough people want them to succeed---or deviously let them fail to benefit your own secret cover."
 weightProject: 20
 

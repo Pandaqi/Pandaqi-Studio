@@ -1,8 +1,8 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { joinDocument, readListField, setListField, splitDocument } from "../lib/frontmatter";
 import { relPosix, walk } from "../lib/files";
-import { convertToWebp, type ConversionResult } from "../lib/webp";
+import { convertToWebp, type ConversionJob, type ConversionResult } from "../lib/webp";
 import type { ProjectInfo } from "./inspect";
 import type { AuditStageResult } from "./audit";
 
@@ -29,6 +29,7 @@ export interface MediaStageResult
     detail: string;
     files: ConversionResult[];
     added: string[];
+    removed: string[];
     notes: string[];
 }
 
@@ -128,6 +129,65 @@ export const planMedia = (
     return { target, needed: count, chosen };
 };
 
+// Where the gallery's own images live. `media` entries are page-relative (`assets/screenshots/x`), so
+// anything under this folder is a screenshot the pipeline itself put there.
+const GALLERY_PREFIX = "assets/screenshots/";
+const MEDIA_EXTENSIONS = ["", ".webp", ".png", ".jpg", ".jpeg"];
+
+export interface ReplacementPlan
+{
+    keep: string[];
+    drop: string[];
+    files: string[];
+}
+
+// A media entry usually omits its extension: `assets/screenshots/game-page-001` for a `.webp`.
+export const resolveMediaFile = (projectDir:string, entry:string) : string | null =>
+{
+    if(/^https?:|youtube\.com|youtu\.be|\.mp4$|\.webm$/i.test(entry)) { return null; }
+    for(const extension of MEDIA_EXTENSIONS)
+    {
+        const file = join(projectDir, entry + extension);
+        if(existsSync(file)) { return file; }
+    }
+    return null;
+};
+
+// `--replace-media` starts the gallery over instead of topping it up, so the project's own screenshots
+// are dropped and their files deleted. Everything else in the list — a video, an external URL, an
+// image that lives elsewhere in the page bundle — is not a gallery screenshot and is left alone.
+// Pure, so "which files would this delete" is testable without writing anything.
+export const planReplacement = (media:string[], projectDir:string) : ReplacementPlan =>
+{
+    const keep:string[] = [];
+    const drop:string[] = [];
+    const files:string[] = [];
+    for(const entry of media)
+    {
+        const normalized = entry.replace(/\\/g, "/");
+        if(!normalized.startsWith(GALLERY_PREFIX)) { keep.push(entry); continue; }
+        drop.push(entry);
+        const file = resolveMediaFile(projectDir, normalized);
+        if(file) { files.push(file); }
+    }
+    return { keep, drop, files };
+};
+
+// The harness writes each audited page's viewport screenshot next to that page's artifacts. Only the
+// rulebook's is wanted: the generator's `page.png` is its settings form, not material.
+export const rulebookScreenshot = (entries:{ contract:string, artifacts?:string[] }[]) : string | null =>
+{
+    for(const entry of entries)
+    {
+        if(entry.contract !== "rulebook") { continue; }
+        for(const file of entry.artifacts ?? [])
+        {
+            if(/[\\/]page\.png$/i.test(file) && existsSync(file)) { return file; }
+        }
+    }
+    return null;
+};
+
 const nextFreeIndex = (dir:string, slug:string) =>
 {
     let highest = 0;
@@ -145,12 +205,20 @@ const nextFreeIndex = (dir:string, slug:string) =>
 export const runMediaStage = async (
     info:ProjectInfo,
     audit:AuditStageResult | null,
-    opts:{ dryRun:boolean, minMedia:number, forceMedia:boolean },
+    opts:{ dryRun:boolean, minMedia:number, forceMedia:boolean, replaceMedia:boolean, captureRulebook:boolean },
 ) : Promise<MediaStageResult> =>
 {
     const notes:string[] = [];
     const target = Math.max(GALLERY_MINIMUM, opts.minMedia);
     const generators = (audit?.entries ?? []).filter(entry => entry.contract === "generator");
+    const rulebookShot = opts.captureRulebook ? rulebookScreenshot(audit?.entries ?? []) : null;
+
+    if(opts.captureRulebook && !rulebookShot)
+    {
+        notes.push(`--capture-rulebook: ${info.rulebookFiles.length > 0
+            ? "the rulebook page was not audited, so no rulebook screenshot was taken"
+            : "this project has no rulebook to screenshot"}`);
+    }
 
     if(!audit || generators.length === 0)
     {
@@ -158,43 +226,67 @@ export const runMediaStage = async (
             ? "no generator page was audited, so there is no material to screenshot"
             : "no material generator was detected for this project, so there is nothing to screenshot";
         if(info.existingImages < target) { notes.push(`the gallery has ${info.existingImages} image(s) and cannot be topped up automatically: ${detail}`); }
-        return { status: "warn", detail, files: [], added: [], notes };
+        // A rulebook screenshot is still worth having on a project without material.
+        if(!rulebookShot) { return { status: "warn", detail, files: [], added: [], removed: [], notes }; }
     }
 
     const children = info.childProjects.map(child => child.slice(info.projectPath.length + 1));
-    const candidates = collectCandidates(audit.rendersDir, children);
-    if(candidates.length === 0)
+    const candidates = audit && generators.length > 0 ? collectCandidates(audit.rendersDir, children) : [];
+    if(candidates.length === 0 && generators.length > 0)
     {
-        return {
-            status: "warn",
-            detail: "the generator ran, but no PDF page previews were captured (--render produced nothing)",
-            files: [], added: [], notes,
-        };
+        notes.push("the generator ran, but no PDF page previews were captured (--render produced nothing)");
     }
 
-    const plan = planMedia(info.existingImages, target, opts.forceMedia, candidates);
-    if(plan.chosen.length === 0)
+    // Replacing counts the new captures from zero: the old ones are about to stop existing.
+    const plan = planMedia(opts.replaceMedia ? 0 : info.existingImages, target, opts.forceMedia, candidates);
+    const replacing = opts.replaceMedia && plan.chosen.length > 0;
+    const replacement = replacing ? planReplacement(info.media, info.dir) : { keep: [...info.media], drop: [], files: [] };
+
+    if(plan.chosen.length === 0 && !rulebookShot)
     {
-        return { status: "pass", detail: `gallery already has ${info.existingImages} image(s) (target ${plan.target})`, files: [], added: [], notes };
+        if(opts.replaceMedia && info.existingImages > 0)
+        {
+            notes.push("--replace-media: nothing new was captured, so the existing gallery was left alone");
+        }
+        return {
+            status: "pass",
+            detail: `gallery already has ${info.existingImages} image(s) (target ${plan.target})`,
+            files: [], added: [], removed: [], notes,
+        };
     }
     if(plan.chosen.length < plan.needed)
     {
         notes.push(`the gallery wants ${plan.needed} more image(s), but this material only produced ${plan.chosen.length} usable page preview(s)`);
     }
 
-    const first = nextFreeIndex(info.screenshotsDir, info.slug);
-    const jobs = plan.chosen.map((candidate, index) => ({
+    // The old files go before the numbering is chosen, so a replacement starts again at -page-001
+    // instead of continuing above a gallery that no longer exists. Only files that exist are listed.
+    if(replacing && !opts.dryRun)
+    {
+        for(const file of replacement.files) { rmSync(file, { force: true }); }
+    }
+
+    const first = replacing ? 1 : nextFreeIndex(info.screenshotsDir, info.slug);
+    const jobs:ConversionJob[] = plan.chosen.map((candidate, index) => ({
         src: candidate.src,
         dest: join(info.screenshotsDir, `${info.slug}-page-${String(first + index).padStart(3, "0")}.webp`),
     }));
+    if(rulebookShot)
+    {
+        // One stable file name: re-capturing the rulebook refreshes its image instead of growing the
+        // gallery a second copy of the same page.
+        jobs.push({ src: rulebookShot, dest: join(info.screenshotsDir, `${info.slug}-rulebook.webp`) });
+    }
 
     if(opts.dryRun)
     {
         return {
             status: "pass",
-            detail: `would add ${jobs.length} screenshot(s) to the gallery`,
+            detail: `would add ${jobs.length} screenshot(s) to the gallery` +
+                (replacing ? `, replacing ${replacement.drop.length} old one(s)` : ""),
             files: [],
             added: jobs.map(job => relPosix(info.dir, job.dest)),
+            removed: replacement.drop,
             notes,
         };
     }
@@ -221,16 +313,20 @@ export const runMediaStage = async (
     const text = readFileSync(info.indexMd, "utf8");
     const doc = splitDocument(text);
     const lines = doc.frontmatter.split(doc.eol);
-    const merged = [...readListField(lines, "media")];
+    // A replacement rebuilds the list from what survived (videos, external links); otherwise it is read
+    // as it stands, so a hand edit made since the inspect stage is not lost.
+    const merged = [...(replacing ? replacement.keep : readListField(lines, "media"))];
     for(const base of bases) { if(!merged.includes(base)) { merged.push(base); } }
     writeFileSync(info.indexMd, joinDocument(doc, setListField(lines, "media", merged).join(doc.eol), doc.body), "utf8");
 
     const sizeText = converted.map(item => `${(item.bytes / 1024).toFixed(0)} KB`).join(", ");
+    const replacedText = replacement.drop.length > 0 ? `, replacing ${replacement.drop.length} old screenshot(s)` : "";
     return {
         status: "pass",
-        detail: `added ${converted.length} screenshot(s) (${sizeText}) and linked them in the media gallery`,
+        detail: `added ${converted.length} screenshot(s) (${sizeText})${replacedText} and linked them in the media gallery`,
         files: converted,
         added: bases,
+        removed: replacement.drop,
         notes,
     };
 };

@@ -7,6 +7,8 @@ export interface CliOptions
     format: boolean;
     minMedia: number;
     forceMedia: boolean;
+    replaceMedia: boolean;
+    captureRulebook: boolean;
     setDate: boolean;
     keepDraft: boolean;
     edits: string | null;
@@ -31,6 +33,8 @@ Flags
   --no-format            do not run the formatter (type check and lint still run)
   --min-media <n>        images the gallery must have (default 4)
   --force-media          add fresh screenshots even when the gallery is full
+  --replace-media        replace the gallery's screenshots with the new ones instead of adding
+  --capture-rulebook     also screenshot the rulebook's first screen and add it to the gallery
   --set-date             set the project date to today even when it has one
   --keep-draft           never remove \`draft: true\`
   --edits <file>         apply a review JSON from the agent pass (see review/edits.example.json)
@@ -51,6 +55,8 @@ export const parseCli = (argv:string[]) : CliOptions =>
         format: true,
         minMedia: 4,
         forceMedia: false,
+        replaceMedia: false,
+        captureRulebook: false,
         setDate: false,
         keepDraft: false,
         edits: null,
@@ -83,6 +89,8 @@ export const parseCli = (argv:string[]) : CliOptions =>
             case "--no-fix": options.fixText = false; break;
             case "--no-format": options.format = false; break;
             case "--force-media": options.forceMedia = true; break;
+            case "--replace-media": options.replaceMedia = true; break;
+            case "--capture-rulebook": options.captureRulebook = true; break;
             case "--set-date": options.setDate = true; break;
             case "--keep-draft": options.keepDraft = true; break;
             case "--pdf-full": options.pdfFull = true; break;

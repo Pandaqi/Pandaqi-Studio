@@ -4,6 +4,7 @@ type: "project"
 
 title: "Bidding Blocks"
 blurb: "Play tricks building a house together, but let the house crumble when it favors your risky bid."
+gamebuddy: "/game-buddy/template/bidding-blocks/"
 
 
 driveLink: "https://drive.google.com/drive/folders/1Tcw0OHh5wn-li1w0AGjbX4mGM7zPUcZe"

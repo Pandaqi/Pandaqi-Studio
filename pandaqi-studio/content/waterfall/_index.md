@@ -4,6 +4,7 @@ type: "project"
 title: "Waterfall"
 blurb: "A textless, kid-friendly fall down a growing waterfall, grabbing the best gemstones on the way."
 # blurb: "Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way."
+gamebuddy: "/game-buddy/template/waterfall/"
 driveLink: "https://drive.google.com/drive/folders/1vMuxpb1QiOHnb2tmGOcu50q0xkyRcE9i"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/tile-games/the-waterfall-games/"
 

@@ -5,6 +5,7 @@ collection: "conquer"
 title: "Throneless Games"
 blurb: "A series of games about secretly collecting the most votes for your Prince, as the players constantly change seats to get to the throne."
 # blurb: "A series of games about secretly collecting the most votes, as the players constantly change seats to get to the elusive throne."
+gamebuddy: "/game-buddy/template/throneless-games/"
 driveLink: "https://drive.google.com/drive/folders/1uCbO2Mri8ITnz6-jIBJV5qUHmgGdfYr5"
 
 date: 2023-12-20

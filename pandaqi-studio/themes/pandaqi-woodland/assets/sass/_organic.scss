@@ -668,8 +668,8 @@ body.display-mode-dark
 .pq-btn-quiet::before { background: var(--pq-btn-quiet-bg); }
 
 /* One accent per kind of action: printable = fern, store = purple,
-   generator = honey, rulebook = sky, source files = berry. The fills are
-   semantic tokens, so dark mode gets its own set. */
+   generator = honey, rulebook = sky, source files = berry, game buddy = teal.
+   The fills are semantic tokens, so dark mode gets its own set. */
 .pq-btn-fern { color: var(--pq-on-fern); }
 .pq-btn-fern::before { background: var(--pq-fern); }
 
@@ -678,6 +678,9 @@ body.display-mode-dark
 
 .pq-btn-berry { color: var(--pq-on-berry); }
 .pq-btn-berry::before { background: var(--pq-berry); }
+
+.pq-btn-teal { color: var(--pq-on-teal); }
+.pq-btn-teal::before { background: var(--pq-teal); }
 
 /* Donations share one warm tint instead of borrowing a game-action colour. */
 .pq-btn-support

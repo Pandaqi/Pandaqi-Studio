@@ -82,9 +82,10 @@ const filter = argValue("filter");
 const segment = argValue("segment");
 // pages rendered with the segment: a nested game's collection pages, for the assets it borrows
 const segmentIncludes = argValues("segment-include");
-// pages taken back out of the segment (and out of the manifest): a collection's own games
-const segmentExcludes = argValues("segment-exclude");
-const filterExcludes = argValues("filter-exclude");
+// Pages taken back out of the segment *and* out of the manifest: a collection's own games. One list,
+// because the two have to agree: a page left out of the build but still queued is reported as
+// NOT_BUILT, and a page built but left out of the manifest is audited nowhere.
+const excludes = argValues("exclude");
 const onlyFailing = hasFlag("only-failing");
 const skipBuild = hasFlag("skip-build");
 const baseUrlOverride = argValue("base-url");
@@ -160,7 +161,7 @@ const main = async () : Promise<number> =>
         }
     }
 
-    if(segment) { writeSegment(studioDir, segment, segmentIncludes, segmentExcludes); }
+    if(segment) { writeSegment(studioDir, segment, segmentIncludes, excludes); }
 
     // build
     let build = { exitCode: 0, durationMs: 0, cached: false, log: join(outDir, "build.log") };
@@ -171,7 +172,7 @@ const main = async () : Promise<number> =>
             log: join(outDir, "build.log"),
             project: segment,
             segmentIncludes,
-            segmentExcludes,
+            segmentExcludes: excludes,
             skip: skipBuild,
             studioDir,
         });
@@ -185,7 +186,7 @@ const main = async () : Promise<number> =>
         console.log(`build: exit 0 in ${(result.durationMs / 1000).toFixed(1)} s${result.cached ? " (reused)" : ""}`);
     }
 
-    const entries = buildManifest({ studioDir, siteDir, filter, filterExclude: filterExcludes });
+    const entries = buildManifest({ studioDir, siteDir, filter, filterExclude: excludes });
     writeManifest(join(outDir, "manifest.json"), entries);
 
     let queue = entries.filter(matchesKind);

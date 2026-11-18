@@ -3,6 +3,7 @@ type: "project"
 
 title: "Champions of Chance"
 blurb: "Battle your custom dice against those of other players and hope the odds are in your favor."
+gamebuddy: "/game-buddy/template/luck-legends/"
 
 weightProject: 10
 

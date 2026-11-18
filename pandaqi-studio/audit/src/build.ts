@@ -11,7 +11,8 @@ export interface BuildOptions
     // its fonts or banners from (without it, that game's asset URLs 404 in a filtered build)
     segmentIncludes?: string[];
     // content paths left out of the segment even though an include covers them, e.g. the games inside
-    // a collection (their own releases build them)
+    // a collection (their own releases build them). The CLI's single `--exclude` list feeds both this
+    // and the manifest's filterExclude, so the build and the audit queue can never disagree.
     segmentExcludes?: string[];
     skip?: boolean;
     studioDir: string;

@@ -4,6 +4,7 @@ type: "project"
 
 title: "Pietenpoker"
 blurb: "Een simpelere versie van Poker voor Sinterklaasavonden en Blufpieten."
+gamebuddy: "/game-buddy/template/chiptales/"
 
 
 driveLink: "https://drive.google.com/drive/folders/15h2WfRlYZwEBD_LSHhYH0pEMT80xbfcO"

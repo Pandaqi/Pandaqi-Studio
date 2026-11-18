@@ -6,6 +6,7 @@
     "audit": "bun run src/main.ts",
     "release": "bun run new-project-release-pipeline/src/main.ts",
     "static": "bun run src/static.ts",
+    "gamebuddy": "bun run src/gamebuddy.ts",
     "perf": "bun run src/perf.ts",
     "renderer-bench": "bun run src/renderer-bench.ts",
     "test": "bun test tests",

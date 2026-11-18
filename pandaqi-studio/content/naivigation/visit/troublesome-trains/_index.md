@@ -4,6 +4,7 @@ type: "project"
 title: "Troublesome Trains"
 blurb: "Steer the trains together on the same unpredictable rails — and try not to meet head-on. A Naivigation game for 2–10 players."
 # blurb: "A [Naivigation](/naivigation/) game about steering multiple trains together, while on the same rails that keep shifting."
+gamebuddy: "/game-buddy/template/naivigation/"
 weightProject: 50
 
 driveLink: "https://drive.google.com/drive/folders/186gZy7euPX5wFrZcyRDBt8T1bPzThe9m"

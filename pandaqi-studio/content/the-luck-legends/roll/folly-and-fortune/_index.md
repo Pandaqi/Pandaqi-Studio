@@ -3,6 +3,7 @@ type: "project"
 
 title: "Folly & Fortune"
 blurb: "Stop re-rolling your dice before fortune turns into folly ... if you can resist the temptation for larger attacks."
+gamebuddy: "/game-buddy/template/luck-legends/"
 
 weightProject: 25
 

@@ -21,6 +21,7 @@
     {{ $output_url := printf "%s/bundle.css" $url_prefixed }}
     {{ $options := (dict "targetPath" $output_url "outputStyle" "compressed" "transpiler" "dartsass") }}
     {{ $style := $res_css | css.Sass $options }}
+    {{ if not hugo.IsDevelopment }}{{ $style = $style | fingerprint }}{{ end }}
     <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}">
 {{ end }}
 

@@ -3,6 +3,7 @@ type: "project"
 
 title: "Chaos Contract"
 blurb: "Enter Chaos Contracts with other lost souls and place the difference between major rewards and huge curses on a single dice roll."
+gamebuddy: "/game-buddy/template/luck-legends/"
 
 weightProject: 30
 

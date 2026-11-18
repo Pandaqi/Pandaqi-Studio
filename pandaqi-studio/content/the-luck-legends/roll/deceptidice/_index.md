@@ -3,6 +3,7 @@ type: "project"
 
 title: "Deceptidice"
 blurb: "Bank on riskier and riskier combinations appearing on the secret dice, or call your neighbor's bluff."
+gamebuddy: "/game-buddy/template/luck-legends/"
 
 weightProject: 35
 

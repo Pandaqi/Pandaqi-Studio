@@ -4,6 +4,7 @@ type: "project"
 title: "Maybe Movies"
 blurb: "Pitch movie ideas that enough players would like to throw money at, or see your money go down the drain after another flop."
 # blurb: "A [Maybe Game](/maybe-games/) about pitching movie ideas that enough players want to throw money at---or want to see flop."
+gamebuddy: "/game-buddy/template/maybe-games/"
 blurbProject: "Pitch movie ideas that enough players would like to throw money at, or see your money go down the drain after another flop."
 weightProject: 10
 

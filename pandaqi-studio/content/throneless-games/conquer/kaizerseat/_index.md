@@ -4,6 +4,7 @@ type: "project"
 title: "Kaizerseat"
 blurb: "Vote, swap places, use powers and backstab to ensure the right Seeker wins the throne. The longest and most strategical Throneless Game."
 # blurb: "A [Throneless Game](/throneless-games/) game about helping your animal win the throne, aimed more at kids."
+gamebuddy: "/game-buddy/template/throneless-games/"
 blurbProject: "The most complicated version, giving you the deepest gameplay in return."
 weightProject: 40
 

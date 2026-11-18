@@ -4,6 +4,7 @@ type: "project"
 title: "Firecrackers"
 blurb: "A push-your-luck game about building a deck of valuable fireworks — and not igniting the wrong one."
 # blurb: "Build the best fireworks show without having it blow up in your face."
+gamebuddy: "/game-buddy/template/firecrackers/"
 driveLink: "https://drive.google.com/drive/folders/12cmopxbr8HZWw8jkXijINkCd8wdTAPQs"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/firecrackers/"
 

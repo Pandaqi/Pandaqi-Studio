@@ -4,6 +4,7 @@ type: "project"
 title: "Slippery Slopes"
 blurb: "A party game about conveying words by grading them on funky scales. How do you communicate PIZZA when you only have hot-cold, heavy-light and dry-wet?"
 # blurb: "A party game about communicating words by grading them on funky scales."
+gamebuddy: "/game-buddy/template/slippery-slopes/"
 
 date: 2024-04-25
 

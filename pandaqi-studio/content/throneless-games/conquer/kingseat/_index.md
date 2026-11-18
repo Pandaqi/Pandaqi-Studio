@@ -4,6 +4,7 @@ type: "project"
 title: "Kingseat"
 blurb: "Vote, swap places and use powers to ensure the right Prince wins the throne. A game playable without a table or chairs."
 # blurb: "A [Throneless Game](/throneless-games/) game about helping your animal win the throne, aimed more at kids."
+gamebuddy: "/game-buddy/template/throneless-games/"
 blurbProject: "The original version, with slightly more complicated setup and Princes."
 weightProject: 30
 

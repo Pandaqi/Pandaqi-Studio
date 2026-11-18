@@ -2,7 +2,7 @@
 // The encoder runs inside a Chromium page, so the DOM types belong to this file and nowhere else.
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname } from "node:path";
+import { dirname, extname } from "node:path";
 
 // JPEG -> WebP without adding an image dependency: the audit harness already depends on Chromium
 // through playwright-core, and a canvas encodes WebP natively. One browser is reused for every
@@ -31,6 +31,16 @@ export interface WebpOptions
     quality?: number;
 }
 
+// The sources are not all JPEGs: PDF page previews are, the rulebook screenshot is a PNG. The data URL
+// has to say which, or the browser has to guess.
+const MIME_TYPES:Record<string,string> = {
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".webp": "image/webp",
+};
+const mimeFor = (file:string) => MIME_TYPES[extname(file).toLowerCase()] ?? "image/jpeg";
+
 export const convertToWebp = async (jobs:ConversionJob[], opts:WebpOptions = {}) : Promise<ConversionResult[]> =>
 {
     if(jobs.length === 0) { return []; }
@@ -51,7 +61,7 @@ export const convertToWebp = async (jobs:ConversionJob[], opts:WebpOptions = {})
         for(const job of jobs)
         {
             const source = readFileSync(job.src);
-            const dataUrl = `data:image/jpeg;base64,${source.toString("base64")}`;
+            const dataUrl = `data:${mimeFor(job.src)};base64,${source.toString("base64")}`;
             const encoded = await page.evaluate(async (input:{ dataUrl:string, maxWidth:number, quality:number }) =>
             {
                 const image = new Image();

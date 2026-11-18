@@ -3,6 +3,7 @@ type: "project"
 
 title: "A Little White Die"
 blurb: "Guess how often certain numbers appear or bluff your way through it. A variant on Liar's Dice using cards."
+gamebuddy: "/game-buddy/template/luck-legends/"
 
 weightProject: 15
 

@@ -5,6 +5,7 @@ collection: "vote"
 title: "Maybe Games"
 blurb: "Simple board games built on one idea: voting for or against your friends' proposals at the worst possible moment for them."
 # blurb: "_Maybe Games_ is collection of simple board games about voting YES or NO all the time to collect the highest score for yourself."
+gamebuddy: "/game-buddy/template/maybe-games/"
 driveLink: "https://drive.google.com/drive/folders/1PiESe5tpn51F2VzsQLyzUKud6AgdPmVJ"
 
 date: 2025-04-26

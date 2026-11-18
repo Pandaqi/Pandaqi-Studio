@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { collectCandidates, planMedia, type MediaCandidate } from "../src/stages/media";
+import { collectCandidates, planMedia, planReplacement, rulebookScreenshot, type MediaCandidate } from "../src/stages/media";
 
 const candidates = (count:number, pdfs = 1) : MediaCandidate[] =>
 {
@@ -113,5 +113,72 @@ describe("planMedia", () =>
         const low = planMedia(0, 4, false, candidates(8), () => 0);
         const high = planMedia(0, 4, false, candidates(8), () => 0.999);
         expect(low.chosen.map(item => item.src)).not.toEqual(high.chosen.map(item => item.src));
+    });
+});
+
+const galleryProject = () =>
+{
+    const dir = mkdtempSync(join(tmpdir(), "pq-release-replace-"));
+    mkdirSync(join(dir, "assets", "screenshots"), { recursive: true });
+    writeFileSync(join(dir, "assets", "screenshots", "game-page-001.webp"), "webp", "utf8");
+    writeFileSync(join(dir, "assets", "screenshots", "game-page-002.webp"), "webp", "utf8");
+    writeFileSync(join(dir, "assets", "cover.webp"), "webp", "utf8");
+    return dir;
+};
+
+describe("planReplacement", () =>
+{
+    test("drops the gallery's screenshots and finds the files to delete", () =>
+    {
+        const dir = galleryProject();
+        const plan = planReplacement(["assets/screenshots/game-page-001", "assets/screenshots/game-page-002"], dir);
+
+        expect(plan.drop).toEqual(["assets/screenshots/game-page-001", "assets/screenshots/game-page-002"]);
+        expect(plan.keep).toEqual([]);
+        expect(plan.files.length).toBe(2);
+    });
+
+    test("keeps a video, an external link and an image outside the gallery", () =>
+    {
+        const dir = galleryProject();
+        const media = ["assets/screenshots/game-page-001", "https://youtu.be/abc", "assets/cover", "assets/screenshots/game-page-002"];
+        const plan = planReplacement(media, dir);
+
+        expect(plan.keep).toEqual(["https://youtu.be/abc", "assets/cover"]);
+        expect(plan.drop).toEqual(["assets/screenshots/game-page-001", "assets/screenshots/game-page-002"]);
+    });
+
+    test("drops an entry whose file is already gone instead of inventing a path", () =>
+    {
+        const dir = galleryProject();
+        const plan = planReplacement(["assets/screenshots/game-page-009"], dir);
+
+        expect(plan.drop).toEqual(["assets/screenshots/game-page-009"]);
+        expect(plan.files).toEqual([]);
+    });
+});
+
+describe("rulebookScreenshot", () =>
+{
+    test("takes the rulebook's page screenshot, never the generator's", () =>
+    {
+        const dir = mkdtempSync(join(tmpdir(), "pq-release-shot-"));
+        const rulebook = join(dir, "game-rules", "default", "page.png");
+        const generator = join(dir, "game", "default", "page.png");
+        mkdirSync(join(dir, "game-rules", "default"), { recursive: true });
+        mkdirSync(join(dir, "game", "default"), { recursive: true });
+        writeFileSync(rulebook, "png", "utf8");
+        writeFileSync(generator, "png", "utf8");
+
+        expect(rulebookScreenshot([
+            { contract: "generator", artifacts: [generator] },
+            { contract: "rulebook", artifacts: [rulebook] },
+        ])).toBe(rulebook);
+    });
+
+    test("nothing when no rulebook page was captured", () =>
+    {
+        expect(rulebookScreenshot([{ contract: "generator", artifacts: ["/nowhere/page.png"] }])).toBeNull();
+        expect(rulebookScreenshot([])).toBeNull();
     });
 });

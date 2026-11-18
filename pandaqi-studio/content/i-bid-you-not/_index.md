@@ -4,6 +4,7 @@ type: "project"
 title: "I Bid You Not"
 blurb: "Add items to the offer or call the auction. Afterwards, you may regret how much you paid for what you got."
 # blurb: "Sweeten the deal and be the highest bidder---or sour the deal and run away."
+gamebuddy: "/game-buddy/template/i-bid-you-not/"
 driveLink: "https://drive.google.com/drive/folders/17wUGca1wpZq7EFj3XV7zTPL_Q774X4lN"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/i-bid-you-not/"
 

@@ -4,6 +4,7 @@ type: "project"
 title: "Frightening Flights"
 blurb: "Steer a single airplane together and try to land it in one piece. A Naivigation game for 2–10 players."
 # blurb: "A [Naivigation](/naivigation/) game about steering a single airplane together without crashing into a mountain that's surprisingly tall."
+gamebuddy: "/game-buddy/template/naivigation/"
 weightProject: 20
 
 driveLink: "https://drive.google.com/drive/folders/1jqob8rGmP2Mb_VIC1DzjPz1YS7r7u6T-"

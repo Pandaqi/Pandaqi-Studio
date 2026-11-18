@@ -14,6 +14,17 @@
 		{{- /* singular, so the sentence reads "where Language is set to EN" instead of "where Languages ..." */ -}}
 		{{- $count := len .Pages -}}
 		<p class="pq-pagehead__lead">You're looking at <strong>{{ $count }}</strong> {{ cond (eq $count 1) "project" "projects" }} where <strong>{{ $name | singularize }}</strong> is set to <strong>{{ .Data.Term }}</strong>. Click any project below to see what it is, how to play, and where to get it.</p>
+		{{- /* How many of these games have a companion on Game Buddy. Counted over the whole term, not
+		       the current page, and left out entirely when the term has none. */ -}}
+		{{- if eq .Data.Plural "categories" -}}
+			{{- $buddy := 0 -}}
+			{{- range where .Pages "Type" "project" -}}
+				{{- if .Params.gamebuddy -}}{{- $buddy = add $buddy 1 -}}{{- end -}}
+			{{- end -}}
+			{{- if gt $buddy 0 }}
+		<p class="pq-pagehead__lead"><strong>{{ $buddy }}</strong> of them have a <a href="{{ "/game-buddy/" | relURL }}">Game Buddy</a> template: timers, scorepads and rules that work offline on a phone.</p>
+			{{- end -}}
+		{{- end }}
 	</div>
 </div>
 

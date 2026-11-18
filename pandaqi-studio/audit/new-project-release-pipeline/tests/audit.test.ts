@@ -29,6 +29,7 @@ describe("suppressKnownFalsePositives", () =>
             contract: "rulebook",
             status: "fail",
             failures: [failure("heading \"mountain miners — rulebook\" is not present in any .rulebook-section-header")],
+            artifacts: [],
         }];
 
         expect(suppressKnownFalsePositives(entries, root)).toBe(1);
@@ -47,6 +48,7 @@ describe("suppressKnownFalsePositives", () =>
                 failure("heading \"mountain miners — rulebook\" is not present in any .rulebook-section-header"),
                 failure("heading \"setup\" is not present in any .rulebook-section-header"),
             ],
+            artifacts: [],
         }];
 
         expect(suppressKnownFalsePositives(entries, root)).toBe(1);
@@ -62,6 +64,7 @@ describe("suppressKnownFalsePositives", () =>
             contract: "rulebook",
             status: "fail",
             failures: [failure("heading \"setup\" is not present in any .rulebook-section-header")],
+            artifacts: [],
         }];
         expect(suppressKnownFalsePositives(entries, root)).toBe(0);
         expect(entries[0].failures.length).toBe(1);
@@ -75,6 +78,7 @@ describe("suppressKnownFalsePositives", () =>
             contract: "rulebook",
             status: "fail",
             failures: ["RB_NO_TOOLBAR: the bundle never ran", "PAGE_ERROR: TypeError: x is not a function"],
+            artifacts: [],
         }];
         expect(suppressKnownFalsePositives(entries, root)).toBe(0);
         expect(entries[0].failures.length).toBe(2);

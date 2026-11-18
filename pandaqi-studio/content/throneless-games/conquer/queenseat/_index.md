@@ -4,6 +4,7 @@ type: "project"
 title: "Queenseat"
 blurb: "Vote, swap places and use powers to ensure the right Princess ends up on the throne. A game playable without a table or chairs."
 # blurb: "A [Throneless Game](/throneless-games/) game about making sure your Princess ends up on the throne."
+gamebuddy: "/game-buddy/template/throneless-games/"
 blurbProject: "The best introduction for all ages, using a changing Throne card to keep the game simple but tactical."
 weightProject: 20
 

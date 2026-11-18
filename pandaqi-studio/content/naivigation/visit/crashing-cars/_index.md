@@ -4,6 +4,7 @@ type: "project"
 title: "Crashing cars"
 blurb: "Steer a single car together, one player at a time, and try not to total it. A Naivigation game for 2–10 players."
 # blurb: "A [Naivigation](/naivigation/) game about steering a single car together, trying not to end up total loss."
+gamebuddy: "/game-buddy/template/naivigation/"
 weightProject: 30
 
 driveLink: "https://drive.google.com/drive/folders/1WKmILf44gTef64QHRQO0jdkur54nXpNI"

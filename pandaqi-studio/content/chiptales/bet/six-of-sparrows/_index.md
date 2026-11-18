@@ -5,6 +5,7 @@ type: "project"
 title: "Six of Sparrows"
 blurb: "Create card patterns, but the earlier you state which pattern you'll complete (without seeing all your cards), the more points you get."
 # blurb: "Create card patterns where early blind bids multiply your points---if you manage to actually complete them."
+gamebuddy: "/game-buddy/template/chiptales/"
 
 driveLink: "https://drive.google.com/drive/folders/1njaLYJ2YF_hRqz94qi8inNJCzSUB5doM"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/chiptales/six-of-sparrows/"

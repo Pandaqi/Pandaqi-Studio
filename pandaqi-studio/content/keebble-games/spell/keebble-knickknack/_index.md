@@ -4,6 +4,7 @@ type: "project"
 title: "Keebble: Knickknack"
 blurb: "A Scrabble-like party game played with one blank sheet of paper and one phone with internet."
 # blurb: "A word game like Scrabble, but faster, simpler and more exciting. A hybrid (board game + video game) version of the [Keebble Games](/keebble-games/) idea."
+gamebuddy: "/game-buddy/template/keebble-games/"
 blurbProject: "The same as Keebble, but now digital, played using a single smartphone. This allows more depth, variation, and random setup."
 weightProject: 20
 

@@ -4,6 +4,7 @@ type: "project"
 title: "Smallseat"
 blurb: "Vote, swap places and use powers to ensure the right Animal gets the throne. A game playable without a table or chairs."
 # blurb: "A [Throneless Game](/throneless-games/) about helping your Animal win the throne, aimed more at kids."
+gamebuddy: "/game-buddy/template/throneless-games/"
 blurbProject: "The most simplified and streamlined version, with a visual style more attractive to kids."
 weightProject: 10
 

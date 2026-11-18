@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { auditDir, auditReportPath, contentDir, rendersDir, siteDir } from "../config";
 import { run } from "../lib/proc";
@@ -15,6 +15,9 @@ export interface AuditEntry
     contract: string;
     status: string;
     failures: string[];
+    // files this run wrote next to the page (the harness' own artifacts): a rulebook's `page.png` is
+    // the screenshot `--capture-rulebook` puts in the gallery
+    artifacts: string[];
 }
 
 export interface AuditStageResult
@@ -51,7 +54,7 @@ export const ancestorAssetBundles = (projectPath:string, root:string = contentDi
     return out;
 };
 
-export const runAuditStage = async (info:ProjectInfo, opts:{ pdfFull:boolean }) : Promise<AuditStageResult> =>
+export const runAuditStage = async (info:ProjectInfo, opts:{ pdfFull:boolean, captureRulebook:boolean }) : Promise<AuditStageResult> =>
 {
     // The trailing slash matters: the harness matches its filter as a substring, so `waterfall`
     // would also queue `/waterfall-raging-rapids/` — a different game that this segment build never
@@ -63,21 +66,24 @@ export const runAuditStage = async (info:ProjectInfo, opts:{ pdfFull:boolean }) 
         "--filter", filter,
         "--segment", info.projectPath,
         "--render",
-        // four pages per PDF (and one preview each), which is what lets a single-material game fill a
-        // four-image gallery: the selection skips each file's cover page
-        "--pdf-max-pages", "4",
+        // The full document, not a preview: the four previews are picked spread across every page the
+        // generator drew, so a deck offers four genuinely different pages instead of a cover and its
+        // neighbours. `--pdf-max-pages 0` is no cap — the harness' own default is two pages.
+        "--pdf-max-pages", "0",
         "--renders-per-pdf", "4",
         "--renders-total", "12",
+        // Drawing every card of a full deck takes longer than the sweep's default 90 s ceiling.
+        "--gen-timeout", "180000",
         "--runs", "1",
     ];
+    // One viewport screenshot per audited page, which costs a full-page PNG capture. Only the
+    // rulebook's is used, so it is only asked for when the gallery is going to show it.
+    if(opts.captureRulebook) { args.push("--screenshots"); }
     for(const ancestor of includes) { args.push("--segment-include", ancestor); }
     // The games inside this project are releases of their own. Building them here made a collection
-    // release audit every one of them (16 pages instead of 2); exclude them from the segment AND from
-    // the manifest, so they are neither queued nor reported as NOT_BUILT.
-    for(const child of info.childProjects)
-    {
-        args.push("--segment-exclude", child, "--filter-exclude", child);
-    }
+    // release audit every one of them (16 pages instead of 2); one `--exclude` takes them out of both
+    // the segment build and the audit queue, so they are neither built nor reported as NOT_BUILT.
+    for(const child of info.childProjects) { args.push("--exclude", child); }
     if(opts.pdfFull) { args.push("--pdf-full"); }
 
     // The audit harness caches its build on a hash of content/assets/themes only, not on the segment,
@@ -108,6 +114,7 @@ export const runAuditStage = async (info:ProjectInfo, opts:{ pdfFull:boolean }) 
     const segmentBefore = existsSync(segmentFile) ? readFileSync(segmentFile, "utf8") : null;
 
     console.log(`        running: bun ${args.join(" ")} (this builds the site through a segment that contains only this project)`);
+    const startedAt = Date.now();
     let result;
     try
     {
@@ -137,6 +144,10 @@ export const runAuditStage = async (info:ProjectInfo, opts:{ pdfFull:boolean }) 
                     contract: entry.contract,
                     status: entry.status,
                     failures: (entry.failures ?? []).map((failure:any) => `${failure.code}: ${failure.message}`),
+                    // Only files this run wrote. The artifacts folder is shared between runs, so
+                    // yesterday's page.png must not become today's rulebook screenshot.
+                    artifacts: (entry.artifacts ?? []).filter((file:string) =>
+                        existsSync(file) && statSync(file).mtimeMs >= startedAt - 2000),
                 })));
         }
         catch(error:any)

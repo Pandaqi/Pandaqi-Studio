@@ -3,6 +3,7 @@ type: "project"
 
 title: "Boot op Stoom"
 blurb: "Bestuur samen de stoomboot en zorg dat je niet op de klippen loopt of de pakjes verkeerd aflevert."
+gamebuddy: "/game-buddy/template/naivigation/"
 
 weightProject: 20
 

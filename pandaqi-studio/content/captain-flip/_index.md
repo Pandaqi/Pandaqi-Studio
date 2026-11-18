@@ -4,6 +4,7 @@ type: "project"
 title: "Captain Flip"
 blurb: "Flip tiles to trigger actions, remember what is where, and grab the tiles that actually score. A memory game with a strategist hiding inside."
 # blurb: "Remember the locations of the best tiles and flip them before anyone else."
+gamebuddy: "/game-buddy/template/captain-flip/"
 driveLink: "https://drive.google.com/drive/folders/1XyTJDG_9tOtEwNdNxfAAKBFr6LHghwIX"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/tile-games/captain-flip/"
 

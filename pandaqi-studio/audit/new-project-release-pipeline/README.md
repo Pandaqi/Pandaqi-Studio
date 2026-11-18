@@ -84,8 +84,9 @@ suggestions in the edits file are only appended to the report.
 ## Marketing material
 
 The material generator is already driven by the audit stage, which saves every PDF it produces under
-`audit-artifacts/artifacts/`. The `--render` flag asks the harness for four page previews spread
-across each PDF (one more than the gallery needs), and those previews are the screenshots:
+`audit-artifacts/artifacts/` — the **full** document for **every material**, not a two-page preview.
+The `--render` flag asks the harness for four page previews spread across each complete PDF, and those
+previews are the screenshots:
 
 1. each preview (JPEG, 1280 px) is downscaled to ≤1100 px and encoded as WebP at quality 0.72
    through Chrome's canvas — no image library, no new dependency;
@@ -100,11 +101,24 @@ gallery rather than a preview. A project that already has four or more keeps its
 two-page PDF), it adds what exists and says so. `--min-media` raises the target; it cannot lower it
 below four.
 
+`--replace-media` turns that top-up into a replacement: every entry under `assets/screenshots/` is
+dropped from `media:`, its file is deleted, and the new captures take their place (numbering starts
+again at `-page-001`). A game whose art changed does not keep a four-year-old screenshot next to
+today's. Everything else in `media:` — a video, an external URL, an image that lives elsewhere in the
+page bundle — is not a gallery screenshot and is left alone. If the run captures nothing new, the
+gallery is left alone too rather than emptied. `--force-media` adds; `--replace-media` starts over.
+
+`--capture-rulebook` adds one more image to that gallery: the rulebook page's first screen, captured
+by the audit while it has the page open at 1280×900, written to
+`assets/screenshots/<project>-rulebook.webp` and appended to `media:`. It is off by default because
+most galleries are material. The file name is stable, so re-running refreshes the image instead of
+adding a second copy of the same page; a project without a rulebook gets a note and nothing else.
+
 Which pages are picked is not fixed: each PDF's opening page (the cover) is skipped when there is
 enough behind it, the remaining pages are chosen at random, and the materials take turns so one deck
 cannot fill the gallery. Two releases of the same game therefore do not ship the same screenshots.
-The audit renders up to four pages per PDF (`--pdf-max-pages 4`) so a single-material game can still
-fill the gallery.
+The audit builds the full PDF (`--pdf-max-pages 0`) and picks its four previews from the whole
+document, so four genuinely different pages are likely even for a single-material game.
 
 ## Flags
 
@@ -115,6 +129,8 @@ fill the gallery.
 --no-format            skip the formatter (type check and lint still run)
 --min-media <n>        gallery target (default 4; values below 4 are raised to 4)
 --force-media          add four screenshots even when the gallery is full
+--replace-media        replace the gallery's screenshots with the new ones instead of adding
+--capture-rulebook     also screenshot the rulebook's first screen and add it to the gallery
 --set-date             set the date to today even when the page has one
 --keep-draft           never remove `draft: true`
 --edits <file>         apply a review JSON from the agent pass
@@ -131,10 +147,12 @@ pipeline asks of it:
 | `--filter <project>/` | queue only this project's pages. The trailing slash matters: the harness matches it as a substring, so `waterfall` would also queue `/waterfall-raging-rapids/`. |
 | `--segment <project>` | build the site with only this project rendered. |
 | `--segment-include <path>` | **new, repeatable.** Render one more page alongside the segment. The pipeline adds every ancestor collection page that owns an `assets/` folder, so a nested game can load the files it borrows from it — e.g. `naivigation` for `naivigation/visit/crashing-cars`, whose fonts live in `content/naivigation/assets/fonts/`. Without it those requests 404 in the filtered build. Adding it does not widen the audit: the manifest filter still queues only this project's pages. |
-| `--segment-exclude <path>` + `--filter-exclude <path>` | **new, repeatable.** The games inside a collection. Hugo's segment `excludes` take precedence over `includes`, so `/naivigation/` builds its own page, rulebook and game page while `naivigation/visit/**` and the rest are left out; the manifest exclude then keeps them out of the audit queue too, so they are neither audited nor reported as `NOT_BUILT`. Releasing `naivigation` went from 16 audited pages to 2. |
-| `--render --pdf-max-pages 4 --renders-per-pdf 4 --renders-total 12` | keep page previews of each generated PDF, four pages per PDF, for the marketing gallery. |
+| `--exclude <path>` | **new, repeatable.** The games inside a collection, in one list because both places must agree. Hugo's segment `excludes` take precedence over `includes`, so `/naivigation/` builds its own page, rulebook and game page while `naivigation/visit/**` and the rest are left out; the same list also keeps them out of the audit queue, so they are neither audited nor reported as `NOT_BUILT`. Releasing `naivigation` went from 16 audited pages to 2. |
+| `--render --pdf-max-pages 0 --renders-per-pdf 4 --renders-total 12` | build the full PDF and keep four page previews of every generated PDF for the marketing gallery. `--pdf-max-pages 0` is no cap; the harness' own default is two pages. |
+| `--gen-timeout 180000` | drawing every card of a full deck takes longer than a sweep's default 90 s ceiling. |
+| `--screenshots` | only with `--capture-rulebook`: one viewport screenshot per audited page, of which the rulebook's becomes a gallery image. |
 | `--runs 1` | one pass; the audit is a release gate here, not a sweep. |
-| `--pdf-full` | only with the pipeline's `--pdf-full`: production-quality PDFs instead of the two-page previews. |
+| `--pdf-full` | only with the pipeline's `--pdf-full`: production-quality (compressed) PDFs instead of uncompressed ones. |
 
 ## Requirements
 
@@ -205,5 +223,5 @@ bun test
 
 `tests/` covers the parts where a mistake would be silent: frontmatter round-tripping (including
 CRLF), the safe fixes, the guard (it must accept a typo fix and refuse a number change), the
-screenshot selection, and the scoping of nested projects (a collection owns its own page and
-rulebook, never its games').
+screenshot selection and replacement, the rulebook screenshot choice, and the scoping of nested
+projects (a collection owns its own page and rulebook, never its games').

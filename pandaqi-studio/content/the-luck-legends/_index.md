@@ -4,6 +4,7 @@ collection: "roll"
 
 title: "The Luck Legends"
 blurb: "A series of games built on luck: rolling dice, building dice, and occasionally making the map out of dice."
+gamebuddy: "/game-buddy/template/luck-legends/"
 
 driveLink: "https://drive.google.com/drive/folders/1Dp3anjWLbrJVVznUVE14vxCiezfk6VXu"
 
