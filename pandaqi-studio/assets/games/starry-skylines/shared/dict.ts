@@ -240,7 +240,7 @@ export const EVENTS =
 
 	'Fertile Soil':
 		{
-			desc: "Researchers have discovered a new &mdash; and much better &mdash; way to grow food! Each player must choose one Wheat or Paddy field to enhance (by drawing a big fat plus sign). They now count as <em>two</em> fields.",
+			desc: "Researchers have discovered a new&mdash;and much better&mdash;way to grow food! Each player must choose one Wheat or Paddy field to enhance (by drawing a big fat plus sign). They now count as <em>two</em> fields.",
 			prob: 1,
 			planet: "yumpiter"
 		},
@@ -555,7 +555,7 @@ export const EVENTS =
 
 	'Alien Art':
 		{
-			desc: "An incredible art piece from a legendary intergalactic painter, has suddenly landed in our lap. The thing is worth millions of credits! Naturally, we want as many people to see it as possible.<br/><br/>The player with the most people (of any kind) gets the painting. Draw it in any empty cell &mdash; it does nothing in-game, but it is worth +6 points at the end.",
+			desc: "An incredible art piece from a legendary intergalactic painter, has suddenly landed in our lap. The thing is worth millions of credits! Naturally, we want as many people to see it as possible.<br/><br/>The player with the most people (of any kind) gets the painting. Draw it in any empty cell&mdash;it does nothing in-game, but it is worth +6 points at the end.",
 			prob: 1,
 			planet: "naptune"
 		},

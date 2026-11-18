@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Hold my Bear"
-blurb: "Beat your opponents at the Unbearable Games by being more skillful — or by changing the sport entirely. A fast, loose card game."
+blurb: "Beat your opponents at the Unbearable Games by being more skillful—or by changing the sport entirely. A fast, loose card game."
 # blurb: "Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether."
 driveLink: "https://drive.google.com/drive/folders/1JD-LWnPoX3yXfQM8jXdlh4vsZvdMOzQQ"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/hold-my-bear/"

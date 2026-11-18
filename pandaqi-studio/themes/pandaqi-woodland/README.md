@@ -2,7 +2,7 @@
 
 A second, independent theme for Pandaqi Games: the same content, URLs, taxonomies,
 navigation, generators and pages as `themes/pandaqi`, dressed as a cosy woodland
-playroom — painted paper, wobbly cut-out buttons, leafy corners and a proper
+playroom—painted paper, wobbly cut-out buttons, leafy corners and a proper
 search page.
 
 It is the theme the project config selects (`theme = "pandaqi-woodland"`). The
@@ -64,7 +64,7 @@ and a mushroom sitting on the edge of the painted clearing.
 Sparkles are the one drawn element: `_partials/woodland/spark.html` renders the
 sprite's star, which slowly fades and turns (`pq-twinkle`, 6.5 s, staggered
 per instance). It appears beside the hero eyebrow, beside each section heading
-and at the end of every page title — the same mark in the same motion, not an
+and at the end of every page title—the same mark in the same motion, not an
 assortment of stickers. Under `prefers-reduced-motion` it is static.
 
 Rules the layer follows:
@@ -73,7 +73,7 @@ Rules the layer follows:
   never placed over a control. Narrow screens shrink or hide the large corner
   pieces (branches ≤ 72 rem, gardens ≤ 64 rem, 404 art scales down); wide screens
   let the branches bleed off the outer edge.
-- Everything is switched off together with `params.woodland.decor = false` —
+- Everything is switched off together with `params.woodland.decor = false`—
   including the sparks and the emphasis strokes, through
   `_partials/woodland/decor-image.html` and the `isset` checks inside `spark.html`
   and `emphasis.html`.
@@ -100,7 +100,7 @@ follow the theme tokens in both colour modes and stay crisp:
 one content file it adds; its sitemap entry is disabled because the page is a
 tool, not content).
 
-- Hugo inlines a JSON index of every project — title, URL, blurb, categories,
+- Hugo inlines a JSON index of every project—title, URL, blurb, categories,
   genres, platform, player count, playtime, difficulty, thumb, date. No second
   request, no third-party service.
 - `assets/js/woodland/theme.ts` filters that index client-side and builds the
@@ -162,14 +162,14 @@ All options are optional and live under `params.woodland` in the project config.
   decor = true         # false removes every decoration
 ```
 
-- **`logo`** — the mark beside the wordmark, in header *and* footer (both use
+- **`logo`**—the mark beside the wordmark, in header *and* footer (both use
   `_partials/woodland/logo-mark.html`). `favicon` (the default, and what the site
   ships today) is the original `/theme/favicon.png`, `mark` the panda cut from the
   mockup, `panda` the drawn SVG head, `none` the wordmark alone.
-- **`hero`** — the homepage painting. `clearing` is the wide clearing, `hillside`
+- **`hero`**—the homepage painting. `clearing` is the wide clearing, `hillside`
   the taller hillside (also used as the card fallback when a collection has no
   banner). Both ship, so switching is one line.
-- **`decor`** — `false` removes branches, gardens, sprigs, sparkles, emphasis and
+- **`decor`**—`false` removes branches, gardens, sprigs, sparkles, emphasis and
   the divider.
 
 ## Artwork
@@ -180,7 +180,7 @@ Two pipelines, both checked into the theme:
    are copied into `assets/theme/woodland/ui/` and served through
    `woodland/ui.html`, which resizes to the delivered width and converts to webp.
    No PNG is shipped as-is.
-2. **Painted artwork** — the two hero paintings and the panda mark — comes from
+2. **Painted artwork**—the two hero paintings and the panda mark—comes from
    the original mockups via `misc/cutout.ps1` (repository root):
 
    | File | Source region (6144×4096 sheet) | Use |

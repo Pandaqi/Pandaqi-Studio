@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Noble Flood"
-blurb: "Build the best card pattern you can — or deny everyone else theirs. Also playable with a standard deck of cards."
+blurb: "Build the best card pattern you can—or deny everyone else theirs. Also playable with a standard deck of cards."
 # blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity."
 gamebuddy: "/game-buddy/template/chiptales/"
 driveLink: "https://drive.google.com/drive/folders/1CcsMv1m33GWZypAiNYZgkpCh17RQtqW5"

@@ -2,7 +2,7 @@
 type: "project"
 
 title: "I Wish You Good Hug"
-blurb: "1–4 players try to deliver teddy bears to a warm bed — whatever it takes."
+blurb: "1–4 players try to deliver teddy bears to a warm bed—whatever it takes."
 
 date: 2021-07-14
 
@@ -56,7 +56,7 @@ This game is playable ...
 
 The full game only has two controls: move your character around and rotate it.
 
-This means it's simple to pick up and playable by literally anyone. But not because it's an easy game &mdash; oh no, properly hugging is never easy!
+This means it's simple to pick up and playable by literally anyone. But not because it's an easy game&mdash;oh no, properly hugging is never easy!
 
 {{< content/figure src="assets/goodhug_1" alt="Action 1: How to move" >}}
 {{< content/figure src="assets/goodhug_2" alt="Action 2: How to rotate" >}}

@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Bombgoggles"
-blurb: "Find the hidden bombs before your friends do — then blow them up. Simple, loud and over in five minutes."
+blurb: "Find the hidden bombs before your friends do—then blow them up. Simple, loud and over in five minutes."
 
 date: 2025-12-12
 

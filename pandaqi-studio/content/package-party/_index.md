@@ -31,7 +31,7 @@ media: [https://www.youtube.com/embed/Fcyjk8app9w, assets/video/packageparty_1, 
 
 ---
 
-**Package Party** is a local multiplayer (“couch co-op”) game for literally anyone. Gather your friends, family, kids, girlfriend, boyfriend, neighbors, neighbor’s dog – and start working together to deliver packages!
+**Package Party** is a local multiplayer (“couch co-op”) game for literally anyone. Gather your friends, family, kids, girlfriend, boyfriend, neighbors, neighbor’s dog—and start working together to deliver packages!
 
 Up to 4 people must cooperate and coordinate to get those pesky boxes where they belong ... without damaging them too much or arriving two hours too late.
 

@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Maybe Minister"
-blurb: "Propose changes to the law to expand your own power — but only if the other political factions agree. Good luck with that."
+blurb: "Propose changes to the law to expand your own power—but only if the other political factions agree. Good luck with that."
 # blurb: "A [Maybe Game](/maybe-games/) about changing the law and expanding power. But you can only do so if the other politicians around the table vote the way you need."
 gamebuddy: "/game-buddy/template/maybe-games/"
 blurbProject: "Propose changes to the law of the land as you try to expand your own power, but you can only do so if the majority of the other political factions agree."

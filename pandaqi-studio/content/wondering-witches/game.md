@@ -17,6 +17,6 @@ customWidget: true
 
 <p id="solution-revealer">
     <a class="btn solution-btn" id="solution-button">
-        Danger Zone: I've lost &mdash; show me the solution!
+        Danger Zone: I've lost&mdash;show me the solution!
     </a>
 </p>

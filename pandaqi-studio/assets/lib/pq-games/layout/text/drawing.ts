@@ -158,7 +158,7 @@ const drawImageChunk = (ctx:CanvasRenderingContext2D, elem:TextChunkImage, pos:V
     // (and, as explained, forget about our changes afterwards so the rest of the text continues at the proper settings/location)
     //
     // `inline` only resets the transform/alpha/filter/composite. Everything else the image operation sets on
-    // this shared context — fillStyle, strokeStyle, lineWidth, font, shadow, clip — would otherwise stay behind
+    // this shared context—fillStyle, strokeStyle, lineWidth, font, shadow, clip—would otherwise stay behind
     // for the rest of the text. Text after an inline image was literally drawn with the image's (transparent)
     // fill, so it disappeared. A save/restore around the image is the complete version of that reset.
     ctx.save();

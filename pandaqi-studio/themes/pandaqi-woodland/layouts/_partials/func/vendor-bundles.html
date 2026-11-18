@@ -14,6 +14,17 @@
     <script defer src="{{ $vendor.RelPermalink }}"></script>
 {{ end }}
 
+{{/* Pixi and pixi-filters are ~790 KB minified and only a dozen generators use them, so they are NOT part of
+      the shared bundle: RendererPixi imports them at runtime from /lib/pq-games/renderers/pixi/. Their
+      names must stay stable (pixi-filters imports pixi by relative path), so no fingerprinting here.
+      Referencing the resources is what publishes them; nothing is emitted for a page that draws on canvas. */}}
+{{ if strings.Contains $content "RendererPixi" }}
+    {{ $pixi_module := resources.Get "/lib/pq-games/renderers/pixi/pixi.mjs" }}
+    {{ $pixi_filters := resources.Get "/lib/pq-games/renderers/pixi/pixi-filters.mjs" }}
+    {{ $publish_pixi := $pixi_module.RelPermalink }}
+    {{ $publish_filters := $pixi_filters.RelPermalink }}
+{{ end }}
+
 {{ if strings.Contains $content "PQ_RULEBOOK" }}
     {{ $vendor_rulebook_opts := dict "format" "iife" "minify" (not hugo.IsDevelopment) "targetPath" "/lib/vendor/pq-rulebook.js" "target" "es2019" }}
     {{ $vendor_rulebook := resources.Get "/lib/vendor/pq-rulebook-global.ts" | js.Build $vendor_rulebook_opts }}

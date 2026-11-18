@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Magnetmen"
-blurb: "Magical robot magnets score points left and right — but the more you use them, the more spaces repel you."
+blurb: "Magical robot magnets score points left and right—but the more you use them, the more spaces repel you."
 gamebuddy: "/game-buddy/template/magnetmen/"
 
 driveLink: "https://drive.google.com/drive/folders/1IWl4VH_Ai7e6BQM6PE4dY3YUfkDn2zQj"

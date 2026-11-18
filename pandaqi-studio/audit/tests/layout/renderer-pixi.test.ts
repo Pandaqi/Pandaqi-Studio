@@ -3,6 +3,12 @@ import "../text/setup";
 import { describe, expect, test } from "bun:test";
 import { captureConsoleAsync, shapeRect } from "./helpers";
 import { Circle, Container, Graphics, LayoutOperation, Path, RendererPixi, ResourceGroup, ResourceShape, Sprite, Vector2 } from "./lib";
+import * as PIXI_MODULE from "../../../assets/lib/pq-games/renderers/pixi/pixi.mjs";
+
+// On a real page Pixi is fetched at runtime (it is ~790 KB and most generators never use it), so the
+// renderer has no modules until finishDraw/cacheLoadedImage ran. These tests drive the renderer headless
+// and have no server to fetch from, so they hand it the module they already imported.
+RendererPixi.setModules(PIXI_MODULE, {});
 
 // Pixi has different rules from canvas (masks must be in the display tree, containers have no
 // anchor, zIndex is real). These tests exercise the renderer headless, without a GPU render pass.

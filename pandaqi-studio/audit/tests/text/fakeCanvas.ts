@@ -237,7 +237,10 @@ export class FakeCanvasContext2D
     clip() { this.otherCalls.push("clip"); }
     fillRect() { this.otherCalls.push("fillRect"); }
     strokeRect() { this.otherCalls.push("strokeRect"); }
-    clearRect() { this.otherCalls.push("clearRect"); }
+    // A cleared surface has no content left, and the records are what models that content (drawImage
+    // copies them from the source). The renderer reuses temporary surfaces, so without this a cleared
+    // canvas kept reporting everything that was ever drawn on it.
+    clearRect() { this.otherCalls.push("clearRect"); this.draws.length = 0; this.images.length = 0; }
     // when the renderer draws a temporary canvas onto the real one, keep the recorded text AND images visible
     drawImage(img:any, dx = 0, dy = 0, dw?:number, dh?:number)
     {

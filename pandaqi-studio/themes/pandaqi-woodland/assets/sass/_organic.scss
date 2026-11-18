@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Organic layer — the part of the theme that makes it feel like a woodland
+   Organic layer—the part of the theme that makes it feel like a woodland
    playroom instead of a clean grid. Loaded after the components so it can
    restyle them without fighting them.
 
@@ -552,7 +552,7 @@ body.display-mode-dark
 .pq-icon-btn .pq-ico { width: 1.15rem; height: 1.15rem; }
 
 /* --------------------------------------------------------------------------
-   4. Buttons — angular paper cut-outs
+   4. Buttons—angular paper cut-outs
    -------------------------------------------------------------------------- */
 
 .button
@@ -1366,7 +1366,7 @@ body.display-mode-dark .pq-select
 
 .pq-chip:hover { background: color-mix(in srgb, var(--pq-tile-bg) 22%, var(--pq-surface)); }
 
-/* "What's included" — only ever lists things the project really ships. */
+/* "What's included"—only ever lists things the project really ships. */
 .pq-includes
 {
 	margin: var(--pq-sp-6) 0 0;

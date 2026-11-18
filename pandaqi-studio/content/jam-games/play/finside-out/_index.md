@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Finside Out"
-blurb: "Race your canoe through the rapids while escaping your friends — or the piranhas, whichever gets you first."
+blurb: "Race your canoe through the rapids while escaping your friends—or the piranhas, whichever gets you first."
 
 date: 2025-12-12
 

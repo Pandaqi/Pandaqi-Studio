@@ -48,7 +48,7 @@ export const fitTextSizeToBox = (text:string, cfg:TextConfig, boxDims:Vector2, m
 const DEFAULT_SIZE = new Vector2(2048, 2048); 
 
 // Measuring only needs a context to ask `measureText` (and a font), never its pixels. Allocating a fresh
-// 2048×2048 surface per text box meant a 16 MB canvas per card face — hundreds of them per deck — for no
+// 2048×2048 surface per text box meant a 16 MB canvas per card face—hundreds of them per deck—for no
 // benefit at all. One context is enough, and the function is synchronous, so nothing can interleave.
 let measureContext:CanvasRenderingContext2D|null = null;
 const getMeasureContext = () =>

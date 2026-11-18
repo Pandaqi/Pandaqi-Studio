@@ -218,7 +218,7 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
 
     // One PDF per material, deliberately. This used to keep a Map keyed by the mapper's page-size *object*,
     // which promised "one builder per size" but never delivered it: every mapper owns its own Vector2, so the
-    // lookup always missed and every material got its own builder anyway — only the comment was wrong. A
+    // lookup always missed and every material got its own builder anyway—only the comment was wrong. A
     // material owns its fileName and its split, so separate documents are the behaviour to keep.
     // The audit harness tests that the pipeline runs, not what the material looks like: two pages and an
     // uncompressed PDF are the same code path without paying for hundreds of PNG encodes. Production code

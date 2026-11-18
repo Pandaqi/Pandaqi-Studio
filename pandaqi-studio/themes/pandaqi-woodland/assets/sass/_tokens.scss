@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Tokens — the one place where colour, type, spacing and shape are decided.
+   Tokens—the one place where colour, type, spacing and shape are decided.
 
    Everything below is expressed as a semantic custom property, so a component
    asks for "the border colour" instead of naming a beige. Dark mode is the same
@@ -91,7 +91,7 @@
 	--pq-sidebar: 20rem;
 	--pq-prose: var(--pq-measure);
 
-	/* Shape — slightly different corner radii read as cut paper, not a pill */
+	/* Shape—slightly different corner radii read as cut paper, not a pill */
 	--pq-r-sm: 0.4rem;
 	--pq-r-md: 0.75rem;
 	--pq-r-lg: 1.15rem;

@@ -35,7 +35,7 @@ const ROUNDS = Math.max(1, argNumber("rounds", 2));
 const HEADED = process.argv.includes("--headed");
 const PORT = argNumber("port", 4331);
 const SEED = "renderer-bench";
-const RENDERERS = ["pixi", "pandaqi"] as const;
+const RENDERERS = ["pixi", "pandaqi", "webgpu"] as const;
 
 const median = (values:number[]) =>
 {
@@ -96,6 +96,15 @@ const buildBundle = async () =>
     const assetsFrom = join(studioDir, "content", "one-pizza-the-puzzle", "assets");
     if(!existsSync(assetsFrom)) { console.error(`missing assets: ${assetsFrom}`); process.exit(2); }
     cpSync(assetsFrom, join(siteDir, "one-pizza-the-puzzle", "assets"), { recursive: true });
+
+    // RendererPixi fetches Pixi at runtime (the site does not bundle it), so the harness has to serve
+    // the same two modules the real site publishes under /lib/pq-games/renderers/pixi/.
+    const pixiFrom = join(studioDir, "assets", "lib", "pq-games", "renderers", "pixi");
+    const pixiTo = join(siteDir, "lib", "pq-games", "renderers", "pixi");
+    mkdirSync(pixiTo, { recursive: true });
+    for(const file of ["pixi.mjs", "pixi-filters.mjs"]) {
+        cpSync(join(pixiFrom, file), join(pixiTo, file));
+    }
 };
 
 const launchBrowser = async () =>
@@ -115,6 +124,7 @@ interface RunResult
     seed: string;
     runs: { total:number, render:number, layout:number, width:number, height:number, ink:number }[];
     pixiType?: number | null;
+    backendUsed?: string | null;
     backend?: { webgpu:boolean, webgl:string };
 }
 
@@ -165,7 +175,7 @@ const main = async () =>
     console.log(`serving ${siteDir} at ${server.url}`);
 
     const browser = await launchBrowser();
-    const collected:Record<string, RunResult[]> = { pixi: [], pandaqi: [] };
+    const collected:Record<string, RunResult[]> = Object.fromEntries(RENDERERS.map((renderer) => [renderer, []]));
     let info:any = null;
 
     try
@@ -177,11 +187,20 @@ const main = async () =>
             for(const renderer of order)
             {
                 process.stdout.write(`  round ${round + 1}: ${renderer} … `);
-                const measured = await measure(browser, server.url, renderer);
-                info = measured.info;
-                collected[renderer].push(measured.result);
-                const totals = measured.result.runs.map((run) => run.total);
-                console.log(`${median(totals).toFixed(0)} ms/draw (${totals.map(t => t.toFixed(0)).join(", ")})`);
+                // A backend the machine cannot run (no WebGPU adapter, a missing GPU) must not throw
+                // away the numbers the other renderers already produced.
+                try
+                {
+                    const measured = await measure(browser, server.url, renderer);
+                    info = measured.info;
+                    collected[renderer].push(measured.result);
+                    const totals = measured.result.runs.map((run) => run.total);
+                    console.log(`${median(totals).toFixed(0)} ms/draw (${totals.map(t => t.toFixed(0)).join(", ")})`);
+                }
+                catch(error)
+                {
+                    console.log(`skipped (${String((error as Error)?.message ?? error).slice(0, 160)})`);
+                }
             }
         }
     }
@@ -192,7 +211,8 @@ const main = async () =>
     }
 
     const runsOf = (renderer:string) => collected[renderer].flatMap((result) => result.runs);
-    const summary = Object.fromEntries(RENDERERS.map((renderer) => {
+    const rendered = RENDERERS.filter((renderer) => collected[renderer].length > 0);
+    const summary = Object.fromEntries(rendered.map((renderer) => {
         const runs = runsOf(renderer);
         return [renderer, {
             draws: runs.length,
@@ -208,8 +228,9 @@ const main = async () =>
         }];
     }));
 
-    const pixi = summary["pixi"];
-    const pandaqi = summary["pandaqi"];
+    const EMPTY = { draws: 0, total: 0, render: 0, layout: 0, medianTotal: 1, medianRender: 1, minTotal: 0, maxTotal: 0, ink: 0, size: "?" };
+    const pixi = summary["pixi"] ?? EMPTY;
+    const pandaqi = summary["pandaqi"] ?? EMPTY;
     const speedup = (a:number, b:number) => b > 0 ? a / b : 0;
     const backend = collected.pixi[0]?.backend ?? collected.pandaqi[0]?.backend;
     const pixiBackend = collected.pixi[0]?.pixiType ?? null;
@@ -217,7 +238,7 @@ const main = async () =>
     console.log(`\nbrowser backend: webgpu=${backend?.webgpu ?? "?"} · webgl=${backend?.webgl ?? "?"}`);
     console.log("\n| renderer | draws | total median | total mean | render median | layout mean | ink |");
     console.log("|---|---|---|---|---|---|---|");
-    for(const renderer of RENDERERS)
+    for(const renderer of rendered)
     {
         const row = summary[renderer];
         console.log(`| ${renderer} | ${row.draws} | ${row.medianTotal.toFixed(0)} ms | ${row.total.toFixed(0)} ms | ${row.medianRender.toFixed(0)} ms | ${row.layout.toFixed(0)} ms | ${(row.ink * 100).toFixed(1)}% |`);
@@ -256,6 +277,7 @@ Measured by \`bun run renderer-bench\` (${generatedAt}). This file is regenerate
 | --- | --- | --- | --- | --- | --- | --- |
 | RendererPixi | ${pixi.draws} | ${pixi.medianTotal.toFixed(0)} ms | ${pixi.total.toFixed(0)} ms | ${pixi.medianRender.toFixed(0)} ms | ${pixi.layout.toFixed(0)} ms | ${(pixi.ink * 100).toFixed(1)}% |
 | RendererPandaqi | ${pandaqi.draws} | ${pandaqi.medianTotal.toFixed(0)} ms | ${pandaqi.total.toFixed(0)} ms | ${pandaqi.medianRender.toFixed(0)} ms | ${pandaqi.layout.toFixed(0)} ms | ${(pandaqi.ink * 100).toFixed(1)}% |
+${rendered.includes("webgpu") ? `| RendererPandaqiWebGPU (${collected.webgpu[0]?.backendUsed ?? "unknown"}) | ${summary["webgpu"].draws} | ${summary["webgpu"].medianTotal.toFixed(0)} ms | ${summary["webgpu"].total.toFixed(0)} ms | ${summary["webgpu"].medianRender.toFixed(0)} ms | ${summary["webgpu"].layout.toFixed(0)} ms | ${(summary["webgpu"].ink * 100).toFixed(1)}% |` : ""}
 
 - Total per board (median): **${seconds(pixi.medianTotal)} with Pixi vs ${seconds(pandaqi.medianTotal)} with Pandaqi**;
   Pandaqi takes ${(pandaqi.medianTotal / pixi.medianTotal).toFixed(2)}× as long
@@ -283,14 +305,15 @@ Raw per-draw numbers: \`audit-artifacts/renderer-bench/results.json\`.
   even headless. Both renderers draw onto the same 3507x2480 canvas and produce the same board
   (84.4% ink for both, same seed).
 - Pixi builds one display tree and rasterizes it in one WebGL pass; RendererPandaqi walks the same
-  operations on a 2D canvas. The canvas path allocates a **full-size temporary canvas**
-  (3507x2480, about 35 MB) for every group and every stroked text (see applyOperationToCanvas);
-  One Pizza's board has 5 groups (plus any stroked text), so that is several hundred MB of raster surface
-  per board. That work is the ~640 ms, and it explains the occasional multi-second run (GC / bitmap
-  pressure), which is why medians are quoted.
-- Per 300 DPI board, Pixi is the faster renderer today on this machine. The comparison is one game
-  with one large page; a deck of small cards would have a different balance (and the temporary
-  canvases would be far smaller).
+  operations on a 2D canvas. That walk used to allocate a **full-size temporary canvas**
+  (3507x2480, about 35 MB) for every group and every stroked text, and it created every 2D context with
+  \`willReadFrequently\`, which makes Chrome rasterize on the CPU. Both are fixed: a group that does not
+  composite as a unit now draws straight onto the parent surface, and the temporary surfaces that are
+  still needed are pooled and GPU-backed. Re-run this benchmark to see the current figures instead of
+  trusting numbers from an older revision.
+- The canvas renderer is the faster one on this board now. The comparison is still one game with one
+  large page; a deck of small cards has a different balance (and smaller temporary surfaces), so do not
+  read this as "canvas always wins".
 
 ## Caveats
 

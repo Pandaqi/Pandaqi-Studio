@@ -3,7 +3,7 @@ type: "project"
 
 
 title: "Pyrrameds"
-blurb: "Build a pyramid of cards that gets the right medicine to the right patients. Do it together — but finish first."
+blurb: "Build a pyramid of cards that gets the right medicine to the right patients. Do it together—but finish first."
 # blurb: "Build a pyramid of cards that delivers the right medicine to the right patients."
 driveLink: "https://drive.google.com/drive/folders/1qkIw5weWYltavQCp8GJ-TmiT63Pb9sci"
 sneakpeek: "https://thewaywardmelody.com/sneakpeeks/board-games/card-games/pyrrameds/"

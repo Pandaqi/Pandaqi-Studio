@@ -34,6 +34,10 @@ export const createCanvas = (params:NewCanvasParams = {}) : HTMLCanvasElement =>
 interface NewContextParams
 {
     alpha?:boolean
+    // Reading pixels back (getImageData) is only possible on a software canvas, so Chrome moves the
+    // whole surface to the CPU for a context created with this flag. It used to be on for EVERY
+    // context, including the large temporary canvases the renderer composites through, which made the
+    // GPU-backed canvas render on the CPU. Opt in only where pixels are actually read.
     willReadFrequently?:boolean
     antialias?: boolean
     width?:number
@@ -43,12 +47,10 @@ interface NewContextParams
 
 export const createContext = (params:NewContextParams = {}) : CanvasRenderingContext2D =>
 {
-    const contextParams = { 
-        willReadFrequently: true,
-        alpha: true,
-        antialias: true
+    const contextParams:CanvasRenderingContext2DSettings = { 
+        willReadFrequently: params.willReadFrequently ?? false,
+        alpha: params.alpha ?? true,
     };
-    Object.assign(contextParams, params);
     const ctx = createCanvas(params).getContext("2d", contextParams) as CanvasRenderingContext2D;
     ctx.imageSmoothingQuality = "low";
     ctx.imageSmoothingEnabled = false;

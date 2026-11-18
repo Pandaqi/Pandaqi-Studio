@@ -1,5 +1,5 @@
 {{/* Meta description for this page. Search engines show this below the title, so it should say what THIS
-     page is about — and stay under roughly 158 characters, which is the length a result snippet shows
+     page is about—and stay under roughly 158 characters, which is the length a result snippet shows
      before it gets cut off with an ellipsis. */}}
 {{- $description := "" -}}
 
@@ -18,7 +18,7 @@
 {{- if and (not $description) (or (eq .Kind "term") (eq .Kind "taxonomy")) -}}
 	{{- $label := partial "func/get-taxonomy-label.html" . -}}
 	{{- if eq .Kind "term" -}}
-		{{- $description = printf "%s by Pandaqi — %d free games to print or play at home, each with its own page, full rules and downloads." $label (len .Pages) -}}
+		{{- $description = printf "%s by Pandaqi—%d free games to print or play at home, each with its own page, full rules and downloads." $label (len .Pages) -}}
 	{{- else -}}
 		{{- $name := partial "func/get-taxonomy-name.html" . -}}
 		{{- $description = printf "All Pandaqi games grouped by %s: free print-and-play board games and local multiplayer video games, each explained on its own page." $name -}}

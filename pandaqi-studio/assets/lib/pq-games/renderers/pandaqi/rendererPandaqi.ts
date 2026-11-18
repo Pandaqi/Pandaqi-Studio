@@ -8,6 +8,7 @@ import { LayoutOperation } from "../../layout/layoutOperation";
 import { drawLayoutOperationDebug } from "../../layout/operation/operationDebug";
 import type { Resource} from "../../layout/resources/resource";
 import { LayoutCombo, ResourceGroup } from "../../layout/resources/resourceGroup";
+import { orderCombosForDrawing } from "../../layout/resources/drawOrder";
 import { ResourceImage, CanvasLike } from "../../layout/resources/resourceImage";
 import type { ResourceLoadParams } from "../../layout/resources/resourceLoader";
 import type { LayoutEffect } from "../../layout/effects/layoutEffect";
@@ -17,26 +18,20 @@ import { Renderer, RendererDrawFinishParams } from "../renderer";
 import { drawTextToCanvas } from "../../layout/text/drawing";
 import { getCanvasContextState, resetCanvasContextState } from "../../layout/canvas/operations";
 import { StrokeAlign } from "../../layout/values";
-import { isZero } from "../../tools/numbers/checks";
 
 const NO_EFFECTS:LayoutEffect[] = [];
 
-// Canvas has no z-index: it draws in call order. Sorting only when at least one sibling actually
-// uses `depth` keeps the common path allocation-free.
-const getCombosInDrawOrder = (combos:LayoutCombo[]) : LayoutCombo[] =>
-{
-    let needsSort = false;
-    for(const combo of combos)
-    {
-        if(combo.operation && !isZero(combo.operation.depth)) { needsSort = true; break; }
-    }
-
-    if(!needsSort) { return combos; }
-    return combos.slice().sort((a, b) => (a.operation?.depth ?? 0) - (b.operation?.depth ?? 0));
-}
+// How many temporary surfaces of one exact size are kept for reuse. The stack depth of a draw (nested
+// groups, masked text) is normally 2 or 3, so this is comfortable without pinning much memory.
+const MAX_POOLED_SURFACES = 3;
 
 export class RendererPandaqi extends Renderer
 {
+    // Temporary canvases are pooled instead of allocated per draw. A 3507x2480 page is ~35 MB of raster
+    // surface, and a group plus a few stroked texts used to allocate one of those each, which is where
+    // most of the render time (and the garbage) went.
+    private tempPool = new Map<string, CanvasRenderingContext2D[]>();
+
     async cacheLoadedImage(img:HTMLImageElement, params:ResourceLoadParams) : Promise<ResourceImage>
     {
         // decode() is only a "the bitmap is ready" hint, and Safari can reject it for an image that has
@@ -60,10 +55,83 @@ export class RendererPandaqi extends Renderer
         return canv;
     }
 
+    // Children of a group are handed to the renderer in this order. Depth sorting is the default (it is
+    // free when unused); a group can add its own hook or opt into style batching (see drawOrder.ts).
+    getDrawOrder(group:ResourceGroup) : LayoutCombo[]
+    {
+        return orderCombosForDrawing(group.combos, { order: group.order, batching: group.batch });
+    }
+
+    // A group only needs its own surface when it composites as a unit: alpha, blend mode, effects, tint,
+    // a mask or a clip. Everything else can draw its children straight onto the parent context, which
+    // skips a full-size temporary canvas AND the full-canvas stamp at the end. This used to happen for
+    // every single group on the page.
+    canDrawGroupDirectly(op:LayoutOperation) : boolean
+    {
+        return !op.hasEffects()
+            && !op.hasMask()
+            && !op.hasClip()
+            && !op.hasTint()
+            && op.alpha >= 1
+            && op.composite === "source-over"
+            && !op.isDebugEnabled();
+    }
+
+    acquireTempContext(width:number, height:number) : CanvasRenderingContext2D
+    {
+        const key = width + "x" + height;
+        const pool = this.tempPool.get(key);
+        const reused = pool && pool.length > 0 ? pool.pop() : null;
+        if(!reused) { return createContext({ size: new Vector2(width, height) }); }
+
+        // a reused surface must look like a new one: no transform, alpha, clip, dash or shadow left over
+        reused.setTransform(1, 0, 0, 1, 0, 0);
+        reused.globalAlpha = 1;
+        reused.globalCompositeOperation = "source-over";
+        reused.filter = "none";
+        reused.shadowBlur = 0;
+        reused.shadowColor = "#000000";
+        reused.shadowOffsetX = 0;
+        reused.shadowOffsetY = 0;
+        if(typeof reused.setLineDash == "function") { reused.setLineDash([]); }
+        reused.clearRect(0, 0, width, height);
+        return reused;
+    }
+
+    releaseTempContext(ctx:CanvasRenderingContext2D)
+    {
+        if(!ctx) { return; }
+        const key = ctx.canvas.width + "x" + ctx.canvas.height;
+        let pool = this.tempPool.get(key);
+        if(!pool) { pool = []; this.tempPool.set(key, pool); }
+        if(pool.length < MAX_POOLED_SURFACES) { pool.push(ctx); }
+    }
+
+    // Frees every pooled surface. Long-running pages call this between generations; games that draw one
+    // document and stop never need to.
+    clearPool() { this.tempPool.clear(); }
+
     applyOperationToCanvas(op:LayoutOperation, canv:CanvasLike)
     {
         let ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
         if(!ctx) { ctx = createContext({ size: op.size }); }
+        this.drawOperation(op, ctx as CanvasRenderingContext2D);
+        return (ctx as CanvasRenderingContext2D).canvas;
+    }
+
+    private drawOperation(op:LayoutOperation, ctx:CanvasRenderingContext2D)
+    {
+        const group = op.isGroup() ? (op.resource as ResourceGroup) : null;
+
+        // direct group: no surface of its own, no stamp, children paint in place
+        if(group && this.canDrawGroupDirectly(op))
+        {
+            for(const combo of this.getDrawOrder(group))
+            {
+                combo.toCanvas(ctx, op);
+            }
+            return;
+        }
 
         // don't call `op.effects` when there are none: its getter allocates the (empty) list
         let effects = op.hasEffects() ? op.effects.slice() : NO_EFFECTS;
@@ -77,17 +145,20 @@ export class RendererPandaqi extends Renderer
         // HUGE OPTIMIZATION => don't create the temporary canvas if we don't need it
         // (Though that is rare; would only apply to stuff with only a transform + fill/stroke and nothing else)
         const isMultiStepText = op.isText() && op.hasStroke();
-        const needsTemporaryCanvas = effOp.needsTemporaryCanvas() || op.isGroup() || op.hasMask() || isMultiStepText;
+        const needsTemporaryCanvas = effOp.needsTemporaryCanvas() || !!group || op.hasMask() || isMultiStepText;
 
         // SAVE/RESTORE is extremely expensive and error prone (if you forget one even once); so limit it to only when really needed
         const needsStateManagement = op.hasClip();
         if(needsStateManagement) { ctx.save(); }
 
-        const oldState = getCanvasContextState(ctx);
+        // Only inline operations need the (allocating) state snapshot: they draw in the middle of
+        // another operation and must leave the context as they found it. Everyone else is the last
+        // user of the context and is reset by the next operation anyway.
+        const oldState = op.inline ? getCanvasContextState(ctx) : null;
 
         // we create a temporary canvas to do everything we want
         // once done, at the end, we stamp that onto the real one (with the right effects, alpha, etcetera set)
-        const ctxTemp = needsTemporaryCanvas ? createContext({ size: new Vector2(ctx.canvas.width, ctx.canvas.height) }) : ctx;
+        const ctxTemp = needsTemporaryCanvas ? this.acquireTempContext(ctx.canvas.width, ctx.canvas.height) : ctx;
         const size = op.sizeResult;
 
         // this must come before any changes to ctxTemp (such as applying transform below), 
@@ -124,7 +195,9 @@ export class RendererPandaqi extends Renderer
         // some effects merely require setting something on the canvas
         effOp.applyToCanvasPre(ctx);
 
-        // the bulk of canvas properties to set
+        // the bulk of canvas properties to set. These stay unconditional: a reused surface (or a parent
+        // context an inline operation drew on) can still carry another operation's filter, alpha or
+        // shadow, so "it is the default, skip it" silently painted with the previous element's state.
         op.setFillAndStrokeOnContext(ctxTemp);
 
         ctx.filter = effOp.getFilterString();
@@ -133,10 +206,9 @@ export class RendererPandaqi extends Renderer
         effOp.setShadowProperties(ctx);
 
         // now prepare/draw the actual resource onto it
-        if(op.isGroup())
+        if(group)
         {
-            const combos = getCombosInDrawOrder((op.resource as ResourceGroup).combos);
-            for(const combo of combos)
+            for(const combo of this.getDrawOrder(group))
             {
                 combo.toCanvas(ctxTemp, op);
             }
@@ -200,17 +272,18 @@ export class RendererPandaqi extends Renderer
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.drawImage(ctxFinal.canvas, 0, 0);
             ctx.setTransform(destTransform);
+
+            // the surface is back in the pool only now: it held the pixels until the stamp above
+            this.releaseTempContext(ctxTemp);
         }
 
-        if(op.inline) { resetCanvasContextState(ctx, oldState); }
+        if(op.inline && oldState) { resetCanvasContextState(ctx, oldState); }
         if(needsStateManagement) { ctx.restore(); }
 
         // debug feedback is drawn last (after any clip is restored), at identity, so it is never
         // affected by this operation's own transform/effects/clip. Inline operations are skipped
         // (their context belongs to another operation).
         if(op.isDebugEnabled()) { drawLayoutOperationDebug(ctx, op); }
-
-        return ctx.canvas;
     }
 
     async applyOperationToHTML(op:LayoutOperation, node:HTMLElement, res:Resource = null)

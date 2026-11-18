@@ -87,7 +87,22 @@ export const spyAllContexts = (fn:() => void) =>
     return { fills, strokes, clips, dashes };
 }
 
-export const captureConsoleAsync = async (fn:() => Promise<void>) : Promise<CapturedConsole> =>
+// Same spies as spyAllContexts, for a draw call that has to be awaited first (the renderers' draw
+// methods are async even when the canvas work itself is not).
+export const spyAllContextsAsync = async (fn: () => Promise<void>) =>
+{
+    const proto:any = FakeCanvasContext2D.prototype;
+    const originalFill = proto.fill;
+    const fills:{ composite:any, transform:any }[] = [];
+
+    proto.fill = function() { fills.push({ composite: this.globalCompositeOperation, transform: this.getTransform() }); return originalFill.call(this); };
+    try { await fn(); }
+    finally { proto.fill = originalFill; }
+
+    return { fills };
+}
+
+export const captureConsoleAsync = async (fn: () => Promise<void>) : Promise<CapturedConsole> =>
 {
     const oldLog = console.log;
     const oldWarn = console.warn;

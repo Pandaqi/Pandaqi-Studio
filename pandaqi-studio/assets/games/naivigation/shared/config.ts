@@ -126,7 +126,7 @@ export const CONFIG =
 mergeObjects(CONFIG, CONFIG_NAIVIGATION_SHARED);
 
 // CONFIG_NAIVIGATION_SHARED declares a tiles material for every Naivigation game (they all play on map
-// tiles), but this hub only generates cards — it has no tile class and so no tile picker. Leaving the
+// tiles), but this hub only generates cards—it has no tile class and so no tile picker. Leaving the
 // shared entry in would just move the same error to "Material \"tiles\" has no picker()", and an empty
 // picker would download a second, blank PDF under the same file name.
 delete (CONFIG._material as Record<string, any>).tiles;

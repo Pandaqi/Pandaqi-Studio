@@ -1,5 +1,3 @@
-import { autoDetectRenderer, Assets, Container, Graphics, Sprite, Spritesheet, Texture, WebGPURenderer } from "./pixi.mjs";
-import * as PIXIFilters from "./pixi-filters.mjs";
 import { ResourceImage } from "../../layout/resources/resourceImage";
 import type { ResourceLoadParams } from "../../layout/resources/resourceLoader";
 import { Renderer, RendererDrawFinishParams } from "../renderer";
@@ -18,9 +16,36 @@ interface RendererPixiParams
     bgColor?: string,
     bgAlpha?: number,
     forceWebGPU?: boolean,
+    // Where the Pixi modules are served from. They are NOT part of the page bundle: Pixi is ~790 KB of
+    // a page that only 12 of the generators use, so it is fetched the first time a Pixi renderer actually
+    // draws. The site publishes them at these paths (see func/vendor-bundles.html).
+    pixiUrl?: string,
+    filtersUrl?: string,
 }
 
 const NO_EFFECTS:any[] = [];
+
+const DEFAULT_PIXI_URL = "/lib/pq-games/renderers/pixi/pixi.mjs";
+const DEFAULT_FILTERS_URL = "/lib/pq-games/renderers/pixi/pixi-filters.mjs";
+
+// A native dynamic import, kept out of the bundler's reach on purpose: the bundle is an IIFE and must not
+// try to inline or rewrite a module it is not allowed to see at build time.
+const importModule = new Function("url", "return import(url)") as (url:string) => Promise<any>;
+
+const moduleCache = new Map<string, Promise<any>>();
+const loadModule = (url:string) : Promise<any> =>
+{
+    let promise = moduleCache.get(url);
+    if(!promise)
+    {
+        promise = importModule(url).catch((error) => {
+            moduleCache.delete(url); // a failed fetch may be a fluke (offline, a CDN hiccup): allow a retry
+            throw error;
+        });
+        moduleCache.set(url, promise);
+    }
+    return promise;
+}
 
 // Pixi has no line-dash support. Dashed shapes are approximated by walking every polygon edge and
 // emitting the "on" parts as separate line segments. Only used when a shape actually asks for it.
@@ -70,19 +95,53 @@ export class RendererPixi extends Renderer
     rendererInstance: any;
     forceWebGPU = false
 
+    pixiUrl = DEFAULT_PIXI_URL;
+    filtersUrl = DEFAULT_FILTERS_URL;
+
+    // the two module namespaces, filled by ensureModules()
+    pixi: any = null;
+    filters: any = null;
+
+    // For hosts that already have the modules (a test harness, or a page that bundles Pixi itself):
+    // they are used until ensureModules() loads its own copies.
+    static injectedPixi: any = null;
+    static injectedFilters: any = null;
+    static setModules(pixi:any, filters:any = null)
+    {
+        RendererPixi.injectedPixi = pixi;
+        RendererPixi.injectedFilters = filters;
+    }
+
+    get pixiInstance() : any { return this.pixi ?? RendererPixi.injectedPixi; }
+    get filtersInstance() : any { return this.filters ?? RendererPixi.injectedFilters; }
+
     constructor(params:RendererPixiParams = {})
     {
         super();
         this.bgColor = new Color(params.bgColor ?? "#FFFFFF");
         this.bgAlpha = params.bgAlpha ?? 1;
         this.forceWebGPU = params.forceWebGPU ?? false;
+        this.pixiUrl = params.pixiUrl ?? DEFAULT_PIXI_URL;
+        this.filtersUrl = params.filtersUrl ?? DEFAULT_FILTERS_URL;
+    }
+
+    async ensureModules()
+    {
+        if(!this.pixi)
+        {
+            const [pixi, filters] = await Promise.all([loadModule(this.pixiUrl), loadModule(this.filtersUrl)]);
+            this.pixi = pixi;
+            this.filters = filters;
+        }
+        return this.pixi;
     }
 
     async cacheLoadedImage(img:HTMLImageElement, params:ResourceLoadParams) : Promise<ResourceImage>
     {
+        const pixi = await this.ensureModules();
         await img.decode(); // we need this anyway because of text drawing still using non-pixified images ...
         const res = new ResourceImage(img, params);
-        await res.createPixiObject({ assets: Assets, sprite: Sprite, spritesheet: Spritesheet });
+        await res.createPixiObject({ assets: pixi.Assets, sprite: pixi.Sprite, spritesheet: pixi.Spritesheet });
         return res;
     }
 
@@ -93,6 +152,8 @@ export class RendererPixi extends Renderer
     
     async finishDraw(params:RendererDrawFinishParams)
     {
+        const pixi = await this.ensureModules();
+
         const initConfig = { 
             width: params.size.x, height: params.size.y, 
             backgroundColor: this.bgColor.toHEXNumber(),
@@ -106,14 +167,14 @@ export class RendererPixi extends Renderer
         if(this.forceWebGPU) {
             // NOTE: `const renderer` here used to shadow the outer variable, so forceWebGPU left
             // `this.rendererInstance` undefined and crashed on the first render.
-            renderer = new WebGPURenderer();
+            renderer = new pixi.WebGPURenderer();
             await renderer.init(initConfig);
         } else {
-            renderer = await autoDetectRenderer(initConfig);
+            renderer = await pixi.autoDetectRenderer(initConfig);
         }
         this.rendererInstance = renderer;
 
-        const appRoot = new Container();
+        const appRoot = new pixi.Container();
         const op = new LayoutOperation({ renderer: this });
         params.group.toPixi(renderer, appRoot, op);
         renderer.render(appRoot);
@@ -122,14 +183,17 @@ export class RendererPixi extends Renderer
         return canv;
     }
 
-    async applyOperationToPixi(op:LayoutOperation, app:any, parent:Container)
+    async applyOperationToPixi(op:LayoutOperation, app:any, parent:any)
     {
+        const pixi = this.pixiInstance;
+        if(!pixi) { throw new Error("[RendererPixi] Pixi is not loaded yet; call ensureModules() (or finishDraw) first."); }
+
         // GROUP
         // just call all children to do what they want (they add themselves to us)
         let obj:any = null;
         if(op.resource instanceof ResourceGroup)
         {
-            obj = new Container();
+            obj = new pixi.Container();
 
             const combos = (op.resource as ResourceGroup).combos;
             for(const combo of combos)
@@ -141,7 +205,7 @@ export class RendererPixi extends Renderer
         // IMAGES
         if(op.resource instanceof ResourceImage)
         {
-            obj = op.resource.getPixiObject(op.frame, Sprite);
+            obj = op.resource.getPixiObject(op.frame, pixi.Sprite);
         }
 
         // SHAPES / GEOMETRY
@@ -150,7 +214,7 @@ export class RendererPixi extends Renderer
             // A cached Graphics owns the shape's path. Dashed strokes replace that path with their
             // dash segments, so using the cached object would leave the next draw with no geometry.
             const dashed = op.hasStroke() && op.strokeType === StrokeType.DASHED;
-            obj = dashed ? (op.resource as ResourceShape).shape.createPixiObject(Graphics) : op.resource.getPixiObject(Graphics);
+            obj = dashed ? (op.resource as ResourceShape).shape.createPixiObject(pixi.Graphics) : op.resource.getPixiObject(pixi.Graphics);
 
             if(op.hasFill()) 
             { 
@@ -177,7 +241,7 @@ export class RendererPixi extends Renderer
         // TEXT (draws on-the-fly to an offscreen canvas, then just returns that as a Sprite)
         if(op.resource instanceof ResourceText)
         {
-            obj = op.resource.getPixiObject({ sprite: Sprite, texture: Texture, layoutOperation: op, debugText: this.debugText });
+            obj = op.resource.getPixiObject({ sprite: pixi.Sprite, texture: pixi.Texture, layoutOperation: op, debugText: this.debugText });
         }
 
         if(!obj)
@@ -199,7 +263,7 @@ export class RendererPixi extends Renderer
         let root = obj;
         if(resourceMask)
         {
-            const inner = new Container();
+            const inner = new pixi.Container();
             inner.addChild(obj);
             inner.addChild(resourceMask);
             inner.mask = resourceMask;
@@ -208,7 +272,7 @@ export class RendererPixi extends Renderer
 
         if(clipMask)
         {
-            const outer = new Container();
+            const outer = new pixi.Container();
             outer.addChild(root);
             outer.addChild(clipMask);
             outer.mask = clipMask;
@@ -224,8 +288,9 @@ export class RendererPixi extends Renderer
         return root;
     }
 
-    createClipMask(op:LayoutOperation) : Graphics
+    createClipMask(op:LayoutOperation)
     {
+        const pixi = this.pixiInstance;
         let points = op.clip.toPathArray();
 
         // A relative clip follows the operation (like the canvas renderer applies its transform
@@ -236,11 +301,12 @@ export class RendererPixi extends Renderer
             points = points.map((p) => matrix.applyToPoint(p));
         }
 
-        return new Graphics({}).poly(points, true).fill(0xFFFFFF);
+        return new pixi.Graphics({}).poly(points, true).fill(0xFFFFFF);
     }
 
     createResourceMask(op:LayoutOperation) : any
     {
+        const pixi = this.pixiInstance;
         const mask = op.mask;
         const maskOp = mask.operation ?? new LayoutOperation({ renderer: this });
 
@@ -252,20 +318,21 @@ export class RendererPixi extends Renderer
         maskOp.renderer = this;
         maskOp.calculateResultProperties();
 
-        const maskObj = mask.resource.getPixiObject(maskOp.frame ?? 0, Sprite);
+        const maskObj = mask.resource.getPixiObject(maskOp.frame ?? 0, pixi.Sprite);
         if(!maskObj) { return null; }
 
         this.applyToPixiObjectProperties(maskOp, maskObj);
         return maskObj;
     }
 
-    addDebugOverlay(op:LayoutOperation, parent:Container)
+    addDebugOverlay(op:LayoutOperation, parent:any)
     {
+        const pixi = this.pixiInstance;
         const localMatrix = op.calculateLocalTransformationMatrix();
         const points = getLayoutOperationBoxPoints(op, localMatrix);
         const color = getLayoutOperationDebugColorNumber(op);
 
-        const graphics = new Graphics({});
+        const graphics = new pixi.Graphics({});
         graphics.poly(points, true).stroke({ color: color, width: 2, alignment: 0.5 });
 
         const pivot = getLayoutOperationPivotPoint(op, localMatrix);
@@ -327,9 +394,10 @@ export class RendererPixi extends Renderer
         const effOp = new EffectsOperation();
         // avoid allocating an empty effects array on every object that has none
         const effects = op.hasEffects() ? op.effects : NO_EFFECTS;
+        const filters = this.filtersInstance;
         for(const effect of effects)
         {
-            effect.applyToPixi(PIXIFilters, effOp, obj); // some effects do something directly on object
+            effect.applyToPixi(filters, effOp, obj); // some effects do something directly on object
         }
         obj.filters = effOp.filtersPixi;
 

@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Slippery Slopes: Trippy Touches"
-blurb: "It's Slippery Slopes, but now playable on a single mobile phone — pass it around and play anywhere."
+blurb: "It's Slippery Slopes, but now playable on a single mobile phone—pass it around and play anywhere."
 
 date: 2024-04-25
 

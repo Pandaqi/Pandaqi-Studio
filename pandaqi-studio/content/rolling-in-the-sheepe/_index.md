@@ -51,7 +51,7 @@ When they take their first rolls, though, they soon find out not every shape is 
 
 **Rolling in the Sheepe** is a simple, light-hearted local multiplayer game for 1-6 players of all ages. 
 
-Roll your sheepe to the finish. Try not to get sliced into many tinier sheepe along the way, or become The Unrollable Triangle, or land on a spike, or miss that jump ten times, or &mdash; well, you know, just try to roll better than the others?
+Roll your sheepe to the finish. Try not to get sliced into many tinier sheepe along the way, or become The Unrollable Triangle, or land on a spike, or miss that jump ten times, or&mdash;well, you know, just try to roll better than the others?
 
 {{< content/video src="assets/video/sheepe_video_1_5" >}}
 

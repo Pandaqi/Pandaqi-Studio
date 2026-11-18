@@ -605,7 +605,7 @@ export const TASKS =
 
 	new Task(
 		"Ren je rot",
-		"Verspreid over deze winkelstraat staan tientallen zware dozen. Ren je rot om binnen de tijd alle dozen te bereiken, hun cryptische bestemming te ontcijferen, en op de juiste plek af te leveren &mdash; een ruime beloning wacht op jullie.",
+		"Verspreid over deze winkelstraat staan tientallen zware dozen. Ren je rot om binnen de tijd alle dozen te bereiken, hun cryptische bestemming te ontcijferen, en op de juiste plek af te leveren&mdash;een ruime beloning wacht op jullie.",
 		'<p>Men speelt twee rondes om de tafel.</p><p>De eerste ronde moet men gezamenlijk # renkaarten spelen. Als dat niet lukt, is de opdracht sowieso mislukt.</p><p>In de tweede ronde verdient men 20 euro voor elke puzzelkaart die wordt gespeeld.</p><p>Als men in totaal ook nog eens # inspanningskaarten speelt, verdient men de gehele inleg voor de pot.</p>',
 		['Zwaar'],
 		50,
@@ -684,7 +684,7 @@ export const TASKS =
 
 	new Task(
 		"Kwadelijke Keuzes",
-		"Jullie leider heeft kistjes door deze gang verspreid. Elk kistje kan iets goeds bevatten &mdash; geld voor de pot &mdash; of iets waar vooral de leider profijt van heeft. Met blinddoek op, moeten jullie gezamenlijk één kistje kiezen. Maar geen zorgen: als je slim bent, kan je de mindere kistjes wegspelen.",
+		"Jullie leider heeft kistjes door deze gang verspreid. Elk kistje kan iets goeds bevatten&mdash;geld voor de pot&mdash;of iets waar vooral de leider profijt van heeft. Met blinddoek op, moeten jullie gezamenlijk één kistje kiezen. Maar geen zorgen: als je slim bent, kan je de mindere kistjes wegspelen.",
 		"<p>Alle spelers doen hun ogen dicht, <em>en houden hun ogen de hele opdracht lang dicht</em>, behalve de leider. Die pakt al het ingezette geld, voegt een joker en een vrijstelling toe, en verdeelt dit in # stapeltjes.</p><p>De andere spelers moeten één stapel kiezen; het geld in die stapel gaat naar de pot, een eventuele joker/vrijstelling gaat naar de leider.</p><p>Maar, ze krijgen mogelijkheden om informatie te vergaren. Voor elke twee kaarten van dezelfde soort die men speelt, mag men de inhoud vragen van een stapel.</p><p>Het is aan de leider om eerlijk aan te geven wanneer twee dezelfde kaarten zijn gespeeld. (Want met je ogen dicht, heb je natuurlijk geen zekerheid ... )</p>",
 		['Samenwerken', 'Nadenken'],
 		50,
@@ -1068,7 +1068,7 @@ export const TASKS =
 	new Task(
 		'Liegen voor je Leven',
 		'Iedere speler moet een feitje over zichzelf vertellen. Daarna krijgt de rest precies één minuut om door diens molboekje te bladeren en uit te vinden of het wel een feitje was ... of een flinke leugen. Kom je weg met een leugen? Dan krijg je een beloning. Speelt iedereen het spel oprecht? Alleen dan valt er geld te verdienen.',
-		'<p>Alle spelers nemen twee kaarten in de hand (en leggen hun andere handkaarten even opzij).</p><p>Tijdens je beurt moet je een medespeler vragen: "wat heb je in je hand?" Waarop de medespeler twee kaartsoorten moet antwoorden, maar hierover mag liegen!</p><p>Als jij denkt dat de ander liegt, zeg je dat. Heb je gelijk? Dan verdien jij een joker. Heb je geen gelijk? Dan verdient die ander een joker. Als een speler eenmaal is uitgedaagd kan hij natuurlijk niet nogmaals worden uitgedaagd (want men kent diens kaarten al)</p><p>Alleen als <em>niemand</em> ongelijk heeft &mdash; niemand wordt uitgedaagd of elke uitdaging wordt gewonnen &mdash; gaat het geld in de pot.</p>',
+		'<p>Alle spelers nemen twee kaarten in de hand (en leggen hun andere handkaarten even opzij).</p><p>Tijdens je beurt moet je een medespeler vragen: "wat heb je in je hand?" Waarop de medespeler twee kaartsoorten moet antwoorden, maar hierover mag liegen!</p><p>Als jij denkt dat de ander liegt, zeg je dat. Heb je gelijk? Dan verdien jij een joker. Heb je geen gelijk? Dan verdient die ander een joker. Als een speler eenmaal is uitgedaagd kan hij natuurlijk niet nogmaals worden uitgedaagd (want men kent diens kaarten al)</p><p>Alleen als <em>niemand</em> ongelijk heeft&mdash;niemand wordt uitgedaagd of elke uitdaging wordt gewonnen&mdash;gaat het geld in de pot.</p>',
 		['Nadenken', 'Tijdsdruk'],
 		20,
 		[
@@ -1466,7 +1466,7 @@ export const TASKS =
 
 	new Task(
 		'Een Luie Uitdaging',
-		'Deze opdracht speelt iedereen voor zichzelf &mdash; maar je kunt nog steeds van anderen profiteren. Iedereen moet zo snel mogelijk door het hotel rennen en een kistje vinden met hun naam erop. Echter, als jij jouw kistje niet op tijd bereikt, mag je voorspellen of het iemand anders wél is gelukt ... en daar misschien een joker aan overhouden.',
+		'Deze opdracht speelt iedereen voor zichzelf&mdash;maar je kunt nog steeds van anderen profiteren. Iedereen moet zo snel mogelijk door het hotel rennen en een kistje vinden met hun naam erop. Echter, als jij jouw kistje niet op tijd bereikt, mag je voorspellen of het iemand anders wél is gelukt ... en daar misschien een joker aan overhouden.',
 		'<p>Houdt iedereens geldinzet apart (gooi het niet op één hoop). De startinzet van deze opdracht gaat naar de leider.</p><p>Iedereen die een inspanningskaart speelt, verdient diens eigen inzet voor de pot.</p><p>Echter, als je géén inspanningskaart speelt, moet je een speler aanwijzen die nog niet aan de beurt is geweest, en voorspellen of diegene een inspanningskaart speelt of niet.</p><p>Heb jij gelijk? Dan krijg jij een joker. Heb jij geen gelijk? Dan krijgt die ander een joker.</p><p>(Herinner dat twee samenwerkingskaarten, bijvoorbeeld, ook één inspanning kunnen voorstellen. En natuurlijk hoef je een inspanningskaart niet perse te spelen als je deze hebt ...)</p>',
 		['Bluffen', 'Tijdsdruk'],
 		20,

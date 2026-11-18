@@ -1214,7 +1214,7 @@ const startGameOverPhase= () =>
 	let msg = `<p>Gefelicteerd ... trol!</p><p>Niemand heeft op jou gestemd in de laatste test, dus jij hebt gewonnen!</p><p>Je mag jezelf nu op spectaculaire wijze onthullen!</p>`;
 	if(moleWasFound) 
 	{
-		msg = `<p>Het spijt me, trol. Je bent gevonden.</p><p>Maar geen zorgen &mdash; je mag jezelf nu op spectaculaire wijze onthullen!</p>`
+		msg = `<p>Het spijt me, trol. Je bent gevonden.</p><p>Maar geen zorgen&mdash;je mag jezelf nu op spectaculaire wijze onthullen!</p>`
 	}
 
 	// Some nice statistics about the final test, because people like to see that

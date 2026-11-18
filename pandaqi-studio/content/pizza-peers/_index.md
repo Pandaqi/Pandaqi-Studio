@@ -107,7 +107,7 @@ If it's **green** (or higher), the pizza is hot enough.
 
 ## Chef: How do I get orders?
 
-From now on, buildings will not automatically order something &mdash; you need to ask them first!
+From now on, buildings will not automatically order something&mdash;you need to ask them first!
 
 A **dancing exclamation mark** means this building wants to order.
 

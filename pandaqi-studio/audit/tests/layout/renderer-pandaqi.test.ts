@@ -1,8 +1,8 @@
 import "../text/setup";
 
 import { describe, expect, test } from "bun:test";
-import { captureConsole, FakeElement, newCanvas, shapeRect, spyAllContexts } from "./helpers";
-import { Circle, Color, LayoutOperation, Path, ResourceGroup, ResourceShape, ResourceText, StrokeAlign, StrokeType, TextConfig, Vector2 } from "./lib";
+import { captureConsole, FakeElement, newCanvas, shapeRect, spyAllContexts, spyAllContextsAsync } from "./helpers";
+import { Circle, Color, LayoutOperation, Path, RendererPandaqiWebGPU, ResourceGroup, ResourceShape, ResourceText, StrokeAlign, StrokeType, TextConfig, Vector2 } from "./lib";
 
 // The canvas renderer is the default one, so the properties it used to ignore (depth, dashed
 // strokes, several HTML-only properties) are pinned here next to the mask path.
@@ -139,6 +139,95 @@ describe("canvas depth", () =>
         op.applyToCanvas(newCanvas());
 
         expect(order).toEqual(["first", "second"]);
+    });
+});
+
+describe("group draw order", () =>
+{
+    const recorder = (group:ResourceGroup) =>
+    {
+        const order:string[] = [];
+        const add = (label:string) => group.add({ toCanvas: () => { order.push(label); } } as any);
+        return { order, add };
+    };
+
+    test("a group's own order hook decides the drawing order", () =>
+    {
+        const group = new ResourceGroup();
+        const r = recorder(group);
+        r.add("a"); r.add("b"); r.add("c");
+
+        // z-index style hoisting: whatever the hook returns is what gets drawn, in that order
+        group.setOrder((combos) => combos.slice().reverse());
+
+        const op = new LayoutOperation({ resource: group, size: new Vector2(100, 100), pivot: Vector2.ZERO });
+        op.applyToCanvas(newCanvas());
+
+        expect(r.order).toEqual(["c", "b", "a"]);
+    });
+
+    test("batching draws children with the same style consecutively", () =>
+    {
+        const group = new ResourceGroup();
+        const order:string[] = [];
+        const add = (label:string, fill:string) => group.add(
+            { toCanvas: () => { order.push(label); } } as any,
+            new LayoutOperation({ fill: fill, size: new Vector2(10, 10), pivot: Vector2.ZERO }),
+        );
+
+        add("red-1", "#ff0000");
+        add("blue-1", "#0000ff");
+        add("red-2", "#ff0000");
+        add("blue-2", "#0000ff");
+
+        group.setBatch(true);
+
+        const op = new LayoutOperation({ resource: group, size: new Vector2(100, 100), pivot: Vector2.ZERO });
+        op.applyToCanvas(newCanvas());
+
+        // same style groups together, insertion order inside each group is kept
+        expect(order).toEqual(["red-1", "red-2", "blue-1", "blue-2"]);
+    });
+
+    test("batching never crosses a depth boundary", () =>
+    {
+        const group = new ResourceGroup();
+        const order:string[] = [];
+        const add = (label:string, fill:string, depth:number) => group.add(
+            { toCanvas: () => { order.push(label); } } as any,
+            new LayoutOperation({ fill: fill, size: new Vector2(10, 10), pivot: Vector2.ZERO, depth: depth }),
+        );
+
+        add("back-red", "#ff0000", 0);
+        add("front-blue", "#0000ff", 5);
+        add("back-blue", "#0000ff", 0);
+
+        group.setBatch(true);
+
+        const op = new LayoutOperation({ resource: group, size: new Vector2(100, 100), pivot: Vector2.ZERO });
+        op.applyToCanvas(newCanvas());
+
+        expect(order.slice(0, 2).sort()).toEqual(["back-blue", "back-red"]);
+        expect(order[2]).toBe("front-blue");
+    });
+});
+
+describe("webgpu backend", () =>
+{
+    test("falls back to the canvas renderer when the browser has no WebGPU", async () =>
+    {
+        const renderer = new RendererPandaqiWebGPU();
+        expect(RendererPandaqiWebGPU.isSupported()).toBe(false);
+
+        const group = new ResourceGroup();
+        group.add(shapeRect(50, 50), new LayoutOperation({ fill: "#ff0000", size: new Vector2(50, 50), pivot: Vector2.ZERO }));
+
+        const spy = await spyAllContextsAsync(async () => {
+            await renderer.finishDraw({ size: new Vector2(100, 100), group: group });
+        });
+
+        // the fallback drew the shape instead of returning an empty canvas
+        expect(spy.fills.length).toBe(1);
     });
 });
 

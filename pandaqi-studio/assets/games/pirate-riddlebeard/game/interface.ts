@@ -6,7 +6,7 @@ import { rand } from "lib/pq-games";const messages =
 	<p><strong>Step 2:</strong> discover your hints.</p>
 	<ul>
 		<li>Click "Show Hint Player 1"</li>
-		<li>Write them down &mdash; keep them secret!</li>
+		<li>Write them down&mdash;keep them secret!</li>
 		<li>Repeat until all players know their hints.</li>
 	</ul>
 	<p><strong>Step 3:</strong> open the map and copy it to the paper.</p>

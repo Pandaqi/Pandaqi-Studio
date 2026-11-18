@@ -15,14 +15,15 @@
    Kept out of the site bundle: this file is only used by audit/src/renderer-bench.ts. */
 
 import {
-    MaterialVisualizer, RendererPandaqi, RendererPixi, ResourceLoader,
+    MaterialVisualizer, RendererPandaqi, RendererPandaqiWebGPU, RendererPixi, ResourceLoader,
     addConfigFromLocalStorage, createGridMapperFromConfig, ensureConfigProperties, setSeed,
 } from "lib/pq-games";
 import { CONFIG } from "../../assets/games/one-pizza-the-puzzle/shared/config";
 import { boardPicker } from "../../assets/games/one-pizza-the-puzzle/board/boardPicker";
 
 const params = new URLSearchParams(location.search);
-const rendererName = params.get("renderer") === "pixi" ? "pixi" : "pandaqi";
+const requested = params.get("renderer");
+const rendererName = requested === "pixi" || requested === "webgpu" ? requested : "pandaqi";
 const seed = params.get("seed") || "renderer-bench";
 
 // TimedVisualizer records how long the renderer's own finishDraw took, without
@@ -51,7 +52,12 @@ class TimedVisualizer extends MaterialVisualizer
     }
 }
 
-const makeRenderer = () => rendererName === "pixi" ? new RendererPixi() : new RendererPandaqi();
+const makeRenderer = () =>
+{
+    if(rendererName === "pixi") { return new RendererPixi(); }
+    if(rendererName === "webgpu") { return new RendererPandaqiWebGPU(); }
+    return new RendererPandaqi();
+};
 
 const prepare = async () =>
 {
@@ -153,7 +159,9 @@ const run = async (reps:number) =>
     }
 
     const pixiType = (CONFIG._game.renderer as any)?.rendererInstance?.type ?? null;
-    return { renderer: rendererName, seed, runs, pixiType, backend: backendInfo() };
+    // the WebGPU renderer falls back to canvas when the browser has no adapter, so report what ran
+    const backendUsed = (CONFIG._game.renderer as any)?.lastBackend ?? null;
+    return { renderer: rendererName, seed, runs, pixiType, backendUsed, backend: backendInfo() };
 };
 
 (window as any).pqRendererBench = { prepare, run };

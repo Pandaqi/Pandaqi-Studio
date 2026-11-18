@@ -25,7 +25,7 @@ Yes. Every game on this site is free to download, print and play, and every rule
 
 ### Do I need a printer?
 
-For most board games, yes — but plenty of them fit on a single sheet of paper, need only a pen and some scraps, or work with a standard deck of cards. The "What's included" list on a game's page tells you exactly what you need before you commit.
+For most board games, yes—but plenty of them fit on a single sheet of paper, need only a pen and some scraps, or work with a standard deck of cards. The "What's included" list on a game's page tells you exactly what you need before you commit.
 
 ### Can I play alone?
 

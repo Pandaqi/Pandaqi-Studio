@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Wondering Witches"
-blurb: "Brew a secret potion to defeat your enemies — as witches do — but the High Witch is terrible at explaining recipes ..."
+blurb: "Brew a secret potion to defeat your enemies—as witches do—but the High Witch is terrible at explaining recipes ..."
 
 date: 2023-02-14 # old publishing date: 2020-04-28
 

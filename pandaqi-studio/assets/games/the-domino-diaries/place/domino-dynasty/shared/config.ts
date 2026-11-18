@@ -141,7 +141,7 @@ export const CONFIG =
     {
         numStartingDominoesPerPlayer: 2,
         // the picker keeps some dominoes whose two paths do not meet; this constant was never declared,
-        // so that branch never ran. Value is a starting point — tune to taste.
+        // so that branch never ran. Value is a starting point—tune to taste.
         pathNonMatchProb: 0.2,
         numDominoes:
         {

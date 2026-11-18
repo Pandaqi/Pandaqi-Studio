@@ -18,8 +18,8 @@ const containerNodeOf = (container:string|HTMLElement|undefined) : HTMLElement|n
 //
 // Every step has a fallback, so a page that changes its markup (a different id, no wrapper at all,
 // nothing but `text`) still renders instead of throwing on a missing node. The old version called
-// `node.classList` on the result of `getElementById`, so one renamed id turned the whole rulebook —
-// and the script that loaded it — into a crash.
+// `node.classList` on the result of `getElementById`, so one renamed id turned the whole rulebook—
+// and the script that loaded it—into a crash.
 export const parseInput = (params:RulebookParams) : HTMLElement =>
 {
     if(params._rulebook) { return params._rulebook; }

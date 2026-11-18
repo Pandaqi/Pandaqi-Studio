@@ -3,7 +3,7 @@ type: "project"
 collection: "play"
 
 title: "Easter Eggventures"
-blurb: "Five simple family games for Easter — or any day you crave an egg hunt but cannot face the garden."
+blurb: "Five simple family games for Easter—or any day you crave an egg hunt but cannot face the garden."
 # blurb: "Eggventures is a collection of free Easter-themed board games for families and simple egg hunting fun."
 driveLink: "https://drive.google.com/drive/folders/1uplIYqa6FX_Hjx628R0SLTLejVFR0kpL"
 

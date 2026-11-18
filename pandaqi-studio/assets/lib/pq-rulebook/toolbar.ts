@@ -241,7 +241,7 @@ export const makeImagesClickable = (node:HTMLElement) =>
 
         image.classList.add("rulebook-zoomable");
         const hint = "Click to enlarge";
-        image.title = image.title ? `${image.title} — ${hint}` : hint;
+        image.title = image.title ? `${image.title}—${hint}` : hint;
 
         const openImage = () =>
         {

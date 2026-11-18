@@ -2,7 +2,7 @@
 type: "project"
 
 title: "Tower of Freedom"
-blurb: "Collect resources to build a tower into the sky — while monsters try to tear your beautiful creation down."
+blurb: "Collect resources to build a tower into the sky—while monsters try to tear your beautiful creation down."
 deprecated: true
 
 date: 2017-07-20

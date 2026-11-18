@@ -133,7 +133,7 @@
     {{ partial "func/load-page-styles.html" . }}
 
     <!-- Preload the fonts the first screen actually uses. All three families are `font-display: swap`,
-         so a font that is not there yet is painted in a fallback and then swaps — most visible on the
+         so a font that is not there yet is painted in a fallback and then swaps—most visible on the
          big Elsie titles, which look nothing like their fallback. Requesting them up front means they
          arrive before the first text does, instead of halfway through reading it. -->
     <link rel="preload" href="/theme/fonts/Raleway-Medium.woff2" as="font" type="font/woff2" crossorigin>

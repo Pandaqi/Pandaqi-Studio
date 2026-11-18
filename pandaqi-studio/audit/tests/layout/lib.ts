@@ -4,6 +4,7 @@ const LIB = "../../../assets/lib/pq-games";
 export { LayoutOperation } from "../../../assets/lib/pq-games/layout/layoutOperation";
 export { LayoutOperationBuilder } from "../../../assets/lib/pq-games/layout/operation/layoutOperationBuilder";
 export { RendererPandaqi } from "../../../assets/lib/pq-games/renderers/pandaqi/rendererPandaqi";
+export { RendererPandaqiWebGPU } from "../../../assets/lib/pq-games/renderers/pandaqi/rendererPandaqiWebGPU";
 export { RendererPixi } from "../../../assets/lib/pq-games/renderers/pixi/rendererPixi";
 export { MaterialVisualizer } from "../../../assets/lib/pq-games/renderers/materialVisualizer";
 export { ResourceShape } from "../../../assets/lib/pq-games/layout/resources/resourceShape";
