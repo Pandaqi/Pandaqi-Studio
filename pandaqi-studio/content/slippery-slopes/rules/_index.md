@@ -42,7 +42,7 @@ Now ...
 
 ### Communicate
 
-Start a [timer](https://pandaqi.com/tools/use/timer/). The recommended duration is 1 or 2 minutes.
+Start a [timer](https://pandaqi.com/game-buddy/). The recommended duration is 1 or 2 minutes.
 
 You must communicate your secret word ... using only the sliders. 
 

@@ -1,0 +1,31 @@
+{
+  "mode": "site",
+  "js": 278632,
+  "css": 40503,
+  "appGz": 110525,
+  "chunks": {
+    "count": 80,
+    "largest": "tool-text-pl.generated-mbqej0xz.js",
+    "largestGz": 16639,
+    "totalGz": 632675
+  },
+  "single": 6462439,
+  "singleGz": 3871009,
+  "tools": 22,
+  "langs": [
+    "de",
+    "en",
+    "es",
+    "fr",
+    "id",
+    "it",
+    "ja",
+    "ko",
+    "nl",
+    "pl",
+    "pt",
+    "tr",
+    "vi",
+    "zh"
+  ]
+}

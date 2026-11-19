@@ -31,7 +31,7 @@ media: [assets/screenshots/material-sliders-page-001, assets/screenshots/materia
 
 By default, this game is completely offline: just download the material once, print it, and play.
 
-It is highly recommended, however, to add a timer to rounds. You can use any timer or app, including my own [Pandaqi Timer](https://pandaqi.com/tools/use/timer/) page.
+It is highly recommended, however, to add a timer to rounds. You can use any timer or app, including my own [Pandaqi Timer](https://pandaqi.com/game-buddy/) page.
 
 Or you can simply play the completely _digital_ sequel: [Slippery Slopes: Trippy Touches](https://pandaqi.com/slippery-slopes-trippy-touches/). Playable with just one smartphone, rules explained as you go, still the same fun core mechanic.
 

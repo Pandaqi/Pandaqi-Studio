@@ -1,0 +1,2 @@
+var e=null,i=0;function a(){return typeof navigator<"u"&&!!navigator.wakeLock}async function n(){if(e||typeof document>"u"||document.visibilityState!=="visible")return;if(!a())return;try{e=await navigator.wakeLock.request("screen"),e.addEventListener?.("release",()=>{e=null})}catch{e=null}}var Re={retain(){if(i+=1,i===1)n()},release(){if(i=Math.max(0,i-1),i>0)return;let t=e;if(e=null,t&&!t.released)t.release().catch(()=>{return})}};if(typeof document<"u")document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&i>0)n()});
+export{Re};

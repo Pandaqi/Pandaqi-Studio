@@ -9,6 +9,7 @@
     "gamebuddy": "bun run src/gamebuddy.ts",
     "perf": "bun run src/perf.ts",
     "renderer-bench": "bun run src/renderer-bench.ts",
+    "renderer-games-bench": "bun run src/renderer-games-bench.ts",
     "frame-bench": "bun run src/frame-bench.ts",
     "tree-shake": "bun run src/tree-shake.ts",
     "webgpu-demo": "bun run src/webgpu-demo.ts",

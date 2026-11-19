@@ -54,7 +54,7 @@ Three simple steps.
 
 It's highly recommended to put a (strict) timer on the drawing rounds. Players might say they don't want that: they are wrong 😉 It makes the game quicker, more fun, and prevents any "cheats" players will come up with (like making very detailed drawings).
 
-You can use anything! Or use my simple [timer](/tools/use/timer/) page.
+You can use anything! Or use my simple [timer](/game-buddy/) page.
 
 ## Background
 

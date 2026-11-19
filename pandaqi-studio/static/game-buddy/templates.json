@@ -1,0 +1,607 @@
+{
+  "format": 1,
+  "templates": [
+    {
+      "id": "avalon",
+      "name": "The Resistance: Avalon",
+      "players": "5-10",
+      "time": "30m",
+      "url": "/game-buddy/template/avalon/"
+    },
+    {
+      "id": "azul",
+      "name": "Azul",
+      "players": "2-4",
+      "time": "40m",
+      "url": "/game-buddy/template/azul/"
+    },
+    {
+      "id": "backgammon",
+      "name": "Backgammon",
+      "players": "2",
+      "time": "30m",
+      "url": "/game-buddy/template/backgammon/"
+    },
+    {
+      "id": "bananagrams",
+      "name": "Bananagrams",
+      "players": "2-8",
+      "time": "15m",
+      "url": "/game-buddy/template/bananagrams/"
+    },
+    {
+      "id": "betrayal",
+      "name": "Betrayal at House on the Hill",
+      "players": "3-6",
+      "time": "60m",
+      "url": "/game-buddy/template/betrayal/"
+    },
+    {
+      "id": "bidding-blocks",
+      "name": "Bidding Blocks",
+      "players": "3-6",
+      "time": "30m",
+      "url": "/game-buddy/template/bidding-blocks/"
+    },
+    {
+      "id": "boggle",
+      "name": "Boggle",
+      "players": "2-8",
+      "time": "15m",
+      "url": "/game-buddy/template/boggle/"
+    },
+    {
+      "id": "captain-flip",
+      "name": "Captain Flip",
+      "players": "2-6",
+      "time": "30m",
+      "url": "/game-buddy/template/captain-flip/"
+    },
+    {
+      "id": "carcassonne",
+      "name": "Carcassonne",
+      "players": "2-5",
+      "time": "45m",
+      "url": "/game-buddy/template/carcassonne/"
+    },
+    {
+      "id": "cascadia",
+      "name": "Cascadia",
+      "players": "1-4",
+      "time": "45m",
+      "url": "/game-buddy/template/cascadia/"
+    },
+    {
+      "id": "catan",
+      "name": "Catan",
+      "players": "3-4",
+      "time": "90m",
+      "url": "/game-buddy/template/catan/"
+    },
+    {
+      "id": "charades",
+      "name": "Charades",
+      "players": "4-16",
+      "time": "30m",
+      "url": "/game-buddy/template/charades/"
+    },
+    {
+      "id": "chess-blitz",
+      "name": "Chess / Blitz",
+      "players": "2",
+      "time": "10-60m",
+      "url": "/game-buddy/template/chess-blitz/"
+    },
+    {
+      "id": "chiptales",
+      "name": "Chiptales",
+      "players": "2-9",
+      "time": "30m",
+      "url": "/game-buddy/template/chiptales/"
+    },
+    {
+      "id": "cluedo",
+      "name": "Cluedo",
+      "players": "2-6",
+      "time": "45m",
+      "url": "/game-buddy/template/cluedo/"
+    },
+    {
+      "id": "codenames",
+      "name": "Codenames",
+      "players": "4-8",
+      "time": "20m",
+      "url": "/game-buddy/template/codenames/"
+    },
+    {
+      "id": "coup",
+      "name": "Coup",
+      "players": "2-6",
+      "time": "15m",
+      "url": "/game-buddy/template/coup/"
+    },
+    {
+      "id": "cribbage",
+      "name": "Cribbage",
+      "players": "2",
+      "time": "30m",
+      "url": "/game-buddy/template/cribbage/"
+    },
+    {
+      "id": "darts",
+      "name": "Darts",
+      "players": "2-8",
+      "time": "30m",
+      "url": "/game-buddy/template/darts/"
+    },
+    {
+      "id": "death-by-digits",
+      "name": "Death by Digits",
+      "players": "2-6",
+      "time": "30m",
+      "url": "/game-buddy/template/death-by-digits/"
+    },
+    {
+      "id": "decrypto",
+      "name": "Decrypto",
+      "players": "3-8",
+      "time": "30m",
+      "url": "/game-buddy/template/decrypto/"
+    },
+    {
+      "id": "dixit",
+      "name": "Dixit",
+      "players": "3-6",
+      "time": "30m",
+      "url": "/game-buddy/template/dixit/"
+    },
+    {
+      "id": "dnd-5e-combat",
+      "name": "D&D 5e combat",
+      "players": "3-7",
+      "time": "varies",
+      "url": "/game-buddy/template/dnd-5e-combat/"
+    },
+    {
+      "id": "dominion",
+      "name": "Dominion",
+      "players": "2-4",
+      "time": "30m",
+      "url": "/game-buddy/template/dominion/"
+    },
+    {
+      "id": "dominoes",
+      "name": "Dominoes",
+      "players": "2-4",
+      "time": "20m",
+      "url": "/game-buddy/template/dominoes/"
+    },
+    {
+      "id": "escape-room",
+      "name": "Escape Room",
+      "players": "2-6",
+      "time": "60m",
+      "url": "/game-buddy/template/escape-room/"
+    },
+    {
+      "id": "exploding-kittens",
+      "name": "Exploding Kittens",
+      "players": "2-5",
+      "time": "15m",
+      "url": "/game-buddy/template/exploding-kittens/"
+    },
+    {
+      "id": "farkle",
+      "name": "Farkle",
+      "players": "2-6",
+      "time": "30m",
+      "url": "/game-buddy/template/farkle/"
+    },
+    {
+      "id": "feed-the-beast",
+      "name": "Feed the Beast",
+      "players": "2-6",
+      "time": "30m",
+      "url": "/game-buddy/template/feed-the-beast/"
+    },
+    {
+      "id": "fiddlefoo",
+      "name": "Fiddlefoo",
+      "players": "2-6",
+      "time": "30m",
+      "url": "/game-buddy/template/fiddlefoo/"
+    },
+    {
+      "id": "firecrackers",
+      "name": "Firecrackers",
+      "players": "2-10",
+      "time": "60m",
+      "url": "/game-buddy/template/firecrackers/"
+    },
+    {
+      "id": "gloomhaven",
+      "name": "Gloomhaven",
+      "players": "1-4",
+      "time": "90m",
+      "url": "/game-buddy/template/gloomhaven/"
+    },
+    {
+      "id": "hanabi",
+      "name": "Hanabi",
+      "players": "2-5",
+      "time": "25m",
+      "url": "/game-buddy/template/hanabi/"
+    },
+    {
+      "id": "hasty-accusations",
+      "name": "Hasty Accusations",
+      "players": "2-7",
+      "time": "30m",
+      "url": "/game-buddy/template/hasty-accusations/"
+    },
+    {
+      "id": "hearts",
+      "name": "Hearts",
+      "players": "3-6",
+      "time": "45m",
+      "url": "/game-buddy/template/hearts/"
+    },
+    {
+      "id": "i-bid-you-not",
+      "name": "I Bid You Not",
+      "players": "3-6",
+      "time": "45m",
+      "url": "/game-buddy/template/i-bid-you-not/"
+    },
+    {
+      "id": "jackbox-night",
+      "name": "Jackbox Night",
+      "players": "2-8",
+      "time": "45m",
+      "url": "/game-buddy/template/jackbox-night/"
+    },
+    {
+      "id": "just-one",
+      "name": "Just One",
+      "players": "3-7",
+      "time": "20m",
+      "url": "/game-buddy/template/just-one/"
+    },
+    {
+      "id": "keebble-games",
+      "name": "Keebble Games",
+      "players": "2-6",
+      "time": "20-60m",
+      "url": "/game-buddy/template/keebble-games/"
+    },
+    {
+      "id": "king-of-tokyo",
+      "name": "King of Tokyo",
+      "players": "2-6",
+      "time": "30m",
+      "url": "/game-buddy/template/king-of-tokyo/"
+    },
+    {
+      "id": "kitchen-rush-timers",
+      "name": "Kitchen Rush",
+      "players": "2-4",
+      "time": "45m",
+      "url": "/game-buddy/template/kitchen-rush-timers/"
+    },
+    {
+      "id": "love-letter",
+      "name": "Love Letter",
+      "players": "2-4",
+      "time": "20m",
+      "url": "/game-buddy/template/love-letter/"
+    },
+    {
+      "id": "luck-legends",
+      "name": "The Luck Legends",
+      "players": "2-8",
+      "time": "30m",
+      "url": "/game-buddy/template/luck-legends/"
+    },
+    {
+      "id": "magnetmen",
+      "name": "Magnetmen",
+      "players": "2-4",
+      "time": "20m",
+      "url": "/game-buddy/template/magnetmen/"
+    },
+    {
+      "id": "mammoth-messages",
+      "name": "Mammoth Messages",
+      "players": "2-8",
+      "time": "30m",
+      "url": "/game-buddy/template/mammoth-messages/"
+    },
+    {
+      "id": "mapped-out",
+      "name": "Mapped Out",
+      "players": "2-5",
+      "time": "30m",
+      "url": "/game-buddy/template/mapped-out/"
+    },
+    {
+      "id": "mario-kart-night",
+      "name": "Mario Kart Night",
+      "players": "2-8",
+      "time": "60m",
+      "url": "/game-buddy/template/mario-kart-night/"
+    },
+    {
+      "id": "maybe-games",
+      "name": "Maybe Games",
+      "players": "3-6",
+      "time": "30-60m",
+      "url": "/game-buddy/template/maybe-games/"
+    },
+    {
+      "id": "monikers",
+      "name": "Monikers",
+      "players": "4-12",
+      "time": "45m",
+      "url": "/game-buddy/template/monikers/"
+    },
+    {
+      "id": "monopoly",
+      "name": "Monopoly",
+      "players": "2-6",
+      "time": "120m",
+      "url": "/game-buddy/template/monopoly/"
+    },
+    {
+      "id": "mtg",
+      "name": "Magic: the Gathering",
+      "players": "2-4",
+      "time": "30m",
+      "url": "/game-buddy/template/mtg/"
+    },
+    {
+      "id": "naivigation",
+      "name": "Naivigation",
+      "players": "2-10",
+      "time": "60m",
+      "url": "/game-buddy/template/naivigation/"
+    },
+    {
+      "id": "pandemic",
+      "name": "Pandemic",
+      "players": "2-4",
+      "time": "45m",
+      "url": "/game-buddy/template/pandemic/"
+    },
+    {
+      "id": "perudo",
+      "name": "Perudo / Liar's Dice",
+      "players": "2-6",
+      "time": "30m",
+      "url": "/game-buddy/template/perudo/"
+    },
+    {
+      "id": "phase-10",
+      "name": "Phase 10",
+      "players": "2-6",
+      "time": "45m",
+      "url": "/game-buddy/template/phase-10/"
+    },
+    {
+      "id": "poker-night",
+      "name": "Poker Night",
+      "players": "2-9",
+      "time": "180m",
+      "url": "/game-buddy/template/poker-night/"
+    },
+    {
+      "id": "risk",
+      "name": "Risk",
+      "players": "2-6",
+      "time": "120m",
+      "url": "/game-buddy/template/risk/"
+    },
+    {
+      "id": "rummy",
+      "name": "Rummy",
+      "players": "2-6",
+      "time": "40m",
+      "url": "/game-buddy/template/rummy/"
+    },
+    {
+      "id": "scattergories",
+      "name": "Scattergories",
+      "players": "2-6",
+      "time": "30m",
+      "url": "/game-buddy/template/scattergories/"
+    },
+    {
+      "id": "scrabble",
+      "name": "Scrabble",
+      "players": "2-4",
+      "time": "60m",
+      "url": "/game-buddy/template/scrabble/"
+    },
+    {
+      "id": "secret-hitler",
+      "name": "Secret Hitler",
+      "players": "5-10",
+      "time": "30m",
+      "url": "/game-buddy/template/secret-hitler/"
+    },
+    {
+      "id": "seven-wonders",
+      "name": "7 Wonders",
+      "players": "3-7",
+      "time": "45m",
+      "url": "/game-buddy/template/seven-wonders/"
+    },
+    {
+      "id": "skull",
+      "name": "Skull",
+      "players": "3-6",
+      "time": "20m",
+      "url": "/game-buddy/template/skull/"
+    },
+    {
+      "id": "slippery-slopes",
+      "name": "Slippery Slopes",
+      "players": "2-10",
+      "time": "20m",
+      "url": "/game-buddy/template/slippery-slopes/"
+    },
+    {
+      "id": "smash-night",
+      "name": "Smash Night",
+      "players": "2-8",
+      "time": "60m",
+      "url": "/game-buddy/template/smash-night/"
+    },
+    {
+      "id": "spades",
+      "name": "Spades",
+      "players": "4",
+      "time": "45m",
+      "url": "/game-buddy/template/spades/"
+    },
+    {
+      "id": "speedrun-practice",
+      "name": "Speedrun Practice",
+      "players": "1",
+      "time": "30m",
+      "url": "/game-buddy/template/speedrun-practice/"
+    },
+    {
+      "id": "spirit-island",
+      "name": "Spirit Island",
+      "players": "1-4",
+      "time": "120m",
+      "url": "/game-buddy/template/spirit-island/"
+    },
+    {
+      "id": "splendor",
+      "name": "Splendor",
+      "players": "2-4",
+      "time": "30m",
+      "url": "/game-buddy/template/splendor/"
+    },
+    {
+      "id": "spyfall",
+      "name": "Spyfall",
+      "players": "3-8",
+      "time": "20m",
+      "url": "/game-buddy/template/spyfall/"
+    },
+    {
+      "id": "sushi-go",
+      "name": "Sushi Go!",
+      "players": "2-5",
+      "time": "20m",
+      "url": "/game-buddy/template/sushi-go/"
+    },
+    {
+      "id": "taboo",
+      "name": "Taboo",
+      "players": "4-12",
+      "time": "30m",
+      "url": "/game-buddy/template/taboo/"
+    },
+    {
+      "id": "terraforming-mars",
+      "name": "Terraforming Mars",
+      "players": "1-5",
+      "time": "120m",
+      "url": "/game-buddy/template/terraforming-mars/"
+    },
+    {
+      "id": "the-crew",
+      "name": "The Crew",
+      "players": "3-5",
+      "time": "20m",
+      "url": "/game-buddy/template/the-crew/"
+    },
+    {
+      "id": "the-game-of-dilemmas",
+      "name": "The Game of Dilemmas",
+      "players": "3-6",
+      "time": "30m",
+      "url": "/game-buddy/template/the-game-of-dilemmas/"
+    },
+    {
+      "id": "the-mind",
+      "name": "The Mind",
+      "players": "2-4",
+      "time": "20m",
+      "url": "/game-buddy/template/the-mind/"
+    },
+    {
+      "id": "throneless-games",
+      "name": "Throneless Games",
+      "players": "4-10",
+      "time": "20-30m",
+      "url": "/game-buddy/template/throneless-games/"
+    },
+    {
+      "id": "ticket-to-ride",
+      "name": "Ticket to Ride",
+      "players": "2-5",
+      "time": "60m",
+      "url": "/game-buddy/template/ticket-to-ride/"
+    },
+    {
+      "id": "trivia-night",
+      "name": "Trivia Night",
+      "players": "2-20",
+      "time": "60m",
+      "url": "/game-buddy/template/trivia-night/"
+    },
+    {
+      "id": "uno",
+      "name": "Uno",
+      "players": "2-10",
+      "time": "30m",
+      "url": "/game-buddy/template/uno/"
+    },
+    {
+      "id": "warhammer-40k",
+      "name": "Warhammer 40,000",
+      "players": "2",
+      "time": "180m",
+      "url": "/game-buddy/template/warhammer-40k/"
+    },
+    {
+      "id": "waterfall",
+      "name": "Waterfall",
+      "players": "2-6",
+      "time": "30m",
+      "url": "/game-buddy/template/waterfall/"
+    },
+    {
+      "id": "wavelength",
+      "name": "Wavelength",
+      "players": "3-12",
+      "time": "30m",
+      "url": "/game-buddy/template/wavelength/"
+    },
+    {
+      "id": "werewolf",
+      "name": "Werewolf",
+      "players": "5-10",
+      "time": "30m",
+      "url": "/game-buddy/template/werewolf/"
+    },
+    {
+      "id": "wingspan",
+      "name": "Wingspan",
+      "players": "1-5",
+      "time": "70m",
+      "url": "/game-buddy/template/wingspan/"
+    },
+    {
+      "id": "yahtzee",
+      "name": "Yahtzee",
+      "players": "2-6",
+      "time": "30m",
+      "url": "/game-buddy/template/yahtzee/"
+    }
+  ]
+}

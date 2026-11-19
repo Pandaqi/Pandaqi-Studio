@@ -31,7 +31,7 @@ media: [assets/screenshots/generated-game-page-001, assets/screenshots/generated
 
 ## That's Not A Word!
 
-Having discussions about whether something is a word? Use my [dictionary](/tools/use/dictionary) as your judge.
+Having discussions about whether something is a word? Use my [dictionary](/game-buddy/) as your judge.
 
 It only contains more common or popular words. Using it will solve this issue for groups endlessly debating what is a valid word!
 

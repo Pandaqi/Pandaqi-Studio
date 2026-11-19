@@ -13,7 +13,7 @@
 - [Video games]({{ "/categories/video-game/" | absURL }}): every browser and local multiplayer game
 - [Search and filter]({{ "/search/" | absURL }}): filter the whole catalogue by player count, playtime, difficulty and genre
 - [Game collections]({{ "/categories/" | absURL }}): series such as Naivigation, Keebble and The Domino Diaries
-- [Tools for game night]({{ "/tools/" | absURL }}): timer, dictionary, dice and genre lists
+- [Tools for game night]({{ "/game-buddy/" | absURL }}): timer, dictionary, dice and genre lists
 
 ## Games
 {{ range $games -}}
