@@ -9,7 +9,7 @@ import { ResourceText } from "./resources/resourceText"
 import { TextBoxMetrics } from "./text/metrics"
 import { TransformationMatrix } from "./tools/transformationMatrix"
 
-import { RendererPandaqi } from "../renderers/pandaqi/rendererPandaqi"
+import { createRenderer } from "../renderers/createRenderer"
 import type { Renderer } from "../renderers/renderer"
 import { Color } from "./color/color"
 import { StrokeAlign, StrokeType } from "./values"
@@ -31,8 +31,9 @@ const TRANSPARENT_STROKE = new ColorLike(null);
 const TRANSPARENT_TINT = Color.TRANSPARENT;
 
 // A default renderer is stateless; every `new LayoutOperation()` used to allocate its own.
-let sharedDefaultRenderer: RendererPandaqi = null;
-const getSharedDefaultRenderer = () => { return sharedDefaultRenderer ??= new RendererPandaqi(); }
+// Operations feed the document pipeline, so the shared default is the canvas renderer.
+let sharedDefaultRenderer: Renderer = null;
+const getSharedDefaultRenderer = () => { return sharedDefaultRenderer ??= createRenderer({ force: "canvas" }); }
 
 
 /**

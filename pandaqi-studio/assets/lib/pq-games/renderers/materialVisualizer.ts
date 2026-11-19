@@ -1,6 +1,6 @@
 import { GrayScaleEffect } from "../layout/effects/grayScaleEffect";
 import type { Renderer } from "./renderer";
-import { RendererPandaqi } from "./pandaqi/rendererPandaqi";
+import { createRenderer } from "./createRenderer";
 import { ResourceGroup } from "../layout/resources/resourceGroup";
 import { ResourceLoader } from "../layout/resources/resourceLoader";
 import { Vector2 } from "../geometry/vector2";
@@ -41,7 +41,7 @@ export class MaterialVisualizer<TConfig extends GameConfig = GameConfig>
         this.warnedDrawingPaths = new Set();
         
         this.config = config;
-        this.renderer = config._game.renderer ?? new RendererPandaqi();
+        this.renderer = config._game.renderer ?? createRenderer({ force: "canvas" });
         this.resLoader = config._game.resLoader;
 
         // Generators copy these flags in setupRenderer(); visualizers created directly (rulebook

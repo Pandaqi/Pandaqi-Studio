@@ -1,4 +1,5 @@
 export * from "./renderer";
+export * from "./createRenderer";
 export * from "./pandaqi/rendererPandaqi";
 export * from "./pandaqi/rendererPandaqiWebGPU";
 //export * from "./phaser/rendererPhaser";

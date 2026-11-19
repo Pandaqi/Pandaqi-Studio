@@ -1,6 +1,6 @@
 import { Vector2 } from "../../geometry/vector2"
 import type { Renderer } from "../../renderers/renderer"
-import { RendererPandaqi } from "../../renderers/pandaqi/rendererPandaqi"
+import { createRenderer } from "../../renderers/createRenderer"
 import { TextConfig } from "../text/textConfig"
 import { Resource } from "./resource"
 import { ResourceFont } from "./resourceFont"
@@ -56,7 +56,7 @@ export class ResourceLoader
         this.resourcesQueued = {};
         this.resourcesLoaded = {};
         this.resourcesCustom = [];
-        this.renderer = params.renderer ?? new RendererPandaqi();
+        this.renderer = params.renderer ?? createRenderer({ force: "canvas" });
 
         this.base = params.base ?? "";
         if(this.base.slice(-1) != "/") { this.base += "/"; }

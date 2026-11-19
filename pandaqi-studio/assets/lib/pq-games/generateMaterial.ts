@@ -3,7 +3,7 @@ import { splitCanvas } from "./layout/canvas/splitters";
 import { GridMapper, createGridMapperFromConfig } from "./layout/gridMapper";
 import { ResourceLoader } from "./layout/resources/resourceLoader";
 import { MaterialVisualizer } from "./renderers/materialVisualizer";
-import { RendererPandaqi } from "./renderers/pandaqi/rendererPandaqi";
+import { createRenderer } from "./renderers/createRenderer";
 import type { Renderer } from "./renderers/renderer";
 import { addConfigFromLocalStorage, ensureConfigProperties, getSettingDefault, type GameConfig, type MaterialConfig } from "./settings/configuration";
 import { sendProgressInfoSignal, sendProgressPhaseSignal } from "./tools/dom/feedbackNode";
@@ -298,7 +298,8 @@ const downloadPDF = async (config:GameConfig, feedbackNode: HTMLElement, mappers
 
 const setupRenderer = (config:GameConfig) =>
 {
-    const renderer = config._game.renderer ?? new RendererPandaqi();
+    // document generation stays on the canvas renderer: one huge page per material, no realtime frames
+    const renderer = config._game.renderer ?? createRenderer({ force: "canvas" });
     config._game.renderer = renderer;
     renderer.debugLayoutOperation = debugEnabled(config, "layoutOperation");
     renderer.debugText = debugEnabled(config, "text");

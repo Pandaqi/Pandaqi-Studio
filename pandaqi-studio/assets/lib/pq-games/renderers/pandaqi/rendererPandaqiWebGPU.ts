@@ -22,8 +22,9 @@ import { RendererPandaqi } from "./rendererPandaqi";
    full-size quad, so the output stays correct. Those elements are exactly as fast as they are on the
    canvas backend; the speed-up is in the plain images, shapes and text that make up most of a page.
 
-   Opt in with `new RendererPandaqiWebGPU()`; the canvas renderer stays the default. `isSupported()`
-   reports whether this browser can run it at all.
+   Opt-in only: `createRenderer()` returns the canvas renderer, and the realtime layer prefers this one
+   through `draw/spriteRenderer`. Ask for it directly with `createRenderer({ force: "webgpu" })` or
+   `new RendererPandaqiWebGPU()`. `isSupported()` reports whether this browser can run it at all.
 
    The GPU types are declared as `any` on purpose: TypeScript's DOM library only ships WebGPU typings in
    recent versions, and a missing `GPUDevice` name would fail the build on an older lib.
@@ -101,6 +102,13 @@ interface WebGPURendererParams
 }
 
 const UNIFORM_SIZE = 256; // WebGPU's minimum uniform buffer offset alignment
+const UNIFORM_FLOATS = UNIFORM_SIZE / 4;
+
+// The display list uploads a texture per element and rasterizes composited elements at full canvas
+// size, which is the wrong trade for a single 300 DPI print page (A4 is 8.7 MP). Above this size the
+// canvas renderer is both faster and far lighter on GPU memory; realtime and card-sized work stays on
+// the GPU path. Measured in renderer-benchmark.md.
+const MAX_GPU_PIXELS = 6_000_000;
 
 export class RendererPandaqiWebGPU extends RendererPandaqi
 {
@@ -112,8 +120,10 @@ export class RendererPandaqiWebGPU extends RendererPandaqi
     private format: string = "bgra8unorm";
     private pipeline: any = null;
     private sampler: any = null;
-    private textures = new WeakMap<object, any>();
-    private textureList: any[] = [];
+        private textures = new WeakMap<object, any>();
+    private textureList:any[] = [];
+    private uniformBuffer:any = null;
+    private uniformCapacity = 0;
 
     constructor(params:WebGPURendererParams = {})
     {
@@ -168,7 +178,8 @@ export class RendererPandaqiWebGPU extends RendererPandaqi
     {
         // Selecting WebGPU must never break a page: a browser without it (or without a usable adapter)
         // quietly gets the canvas backend instead of an empty document.
-        if(RendererPandaqiWebGPU.isSupported())
+        const pixels = (params.size?.x ?? 0) * (params.size?.y ?? 0);
+        if(RendererPandaqiWebGPU.isSupported() && pixels <= MAX_GPU_PIXELS)
         {
             try { return await this.finishDrawWebGPU(params); }
             catch(error) { console.warn(`[RendererPandaqiWebGPU] ${String((error as Error)?.message ?? error)} Falling back to canvas.`); }
@@ -206,19 +217,34 @@ export class RendererPandaqiWebGPU extends RendererPandaqi
         });
 
         pass.setPipeline(this.pipeline);
-        for(const item of items)
-        {
-            const uniformBuffer = device.createBuffer({ size: UNIFORM_SIZE, usage: GPU.GPUBufferUsage.UNIFORM | GPU.GPUBufferUsage.COPY_DST });
-            device.queue.writeBuffer(uniformBuffer, 0, new Float32Array([
-                item.matrix[0], item.matrix[1], item.matrix[2], item.matrix[3],
-                item.matrix[4], item.matrix[5], item.width, item.height,
-                size.x, size.y, item.alpha, 0,
-            ]));
 
+        // One buffer for every element (each aligned to 256 bytes) instead of one buffer per element:
+        // the old path allocated and uploaded a uniform buffer for every quad on the page.
+        const uniforms = items.length > 0 ? this.acquireUniformBuffer(device, items.length) : null;
+        if(uniforms)
+        {
+            const data = new Float32Array(items.length * UNIFORM_FLOATS);
+            for(let i = 0; i < items.length; i++)
+            {
+                const item = items[i];
+                const offset = i * UNIFORM_FLOATS;
+                data[offset + 0] = item.matrix[0]; data[offset + 1] = item.matrix[1];
+                data[offset + 2] = item.matrix[2]; data[offset + 3] = item.matrix[3];
+                data[offset + 4] = item.matrix[4]; data[offset + 5] = item.matrix[5];
+                data[offset + 6] = item.width; data[offset + 7] = item.height;
+                data[offset + 8] = size.x; data[offset + 9] = size.y;
+                data[offset + 10] = item.alpha; data[offset + 11] = 0;
+            }
+            device.queue.writeBuffer(uniforms.buffer, 0, data);
+        }
+
+        for(let i = 0; i < items.length; i++)
+        {
+            const item = items[i];
             const bindGroup = device.createBindGroup({
                 layout: this.pipeline.getBindGroupLayout(0),
                 entries: [
-                    { binding: 0, resource: { buffer: uniformBuffer } },
+                    { binding: 0, resource: { buffer: uniforms.buffer, offset: i * UNIFORM_SIZE, size: UNIFORM_FLOATS * 4 } },
                     { binding: 1, resource: item.source.createView() },
                     { binding: 2, resource: this.sampler },
                 ],
@@ -373,6 +399,24 @@ export class RendererPandaqiWebGPU extends RendererPandaqi
         return this.itemFromCanvas(canvas, [1, 0, 0, 1, 0, 0], canvasSize.x, canvasSize.y, 1);
     }
 
+    // Grows by doubling; a renderer that draws a thousand-element page reuses one buffer afterwards.
+    private acquireUniformBuffer(device:any, count:number)
+    {
+        if(this.uniformBuffer && this.uniformCapacity >= count) { return { buffer: this.uniformBuffer, capacity: this.uniformCapacity }; }
+
+        let capacity = Math.max(16, this.uniformCapacity || 16);
+        while(capacity < count) { capacity *= 2; }
+
+        if(this.uniformBuffer) { this.uniformBuffer.destroy(); }
+        this.uniformBuffer = device.createBuffer({
+            label: "pq-renderer-webgpu-uniforms",
+            size: capacity * UNIFORM_SIZE,
+            usage: GPU.GPUBufferUsage.UNIFORM | GPU.GPUBufferUsage.COPY_DST,
+        });
+        this.uniformCapacity = capacity;
+        return { buffer: this.uniformBuffer, capacity: capacity };
+    }
+
     private textureFor(source:any) : any
     {
         const cached = this.textures.get(source);
@@ -408,5 +452,6 @@ export class RendererPandaqiWebGPU extends RendererPandaqi
         for(const texture of this.textureList) { texture.destroy(); }
         this.textureList = [];
         this.textures = new WeakMap<object, any>();
+        if(this.uniformBuffer) { this.uniformBuffer.destroy(); this.uniformBuffer = null; this.uniformCapacity = 0; }
     }
 }
